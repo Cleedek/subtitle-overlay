@@ -6,6 +6,54 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
+  <div id="supportView" class="support" hidden>
+    <div class="support-head">
+      <button id="supportBack" class="round-btn" title="Back" aria-label="Back"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <h1>Support the creator</h1>
+    </div>
+    <p class="muted support-intro">Subtitle Overlay is free and has no ads. If it makes your evenings better, a small tip keeps it going. Thank you!</p>
+    <div class="segmented" role="tablist">
+      <button id="tabRevolut" role="tab" aria-selected="true" aria-controls="payRevolut">Revolut</button>
+      <button id="tabPaypal" role="tab" aria-selected="false" aria-controls="payPaypal">PayPal</button>
+      <button id="tabSolana" role="tab" aria-selected="false" aria-controls="paySolana">Solana</button>
+      <button id="tabSui" role="tab" aria-selected="false" aria-controls="paySui">Sui</button>
+    </div>
+    <div id="payRevolut" class="pay-card" role="tabpanel">
+      <img class="qr" src="icons/support/qr-revolut.svg" width="196" height="196" alt="QR code for revolut.me/cleedek">
+      <p class="pay-id">revolut.me/cleedek</p>
+      <p class="muted pay-note">Scan with your phone camera. You can pay by card, no Revolut account needed.</p>
+      <div class="row pay-actions">
+        <a class="btn primary" href="https://revolut.me/cleedek" target="_blank" rel="noopener">Open link</a>
+        <button class="copy" data-copy="https://revolut.me/cleedek">Copy link</button>
+      </div>
+    </div>
+    <div id="payPaypal" class="pay-card" role="tabpanel" hidden>
+      <img class="qr" src="icons/support/qr-paypal.svg" width="196" height="196" alt="QR code for PayPal">
+      <p class="pay-id">PayPal</p>
+      <p class="muted pay-note">Scan with your phone camera and pay with PayPal.</p>
+      <div class="row pay-actions">
+        <a class="btn primary" href="https://www.paypal.com/qrcodes/managed/efbacaa8-5c3c-4d74-9e67-a25fb127a192?utm_source=consweb_more" target="_blank" rel="noopener">Open link</a>
+        <button class="copy" data-copy="https://www.paypal.com/qrcodes/managed/efbacaa8-5c3c-4d74-9e67-a25fb127a192?utm_source=consweb_more">Copy link</button>
+      </div>
+    </div>
+    <div id="paySolana" class="pay-card" role="tabpanel" hidden>
+      <img class="qr" src="icons/support/qr-solana.svg" width="196" height="196" alt="QR code for the Solana wallet address">
+      <p class="pay-id" title="FFgwPSNtmU21M1qvpiX5mH5nZgYdy6qtNwPrsm5pvcMD"><span>Solana</span> · FFgwPS…5pvcMD</p>
+      <p class="muted pay-note">Scan with Phantom or any Solana wallet. Send only on the Solana network.</p>
+      <div class="row pay-actions">
+        <button class="copy primary" data-copy="FFgwPSNtmU21M1qvpiX5mH5nZgYdy6qtNwPrsm5pvcMD">Copy address</button>
+      </div>
+    </div>
+    <div id="paySui" class="pay-card" role="tabpanel" hidden>
+      <img class="qr" src="icons/support/qr-sui.svg" width="196" height="196" alt="QR code for the Sui wallet address">
+      <p class="pay-id" title="0x05078cf6b8c593c64d39270d78fbdf9a01f46a2511f097738e346ddfc82e59ff"><span>Sui</span> · 0x0507…59ff</p>
+      <p class="muted pay-note">Scan with any Sui wallet. Send only on the Sui network.</p>
+      <div class="row pay-actions">
+        <button class="copy primary" data-copy="0x05078cf6b8c593c64d39270d78fbdf9a01f46a2511f097738e346ddfc82e59ff">Copy address</button>
+      </div>
+    </div>
+  </div>
+
   <header>
     <h1>Subtitle Overlay</h1>
     <p id="status" class="muted">Looking for videos…</p>
@@ -261,7 +309,10 @@
       <label for="uiLang" class="setting-label">Interface language</label>
       <select id="uiLang" class="compact"></select>
     </div>
+    <button id="supportOpen" class="ghost wide support-open"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Support the creator <svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </section>
+
+  <footer id="credit" class="credit"></footer>
 
   <script src="lib/i18n.js"></script>
   <script src="lib/locales.js"></script>

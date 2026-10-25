@@ -7,6 +7,41 @@
   await SubI18n.load();
   SubI18n.translatePage(document.body);
 
+  // ---------- support the creator ----------
+
+  // The name is a link, so the sentence is split around {name} instead of translated as page text.
+  const [before, after] = t('Created with 💜 by {name} in Vietnam').split('{name}');
+  const author = Object.assign(document.createElement('a'), { href: 'https://cleedek.com', target: '_blank', rel: 'noopener', textContent: 'Cleedek' });
+  $('credit').append(before, author, after || '');
+
+  function showSupport(on) {
+    document.body.classList.toggle('support', on);
+    window.scrollTo(0, 0);
+    (on ? $('supportBack') : $('supportOpen')).focus();
+  }
+  $('supportOpen').addEventListener('click', () => showSupport(true));
+  $('supportBack').addEventListener('click', () => showSupport(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('support')) { e.preventDefault(); showSupport(false); }
+  });
+  const payTabs = document.querySelectorAll('.segmented [role=tab]');
+  for (const tabBtn of payTabs) {
+    tabBtn.addEventListener('click', () => {
+      for (const b of payTabs) {
+        b.setAttribute('aria-selected', String(b === tabBtn));
+        $(b.getAttribute('aria-controls')).hidden = b !== tabBtn;
+      }
+    });
+  }
+  for (const btn of document.querySelectorAll('.pay-card .copy')) {
+    const label = btn.textContent;
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(btn.dataset.copy); btn.textContent = t('Copied'); }
+      catch (e) { btn.textContent = t('Copy failed'); }
+      setTimeout(() => { btn.textContent = label; }, 1500);
+    });
+  }
+
   const style = document.createElement('style');
   style.textContent = SubRender.CSS;
   document.head.appendChild(style);
