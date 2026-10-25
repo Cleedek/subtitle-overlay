@@ -204,6 +204,8 @@ Screenshoty ukazují záběry z filmu Tears of Steel, © Blender Foundation, man
 **Před odesláním 1.0.13 vyzkoušej YouTube u sebe v Arcu/Chromu** (pustit video se zvukem, zapnout CC). Automatický test ho na skutečném YouTube ověřit nemohl, protože YouTube testovacímu prohlížeči titulky neposílá. Kdyby to nefungovalo, odstav o YouTube z popisu vymaž.
 
 Chrome Web Store nemá pole "co je nového"; uživatelé vidí nový popis a screenshoty. Kdybys to chtěl někde zmínit (web, sociální sítě):
+1.0.14: Tabs at the top of the popup (Subtitles, Style, Behaviour). Outline opacity. Alt + 1 and Alt + 2 show or hide only the main or only the second subtitles. Every keyboard shortcut can be changed or switched off. Turning YouTube captions off and on keeps the language you switched off hidden. A reset button for sync.
+
 1.0.13: A "Support the creator" page (Revolut, PayPal, Solana, Sui). Second subtitles in any language (two people, two languages, one at the top and one at the bottom). Alt + R repeats the current line. Switch each language on or off right over the video. Pick your own show/hide shortcut. Click a line to copy it. Subtitles at the bottom, middle or top. Blur behind the background box. Subtitles are remembered when you come back to a page. Japanese, Chinese and Korean file encodings. The interface now speaks English, Czech, Slovak, German, French, Spanish, Vietnamese and Chinese.
 
 ## Privacy practices tab

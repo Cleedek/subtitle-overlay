@@ -63,6 +63,15 @@
     </div>
   </header>
 
+  <nav class="tabbar">
+    <div class="segmented tabs" role="tablist">
+      <button id="tabSubs" role="tab" aria-selected="true" aria-controls="panelSubs">Subtitles</button>
+      <button id="tabStyle" role="tab" aria-selected="false" aria-controls="panelStyle" tabindex="-1">Style</button>
+      <button id="tabBehaviour" role="tab" aria-selected="false" aria-controls="panelBehaviour" tabindex="-1">Behaviour</button>
+    </div>
+  </nav>
+
+  <div id="panelSubs" class="panel active" role="tabpanel" aria-labelledby="tabSubs">
   <section id="loadSection">
     <div id="loaded" class="loaded" hidden>
       <div class="loaded-name"><strong id="loadedName"></strong> <span id="loadedCount" class="muted"></span></div>
@@ -149,13 +158,15 @@
       <span class="muted">ms</span>
       <button data-offset="100">+0.1</button>
       <button data-offset="1000">+1 s</button>
-      <button id="offsetReset" title="Reset to 0">0</button>
+      <button id="offsetReset" class="icon-btn" title="Reset to 0" aria-label="Reset to 0"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 6.5A5 5 0 1 1 3 9.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M2.6 2.8v3.9h3.9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </div>
     <p class="muted small">Positive = subtitles appear later.</p>
   </section>
 
+  </div>
+
+  <div id="panelStyle" class="panel" role="tabpanel" aria-labelledby="tabStyle">
   <section>
-    <h2>Style</h2>
     <div class="row presets" id="presets">
       <button data-preset="clean">Clean</button>
       <button data-preset="boxed">Boxed</button>
@@ -232,7 +243,8 @@
       <div class="setting">
         <div class="setting-head"><span class="setting-label">Outline</span><label class="toggle"><input type="checkbox" role="switch" data-key="outline" aria-label="Outline"><span></span></label></div>
         <div class="setting-body">
-          <div class="sub"><span>Width</span><input type="range" data-key="outlineWidth" min="0" max="6" step="0.5" aria-label="Outline width"><output data-for="outlineWidth"></output><input type="color" data-key="outlineColor" aria-label="Outline color"></div>
+          <div class="sub"><span>Opacity</span><input type="range" data-key="outlineOpacity" min="0" max="100" aria-label="Outline opacity"><output data-for="outlineOpacity" data-unit="%"></output><input type="color" data-key="outlineColor" aria-label="Outline color"></div>
+          <div class="sub"><span>Width</span><input type="range" data-key="outlineWidth" min="0" max="6" step="0.5" aria-label="Outline width"><output data-for="outlineWidth"></output><i></i></div>
         </div>
       </div>
       <div class="setting">
@@ -251,9 +263,26 @@
           <div class="sub"><span>Blur</span><input type="range" data-key="boxBlur" min="0" max="20" aria-label="Blur behind the box"><output data-for="boxBlur"></output><i></i></div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <p class="group">Behaviour</p>
-      <div class="setting">
+  <section class="save">
+    <div id="saveForm" class="row" hidden>
+      <input id="presetName" type="text" placeholder="Preset name" maxlength="30">
+      <button id="presetSave" class="primary">Save</button>
+      <button id="presetCancel" class="ghost">Cancel</button>
+    </div>
+    <button id="presetNew" class="primary wide">Save as preset</button>
+    <p class="muted small">Every change is saved automatically. A preset lets you come back to this exact look in one click.</p>
+    <button id="resetAll" class="ghost wide">Reset to defaults</button>
+  </section>
+
+  </div>
+
+  <div id="panelBehaviour" class="panel" role="tabpanel" aria-labelledby="tabBehaviour">
+  <section>
+    <div class="settings">
+      <div class="setting first">
         <div class="setting-head">
           <span class="setting-label">On pause</span>
           <select data-key="onPause" class="compact" aria-label="On pause">
@@ -280,38 +309,20 @@
   </section>
 
   <section class="keys-section">
-    <details>
-      <summary>Keyboard shortcuts</summary>
-      <table class="keys">
-        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>[</kbd><i>/</i><kbd>]</kbd></span></td><td>Earlier / later by 0.1 s</td></tr>
-        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd data-mod="shift">Shift</kbd><i>+</i><kbd>[</kbd><i>/</i><kbd>]</kbd></span></td><td>Earlier / later by 1 s</td></tr>
-        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>0</kbd></span></td><td>Reset sync to 0</td></tr>
-        <tr><td><span class="combo" id="toggleCombo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>S</kbd></span></td><td><span class="key-name">Show / hide subtitles</span> <button id="toggleChange" class="ghost key-btn">Change</button> <button id="toggleReset" class="ghost key-btn" title="Reset" aria-label="Reset" hidden>↺</button></td></tr>
-        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>↑</kbd><i>/</i><kbd>↓</kbd></span></td><td>Move subtitles up / down</td></tr>
-        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>F</kbd></span></td><td>Fullscreen with subtitles</td></tr>
-        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>R</kbd></span></td><td>Repeat the current line</td></tr>
-      </table>
-      <p class="error" id="toggleError" hidden></p>
-      <p class="muted small" id="keysNote">Alt is the Option key on a Mac. Shortcuts work on the page, not inside this popup.</p>
-    </details>
+    <h2>Keyboard shortcuts</h2>
+    <table class="keys" id="keysTable"></table>
+    <p class="error" id="keyError" hidden></p>
+    <p class="muted small" id="keysNote">Alt is the Option key on a Mac. Shortcuts work on the page, not inside this popup.</p>
+    <p class="muted small">Click a shortcut to change it. Esc cancels, Backspace turns it off.</p>
+    <button id="keysResetAll" class="ghost wide" hidden>Reset all shortcuts</button>
   </section>
+  </div>
 
-  <section class="save">
-    <div id="saveForm" class="row" hidden>
-      <input id="presetName" type="text" placeholder="Preset name" maxlength="30">
-      <button id="presetSave" class="primary">Save</button>
-      <button id="presetCancel" class="ghost">Cancel</button>
-    </div>
-    <button id="presetNew" class="primary wide">Save as preset</button>
-    <p class="muted small">Every change is saved automatically. A preset lets you come back to this exact look in one click.</p>
-    <button id="resetAll" class="ghost wide">Reset to defaults</button>
+  <footer class="credit">
     <div class="setting-head ui-lang">
       <label for="uiLang" class="setting-label">Interface language</label>
       <select id="uiLang" class="compact"></select>
     </div>
-  </section>
-
-  <footer class="credit">
     <button id="supportOpen" class="ghost wide support-open"><svg class="heart" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Support the creator <svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <p id="credit"></p>
   </footer>

@@ -20,7 +20,8 @@
   let pinned = null;      // video chosen by hand in the popup
   let visible = true;     // the main subtitles; the shortcut (Alt + S by default) hides or shows both
   let dualVisible = true; // the second subtitles, switched apart in the language panel over the video
-  let toggleKey = SubSettings.TOGGLE_KEY; // the show / hide shortcut, changeable in the popup
+  let shownBefore = null; // which of the two were on before everything was hidden at once
+  let shortcuts = SubSettings.defaultShortcuts(); // every shortcut, changeable in the popup
   let origLang = '';      // the original's language, as Google Translate detected it
   let tabHasSubs = false; // some frame in this tab has subtitles (for shortcut forwarding)
   let lastSrc = '';
@@ -42,9 +43,9 @@
 
   SubSettings.load().then((s) => { settings = s; refreshStyle(); });
   SubSettings.loadTranslation().then((p) => { prefs = p; });
-  SubSettings.loadToggleKey().then((k) => { toggleKey = k; });
+  SubSettings.loadShortcuts().then((k) => { shortcuts = k; refreshFsKey(); });
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'local' && changes.toggleKey) toggleKey = changes.toggleKey.newValue || SubSettings.TOGGLE_KEY;
+    if (area === 'local' && (changes.shortcuts || changes.toggleKey)) SubSettings.loadShortcuts().then((k) => { shortcuts = k; refreshFsKey(); });
     if (area === 'local' && changes.offSites) setOff(SubSettings.isOff(changes.offSites.newValue, site));
     if (area === 'local') {
       for (const k of Object.keys(SubSettings.TRANSLATION)) {
@@ -156,7 +157,7 @@
 
   // ---------- overlay DOM ----------
 
-  let host, shadow, subsEl, dualEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl;
+  let host, shadow, subsEl, dualEl, toastEl, hintEl, restoreEl, fsBtn, fsKeyEl, dropEl, foundEl, siteNoteEl, langsEl;
 
   function ensureHost() {
     if (host) return;
@@ -298,7 +299,9 @@
     fsBtn = el('div', 'fs');
     const fsGo = el('button');
     fsGo.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V3.5C2 2.7 2.7 2 3.5 2H6M10 2h2.5c.8 0 1.5.7 1.5 1.5V6M14 10v2.5c0 .8-.7 1.5-1.5 1.5H10M6 14H3.5C2.7 14 2 13.3 2 12.5V10"/></svg>';
-    fsGo.append(el('span', '', t('Fullscreen with subtitles')), el('kbd', '', /Mac/.test(navigator.platform) ? '⌥F' : 'Alt+F'));
+    fsKeyEl = el('kbd');
+    fsGo.append(el('span', '', t('Fullscreen with subtitles')), fsKeyEl);
+    refreshFsKey();
     fsGo.addEventListener('click', (e) => { e.stopPropagation(); toggleFullscreen(); });
     fsBtn.append(fsGo);
     dropEl = el('div', 'drop', t('Drop .srt or .vtt subtitles here'));
@@ -690,9 +693,26 @@
     return { ok: true, count: parsed.length, encoding: used };
   }
 
+  // Hiding everything at once (Alt + S, YouTube's CC button) remembers which
+  // languages were on, so showing again brings back exactly those. A language
+  // switched off in the panel over the video stays off.
+  function hideAll() {
+    if (visible || dualVisible) shownBefore = { visible, dualVisible };
+    visible = dualVisible = false;
+  }
+  function showAll() {
+    const was = shownBefore;
+    shownBefore = null;
+    if (was && (was.visible || was.dualVisible)) ({ visible, dualVisible } = was);
+    else visible = dualVisible = true;
+  }
+
   function afterLoad() {
     hideSiteSubs(true);
-    visible = dualVisible = true;
+    // The subtitles just loaded always show; the second ones keep their switch
+    // (YouTube may download the same captions again when CC goes back on).
+    if (!visible && !dualVisible) showAll();
+    visible = true;
     lastKey = '';
     startWatch();
     enableMouse(true);
@@ -1057,7 +1077,7 @@
     if (fe === video) bareFullscreen = true;
     else if (!fe && bareFullscreen) {
       bareFullscreen = false;
-      setTimeout(() => toast(t('This site’s fullscreen hides subtitles. Use Alt+F instead.')), 300);
+      if (shortcuts.fullscreen) setTimeout(() => toast(t('This site’s fullscreen hides subtitles. Use {key} instead.', { key: fsKeyText() })), 300);
     }
     placeHost();
     position(true);
@@ -1083,7 +1103,7 @@
       })) video.style.setProperty(k, v, 'important');
       fsBtn.classList.remove('on');
     } catch (e) {
-      toast(t('Click the video once, then press Alt+F'));
+      toast(shortcuts.fullscreen ? t('Click the video once, then press {key}', { key: fsKeyText() }) : t('Click the video once, then try again'));
     }
   }
 
@@ -1115,16 +1135,22 @@
     return code ? (SubSettings.flag(code) + ' ' + cap(SubSettings.languageName(code))).trim() : t('Original');
   }
 
+  // The names of the main and the second subtitles, with their flags.
+  function langLabels() {
+    const mainLang = original ? file.translatedTo : origLang;
+    const secondLang = (prefs.secondLang || 'orig') === 'orig' ? origLang : prefs.secondLang;
+    return { main: langLabel(mainLang), second: langLabel(secondLang) };
+  }
+
   // One switch per language while dual subtitles are on in the settings, even
   // with one of them hidden, so it can be switched back on. The top one first.
   function showLangs() {
     if (!langsEl) return;
     const second = settings.dual && cues.length && secondCues();
     if (!second) { langsEl.classList.remove('on'); return; }
-    const mainLang = original ? file.translatedTo : origLang;
-    const secondLang = (prefs.secondLang || 'orig') === 'orig' ? origLang : prefs.secondLang;
-    const main = { label: langLabel(mainLang), on: visible, flip: () => { visible = !visible; } };
-    const dual = { label: langLabel(secondLang), on: dualVisible, flip: () => { dualVisible = !dualVisible; } };
+    const labels = langLabels();
+    const main = { label: labels.main, on: visible, flip: () => { visible = !visible; shownBefore = null; } };
+    const dual = { label: labels.second, on: dualVisible, flip: () => { dualVisible = !dualVisible; shownBefore = null; } };
     const rows = settings.place === 'top' ? [main, dual] : [dual, main];
     langsEl.replaceChildren(...rows.map((row) => {
       const b = el('button');
@@ -1161,24 +1187,34 @@
   }
 
   // Physical keys (event.code), so Option on a Mac doesn't change the match.
+  const ACTIONS = {
+    toggle: { kind: 'toggle' },
+    main: { kind: 'toggle-one', second: false },
+    second: { kind: 'toggle-one', second: true },
+    earlier: { kind: 'offset', delta: -100 },
+    later: { kind: 'offset', delta: 100 },
+    earlierMore: { kind: 'offset', delta: -1000 },
+    laterMore: { kind: 'offset', delta: 1000 },
+    syncReset: { kind: 'offset-reset' },
+    up: { kind: 'move', delta: 10 },
+    down: { kind: 'move', delta: -10 },
+    fullscreen: { kind: 'fullscreen' },
+    repeat: { kind: 'repeat' },
+  };
   function actionFor(e) {
-    if (SubSettings.sameKey(SubSettings.keyOf(e), toggleKey)) return { kind: 'toggle' };
-    if (!e.altKey || e.ctrlKey || e.metaKey) return null;
-    switch (e.code) {
-      case 'BracketLeft': return { kind: 'offset', delta: e.shiftKey ? -1000 : -100 };
-      case 'BracketRight': return { kind: 'offset', delta: e.shiftKey ? 1000 : 100 };
-      case 'Digit0': return e.shiftKey ? null : { kind: 'offset-reset' };
-      case 'ArrowUp': return e.shiftKey ? null : { kind: 'move', delta: 10 };
-      case 'ArrowDown': return e.shiftKey ? null : { kind: 'move', delta: -10 };
-      case 'KeyF': return e.shiftKey ? null : { kind: 'fullscreen' };
-      case 'KeyR': return e.shiftKey ? null : { kind: 'repeat' };
-      default: return null;
-    }
+    return ACTIONS[SubSettings.shortcutFor(shortcuts, SubSettings.keyOf(e))] || null;
+  }
+  const fsKeyText = () => SubSettings.keyText(shortcuts.fullscreen, /Mac/.test(navigator.platform));
+  // The key shown on the fullscreen button follows the shortcut (none when it's switched off).
+  function refreshFsKey() {
+    if (!fsKeyEl) return;
+    fsKeyEl.hidden = !shortcuts.fullscreen;
+    if (shortcuts.fullscreen) fsKeyEl.textContent = fsKeyText();
   }
 
   window.addEventListener('keydown', (e) => {
-    if (e.repeat && e.code === 'KeyF') return;
     const action = actionFor(e);
+    if (e.repeat && action && action.kind === 'fullscreen') return;
     // In our own fullscreen a plain F leaves it, as in any player. Without this the
     // site's own F handler stacks its fullscreen on top of ours.
     if (!action && e.code === 'KeyF' && ownFullscreen && document.fullscreenElement === ownFullscreen.container
@@ -1209,14 +1245,25 @@
       toast(t('Sync: {offset}', { offset: fmtOffset(settings.offset) }));
       render(true);
     } else if (a.kind === 'toggle') {
-      // Anything showing -> all off; all off -> both back on.
+      // Anything showing -> all off; all off -> back to the languages that were on.
       const on = !(visible || (dualVisible && dualOn()));
-      visible = dualVisible = on;
+      if (on) showAll(); else hideAll();
       lastKey = '';
       position(true);
       render(true);
       if (langsEl && langsEl.classList.contains('on')) showLangs();
       toast(t(on ? 'Subtitles on' : 'Subtitles off'));
+    } else if (a.kind === 'toggle-one') {
+      // Just the main or just the second subtitles, like their switch over the video.
+      if (a.second && !dualOn()) return toast(t('No second subtitles. Turn them on in the popup.'));
+      const on = a.second ? (dualVisible = !dualVisible) : (visible = !visible);
+      shownBefore = null;
+      lastKey = '';
+      position(true);
+      render(true);
+      if (langsEl && langsEl.classList.contains('on')) showLangs();
+      const labels = langLabels();
+      toast(t(on ? '{lang}: on' : '{lang}: off', { lang: a.second ? labels.second : labels.main }));
     } else if (a.kind === 'move') {
       if (settings.place === 'middle') return toast(t('Position: middle'));
       // At the top the distance counts down from the top edge, so "up" makes it smaller.
@@ -1611,7 +1658,7 @@
     const ccWatch = new MutationObserver(() => {
       if (off || !cues.length || !fromYouTube()) return;
       const on = ccButton.getAttribute('aria-pressed') === 'true';
-      if (on !== (visible || dualVisible)) { visible = dualVisible = on; position(true); render(true); }
+      if (on !== (visible || dualVisible)) { if (on) showAll(); else hideAll(); position(true); render(true); }
     });
     // The player (and its button) can be rebuilt when YouTube changes videos.
     setInterval(() => {

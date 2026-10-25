@@ -92,7 +92,7 @@ Když se změní soubory ve složce, otevři znovu `arc://extensions` (nebo `chr
 | Fullscreen s titulky | Option + F |
 | Zopakovat aktuální řádek | Option + R |
 
-Zkratku na skrytí a ukázání titulků změníš v popupu: **Keyboard shortcuts** › **Change** u řádku Show / hide subtitles a pak stiskni nové klávesy (Esc zruší, ↺ vrátí Option + S). Klávesy, které už používá jiná zkratka rozšíření, nepřijme. Jde i samotná klávesa bez Option, jen pak přebije zkratku webu na stejné klávese.
+Každou zkratku změníš v popupu na záložce **Behaviour** › **Keyboard shortcuts**: klikni na klávesy u řádku a stiskni nové (Esc zruší, Backspace zkratku vypne, ↺ vrátí původní, **Reset all shortcuts** vrátí všechny). Klávesy, které už používá jiná zkratka rozšíření, nepřijme. Jde i samotná klávesa bez Option, jen pak přebije zkratku webu na stejné klávese.
 
 Klávesy jsou podle fyzické polohy (na české klávesnici jsou [ a ] klávesy vpravo vedle P, tedy ú a ).
 

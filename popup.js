@@ -7,6 +7,38 @@
   await SubI18n.load();
   SubI18n.translatePage(document.body);
 
+  // ---------- tabs ----------
+
+  // Three tabs fixed at the top: Subtitles (load, translate, sync), Style, Behaviour.
+  // The last one used is remembered, so the popup opens where you left it.
+  const tabs = [...document.querySelectorAll('.tabbar [role=tab]')];
+  let onStyleShown = () => {}; // set once the preview exists; it measures its width when shown
+  function showTab(tabBtn, focus) {
+    for (const b of tabs) {
+      const on = b === tabBtn;
+      b.setAttribute('aria-selected', String(on));
+      b.tabIndex = on ? 0 : -1;
+      $(b.getAttribute('aria-controls')).classList.toggle('active', on);
+    }
+    if (focus) tabBtn.focus();
+    window.scrollTo(0, 0);
+    try { localStorage.setItem('popupTab', tabBtn.id); } catch (e) { /* just not remembered */ }
+    if (tabBtn.id === 'tabStyle') onStyleShown();
+  }
+  for (const b of tabs) {
+    b.addEventListener('click', () => showTab(b));
+    b.addEventListener('keydown', (e) => {
+      const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      showTab(tabs[(tabs.indexOf(b) + step + tabs.length) % tabs.length], true);
+    });
+  }
+  try {
+    const saved = $(localStorage.getItem('popupTab'));
+    if (saved && tabs.includes(saved)) showTab(saved);
+  } catch (e) { /* first tab */ }
+
   // ---------- support the creator ----------
 
   // The name is a link, so the sentence is split around {name} instead of translated as page text.
@@ -24,7 +56,7 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.body.classList.contains('support')) { e.preventDefault(); showSupport(false); }
   });
-  const payTabs = document.querySelectorAll('.segmented [role=tab]');
+  const payTabs = document.querySelectorAll('#supportView .segmented [role=tab]');
   for (const tabBtn of payTabs) {
     tabBtn.addEventListener('click', () => {
       for (const b of payTabs) {
@@ -454,6 +486,7 @@
       o.textContent = settings[o.dataset.for] + (o.dataset.unit || ' px');
     }
     $('offset').value = settings.offset;
+    $('offsetReset').disabled = !settings.offset;
     $('distanceSetting').hidden = settings.place === 'middle';
     $('distanceLabel').textContent = t(settings.place === 'top' ? 'Distance from top' : 'Distance from bottom');
     $('dualSetting').hidden = $('secondLangSetting').hidden = !settings.dual;
@@ -703,6 +736,8 @@
     showSettings();
   });
 
+  onStyleShown = () => renderPreview();
+
   function renderPreview(fresh) {
     if ($('preview').hidden) return;
     const el = $('previewSubs');
@@ -721,74 +756,107 @@
     $('keysNote').textContent = t('⌥ is Option, ⇧ is Shift. Shortcuts work on the page, not inside this popup.');
   }
 
-  // ---------- the show / hide shortcut ----------
+  // ---------- keyboard shortcuts ----------
 
+  // Each row's keys are a button: click it, press the new combo. Esc cancels,
+  // Backspace switches the shortcut off, a combo another row uses is refused.
   const isMac = /Mac/i.test(navigator.platform);
-  let toggleKey = await SubSettings.loadToggleKey();
-  let recording = false;
+  let shortcuts = await SubSettings.loadShortcuts();
+  const defaults = SubSettings.defaultShortcuts();
+  let recording = ''; // id of the row waiting for keys
+  const keyRows = {};
 
-  function drawToggleKey() {
-    const parts = [];
-    if (toggleKey.ctrl) parts.push(isMac ? ['\u2303', 'Control'] : ['Ctrl']);
-    if (toggleKey.alt) parts.push(isMac ? ['\u2325', 'Option'] : ['Alt']);
-    if (toggleKey.shift) parts.push(isMac ? ['\u21e7', 'Shift'] : ['Shift']);
-    if (toggleKey.meta) parts.push(isMac ? ['\u2318', 'Command'] : ['Win']);
-    parts.push([SubSettings.keyLabel(toggleKey.code)]);
-    const combo = $('toggleCombo');
-    combo.classList.remove('recording');
-    combo.replaceChildren();
-    parts.forEach(([label, title], i) => {
-      if (i) { const plus = document.createElement('i'); plus.textContent = '+'; combo.append(plus); }
-      const k = document.createElement('kbd');
-      k.textContent = label;
-      if (title) k.title = title;
-      combo.append(k);
-    });
-    $('toggleChange').textContent = t('Change');
-    $('toggleReset').hidden = SubSettings.sameKey(toggleKey, SubSettings.TOGGLE_KEY);
+  for (const { id, name } of SubSettings.SHORTCUTS) {
+    const row = document.createElement('tr');
+    const label = document.createElement('td');
+    label.textContent = t(name);
+    const cell = document.createElement('td');
+    const combo = document.createElement('button');
+    combo.className = 'combo combo-btn';
+    combo.addEventListener('click', () => (recording === id ? stopRecording() : startRecording(id)));
+    const reset = document.createElement('button');
+    reset.className = 'ghost key-btn';
+    reset.textContent = '\u21ba';
+    reset.title = reset.ariaLabel = t('Reset');
+    reset.addEventListener('click', () => saveShortcut(id, Object.assign({}, defaults[id])));
+    cell.append(reset, combo);
+    row.append(label, cell);
+    $('keysTable').append(row);
+    keyRows[id] = { combo, reset };
   }
 
+  function drawShortcuts() {
+    for (const { id, name } of SubSettings.SHORTCUTS) {
+      const { combo, reset } = keyRows[id];
+      const k = shortcuts[id];
+      combo.classList.toggle('recording', recording === id);
+      combo.classList.toggle('unset', !k && recording !== id);
+      combo.replaceChildren();
+      if (recording === id) combo.textContent = t('Press the keys…');
+      else if (!k) combo.textContent = t('Off');
+      else SubSettings.keyParts(k, isMac).forEach(([label, title], i) => {
+        if (i) { const plus = document.createElement('i'); plus.textContent = '+'; combo.append(plus); }
+        const kb = document.createElement('kbd');
+        kb.textContent = label;
+        if (title) kb.title = title;
+        combo.append(kb);
+      });
+      combo.title = recording === id ? t('Cancel') : t('Change');
+      combo.ariaLabel = t(name) + ': ' + (k ? SubSettings.keyText(k, isMac) : t('Off'));
+      reset.hidden = SubSettings.sameKey(k, defaults[id]);
+    }
+    $('keysResetAll').hidden = SubSettings.SHORTCUTS.every(({ id }) => SubSettings.sameKey(shortcuts[id], defaults[id]));
+  }
+
+  function startRecording(id) {
+    recording = id;
+    $('keyError').hidden = true;
+    drawShortcuts();
+  }
   function stopRecording() {
-    recording = false;
-    $('toggleError').hidden = true;
-    drawToggleKey();
+    recording = '';
+    $('keyError').hidden = true;
+    drawShortcuts();
   }
 
-  $('toggleChange').addEventListener('click', () => {
-    if (recording) return stopRecording();
-    recording = true;
-    $('toggleError').hidden = true;
-    const combo = $('toggleCombo');
-    combo.classList.add('recording');
-    combo.textContent = t('Press the keys…');
-    $('toggleChange').textContent = t('Cancel');
-  });
+  // Only what differs from the defaults is stored; 1.0.13's "toggleKey" is folded in.
+  async function saveShortcut(id, k) {
+    shortcuts[id] = k;
+    const changed = {};
+    for (const { id: i } of SubSettings.SHORTCUTS) {
+      if (!SubSettings.sameKey(shortcuts[i], defaults[i])) changed[i] = shortcuts[i];
+    }
+    await chrome.storage.local.set({ shortcuts: changed });
+    await chrome.storage.local.remove('toggleKey');
+    stopRecording();
+  }
 
-  document.addEventListener('keydown', async (e) => {
+  document.addEventListener('keydown', (e) => {
     if (!recording) return;
     e.preventDefault();
     e.stopPropagation();
     if (e.code === 'Escape') return stopRecording();
+    if ((e.code === 'Backspace' || e.code === 'Delete') && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      return saveShortcut(recording, null);
+    }
     if (/^(Shift|Alt|Control|Meta|OS|CapsLock|Fn)/.test(e.code) || !e.code || e.code === 'Tab') return; // wait for the actual key
     const k = SubSettings.keyOf(e);
-    const taken = SubSettings.fixedKeyName(k);
-    if (taken) {
-      $('toggleError').textContent = t('Already used: {name}. Try another key.', { name: t(taken) });
-      $('toggleError').hidden = false;
+    const taken = SubSettings.shortcutFor(shortcuts, k);
+    if (taken && taken !== recording) {
+      $('keyError').textContent = t('Already used: {name}. Try another key.', { name: t(SubSettings.shortcutName(taken)) });
+      $('keyError').hidden = false;
       return;
     }
-    toggleKey = k;
-    await chrome.storage.local.set({ toggleKey: k });
-    stopRecording();
+    saveShortcut(recording, k);
   }, true);
 
-  $('toggleReset').addEventListener('click', async () => {
-    toggleKey = Object.assign({}, SubSettings.TOGGLE_KEY);
-    await chrome.storage.local.remove('toggleKey');
+  $('keysResetAll').addEventListener('click', async () => {
+    shortcuts = SubSettings.defaultShortcuts();
+    await chrome.storage.local.remove(['shortcuts', 'toggleKey']);
     stopRecording();
   });
 
-  drawToggleKey();
+  drawShortcuts();
 
   // ---------- on / off per site ----------
 
