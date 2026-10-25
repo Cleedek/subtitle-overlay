@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Subtitle Overlay</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Subtitle Overlay</h1>
+    <p id="status" class="muted">Looking for videos…</p>
+    <div id="siteRow" class="site-row" hidden>
+      <label for="siteOn" class="setting-label">On <span id="siteName"></span></label>
+      <label class="toggle"><input id="siteOn" type="checkbox" role="switch" checked><span></span></label>
+    </div>
+  </header>
+
+  <section id="loadSection">
+    <div id="loaded" class="loaded" hidden>
+      <div class="loaded-name"><strong id="loadedName"></strong> <span id="loadedCount" class="muted"></span></div>
+      <label class="inline">Encoding
+        <select id="encoding">
+          <option value="auto">Auto</option>
+          <option value="utf-8">UTF-8</option>
+          <option value="windows-1250">Windows-1250 (Czech)</option>
+          <option value="windows-1258">Windows-1258 (Vietnamese)</option>
+          <option value="iso-8859-2">ISO-8859-2</option>
+          <option value="windows-1252">Windows-1252</option>
+          <option value="utf-16le">UTF-16</option>
+          <option value="shift_jis">Shift_JIS (Japanese)</option>
+          <option value="euc-jp">EUC-JP (Japanese)</option>
+          <option value="gbk">GBK (Chinese, simplified)</option>
+          <option value="big5">Big5 (Chinese, traditional)</option>
+          <option value="euc-kr">EUC-KR (Korean)</option>
+        </select>
+      </label>
+      <div class="translate-box">
+        <button id="translateBtn" class="primary wide">Translate</button>
+        <div id="translatedRow" class="row" hidden>
+          <span class="translated-note">Showing <strong id="translatedLang"></strong></span>
+          <button id="showOriginal">Show original</button>
+          <button id="downloadTranslated">Download .srt</button>
+        </div>
+        <p id="translateMsg" class="error" hidden></p>
+        <p id="siteHidden" class="site-hidden" hidden></p>
+      </div>
+    </div>
+    <div class="row">
+      <button id="pick" class="primary">Load .srt / .vtt file</button>
+      <button id="clear" hidden>Remove</button>
+      <input id="file" type="file" accept=".srt,.vtt" hidden>
+    </div>
+    <p class="muted small">Tip: you can also drag a subtitle file straight onto the video.</p>
+    <div id="videoPicker" hidden>
+      <label for="videoSelect" class="label">Video</label>
+      <select id="videoSelect"></select>
+    </div>
+  </section>
+
+  <section>
+    <h2>Translation</h2>
+    <div class="settings">
+      <div class="setting first">
+        <div class="setting-head">
+          <label for="lang" class="setting-label">Translate to</label>
+          <select id="lang" class="compact" title="Used by every Translate button and by automatic mode."></select>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Translate automatically</span><label class="toggle"><input id="autoTranslate" type="checkbox" role="switch" aria-label="Translate automatically"><span></span></label></div>
+        <p class="hint">Turn on subtitles in the site’s player and they appear over the video, already translated. The site’s own subtitles are hidden.</p>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Second subtitles</span><label class="toggle"><input type="checkbox" role="switch" data-key="dual" aria-label="Second subtitles"><span></span></label></div>
+        <p class="hint">A second set at the other edge of the video, in any language or the original. Handy when two people watch together.</p>
+      </div>
+      <div class="setting" id="secondLangSetting">
+        <div class="setting-head">
+          <label for="secondLang" class="setting-label">Second language</label>
+          <select id="secondLang" class="compact"></select>
+        </div>
+      </div>
+      <div class="setting" id="dualSetting">
+        <div class="setting-head"><span class="setting-label" id="dualLabel">Second subtitles: distance from top</span><span class="value"><input type="number" data-key="dualDistance" min="0" max="300" aria-label="Second subtitles: distance in px"><span>px</span></span></div>
+        <input type="range" data-key="dualDistance" min="0" max="300" aria-label="Second subtitles: distance">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Found on this page</h2>
+    <div id="captured"></div>
+  </section>
+
+  <section>
+    <h2>Sync</h2>
+    <div class="row sync">
+      <button data-offset="-1000">−1 s</button>
+      <button data-offset="-100">−0.1</button>
+      <input id="offset" type="number" step="100" min="-60000" max="60000">
+      <span class="muted">ms</span>
+      <button data-offset="100">+0.1</button>
+      <button data-offset="1000">+1 s</button>
+      <button id="offsetReset" title="Reset to 0">0</button>
+    </div>
+    <p class="muted small">Positive = subtitles appear later.</p>
+  </section>
+
+  <section>
+    <h2>Style</h2>
+    <div class="row presets" id="presets">
+      <button data-preset="clean">Clean</button>
+      <button data-preset="boxed">Boxed</button>
+      <button data-preset="contrast">High contrast</button>
+    </div>
+
+    <div id="preview" class="preview" hidden><div id="previewSubs" class="subs"></div></div>
+
+    <div class="settings">
+      <p class="group">Size and position</p>
+      <div class="setting">
+        <div class="setting-head">
+          <span class="setting-label">Position</span>
+          <select data-key="place" class="compact" aria-label="Position on the video">
+            <option value="bottom">Bottom</option>
+            <option value="middle">Middle</option>
+            <option value="top">Top</option>
+          </select>
+        </div>
+      </div>
+      <div class="setting" id="distanceSetting">
+        <div class="setting-head"><span class="setting-label" id="distanceLabel">Distance from bottom</span><span class="value"><input type="number" data-key="bottom" min="0" max="300" aria-label="Distance from bottom in px"><span>px</span></span></div>
+        <input type="range" data-key="bottom" min="0" max="300" aria-label="Distance from bottom">
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Text size</span><span class="value"><input type="number" data-key="size" min="14" max="96" aria-label="Text size in px"><span>px</span></span></div>
+        <input type="range" data-key="size" min="14" max="96" aria-label="Text size">
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Scale with player</span><label class="toggle"><input type="checkbox" role="switch" data-key="scale" aria-label="Scale with player"><span></span></label></div>
+        <p class="hint">Sizes are for a 1080 px tall player.</p>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Max line width</span><output data-for="maxWidth" data-unit="%"></output></div>
+        <input type="range" data-key="maxWidth" min="40" max="100" aria-label="Max line width">
+      </div>
+
+      <p class="group">Text</p>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Font</span></div>
+        <div class="font-picker">
+          <input id="fontSearch" type="search" placeholder="Search Google Fonts" autocomplete="off" aria-label="Search Google Fonts">
+          <div class="chips" id="fontCats">
+            <button data-cat="" class="on">All</button>
+            <button data-cat="s">Sans</button>
+            <button data-cat="r">Serif</button>
+            <button data-cat="d">Display</button>
+            <button data-cat="h">Handwriting</button>
+            <button data-cat="m">Mono</button>
+          </div>
+          <div class="chips">
+            <button id="needCs" class="on" title="Only fonts that have Czech letters">č ř ž</button>
+            <button id="needLang" class="on"></button>
+          </div>
+          <div id="fontList" class="font-list" role="listbox"></div>
+          <p id="fontStatus" class="font-status" hidden aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-head">
+          <span class="setting-label">Weight</span>
+          <select data-key="weight" class="compact" aria-label="Font weight">
+            <option value="400">Regular</option>
+            <option value="600">Semibold</option>
+            <option value="700">Bold</option>
+          </select>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Color</span><input type="color" data-key="color" aria-label="Text color"></div>
+      </div>
+
+      <p class="group">Effects</p>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Outline</span><label class="toggle"><input type="checkbox" role="switch" data-key="outline" aria-label="Outline"><span></span></label></div>
+        <div class="setting-body">
+          <div class="sub"><span>Width</span><input type="range" data-key="outlineWidth" min="0" max="6" step="0.5" aria-label="Outline width"><output data-for="outlineWidth"></output><input type="color" data-key="outlineColor" aria-label="Outline color"></div>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Drop shadow</span><label class="toggle"><input type="checkbox" role="switch" data-key="shadow" aria-label="Drop shadow"><span></span></label></div>
+        <div class="setting-body">
+          <div class="sub"><span>Opacity</span><input type="range" data-key="shadowOpacity" min="0" max="100" aria-label="Shadow opacity"><output data-for="shadowOpacity" data-unit="%"></output><input type="color" data-key="shadowColor" aria-label="Shadow color"></div>
+          <div class="sub"><span>Blur</span><input type="range" data-key="shadowBlur" min="0" max="12" aria-label="Shadow blur"><output data-for="shadowBlur"></output><i></i></div>
+          <div class="sub"><span>Offset</span><input type="range" data-key="shadowOffset" min="0" max="6" aria-label="Shadow offset"><output data-for="shadowOffset"></output><i></i></div>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Background box</span><label class="toggle"><input type="checkbox" role="switch" data-key="box" aria-label="Background box"><span></span></label></div>
+        <div class="setting-body">
+          <div class="sub"><span>Opacity</span><input type="range" data-key="boxOpacity" min="0" max="100" aria-label="Box opacity"><output data-for="boxOpacity" data-unit="%"></output><input type="color" data-key="boxColor" aria-label="Box color"></div>
+          <div class="sub"><span>Padding</span><input type="range" data-key="boxPadding" min="0" max="24" aria-label="Box padding"><output data-for="boxPadding"></output><i></i></div>
+          <div class="sub"><span>Blur</span><input type="range" data-key="boxBlur" min="0" max="20" aria-label="Blur behind the box"><output data-for="boxBlur"></output><i></i></div>
+        </div>
+      </div>
+
+      <p class="group">Behaviour</p>
+      <div class="setting">
+        <div class="setting-head">
+          <span class="setting-label">On pause</span>
+          <select data-key="onPause" class="compact" aria-label="On pause">
+            <option value="keep">Keep line</option>
+            <option value="hide">Hide line</option>
+          </select>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Hide sound labels</span><label class="toggle"><input type="checkbox" role="switch" data-key="hideSounds" aria-label="Hide sound labels"><span></span></label></div>
+        <p class="hint">Removes [Music], (LAUGHS), ♪ and the &gt;&gt; YouTube puts where the speaker changes. Turn it off if you rely on them.</p>
+      </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Click to copy</span><label class="toggle"><input type="checkbox" role="switch" data-key="clickCopy" aria-label="Click to copy"><span></span></label></div>
+        <p class="hint">Click a line on the video to copy its text. A click on the text then no longer pauses the video.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="offSection" hidden>
+    <h2>Turned off on</h2>
+    <ul id="offList" class="off-list"></ul>
+    <p class="muted small">Nothing is detected or shown on these sites.</p>
+  </section>
+
+  <section class="keys-section">
+    <details>
+      <summary>Keyboard shortcuts</summary>
+      <table class="keys">
+        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>[</kbd><i>/</i><kbd>]</kbd></span></td><td>Earlier / later by 0.1 s</td></tr>
+        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd data-mod="shift">Shift</kbd><i>+</i><kbd>[</kbd><i>/</i><kbd>]</kbd></span></td><td>Earlier / later by 1 s</td></tr>
+        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>0</kbd></span></td><td>Reset sync to 0</td></tr>
+        <tr><td><span class="combo" id="toggleCombo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>S</kbd></span></td><td><span class="key-name">Show / hide subtitles</span> <button id="toggleChange" class="ghost key-btn">Change</button> <button id="toggleReset" class="ghost key-btn" title="Reset" aria-label="Reset" hidden>↺</button></td></tr>
+        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>↑</kbd><i>/</i><kbd>↓</kbd></span></td><td>Move subtitles up / down</td></tr>
+        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>F</kbd></span></td><td>Fullscreen with subtitles</td></tr>
+        <tr><td><span class="combo"><kbd data-mod="alt">Alt</kbd><i>+</i><kbd>R</kbd></span></td><td>Repeat the current line</td></tr>
+      </table>
+      <p class="error" id="toggleError" hidden></p>
+      <p class="muted small" id="keysNote">Alt is the Option key on a Mac. Shortcuts work on the page, not inside this popup.</p>
+    </details>
+  </section>
+
+  <section class="save">
+    <div id="saveForm" class="row" hidden>
+      <input id="presetName" type="text" placeholder="Preset name" maxlength="30">
+      <button id="presetSave" class="primary">Save</button>
+      <button id="presetCancel" class="ghost">Cancel</button>
+    </div>
+    <button id="presetNew" class="primary wide">Save as preset</button>
+    <p class="muted small">Every change is saved automatically. A preset lets you come back to this exact look in one click.</p>
+    <button id="resetAll" class="ghost wide">Reset to defaults</button>
+    <div class="setting-head ui-lang">
+      <label for="uiLang" class="setting-label">Interface language</label>
+      <select id="uiLang" class="compact"></select>
+    </div>
+  </section>
+
+  <script src="lib/i18n.js"></script>
+  <script src="lib/locales.js"></script>
+  <script src="lib/subtitles.js"></script>
+  <script src="lib/settings.js"></script>
+  <script src="lib/render.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

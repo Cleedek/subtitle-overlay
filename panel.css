@@ -1,0 +1,7 @@
+/* DevTools panel: reuses the popup look, but fills the whole panel. */
+body { width: auto; padding: 14px 16px; }
+.panel-head { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.panel-head p { max-width: 640px; }
+.list { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 8px; padding-top: 12px; }
+.list .item { margin: 0; }
+.list .empty { grid-column: 1 / -1; }

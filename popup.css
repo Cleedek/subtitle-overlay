@@ -1,0 +1,274 @@
+:root {
+  color-scheme: dark;
+  /* Neutrals lean slightly violet, toward the accent. */
+  --bg: oklch(0.185 0.008 290);
+  --panel: oklch(0.225 0.010 290);
+  --panel-hover: oklch(0.255 0.012 290);
+  --line: oklch(0.29 0.012 290);
+  --line-strong: oklch(0.36 0.014 290);
+  --text: oklch(0.94 0.006 290);
+  --muted: oklch(0.70 0.014 290);
+  --faint: oklch(0.56 0.014 290);
+  --accent: oklch(0.54 0.23 293);
+  --accent-hover: oklch(0.60 0.21 293);
+  --accent-soft: oklch(0.54 0.23 293 / .22);
+  --accent-tint: oklch(0.33 0.09 293);
+  --success: oklch(0.86 0.13 150);
+  --danger: oklch(0.72 0.16 22);
+  --thumb: oklch(0.97 0.004 290);
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a29fb3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ease: cubic-bezier(.25, 1, .5, 1); /* ease-out-quart */
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  width: 380px; margin: 0; padding: 16px 16px 20px;
+  background: var(--bg); color: var(--text);
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 { font-size: 15px; font-weight: 650; letter-spacing: -.01em; margin: 0 0 2px; }
+h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 10px; }
+section { border-top: 1px solid var(--line); padding: 14px 0; }
+header { padding-bottom: 12px; }
+.muted { color: var(--muted); }
+.small { font-size: 11.5px; margin: 8px 0 0; color: var(--faint); }
+.label { display: block; color: var(--muted); margin: 10px 0 4px; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- buttons ---------- */
+
+button {
+  font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 10px; cursor: pointer;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
+}
+button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+button:active { background: var(--line); }
+button.primary { background: var(--accent); border-color: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
+button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+button.ghost { background: transparent; }
+button.ghost:hover { background: var(--panel); }
+button:disabled { opacity: .5; cursor: default; pointer-events: none; }
+
+/* ---------- fields ---------- */
+
+select, input[type=number], input[type=text], input[type=search] {
+  font: inherit; color: var(--text); background-color: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 8px;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+select:hover, input[type=number]:hover, input[type=text]:hover, input[type=search]:hover { border-color: var(--line-strong); }
+select:hover { background-color: var(--panel-hover); }
+select:focus-visible, input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* Own chevron, with room on the right. */
+select {
+  appearance: none; -webkit-appearance: none; width: 100%; cursor: pointer;
+  padding-right: 30px; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 11px center;
+}
+select.compact { width: auto; min-width: 128px; max-width: 180px; }
+input[type=number] { width: 58px; font-variant-numeric: tabular-nums; }
+input[type=checkbox] { accent-color: var(--accent); margin: 0; }
+
+input[type=color] {
+  -webkit-appearance: none; appearance: none; width: 26px; height: 26px; padding: 0; flex: none;
+  border: 1px solid var(--line-strong); border-radius: 50%; background: none; cursor: pointer;
+  transition: transform .15s var(--ease);
+}
+input[type=color]:hover { transform: scale(1.08); }
+input[type=color]::-webkit-color-swatch-wrapper { padding: 2px; }
+input[type=color]::-webkit-color-swatch { border: 0; border-radius: 50%; }
+
+output { min-width: 38px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+
+/* Minimal slider: thin track filled up to the thumb (--fill is set from popup.js). */
+input[type=range] {
+  -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; width: 100%; height: 18px; margin: 0;
+  background: transparent; cursor: pointer; --fill: 50%;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 999px;
+  background: linear-gradient(to right, var(--accent) var(--fill), var(--line-strong) var(--fill));
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%;
+  background: var(--thumb); border: 0;
+  box-shadow: 0 1px 3px oklch(0.1 0.01 290 / .6), 0 0 0 0 var(--accent-soft);
+  transition: box-shadow .15s var(--ease), transform .15s var(--ease);
+}
+input[type=range]:hover::-webkit-slider-thumb { box-shadow: 0 1px 3px oklch(0.1 0.01 290 / .6), 0 0 0 5px var(--accent-soft); }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.12); }
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--accent); }
+
+/* Switch (a checkbox underneath, so keyboard and labels keep working). */
+.toggle { position: relative; display: inline-flex; flex: none; cursor: pointer; }
+.toggle input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.toggle span {
+  width: 30px; height: 18px; border-radius: 999px; background: var(--line-strong); position: relative;
+  transition: background-color .2s var(--ease);
+}
+.toggle span::after {
+  content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--thumb); box-shadow: 0 1px 2px oklch(0.1 0.01 290 / .5);
+  transition: transform .2s var(--ease);
+}
+.toggle input:checked + span { background: var(--accent); }
+.toggle input:checked + span::after { transform: translateX(12px); }
+.toggle:hover span { filter: brightness(1.12); }
+.toggle input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- layout bits ---------- */
+
+.row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.sync { gap: 5px; flex-wrap: nowrap; }
+.sync button { padding: 5px 8px; }
+.sync input { width: 60px; text-align: center; }
+.presets { margin-bottom: 14px; }
+
+.loaded { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.loaded-name { word-break: break-all; margin-bottom: 8px; }
+label.inline { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+label.inline select { flex: 1; }
+
+.preview {
+  position: relative; height: 150px; margin-bottom: 14px; border-radius: 10px; overflow: hidden;
+  /* Faint stripes stand in for a busy picture, so the box blur has something to blur. */
+  background:
+    repeating-linear-gradient(115deg, rgba(255,255,255,.07) 0 5px, transparent 5px 13px),
+    linear-gradient(160deg, oklch(0.36 0.05 295), oklch(0.17 0.01 290));
+}
+
+/* ---------- Style settings: one row per setting, divided ---------- */
+
+.settings { display: flex; flex-direction: column; }
+.group {
+  margin: 18px 0 2px; font-size: 10.5px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--faint);
+}
+.settings > .group:first-child { margin-top: 4px; }
+.setting { display: flex; flex-direction: column; gap: 10px; padding: 12px 0; }
+.setting + .setting { border-top: 1px solid var(--line); }
+.setting.first { padding-top: 0; }
+.setting-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; }
+.setting-label { color: var(--text); font-weight: 500; }
+.setting .hint { margin: -4px 0 0; font-size: 11.5px; color: var(--faint); }
+.value { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 12px; }
+.value input[type=number] { width: 52px; padding: 3px 6px; text-align: right; }
+.setting-body { display: flex; flex-direction: column; gap: 8px; transition: opacity .2s var(--ease); }
+.sub { display: grid; grid-template-columns: 54px minmax(0, 1fr) 38px 26px; align-items: center; gap: 10px; }
+.sub > span { color: var(--muted); font-size: 12px; }
+/* Effect switched off: its fine-tuning stays usable but steps back. */
+.setting:has(.toggle input:not(:checked)) .setting-body { opacity: .4; }
+
+/* ---------- found subtitles ---------- */
+
+.item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+.item-head { display: flex; gap: 6px; align-items: baseline; }
+.item-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; background: var(--accent-tint); color: oklch(0.88 0.06 293); border-radius: 5px; padding: 1px 5px; }
+.item-meta { color: var(--muted); font-size: 11.5px; margin: 3px 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .row button { padding: 3px 8px; font-size: 12px; }
+.error { color: var(--danger); font-size: 11.5px; margin-top: 4px; }
+.empty { color: var(--muted); font-size: 12px; background: var(--panel); border-radius: 10px; padding: 10px 12px; }
+
+details summary { cursor: pointer; color: var(--muted); transition: color .15s var(--ease); }
+details summary:hover { color: var(--text); }
+.keys { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.keys td { padding: 4px 0; vertical-align: middle; }
+.keys td:first-child { color: var(--muted); white-space: nowrap; padding-right: 12px; }
+
+/* ---------- font picker ---------- */
+
+.font-picker { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.font-picker input[type=search] { width: 100%; padding: 6px 9px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chips button { padding: 2px 9px; font-size: 11.5px; border-radius: 999px; color: var(--muted); }
+.chips button:hover { color: var(--text); }
+.chips button.on { background: var(--accent-tint); border-color: oklch(0.45 0.13 293); color: var(--text); }
+.font-list { max-height: 176px; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.font-row {
+  display: flex; align-items: center; gap: 6px; width: 100%; padding: 6px 9px; border: 0; border-radius: 0;
+  background: none; text-align: left; border-bottom: 1px solid var(--line);
+}
+.font-row:last-child { border-bottom: 0; }
+.font-row:hover { background: var(--panel-hover); }
+.font-row.on { background: var(--accent-tint); }
+.font-row .name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.font-row .tag { font-size: 10px; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 4px; }
+.font-list .more { padding: 7px 9px; color: var(--muted); font-size: 11.5px; }
+.font-status { margin: 0; font-size: 11.5px; line-height: 1.4; color: var(--muted); }
+.font-status.ok::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
+.font-status.error { color: var(--danger); }
+
+/* ---------- presets ---------- */
+
+.presets .user { display: inline-flex; align-items: stretch; padding: 0; overflow: hidden; }
+.presets .user span { padding: 5px 4px 5px 10px; }
+.presets .user i { font-style: normal; padding: 5px 8px 5px 6px; color: var(--muted); }
+.presets .user i:hover { color: var(--danger); }
+.presets button.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* ---------- save preset ---------- */
+
+.save { display: flex; flex-direction: column; gap: 8px; }
+.save .small { margin: 0; }
+button.wide { width: 100%; padding: 8px 10px; }
+#presetName { flex: 1; }
+
+.translate { margin-top: 8px; display: flex; flex-direction: column; gap: 2px; font-size: 11.5px; color: var(--muted); }
+.translate .saved::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
+.translate a { color: oklch(0.80 0.10 293); }
+
+/* ---------- keyboard shortcuts drawn as keys ---------- */
+
+.combo { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; }
+.combo i { font-style: normal; font-size: 10.5px; color: var(--muted); padding: 0 1px; }
+kbd {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px;
+  font: 600 11.5px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text);
+  border-radius: 6px; background: linear-gradient(oklch(0.29 0.012 290), oklch(0.235 0.010 290));
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / .12), 0 2px 0 oklch(0.12 0.008 290), 0 0 0 1px oklch(1 0 0 / .08);
+  margin-bottom: 2px;
+}
+
+/* The show / hide shortcut can be changed: "Change" records the next key combo. */
+.key-btn { padding: 1px 7px; font-size: 11px; margin-left: 4px; }
+.combo.recording { color: var(--accent-hover); font-size: 11.5px; font-weight: 600; }
+
+/* ---------- translation, inside the loaded-file card ---------- */
+
+.translate-box { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+.translate-box .row { flex-wrap: nowrap; }
+.translate-box .error { margin: 0; }
+.translated-note { flex: 1; color: var(--muted); font-size: 12px; }
+.translated-note::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
+.translated-note strong { color: var(--text); font-weight: 600; }
+#translatedRow button { padding: 3px 8px; font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+
+/* What the page script hid of the site's own subtitles (diagnostic line). */
+.site-hidden { margin: 0; font-size: 11.5px; color: var(--faint); overflow-wrap: anywhere; }
+.site-hidden.warn { color: var(--danger); }
+
+/* ---------- on / off per site ---------- */
+
+.site-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 8px 10px 8px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.site-row .setting-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+#siteName { font-weight: 600; }
+/* Off on this site: only the switch and the list of turned-off sites stay. */
+body.site-off section:not(#offSection) { display: none; }
+.off-list { list-style: none; margin: 0; padding: 0; }
+.off-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; }
+.off-list li + li { border-top: 1px solid var(--line); }
+.off-list span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.off-list button { padding: 4px 10px; font-size: 12px; }
+
+.ui-lang { margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--line); }
