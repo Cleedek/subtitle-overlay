@@ -277,7 +277,9 @@ body.site-off section:not(#offSection) { display: none; }
 
 body.support > :not(#supportView, script, style) { display: none !important; }
 body.support #supportView { display: block !important; }
-.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
+.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-color: var(--line-strong); }
+.support-open .heart { color: oklch(0.66 0.21 18); transition: transform .2s var(--ease); }
+.support-open:hover .heart { transform: scale(1.12); }
 .support-open .chev { color: var(--faint); }
 .support-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .support-head h1 { margin: 0; }
@@ -298,6 +300,7 @@ a.btn { font: inherit; text-decoration: none; border-radius: 8px; border: 1px so
 a.btn.primary { background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
 a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
-.credit { padding: 14px 0 2px; border-top: 1px solid var(--line); text-align: center; font-size: 11.5px; color: var(--faint); }
+.credit { padding-top: 14px; border-top: 1px solid var(--line); }
+.credit p { margin: 12px 0 0; text-align: center; font-size: 11.5px; color: var(--faint); }
 .credit a { color: var(--muted); font-weight: 600; text-decoration: none; }
 .credit a:hover { color: var(--text); text-decoration: underline; }
