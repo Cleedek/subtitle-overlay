@@ -78,6 +78,8 @@ Když se změní soubory ve složce, otevři znovu `arc://extensions` (nebo `chr
 
 **Jazyk rozhraní:** rozšíření mluví anglicky, česky, slovensky, německy, francouzsky, španělsky, vietnamsky a zjednodušenou čínsky. Řídí se jazykem prohlížeče; úplně dole v rozšíření je **Interface language**, kde ho přepneš ručně. Texty na videu (hlášky, karty) se přepnou po obnovení stránky. Překlady jsou v `lib/locales.js` (klíčem je anglický text; co chybí, zůstane anglicky), název a popis pro Chrome Web Store v `_locales/`.
 
+**Podpořit autora:** úplně dole v rozšíření je tlačítko **Support the creator**. Otevře druhou úroveň (vlevo nahoře šipka zpět, funguje i Esc) se záložkami Revolut, PayPal, Solana a Sui, každá s QR kódem a tlačítkem na otevření nebo zkopírování. QR kódy jsou obrázky v `icons/support/`; když se změní odkaz nebo adresa, je potřeba je vygenerovat znovu (a změnit i odkaz v `popup.html`). Pod tlačítkem je podpis "Created with 💜 by Cleedek in Vietnam" s odkazem na cleedek.com.
+
 ## Klávesové zkratky (na stránce s videem)
 
 | Akce | Zkratka |
