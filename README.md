@@ -1,8 +1,13 @@
 # Subtitle Overlay
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kfiihdconjdcclppmdhopeejkbmkkalo?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=7c3aed)](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-7c3aed)](LICENSE)
+
 A Chrome extension (also works in Arc and other Chromium browsers) that puts subtitles on any video on the web: your own `.srt` / `.vtt` file, or the subtitles the site itself loads, translated into 31 languages, two languages at once, styled your way and sized to the player.
 
-[Chrome Web Store](https://chromewebstore.google.com/search/Subtitle%20Overlay) · [Privacy policy](https://cleedek.com/subtitle-overlay/privacy) · [Návod v češtině](README.cs.md)
+**[➜ Add to Chrome, free, from the Chrome Web Store](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (works in Arc, Edge, Brave and other Chromium browsers too)
+
+[Privacy policy](https://cleedek.com/subtitle-overlay/privacy) · [Návod v češtině](README.cs.md)
 
 The code is public so anyone can check what the extension does. It is plain JavaScript with no build step and no dependencies: what you read here is exactly what runs in your browser.
 
@@ -38,7 +43,13 @@ Everything else (settings, presets, subtitles remembered for the last 30 pages) 
 
 You can turn the extension off for any site from the popup; on those sites it detects and shows nothing.
 
-## Install from source
+## Install
+
+The easy way: **[install Subtitle Overlay from the Chrome Web Store](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)**. It updates by itself, and the version there is built from this repository.
+
+### From source
+
+If you would rather run the code exactly as it is here:
 
 1. Download this repository (green **Code** button, **Download ZIP**) and unzip it, or `git clone` it.
 2. Open `chrome://extensions` (in Arc: `arc://extensions`).
@@ -69,7 +80,7 @@ For local video files (`file://`), open the extension's **Details** and turn on 
 
 Bug reports and ideas are welcome in [Issues](https://github.com/Cleedek/subtitle-overlay/issues). If a site's subtitles are not detected, please say which site and whether its player uses WebVTT, TTML or something else (DevTools › Network shows the file).
 
-If the extension is useful to you, a star here helps other people find it.
+If the extension is useful to you, a star here and a review in the [Chrome Web Store](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo/reviews) help other people find it.
 
 ## Credits
 
