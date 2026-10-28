@@ -57,13 +57,22 @@
     if (e.key === 'Escape' && document.body.classList.contains('support')) { e.preventDefault(); showSupport(false); }
   });
   const payTabs = document.querySelectorAll('#supportView .segmented [role=tab]');
-  for (const tabBtn of payTabs) {
-    tabBtn.addEventListener('click', () => {
-      for (const b of payTabs) {
-        b.setAttribute('aria-selected', String(b === tabBtn));
-        $(b.getAttribute('aria-controls')).hidden = b !== tabBtn;
-      }
-    });
+  function selectPayTab(tabBtn) {
+    for (const b of payTabs) {
+      b.setAttribute('aria-selected', String(b === tabBtn));
+      $(b.getAttribute('aria-controls')).hidden = b !== tabBtn;
+    }
+  }
+  for (const tabBtn of payTabs) tabBtn.addEventListener('click', () => selectPayTab(tabBtn));
+
+  // Local bank QR as the default tab, only for Czech or Vietnamese speakers: the language picked
+  // in the extension decides first, then the browser's own language. Location plays no part.
+  const browserLang = (chrome.i18n ? chrome.i18n.getUILanguage() : navigator.language || '').toLowerCase().split('-')[0];
+  const bankLang = [SubI18n.lang, browserLang].find((l) => l === 'cs' || l === 'vi');
+  const localTab = { cs: $('tabBankCz'), vi: $('tabBankVn') }[bankLang];
+  if (localTab) {
+    localTab.hidden = false;
+    selectPayTab(localTab);
   }
   for (const btn of document.querySelectorAll('.pay-card .copy')) {
     const label = btn.textContent;

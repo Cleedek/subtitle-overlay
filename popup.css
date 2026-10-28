@@ -309,6 +309,9 @@ body.support #supportView { display: block !important; }
 .segmented button { border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 10px; }
 .segmented button:hover { background: var(--panel-hover); color: var(--text); }
 .segmented button[aria-selected="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px oklch(0.1 0.01 290 / .4); }
+.support .segmented { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: auto; }
+.support .segmented button { white-space: nowrap; padding-inline: 6px; }
+.segmented button[hidden] { display: none; }
 .pay-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 16px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
 .qr { display: block; width: 196px; height: 196px; }
 .pay-id { margin: 14px 0 4px; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
@@ -326,5 +329,3 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 .credit a:hover { color: var(--text); text-decoration: underline; }
 .star-link { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); text-decoration: none; }
 .star-link:hover { color: var(--text); }
-.star-link .star { color: oklch(0.82 0.15 85); transition: transform .2s var(--ease); }
-.star-link:hover .star { transform: scale(1.18) rotate(-12deg); }

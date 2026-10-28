@@ -6,7 +6,7 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 
 1. **Vývojářský účet:** jdi na https://chrome.google.com/webstore/devconsole, přihlas se Google účtem, odsouhlas podmínky a zaplať jednorázový poplatek 5 USD.
 2. **Zásady ochrany soukromí:** jsou na portfoliu jako stránka https://cleedek.com/subtitle-overlay/privacy (v repu cleedek-portfolio, `src/pages/subtitle-overlay/privacy.astro`). **Pro 1.0.13 je text upravený** (titulky si pamatuje mezi návštěvami, max. 30 stránek; druhý jazyk; jazyk rozhraní; vlastní zkratka): změna je v `privacy.astro` i v `store/privacy-policy.html` a 25. 10. 2026 je nasazená na web (commit ef0b51b; Cloudflare portfolio sestaví sám po pushi do main).
-3. **Nahraj balíček:** u existující položky otevři **Package** a klikni na **Upload new package**, nahraj `dist/subtitle-overlay-1.0.15.zip`. (Pokud položka ještě neexistuje, **New item**.)
+3. **Nahraj balíček:** u existující položky otevři **Package** a klikni na **Upload new package**, nahraj `dist/subtitle-overlay-1.0.16.zip`. (Pokud položka ještě neexistuje, **New item**.)
 4. **Vyplň záložky** podle textů níže (Store listing, Privacy practices).
 5. **Obrázky:** ze složky `store/images` nahraj `screenshot-1.png` až `screenshot-5.png` (v tomto pořadí; pro 1.0.15 se změnily 2, 4 a 5: popup se záložkami a vlastní zkratky, takže stačí vyměnit tyhle tři, nebo smaž staré a nahraj všech 5) do Screenshots a `promo-tile-440x280.png` do Small promo tile, `marquee-promo-1400x560.png` do Marquee promo tile. Obrázky používají záběry z filmu Tears of Steel (Blender Foundation, licence CC BY 3.0); poděkování je přímo v obrázcích i na konci popisu, tak ho tam nech.
 6. **Ikona v obchodě:** v Store listing do pole Store icon nahraj `icons/icon128.png`.
@@ -214,6 +214,8 @@ Screenshoty ukazují záběry z filmu Tears of Steel, © Blender Foundation, man
 **Před odesláním 1.0.13 vyzkoušej YouTube u sebe v Arcu/Chromu** (pustit video se zvukem, zapnout CC). Automatický test ho na skutečném YouTube ověřit nemohl, protože YouTube testovacímu prohlížeči titulky neposílá. Kdyby to nefungovalo, odstav o YouTube z popisu vymaž.
 
 Chrome Web Store nemá pole "co je nového"; uživatelé vidí nový popis a screenshoty. Kdybys to chtěl někde zmínit (web, sociální sítě):
+1.0.16: Local bank QR on the "Support the creator" page, shown to people using the extension in Czech (QR platba) or Vietnamese (VietQR). The GitHub link at the bottom is now a quiet "Open source on GitHub".
+
 1.0.15: "Give us a star on GitHub" link at the bottom of the popup; the code is now open source on GitHub (GPL-3.0).
 
 1.0.14: Tabs at the top of the popup (Subtitles, Style, Behaviour). Outline opacity. Alt + 1 and Alt + 2 show or hide only the main or only the second subtitles. Every keyboard shortcut can be changed or switched off. Turning YouTube captions off and on keeps the language you switched off hidden. A reset button for sync.
