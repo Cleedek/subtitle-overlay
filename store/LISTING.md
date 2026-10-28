@@ -6,9 +6,9 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 
 1. **Vývojářský účet:** jdi na https://chrome.google.com/webstore/devconsole, přihlas se Google účtem, odsouhlas podmínky a zaplať jednorázový poplatek 5 USD.
 2. **Zásady ochrany soukromí:** jsou na portfoliu jako stránka https://cleedek.com/subtitle-overlay/privacy (v repu cleedek-portfolio, `src/pages/subtitle-overlay/privacy.astro`). **Pro 1.0.13 je text upravený** (titulky si pamatuje mezi návštěvami, max. 30 stránek; druhý jazyk; jazyk rozhraní; vlastní zkratka): změna je v `privacy.astro` i v `store/privacy-policy.html` a 25. 10. 2026 je nasazená na web (commit ef0b51b; Cloudflare portfolio sestaví sám po pushi do main).
-3. **Nahraj balíček:** u existující položky otevři **Package** a klikni na **Upload new package**, nahraj `dist/subtitle-overlay-1.0.13.zip`. (Pokud položka ještě neexistuje, **New item**.)
+3. **Nahraj balíček:** u existující položky otevři **Package** a klikni na **Upload new package**, nahraj `dist/subtitle-overlay-1.0.15.zip`. (Pokud položka ještě neexistuje, **New item**.)
 4. **Vyplň záložky** podle textů níže (Store listing, Privacy practices).
-5. **Obrázky:** ze složky `store/images` nahraj `screenshot-1.png` až `screenshot-5.png` (v tomto pořadí; staré screenshoty v obchodě smaž, všech 5 je nových: 2 = dva jazyky naráz i s panelem na vypnutí jednoho jazyka, 5 = opakování věty, načasování a kopírování) do Screenshots a `promo-tile-440x280.png` do Small promo tile, `marquee-promo-1400x560.png` do Marquee promo tile. Obrázky používají záběry z filmu Tears of Steel (Blender Foundation, licence CC BY 3.0); poděkování je přímo v obrázcích i na konci popisu, tak ho tam nech.
+5. **Obrázky:** ze složky `store/images` nahraj `screenshot-1.png` až `screenshot-5.png` (v tomto pořadí; pro 1.0.15 se změnily 2, 4 a 5: popup se záložkami a vlastní zkratky, takže stačí vyměnit tyhle tři, nebo smaž staré a nahraj všech 5) do Screenshots a `promo-tile-440x280.png` do Small promo tile, `marquee-promo-1400x560.png` do Marquee promo tile. Obrázky používají záběry z filmu Tears of Steel (Blender Foundation, licence CC BY 3.0); poděkování je přímo v obrázcích i na konci popisu, tak ho tam nech.
 6. **Ikona v obchodě:** v Store listing do pole Store icon nahraj `icons/icon128.png`.
 7. **Distribution:** Visibility = Public, Regions = All regions, Pricing = Free.
 8. **Account** (levé menu): vyplň a ověř kontaktní e-mail, bez něj nejde odeslat.
@@ -39,7 +39,7 @@ Subtitle Overlay draws subtitles over the video player of any website, also in f
 ★ Two languages at once: one at the top, one at the bottom, for watching together or learning a language
 ★ Finds the subtitles the page loads, YouTube included, so you rarely need a file at all
 ★ Your style: 1,800+ Google Fonts, outline, shadow, background box, size and position
-★ Free, no ads, no account, no tracking
+★ Free and open source: no ads, no account, no tracking, and every line of code is public
 
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -65,10 +65,11 @@ FINDS THE SUBTITLES A SITE LOADS
 
 STYLE THEM YOUR WAY
 • 1,800+ Google Fonts, filtered to the ones that have the letters of your language (č ř ž, ư ế ộ, Cyrillic, Greek, Japanese and more)
-• Size, weight, color, outline, drop shadow, background box (with optional blur behind it) and line width
+• Size, weight, color, outline (with its own opacity), drop shadow, background box (with optional blur behind it) and line width
 • At the bottom, in the middle or at the top of the video
 • Presets (Clean, Boxed, High contrast) plus your own saved looks
 • Text scales with the player, with a live preview in the popup
+• A tidy popup with three tabs: Subtitles, Style and Behaviour
 • Hides sound labels like [Music] and the >> speaker marks (one switch brings them back)
 
 FIX THE TIMING
@@ -92,7 +93,8 @@ SITE BY SITE
 • Turn it off on any site with one switch; the list of turned-off sites is one click away
 
 KEYBOARD SHORTCUTS
-Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide (pick your own shortcut) · Alt + ↑ / ↓ move · Alt + F fullscreen with subtitles
+Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + F fullscreen with subtitles
+Every shortcut can be changed or switched off in the Behaviour tab.
 
 INTERFACE IN 8 LANGUAGES
 English, Czech, Slovak, German, French, Spanish, Vietnamese and Chinese (Simplified). It follows your browser, or pick one at the bottom of the popup.
@@ -102,6 +104,9 @@ A "Subtitles" tab in DevTools lists every subtitle file the page loaded and save
 
 PRIVACY
 No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when you translate. Remembered subtitles stay in your browser. Details in the privacy policy.
+
+OPEN SOURCE
+The whole extension is open source (GPL-3.0), so anyone can check exactly what it does: github.com/Cleedek/subtitle-overlay. If you like it, a star on GitHub helps other people find it.
 
 SUPPORT THE CREATOR
 Subtitle Overlay is free and every feature stays free. If it makes your evenings better, the popup has a "Support the creator" page with Revolut, PayPal, Solana and Sui. Completely optional, and thank you!
@@ -128,7 +133,7 @@ Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na ce
 ★ Dva jazyky naráz: jeden nahoře, druhý dole, pro společné sledování i učení jazyků
 ★ Najde titulky, které stránka načte, i na YouTube, takže soubor většinou vůbec nepotřebuješ
 ★ Tvůj styl: přes 1 800 písem Google Fonts, obrys, stín, podklad, velikost i pozice
-★ Zdarma, bez reklam, bez účtu, bez sledování
+★ Zdarma a open source: bez reklam, bez účtu, bez sledování, celý kód je veřejný
 
 ━━━━━━━━━━━━━━━━━━━━
 
@@ -154,10 +159,11 @@ NAJDE TITULKY, KTERÉ WEB NAČTE
 
 STYL PODLE TEBE
 • Přes 1 800 písem Google Fonts, vyfiltrovaných na ta, která mají písmena tvého jazyka (č ř ž, ư ế ộ, azbuka, řečtina, japonština a další)
-• Velikost, tloušťka, barva, obrys, stín, podklad (i s rozmazáním za ním) a šířka řádku
+• Velikost, tloušťka, barva, obrys (i s vlastní průhledností), stín, podklad (i s rozmazáním za ním) a šířka řádku
 • Dole, uprostřed nebo nahoře
 • Předvolby (Čisté, V rámečku, Vysoký kontrast) a tvoje vlastní
 • Text se přizpůsobí velikosti přehrávače, s živým náhledem v popupu
+• Přehledný popup se třemi záložkami: Titulky, Vzhled a Chování
 • Schová popisky zvuků jako [Hudba] a značky mluvčích >> (jedním přepínačem je vrátíš)
 
 NAČASOVÁNÍ
@@ -181,7 +187,8 @@ WEB PO WEBU
 • Na kterémkoli webu rozšíření vypneš jedním přepínačem; seznam vypnutých webů máš na jeden klik
 
 KLÁVESOVÉ ZKRATKY
-Alt + [ / ] načasování · Alt + Shift + [ / ] načasování po 1 s · Alt + 0 vynulovat · Alt + R zopakovat větu · Alt + S zobrazit/skrýt (zkratku si můžeš změnit) · Alt + ↑ / ↓ posun · Alt + F celá obrazovka s titulky
+Alt + [ / ] načasování · Alt + Shift + [ / ] načasování po 1 s · Alt + 0 vynulovat · Alt + R zopakovat větu · Alt + S zobrazit/skrýt · Alt + 1 / Alt + 2 zobrazit/skrýt jen jeden jazyk · Alt + ↑ / ↓ posun · Alt + F celá obrazovka s titulky
+Každou zkratku si na záložce Chování změníš nebo vypneš.
 
 ROZHRANÍ V 8 JAZYCÍCH
 Čeština, slovenština, angličtina, němčina, francouzština, španělština, vietnamština a čínština (zjednodušená). Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
@@ -191,6 +198,9 @@ Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které strá
 
 SOUKROMÍ
 Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy překládáš. Zapamatované titulky zůstávají v tvém prohlížeči. Podrobnosti v zásadách ochrany soukromí.
+
+OPEN SOURCE
+Celé rozšíření je open source (GPL-3.0), takže si kdokoli může ověřit, co přesně dělá: github.com/Cleedek/subtitle-overlay. Jestli se ti líbí, hvězda na GitHubu pomůže, aby ho našli i další.
 
 PODPOŘ AUTORA
 Subtitle Overlay je zdarma a všechny funkce zdarma zůstanou. Pokud ti zpříjemňuje večery, v popupu najdeš stránku "Podpořit autora" s Revolutem, PayPalem, Solanou a Sui. Úplně dobrovolně, a děkuju!
@@ -204,6 +214,8 @@ Screenshoty ukazují záběry z filmu Tears of Steel, © Blender Foundation, man
 **Před odesláním 1.0.13 vyzkoušej YouTube u sebe v Arcu/Chromu** (pustit video se zvukem, zapnout CC). Automatický test ho na skutečném YouTube ověřit nemohl, protože YouTube testovacímu prohlížeči titulky neposílá. Kdyby to nefungovalo, odstav o YouTube z popisu vymaž.
 
 Chrome Web Store nemá pole "co je nového"; uživatelé vidí nový popis a screenshoty. Kdybys to chtěl někde zmínit (web, sociální sítě):
+1.0.15: "Give us a star on GitHub" link at the bottom of the popup; the code is now open source on GitHub (GPL-3.0).
+
 1.0.14: Tabs at the top of the popup (Subtitles, Style, Behaviour). Outline opacity. Alt + 1 and Alt + 2 show or hide only the main or only the second subtitles. Every keyboard shortcut can be changed or switched off. Turning YouTube captions off and on keeps the language you switched off hidden. A reset button for sync.
 
 1.0.13: A "Support the creator" page (Revolut, PayPal, Solana, Sui). Second subtitles in any language (two people, two languages, one at the top and one at the bottom). Alt + R repeats the current line. Switch each language on or off right over the video. Pick your own show/hide shortcut. Click a line to copy it. Subtitles at the bottom, middle or top. Blur behind the background box. Subtitles are remembered when you come back to a page. Japanese, Chinese and Korean file encodings. The interface now speaks English, Czech, Slovak, German, French, Spanish, Vietnamese and Chinese.
