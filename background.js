@@ -311,6 +311,128 @@ async function translateTexts(texts, to) {
   return { texts: pairs.map((p) => p[0]), detected };
 }
 
+// ---------- AI translation (Gemini or a local model) ----------
+
+// Both speak the OpenAI-style chat API: Gemini through Google's compatibility
+// endpoint, Ollama and LM Studio natively. The page sends small chunks (Google's
+// version is already on screen) and swaps in each one as it comes back.
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/openai';
+
+async function aiConfig() {
+  const p = await SubSettings.loadTranslation();
+  if (p.translator === 'gemini') {
+    if (!p.geminiKey) throw new Error(tr('Add your Gemini API key in the extension popup.'));
+    return { kind: 'gemini', base: GEMINI_BASE, key: p.geminiKey, model: p.geminiModel };
+  }
+  if (p.translator === 'local') {
+    return { kind: 'local', base: String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1', model: p.localModel };
+  }
+  return null;
+}
+
+function aiHeaders(cfg) {
+  const h = { 'Content-Type': 'application/json' };
+  if (cfg.key) h.Authorization = 'Bearer ' + cfg.key;
+  return h;
+}
+
+function aiError(cfg, e) {
+  if (cfg.kind === 'local' && e instanceof TypeError) {
+    return new Error(tr('Can’t reach the local model at {url}. Is Ollama or LM Studio running?', { url: cfg.base.replace(/\/v1$/, '') }));
+  }
+  return e;
+}
+
+async function aiModels(cfg) {
+  let r;
+  try {
+    r = await fetch(cfg.base + '/models', { headers: aiHeaders(cfg), signal: AbortSignal.timeout(15000) });
+  } catch (e) { throw aiError(cfg, e); }
+  if (r.status === 403 && cfg.kind === 'local') throw new Error(tr('The local model refused the extension. Allow it in Ollama (OLLAMA_ORIGINS).'));
+  if (r.status === 400 || r.status === 401 || r.status === 403) throw new Error(tr('The API key was not accepted.'));
+  if (!r.ok) throw new Error(tr('The model server answered HTTP {status}.', { status: r.status }));
+  const data = await r.json();
+  return (data.data || []).map((m) => String(m.id).replace(/^models\//, ''))
+    // Gemini also lists image, speech and embedding models; only text chat ones can translate.
+    .filter((id) => cfg.kind !== 'gemini' || (/^gemini|^gemma/.test(id) && !/image|tts|audio|live|embed|vision/.test(id)))
+    .sort();
+}
+
+const englishName = (code) => {
+  try { return new Intl.DisplayNames(['en'], { type: 'language' }).of(code); } catch (e) { return code; }
+};
+
+const AI_PROMPT = (lang) => [
+  'You translate film and TV subtitles into ' + lang + '.',
+  'You get JSON: "lines" to translate and sometimes "before", the lines just before them, for context only.',
+  'Answer with JSON only: {"lines": [...]} with exactly one translation per input line, in the same order.',
+  'Never merge, split, skip or add lines, even when a sentence runs across two lines.',
+  'Keep <i>, <b>, <u> tags and <br> line breaks where they belong.',
+  'Write natural, spoken ' + lang + ' that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context.',
+].join('\n');
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function aiChat(cfg, body) {
+  for (let attempt = 0; ; attempt++) {
+    let r;
+    try {
+      r = await fetch(cfg.base + '/chat/completions', {
+        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(body),
+        // A local model may first have to load into memory.
+        signal: AbortSignal.timeout(cfg.kind === 'local' ? 240000 : 90000),
+      });
+    } catch (e) { throw aiError(cfg, e); }
+    // The free Gemini tier allows only a few requests a minute: wait and try again.
+    if (r.status === 429 && attempt < 4) {
+      const wait = Number(r.headers.get('retry-after')) || 20;
+      await sleep(Math.min(wait, 60) * 1000);
+      continue;
+    }
+    if (r.status === 429) throw new Error(tr('The free Gemini limit is used up for now. Try again later.'));
+    if (r.status === 401 || r.status === 403) throw new Error(tr('The API key was not accepted.'));
+    if (!r.ok) {
+      const detail = await r.text().catch(() => '');
+      // Some Gemini models can't turn thinking off: ask once more without that switch.
+      if (r.status === 400 && body.reasoning_effort && /reasoning|thinking/i.test(detail)) {
+        body = Object.assign({}, body);
+        delete body.reasoning_effort;
+        continue;
+      }
+      throw new Error(tr('The model server answered HTTP {status}.', { status: r.status }));
+    }
+    const data = await r.json();
+    return String((data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '');
+  }
+}
+
+// One chunk of lines (HTML, like the Google path) -> the same number of translated lines.
+async function aiTranslate(lines, before, to) {
+  const cfg = await aiConfig();
+  if (!cfg) throw new Error(tr('No AI translator is chosen.'));
+  if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
+  const lang = englishName(to);
+  const body = {
+    model: cfg.model,
+    temperature: 0.2,
+    messages: [
+      { role: 'system', content: AI_PROMPT(lang) },
+      { role: 'user', content: JSON.stringify(before.length ? { before, lines } : { lines }) },
+    ],
+  };
+  // Thinking only slows Gemini down here.
+  if (cfg.kind === 'gemini') body.reasoning_effort = 'none';
+  // Two tries: small models now and then lose count of the lines.
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const text = (await aiChat(cfg, body)).replace(/<think>[\s\S]*?<\/think>/g, '');
+    const json = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
+    let out = null;
+    try { out = JSON.parse(json).lines; } catch (e) { /* try again */ }
+    if (Array.isArray(out) && out.length === lines.length) return { texts: out.map(String), model: cfg.model };
+  }
+  throw new Error(tr('The model returned a different number of lines.'));
+}
+
 // ---------- Google Fonts ----------
 
 // Font files are handed to the page as bytes (not as a link), so sites whose
@@ -478,6 +600,15 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 
     case 'translate':
       translateTexts(msg.texts, msg.to).then((r) => reply({ ok: true, texts: r.texts, detected: r.detected }), (e) => reply({ ok: false, error: e.message }));
+      return true;
+
+    case 'ai-translate':
+      aiTranslate(msg.texts, msg.before || [], msg.to).then((r) => reply(Object.assign({ ok: true }, r)), (e) => reply({ ok: false, error: e.message }));
+      return true;
+
+    case 'ai-models':
+      // The popup's model list: whatever the key or the local server offers.
+      aiConfig().then((cfg) => (cfg ? aiModels(cfg) : [])).then((models) => reply({ ok: true, models }), (e) => reply({ ok: false, error: e.message }));
       return true;
 
     case 'convert-item':

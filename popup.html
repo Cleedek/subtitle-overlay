@@ -141,6 +141,32 @@
           <select id="lang" class="compact" title="Used by every Translate button and by automatic mode."></select>
         </div>
       </div>
+      <div class="setting" id="translatorSetting">
+        <span class="setting-label">Translator</span>
+        <div class="segmented translator" role="radiogroup" aria-label="Translator">
+          <button data-translator="google" role="radio">Google</button>
+          <button data-translator="gemini" role="radio">Gemini</button>
+          <button data-translator="local" role="radio">Local model</button>
+        </div>
+        <p class="hint" id="translatorHint"></p>
+        <div class="ai-fields" id="geminiFields" hidden>
+          <label for="geminiKey" class="label">API key</label>
+          <input id="geminiKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…">
+          <p class="hint"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a free key in Google AI Studio ↗</a> <span>On the free tier Google may use the subtitle text to improve its models.</span></p>
+        </div>
+        <div class="ai-fields" id="localFields" hidden>
+          <label for="localUrl" class="label">Server address</label>
+          <input id="localUrl" type="text" spellcheck="false" placeholder="http://localhost:11434">
+          <p class="hint">Ollama uses port 11434, LM Studio uses port 1234 (turn its server on first).</p>
+        </div>
+        <div class="ai-fields" id="modelField" hidden>
+          <div class="setting-head">
+            <label for="aiModel" class="setting-label">Model</label>
+            <select id="aiModel" class="compact"></select>
+          </div>
+          <p id="aiMsg" class="hint" hidden></p>
+        </div>
+      </div>
       <div class="setting">
         <div class="setting-head"><span class="setting-label">Translate automatically</span><label class="toggle"><input id="autoTranslate" type="checkbox" role="switch" aria-label="Translate automatically"><span></span></label></div>
         <p class="hint">Turn on subtitles in the site’s player and they appear over the video, already translated. The site’s own subtitles are hidden.</p>

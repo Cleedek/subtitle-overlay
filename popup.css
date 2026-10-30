@@ -68,12 +68,12 @@ button:disabled { opacity: .5; cursor: default; pointer-events: none; }
 
 /* ---------- fields ---------- */
 
-select, input[type=number], input[type=text], input[type=search] {
+select, input[type=number], input[type=text], input[type=search], input[type=password] {
   font: inherit; color: var(--text); background-color: var(--panel); border: 1px solid var(--line);
   border-radius: 8px; padding: 5px 8px;
   transition: background-color .15s var(--ease), border-color .15s var(--ease);
 }
-select:hover, input[type=number]:hover, input[type=text]:hover, input[type=search]:hover { border-color: var(--line-strong); }
+select:hover, input[type=number]:hover, input[type=text]:hover, input[type=search]:hover, input[type=password]:hover { border-color: var(--line-strong); }
 select:hover { background-color: var(--panel-hover); }
 select:focus-visible, input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
@@ -329,3 +329,12 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 .credit a:hover { color: var(--text); text-decoration: underline; }
 .star-link { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); text-decoration: none; }
 .star-link:hover { color: var(--text); }
+
+/* Translator: Google, Gemini or a local model */
+.segmented.translator { grid-template-columns: repeat(3, 1fr); margin: 0; }
+.ai-fields { display: flex; flex-direction: column; gap: 6px; }
+.ai-fields .label { margin: 0; }
+.ai-fields[hidden] { display: none; }
+.ai-fields input { width: 100%; box-sizing: border-box; }
+.setting .hint a { color: oklch(0.80 0.10 293); }
+.setting .hint.error { color: var(--danger); }

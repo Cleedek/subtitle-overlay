@@ -52,6 +52,7 @@
         if (changes[k]) prefs[k] = changes[k].newValue != null ? changes[k].newValue : SubSettings.TRANSLATION[k];
       }
       if (changes.secondLang && cues.length) { ensureSecond(); lastKey = ''; position(true); render(true); }
+      if (['translator', 'geminiKey', 'geminiModel', 'localUrl', 'localModel'].some((k) => changes[k])) improveShown(false);
     }
     if (area !== 'local' || !changes.settings) return;
     const offsetBefore = settings.offset;
@@ -270,6 +271,18 @@
       .langs .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; transition: transform .15s; }
       .langs button[aria-checked=true] .sw { background: #7a41e4; }
       .langs button[aria-checked=true] .sw::after { transform: translateX(12px); }
+      /* How far the AI pass got: model and share, a bar, then the line count or what stopped it. */
+      .langs .ai { display: flex; flex-direction: column; gap: 5px; padding: 6px 10px 7px; max-width: 240px; }
+      .langs button + .ai { border-top: 1px solid rgba(255,255,255,.12); margin-top: 2px; padding-top: 8px; }
+      .ai-head { display: flex; align-items: baseline; gap: 12px; }
+      .ai-head .pct { font-variant-numeric: tabular-nums; }
+      .ai-bar { height: 4px; border-radius: 999px; background: rgba(255,255,255,.18); overflow: hidden; }
+      .ai-bar span { display: block; height: 100%; border-radius: inherit; background: #7a41e4; }
+      .ai.running .ai-bar span { animation: ai-pulse 1.4s ease-in-out infinite; }
+      @keyframes ai-pulse { 50% { opacity: .5; } }
+      @media (prefers-reduced-motion: reduce) { .ai.running .ai-bar span { animation: none; } }
+      .ai-note { font-weight: 500; font-size: 11.5px; opacity: .7; }
+      .ai.error .ai-note { color: #fca5a5; opacity: 1; }
       .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-right: 6px; }
       .covered { visibility: hidden !important; } /* something of the page lies over the video here */
     `;
@@ -786,7 +799,14 @@
     // A translation was showing: bring back the original, then the saved translation (no new request).
     const r = loadBytes(f.original.name, f.original.b64, f.original.encoding, v);
     if (r.ok && f.origLang) origLang = f.origLang;
-    if (r.ok) showTranslation(f.translatedTo, SubLib.parse(SubLib.decode(SubLib.base64ToBytes(f.b64), 'utf-8').text), true);
+    if (!r.ok) return;
+    const list = SubLib.parse(SubLib.decode(SubLib.base64ToBytes(f.b64), 'utf-8').text);
+    if (f.ai && f.ai.model) {
+      aiState.set(list, { model: f.ai.model, done: Math.min(f.ai.done, list.length), total: list.length,
+        chunks: new Set(f.ai.chunks), running: false, error: '' });
+    }
+    showTranslation(f.translatedTo, list, true);
+    improveShown(true);
   }
 
   // ---------- the site's own subtitles ----------
@@ -989,7 +1009,8 @@
   async function fetchTranslation(to, quiet) {
     const base = baseOf();
     const cached = translations.get(to);
-    if (cached) return { ok: true, list: cached };
+    // Translating again also retries an AI pass that stopped, or starts one for a newly chosen model.
+    if (cached) { improve(to, base, cached, quiet); return { ok: true, list: cached }; }
     if (!quiet) toast(t('Translating {n} lines to {lang}…', { n: base.cues.length, lang: SubSettings.languageName(to) }), 15000);
     const res = await chrome.runtime.sendMessage({ type: 'translate', to, texts: base.cues.map((c) => toHtml(c.text)) })
       .catch((e) => ({ ok: false, error: e.message }));
@@ -1001,7 +1022,89 @@
     if (res.detected) origLang = res.detected;
     const list = base.cues.map((c, i) => ({ start: c.start, end: c.end, text: fromHtml(res.texts[i]) || c.text }));
     translations.set(to, list);
+    improve(to, base, list, quiet);
     return { ok: true, list };
+  }
+
+  // A better AI pass (Gemini or a local model) over Google's quick version:
+  // small chunks from where the video is now, each swapped in as it arrives.
+  // Chunks already done (before a reload, or before the pass stopped) are
+  // skipped while the model stays the same; another model starts over.
+  const AI_CHUNK = 30;
+  const improving = new Map(); // language -> { file, model } of the pass running for it
+  // How far the AI pass got, shown in the card over the video.
+  const aiState = new WeakMap(); // translated cues -> { model, done, total, chunks, running, error }
+  const aiModel = () => (prefs.translator === 'gemini' ? prefs.geminiModel : prefs.translator === 'local' ? prefs.localModel : '') || '';
+  async function improve(to, base, list, quiet) {
+    if (prefs.translator !== 'gemini' && prefs.translator !== 'local') return;
+    const model = aiModel();
+    const busy = improving.get(to);
+    if (busy && busy.file === base.file && busy.model === model) return;
+    const prev = aiState.get(list);
+    const state = prev && prev.model === model ? prev
+      : { model, done: 0, total: list.length, chunks: new Set(), running: false, error: '' };
+    if (state.done >= state.total) return;
+    const run = { file: base.file, model };
+    improving.set(to, run); // a pass with another model sees this and stops
+    aiState.set(list, state);
+    state.running = true;
+    state.error = '';
+    refreshLangs();
+    const src = base.cues.map((c) => toHtml(c.text));
+    const now = video ? video.currentTime * 1000 - settings.offset : 0;
+    const from = Math.max(0, base.cues.findIndex((c) => c.end >= now));
+    const starts = [];
+    for (let i = from - (from % AI_CHUNK); i < src.length; i += AI_CHUNK) starts.push(i);
+    for (let i = 0; i < from - (from % AI_CHUNK); i += AI_CHUNK) starts.push(i);
+    const stillWanted = () => baseOf().file === base.file && improving.get(to) === run &&
+      (prefs.translator === 'gemini' || prefs.translator === 'local');
+    const shown = () => original && cues === list && file.translatedTo === to;
+    let said = quiet, savedAt = Date.now();
+    try {
+      for (const i of starts) {
+        if (state.chunks.has(i)) continue;
+        if (!stillWanted()) return;
+        const res = await chrome.runtime.sendMessage({ type: 'ai-translate', to,
+          texts: src.slice(i, i + AI_CHUNK), before: src.slice(Math.max(0, i - 4), i) })
+          .catch((e) => ({ ok: false, error: e.message }));
+        if (!res || !res.ok) throw new Error(res ? res.error : t('Translation failed.'));
+        if (!stillWanted()) return;
+        res.texts.forEach((text, k) => { const c = list[i + k]; if (c) c.text = fromHtml(text) || c.text; });
+        state.chunks.add(i);
+        state.done += res.texts.length;
+        // Said once the first chunk is back: said earlier, "Translated to …" would cover it.
+        if (!said && cues === list) { said = true; toast(t('Improving the translation with {model}…', { model }), 4000); }
+        if (cues === list) { lastKey = ''; render(true); }
+        // Every little while the remembered file gets the better lines, so a reload carries on from here.
+        if (shown() && Date.now() - savedAt > 10000) { savedAt = Date.now(); showTranslation(to, list, true); }
+        refreshLangs();
+      }
+      // Done: the saved and downloadable file gets the better lines too.
+      if (shown()) {
+        showTranslation(to, list, true);
+        toast(t('Translation improved by {model}', { model }), 3000);
+      }
+    } catch (e) {
+      if (improving.get(to) !== run) return; // replaced by a pass with another model
+      state.error = e.message;
+      if (cues === list) toast(t('AI translation stopped, Google’s version stays: {error}', { error: e.message }), 6000);
+    } finally {
+      if (improving.get(to) === run) improving.delete(to);
+      state.running = false;
+      refreshLangs();
+    }
+  }
+
+  // Gemini or a local model chosen or set up after the translation was made,
+  // or a reload in the middle of a pass: improve the translations on screen.
+  function improveShown(quiet) {
+    const ready = prefs.translator === 'gemini' ? prefs.geminiKey && prefs.geminiModel : prefs.translator === 'local' && prefs.localModel;
+    if (!ready || !cues.length) return;
+    const base = baseOf();
+    for (const to of [original && file.translatedTo, prefs.secondLang]) {
+      const list = to && translations.get(to);
+      if (list && (list === cues || list === secondCues())) improve(to, base, list, quiet);
+    }
   }
 
   async function translate(to) {
@@ -1043,8 +1146,11 @@
     translations.set(to, list);
     cues = list;
     const name = original.file.name.replace(/\.(web)?vtt$|\.srt$/i, '') + '.' + to + '.srt';
+    const ai = aiState.get(list);
     file = { name, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(list))), encoding: 'utf-8', usedEncoding: 'utf-8',
-      translatedTo: to, origLang, original: original.file };
+      translatedTo: to, origLang, original: original.file,
+      // Which chunks the AI pass already rewrote, so a reload shows it and carries on.
+      ai: ai && ai.done ? { model: ai.model, done: ai.done, chunks: [...ai.chunks] } : null };
     lastKey = '';
     render(true);
     rememberFile();
@@ -1143,29 +1249,59 @@
   }
 
   // One switch per language while dual subtitles are on in the settings, even
-  // with one of them hidden, so it can be switched back on. The top one first.
-  function showLangs() {
-    if (!langsEl) return;
-    const second = settings.dual && cues.length && secondCues();
-    if (!second) { langsEl.classList.remove('on'); return; }
+  // with one of them hidden, so it can be switched back on. Below them, how far
+  // Gemini or the local model got with each translation on screen. The top one
+  // first. False when there is nothing to show.
+  function fillLangs() {
+    if (!cues.length) return false;
+    const second = settings.dual && secondCues();
     const labels = langLabels();
-    const main = { label: labels.main, on: visible, flip: () => { visible = !visible; shownBefore = null; } };
-    const dual = { label: labels.second, on: dualVisible, flip: () => { dualVisible = !dualVisible; shownBefore = null; } };
+    const main = { label: labels.main, lang: original && file.translatedTo, list: cues, on: visible, flip: () => { visible = !visible; shownBefore = null; } };
+    const dual = { label: labels.second, lang: prefs.secondLang, list: second, on: dualVisible, flip: () => { dualVisible = !dualVisible; shownBefore = null; } };
     const rows = settings.place === 'top' ? [main, dual] : [dual, main];
-    langsEl.replaceChildren(...rows.map((row) => {
+    const switches = !second ? [] : rows.map((row) => {
       const b = el('button');
       b.setAttribute('role', 'switch');
       b.setAttribute('aria-checked', String(row.on));
       b.append(el('span', 'name', row.label), el('span', 'sw'));
       b.addEventListener('click', () => { row.flip(); lastKey = ''; position(true); render(true); showLangs(); });
       return b;
-    }));
+    });
+    const progress = rows.filter((row) => row.list && aiState.has(row.list)).map((row) => aiRow(row.lang, aiState.get(row.list)));
+    langsEl.replaceChildren(...switches, ...progress);
+    return switches.length + progress.length > 0;
+  }
+
+  // "🇨🇿 gemini-2.5-flash 47 %", a bar, and "Improving · 300 / 640 lines".
+  function aiRow(lang, s) {
+    const share = Math.floor((s.done / s.total) * 100) / 100;
+    const row = el('div', 'ai' + (s.running ? ' running' : '') + (s.error ? ' error' : ''));
+    const head = el('div', 'ai-head');
+    head.append(el('span', 'name', (SubSettings.flag(lang) + ' ' + s.model).trim()),
+      el('span', 'pct', new Intl.NumberFormat(SubI18n.lang, { style: 'percent' }).format(share)));
+    const bar = el('div', 'ai-bar');
+    const fill = el('span');
+    fill.style.width = share * 100 + '%';
+    bar.append(fill);
+    const note = s.error ? t('Stopped') + ': ' + s.error
+      : t(s.running ? 'Improving' : s.done >= s.total ? 'Improved' : 'Stopped') + ' · ' + s.done + ' / ' + t('{n} lines', { n: s.total });
+    row.append(head, bar, el('div', 'ai-note', note));
+    return row;
+  }
+
+  function showLangs() {
+    if (!langsEl) return;
+    if (!fillLangs()) { langsEl.classList.remove('on'); return; }
     langsEl.classList.add('on');
     clearTimeout(langsTimer);
     const hideLater = () => {
       langsTimer = setTimeout(() => (langsEl.matches(':hover') ? hideLater() : langsEl.classList.remove('on')), 2500);
     };
     hideLater();
+  }
+  // New progress while the card is open (it stays as long as it would anyway).
+  function refreshLangs() {
+    if (langsEl && langsEl.classList.contains('on') && !fillLangs()) langsEl.classList.remove('on');
   }
   function enableMouse(on) {
     document[on ? 'addEventListener' : 'removeEventListener']('mousemove', onMouseMove, { passive: true, capture: true });

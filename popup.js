@@ -259,6 +259,76 @@
   $('secondLang').value = prefs.secondLang || 'orig';
   $('secondLang').addEventListener('change', () => SubSettings.saveTranslation({ secondLang: $('secondLang').value }));
 
+  // Translator: Google alone, or Google first and then Gemini or a local model
+  // rewrites the lines in the background (slower, but reads more naturally).
+  const TRANSLATOR_HINTS = {
+    google: 'Fast and free. Translates line by line.',
+    gemini: 'Google’s version shows at once, then Gemini rewrites it with the whole scene in mind. Needs an API key.',
+    local: 'Google’s version shows at once, then a model on this computer rewrites it. Free and private, but slower. Needs Ollama or LM Studio.',
+  };
+  let translator = prefs.translator;
+  $('geminiKey').value = prefs.geminiKey;
+  $('localUrl').value = prefs.localUrl;
+  const modelKey = () => (translator === 'gemini' ? 'geminiModel' : 'localModel');
+
+  function aiMsg(text, isError) {
+    $('aiMsg').hidden = !text;
+    $('aiMsg').textContent = text || '';
+    $('aiMsg').classList.toggle('error', !!isError);
+  }
+
+  // Fills the model list from what the key or the local server offers.
+  let modelsAsked = 0;
+  async function loadModels() {
+    const ask = ++modelsAsked;
+    const saved = (await SubSettings.loadTranslation())[modelKey()];
+    $('aiModel').replaceChildren();
+    aiMsg(t('Loading models…'));
+    const res = await chrome.runtime.sendMessage({ type: 'ai-models' }).catch((e) => ({ ok: false, error: e.message }));
+    if (ask !== modelsAsked) return;
+    if (!res || !res.ok) return aiMsg(res ? res.error : t('Translation failed.'), true);
+    if (!res.models.length) {
+      return aiMsg(translator === 'local' ? t('No models installed. In Terminal run: ollama pull gemma3:12b') : t('No models found for this key.'), true);
+    }
+    $('aiModel').replaceChildren(...res.models.map((m) => Object.assign(document.createElement('option'), { value: m, textContent: m })));
+    // Keep the saved one; otherwise Gemini's newest plain Flash, or the first local model.
+    const flash = res.models.filter((m) => /flash/.test(m) && !/lite|preview|exp|thinking/.test(m)).sort().pop();
+    const pick = res.models.includes(saved) ? saved : (translator === 'gemini' && flash) || res.models[0];
+    $('aiModel').value = pick;
+    if (pick !== saved) await SubSettings.saveTranslation({ [modelKey()]: pick });
+    aiMsg('');
+  }
+
+  function renderTranslator() {
+    for (const b of document.querySelectorAll('[data-translator]')) {
+      // aria-checked for screen readers, aria-selected for the shared segmented style.
+      b.setAttribute('aria-checked', String(b.dataset.translator === translator));
+      b.setAttribute('aria-selected', String(b.dataset.translator === translator));
+    }
+    $('translatorHint').textContent = t(TRANSLATOR_HINTS[translator] || TRANSLATOR_HINTS.google);
+    $('geminiFields').hidden = translator !== 'gemini';
+    $('localFields').hidden = translator !== 'local';
+    $('modelField').hidden = translator === 'google' || (translator === 'gemini' && !$('geminiKey').value.trim());
+    if (!$('modelField').hidden) loadModels();
+  }
+  for (const b of document.querySelectorAll('[data-translator]')) {
+    b.addEventListener('click', async () => {
+      translator = b.dataset.translator;
+      await SubSettings.saveTranslation({ translator });
+      renderTranslator();
+    });
+  }
+  $('geminiKey').addEventListener('change', async () => {
+    await SubSettings.saveTranslation({ geminiKey: $('geminiKey').value.trim() });
+    renderTranslator();
+  });
+  $('localUrl').addEventListener('change', async () => {
+    await SubSettings.saveTranslation({ localUrl: $('localUrl').value.trim() || SubSettings.TRANSLATION.localUrl });
+    renderTranslator();
+  });
+  $('aiModel').addEventListener('change', () => SubSettings.saveTranslation({ [modelKey()]: $('aiModel').value }));
+  renderTranslator();
+
   function renderTranslate(l) {
     const showing = l.translatedTo;
     $('translatedRow').hidden = !showing;

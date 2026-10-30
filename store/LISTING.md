@@ -5,8 +5,8 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 ## Postup (co musíš udělat ty)
 
 1. **Vývojářský účet:** jdi na https://chrome.google.com/webstore/devconsole, přihlas se Google účtem, odsouhlas podmínky a zaplať jednorázový poplatek 5 USD.
-2. **Zásady ochrany soukromí:** jsou na portfoliu jako stránka https://cleedek.com/subtitle-overlay/privacy (v repu cleedek-portfolio, `src/pages/subtitle-overlay/privacy.astro`). **Pro 1.0.13 je text upravený** (titulky si pamatuje mezi návštěvami, max. 30 stránek; druhý jazyk; jazyk rozhraní; vlastní zkratka): změna je v `privacy.astro` i v `store/privacy-policy.html` a 25. 10. 2026 je nasazená na web (commit ef0b51b; Cloudflare portfolio sestaví sám po pushi do main).
-3. **Nahraj balíček:** u existující položky otevři **Package** a klikni na **Upload new package**, nahraj `dist/subtitle-overlay-1.0.16.zip`. (Pokud položka ještě neexistuje, **New item**.)
+2. **Zásady ochrany soukromí:** jsou na portfoliu jako stránka https://cleedek.com/subtitle-overlay/privacy (v repu cleedek-portfolio, `src/pages/subtitle-overlay/privacy.astro`). **Pro 1.0.13 je text upravený** (titulky si pamatuje mezi návštěvami, max. 30 stránek; druhý jazyk; jazyk rozhraní; vlastní zkratka): změna je v `privacy.astro` i v `store/privacy-policy.html` a 25. 10. 2026 je nasazená na web (commit ef0b51b; Cloudflare portfolio sestaví sám po pushi do main). **Pro 1.0.17 je text znovu upravený** (Gemini a lokální model jako překladač, API klíč v úložišti prohlížeče): změna je v `store/privacy-policy.html` i v `privacy.astro`, ale v cleedek-portfolio ještě není commitnutá ani nasazená. **Nasaď ji dřív, než pošleš 1.0.17 ke kontrole.**
+3. **Nahraj balíček:** u existující položky otevři **Package** a klikni na **Upload new package**, nahraj `dist/subtitle-overlay-1.0.17.zip`. (Pokud položka ještě neexistuje, **New item**.)
 4. **Vyplň záložky** podle textů níže (Store listing, Privacy practices).
 5. **Obrázky:** ze složky `store/images` nahraj `screenshot-1.png` až `screenshot-5.png` (v tomto pořadí; pro 1.0.15 se změnily 2, 4 a 5: popup se záložkami a vlastní zkratky, takže stačí vyměnit tyhle tři, nebo smaž staré a nahraj všech 5) do Screenshots a `promo-tile-440x280.png` do Small promo tile, `marquee-promo-1400x560.png` do Marquee promo tile. Obrázky používají záběry z filmu Tears of Steel (Blender Foundation, licence CC BY 3.0); poděkování je přímo v obrázcích i na konci popisu, tak ho tam nech.
 6. **Ikona v obchodě:** v Store listing do pole Store icon nahraj `icons/icon128.png`.
@@ -45,6 +45,7 @@ Subtitle Overlay draws subtitles over the video player of any website, also in f
 
 TRANSLATE INTO 31 LANGUAGES
 • One click translates the loaded subtitles with Google Translate, right in the extension
+• Optional: Gemini (your own free API key) or a local model (Ollama, LM Studio) then rewrites Google's quick version with the whole scene in mind, starting where you are watching. Move the mouse over the video to see how far it got
 • Pick your language once; it stays your favourite for every Translate button
 • Automatic mode: turn on subtitles in the site's player and they appear over the video already translated, with a short "Translated to …" note instead of a pop-up
 • The site's own subtitles are hidden, so you never read two sets at once
@@ -103,7 +104,7 @@ FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.
 
 PRIVACY
-No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when you translate. Remembered subtitles stay in your browser. Details in the privacy policy.
+No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when you translate, and to Gemini or your local model only if you choose one. Remembered subtitles stay in your browser. Details in the privacy policy.
 
 OPEN SOURCE
 The whole extension is open source (GPL-3.0), so anyone can check exactly what it does: github.com/Cleedek/subtitle-overlay. If you like it, a star on GitHub helps other people find it.
@@ -139,6 +140,7 @@ Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na ce
 
 PŘEKLAD DO 31 JAZYKŮ
 • Jedním klikem přeložíš načtené titulky přes Google Translate, přímo v rozšíření
+• Volitelně: Gemini (vlastní API klíč zdarma) nebo lokální model (Ollama, LM Studio) pak rychlý překlad od Googlu přepíše s ohledem na celou scénu, od místa, kde se díváš. Když pohneš myší nad videem, uvidíš, kolik už je hotovo
 • Jazyk si vybereš jednou a platí pro všechna tlačítka Přeložit
 • Automatický režim: zapni titulky v přehrávači webu a objeví se přes video rovnou přeložené, jen s krátkou poznámkou "Přeloženo: …"
 • Původní titulky webu se schovají, takže nečteš dvoje naráz
@@ -197,7 +199,7 @@ PRO ŠŤOURALY
 Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které stránka načetla, a uloží je jako .vtt nebo .srt.
 
 SOUKROMÍ
-Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy překládáš. Zapamatované titulky zůstávají v tvém prohlížeči. Podrobnosti v zásadách ochrany soukromí.
+Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy překládáš, a do Gemini nebo tvého lokálního modelu jen když si je vybereš. Zapamatované titulky zůstávají v tvém prohlížeči. Podrobnosti v zásadách ochrany soukromí.
 
 OPEN SOURCE
 Celé rozšíření je open source (GPL-3.0), takže si kdokoli může ověřit, co přesně dělá: github.com/Cleedek/subtitle-overlay. Jestli se ti líbí, hvězda na GitHubu pomůže, aby ho našli i další.
@@ -214,6 +216,8 @@ Screenshoty ukazují záběry z filmu Tears of Steel, © Blender Foundation, man
 **Před odesláním 1.0.13 vyzkoušej YouTube u sebe v Arcu/Chromu** (pustit video se zvukem, zapnout CC). Automatický test ho na skutečném YouTube ověřit nemohl, protože YouTube testovacímu prohlížeči titulky neposílá. Kdyby to nefungovalo, odstav o YouTube z popisu vymaž.
 
 Chrome Web Store nemá pole "co je nového"; uživatelé vidí nový popis a screenshoty. Kdybys to chtěl někde zmínit (web, sociální sítě):
+1.0.17: A better translator, if you want one: Gemini (your own free API key from Google AI Studio) or a model on your own computer (Ollama, LM Studio). Google's quick translation shows at once, then the AI rewrites it with the whole scene in mind, starting where you are watching. Move the mouse over the video to see how much it has rewritten; after a reload it carries on where it stopped.
+
 1.0.16: Local bank QR on the "Support the creator" page, shown to people using the extension in Czech (QR platba) or Vietnamese (VietQR). The GitHub link at the bottom is now a quiet "Open source on GitHub".
 
 1.0.15: "Give us a star on GitHub" link at the bottom of the popup; the code is now open source on GitHub (GPL-3.0).
@@ -229,13 +233,13 @@ Display subtitles as a styled, synchronized overlay on top of web videos, from a
 
 **Permission justifications:**
 
-- **storage:** Saves the user's subtitle style settings, presets, timing offset, translation language and the sites the user turned the extension off on, remembers the subtitles loaded on a page (up to the last 30 pages, locally) so they come back on reload or a later visit, and stores the chosen interface language and second subtitle language.
+- **storage:** Saves the user's subtitle style settings, presets, timing offset, translation language, translator choice (with the user's own Gemini API key or local model address, if entered) and the sites the user turned the extension off on, remembers the subtitles loaded on a page (up to the last 30 pages, locally) so they come back on reload or a later visit, and stores the chosen interface language and second subtitle language.
 - **scripting:** Asks each frame of the current tab which videos it contains, so the user can pick the video the subtitles belong to.
 - **webRequest:** Observes (never blocks or changes) network requests in the current tab to notice subtitle files (.vtt, .srt, .m3u8 subtitle playlists) the page loads, so the user can display, translate or save them.
 - **Host permission (all sites):** Videos with subtitles can be on any website, so the overlay must be able to run on any page and hide the site's own subtitles while it shows its own, and subtitle files the page loaded must be readable from their original address. On youtube.com a small script copies the caption file YouTube's own player downloads, because YouTube does not allow downloading it a second time.
 
 **Remote code:** No, I am not using remote code. (Google Fonts font files are downloaded as data, and translations come back as plain text, not code.)
 
-**Data usage:** tick **Website content** only (subtitle text is sent to Google Translate when the user translates). Nothing else is collected. Then tick all three certifications (no selling data, no unrelated use, no creditworthiness use).
+**Data usage:** tick **Website content** only (subtitle text is sent to Google Translate when the user translates, and to Gemini or a local model only if the user chooses one). Nothing else is collected. Then tick all three certifications (no selling data, no unrelated use, no creditworthiness use).
 
 **Privacy policy URL:** https://cleedek.com/subtitle-overlay/privacy
