@@ -25,7 +25,8 @@
   "permissions": [
     "storage",
     "scripting",
-    "webRequest"
+    "webRequest",
+    "declarativeNetRequestWithHostAccess"
   ],
   "host_permissions": [
     "<all_urls>"

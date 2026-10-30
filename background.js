@@ -325,9 +325,37 @@ async function aiConfig() {
     return { kind: 'gemini', base: GEMINI_BASE, key: p.geminiKey, model: p.geminiModel };
   }
   if (p.translator === 'local') {
-    return { kind: 'local', base: String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1', model: p.localModel };
+    const cfg = { kind: 'local', base: String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1', model: p.localModel };
+    await allowLocal(cfg.base);
+    return cfg;
   }
   return null;
+}
+
+// Ollama turns away (403) every request that says it comes from an extension
+// (the Origin header) unless OLLAMA_ORIGINS allows it. Our own requests to the
+// local server go out without that header; requests from websites keep it.
+async function allowLocal(base) {
+  let origin;
+  try { origin = new URL(base).origin; } catch (e) { return; }
+  await chrome.declarativeNetRequest.updateSessionRules({
+    removeRuleIds: [1],
+    addRules: [{
+      id: 1,
+      condition: { urlFilter: '|' + origin + '/', tabIds: [-1], resourceTypes: ['xmlhttprequest', 'other'] }, // -1: not from a tab, so from this worker
+      action: { type: 'modifyHeaders', requestHeaders: [{ header: 'origin', operation: 'remove' }] },
+    }],
+  }).catch(() => { /* then OLLAMA_ORIGINS is the way, as the error says */ });
+}
+
+// What the server said went wrong: Google wraps it as [{ error: { message } }],
+// local servers as { error: { message } } or { error: "..." }.
+function serverSays(detail) {
+  try {
+    const j = JSON.parse(detail);
+    const e = (Array.isArray(j) ? j[0] : j).error;
+    return String((e && e.message) || e || '').slice(0, 200);
+  } catch (err) { return ''; }
 }
 
 function aiHeaders(cfg) {
@@ -373,6 +401,12 @@ const AI_PROMPT = (lang) => [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// Thinking only slows translation down. Gemini 2.5 Flash can turn it off
+// ("none"), Gemini 3 and later only turn it down ("minimal"): each model's
+// lowest accepted level is found once and remembered.
+const EFFORTS = ['none', 'minimal', 'low'];
+const effortOf = new Map(); // model -> reasoning_effort it accepts ('' = don't send one)
+
 async function aiChat(cfg, body) {
   for (let attempt = 0; ; attempt++) {
     let r;
@@ -383,26 +417,29 @@ async function aiChat(cfg, body) {
         signal: AbortSignal.timeout(cfg.kind === 'local' ? 240000 : 90000),
       });
     } catch (e) { throw aiError(cfg, e); }
-    // The free Gemini tier allows only a few requests a minute: wait and try again.
-    if (r.status === 429 && attempt < 4) {
+    if (r.ok) {
+      const data = await r.json();
+      return String((data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '');
+    }
+    const said = serverSays(await r.text().catch(() => ''));
+    // The free Gemini tier allows only a few requests a minute: wait and try
+    // again. "limit: 0" means this model has no free requests at all.
+    if (r.status === 429 && attempt < 4 && !/limit: 0\b/.test(said)) {
       const wait = Number(r.headers.get('retry-after')) || 20;
       await sleep(Math.min(wait, 60) * 1000);
       continue;
     }
-    if (r.status === 429) throw new Error(tr('The free Gemini limit is used up for now. Try again later.'));
-    if (r.status === 401 || r.status === 403) throw new Error(tr('The API key was not accepted.'));
-    if (!r.ok) {
-      const detail = await r.text().catch(() => '');
-      // Some Gemini models can't turn thinking off: ask once more without that switch.
-      if (r.status === 400 && body.reasoning_effort && /reasoning|thinking/i.test(detail)) {
-        body = Object.assign({}, body);
-        delete body.reasoning_effort;
-        continue;
-      }
-      throw new Error(tr('The model server answered HTTP {status}.', { status: r.status }));
+    if (r.status === 400 && body.reasoning_effort && /reasoning|thinking|effort|budget/i.test(said)) {
+      const next = EFFORTS[EFFORTS.indexOf(body.reasoning_effort) + 1] || '';
+      effortOf.set(body.model, next);
+      if (next) body.reasoning_effort = next;
+      else delete body.reasoning_effort;
+      continue;
     }
-    const data = await r.json();
-    return String((data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '');
+    if (r.status === 403 && cfg.kind === 'local') throw new Error(tr('The local model refused the extension. Allow it in Ollama (OLLAMA_ORIGINS).'));
+    if (r.status === 401 || r.status === 403 || /api key/i.test(said)) throw new Error(tr('The API key was not accepted.') + (said ? ' ' + said : ''));
+    if (r.status === 429) throw new Error(tr('The free Gemini limit is used up for now. Try again later.') + (said ? ' ' + said : ''));
+    throw new Error(tr('The model server answered HTTP {status}.', { status: r.status }) + (said ? ' ' + said : ''));
   }
 }
 
@@ -420,8 +457,10 @@ async function aiTranslate(lines, before, to) {
       { role: 'user', content: JSON.stringify(before.length ? { before, lines } : { lines }) },
     ],
   };
-  // Thinking only slows Gemini down here.
-  if (cfg.kind === 'gemini') body.reasoning_effort = 'none';
+  if (cfg.kind === 'gemini') {
+    const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
+    if (effort) body.reasoning_effort = effort;
+  }
   // Two tries: small models now and then lose count of the lines.
   for (let attempt = 0; attempt < 2; attempt++) {
     const text = (await aiChat(cfg, body)).replace(/<think>[\s\S]*?<\/think>/g, '');
