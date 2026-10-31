@@ -332,6 +332,8 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 
 /* Translator: Google, Gemini or a local model */
 .segmented.translator { grid-template-columns: repeat(3, 1fr); margin: 0; }
+/* Quieter than the tabs at the top: a choice inside a setting. White text on this gray: 5.5:1. */
+.segmented.translator button[aria-selected="true"] { background: oklch(0.48 0.012 290); color: var(--text); box-shadow: none; }
 .ai-fields { display: flex; flex-direction: column; gap: 6px; }
 .ai-fields .label { margin: 0; }
 .ai-fields[hidden] { display: none; }
