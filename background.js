@@ -154,7 +154,26 @@ chrome.webRequest.onBeforeRequest.addListener((d) => {
   if (d.tabId < 0) return;
   clearTab(d.tabId);
   frames.delete(d.tabId);
+  dropOldSeconds();
 }, { urls: ['<all_urls>'], types: ['main_frame'] });
+
+// The second language of dual subtitles is saved with a page (content.js) for
+// a day after it was last saved. Checked at most once an hour, on the next page
+// opened; a page that comes back after that doesn't use it either way.
+const SECOND_KEEP = 24 * 3600 * 1000;
+async function dropOldSeconds() {
+  try {
+    const { secondsCheckedAt } = await chrome.storage.session.get('secondsCheckedAt');
+    if (Date.now() - (secondsCheckedAt || 0) < 3600 * 1000) return;
+    await chrome.storage.session.set({ secondsCheckedAt: Date.now() });
+    const all = await chrome.storage.local.get(null);
+    const old = {};
+    for (const [k, r] of Object.entries(all)) {
+      if (k.startsWith('mem:') && r && r.second && !(Date.now() - r.second.t < SECOND_KEEP)) { delete r.second; old[k] = r; }
+    }
+    if (Object.keys(old).length) await chrome.storage.local.set(old);
+  } catch (e) { /* next page tries again */ }
+}
 
 chrome.tabs.onRemoved.addListener((tabId) => {
   tabs.delete(tabId);
@@ -392,9 +411,9 @@ const englishName = (code) => {
 
 const AI_PROMPT = (lang) => [
   'You translate film and TV subtitles into ' + lang + '.',
-  'You get JSON: "lines" to translate and sometimes "before", the lines just before them, for context only.',
-  'Answer with JSON only: {"lines": [...]} with exactly one translation per input line, in the same order.',
-  'Never merge, split, skip or add lines, even when a sentence runs across two lines.',
+  'You get JSON: "lines", numbered subtitle lines to translate, and sometimes "before", the lines just before them, for context only.',
+  'Answer with JSON only: the same numbers, each with "src", that line copied exactly, and "tr", the translation of that one line.',
+  'A line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.',
   'Keep <i>, <b>, <u> tags and <br> line breaks where they belong.',
   'Write natural, spoken ' + lang + ' that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context.',
 ].join('\n');
@@ -436,6 +455,11 @@ async function aiChat(cfg, body) {
       else delete body.reasoning_effort;
       continue;
     }
+    if (r.status === 400 && body.response_format && /response_format|schema|structured/i.test(said)) {
+      noSchema.add(body.model);
+      delete body.response_format;
+      continue;
+    }
     if (r.status === 403 && cfg.kind === 'local') throw new Error(tr('The local model refused the extension. Allow it in Ollama (OLLAMA_ORIGINS).'));
     if (r.status === 401 || r.status === 403 || /api key/i.test(said)) throw new Error(tr('The API key was not accepted.') + (said ? ' ' + said : ''));
     if (r.status === 429) throw new Error(tr('The free Gemini limit is used up for now. Try again later.') + (said ? ' ' + said : ''));
@@ -443,33 +467,62 @@ async function aiChat(cfg, body) {
   }
 }
 
-// One chunk of lines (HTML, like the Google path) -> the same number of translated lines.
+// Subtitle lines are often halves of a sentence, and a model given a plain
+// list merges them (gemma3:4b gave back 22 of 30 YouTube lines). So lines go
+// numbered, a JSON schema makes the server hold the answer to the same
+// numbers, and each answer first copies its line: without the copy the words
+// still drifted a line or two away from where they are said. A copy that
+// doesn't match shows the translation drifted, and that line keeps Google's.
+// "L01": a key like "01" or "10" would let JavaScript reorder the lines.
+const keyOf = (i) => 'L' + String(i + 1).padStart(2, '0');
+const noSchema = new Set(); // models whose server refused response_format
+const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase();
+
+// One chunk of lines (HTML, like the Google path) -> the same number of
+// translated lines; one the model left out comes back '' (Google's stays).
 async function aiTranslate(lines, before, to) {
   const cfg = await aiConfig();
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
   const lang = englishName(to);
+  const keys = lines.map((l, i) => keyOf(i));
+  const numbered = Object.fromEntries(keys.map((k, i) => [k, lines[i]]));
   const body = {
     model: cfg.model,
     temperature: 0.2,
     messages: [
       { role: 'system', content: AI_PROMPT(lang) },
-      { role: 'user', content: JSON.stringify(before.length ? { before, lines } : { lines }) },
+      { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
     ],
   };
+  if (!noSchema.has(cfg.model)) {
+    body.response_format = { type: 'json_schema', json_schema: { name: 'subtitles', strict: true, schema: {
+      type: 'object', required: keys, additionalProperties: false, properties: Object.fromEntries(keys.map((k) => [k, {
+        type: 'object', properties: { src: { type: 'string' }, tr: { type: 'string' } }, required: ['src', 'tr'], additionalProperties: false,
+      }])),
+    } } };
+  }
   if (cfg.kind === 'gemini') {
     const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
     if (effort) body.reasoning_effort = effort;
   }
-  // Two tries: small models now and then lose count of the lines.
-  for (let attempt = 0; attempt < 2; attempt++) {
+  // A second try only when many lines are missing: a few keep Google's, and
+  // the whole chunk again would take a local model another half a minute.
+  let best = [];
+  for (let attempt = 0; attempt < 2 && best.filter(Boolean).length < lines.length * 0.8; attempt++) {
     const text = (await aiChat(cfg, body)).replace(/<think>[\s\S]*?<\/think>/g, '');
-    const json = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
     let out = null;
-    try { out = JSON.parse(json).lines; } catch (e) { /* try again */ }
-    if (Array.isArray(out) && out.length === lines.length) return { texts: out.map(String), model: cfg.model };
+    try { out = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (e) { continue; }
+    if (out && out.lines && typeof out.lines === 'object') out = out.lines;
+    const texts = keys.map((k, i) => {
+      const a = out && out[k];
+      const s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
+      return typeof s === 'string' ? s.trim() : '';
+    });
+    if (texts.filter(Boolean).length > best.filter(Boolean).length) best = texts;
   }
-  throw new Error(tr('The model returned a different number of lines.'));
+  if (!best.some(Boolean)) throw new Error(tr('The model did not send back the translated lines.'));
+  return { texts: best, model: cfg.model };
 }
 
 // ---------- Google Fonts ----------

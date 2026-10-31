@@ -32,7 +32,7 @@ There are no accounts, no analytics and no tracking. The extension talks to the 
 | You pick a Google Font | `fonts.googleapis.com`, `fonts.gstatic.com` | The font name |
 | A site's player downloads subtitles | That same site | The extension downloads the same subtitle file (or its HLS playlist) again, nothing else |
 
-Everything else (settings, presets, subtitles remembered for the last 30 pages) is stored only in your browser with `chrome.storage.local`. Full text: [privacy policy](https://cleedek.com/subtitle-overlay/privacy).
+Everything else (settings, presets, subtitles remembered for the last 30 pages; the second language of dual subtitles for at most 24 hours) is stored only in your browser with `chrome.storage.local`. Full text: [privacy policy](https://cleedek.com/subtitle-overlay/privacy).
 
 ### Why it asks for these permissions
 

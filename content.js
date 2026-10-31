@@ -82,10 +82,20 @@
   const pageKey = () => 'page:' + location.href;
   const memKey = () => 'mem:' + location.href;
   const MEM_PAGES = 30;
+  const SECOND_KEEP = 24 * 3600 * 1000; // as in background.js, which deletes it after that
 
   async function rememberFile() {
     if (!file) return;
     const record = Object.assign({ t: Date.now(), offset: settings.offset }, file);
+    // The second language of dual subtitles comes along once an AI pass worked
+    // on it, for a day after it was last saved (a reload shouldn't redo that work).
+    const lang = prefs.secondLang;
+    const second = lang && lang !== 'orig' && lang !== (original && file.translatedTo) && translations.get(lang);
+    const ai = second && aiState.get(second);
+    if (ai && ai.chunks.size) {
+      record.second = { t: record.t, lang, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(second))),
+        ai: { model: ai.model, done: ai.done, chunks: [...ai.chunks] } };
+    }
     try { await chrome.storage.session.set({ [pageKey()]: { t: record.t } }); } catch (e) { /* reload just won't restore */ }
     // Newest first; everything past `keep` is removed.
     const prune = async (keep) => {
@@ -795,18 +805,40 @@
       settings.offset = SubSettings.clamp('offset', f.offset);
       SubSettings.save({ offset: settings.offset });
     }
-    if (!f.original) return loadBytes(f.name, f.b64, f.encoding, v);
+    if (!f.original) {
+      const r = loadBytes(f.name, f.b64, f.encoding, v);
+      if (r.ok && restoreSecond(f)) improveShown(true);
+      return r;
+    }
     // A translation was showing: bring back the original, then the saved translation (no new request).
     const r = loadBytes(f.original.name, f.original.b64, f.original.encoding, v);
     if (r.ok && f.origLang) origLang = f.origLang;
     if (!r.ok) return;
-    const list = SubLib.parse(SubLib.decode(SubLib.base64ToBytes(f.b64), 'utf-8').text);
-    if (f.ai && f.ai.model) {
-      aiState.set(list, { model: f.ai.model, done: Math.min(f.ai.done, list.length), total: list.length,
-        chunks: new Set(f.ai.chunks), running: false, error: '' });
-    }
+    const list = savedList(f.b64, f.ai);
     showTranslation(f.translatedTo, list, true);
+    restoreSecond(f);
     improveShown(true);
+  }
+  // Saved lines and how far the AI pass got with them.
+  function savedList(b64, ai) {
+    const list = SubLib.parse(SubLib.decode(SubLib.base64ToBytes(b64), 'utf-8').text);
+    if (ai && ai.model) {
+      aiState.set(list, { model: ai.model, done: Math.min(ai.done, list.length), total: list.length,
+        chunks: new Set(ai.chunks), running: false, error: '' });
+    }
+    return list;
+  }
+  // The second language, if saved within the last day. True when it came back.
+  function restoreSecond(f) {
+    const s = f.second;
+    if (!s || !(Date.now() - s.t < SECOND_KEEP)) return false;
+    const list = savedList(s.b64, s.ai);
+    if (list.length !== baseOf().cues.length) return false;
+    translations.set(s.lang, list);
+    lastKey = '';
+    position(true);
+    render(true);
+    return true;
   }
 
   // ---------- the site's own subtitles ----------
@@ -1019,6 +1051,8 @@
       return { ok: false, error: res ? res.error : t('Translation failed.') };
     }
     if (baseOf().file !== base.file) return { ok: false, error: t('Other subtitles were loaded meanwhile.') };
+    // Brought back meanwhile (a reload restores a saved one, with the AI's lines): that one stays.
+    if (translations.has(to)) return { ok: true, list: translations.get(to) };
     if (res.detected) origLang = res.detected;
     const list = base.cues.map((c, i) => ({ start: c.start, end: c.end, text: fromHtml(res.texts[i]) || c.text }));
     translations.set(to, list);
@@ -1034,6 +1068,8 @@
   const improving = new Map(); // language -> { file, model } of the pass running for it
   // How far the AI pass got, shown in the card over the video.
   const aiState = new WeakMap(); // translated cues -> { model, done, total, chunks, running, error }
+  // done counts the lines the model rewrote; a line it left out keeps Google's, so the pass ends by chunks.
+  const aiFinished = (s) => s.chunks.size >= Math.ceil(s.total / AI_CHUNK);
   const aiModel = () => (prefs.translator === 'gemini' ? prefs.geminiModel : prefs.translator === 'local' ? prefs.localModel : '') || '';
   async function improve(to, base, list, quiet) {
     if (prefs.translator !== 'gemini' && prefs.translator !== 'local') return;
@@ -1043,7 +1079,7 @@
     const prev = aiState.get(list);
     const state = prev && prev.model === model ? prev
       : { model, done: 0, total: list.length, chunks: new Set(), running: false, error: '' };
-    if (state.done >= state.total) return;
+    if (aiFinished(state)) return;
     const run = { file: base.file, model };
     improving.set(to, run); // a pass with another model sees this and stops
     aiState.set(list, state);
@@ -1059,10 +1095,19 @@
     const stillWanted = () => baseOf().file === base.file && improving.get(to) === run &&
       (prefs.translator === 'gemini' || prefs.translator === 'local');
     const shown = () => original && cues === list && file.translatedTo === to;
+    // Only a language on screen gets translated: one switched off (over the
+    // video, Alt + S, YouTube's CC button, dual subtitles off) waits and carries on when it's back.
+    const onScreen = () => (visible && list === cues) || (dualVisible && list === secondCues());
     let said = quiet, savedAt = Date.now();
     try {
       for (const i of starts) {
         if (state.chunks.has(i)) continue;
+        // A new main translation lands on screen a moment after its pass starts: no "Paused" for that.
+        for (let n = 0; stillWanted() && !onScreen(); n++) {
+          if (n === 1) { state.paused = true; refreshLangs(); }
+          await new Promise((r) => setTimeout(r, 500));
+        }
+        if (state.paused) { state.paused = false; refreshLangs(); }
         if (!stillWanted()) return;
         const res = await chrome.runtime.sendMessage({ type: 'ai-translate', to,
           texts: src.slice(i, i + AI_CHUNK), before: src.slice(Math.max(0, i - 4), i) })
@@ -1071,26 +1116,26 @@
         if (!stillWanted()) return;
         res.texts.forEach((text, k) => { const c = list[i + k]; if (c) c.text = fromHtml(text) || c.text; });
         state.chunks.add(i);
-        state.done += res.texts.length;
+        state.done += res.texts.filter(Boolean).length;
         // Said once the first chunk is back: said earlier, "Translated to …" would cover it.
         if (!said && cues === list) { said = true; toast(t('Improving the translation with {model}…', { model }), 4000); }
         if (cues === list) { lastKey = ''; render(true); }
         // Every little while the remembered file gets the better lines, so a reload carries on from here.
-        if (shown() && Date.now() - savedAt > 10000) { savedAt = Date.now(); showTranslation(to, list, true); }
+        if (Date.now() - savedAt > 10000) { savedAt = Date.now(); if (shown()) showTranslation(to, list, true); else rememberFile(); }
         refreshLangs();
       }
       // Done: the saved and downloadable file gets the better lines too.
       if (shown()) {
         showTranslation(to, list, true);
         toast(t('Translation improved by {model}', { model }), 3000);
-      }
+      } else rememberFile();
     } catch (e) {
       if (improving.get(to) !== run) return; // replaced by a pass with another model
       state.error = e.message;
       if (cues === list) toast(t('AI translation stopped, Google’s version stays: {error}', { error: e.message }), 6000);
     } finally {
       if (improving.get(to) === run) improving.delete(to);
-      state.running = false;
+      state.running = state.paused = false;
       refreshLangs();
     }
   }
@@ -1150,7 +1195,7 @@
     file = { name, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(list))), encoding: 'utf-8', usedEncoding: 'utf-8',
       translatedTo: to, origLang, original: original.file,
       // Which chunks the AI pass already rewrote, so a reload shows it and carries on.
-      ai: ai && ai.done ? { model: ai.model, done: ai.done, chunks: [...ai.chunks] } : null };
+      ai: ai && ai.chunks.size ? { model: ai.model, done: ai.done, chunks: [...ai.chunks] } : null };
     lastKey = '';
     render(true);
     rememberFile();
@@ -1275,7 +1320,7 @@
   // "🇨🇿 gemini-2.5-flash 47 %", a bar, and "Improving · 300 / 640 lines".
   function aiRow(lang, s) {
     const share = Math.floor((s.done / s.total) * 100) / 100;
-    const row = el('div', 'ai' + (s.running ? ' running' : '') + (s.error ? ' error' : ''));
+    const row = el('div', 'ai' + (s.running && !s.paused ? ' running' : '') + (s.error ? ' error' : ''));
     const head = el('div', 'ai-head');
     head.append(el('span', 'name', (SubSettings.flag(lang) + ' ' + s.model).trim()),
       el('span', 'pct', new Intl.NumberFormat(SubI18n.lang, { style: 'percent' }).format(share)));
@@ -1284,7 +1329,7 @@
     fill.style.width = share * 100 + '%';
     bar.append(fill);
     const note = s.error ? t('Stopped') + ': ' + s.error
-      : t(s.running ? 'Improving' : s.done >= s.total ? 'Improved' : 'Stopped') + ' · ' + s.done + ' / ' + t('{n} lines', { n: s.total });
+      : t(s.running ? (s.paused ? 'Paused' : 'Improving') : aiFinished(s) ? 'Improved' : 'Stopped') + ' · ' + s.done + ' / ' + t('{n} lines', { n: s.total });
     row.append(head, bar, el('div', 'ai-note', note));
     return row;
   }
