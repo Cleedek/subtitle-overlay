@@ -33,6 +33,9 @@
   for (const j of jobs) if (j.status === 'running') j.status = 'waiting';
   let current = null; // the job a request is out for
   let mine = false; // this tab runs the queue (another open copy only shows it)
+  // A file removed or moved in a copy that doesn't run the queue, for the copy that does.
+  const EDIT = 'queueEdit';
+  const LOCK = 'translation-queue';
 
   const aiOf = () => SubSettings.AI[prefs.translator]; // undefined for Google
   const isAi = () => !!aiOf();
@@ -155,6 +158,7 @@
       paused = !!v.paused;
       render();
     }
+    if (changes[EDIT] && changes[EDIT].newValue && mine) edit(changes[EDIT].newValue);
   });
 
   // ---------- adding files ----------
@@ -252,7 +256,7 @@
   async function run() {
     if (mine) return;
     // One open copy of this page runs the queue; another one only shows it.
-    await navigator.locks.request('translation-queue', { ifAvailable: true }, async (lock) => {
+    await navigator.locks.request(LOCK, { ifAvailable: true }, async (lock) => {
       if (!lock) return;
       mine = true;
       // Chrome's Memory Saver would close a background tab, and the queue with it.
@@ -289,6 +293,49 @@
     render();
   });
 
+  // ---------- moving and removing ----------
+
+  // change: { id, move: -1 | 1 } swaps a waiting file with the waiting file
+  // above or below it (they're translated top to bottom); { id } removes it.
+  // While another open copy runs the queue, its next save would undo the
+  // change here, so that copy makes it.
+  async function edit(change) {
+    if (!mine && (await navigator.locks.query()).held.some((l) => l.name === LOCK)) {
+      return chrome.storage.local.set({ [EDIT]: Object.assign({ t: Date.now() }, change) });
+    }
+    const job = jobs.find((j) => j.id === change.id);
+    if (!job) return;
+    let tops = null;
+    if (change.move) {
+      const waiting = jobs.filter((j) => j.status === 'waiting');
+      const other = job.status === 'waiting' && waiting[waiting.indexOf(job) + change.move];
+      if (!other) return;
+      tops = new Map([...$('jobs').children].map((li) => [li.dataset.id, li.getBoundingClientRect().top]));
+      const a = jobs.indexOf(job), b = jobs.indexOf(other);
+      jobs[a] = other;
+      jobs[b] = job;
+    } else {
+      if (current === job) stopCurrent();
+      jobs = jobs.filter((j) => j !== job);
+    }
+    await save();
+    render();
+    if (tops) slide(tops, job.id);
+  }
+
+  // After a move the cards glide to their new places, so the eye can follow
+  // the file; the one that was moved passes over the other.
+  function slide(tops, movedId) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for (const li of $('jobs').children) {
+      const was = tops.get(li.dataset.id);
+      const dy = was == null ? 0 : was - li.getBoundingClientRect().top;
+      if (!dy) continue;
+      if (li.dataset.id === movedId) li.style.zIndex = '1';
+      li.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.25, 1, .5, 1)' });
+    }
+  }
+
   // ---------- list ----------
 
   function render() {
@@ -299,23 +346,28 @@
     $('pause').textContent = t(paused ? 'Resume' : 'Pause');
     $('saveAll').hidden = !done;
     $('clearDone').hidden = !done;
+    // The list is drawn anew: an arrow that had the focus keeps it, on the file
+    // it moved, so pressing it again moves the file further.
+    const arrow = document.activeElement && document.activeElement.closest('#jobs .job-move');
+    const focus = arrow && { id: arrow.closest('.job').dataset.id, move: arrow.dataset.move };
     $('jobs').replaceChildren(...jobs.map(jobRow));
+    if (focus) {
+      const li = [...$('jobs').children].find((r) => r.dataset.id === focus.id);
+      const b = li && (li.querySelector(`.job-move[data-move="${focus.move}"]:enabled`) || li.querySelector('.job-move:enabled'));
+      if (b) b.focus();
+    }
   }
 
   function jobRow(job) {
     const li = el('li', 'job ' + job.status);
+    li.dataset.id = job.id;
     const head = el('div', 'job-head');
     const name = el('span', 'job-name', job.name);
     name.title = job.name;
     const x = el('button', 'ghost job-x', '×');
     x.title = t('Remove from the queue');
     x.setAttribute('aria-label', t('Remove from the queue'));
-    x.addEventListener('click', async () => {
-      if (current === job) stopCurrent();
-      jobs = jobs.filter((j) => j !== job);
-      await save();
-      render();
-    });
+    x.addEventListener('click', () => edit({ id: job.id }));
     head.append(name, el('span', 'job-lang', (SubSettings.flag(job.lang) + ' ' + SubSettings.languageName(job.lang)).trim()), x);
 
     const total = job.lines.length;
@@ -340,9 +392,29 @@
       const b = el('button', '', t('Try again'));
       b.addEventListener('click', async () => { job.status = 'waiting'; job.error = ''; await save(); render(); run(); });
       foot.append(b);
+    } else if (job.status === 'waiting') {
+      // With two or more files waiting, the arrows change which goes first.
+      const waiting = jobs.filter((j) => j.status === 'waiting');
+      if (waiting.length > 1) {
+        const at = waiting.indexOf(job);
+        const order = el('span', 'job-order');
+        order.append(moveButton(job, -1, at === 0), moveButton(job, 1, at === waiting.length - 1));
+        foot.append(order);
+      }
     }
     li.append(head, bar, foot);
     return li;
+  }
+
+  function moveButton(job, move, last) {
+    const label = t(move < 0 ? 'Move up' : 'Move down');
+    const b = el('button', 'ghost job-move', move < 0 ? '↑' : '↓');
+    b.dataset.move = move;
+    b.title = label;
+    b.setAttribute('aria-label', label);
+    b.disabled = last;
+    b.addEventListener('click', () => edit({ id: job.id, move }));
+    return b;
   }
 
   // ---------- saved subtitles ----------

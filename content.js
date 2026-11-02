@@ -25,6 +25,7 @@
   let origLang = '';      // the original's language, as Google Translate detected it
   let tabHasSubs = false; // some frame in this tab has subtitles (for shortcut forwarding)
   let lastSrc = '';
+  let srcPending = false; // the subtitles were put on a video with no source yet: its first one is theirs
   let lastAdAt = 0;
   let lastKey = '';
   let lastGeom = '';
@@ -593,6 +594,7 @@
     detachVideo();
     video = v;
     lastSrc = v.currentSrc || v.src || '';
+    srcPending = false;
     for (const ev of VIDEO_EVENTS) v.addEventListener(ev, kick);
     v.addEventListener('loadstart', onSourceChange);
     v.addEventListener('emptied', onSourceChange);
@@ -651,6 +653,7 @@
     const src = video.currentSrc || video.src || '';
     if (!src || src === lastSrc) return;
     lastSrc = src;
+    if (srcPending) { srcPending = false; return; }
     // Ads in the same element change the source too; don't drop subtitles for them.
     if (inAd() || Date.now() - lastAdAt < 5000) return;
     if (!cues.length) return;
@@ -713,6 +716,10 @@
     if (hintEl) hintEl.classList.remove('on');
     hideRestore();
     attach(v);
+    // They belong to what the video plays now. A reload can restore them before
+    // the player has started (YouTube): then what it starts with is no new video.
+    lastSrc = v.currentSrc || v.src || '';
+    srcPending = !lastSrc;
     afterLoad();
     rememberFile();
     toast(t('Loaded {n} lines', { n: parsed.length }) + (settings.offset ? ' · ' + t('Sync: {offset}', { offset: fmtOffset(settings.offset) }) : ''));
