@@ -2,6 +2,8 @@
 // loads (VTT, SRT, HLS subtitle playlists), counts them on the icon badge,
 // and downloads/stitches them when the popup asks.
 importScripts('lib/i18n.js', 'lib/locales.js', 'lib/subtitles.js', 'lib/settings.js');
+// Saved subtitles past the time they were kept for go when the browser starts.
+chrome.runtime.onStartup.addListener(() => { SubSettings.pruneSaved().catch(() => {}); });
 const tr = SubI18n.t; // "t" is taken: it names a tab's captured state below
 SubI18n.load();
 
@@ -153,7 +155,7 @@ chrome.webRequest.onCompleted.addListener((d) => {
 chrome.webRequest.onBeforeRequest.addListener((d) => {
   if (d.tabId < 0) return;
   clearTab(d.tabId);
-  frames.delete(d.tabId);
+  dropFrames(d.tabId);
   dropOldSeconds();
 }, { urls: ['<all_urls>'], types: ['main_frame'] });
 
@@ -178,7 +180,7 @@ async function dropOldSeconds() {
 chrome.tabs.onRemoved.addListener((tabId) => {
   tabs.delete(tabId);
   chrome.storage.session.remove('cap:' + tabId).catch(() => {});
-  frames.delete(tabId);
+  dropFrames(tabId);
 });
 
 // ---------- HLS playlists ----------
@@ -330,18 +332,24 @@ async function translateTexts(texts, to) {
   return { texts: pairs.map((p) => p[0]), detected };
 }
 
-// ---------- AI translation (Gemini or a local model) ----------
+// ---------- AI translation (Gemini, Claude or a local model) ----------
 
-// Both speak the OpenAI-style chat API: Gemini through Google's compatibility
-// endpoint, Ollama and LM Studio natively. The page sends small chunks (Google's
-// version is already on screen) and swaps in each one as it comes back.
+// Gemini, Ollama and LM Studio speak the OpenAI-style chat API (Gemini through
+// Google's compatibility endpoint); Claude gets the same request turned into its
+// own Messages API in aiChat. The page sends small chunks (Google's version is
+// already on screen) and swaps in each one as it comes back.
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/openai';
+const CLAUDE_BASE = 'https://api.anthropic.com/v1';
 
 async function aiConfig() {
   const p = await SubSettings.loadTranslation();
   if (p.translator === 'gemini') {
     if (!p.geminiKey) throw new Error(tr('Add your Gemini API key in the extension popup.'));
     return { kind: 'gemini', base: GEMINI_BASE, key: p.geminiKey, model: p.geminiModel };
+  }
+  if (p.translator === 'claude') {
+    if (!p.claudeKey) throw new Error(tr('Add your Claude API key in the extension popup.'));
+    return { kind: 'claude', base: CLAUDE_BASE, key: p.claudeKey, model: p.claudeModel };
   }
   if (p.translator === 'local') {
     const cfg = { kind: 'local', base: String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1', model: p.localModel };
@@ -379,7 +387,10 @@ function serverSays(detail) {
 
 function aiHeaders(cfg) {
   const h = { 'Content-Type': 'application/json' };
-  if (cfg.key) h.Authorization = 'Bearer ' + cfg.key;
+  if (cfg.kind === 'claude') {
+    // Anthropic turns away requests that carry an Origin (ours: the extension) without this.
+    Object.assign(h, { 'x-api-key': cfg.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' });
+  } else if (cfg.key) h.Authorization = 'Bearer ' + cfg.key;
   return h;
 }
 
@@ -393,7 +404,7 @@ function aiError(cfg, e) {
 async function aiModels(cfg) {
   let r;
   try {
-    r = await fetch(cfg.base + '/models', { headers: aiHeaders(cfg), signal: AbortSignal.timeout(15000) });
+    r = await fetch(cfg.base + '/models' + (cfg.kind === 'claude' ? '?limit=100' : ''), { headers: aiHeaders(cfg), signal: AbortSignal.timeout(15000) });
   } catch (e) { throw aiError(cfg, e); }
   if (r.status === 403 && cfg.kind === 'local') throw new Error(tr('The local model refused the extension. Allow it in Ollama (OLLAMA_ORIGINS).'));
   if (r.status === 400 || r.status === 401 || r.status === 403) throw new Error(tr('The API key was not accepted.'));
@@ -419,6 +430,10 @@ const AI_PROMPT = (lang) => [
 ].join('\n');
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// The chunk each page is waiting for, so the page can stop it ("Stop" over the
+// video, or its subtitles switched off): "tab:frame:language" -> AbortController.
+const aiRuns = new Map();
+const STOPPED = new Error('stopped');
 
 // Thinking only slows translation down. Gemini 2.5 Flash can turn it off
 // ("none"), Gemini 3 and later only turn it down ("minimal"): each model's
@@ -426,26 +441,39 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const EFFORTS = ['none', 'minimal', 'low'];
 const effortOf = new Map(); // model -> reasoning_effort it accepts ('' = don't send one)
 
-async function aiChat(cfg, body) {
+// The OpenAI-style request as Claude's Messages API wants it: the system
+// prompt on its own, and a limit on the answer's length.
+function claudeBody(body) {
+  const out = { model: body.model, max_tokens: 8192, system: body.messages[0].content, messages: body.messages.slice(1) };
+  if (body.temperature != null) out.temperature = body.temperature;
+  return out;
+}
+
+async function aiChat(cfg, body, signal) {
+  const claude = cfg.kind === 'claude';
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
-      r = await fetch(cfg.base + '/chat/completions', {
-        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(body),
-        // A local model may first have to load into memory.
-        signal: AbortSignal.timeout(cfg.kind === 'local' ? 240000 : 90000),
+      r = await fetch(cfg.base + (claude ? '/messages' : '/chat/completions'), {
+        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(claude ? claudeBody(body) : body),
+        // A local model may first have to load into memory. Stopping from the
+        // page closes the connection, and Ollama or LM Studio stop generating.
+        signal: AbortSignal.any([signal, AbortSignal.timeout(cfg.kind === 'local' ? 240000 : 90000)]),
       });
-    } catch (e) { throw aiError(cfg, e); }
+    } catch (e) { throw signal.aborted ? STOPPED : aiError(cfg, e); }
     if (r.ok) {
       const data = await r.json();
+      if (claude) return (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
       return String((data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '');
     }
     const said = serverSays(await r.text().catch(() => ''));
     // The free Gemini tier allows only a few requests a minute: wait and try
     // again. "limit: 0" means this model has no free requests at all.
-    if (r.status === 429 && attempt < 4 && !/limit: 0\b/.test(said)) {
+    // Claude answers 529 when it's overloaded: the same wait helps.
+    if ((r.status === 429 || r.status === 529) && attempt < 4 && !/limit: 0\b/.test(said)) {
       const wait = Number(r.headers.get('retry-after')) || 20;
       await sleep(Math.min(wait, 60) * 1000);
+      if (signal.aborted) throw STOPPED;
       continue;
     }
     if (r.status === 400 && body.reasoning_effort && /reasoning|thinking|effort|budget/i.test(said)) {
@@ -455,6 +483,11 @@ async function aiChat(cfg, body) {
       else delete body.reasoning_effort;
       continue;
     }
+    // Some models only take their own default temperature.
+    if (r.status === 400 && body.temperature != null && /temperature/i.test(said)) {
+      delete body.temperature;
+      continue;
+    }
     if (r.status === 400 && body.response_format && /response_format|schema|structured/i.test(said)) {
       noSchema.add(body.model);
       delete body.response_format;
@@ -462,7 +495,8 @@ async function aiChat(cfg, body) {
     }
     if (r.status === 403 && cfg.kind === 'local') throw new Error(tr('The local model refused the extension. Allow it in Ollama (OLLAMA_ORIGINS).'));
     if (r.status === 401 || r.status === 403 || /api key/i.test(said)) throw new Error(tr('The API key was not accepted.') + (said ? ' ' + said : ''));
-    if (r.status === 429) throw new Error(tr('The free Gemini limit is used up for now. Try again later.') + (said ? ' ' + said : ''));
+    if (r.status === 429 && cfg.kind === 'gemini') throw new Error(tr('The free Gemini limit is used up for now. Try again later.') + (said ? ' ' + said : ''));
+    if (r.status === 429 || r.status === 529) throw new Error(tr('The AI is busy or the limit is used up for now. Try again later.') + (said ? ' ' + said : ''));
     throw new Error(tr('The model server answered HTTP {status}.', { status: r.status }) + (said ? ' ' + said : ''));
   }
 }
@@ -480,48 +514,64 @@ const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replac
 
 // One chunk of lines (HTML, like the Google path) -> the same number of
 // translated lines; one the model left out comes back '' (Google's stays).
-async function aiTranslate(lines, before, to) {
+async function aiTranslate(lines, before, to, signal) {
   const cfg = await aiConfig();
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
   const lang = englishName(to);
-  const keys = lines.map((l, i) => keyOf(i));
-  const numbered = Object.fromEntries(keys.map((k, i) => [k, lines[i]]));
-  const body = {
-    model: cfg.model,
-    temperature: 0.2,
-    messages: [
-      { role: 'system', content: AI_PROMPT(lang) },
-      { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
-    ],
-  };
-  if (!noSchema.has(cfg.model)) {
-    body.response_format = { type: 'json_schema', json_schema: { name: 'subtitles', strict: true, schema: {
-      type: 'object', required: keys, additionalProperties: false, properties: Object.fromEntries(keys.map((k) => [k, {
-        type: 'object', properties: { src: { type: 'string' }, tr: { type: 'string' } }, required: ['src', 'tr'], additionalProperties: false,
-      }])),
-    } } };
-  }
-  if (cfg.kind === 'gemini') {
-    const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
-    if (effort) body.reasoning_effort = effort;
-  }
-  // A second try only when many lines are missing: a few keep Google's, and
-  // the whole chunk again would take a local model another half a minute.
-  let best = [];
-  for (let attempt = 0; attempt < 2 && best.filter(Boolean).length < lines.length * 0.8; attempt++) {
-    const text = (await aiChat(cfg, body)).replace(/<think>[\s\S]*?<\/think>/g, '');
+  // One request -> the lines it got back, '' where the model left one out (null: no JSON at all).
+  async function ask(lines, before) {
+    const keys = lines.map((l, i) => keyOf(i));
+    const numbered = Object.fromEntries(keys.map((k, i) => [k, lines[i]]));
+    const body = {
+      model: cfg.model,
+      temperature: 0.2,
+      messages: [
+        { role: 'system', content: AI_PROMPT(lang) },
+        { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
+      ],
+    };
+    // Claude holds the format from the prompt; the copied "src" still catches drift.
+    if (cfg.kind !== 'claude' && !noSchema.has(cfg.model)) {
+      body.response_format = { type: 'json_schema', json_schema: { name: 'subtitles', strict: true, schema: {
+        type: 'object', required: keys, additionalProperties: false, properties: Object.fromEntries(keys.map((k) => [k, {
+          type: 'object', properties: { src: { type: 'string' }, tr: { type: 'string' } }, required: ['src', 'tr'], additionalProperties: false,
+        }])),
+      } } };
+    }
+    if (cfg.kind === 'gemini') {
+      const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
+      if (effort) body.reasoning_effort = effort;
+    }
+    const text = (await aiChat(cfg, body, signal)).replace(/<think>[\s\S]*?<\/think>/g, '');
     let out = null;
-    try { out = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (e) { continue; }
+    try { out = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (e) { return null; }
     if (out && out.lines && typeof out.lines === 'object') out = out.lines;
-    const texts = keys.map((k, i) => {
+    return keys.map((k, i) => {
       const a = out && out[k];
       const s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
       return typeof s === 'string' ? s.trim() : '';
     });
-    if (texts.filter(Boolean).length > best.filter(Boolean).length) best = texts;
+  }
+  // A second try of the whole chunk only when many lines are missing: the
+  // whole chunk again would take a local model another half a minute.
+  let best = [];
+  for (let attempt = 0; attempt < 2 && best.filter(Boolean).length < lines.length * 0.8; attempt++) {
+    const texts = await ask(lines, before);
+    if (texts && texts.filter(Boolean).length > best.filter(Boolean).length) best = texts;
   }
   if (!best.some(Boolean)) throw new Error(tr('The model did not send back the translated lines.'));
+  // A few lines left out: one short request for just those. A line with no
+  // words in it (♪, …) isn't worth one; whatever is still missing keeps Google's.
+  const missing = lines.map((l, i) => i).filter((i) => !best[i] && bare(lines[i]));
+  if (missing.length) {
+    const first = missing[0];
+    const again = await ask(missing.map((i) => lines[i]), lines.slice(Math.max(0, first - 4), first)).catch((e) => {
+      if (e === STOPPED) throw e;
+      return null;
+    });
+    if (again) missing.forEach((i, n) => { if (again[n]) best[i] = again[n]; });
+  }
   return { texts: best, model: cfg.model };
 }
 
@@ -597,7 +647,22 @@ async function loadIntoTab(tabId, name, b64) {
 
 // ---------- messages ----------
 
-const frames = new Map(); // tabId -> Set of frameIds that show subtitles
+// Frames of a tab that show subtitles, kept in session storage too: the worker
+// may sleep while a video plays, and shortcuts are forwarded by this list.
+const frames = new Map(); // tabId -> Promise of a Set of frameIds
+
+function getFrames(tabId) {
+  if (!frames.has(tabId)) {
+    frames.set(tabId, chrome.storage.session.get('frames:' + tabId)
+      .then((got) => new Set(got['frames:' + tabId] || []), () => new Set()));
+  }
+  return frames.get(tabId);
+}
+
+function dropFrames(tabId) {
+  frames.delete(tabId);
+  chrome.storage.session.remove('frames:' + tabId).catch(() => {});
+}
 
 chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   const tabId = msg.tabId != null ? msg.tabId : sender.tab && sender.tab.id;
@@ -694,9 +759,23 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       translateTexts(msg.texts, msg.to).then((r) => reply({ ok: true, texts: r.texts, detected: r.detected }), (e) => reply({ ok: false, error: e.message }));
       return true;
 
-    case 'ai-translate':
-      aiTranslate(msg.texts, msg.before || [], msg.to).then((r) => reply(Object.assign({ ok: true }, r)), (e) => reply({ ok: false, error: e.message }));
+    case 'ai-translate': {
+      const key = tabId + ':' + sender.frameId + ':' + msg.to;
+      const run = new AbortController();
+      if (aiRuns.has(key)) aiRuns.get(key).abort();
+      aiRuns.set(key, run);
+      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal)
+        .then((r) => reply(Object.assign({ ok: true }, r)),
+          (e) => reply(e === STOPPED ? { ok: false, stopped: true } : { ok: false, error: e.message }))
+        .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });
       return true;
+    }
+
+    case 'ai-stop': {
+      const run = aiRuns.get(tabId + ':' + sender.frameId + ':' + msg.to);
+      if (run) run.abort();
+      return;
+    }
 
     case 'ai-models':
       // The popup's model list: whatever the key or the local server offers.
@@ -735,19 +814,21 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 
     case 'subs-state': {
       if (!sender.tab) return;
-      const set = frames.get(tabId) || new Set();
-      if (msg.has) set.add(sender.frameId); else set.delete(sender.frameId);
-      frames.set(tabId, set);
-      chrome.tabs.sendMessage(tabId, { type: 'tab-subs', has: set.size > 0 }).catch(() => {});
+      getFrames(tabId).then((set) => {
+        if (msg.has) set.add(sender.frameId); else set.delete(sender.frameId);
+        chrome.storage.session.set({ ['frames:' + tabId]: [...set] }).catch(() => {});
+        chrome.tabs.sendMessage(tabId, { type: 'tab-subs', has: set.size > 0 }).catch(() => {});
+      });
       return;
     }
 
-    case 'forward-key': {
+    case 'forward-key':
       // A shortcut pressed in a frame without subtitles goes to the frames that have them.
-      for (const frameId of frames.get(tabId) || []) {
-        chrome.tabs.sendMessage(tabId, { type: 'run-action', action: msg.action }, { frameId }).catch(() => {});
-      }
+      getFrames(tabId).then((set) => {
+        for (const frameId of set) {
+          chrome.tabs.sendMessage(tabId, { type: 'run-action', action: msg.action }, { frameId }).catch(() => {});
+        }
+      });
       return;
-    }
   }
 });

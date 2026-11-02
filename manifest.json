@@ -24,6 +24,7 @@
   "devtools_page": "devtools.html",
   "permissions": [
     "storage",
+    "unlimitedStorage",
     "scripting",
     "webRequest",
     "declarativeNetRequestWithHostAccess"

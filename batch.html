@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Translation queue</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="batch.css">
+</head>
+<body>
+  <header>
+    <h1>Translation queue</h1>
+    <p class="lede">Add a few subtitle files and they’re translated one after another while you do something else. Keep this tab open; it can stay in the background.</p>
+  </header>
+
+  <section class="settings" aria-label="Translation settings">
+    <div class="setting">
+      <div class="setting-head">
+        <label for="lang" class="setting-label">Translate to</label>
+        <select id="lang" class="compact"></select>
+      </div>
+    </div>
+
+    <div class="setting">
+      <div class="setting-head translator-head">
+        <span class="setting-label" id="translatorLabel">Translator</span>
+        <div class="segmented translator" role="radiogroup" aria-labelledby="translatorLabel">
+          <button data-translator="google" role="radio">Google</button>
+          <button data-translator="gemini" role="radio">Gemini</button>
+          <button data-translator="claude" role="radio">Claude</button>
+          <button data-translator="local" role="radio">Local</button>
+        </div>
+      </div>
+      <p class="hint" id="translatorHint"></p>
+      <div class="setting-head" id="keyRow" hidden>
+        <label for="aiKey" class="setting-label">API key</label>
+        <input id="aiKey" type="password" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="setting-head" id="modelRow" hidden>
+        <label for="aiModel" class="setting-label">Model</label>
+        <select id="aiModel" class="compact"></select>
+      </div>
+      <p id="aiMsg" class="hint" hidden></p>
+    </div>
+
+    <div class="setting">
+      <div class="setting-head">
+        <span class="setting-label">Save each to Downloads when done</span>
+        <label class="toggle"><input id="aiSaveFile" type="checkbox" role="switch" aria-label="Save each to Downloads when done"><span></span></label>
+      </div>
+    </div>
+
+    <div class="setting">
+      <div class="setting-head">
+        <label for="keepFor" class="setting-label">Keep improved subtitles</label>
+        <select id="keepFor" class="compact"></select>
+      </div>
+      <p class="hint">Stores them in the extension, under Saved subtitles. Nothing is downloaded.</p>
+    </div>
+  </section>
+
+  <section class="add">
+    <div id="drop" class="drop">
+      <p>Drop .srt or .vtt files here</p>
+      <button id="pick" class="primary">Choose files</button>
+      <input id="files" type="file" accept=".srt,.vtt,.webvtt" multiple hidden>
+    </div>
+    <p id="msg" class="hint" hidden></p>
+  </section>
+
+  <section>
+    <div class="queue-head">
+      <h2>Queue</h2>
+      <div class="queue-actions">
+        <button id="pause" class="ghost" hidden>Pause</button>
+        <button id="saveAll" class="ghost" hidden>Download all</button>
+        <button id="clearDone" class="ghost" hidden>Clear finished</button>
+      </div>
+    </div>
+    <p id="empty" class="hint">Nothing in the queue yet.</p>
+    <ul id="jobs" class="jobs"></ul>
+  </section>
+
+  <section id="saved">
+    <div class="queue-head"><h2>Saved subtitles</h2></div>
+    <p id="savedEmpty" class="hint">Improved subtitles you keep show up here.</p>
+    <ul id="savedList" class="jobs"></ul>
+  </section>
+
+  <script src="lib/i18n.js"></script>
+  <script src="lib/locales.js"></script>
+  <script src="lib/subtitles.js"></script>
+  <script src="lib/settings.js"></script>
+  <script src="batch.js"></script>
+</body>
+</html>

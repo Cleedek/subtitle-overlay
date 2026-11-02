@@ -146,13 +146,19 @@
         <div class="segmented translator" role="radiogroup" aria-label="Translator">
           <button data-translator="google" role="radio">Google</button>
           <button data-translator="gemini" role="radio">Gemini</button>
-          <button data-translator="local" role="radio">Local model</button>
+          <button data-translator="claude" role="radio">Claude</button>
+          <button data-translator="local" role="radio">Local</button>
         </div>
         <p class="hint" id="translatorHint"></p>
         <div class="ai-fields" id="geminiFields" hidden>
           <label for="geminiKey" class="label">API key</label>
           <input id="geminiKey" type="password" autocomplete="off" spellcheck="false" placeholder="AIza…">
           <p class="hint"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a free key in Google AI Studio ↗</a> <span>On the free tier Google may use the subtitle text to improve its models.</span></p>
+        </div>
+        <div class="ai-fields" id="claudeFields" hidden>
+          <label for="claudeKey" class="label">API key</label>
+          <input id="claudeKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
+          <p class="hint"><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Get a key in the Claude Console ↗</a> <span>Paid by use, billed to your Anthropic account.</span></p>
         </div>
         <div class="ai-fields" id="localFields" hidden>
           <label for="localUrl" class="label">Server address</label>
@@ -165,6 +171,16 @@
             <select id="aiModel" class="compact"></select>
           </div>
           <p id="aiMsg" class="hint" hidden></p>
+          <div class="setting-head"><span class="setting-label">AI messages</span><label class="toggle"><input id="aiNotices" type="checkbox" role="switch" aria-label="AI messages"><span></span></label></div>
+          <p class="hint">Says over the video when the AI starts and finishes improving. Problems always show.</p>
+          <div class="setting-head"><span class="setting-label">Save improved subtitles</span><label class="toggle"><input id="aiSaveFile" type="checkbox" role="switch" aria-label="Save improved subtitles"><span></span></label></div>
+          <p class="hint">When the AI finishes, the improved .srt goes to your Downloads folder.</p>
+          <div class="setting-head"><label for="keepFor" class="setting-label">Keep improved subtitles</label><select id="keepFor" class="compact"></select></div>
+          <p class="hint">Stores them in the extension, under Saved subtitles. Nothing is downloaded.</p>
+        </div>
+        <div class="batch-links">
+          <button id="openBatch" class="ghost">Translate files in the background…</button>
+          <button id="openSaved" class="ghost">Saved subtitles</button>
         </div>
       </div>
       <div class="setting">

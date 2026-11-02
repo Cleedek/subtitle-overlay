@@ -237,10 +237,20 @@
   // remembered as your favourite and used by every Translate button.
   const prefs = await SubSettings.loadTranslation();
   let lang = prefs.translateTo;
-  for (const key of ['autoTranslate']) {
+  for (const key of ['autoTranslate', 'aiNotices', 'aiSaveFile']) {
     $(key).checked = prefs[key];
     $(key).addEventListener('change', () => SubSettings.saveTranslation({ [key]: $(key).checked }));
   }
+  // How long improved subtitles stay under Saved subtitles.
+  const keepNames = { off: t('Don’t keep'), 1: t('1 day'), 7: t('7 days'), 30: t('1 month'), 90: t('3 months'), forever: t('Forever') };
+  $('keepFor').replaceChildren(...SubSettings.KEEP_FOR.map((v) => {
+    const o = document.createElement('option');
+    o.value = v;
+    o.textContent = keepNames[v];
+    return o;
+  }));
+  $('keepFor').value = prefs.keepFor;
+  $('keepFor').addEventListener('change', () => SubSettings.saveTranslation({ keepFor: $('keepFor').value }));
   const cap = (s) => s.charAt(0).toLocaleUpperCase(SubI18n.lang) + s.slice(1);
   const langOption = ([code]) => {
     const o = document.createElement('option');
@@ -259,17 +269,19 @@
   $('secondLang').value = prefs.secondLang || 'orig';
   $('secondLang').addEventListener('change', () => SubSettings.saveTranslation({ secondLang: $('secondLang').value }));
 
-  // Translator: Google alone, or Google first and then Gemini or a local model
+  // Translator: Google alone, or Google first and then Gemini, Claude or a local model
   // rewrites the lines in the background (slower, but reads more naturally).
   const TRANSLATOR_HINTS = {
     google: 'Fast and free. Translates line by line.',
     gemini: 'Google’s version shows at once, then Gemini rewrites it with the whole scene in mind. Needs an API key.',
+    claude: 'Google’s version shows at once, then Claude rewrites it with the whole scene in mind. Needs an API key.',
     local: 'Google’s version shows at once, then a model on this computer rewrites it. Free and private, but slower. Needs Ollama or LM Studio.',
   };
   let translator = prefs.translator;
   $('geminiKey').value = prefs.geminiKey;
+  $('claudeKey').value = prefs.claudeKey;
   $('localUrl').value = prefs.localUrl;
-  const modelKey = () => (translator === 'gemini' ? 'geminiModel' : 'localModel');
+  const modelKey = () => SubSettings.AI[translator].model;
 
   function aiMsg(text, isError) {
     $('aiMsg').hidden = !text;
@@ -291,9 +303,7 @@
       return aiMsg(translator === 'local' ? t('No models installed. In Terminal run: ollama pull gemma3:12b') : t('No models found for this key.'), true);
     }
     $('aiModel').replaceChildren(...res.models.map((m) => Object.assign(document.createElement('option'), { value: m, textContent: m })));
-    // Keep the saved one; otherwise Gemini's newest plain Flash, or the first local model.
-    const flash = res.models.filter((m) => /flash/.test(m) && !/lite|preview|exp|thinking/.test(m)).sort().pop();
-    const pick = res.models.includes(saved) ? saved : (translator === 'gemini' && flash) || res.models[0];
+    const pick = SubSettings.pickModel(translator, res.models, saved);
     $('aiModel').value = pick;
     if (pick !== saved) await SubSettings.saveTranslation({ [modelKey()]: pick });
     aiMsg('');
@@ -307,8 +317,10 @@
     }
     $('translatorHint').textContent = t(TRANSLATOR_HINTS[translator] || TRANSLATOR_HINTS.google);
     $('geminiFields').hidden = translator !== 'gemini';
+    $('claudeFields').hidden = translator !== 'claude';
     $('localFields').hidden = translator !== 'local';
-    $('modelField').hidden = translator === 'google' || (translator === 'gemini' && !$('geminiKey').value.trim());
+    const keyField = SubSettings.AI[translator] && SubSettings.AI[translator].key;
+    $('modelField').hidden = translator === 'google' || (keyField && !$(keyField).value.trim());
     if (!$('modelField').hidden) loadModels();
   }
   for (const b of document.querySelectorAll('[data-translator]')) {
@@ -320,6 +332,10 @@
   }
   $('geminiKey').addEventListener('change', async () => {
     await SubSettings.saveTranslation({ geminiKey: $('geminiKey').value.trim() });
+    renderTranslator();
+  });
+  $('claudeKey').addEventListener('change', async () => {
+    await SubSettings.saveTranslation({ claudeKey: $('claudeKey').value.trim() });
     renderTranslator();
   });
   $('localUrl').addEventListener('change', async () => {
@@ -382,6 +398,11 @@
     if (lf) await chrome.tabs.sendMessage(tab.id, { type: 'show-original' }, { frameId: lf.frameId }).catch(() => {});
     scan();
   });
+
+  // The background queue: its own tab, so it keeps going while the popup is closed.
+  for (const [id, hash] of [['openBatch', ''], ['openSaved', '#saved']]) {
+    $(id).addEventListener('click', () => { chrome.tabs.create({ url: chrome.runtime.getURL('batch.html' + hash) }); window.close(); });
+  }
 
   $('downloadTranslated').addEventListener('click', async () => {
     const lf = loadedFrame();
