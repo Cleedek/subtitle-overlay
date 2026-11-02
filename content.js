@@ -11,6 +11,7 @@
   let settings = Object.assign({}, SubSettings.DEFAULTS);
   let cues = [];          // loaded subtitle lines, sorted by start (ms)
   let file = null;        // { name, b64, encoding, usedEncoding } of the loaded file
+  let loadedOn = '';      // the page address the file was loaded on (Prima+ changes it without reloading)
   let stashed = null;     // previous subtitles after a video swap, for "Restore"
   let original = null;    // { file, cues } of the untranslated subtitles while a translation shows
   const translations = new Map(); // language -> translated cues, so switching back is instant
@@ -118,7 +119,9 @@
   const ytPage = (id) => 'https://www.youtube.com/watch?v=' + id;
   function pageOfSubs() {
     const m = /^youtube-([\w-]{11})(?:\.|$)/.exec(baseOf().file ? baseOf().file.name : '');
-    return m ? ytPage(m[1]) : SubSettings.pageOf(location.href);
+    // Elsewhere the page they were loaded on: a site that opens the next episode
+    // without loading a new page (Prima+) must not get the previous episode's subtitles.
+    return m ? ytPage(m[1]) : SubSettings.pageOf(loadedOn || location.href);
   }
 
   async function rememberFile() {
@@ -798,6 +801,7 @@
     if (!v) return { ok: false, error: t('No video found on this page.') };
     cues = parsed;
     file = { name, b64, encoding: encoding || 'auto', usedEncoding: used };
+    loadedOn = location.href;
     autoLoaded = false;
     siteDismissed = false;
     original = null;
@@ -1283,8 +1287,9 @@
         if (prefs.aiNotices) toast(t('Translation improved by {model}', { model }), 3000);
       } else rememberFile();
       if (prefs.aiSaveFile) saveImproved(to, list);
-      SubSettings.keepSubtitles({ name: improvedName(to), lang: to, model, page: location.href,
-        title: window === window.top ? pageTitle() : '', srt: SubLib.toSRT(list) }, prefs.keepFor).catch(() => {});
+      // The episode the subtitles were loaded on, even if the site moved on to the next one meanwhile.
+      SubSettings.keepSubtitles({ name: improvedName(to), lang: to, model, page: loadedOn || location.href,
+        title: window === window.top && location.href === loadedOn ? pageTitle() : '', srt: SubLib.toSRT(list) }, prefs.keepFor).catch(() => {});
     } catch (e) {
       if (improving.get(to) !== run) return; // replaced by a pass with another model
       state.error = e.message;
@@ -2175,6 +2180,11 @@
       case 'subs-found':
         // YouTube downloads its captions right after you turn CC on: those count as asked for.
         reply({ shown: showFound(msg.item, !!msg.item.yt && Date.now() - ccAskedAt < 10000) });
+        return;
+      case 'page-changed':
+        // Another episode without a new page: files found before belong to the previous one.
+        waiting.length = 0;
+        hideFound();
         return;
       case 'tab-subs':
         tabHasSubs = msg.has;

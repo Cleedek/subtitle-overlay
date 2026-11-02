@@ -40,6 +40,26 @@ function clearTab(tabId) {
   saveTab(tabId);
 }
 
+// Single-page sites (Prima+) open the next episode without loading a new page,
+// and every episode's file has the same name: a new address in the tab starts
+// a fresh list too, or the popup and the card would offer the previous
+// episode's file under the new episode's title. Only the path counts, so a
+// site that notes the playing time in the address (?t=) keeps its files.
+async function checkPage(tabId, url) {
+  const page = stripQuery(url || '');
+  const t = await getTab(tabId);
+  if (!page || t.page === page) return t;
+  const moved = !!t.page;
+  t.page = page;
+  if (moved) {
+    t.items = [];
+    t.seen = [];
+    chrome.tabs.sendMessage(tabId, { type: 'page-changed' }).catch(() => {});
+  }
+  saveTab(tabId);
+  return t;
+}
+
 // Segment pieces of an HLS subtitle playlist are hidden: the playlist stands for them.
 function visibleItems(t) {
   const prefixes = t.items.filter((i) => i.kind === 'hls' && i.segmentPrefix).map((i) => i.segmentPrefix);
@@ -72,7 +92,9 @@ const guessLanguage = SubLib.guessLanguage;
 
 async function addItem(tabId, item) {
   if (await tabIsOff(tabId)) return;
-  const t = await getTab(tabId);
+  // The address may change just before or after the file arrives: checked here too.
+  const tab = await chrome.tabs.get(tabId).catch(() => null);
+  const t = tab ? await checkPage(tabId, tab.url) : await getTab(tabId);
   const key = itemKey(item.url);
   const existing = t.items.find((i) => itemKey(i.url) === key);
   // YouTube changes videos without loading a new page: drop the previous video's captions.
@@ -192,6 +214,11 @@ chrome.webRequest.onBeforeRequest.addListener((d) => {
   dropFrames(d.tabId);
   dropOldSeconds();
 }, { urls: ['<all_urls>'], types: ['main_frame'] });
+
+// A new address without a new page (history.pushState): see checkPage.
+chrome.tabs.onUpdated.addListener((tabId, change) => {
+  if (change.url) checkPage(tabId, change.url);
+});
 
 // The second language of dual subtitles is saved with a page (content.js) for
 // a day after it was last saved. Checked at most once an hour, on the next page
