@@ -143,6 +143,7 @@
 
     $('loaded').hidden = !lf;
     $('clear').hidden = !lf;
+    $('syncSection').hidden = !lf; // nothing on the video, nothing to sync
     $('pick').textContent = t(lf ? 'Load a different file' : 'Load .srt / .vtt file');
     $('pick').classList.toggle('primary', !lf); // with a file loaded, Translate is the main action
     if (lf) {
@@ -287,6 +288,7 @@
     $('aiMsg').hidden = !text;
     $('aiMsg').textContent = text || '';
     $('aiMsg').classList.toggle('error', !!isError);
+    if (isError) $('aiDetails').open = true; // a problem shouldn't stay folded away
   }
 
   // Fills the model list from what the key or the local server offers.
@@ -295,6 +297,7 @@
     const ask = ++modelsAsked;
     const saved = (await SubSettings.loadTranslation())[modelKey()];
     $('aiModel').replaceChildren();
+    $('aiSummary').textContent = saved || '';
     aiMsg(t('Loading models…'));
     const res = await chrome.runtime.sendMessage({ type: 'ai-models' }).catch((e) => ({ ok: false, error: e.message }));
     if (ask !== modelsAsked) return;
@@ -305,6 +308,7 @@
     $('aiModel').replaceChildren(...res.models.map((m) => Object.assign(document.createElement('option'), { value: m, textContent: m })));
     const pick = SubSettings.pickModel(translator, res.models, saved);
     $('aiModel').value = pick;
+    $('aiSummary').textContent = pick;
     if (pick !== saved) await SubSettings.saveTranslation({ [modelKey()]: pick });
     aiMsg('');
   }
@@ -320,7 +324,14 @@
     $('claudeFields').hidden = translator !== 'claude';
     $('localFields').hidden = translator !== 'local';
     const keyField = SubSettings.AI[translator] && SubSettings.AI[translator].key;
-    $('modelField').hidden = translator === 'google' || (keyField && !$(keyField).value.trim());
+    const needsKey = !!keyField && !$(keyField).value.trim();
+    // The AI settings stay folded once set up (the model shows on the fold); a missing key opens them.
+    $('aiDetails').hidden = translator === 'google';
+    if (needsKey) {
+      $('aiDetails').open = true;
+      $('aiSummary').textContent = '';
+    }
+    $('modelField').hidden = translator === 'google' || needsKey;
     if (!$('modelField').hidden) loadModels();
   }
   for (const b of document.querySelectorAll('[data-translator]')) {
@@ -342,7 +353,10 @@
     await SubSettings.saveTranslation({ localUrl: $('localUrl').value.trim() || SubSettings.TRANSLATION.localUrl });
     renderTranslator();
   });
-  $('aiModel').addEventListener('change', () => SubSettings.saveTranslation({ [modelKey()]: $('aiModel').value }));
+  $('aiModel').addEventListener('change', () => {
+    $('aiSummary').textContent = $('aiModel').value;
+    SubSettings.saveTranslation({ [modelKey()]: $('aiModel').value });
+  });
   renderTranslator();
 
   function renderTranslate(l) {
