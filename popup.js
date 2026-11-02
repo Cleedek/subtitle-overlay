@@ -607,14 +607,19 @@
     $('dualLabel').textContent = t(settings.place === 'top' ? 'Second subtitles: distance from bottom' : 'Second subtitles: distance from top');
     renderPreview();
     renderPresets();
+    showColors();
     if (googleFonts.length) renderFonts();
     SubRender.ensureFont(document, settings.font).then(renderPreview, () => {});
   }
 
-  // The filled part of a slider's track, up to the thumb.
+  // The filled part of a slider's track: up to the thumb, or between 0 and
+  // the thumb on a slider that goes below 0 (the shadow's X and Y).
   function paintRange(r) {
     const min = Number(r.min) || 0, max = Number(r.max) || 100;
-    r.style.setProperty('--fill', ((Number(r.value) - min) / (max - min)) * 100 + '%');
+    const at = (v) => ((v - min) / (max - min)) * 100 + '%';
+    const zero = Math.max(min, 0), v = Number(r.value);
+    r.style.setProperty('--from', at(Math.min(zero, v)));
+    r.style.setProperty('--fill', at(Math.max(zero, v)));
   }
 
   // Save at most once per frame while a slider is being dragged.
@@ -653,6 +658,98 @@
   $('resetAll').addEventListener('click', async () => {
     settings = await SubSettings.reset();
     showSettings();
+  });
+
+  // ---------- colours ----------
+
+  // The four colour buttons share one popover: fixed swatches, the colours
+  // picked last, and the system picker or a typed code for anything else.
+  const colorButtons = [...document.querySelectorAll('[data-color]')];
+  const colorPop = $('colorPop');
+  let colorKey = null; // the setting the open popover changes
+  let recentColors = await SubSettings.loadRecentColors();
+
+  // "#ffe600", "FFE600" or "#fe0" -> "#ffe600"; anything else -> ''.
+  function hexColor(text) {
+    let h = String(text).trim().replace(/^#/, '').toLowerCase();
+    if (/^[0-9a-f]{3}$/.test(h)) h = h.replace(/./g, '$&$&');
+    return /^[0-9a-f]{6}$/.test(h) ? '#' + h : '';
+  }
+
+  function swatch(hex, name) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'swatch';
+    b.dataset.value = hex;
+    b.style.setProperty('--c', hex);
+    b.title = name;
+    b.setAttribute('aria-label', name);
+    b.addEventListener('click', () => setColor(hex));
+    return b;
+  }
+  $('colorPresets').append(...SubSettings.COLORS.map(([hex, name]) => swatch(hex, t(name))));
+
+  function renderRecent() {
+    $('colorRecent').replaceChildren(...recentColors.map((hex) => swatch(hex, hex.toUpperCase())));
+    $('colorRecent').hidden = $('colorRecentLabel').hidden = !recentColors.length;
+  }
+
+  // The buttons show their colour; the open popover marks the current one.
+  function showColors() {
+    for (const b of colorButtons) b.style.setProperty('--c', settings[b.dataset.color]);
+    if (!colorKey) return;
+    const now = String(settings[colorKey]).toLowerCase();
+    for (const s of colorPop.querySelectorAll('.swatch')) s.setAttribute('aria-pressed', String(s.dataset.value === now));
+    $('colorAny').value = now;
+    if (document.activeElement !== $('colorHex')) $('colorHex').value = now.toUpperCase();
+  }
+
+  function aimColors(button) {
+    colorKey = button.dataset.color;
+    for (const b of colorButtons) b.classList.toggle('anchor', b === button);
+    colorPop.setAttribute('aria-label', button.getAttribute('aria-label'));
+    renderRecent();
+    showColors();
+  }
+
+  for (const b of colorButtons) {
+    // The button opens and closes the popover itself (popovertarget). Another
+    // colour's button while it is open switches to that colour instead.
+    b.addEventListener('click', (e) => {
+      if (!colorPop.matches(':popover-open')) aimColors(b);
+      else if (colorKey !== b.dataset.color) { e.preventDefault(); aimColors(b); }
+    });
+  }
+  function setColor(hex) {
+    if (colorKey) queueSave({ [colorKey]: hex });
+  }
+
+  async function rememberColor(hex) {
+    recentColors = await SubSettings.addRecentColor(hex);
+    renderRecent();
+    showColors();
+  }
+
+  // The system picker changes the colour live. Its colour is remembered when
+  // it closes, or when the popover does (the picker may still be open then).
+  let picked = '';
+  $('colorAny').addEventListener('input', () => { picked = $('colorAny').value; setColor(picked); });
+  $('colorAny').addEventListener('change', () => { if (picked) rememberColor(picked); picked = ''; });
+  colorPop.addEventListener('toggle', (e) => {
+    if (e.newState !== 'closed') return;
+    if (picked) rememberColor(picked);
+    picked = '';
+    colorKey = null;
+  });
+
+  // A typed code applies once it has all six digits; a short one like #FE0 on Enter.
+  $('colorHex').addEventListener('input', () => {
+    if (/^#?[0-9a-f]{6}$/i.test($('colorHex').value.trim())) setColor(hexColor($('colorHex').value));
+  });
+  $('colorHex').addEventListener('change', () => {
+    const hex = hexColor($('colorHex').value);
+    if (hex) { setColor(hex); rememberColor(hex); }
+    if (colorKey) $('colorHex').value = String(settings[colorKey]).toUpperCase();
   });
 
   // ---------- presets ----------
@@ -846,11 +943,18 @@
 
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== 'local' || !changes.settings || queued) return;
-    settings = Object.assign({}, SubSettings.DEFAULTS, changes.settings.newValue);
+    settings = SubSettings.withDefaults(changes.settings.newValue);
     showSettings();
   });
 
-  onStyleShown = () => renderPreview();
+  // Slider rows: the label column fits the longest label in this language
+  // ("Innenabstand" in German), measured while the Style tab shows.
+  function fitLabels() {
+    const w = Math.max(54, ...[...document.querySelectorAll('.sub > span')].map((e) => e.scrollWidth));
+    $('panelStyle').style.setProperty('--label-w', w + 'px');
+  }
+  onStyleShown = () => { fitLabels(); renderPreview(); };
+  if ($('panelStyle').classList.contains('active')) fitLabels();
 
   function renderPreview(fresh) {
     if ($('preview').hidden) return;

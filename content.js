@@ -56,7 +56,7 @@
     }
     if (area !== 'local' || !changes.settings) return;
     const offsetBefore = settings.offset;
-    settings = Object.assign({}, SubSettings.DEFAULTS, changes.settings.newValue || {});
+    settings = SubSettings.withDefaults(changes.settings.newValue);
     if (file && settings.offset !== offsetBefore) rememberSoon();
     refreshStyle();
   });

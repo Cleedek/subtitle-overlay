@@ -95,16 +95,57 @@ input[type=color]:hover { transform: scale(1.08); }
 input[type=color]::-webkit-color-swatch-wrapper { padding: 2px; }
 input[type=color]::-webkit-color-swatch { border: 0; border-radius: 50%; }
 
+/* Colour button: the same circle, filled with its colour (--c, set from popup.js).
+   It opens the colour popover. */
+.color-btn, .color-btn:hover, .color-btn:active {
+  width: 26px; height: 26px; padding: 2px; flex: none; border-radius: 50%;
+  border: 1px solid var(--line-strong); background: var(--c, transparent) content-box;
+}
+.color-btn { transition: transform .15s var(--ease), border-color .15s var(--ease), box-shadow .15s var(--ease); }
+.color-btn:hover { transform: scale(1.08); }
+.color-btn.anchor { anchor-name: --color-btn; }
+body:has(#colorPop:popover-open) .color-btn.anchor { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* ---------- colour popover ---------- */
+
+/* Without anchor positioning it stays where popovers open by default, centred. */
+.color-pop {
+  padding: 10px; color: var(--text); background: var(--bg);
+  border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: 0 10px 30px var(--shadow, oklch(0.1 0.01 290 / .5));
+  transition: opacity .15s var(--ease);
+}
+@starting-style { .color-pop:popover-open { opacity: 0; } }
+@supports (position-area: block-end) {
+  /* Under its button, right edges lined up; above it when there is no room below. */
+  .color-pop {
+    inset: auto; margin: 6px 0; position-anchor: --color-btn;
+    position-area: block-end span-inline-start; position-try-fallbacks: flip-block;
+  }
+}
+.swatches { display: grid; grid-template-columns: repeat(8, 24px); gap: 6px; }
+.swatch, .swatch:hover, .swatch:active {
+  width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--c);
+}
+.swatch { transition: transform .15s var(--ease), box-shadow .15s var(--ease); }
+.swatch:hover { transform: scale(1.1); }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+.color-label { margin: 10px 0 6px; font-size: 11.5px; color: var(--muted); }
+.color-custom { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+/* Any colour: the system picker behind a rainbow circle. */
+#colorAny { width: 24px; height: 24px; border: 0; background: conic-gradient(#f44, #fd3, #5e5, #3df, #46f, #e4e, #f44); }
+#colorAny::-webkit-color-swatch-wrapper { opacity: 0; }
+#colorHex { width: 90px; font-variant-numeric: tabular-nums; text-transform: uppercase; }
+
 output { min-width: 38px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
 
-/* Minimal slider: thin track filled up to the thumb (--fill is set from popup.js). */
+/* Minimal slider: thin track filled from --from up to the thumb at --fill (set from popup.js). */
 input[type=range] {
   -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; width: 100%; height: 18px; margin: 0;
-  background: transparent; cursor: pointer; --fill: 50%;
+  background: transparent; cursor: pointer; --from: 0%; --fill: 50%;
 }
 input[type=range]::-webkit-slider-runnable-track {
   height: 4px; border-radius: 999px;
-  background: linear-gradient(to right, var(--accent) var(--fill), var(--line-strong) var(--fill));
+  background: linear-gradient(to right, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
 }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%;
@@ -173,7 +214,8 @@ label.inline select { flex: 1; }
 .value { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 12px; }
 .value input[type=number] { width: 52px; padding: 3px 6px; text-align: right; }
 .setting-body { display: flex; flex-direction: column; gap: 8px; transition: opacity .2s var(--ease); }
-.sub { display: grid; grid-template-columns: 54px minmax(0, 1fr) 38px 26px; align-items: center; gap: 10px; }
+/* --label-w: the longest row label in the interface language (popup.js). */
+.sub { display: grid; grid-template-columns: var(--label-w, 54px) minmax(0, 1fr) 38px 26px; align-items: center; gap: 10px; }
 .sub > span { color: var(--muted); font-size: 12px; }
 /* Effect switched off: its fine-tuning stays usable but steps back. */
 .setting:has(.toggle input:not(:checked)) .setting-body { opacity: .4; }
