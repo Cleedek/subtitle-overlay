@@ -1092,6 +1092,8 @@
     if (res.detected) origLang = res.detected;
     const list = base.cues.map((c, i) => ({ start: c.start, end: c.end, text: fromHtml(res.texts[i]) || c.text }));
     translations.set(to, list);
+    // For the rating card in the popup: background.js counts each page once.
+    chrome.runtime.sendMessage({ type: 'count-video', page: pageOfSubs(), lines: list.length }).catch(() => {});
     return { ok: true, list };
   }
 

@@ -123,6 +123,33 @@
         <p id="siteHidden" class="site-hidden" hidden></p>
       </div>
     </div>
+    <!-- Under the translation, from the 10th translated video on: how many, and a way
+         to rate or share the extension (popup.js). -->
+    <div id="rateCard" class="rate-card" hidden>
+      <div id="rateQuestion" class="rate-step">
+        <div class="rate-top">
+          <div class="rate-ring">
+            <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle class="track" cx="26" cy="26" r="22" fill="none" stroke-width="3.5"/><circle class="fill" cx="26" cy="26" r="22" fill="none" stroke-width="3.5" stroke-linecap="round"/></svg>
+            <b id="rateCount" aria-hidden="true"></b>
+          </div>
+          <div class="rate-label"><strong id="rateVideos"></strong><span id="rateLines"></span></div>
+        </div>
+        <a id="rateStore" class="rate-stars" href="https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo/reviews" target="_blank" rel="noopener">
+          <span class="stars" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg></span>
+          <span>Rate it in the Chrome Web Store</span>
+        </a>
+        <div class="rate-foot">
+          <button id="rateShare" class="ghost"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.6 9.4l2.8-2.8M7.2 4.6l1.1-1.1a2.8 2.8 0 0 1 4 4l-1.1 1.1M8.8 11.4l-1.1 1.1a2.8 2.8 0 0 1-4-4l1.1-1.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Share with a friend</span></button>
+          <button id="rateLater" class="ghost">Not now</button>
+        </div>
+      </div>
+      <div id="rateThanks" class="rate-step rate-thanks" hidden>
+        <svg class="rate-star" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg>
+        <strong>Thank you!</strong>
+        <p>The link is copied. Send it to someone who’d like it.</p>
+      </div>
+      <button id="rateClose" class="rate-close" title="Not now" aria-label="Not now"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
     <div class="row">
       <button id="pick" class="primary">Load .srt / .vtt file</button>
       <button id="clear" hidden>Remove</button>

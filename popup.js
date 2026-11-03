@@ -164,6 +164,7 @@
     $('loaded').hidden = !lf;
     $('clear').hidden = !lf;
     $('syncSection').hidden = !lf; // nothing on the video, nothing to sync
+    renderRate(lf && lf.report.loaded);
     $('pick').textContent = t(lf ? 'Load a different file' : 'Load .srt / .vtt file');
     $('pick').classList.toggle('primary', !lf); // with a file loaded, Translate is the main action
     if (lf) {
@@ -487,6 +488,85 @@
     const lf = loadedFrame();
     const file = lf && await chrome.tabs.sendMessage(tab.id, { type: 'export' }, { frameId: lf.frameId }).catch(() => null);
     if (file) await download(file, 'srt').catch((e) => translateMsg(e.message));
+  });
+
+  // ---------- rating card ----------
+
+  // Under the translation from the 10th translated video on (background.js counts
+  // them, each page once). Not now asks again 25 videos later and a second Not now
+  // ends it; rating or sharing ends it too.
+  const STORE_URL = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
+  const RATE_FIRST = 10, RATE_AGAIN = 25;
+  let { stats, rateAsk = {} } = await chrome.storage.local.get(['stats', 'rateAsk']);
+  let rateState = ''; // '' until it shows in this popup, then 'ask', 'thanks' or 'gone'
+
+  function renderRate(l) {
+    if (rateState === 'thanks' || rateState === 'gone') return;
+    const show = !!(l && l.translatedTo) && !rateAsk.done && !!stats && stats.videos >= (rateAsk.next || RATE_FIRST);
+    $('rateCard').hidden = !show;
+    if (!show || rateState) return;
+    rateState = 'ask';
+    $('rateCount').textContent = stats.videos;
+    $('rateVideos').textContent = t('{n} videos translated', { n: stats.videos });
+    $('rateLines').textContent = t('That’s {count} translated lines. Nice!', { n: stats.lines, count: stats.lines.toLocaleString(SubI18n.lang) });
+    $('rateCard').classList.add('enter');
+  }
+  // The 10th video translated while the popup is open.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !changes.stats) return;
+    stats = changes.stats.newValue;
+    const lf = loadedFrame();
+    renderRate(lf && lf.report.loaded);
+  });
+
+  const endRate = () => chrome.storage.local.set({ rateAsk: Object.assign(rateAsk, { done: true }) });
+
+  // The thank-you takes the question's place; the card's height glides to the new one.
+  function showRateThanks() {
+    const card = $('rateCard');
+    const from = card.offsetHeight;
+    $('rateQuestion').hidden = true;
+    $('rateThanks').hidden = false;
+    $('rateThanks').classList.add('enter');
+    const to = card.offsetHeight;
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      card.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: 240, easing: 'cubic-bezier(.25, 1, .5, 1)' });
+    }
+  }
+
+  function closeRate() {
+    if (rateState === 'ask') {
+      const closed = (rateAsk.closed || 0) + 1;
+      Object.assign(rateAsk, closed > 1 ? { closed, done: true } : { closed, next: stats.videos + RATE_AGAIN });
+      chrome.storage.local.set({ rateAsk });
+    }
+    rateState = 'gone';
+    $('rateCard').hidden = true;
+    $('pick').focus();
+  }
+  $('rateClose').addEventListener('click', closeRate);
+  $('rateLater').addEventListener('click', closeRate);
+
+  // The Web Store opens in a new tab, which closes the popup: saved first.
+  $('rateStore').addEventListener('click', async (e) => {
+    e.preventDefault();
+    await endRate();
+    chrome.tabs.create({ url: $('rateStore').href });
+    window.close();
+  });
+
+  $('rateShare').addEventListener('click', async () => {
+    const label = $('rateShare').lastChild;
+    try { await navigator.clipboard.writeText(STORE_URL); }
+    catch (e) {
+      const text = label.textContent;
+      label.textContent = t('Copy failed');
+      setTimeout(() => { label.textContent = text; }, 1500);
+      return;
+    }
+    await endRate();
+    rateState = 'thanks';
+    showRateThanks();
   });
 
   // ---------- found subtitles ----------

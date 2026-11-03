@@ -690,6 +690,29 @@ async function loadIntoTab(tabId, name, b64) {
   return chrome.tabs.sendMessage(tabId, { type: 'load', name, b64, encoding: 'auto', videoIndex: target.index }, { frameId: target.frameId });
 }
 
+// ---------- translated videos, for the rating card in the popup ----------
+
+// A page counts once: the last 100 are kept as short fingerprints, not their
+// addresses. Written here only, one after another, so two frames can't lose a count.
+const STATS_PAGES = 100;
+const fingerprint = (s) => {
+  let h = 0x811c9dc5; // FNV-1a
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193);
+  return (h >>> 0).toString(36);
+};
+let statsWrite = Promise.resolve();
+function countVideo(page, lines) {
+  statsWrite = statsWrite.then(async () => {
+    const { stats = { videos: 0, lines: 0, pages: [] } } = await chrome.storage.local.get('stats');
+    const id = fingerprint(String(page));
+    if (stats.pages.includes(id)) return;
+    stats.pages = stats.pages.concat(id).slice(-STATS_PAGES);
+    stats.videos++;
+    stats.lines += Number(lines) || 0;
+    await chrome.storage.local.set({ stats });
+  }).catch(() => {});
+}
+
 // ---------- messages ----------
 
 // Frames of a tab that show subtitles, kept in session storage too: the worker
@@ -819,6 +842,11 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     case 'translate':
       translateTexts(msg.texts, msg.to).then((r) => reply({ ok: true, texts: r.texts, detected: r.detected }), (e) => reply({ ok: false, error: e.message }));
       return true;
+
+    case 'count-video':
+      // A page showed a new translation (content.js).
+      countVideo(msg.page, msg.lines);
+      return;
 
     case 'ai-translate': {
       const key = tabId + ':' + sender.frameId + ':' + msg.to;
