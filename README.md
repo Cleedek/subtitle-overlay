@@ -16,6 +16,7 @@ The code is public so anyone can check what the extension does. It is plain Java
 - **Your own file:** load an `.srt` or `.vtt` file (or drop it on the video). Old encodings (Windows-1250, Windows-1258, Shift_JIS, GBK, Big5, EUC-KR and more) are detected automatically.
 - **Subtitles found on the page:** when you turn on subtitles in a site's own player, the extension notices the subtitle file the player downloads (WebVTT, HLS playlists, YouTube captions) and offers it: show it your way, translate it, or save it as `.srt`.
 - **Translation:** one click, or fully automatic, into 31 languages through Google Translate. Optionally Gemini (your own free API key), Claude or OpenAI (your own paid API key) or a local model (Ollama, LM Studio) rewrites Google's quick version with the whole scene in mind, a chunk at a time from where you are watching. It only starts when you click **Improve** (over the video or in the popup), never by itself, since a key costs money and a local model keeps the computer busy.
+- **Translation queue:** drop in several `.srt` / `.vtt` files, or click **Add to queue** on subtitles a site loads, and they're translated one after another in the queue tab. Improved subtitles are kept under **Saved subtitles** for as long as you choose (a day to forever, or not at all) and come back when you return to the video; **Play** opens the page a file came from.
 - **Two languages at once:** a second set at the other edge of the video.
 - **Style:** 1,800+ Google Fonts, colour, outline, shadow, background box with blur, position, size that follows the player, your own presets.
 - **Sync and shortcuts:** shift timing by 0.1 s or 1 s, repeat the current line, click a line to copy it, fullscreen with subtitles. Every shortcut can be changed.
@@ -35,7 +36,7 @@ There are no accounts, no analytics and no tracking. The extension talks to the 
 | Subtitles show with a Google Font (the default Vend Sans, or one you pick) | `fonts.googleapis.com`, `fonts.gstatic.com` | The font name |
 | A site's player downloads subtitles | That same site | The extension downloads the same subtitle file (or its HLS playlist) again, nothing else |
 
-Everything else (settings, presets, subtitles remembered for the last 30 pages; the second language of dual subtitles for at most 24 hours) is stored only in your browser with `chrome.storage.local`. Full text: [privacy policy](https://cleedek.com/subtitle-overlay/privacy).
+Everything else (settings, presets, subtitles remembered for the last 30 pages; the second language of dual subtitles for at most 24 hours; the translation queue and saved subtitles; a count of translated videos, so the popup asks once for a rating) is stored only in your browser with `chrome.storage.local`. Full text: [privacy policy](https://cleedek.com/subtitle-overlay/privacy).
 
 ### Why it asks for these permissions
 
@@ -45,6 +46,8 @@ Everything else (settings, presets, subtitles remembered for the last 30 pages; 
 | `webRequest` | To notice when a player downloads a subtitle file (only the address and file type are looked at; nothing is blocked or changed) |
 | `scripting` | So the popup can ask the open page which videos it has |
 | `storage` | To remember your settings, presets and recent subtitles locally |
+| `unlimitedStorage` | So the translation queue and saved subtitles (whole files, a season at a time) aren't stopped by Chrome's 10 MB limit for extension storage |
+| `declarativeNetRequestWithHostAccess` | Only with a local model: removes the Origin header from the extension's own requests to your local server, because Ollama refuses requests from browser extensions otherwise. Websites' requests are never changed |
 
 You can turn the extension off for any site from the popup; on those sites it detects and shows nothing.
 

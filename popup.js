@@ -300,7 +300,7 @@
     gemini: 'Google translates at once. Click Improve and Gemini rewrites it with the whole scene in mind. Needs an API key.',
     claude: 'Google translates at once. Click Improve and Claude rewrites it with the whole scene in mind. Needs an API key.',
     openai: 'Google translates at once. Click Improve and OpenAI rewrites it with the whole scene in mind. Needs an API key.',
-    local: 'Google translates at once. Click Improve and a model on this computer rewrites it. Free and private, but slower. Needs Ollama or LM Studio.',
+    local: 'Google translates at once. Click Improve and a model on this computer rewrites it. Free, and the rewrite stays on your computer, but slower. Needs Ollama or LM Studio.',
   };
   let translator = prefs.translator;
   $('geminiKey').value = prefs.geminiKey;

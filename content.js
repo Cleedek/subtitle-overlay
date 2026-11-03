@@ -52,15 +52,32 @@
       for (const k of Object.keys(SubSettings.TRANSLATION)) {
         if (changes[k]) prefs[k] = changes[k].newValue != null ? changes[k].newValue : SubSettings.TRANSLATION[k];
       }
-      if (changes.secondLang && cues.length) { ensureSecond(); lastKey = ''; position(true); render(true); }
+      if (changes.secondLang && cues.length) { wantSecond(); ensureSecond(); lastKey = ''; position(true); render(true); refreshLangs(); }
       if (['translator', 'geminiKey', 'geminiModel', 'claudeKey', 'claudeModel', 'openaiKey', 'openaiModel', 'localUrl', 'localModel'].some((k) => changes[k])) aiChanged();
     }
     if (area !== 'local' || !changes.settings) return;
-    const offsetBefore = settings.offset;
+    const offsetBefore = settings.offset, dualBefore = settings.dual;
     settings = SubSettings.withDefaults(changes.settings.newValue);
     if (file && settings.offset !== offsetBefore) rememberSoon();
+    if (settings.dual && !dualBefore && cues.length) wantSecond();
+    if (!settings.dual && dualBefore && cues.length) wantMain();
     refreshStyle();
   });
+
+  // Dual subtitles turned on, or another second language picked, in the popup:
+  // they show, also on a page where they were switched off over the video.
+  function wantSecond() {
+    if (shownBefore) shownBefore.dualVisible = true; else dualVisible = true;
+    if (file) rememberSoon();
+  }
+  // Dual subtitles turned off with the main ones switched off over the video:
+  // they come back, as nothing else would show and the card has no switch then.
+  function wantMain() {
+    const was = shownBefore || { visible, dualVisible };
+    if (was.visible || !was.dualVisible) return; // all hidden (Alt + S, the CC button) stays so
+    if (shownBefore) shownBefore.visible = true; else visible = true;
+    if (file) rememberSoon();
+  }
 
   // Turning off removes our subtitles and the card at once; turning back on
   // needs nothing: the next subtitles the site loads are offered again.
@@ -118,6 +135,10 @@
       record.second = { t: record.t, lang, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(second))),
         ai: { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } };
     }
+    // A language switched off over the video stays off after a reload (hiding
+    // everything at once with the shortcut or YouTube's CC button doesn't count).
+    const sw = shownBefore || { visible, dualVisible };
+    if (!sw.visible || !sw.dualVisible) record.off = { main: !sw.visible, second: !sw.dualVisible };
     try { await chrome.storage.session.set({ [pageKey(page)]: { t: record.t } }); } catch (e) { /* reload just won't restore */ }
     // Newest first; everything past `keep` is removed.
     const prune = async (keep) => {
@@ -190,7 +211,7 @@
 
   // ---------- overlay DOM ----------
 
-  let host, shadow, subsEl, dualEl, toastEl, hintEl, restoreEl, fsBtn, fsKeyEl, dropEl, foundEl, siteNoteEl, langsEl;
+  let host, shadow, picEl, subsEl, dualEl, toastEl, hintEl, restoreEl, fsBtn, fsKeyEl, dropEl, foundEl, siteNoteEl, langsEl;
 
   function ensureHost() {
     if (host) return;
@@ -320,9 +341,16 @@
       .ai.error .ai-note { color: #fca5a5; opacity: 1; }
       .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-right: 6px; }
       .covered { visibility: hidden !important; } /* something of the page lies over the video here */
+      /* The overlay covers the whole player; the subtitles sit on the picture inside it. */
+      .pic { position: absolute; pointer-events: none; }
+      /* A narrow player (Shorts, a small window): the cards in the top right go
+         below the fullscreen button instead of over it. */
+      :host([data-narrow]) .langs, :host([data-narrow]) .found { top: 56px; max-height: calc(100% - 68px); overflow: auto; }
     `;
+    picEl = el('div', 'pic');
     subsEl = el('div', 'subs');
     dualEl = el('div', 'subs');
+    picEl.append(subsEl, dualEl);
     // Clicks on a line copy it and never reach the player (no pause, no fullscreen on double click).
     for (const [layer, lines] of [[subsEl, () => shownCues], [dualEl, () => shownDual]]) {
       for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'dblclick']) layer.addEventListener(type, (e) => e.stopPropagation());
@@ -363,7 +391,7 @@
     siteNoteEl.append(noteText, noteClose);
     langsEl = el('div', 'langs');
     for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) langsEl.addEventListener(type, (e) => e.stopPropagation());
-    shadow.append(style, subsEl, dualEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl);
+    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl);
     placeHost();
     useFont();
   }
@@ -424,25 +452,50 @@
     return { left: r.left + (r.width - w) / 2, top: r.top + (r.height - h) / 2, width: w, height: h };
   }
 
+  // The box the overlay covers, with the cards and buttons in its corners:
+  // YouTube's whole player, so with a tall video they keep to its corners
+  // instead of crowding the narrow picture; elsewhere the video element.
+  function stageOf(v) {
+    const player = v.closest && v.closest('.html5-video-player');
+    const fe = document.fullscreenElement;
+    // Our own fullscreen shows just the video's parent: then the video it is.
+    return player && (!fe || containsDeep(fe, player)) ? player : v;
+  }
+
   function position(force) {
     if (!host || !video) return;
+    const s = stageOf(video).getBoundingClientRect();
     const r = pictureRect(video);
-    const geom = [r.left, r.top, r.width, r.height].map(Math.round).join(',');
+    const geom = [s.left, s.top, s.width, s.height, r.left, r.top, r.width, r.height].map(Math.round).join(',');
     if (!force && geom === lastGeom) return;
     lastGeom = geom;
     const hs = host.style;
-    hs.setProperty('left', Math.round(r.left) + 'px', 'important');
-    hs.setProperty('top', Math.round(r.top) + 'px', 'important');
-    hs.setProperty('width', Math.round(r.width) + 'px', 'important');
-    hs.setProperty('height', Math.round(r.height) + 'px', 'important');
+    hs.setProperty('left', Math.round(s.left) + 'px', 'important');
+    hs.setProperty('top', Math.round(s.top) + 'px', 'important');
+    hs.setProperty('width', Math.round(s.width) + 'px', 'important');
+    hs.setProperty('height', Math.round(s.height) + 'px', 'important');
+    host.toggleAttribute('data-narrow', s.width < 760);
+    const ps = picEl.style;
+    ps.left = Math.round(r.left - s.left) + 'px';
+    ps.top = Math.round(r.top - s.top) + 'px';
+    ps.width = Math.round(r.width) + 'px';
+    ps.height = Math.round(r.height) + 'px';
+    // A layer moving to the other edge (the second language taking the main
+    // one's place, or giving it back) jumps there: sliding from a lifted
+    // bottom to the top would sweep across the picture.
+    const placeBefore = [subsEl.dataset.place, dualEl.dataset.place];
     SubRender.applyStyle(subsEl, settings, r.height, r.width);
     SubRender.applyStyle(dualEl, dualSettings(), r.height, r.width);
+    const jumped = [subsEl, dualEl].filter((layer, i) => placeBefore[i] && layer.dataset.place !== placeBefore[i]);
+    for (const layer of jumped) layer.style.transition = 'none';
     liftForControls();
+    for (const layer of jumped) { getComputedStyle(layer).transform; layer.style.transition = ''; }
   }
 
   // YouTube's control bar (progress bar and buttons) covers the bottom of the
   // video while you hover or pause. Lift the subtitles above it, as YouTube does
-  // with its own captions, and drop them back when the bar hides.
+  // with its own captions, and drop them back when the bar hides. Subtitles at
+  // the top step down the same way below our fullscreen button while it shows.
   function liftForControls() {
     if (!subsEl) return;
     const player = video && video.closest && video.closest('.html5-video-player');
@@ -450,15 +503,20 @@
     // Never in fullscreen: there the subtitles stay put and the bar may cover them,
     // instead of jumping up and down every time the mouse moves.
     const shows = bar && host && !document.fullscreenElement;
-    const b = shows && bar.getBoundingClientRect(), h = shows && host.getBoundingClientRect();
+    const fsShows = fsBtn.classList.contains('on') && !fsBtn.classList.contains('covered');
+    const b = shows && bar.getBoundingClientRect(), f = fsShows && fsBtn.getBoundingClientRect();
+    const h = (shows || fsShows) && picEl.getBoundingClientRect();
     // Each layer by its own distance (with dual subtitles the bottom one may be the original).
     for (const layer of [subsEl, dualEl]) {
-      let lift = 0;
-      if (shows && b.height && b.top < h.bottom && b.bottom > h.top) {
-        const bottomPx = parseFloat(layer.style.getPropertyValue('--bottom')) || 0;
-        lift = Math.max(0, Math.round(h.bottom - b.top + 8 - bottomPx));
+      const dist = parseFloat(layer.style.getPropertyValue('--bottom')) || 0;
+      let lift = 0, drop = 0;
+      if (layer.dataset.place === 'top') {
+        if (fsShows && f.height) drop = Math.max(0, Math.round(f.bottom + 6 - (h.top + dist)));
+      } else if (shows && b.height && b.top < h.bottom && b.bottom > h.top) {
+        lift = Math.max(0, Math.round(h.bottom - b.top + 8 - dist));
       }
       layer.style.setProperty('--lift', lift + 'px');
+      layer.style.setProperty('--drop', drop + 'px');
     }
   }
 
@@ -468,6 +526,7 @@
     position(true);
     render(true);
     ensureSecond();
+    refreshLangs(); // dual subtitles or their place changed in the popup
   }
 
   // A Google font is only downloaded once the overlay is actually used on a page.
@@ -549,10 +608,10 @@
   // overlay were just one layer above the video.
   let coverAt = 0, coverRoot = null, coverGeom = '';
   function playerRoot() {
-    const r = video.getBoundingClientRect();
+    const r = stageOf(video).getBoundingClientRect();
     const geom = [r.left, r.top, r.width, r.height].map(Math.round).join(',');
     if (coverRoot && coverGeom === geom && containsDeep(coverRoot, video)) return coverRoot;
-    // The biggest ancestor that is still no bigger than the video: the player
+    // The biggest ancestor that is still no bigger than the overlay: the player
     // with its own controls and overlays, but not the page around it.
     let root = video, n = video;
     for (;;) {
@@ -566,9 +625,14 @@
     return (coverRoot = root);
   }
   function covered(el) {
-    // A subtitle layer is as wide as the longest allowed line: test the lines themselves.
-    if (el === subsEl || el === dualEl) return [...el.querySelectorAll('.front .line')].some((line) => coveredBox(line.getBoundingClientRect()));
-    return coveredBox(el.getBoundingClientRect());
+    if (el !== subsEl && el !== dualEl) return coveredBox(el.getBoundingClientRect());
+    // A subtitle layer is as wide as the longest allowed line: test the box
+    // around its lines (one box, as each test costs the page a moment).
+    const boxes = [...el.querySelectorAll('.front .line')].map((line) => line.getBoundingClientRect()).filter((b) => b.width && b.height);
+    if (!boxes.length) return false;
+    const left = Math.min(...boxes.map((b) => b.left)), right = Math.max(...boxes.map((b) => b.right));
+    const top = Math.min(...boxes.map((b) => b.top)), bottom = Math.max(...boxes.map((b) => b.bottom));
+    return coveredBox({ left, right, top, bottom, width: right - left, height: bottom - top });
   }
   function coveredBox(b) {
     if (!b.width || !b.height) return false;
@@ -584,11 +648,15 @@
     if (!host || !video || !host.isConnected) return;
     coverAt = performance.now();
     for (const el of [subsEl, dualEl, langsEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl]) {
-      if (el) el.classList.toggle('covered', !document.fullscreenElement && covered(el));
+      // The notice only fades out and keeps its size: testing it while gone costs as much as shown.
+      if (!el || (el === toastEl && !el.classList.contains('on'))) continue;
+      el.classList.toggle('covered', !document.fullscreenElement && covered(el));
     }
   }
+  // Each point tested costs a big page like YouTube about a millisecond, and a
+  // check tests some twenty: twice a second is plenty while nothing was clicked.
   function checkCoveredSoon() {
-    if (performance.now() - coverAt > 250) checkCovered();
+    if (performance.now() - coverAt > 500) checkCovered();
   }
   // Menus and dialogs open on a click, also while the video is paused.
   document.addEventListener('click', () => setTimeout(checkCovered, 350), true);
@@ -660,7 +728,7 @@
       }
       if ((video.currentSrc || video.src || '') !== lastSrc) onSourceChange();
       inAd();
-      checkCovered();
+      checkCoveredSoon(); // also while paused, when the playing loop doesn't check
     }, 1000);
   }
 
@@ -761,14 +829,28 @@
     shownBefore = null;
     if (was && (was.visible || was.dualVisible)) ({ visible, dualVisible } = was);
     else visible = dualVisible = true;
+    ensureSecond(); // not translated while it was off
   }
+
+  // Languages switched off over the video in the record restoreRecord is
+  // loading, for afterLoad: { main, second }.
+  let offAfterLoad = null;
 
   function afterLoad() {
     hideSiteSubs(true);
-    // The subtitles just loaded always show; the second ones keep their switch
-    // (YouTube may download the same captions again when CC goes back on).
-    if (!visible && !dualVisible) showAll();
-    visible = true;
+    const off = offAfterLoad;
+    offAfterLoad = null;
+    if (off) {
+      // Switched off before a reload: they stay off (the main one only while there are second ones to switch it back on).
+      shownBefore = null;
+      visible = !(off.main && settings.dual);
+      dualVisible = !off.second;
+    } else {
+      // The subtitles just loaded always show; the second ones keep their switch
+      // (YouTube may download the same captions again when CC goes back on).
+      if (!visible && !dualVisible) showAll();
+      visible = true;
+    }
     lastKey = '';
     startWatch();
     enableMouse(true);
@@ -776,6 +858,7 @@
     render(true);
     kick();
     ensureSecond();
+    refreshLangs(); // a card up shows these subtitles now
     send({ type: 'subs-state', has: true });
   }
 
@@ -840,13 +923,16 @@
       settings.offset = SubSettings.clamp('offset', f.offset);
       SubSettings.save({ offset: settings.offset });
     }
+    offAfterLoad = f.off || null;
     if (!f.original) {
       const r = loadBytes(f.name, f.b64, f.encoding, v);
+      offAfterLoad = null;
       if (r.ok && restoreSecond(f)) resumeShown();
       return r;
     }
     // A translation was showing: bring back the original, then the saved translation (no new request).
     const r = loadBytes(f.original.name, f.original.b64, f.original.encoding, v);
+    offAfterLoad = null;
     if (r.ok && f.origLang) origLang = f.origLang;
     if (!r.ok) return r;
     const list = savedList(f.b64, f.ai);
@@ -939,8 +1025,14 @@
     return player;
   }
 
+  // YouTube's player keeps its captions in known boxes, hidden by
+  // SITE_SUBS_CSS. Searching its text as well never finds anything (the
+  // boxes are hidden) and on every change in the player, so it only cost
+  // time: up to 86 ms at once while the page scrolled.
+  const knownPlayer = () => !!(video && video.closest && video.closest('.html5-video-player'));
+
   function startSiteWatch() {
-    if (siteObs || !video) return;
+    if (siteObs || !video || knownPlayer()) return;
     const player = sitePlayer = playerOf(video);
     if (!player) return;
     // Mutation callbacks run before the next paint, so a line hidden here never shows.
@@ -995,7 +1087,7 @@
   }
 
   function checkSiteText() {
-    if (!video || !cues.length) return setSiteNote(false);
+    if (!video || !cues.length || knownPlayer()) return setSiteNote(false);
     const source = original ? original.cues : cues;
     // The site's own timing, without our sync offset; also the line just
     // starting, since the site may switch a moment before our clock says so.
@@ -1253,25 +1345,31 @@
   // Second subtitles: the original or another language, at the opposite edge.
   // Two people can each read their own language (Czech and Vietnamese over a French film).
   let secondPending = null; // { lang, base }: the second translation being fetched
-  function secondCues() {
-    if (!settings.dual || !cues.length) return null;
+  // The language the second subtitles are in ('orig' for the original), or ''
+  // when there are none: dual subtitles off, or the same language as the main ones.
+  function secondLanguage() {
+    if (!settings.dual || !cues.length) return '';
     const lang = prefs.secondLang || 'orig';
-    const shownLang = original ? file.translatedTo : '';
-    if (lang === 'orig') return original ? original.cues : null; // the main subtitles already are the original
-    if (lang === shownLang) return null;
-    return translations.get(lang) || null;
+    if (lang === 'orig') return original ? lang : ''; // the main subtitles already are the original
+    return lang === (original ? file.translatedTo : '') ? '' : lang;
   }
+  function secondCues() {
+    const lang = secondLanguage();
+    if (!lang) return null;
+    return lang === 'orig' ? original.cues : translations.get(lang) || null;
+  }
+  // Switched off, they aren't translated: that waits until they're switched on.
   async function ensureSecond() {
     const lang = prefs.secondLang || 'orig';
     const base = baseOf().file;
-    if (!settings.dual || !cues.length || lang === 'orig' || translations.has(lang)) return;
+    if (!settings.dual || !cues.length || !dualVisible || lang === 'orig' || translations.has(lang)) return;
     // A fetch for other subtitles doesn't count: YouTube often sends its captions
     // again while the first translation is still on its way.
     if (secondPending && secondPending.lang === lang && secondPending.base === base) return;
     const mine = secondPending = { lang, base };
     const r = await fetchTranslation(lang, true);
     if (secondPending === mine) secondPending = null;
-    if (r.ok) { lastKey = ''; position(true); render(true); }
+    if (r.ok) { lastKey = ''; position(true); render(true); refreshLangs(); }
   }
 
   // Swaps the lines on screen for a translation and keeps the original for "Show original".
@@ -1288,6 +1386,7 @@
       ai: ai ? { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } : null };
     lastKey = '';
     render(true);
+    refreshLangs();
     rememberFile();
     if (!quiet) toast(t('Translated to {lang}', { lang: SubSettings.languageName(to) }), 3000);
   }
@@ -1299,6 +1398,7 @@
     original = null;
     lastKey = '';
     render(true);
+    refreshLangs();
     rememberFile();
     toast(t('Original subtitles'));
   }
@@ -1351,21 +1451,29 @@
   // Show the fullscreen button (not in fullscreen) and the language switches
   // (also in fullscreen) briefly when the mouse moves over the video.
   let fsTimer = 0, langsTimer = 0, mouseQueued = false;
+  // Runs on every frame the mouse moves, so it only keeps what is already up
+  // a while longer: building the card again or testing what covers it each
+  // frame made the whole page lag (YouTube with dual subtitles).
   function onMouseMove(e) {
     if (mouseQueued || !video || !fsBtn) return;
     mouseQueued = true;
     requestAnimationFrame(() => {
       mouseQueued = false;
-      const r = video.getBoundingClientRect();
+      const r = stageOf(video).getBoundingClientRect();
       const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
       if (!inside) return;
+      let fsAppeared = false, appeared = false;
       if (!document.fullscreenElement) {
+        fsAppeared = !fsBtn.classList.contains('on');
         fsBtn.classList.add('on');
         clearTimeout(fsTimer);
-        fsTimer = setTimeout(() => fsBtn.classList.remove('on'), 2000);
+        fsTimer = setTimeout(() => { fsBtn.classList.remove('on'); liftForControls(); }, 2000);
       }
-      showLangs();
-      checkCovered();
+      if (langsEl.classList.contains('on')) keepLangs();
+      else { showLangs(); appeared = langsEl.classList.contains('on'); }
+      // Something that just appeared is checked at once, the rest a few times a second.
+      if (fsAppeared || appeared) checkCovered(); else checkCoveredSoon();
+      if (fsAppeared) liftForControls(); // subtitles at the top step below the button
     });
   }
 
@@ -1374,6 +1482,20 @@
   const cap = (s) => s.charAt(0).toLocaleUpperCase(SubI18n.lang) + s.slice(1);
   function langLabel(code) {
     return code ? (SubSettings.flag(code) + ' ' + cap(SubSettings.languageName(code))).trim() : t('Original');
+  }
+
+  // One language on or off (its switch over the video, or its shortcut). The
+  // page remembers it, so a reload keeps it off; one switched on is translated
+  // now if it wasn't yet. True when it is on now.
+  function flipLang(second) {
+    const on = second ? (dualVisible = !dualVisible) : (visible = !visible);
+    shownBefore = null;
+    lastKey = '';
+    position(true);
+    render(true);
+    ensureSecond();
+    rememberFile();
+    return on;
   }
 
   // The names of the main and the second subtitles, with their flags.
@@ -1389,17 +1511,19 @@
   // its Improve button. The top one first. False when there is nothing to show.
   function fillLangs() {
     if (!cues.length) return false;
-    const second = settings.dual && secondCues();
+    const second = secondCues();
+    // Switched off before it was ever translated, the second language still gets its switch.
+    const hasSecond = !!second || (!dualVisible && !!secondLanguage());
     const labels = langLabels();
-    const main = { label: labels.main, lang: original && file.translatedTo, list: cues, on: visible, flip: () => { visible = !visible; shownBefore = null; } };
-    const dual = { label: labels.second, lang: prefs.secondLang, list: second, on: dualVisible, flip: () => { dualVisible = !dualVisible; shownBefore = null; } };
+    const main = { label: labels.main, lang: original && file.translatedTo, list: cues, on: visible, second: false };
+    const dual = { label: labels.second, lang: prefs.secondLang, list: second, on: dualVisible, second: true };
     const rows = settings.place === 'top' ? [main, dual] : [dual, main];
-    const switches = !second ? [] : rows.map((row) => {
+    const switches = !hasSecond ? [] : rows.map((row) => {
       const b = el('button');
       b.setAttribute('role', 'switch');
       b.setAttribute('aria-checked', String(row.on));
       b.append(el('span', 'name', row.label), el('span', 'sw'));
-      b.addEventListener('click', () => { row.flip(); lastKey = ''; position(true); render(true); showLangs(); });
+      b.addEventListener('click', () => { flipLang(row.second); showLangs(); });
       return b;
     });
     const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && (aiState.has(row.list) || aiReady()))
@@ -1509,6 +1633,10 @@
     if (!langsEl) return;
     if (!fillLangs()) { langsEl.classList.remove('on'); return; }
     langsEl.classList.add('on');
+    keepLangs();
+  }
+  // Keeps the card up a while longer, without building it again.
+  function keepLangs() {
     clearTimeout(langsTimer);
     const hideLater = () => {
       langsTimer = setTimeout(() => (langsEl.matches(':hover') ? hideLater() : langsEl.classList.remove('on')), 2500);
@@ -1607,12 +1735,8 @@
       toast(t(on ? 'Subtitles on' : 'Subtitles off'));
     } else if (a.kind === 'toggle-one') {
       // Just the main or just the second subtitles, like their switch over the video.
-      if (a.second && !dualOn()) return toast(t('No second subtitles. Turn them on in the popup.'));
-      const on = a.second ? (dualVisible = !dualVisible) : (visible = !visible);
-      shownBefore = null;
-      lastKey = '';
-      position(true);
-      render(true);
+      if (a.second && !secondLanguage()) return toast(t('No second subtitles. Turn them on in the popup.'));
+      const on = flipLang(a.second);
       if (langsEl && langsEl.classList.contains('on')) showLangs();
       const labels = langLabels();
       toast(t(on ? '{lang}: on' : '{lang}: off', { lang: a.second ? labels.second : labels.main }));
@@ -1768,10 +1892,21 @@
     for (const w of fresh) if (!found.some((f) => f.id === w.item.id)) found.unshift(w.item);
     found.length = Math.min(found.length, 3);
     // Automatic mode: the newest file goes straight onto the video, translated.
-    // A file you loaded yourself is never replaced.
-    if (prefs.autoTranslate && (!cues.length || autoLoaded)) autoShow(fresh[fresh.length - 1].item);
-    else { renderFound(); offerSaved(fresh[fresh.length - 1].item); }
+    // A file you loaded yourself is never replaced. The very captions already
+    // on screen (brought back after a reload) aren't offered again: the card
+    // would only cover the language switches for a while.
+    const item = fresh[fresh.length - 1].item;
+    if (showing(item)) return;
+    if (prefs.autoTranslate && (!cues.length || autoLoaded)) autoShow(item);
+    else { renderFound(); offerSaved(item); }
     position(true);
+  }
+
+  // The subtitles on screen started from this file. YouTube's captions are
+  // named by video and language, the way background.js names them.
+  function showing(item) {
+    const base = baseOf().file;
+    return !!(item.yt && base) && base.name === ('youtube-' + item.yt + (item.lang ? '.' + item.lang : '')).replace(/[^\w.\-]+/g, '_');
   }
 
   // The last subtitles of the page a found file belongs to, or null. YouTube's
@@ -1807,6 +1942,9 @@
     try {
       const saved = await savedFor(item);
       const res = await chrome.runtime.sendMessage({ type: 'fetch-item', id: item.id });
+      // A reload brought this page's subtitles back meanwhile (checkRestore):
+      // loading them again would only translate the second language twice.
+      if (cues.length && !autoLoaded) return;
       if (!res || !res.ok) throw new Error(res ? res.error : t('Failed.'));
       // Another site's file must be the one those subtitles started from.
       if (saved && saved.translatedTo === prefs.translateTo && (item.yt || (saved.original || saved).name === res.name)) {
@@ -2074,12 +2212,31 @@
     let ccButton = null;
     let ytPlayer = null;
     const barWatch = new MutationObserver(liftForControls);
+    // YouTube also flips the button by itself now and then (seen while
+    // nothing was touched, around ads, and going fullscreen), so only your
+    // own use of it switches ours: a press on it or on its settings menu, or
+    // the C key. The press, not the click: the button may switch first.
+    let ccTouchedAt = 0;
+    let ccHid = null; // shownBefore when the button hid ours: switching back on by itself brings them back
+    document.addEventListener('pointerdown', (e) => {
+      if (e.isTrusted && e.composedPath().some((n) => n.classList && (n.classList.contains('ytp-subtitles-button') || n.classList.contains('ytp-settings-menu')))) ccTouchedAt = Date.now();
+    }, true);
+    document.addEventListener('keydown', (e) => {
+      if (e.isTrusted && (e.code === 'KeyC' || /^c$/i.test(e.key)) && !e.altKey && !e.ctrlKey && !e.metaKey && !isTyping(e)) ccTouchedAt = Date.now();
+    }, true);
     const ccWatch = new MutationObserver(() => {
       if (off) return;
       const on = ccButton.getAttribute('aria-pressed') === 'true';
       if (!cues.length) { if (on) askForCaptions(); return; }
-      if (!fromYouTube()) return;
-      if (on !== (visible || dualVisible)) { if (on) showAll(); else hideAll(); position(true); render(true); }
+      if (!fromYouTube() || on === (visible || dualVisible)) return;
+      const yours = Date.now() - ccTouchedAt < 1500;
+      // Off and on again by itself: back as they were, unless you switched something meanwhile.
+      if (on && (yours || (ccHid && ccHid === shownBefore))) showAll();
+      else if (!on && yours) { hideAll(); ccHid = shownBefore; }
+      else return;
+      position(true);
+      render(true);
+      refreshLangs();
     });
     // The player (and its button) can be rebuilt when YouTube changes videos.
     setInterval(() => {
