@@ -116,8 +116,42 @@ function offer(tabId, id, attempt = 0) {
   }, attempt ? 1000 : 1500);
 }
 
-const foundItem = (item) => ({ id: item.id, lang: item.lang || '', name: item.name || stripQuery(item.url).split('/').pop() });
+// yt: the YouTube video the captions belong to (content.js finds its translation from last time with it).
+const foundItem = (item) => ({ id: item.id, lang: item.lang || '', name: item.name || stripQuery(item.url).split('/').pop(), yt: item.yt || '' });
 const FOUND_FRESH_MS = 60000;
+
+// ---------- translation queue ----------
+
+// The queue page (batch.html) translates files one after another in its own
+// tab, and only while that tab is open.
+async function queueTab() {
+  const open = await chrome.runtime.getContexts({ contextTypes: ['TAB'] });
+  return open.find((c) => new URL(c.documentUrl).pathname === '/batch.html') || null;
+}
+
+// A tab's subtitles join the queue (batch.js takes them from storage), which
+// remembers the page: its Play button brings you back there with the
+// translation on the video. The queue tab opens behind this one if needed.
+// source: the file's own name; YouTube's ("youtube-…") keep the CC button working after Play.
+async function addToQueue({ lines, lang, title, fileName }, tabId) {
+  if (!Array.isArray(lines) || !lines.length) throw new Error(tr('No subtitle lines found.'));
+  const tab = await chrome.tabs.get(tabId);
+  title = title || tab.title || '';
+  // Sites like Prima name every episode's file the same: the episode names the translation.
+  const name = (title.replace(/\s*:\s*/g, ' - ').replace(/[\\/*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim()
+    || String(fileName || 'subtitles').replace(/\.(web)?vtt$|\.srt$/i, '')) + '.srt';
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  await chrome.storage.local.set({ ['queue:' + id]: { id, name, source: fileName || '', lang, lines, out: [], chunks: [],
+    status: 'waiting', error: '', model: '', page: tab.url, title } });
+  if (!(await queueTab())) await chrome.tabs.create({ url: chrome.runtime.getURL('batch.html'), active: false });
+}
+
+async function openQueue() {
+  const c = await queueTab();
+  if (!c) return chrome.tabs.create({ url: chrome.runtime.getURL('batch.html') });
+  await chrome.tabs.update(c.tabId, { active: true });
+  await chrome.windows.update(c.windowId, { focused: true });
+}
 
 // ---------- network watching ----------
 
@@ -332,14 +366,15 @@ async function translateTexts(texts, to) {
   return { texts: pairs.map((p) => p[0]), detected };
 }
 
-// ---------- AI translation (Gemini, Claude or a local model) ----------
+// ---------- AI translation (Gemini, Claude, OpenAI or a local model) ----------
 
-// Gemini, Ollama and LM Studio speak the OpenAI-style chat API (Gemini through
-// Google's compatibility endpoint); Claude gets the same request turned into its
-// own Messages API in aiChat. The page sends small chunks (Google's version is
-// already on screen) and swaps in each one as it comes back.
+// OpenAI, Gemini, Ollama and LM Studio speak the OpenAI-style chat API (Gemini
+// through Google's compatibility endpoint); Claude gets the same request turned
+// into its own Messages API in aiChat. The page sends small chunks (Google's
+// version is already on screen) and swaps in each one as it comes back.
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta/openai';
 const CLAUDE_BASE = 'https://api.anthropic.com/v1';
+const OPENAI_BASE = 'https://api.openai.com/v1';
 
 async function aiConfig() {
   const p = await SubSettings.loadTranslation();
@@ -350,6 +385,10 @@ async function aiConfig() {
   if (p.translator === 'claude') {
     if (!p.claudeKey) throw new Error(tr('Add your Claude API key in the extension popup.'));
     return { kind: 'claude', base: CLAUDE_BASE, key: p.claudeKey, model: p.claudeModel };
+  }
+  if (p.translator === 'openai') {
+    if (!p.openaiKey) throw new Error(tr('Add your OpenAI API key in the extension popup.'));
+    return { kind: 'openai', base: OPENAI_BASE, key: p.openaiKey, model: p.openaiModel };
   }
   if (p.translator === 'local') {
     const cfg = { kind: 'local', base: String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1', model: p.localModel };
@@ -411,8 +450,10 @@ async function aiModels(cfg) {
   if (!r.ok) throw new Error(tr('The model server answered HTTP {status}.', { status: r.status }));
   const data = await r.json();
   return (data.data || []).map((m) => String(m.id).replace(/^models\//, ''))
-    // Gemini also lists image, speech and embedding models; only text chat ones can translate.
+    // Gemini and OpenAI also list image, speech and embedding models; only text chat ones can translate.
     .filter((id) => cfg.kind !== 'gemini' || (/^gemini|^gemma/.test(id) && !/image|tts|audio|live|embed|vision/.test(id)))
+    // OpenAI: no dated copies of the same model, no Pro (Responses API only, and costly).
+    .filter((id) => cfg.kind !== 'openai' || (/^gpt-/.test(id) && !/image|tts|audio|realtime|live|transcribe|whisper|search|codex|cyber|oss|instruct|-pro\b|\d{4}-\d\d-\d\d/.test(id)))
     .sort();
 }
 
@@ -435,9 +476,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const aiRuns = new Map();
 const STOPPED = new Error('stopped');
 
-// Thinking only slows translation down. Gemini 2.5 Flash can turn it off
-// ("none"), Gemini 3 and later only turn it down ("minimal"): each model's
-// lowest accepted level is found once and remembered.
+// Thinking only slows translation down. Gemini 2.5 Flash and OpenAI's GPT-6
+// models can turn it off ("none"), Gemini 3 and later only turn it down
+// ("minimal"), older OpenAI models take no level at all: each model's lowest
+// accepted level is found once and remembered.
 const EFFORTS = ['none', 'minimal', 'low'];
 const effortOf = new Map(); // model -> reasoning_effort it accepts ('' = don't send one)
 
@@ -469,8 +511,9 @@ async function aiChat(cfg, body, signal) {
     const said = serverSays(await r.text().catch(() => ''));
     // The free Gemini tier allows only a few requests a minute: wait and try
     // again. "limit: 0" means this model has no free requests at all.
-    // Claude answers 529 when it's overloaded: the same wait helps.
-    if ((r.status === 429 || r.status === 529) && attempt < 4 && !/limit: 0\b/.test(said)) {
+    // Claude answers 529 when it's overloaded: the same wait helps. OpenAI's
+    // 429 also means an account with no credit left ("billing"): waiting won't help.
+    if ((r.status === 429 || r.status === 529) && attempt < 4 && !/limit: 0\b/.test(said) && !(cfg.kind === 'openai' && /billing/i.test(said))) {
       const wait = Number(r.headers.get('retry-after')) || 20;
       await sleep(Math.min(wait, 60) * 1000);
       if (signal.aborted) throw STOPPED;
@@ -483,8 +526,9 @@ async function aiChat(cfg, body, signal) {
       else delete body.reasoning_effort;
       continue;
     }
-    // Some models only take their own default temperature.
+    // Some models only take their own default temperature (OpenAI's thinking ones, for one).
     if (r.status === 400 && body.temperature != null && /temperature/i.test(said)) {
+      noTemperature.add(body.model);
       delete body.temperature;
       continue;
     }
@@ -510,6 +554,7 @@ async function aiChat(cfg, body, signal) {
 // "L01": a key like "01" or "10" would let JavaScript reorder the lines.
 const keyOf = (i) => 'L' + String(i + 1).padStart(2, '0');
 const noSchema = new Set(); // models whose server refused response_format
+const noTemperature = new Set(); // models that refused a temperature of their own
 const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase();
 
 // One chunk of lines (HTML, like the Google path) -> the same number of
@@ -525,7 +570,7 @@ async function aiTranslate(lines, before, to, signal) {
     const numbered = Object.fromEntries(keys.map((k, i) => [k, lines[i]]));
     const body = {
       model: cfg.model,
-      temperature: 0.2,
+      temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
       messages: [
         { role: 'system', content: AI_PROMPT(lang) },
         { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
@@ -539,7 +584,7 @@ async function aiTranslate(lines, before, to, signal) {
         }])),
       } } };
     }
-    if (cfg.kind === 'gemini') {
+    if (cfg.kind === 'gemini' || cfg.kind === 'openai') {
       const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
       if (effort) body.reasoning_effort = effort;
     }
@@ -664,13 +709,20 @@ function dropFrames(tabId) {
   chrome.storage.session.remove('frames:' + tabId).catch(() => {});
 }
 
+// Snap Translate, the creator's other extension, asks whether Subtitle Overlay is
+// installed, so it doesn't suggest it. That is the only thing answered to other extensions.
+chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
+  if (msg && msg.type === 'hello') reply({ app: 'subtitle-overlay' });
+});
+
 chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   const tabId = msg.tabId != null ? msg.tabId : sender.tab && sender.tab.id;
   switch (msg.type) {
     case 'recent-found':
       // A page script that just started: files the player loaded in the last minute.
+      // all: any time (YouTube's CC button turned on asks for its captions again).
       getTab(tabId).then((t) => reply(visibleItems(t)
-        .filter((i) => (i.kind === 'file' || i.segments) && Date.now() - (i.loadedAt || i.time) < FOUND_FRESH_MS)
+        .filter((i) => (i.kind === 'file' || i.segments) && (msg.all || Date.now() - (i.loadedAt || i.time) < FOUND_FRESH_MS))
         .map(foundItem)));
       return true;
 
@@ -753,6 +805,15 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 
     case 'open-translator':
       chrome.tabs.create({ url: TRANSLATOR_URL });
+      return;
+
+    case 'add-to-queue':
+      // "Add to queue" in the popup or in the card over the video.
+      addToQueue(msg, tabId).then(() => reply({ ok: true }), (e) => reply({ ok: false, error: e.message }));
+      return true;
+
+    case 'open-queue':
+      openQueue().catch(() => {});
       return;
 
     case 'translate':

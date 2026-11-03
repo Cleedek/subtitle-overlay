@@ -25,14 +25,27 @@
   };
 
   let prefs = await SubSettings.loadTranslation();
-  // A job: { id, name, lang, lines: [{ start, end, text }], out: [text | null], chunks: [start], status, error, model }
-  // status: 'waiting' | 'running' | 'done' | 'error'
-  const stored = (await chrome.storage.local.get(KEY))[KEY] || {};
-  let jobs = Array.isArray(stored.jobs) ? stored.jobs : [];
-  let paused = !!stored.paused;
-  for (const j of jobs) if (j.status === 'running') j.status = 'waiting';
+  // A job: { id, name, lang, lines: [{ start, end, text }], out: [text | null], chunks: [start], status, error, model,
+  //   retry, page, title }
+  // status: 'waiting' | 'running' | 'done' | 'error'; retry: the error of a request that is asked again soon.
+  // page, title: the tab it was added from with "Add to queue" (popup or the card over the video), so it can be
+  // played there; source: that file's own name (YouTube's captions start with "youtube-").
+  let jobs = [];
+  let paused = false;
+  async function loadJobs() {
+    const stored = (await chrome.storage.local.get(KEY))[KEY] || {};
+    jobs = Array.isArray(stored.jobs) ? stored.jobs : [];
+    paused = !!stored.paused;
+    for (const j of jobs) {
+      if (j.status === 'running') j.status = 'waiting';
+      j.retry = '';
+    }
+  }
+  await loadJobs();
   let current = null; // the job a request is out for
   let mine = false; // this tab runs the queue (another open copy only shows it)
+  // Files the popup added ("Add to queue"), one storage key each, until the copy that runs the queue takes them.
+  const INBOX = 'queue:';
   // A file removed or moved in a copy that doesn't run the queue, for the copy that does.
   const EDIT = 'queueEdit';
   const LOCK = 'translation-queue';
@@ -79,9 +92,10 @@
     google: 'Fast and free. Translates line by line.',
     gemini: 'Rewrites Google’s lines with the whole scene in mind. Needs your Gemini API key.',
     claude: 'Rewrites Google’s lines with the whole scene in mind. Needs your Claude API key.',
+    openai: 'Rewrites Google’s lines with the whole scene in mind. Needs your OpenAI API key.',
     local: 'A model on this computer: free and private, but slower. Needs Ollama or LM Studio; its address is set in the extension popup.',
   };
-  const PLACEHOLDERS = { gemini: 'AIza…', claude: 'sk-ant-…' };
+  const PLACEHOLDERS = { gemini: 'AIza…', claude: 'sk-ant-…', openai: 'sk-…' };
   function aiMsg(text, isError) {
     $('aiMsg').hidden = !text;
     $('aiMsg').textContent = text || '';
@@ -158,8 +172,23 @@
       paused = !!v.paused;
       render();
     }
+    const added = Object.keys(changes).filter((k) => k.startsWith(INBOX) && changes[k].newValue);
+    if (added.length) { if (mine) takeInbox(added); else run(); }
     if (changes[EDIT] && changes[EDIT].newValue && mine) edit(changes[EDIT].newValue);
   });
+
+  // The popup's files join the end of the queue. Only the copy that runs the
+  // queue takes them: another copy's list would be overwritten by its next save.
+  async function takeInbox(keys) {
+    const got = keys ? await chrome.storage.local.get(keys)
+      : Object.fromEntries(Object.entries(await chrome.storage.local.get(null)).filter(([k]) => k.startsWith(INBOX)));
+    const list = Object.values(got).filter((j) => j && Array.isArray(j.lines) && j.lines.length);
+    await chrome.storage.local.remove(Object.keys(got));
+    if (!list.length) return;
+    jobs.push(...list.filter((j) => !jobs.some((x) => x.id === j.id)));
+    await save();
+    render();
+  }
 
   // ---------- adding files ----------
 
@@ -176,10 +205,9 @@
     }
     say(skipped.length ? t('Not subtitles, left out: {names}', { names: skipped.join(', ') }) : '', skipped.length > 0);
     if (!added.length) return;
-    jobs.push(...added);
-    await save();
-    render();
-    run();
+    // The same way in as the popup's files, so a copy that doesn't run the
+    // queue can't overwrite the list of the one that does.
+    await chrome.storage.local.set(Object.fromEntries(added.map((j) => [INBOX + j.id, j])));
   }
   $('pick').addEventListener('click', () => $('files').click());
   $('files').addEventListener('change', () => { addFiles([...$('files').files]); $('files').value = ''; });
@@ -204,6 +232,36 @@
   const outSrt = (job) => SubLib.toSRT(job.lines.map((c, i) => ({ start: c.start, end: c.end, text: job.out[i] || c.text })));
   const download = (job) => SubLib.saveText(outSrt(job), outName(job));
 
+  // Left overnight, a queue meets a model server that restarts, a network that
+  // drops for a moment, or a background script that Chrome restarts and whose
+  // answer never comes. A request with no answer after STALL_MS is given up;
+  // a failed one is asked again after each wait in RETRY_S, then the file stops.
+  const STALL_MS = 20 * 60 * 1000;
+  const RETRY_S = [30, 120];
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  function ask(msg) {
+    let timer = 0;
+    return Promise.race([
+      chrome.runtime.sendMessage(msg).catch((e) => ({ ok: false, error: e.message })),
+      new Promise((r) => { timer = setTimeout(() => r({ ok: false, stalled: true, error: t('The translator didn’t answer.') }), STALL_MS); }),
+    ]).finally(() => clearTimeout(timer));
+  }
+  async function request(job, msg) {
+    for (let attempt = 0; ; attempt++) {
+      const res = await ask(msg);
+      if (res && (res.ok || res.stopped)) return res;
+      if (res && res.stalled) stopCurrent();
+      if (attempt >= RETRY_S.length) return res;
+      job.retry = (res && res.error) || t('Translation failed.');
+      render();
+      for (const end = Date.now() + RETRY_S[attempt] * 1000; Date.now() < end && !paused && jobs.includes(job);) await sleep(1000);
+      job.retry = '';
+      render();
+      // Paused or removed while it waited: as if stopped mid-request.
+      if (paused || !jobs.includes(job)) return { ok: false, stopped: true };
+    }
+  }
+
   async function work(job) {
     job.status = 'running';
     job.error = '';
@@ -219,8 +277,8 @@
           // model picks up from the next chunk, and the file names the last one.
           if (!isAi()) break;
           job.model = modelName();
-          const res = await chrome.runtime.sendMessage({ type: 'ai-translate', to: job.lang,
-            texts: src.slice(i, i + CHUNK), before: src.slice(Math.max(0, i - 4), i) }).catch((e) => ({ ok: false, error: e.message }));
+          const res = await request(job, { type: 'ai-translate', to: job.lang,
+            texts: src.slice(i, i + CHUNK), before: src.slice(Math.max(0, i - 4), i) });
           // Paused or removed while the model worked on it: this chunk is asked again later.
           if (res && res.stopped) { job.status = 'waiting'; return; }
           if (!res || !res.ok) throw new Error((res && res.error) || t('Translation failed.'));
@@ -233,8 +291,8 @@
       // Every line with Google, or the few the model left out.
       const gaps = src.map((s, i) => i).filter((i) => !job.out[i]);
       if (gaps.length) {
-        const res = await chrome.runtime.sendMessage({ type: 'translate', to: job.lang, texts: gaps.map((i) => src[i]) })
-          .catch((e) => ({ ok: false, error: e.message }));
+        const res = await request(job, { type: 'translate', to: job.lang, texts: gaps.map((i) => src[i]) });
+        if (res && res.stopped) { job.status = 'waiting'; return; }
         if (res && res.ok) gaps.forEach((i, n) => { if (res.texts[n]) job.out[i] = fromHtml(res.texts[n]); });
         else if (!isAi()) throw new Error((res && res.error) || t('Translation failed.'));
         // With a model, a line Google couldn't do either keeps its original text.
@@ -242,7 +300,8 @@
       if (!jobs.includes(job)) return;
       job.status = 'done';
       if (prefs.aiSaveFile) download(job);
-      await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job) }, prefs.keepFor);
+      await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job),
+        page: job.page, title: job.title }, prefs.keepFor);
     } catch (e) {
       job.status = 'error';
       job.error = e.message;
@@ -253,12 +312,19 @@
     }
   }
 
+  let asking = false; // waiting for another open copy to finish or close
   async function run() {
-    if (mine) return;
-    // One open copy of this page runs the queue; another one only shows it.
-    await navigator.locks.request(LOCK, { ifAvailable: true }, async (lock) => {
-      if (!lock) return;
+    if (mine || asking) return;
+    asking = true;
+    // One open copy of this page runs the queue; another one shows it and
+    // waits its turn, so closing the copy that runs it doesn't stop the queue.
+    await navigator.locks.request(LOCK, async () => {
+      asking = false;
       mine = true;
+      // The copy that ran before saved its last state; carry on from there.
+      await loadJobs();
+      await takeInbox();
+      render();
       // Chrome's Memory Saver would close a background tab, and the queue with it.
       chrome.tabs.getCurrent((tab) => { if (tab) chrome.tabs.update(tab.id, { autoDiscardable: false }).catch(() => {}); });
       try {
@@ -336,6 +402,45 @@
     }
   }
 
+  // ---------- playing where they came from ----------
+
+  // "Play": the page opens (or reloads, if it's open) and shows the subtitles
+  // over its video. They go where content.js keeps each page's last subtitles,
+  // marked as showing in this browser session, so it puts them on at once, as
+  // after a reload, instead of only offering them.
+  const b64 = (text) => SubLib.bytesToBase64(new TextEncoder().encode(text));
+  async function play(page, file) {
+    // Kept as content.js looks for it: a YouTube video under one address whatever else the link held.
+    const key = 'mem:' + SubSettings.pageOf(page);
+    const before = (await chrome.storage.local.get(key))[key];
+    const record = Object.assign({ t: Date.now() }, file);
+    // The sync set for that page stays.
+    if (before && typeof before.offset === 'number') record.offset = before.offset;
+    await chrome.storage.local.set({ [key]: record });
+    await chrome.storage.session.set({ ['page:' + SubSettings.pageOf(page)]: { t: record.t } });
+    const open = (await chrome.tabs.query({})).find((tab) => tab.url && SubSettings.pageOf(tab.url) === SubSettings.pageOf(page));
+    if (!open) return chrome.tabs.create({ url: page });
+    await chrome.tabs.update(open.id, { active: true });
+    await chrome.windows.update(open.windowId, { focused: true });
+    await chrome.tabs.reload(open.id);
+  }
+  // A finished job as a translation of its original lines: "Show original" and
+  // dual subtitles work there as usual, and a model's finished pass shows as done.
+  // The original keeps its own name, so on YouTube the CC button still switches them.
+  function playJob(job) {
+    const ai = job.model && job.chunks.length >= Math.ceil(job.lines.length / CHUNK);
+    return play(job.page, { name: outName(job), b64: b64(outSrt(job)), encoding: 'utf-8', usedEncoding: 'utf-8',
+      translatedTo: job.lang, origLang: '', original: { name: job.source || job.name, b64: b64(SubLib.toSRT(job.lines)), encoding: 'utf-8', usedEncoding: 'utf-8' },
+      ai: ai ? { model: job.model, done: job.lines.length, chunks: [...job.chunks], stopped: false } : null });
+  }
+  function playButton(onClick) {
+    const b = el('button', 'primary', t('Play'));
+    b.title = t('Opens the page these subtitles came from and shows them over its video.');
+    b.addEventListener('click', () => onClick().catch((e) => say(e.message, true)));
+    return b;
+  }
+  const siteName = (page) => { try { return new URL(page).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
+
   // ---------- list ----------
 
   function render() {
@@ -362,8 +467,9 @@
     const li = el('li', 'job ' + job.status);
     li.dataset.id = job.id;
     const head = el('div', 'job-head');
-    const name = el('span', 'job-name', job.name);
-    name.title = job.name;
+    if (job.status === 'done') head.append(el('span', 'job-check', '✓'));
+    const name = el('span', 'job-name', job.title || job.name);
+    name.title = job.title || job.name;
     const x = el('button', 'ghost job-x', '×');
     x.title = t('Remove from the queue');
     x.setAttribute('aria-label', t('Remove from the queue'));
@@ -380,12 +486,13 @@
     const lines = n + ' / ' + t('{n} lines', { n: total });
     const note = job.status === 'done' ? t('Done') + ' · ' + t('{n} lines', { n: total }) + (job.model ? ' · ' + job.model : '')
       : job.status === 'error' ? t('Stopped') + ': ' + job.error
-        : job.status === 'running' ? t('Translating') + ' · ' + lines
+        : job.status === 'running' ? (job.retry ? t('Didn’t work, trying again soon: {error}', { error: job.retry }) : t('Translating') + ' · ' + lines)
           : (paused ? t('Paused') : t('Waiting')) + (n ? ' · ' + lines : '');
     const foot = el('div', 'job-foot');
     foot.append(el('span', 'job-note', note));
     if (job.status === 'done') {
-      const b = el('button', 'primary', t('Download .srt'));
+      if (job.page) foot.append(playButton(() => playJob(job)));
+      const b = el('button', job.page ? '' : 'primary', t('Download .srt'));
       b.addEventListener('click', () => download(job));
       foot.append(b);
     } else if (job.status === 'error') {
@@ -403,6 +510,12 @@
       }
     }
     li.append(head, bar, foot);
+    // The page it was added from, where Play shows it.
+    if (job.page) {
+      const from = el('div', 'saved-meta', siteName(job.page));
+      from.title = job.page;
+      li.insertBefore(from, bar);
+    }
     return li;
   }
 
@@ -447,7 +560,8 @@
       }
       const foot = el('div', 'job-foot');
       foot.append(el('span', 'job-note', ''));
-      const b = el('button', 'primary', t('Download .srt'));
+      if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8' })));
+      const b = el('button', item.page ? '' : 'primary', t('Download .srt'));
       b.addEventListener('click', () => SubLib.saveText(item.srt, item.name));
       foot.append(b);
       li.append(head, meta, foot);

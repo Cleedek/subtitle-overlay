@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Subtitle Overlay</title>
   <link rel="stylesheet" href="popup.css">
+  <script src="lib/theme.js"></script>
 </head>
 <body>
   <div id="supportView" class="support" hidden>
@@ -116,6 +117,8 @@
           <button id="showOriginal">Show original</button>
           <button id="downloadTranslated">Download .srt</button>
         </div>
+        <button id="improveBtn" class="wide" hidden></button>
+        <p id="improveNote" class="improve-note" hidden></p>
         <p id="translateMsg" class="error" hidden></p>
         <p id="siteHidden" class="site-hidden" hidden></p>
       </div>
@@ -170,6 +173,7 @@
           <button data-translator="google" role="radio">Google</button>
           <button data-translator="gemini" role="radio">Gemini</button>
           <button data-translator="claude" role="radio">Claude</button>
+          <button data-translator="openai" role="radio">OpenAI</button>
           <button data-translator="local" role="radio">Local</button>
         </div>
         <p class="hint" id="translatorHint"></p>
@@ -185,6 +189,11 @@
               <label for="claudeKey" class="label">API key</label>
               <input id="claudeKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">
               <p class="hint"><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Get a key in the Claude Console ↗</a> <span>Paid by use, billed to your Anthropic account.</span></p>
+            </div>
+            <div class="ai-fields" id="openaiFields" hidden>
+              <label for="openaiKey" class="label">API key</label>
+              <input id="openaiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-…">
+              <p class="hint"><a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">Get a key on the OpenAI platform ↗</a> <span>Paid by use, billed to your OpenAI account. A ChatGPT subscription doesn’t include it.</span></p>
             </div>
             <div class="ai-fields" id="localFields" hidden>
               <label for="localUrl" class="label">Server address</label>
@@ -223,7 +232,7 @@
   <section>
     <div class="batch-links">
       <button id="openBatch" class="ghost">Translate files in the background…</button>
-      <button id="openSaved" class="ghost">Saved subtitles</button>
+      <button id="openSaved" class="ghost saved-open"><svg class="bookmark" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2h7a.5.5 0 0 1 .5.5V14l-4-3-4 3V2.5a.5.5 0 0 1 .5-.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Saved subtitles</button>
     </div>
   </section>
 
@@ -388,10 +397,38 @@
   </section>
   </div>
 
+  <!-- How the extension's own windows look and speak, under every tab. Apart from the Style tab,
+       so it's clear this isn't the subtitles. Same group as in Snap Translate and Edge Trim. -->
+  <section>
+    <h2>Interface</h2>
+    <div class="prefs">
+      <div class="setting-head">
+        <label for="uiLang" class="setting-label">Language</label>
+        <select id="uiLang" class="compact"></select>
+      </div>
+      <div class="setting-head">
+        <label for="uiTheme" class="setting-label">Appearance</label>
+        <select id="uiTheme" class="compact">
+          <option value="auto">Same as browser</option>
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
   <footer class="credit">
-    <div class="setting-head ui-lang">
-      <label for="uiLang" class="setting-label">Interface language</label>
-      <select id="uiLang" class="compact"></select>
+    <!-- The creator's other extension. popup.js shows it unless it is installed or was closed.
+         GitHub until Snap Translate is in the Chrome Web Store; then the store link goes here. -->
+    <div id="sister" class="sister" hidden>
+      <a class="sister-link" href="https://github.com/Cleedek/snap-translate" target="_blank" rel="noopener">
+        <img src="icons/snap-translate.png" width="32" height="32" alt="">
+        <span class="sister-text">
+          <span class="sister-name">Snap Translate <svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="sister-tagline">Text in any picture, in your language</span>
+        </span>
+      </a>
+      <button id="sisterClose" class="sister-close" title="Hide" aria-label="Hide"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </div>
     <button id="supportOpen" class="ghost wide support-open"><svg class="heart" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Support the creator <svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <p id="credit"></p>

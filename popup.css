@@ -15,10 +15,51 @@
   --accent-tint: oklch(0.33 0.09 293);
   --success: oklch(0.86 0.13 150);
   --danger: oklch(0.72 0.16 22);
+  --accent-line: oklch(0.45 0.13 293); /* border of a chosen chip */
+  --accent-text: oklch(0.88 0.06 293); /* text on --accent-tint */
+  --link: oklch(0.80 0.10 293);
   --thumb: oklch(0.97 0.004 290);
+  --shadow: oklch(0.1 0.01 290 / .5);
+  --seg-track: oklch(0.225 0.010 290);
+  --seg-quiet: oklch(0.48 0.012 290); /* chosen option inside a setting */
+  --key-face: linear-gradient(oklch(0.29 0.012 290), oklch(0.235 0.010 290));
+  --key-edge: inset 0 1px 0 oklch(1 0 0 / .12), 0 2px 0 oklch(0.12 0.008 290), 0 0 0 1px oklch(1 0 0 / .08);
+  --qr: none; /* the QR codes are drawn white */
   --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a29fb3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --ease: cubic-bezier(.25, 1, .5, 1); /* ease-out-quart */
 }
+
+/* Light look, set by lib/theme.js. Same roles, so every rule below fits both.
+   Text on --bg: --text 15.8:1, --muted 7.2:1, --faint 5.3:1, --link 7:1, --danger 5.2:1. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: oklch(0.985 0.003 290);
+  --panel: oklch(0.965 0.005 290);
+  --panel-hover: oklch(0.94 0.008 290);
+  --line: oklch(0.91 0.008 290);
+  --line-strong: oklch(0.84 0.012 290);
+  --text: oklch(0.24 0.014 290);
+  --muted: oklch(0.45 0.016 290);
+  --faint: oklch(0.52 0.016 290);
+  --accent-hover: oklch(0.48 0.22 293);
+  --accent-soft: oklch(0.54 0.23 293 / .16);
+  --accent-tint: oklch(0.93 0.04 293);
+  --accent-line: oklch(0.72 0.12 293);
+  --accent-text: oklch(0.42 0.17 293);
+  --link: oklch(0.48 0.21 293);
+  --success: oklch(0.55 0.15 150);
+  --danger: oklch(0.55 0.20 25);
+  --thumb: oklch(1 0 0);
+  --shadow: oklch(0.25 0.02 290 / .25);
+  --seg-track: oklch(0.93 0.006 290);
+  --seg-quiet: oklch(0.86 0.012 290);
+  --key-face: linear-gradient(oklch(1 0 0), oklch(0.955 0.005 290));
+  --key-edge: inset 0 1px 0 oklch(1 0 0), 0 2px 0 oklch(0.82 0.01 290), 0 0 0 1px oklch(0.25 0.02 290 / .14);
+  --qr: invert(.86); /* dark modules on the light card, as QR codes usually are */
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23686872' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+/* The moment the look switches (lib/theme.js), so nothing fades in behind the rest. */
+:root.theme-switching * { transition: none !important; }
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -150,10 +191,10 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%;
   background: var(--thumb); border: 0;
-  box-shadow: 0 1px 3px oklch(0.1 0.01 290 / .6), 0 0 0 0 var(--accent-soft);
+  box-shadow: 0 1px 3px var(--shadow), 0 0 0 0 var(--accent-soft);
   transition: box-shadow .15s var(--ease), transform .15s var(--ease);
 }
-input[type=range]:hover::-webkit-slider-thumb { box-shadow: 0 1px 3px oklch(0.1 0.01 290 / .6), 0 0 0 5px var(--accent-soft); }
+input[type=range]:hover::-webkit-slider-thumb { box-shadow: 0 1px 3px var(--shadow), 0 0 0 5px var(--accent-soft); }
 input[type=range]:active::-webkit-slider-thumb { transform: scale(1.12); }
 input[type=range]:focus-visible { outline: none; }
 input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--accent); }
@@ -167,7 +208,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
 }
 .toggle span::after {
   content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%;
-  background: var(--thumb); box-shadow: 0 1px 2px oklch(0.1 0.01 290 / .5);
+  background: var(--thumb); box-shadow: 0 1px 2px var(--shadow);
   transition: transform .2s var(--ease);
 }
 .toggle input:checked + span { background: var(--accent); }
@@ -210,6 +251,8 @@ label.inline select { flex: 1; }
 .setting.first { padding-top: 0; }
 .setting-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; }
 .setting-label { color: var(--text); font-weight: 500; }
+/* Language and Appearance: short rows, close together, without lines between them. */
+.prefs { display: flex; flex-direction: column; gap: 8px; }
 .setting .hint { margin: -4px 0 0; font-size: 11.5px; color: var(--faint); }
 .value { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 12px; }
 .value input[type=number] { width: 52px; padding: 3px 6px; text-align: right; }
@@ -225,7 +268,7 @@ label.inline select { flex: 1; }
 .item { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
 .item-head { display: flex; gap: 6px; align-items: baseline; }
 .item-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-.badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; background: var(--accent-tint); color: oklch(0.88 0.06 293); border-radius: 5px; padding: 1px 5px; }
+.badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; background: var(--accent-tint); color: var(--accent-text); border-radius: 5px; padding: 1px 5px; }
 .item-meta { color: var(--muted); font-size: 11.5px; margin: 3px 0 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .item .row button { padding: 3px 8px; font-size: 12px; }
 .error { color: var(--danger); font-size: 11.5px; margin-top: 4px; }
@@ -243,7 +286,7 @@ label.inline select { flex: 1; }
 .chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chips button { padding: 2px 9px; font-size: 11.5px; border-radius: 999px; color: var(--muted); }
 .chips button:hover { color: var(--text); }
-.chips button.on { background: var(--accent-tint); border-color: oklch(0.45 0.13 293); color: var(--text); }
+.chips button.on { background: var(--accent-tint); border-color: var(--accent-line); color: var(--text); }
 .font-list { max-height: 176px; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .font-row {
   display: flex; align-items: center; gap: 6px; width: 100%; padding: 6px 9px; border: 0; border-radius: 0;
@@ -276,7 +319,7 @@ button.wide { width: 100%; padding: 8px 10px; }
 
 .translate { margin-top: 8px; display: flex; flex-direction: column; gap: 2px; font-size: 11.5px; color: var(--muted); }
 .translate .saved::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
-.translate a { color: oklch(0.80 0.10 293); }
+.translate a { color: var(--link); }
 
 /* ---------- keyboard shortcuts drawn as keys ---------- */
 
@@ -285,8 +328,7 @@ button.wide { width: 100%; padding: 8px 10px; }
 kbd {
   display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px;
   font: 600 11.5px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text);
-  border-radius: 6px; background: linear-gradient(oklch(0.29 0.012 290), oklch(0.235 0.010 290));
-  box-shadow: inset 0 1px 0 oklch(1 0 0 / .12), 0 2px 0 oklch(0.12 0.008 290), 0 0 0 1px oklch(1 0 0 / .08);
+  border-radius: 6px; background: var(--key-face); box-shadow: var(--key-edge);
   margin-bottom: 2px;
 }
 
@@ -304,6 +346,7 @@ kbd {
 .translate-box { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
 .translate-box .row { flex-wrap: nowrap; }
 .translate-box .error { margin: 0; }
+.improve-note { margin: 0; color: var(--muted); font-size: 12px; }
 .translated-note { flex: 1; color: var(--muted); font-size: 12px; }
 .translated-note::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
 .translated-note strong { color: var(--text); font-weight: 600; }
@@ -331,13 +374,12 @@ body.site-off .panel { display: block; }
 .off-list span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .off-list button { padding: 4px 10px; font-size: 12px; }
 
-.ui-lang { margin-bottom: 12px; }
 
 /* ---------- support the creator (a second level of the popup) ---------- */
 
 body.support > :not(#supportView, script, style) { display: none !important; }
 body.support #supportView { display: block !important; }
-.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-color: var(--line-strong); }
+.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
 .support-open .heart { color: oklch(0.66 0.21 18); transition: transform .2s var(--ease); }
 .support-open:hover .heart { transform: scale(1.12); }
 .support-open .chev { color: var(--faint); }
@@ -345,15 +387,15 @@ body.support #supportView { display: block !important; }
 .support-head h1 { margin: 0; }
 .round-btn { width: 32px; height: 32px; padding: 0; border-radius: 50%; display: grid; place-items: center; flex: none; }
 .support-intro { margin: 0 0 14px; }
-.segmented { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 12px; }
+.segmented { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 3px; background: var(--seg-track); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 12px; }
 .segmented button { border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 10px; }
 .segmented button:hover { background: var(--panel-hover); color: var(--text); }
-.segmented button[aria-selected="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px oklch(0.1 0.01 290 / .4); }
+.segmented button[aria-selected="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px var(--shadow); }
 .support .segmented { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: auto; }
 .support .segmented button { white-space: nowrap; padding-inline: 6px; }
 .segmented button[hidden] { display: none; }
 .pay-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 16px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
-.qr { display: block; width: 196px; height: 196px; }
+.qr { display: block; width: 196px; height: 196px; filter: var(--qr); }
 .pay-id { margin: 14px 0 4px; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
 .pay-id span { color: var(--text); }
 .pay-note { margin: 0 0 14px; font-size: 12px; max-width: 280px; }
@@ -363,18 +405,41 @@ a.btn { font: inherit; text-decoration: none; border-radius: 8px; border: 1px so
 a.btn.primary { background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
 a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
-.credit { padding-top: 14px; border-top: 1px solid var(--line); }
+/* About the creator, set apart from the settings by a line and a little more space. */
+.credit { padding-top: 20px; border-top: 1px solid var(--line); }
 .credit p { margin: 12px 0 0; text-align: center; font-size: 11.5px; color: var(--faint); }
 .credit a { color: var(--muted); font-weight: 600; text-decoration: none; }
 .credit a:hover { color: var(--text); text-decoration: underline; }
 .star-link { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); text-decoration: none; }
 .star-link:hover { color: var(--text); }
 
+/* Snap Translate, the creator's other extension: one quiet card above "Support the creator",
+   tinted with the purple of both icons (#7c3aed), its outline a step more of the same purple. */
+.sister { position: relative; margin-bottom: 8px; }
+.sister .sister-link {
+  display: flex; align-items: center; gap: 10px; padding: 9px 36px 9px 10px;
+  border: 1px solid color-mix(in srgb, #7c3aed 20%, transparent); border-radius: 10px;
+  background: color-mix(in srgb, #7c3aed 10%, transparent); color: var(--text); font-weight: 400; text-decoration: none;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+.sister .sister-link:hover { background: color-mix(in srgb, #7c3aed 15%, transparent); border-color: color-mix(in srgb, #7c3aed 28%, transparent); text-decoration: none; }
+.sister-link img { flex: none; border-radius: 8px; }
+.sister-text { display: flex; flex-direction: column; min-width: 0; }
+.sister-name { display: flex; align-items: center; gap: 5px; font-weight: 600; }
+.sister-name svg { color: var(--faint); }
+.sister-tagline { font-size: 11.5px; color: var(--muted); }
+.sister-close {
+  position: absolute; top: 50%; right: 6px; transform: translateY(-50%);
+  display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
+  border: 0; border-radius: 6px; background: transparent; color: var(--faint);
+}
+.sister-close:hover { background: var(--panel-hover); color: var(--text); }
+
 /* Translator: Google, Gemini or a local model */
-.segmented.translator { grid-template-columns: repeat(4, 1fr); margin: 0; }
+.segmented.translator { grid-template-columns: repeat(5, 1fr); margin: 0; }
 .segmented.translator button { padding-inline: 4px; }
-/* Quieter than the tabs at the top: a choice inside a setting. White text on this gray: 5.5:1. */
-.segmented.translator button[aria-selected="true"] { background: oklch(0.48 0.012 290); color: var(--text); box-shadow: none; }
+/* Quieter than the tabs at the top: a choice inside a setting. Text on this gray: 5.5:1 dark, 10.7:1 light. */
+.segmented.translator button[aria-selected="true"] { background: var(--seg-quiet); color: var(--text); box-shadow: none; }
 .ai-fields { display: flex; flex-direction: column; gap: 6px; }
 .ai-fields .label { margin: 0; }
 .ai-fields[hidden] { display: none; }
@@ -394,8 +459,12 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 .ai-details[open] summary::before { transform: none; }
 .ai-details summary:hover { color: var(--text); }
 .ai-summary { margin-left: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; font-size: 11.5px; color: var(--faint); }
-.setting .hint a { color: oklch(0.80 0.10 293); }
+.setting .hint a { color: var(--link); }
 .setting .hint.error { color: var(--danger); }
 
 .batch-links { display: flex; flex-direction: column; gap: 6px; }
 .batch-links button { flex: 1; }
+/* The user's own library: same weight as "Support the creator", but no colour. */
+.saved-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
+.saved-open .bookmark { transition: transform .2s var(--ease); }
+.saved-open:hover .bookmark { transform: scale(1.12); }

@@ -83,6 +83,26 @@
     });
   }
 
+  // ---------- Snap Translate, the creator's other extension ----------
+
+  // Its ID is known once it is in the Chrome Web Store (the store link goes in popup.html then).
+  // Until then the card can't tell whether Snap Translate is installed.
+  const SNAP_TRANSLATE_ID = '';
+
+  // A card in the footer, hidden for good once closed. Not shown when Snap Translate is
+  // already installed: it answers a "hello" from another extension, and nothing else is asked.
+  (async () => {
+    const { sisterClosed } = await chrome.storage.local.get('sisterClosed');
+    if (sisterClosed) return;
+    const installed = !!SNAP_TRANSLATE_ID && await chrome.runtime.sendMessage(SNAP_TRANSLATE_ID, { type: 'hello' }).then(Boolean, () => false);
+    if (!installed) $('sister').hidden = false;
+  })();
+  $('sisterClose').addEventListener('click', () => {
+    $('sister').hidden = true;
+    chrome.storage.local.set({ sisterClosed: true });
+    $('supportOpen').focus();
+  });
+
   const style = document.createElement('style');
   style.textContent = SubRender.CSS;
   document.head.appendChild(style);
@@ -270,17 +290,21 @@
   $('secondLang').value = prefs.secondLang || 'orig';
   $('secondLang').addEventListener('change', () => SubSettings.saveTranslation({ secondLang: $('secondLang').value }));
 
-  // Translator: Google alone, or Google first and then Gemini, Claude or a local model
-  // rewrites the lines in the background (slower, but reads more naturally).
+  // Translator: Google alone, or Google first and then, when you click Improve,
+  // Gemini, Claude, OpenAI or a local model rewrites the lines (slower, but reads more
+  // naturally). It never starts by itself: a key costs money, a local model the
+  // computer's time.
   const TRANSLATOR_HINTS = {
     google: 'Fast and free. Translates line by line.',
-    gemini: 'Google’s version shows at once, then Gemini rewrites it with the whole scene in mind. Needs an API key.',
-    claude: 'Google’s version shows at once, then Claude rewrites it with the whole scene in mind. Needs an API key.',
-    local: 'Google’s version shows at once, then a model on this computer rewrites it. Free and private, but slower. Needs Ollama or LM Studio.',
+    gemini: 'Google translates at once. Click Improve and Gemini rewrites it with the whole scene in mind. Needs an API key.',
+    claude: 'Google translates at once. Click Improve and Claude rewrites it with the whole scene in mind. Needs an API key.',
+    openai: 'Google translates at once. Click Improve and OpenAI rewrites it with the whole scene in mind. Needs an API key.',
+    local: 'Google translates at once. Click Improve and a model on this computer rewrites it. Free and private, but slower. Needs Ollama or LM Studio.',
   };
   let translator = prefs.translator;
   $('geminiKey').value = prefs.geminiKey;
   $('claudeKey').value = prefs.claudeKey;
+  $('openaiKey').value = prefs.openaiKey;
   $('localUrl').value = prefs.localUrl;
   const modelKey = () => SubSettings.AI[translator].model;
 
@@ -289,6 +313,25 @@
     $('aiMsg').textContent = text || '';
     $('aiMsg').classList.toggle('error', !!isError);
     if (isError) $('aiDetails').open = true; // a problem shouldn't stay folded away
+  }
+
+  // "Improve with gemma3:12b" under the translation on the video, once the AI
+  // translator has its key and model. While that model works on it, or once
+  // it's done, a line says so instead.
+  const improveModel = () => {
+    const ai = SubSettings.AI[translator];
+    return ai && !(ai.key && !$(ai.key).value.trim()) ? $('aiModel').value : '';
+  };
+  function renderImprove() {
+    const lf = loadedFrame();
+    const l = lf && lf.report.loaded;
+    const model = l && l.translatedTo ? improveModel() : '';
+    const ai = model && l.ai && l.ai.model === model ? l.ai : null;
+    const busy = !!ai && (ai.running || ai.finished);
+    $('improveBtn').hidden = !model || busy;
+    $('improveBtn').textContent = t('Improve with {model}', { model });
+    $('improveNote').hidden = !busy;
+    $('improveNote').textContent = busy ? t(ai.running ? 'Improving the translation with {model}…' : 'Translation improved by {model}', { model }) : '';
   }
 
   // Fills the model list from what the key or the local server offers.
@@ -311,6 +354,7 @@
     $('aiSummary').textContent = pick;
     if (pick !== saved) await SubSettings.saveTranslation({ [modelKey()]: pick });
     aiMsg('');
+    renderImprove();
   }
 
   function renderTranslator() {
@@ -322,6 +366,7 @@
     $('translatorHint').textContent = t(TRANSLATOR_HINTS[translator] || TRANSLATOR_HINTS.google);
     $('geminiFields').hidden = translator !== 'gemini';
     $('claudeFields').hidden = translator !== 'claude';
+    $('openaiFields').hidden = translator !== 'openai';
     $('localFields').hidden = translator !== 'local';
     const keyField = SubSettings.AI[translator] && SubSettings.AI[translator].key;
     const needsKey = !!keyField && !$(keyField).value.trim();
@@ -333,6 +378,7 @@
     }
     $('modelField').hidden = translator === 'google' || needsKey;
     if (!$('modelField').hidden) loadModels();
+    renderImprove();
   }
   for (const b of document.querySelectorAll('[data-translator]')) {
     b.addEventListener('click', async () => {
@@ -349,6 +395,10 @@
     await SubSettings.saveTranslation({ claudeKey: $('claudeKey').value.trim() });
     renderTranslator();
   });
+  $('openaiKey').addEventListener('change', async () => {
+    await SubSettings.saveTranslation({ openaiKey: $('openaiKey').value.trim() });
+    renderTranslator();
+  });
   $('localUrl').addEventListener('change', async () => {
     await SubSettings.saveTranslation({ localUrl: $('localUrl').value.trim() || SubSettings.TRANSLATION.localUrl });
     renderTranslator();
@@ -356,6 +406,7 @@
   $('aiModel').addEventListener('change', () => {
     $('aiSummary').textContent = $('aiModel').value;
     SubSettings.saveTranslation({ [modelKey()]: $('aiModel').value });
+    renderImprove();
   });
   renderTranslator();
 
@@ -366,6 +417,7 @@
     // Already showing the picked language: nothing to translate.
     $('translateBtn').hidden = showing === lang;
     $('translateBtn').textContent = t('Translate to {lang}', { lang: SubSettings.languageName(lang) });
+    renderImprove();
   }
 
   function translateMsg(text) {
@@ -404,6 +456,19 @@
     b.disabled = false;
     const lf2 = loadedFrame();
     if (lf2) renderTranslate(lf2.report.loaded);
+    if (!res || !res.ok) translateMsg(res ? res.error : t('Translation failed.'));
+  });
+
+  // The page starts the AI on the translation it shows (the background does the requests).
+  $('improveBtn').addEventListener('click', async () => {
+    const lf = loadedFrame();
+    if (!lf) return;
+    $('improveBtn').disabled = true;
+    translateMsg('');
+    const res = await chrome.tabs.sendMessage(tab.id, { type: 'improve' }, { frameId: lf.frameId })
+      .catch(() => ({ ok: false, error: t('The page didn’t answer. Reload the page and try again.') }));
+    await scan();
+    $('improveBtn').disabled = false;
     if (!res || !res.ok) translateMsg(res ? res.error : t('Translation failed.'));
   });
 
@@ -551,9 +616,49 @@
         const tr = lf ? await translateLoaded(lf.frameId) : { ok: false, error: t('The subtitles didn’t reach the video.') };
         if (!tr || !tr.ok) throw new Error(tr ? tr.error : t('Translation failed.'));
       }),
+      run(t('Add to queue'), async (file) => { await addToQueue(file); c.append(queueNote()); }),
     );
     c.append(head, m, row, err);
     return c;
+  }
+
+  // The translation queue translates the file in its own tab while you watch
+  // something else, and remembers this page: its Play button brings you back
+  // here with the translation on the video. The queue tab opens behind this
+  // one if it isn't open yet (it only runs while open).
+  async function addToQueue(file) {
+    const lines = SubLib.parse(SubLib.decode(SubLib.base64ToBytes(file.b64), 'auto').text)
+      .map((c) => ({ start: c.start, end: c.end, text: c.text }));
+    if (!lines.length) throw new Error(t('No subtitle lines found.'));
+    // The background names the file and opens the queue (as for the card over the video).
+    const res = await chrome.runtime.sendMessage({ type: 'add-to-queue', tabId: tab.id, lines, lang, title: episodeTitle(), fileName: file.name });
+    if (!res || !res.ok) throw new Error(res ? res.error : t('Failed.'));
+  }
+  const queueView = () => chrome.extension.getViews({ type: 'tab' }).find((v) => v.location.pathname === '/batch.html');
+
+  // After "Add to queue": "Added to the translation queue. Open the queue ↗"
+  function queueNote() {
+    document.querySelectorAll('.translate').forEach((n) => n.remove());
+    const p = document.createElement('div');
+    p.className = 'translate';
+    const done = document.createElement('div');
+    done.className = 'saved';
+    done.textContent = t('Added to the translation queue');
+    const a = document.createElement('a');
+    a.href = '#';
+    a.textContent = t('Open the queue') + ' ↗';
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const view = queueView();
+      if (!view) return chrome.tabs.create({ url: chrome.runtime.getURL('batch.html') });
+      view.chrome.tabs.getCurrent((there) => {
+        if (!there) return;
+        chrome.tabs.update(there.id, { active: true });
+        chrome.windows.update(there.windowId, { focused: true });
+      });
+    });
+    p.append(done, a);
+    return p;
   }
 
   // After a download: "Saved to Downloads. Translate it ↗"
@@ -1119,6 +1224,11 @@
       setSite(site, true);
     }
   });
+
+  // ---------- extension look (lib/theme.js applies and keeps it) ----------
+
+  $('uiTheme').value = SubTheme.get();
+  $('uiTheme').addEventListener('change', () => SubTheme.set($('uiTheme').value));
 
   // ---------- interface language ----------
 

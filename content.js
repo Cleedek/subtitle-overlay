@@ -43,7 +43,7 @@
   // ---------- storage ----------
 
   SubSettings.load().then((s) => { settings = s; refreshStyle(); });
-  SubSettings.loadTranslation().then((p) => { prefs = p; });
+  const prefsReady = SubSettings.loadTranslation().then((p) => { prefs = p; });
   SubSettings.loadShortcuts().then((k) => { shortcuts = k; refreshFsKey(); });
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'local' && (changes.shortcuts || changes.toggleKey)) SubSettings.loadShortcuts().then((k) => { shortcuts = k; refreshFsKey(); });
@@ -53,7 +53,7 @@
         if (changes[k]) prefs[k] = changes[k].newValue != null ? changes[k].newValue : SubSettings.TRANSLATION[k];
       }
       if (changes.secondLang && cues.length) { ensureSecond(); lastKey = ''; position(true); render(true); }
-      if (['translator', 'geminiKey', 'geminiModel', 'claudeKey', 'claudeModel', 'localUrl', 'localModel'].some((k) => changes[k])) improveShown(false);
+      if (['translator', 'geminiKey', 'geminiModel', 'claudeKey', 'claudeModel', 'openaiKey', 'openaiModel', 'localUrl', 'localModel'].some((k) => changes[k])) aiChanged();
     }
     if (area !== 'local' || !changes.settings) return;
     const offsetBefore = settings.offset;
@@ -79,25 +79,46 @@
   // The subtitles of each page are kept on this computer (storage.local), with
   // their sync, so a later visit can bring them back. A mark in session storage
   // says they were already showing in this browser session: then a reload
-  // restores them at once, a later visit only offers them.
-  const pageKey = () => 'page:' + location.href;
-  const memKey = () => 'mem:' + location.href;
+  // restores them at once, a later visit only offers them (in automatic mode
+  // a YouTube video, and any page whose file is found again, gets them back
+  // at once: checkRestore, autoShow).
+  // A YouTube video is one page whatever else its address holds (SubSettings.pageOf).
+  const pageKey = (page = SubSettings.pageOf(location.href)) => 'page:' + page;
+  const memKey = (page = SubSettings.pageOf(location.href)) => 'mem:' + page;
   const MEM_PAGES = 30;
   const SECOND_KEEP = 24 * 3600 * 1000; // as in background.js, which deletes it after that
 
+  // This page's record. One saved before YouTube addresses were tidied up sits under the full address.
+  async function memRecord() {
+    const keys = [memKey(), 'mem:' + location.href];
+    const got = await chrome.storage.local.get(keys);
+    return got[keys[0]] || got[keys[1]] || null;
+  }
+
+  // The page the subtitles on screen belong to. YouTube's own captions name
+  // their video ("youtube-<id>.en"): its address changes as soon as you click
+  // another video, a moment before they go.
+  const ytPage = (id) => 'https://www.youtube.com/watch?v=' + id;
+  function pageOfSubs() {
+    const m = /^youtube-([\w-]{11})(?:\.|$)/.exec(baseOf().file ? baseOf().file.name : '');
+    return m ? ytPage(m[1]) : SubSettings.pageOf(location.href);
+  }
+
   async function rememberFile() {
     if (!file) return;
+    const page = pageOfSubs();
     const record = Object.assign({ t: Date.now(), offset: settings.offset }, file);
-    // The second language of dual subtitles comes along once an AI pass worked
-    // on it, for a day after it was last saved (a reload shouldn't redo that work).
+    // The second language of dual subtitles comes along once you asked the AI
+    // to improve it, for a day after it was last saved (a reload carries on and
+    // shouldn't redo that work).
     const lang = prefs.secondLang;
     const second = lang && lang !== 'orig' && lang !== (original && file.translatedTo) && translations.get(lang);
     const ai = second && aiState.get(second);
-    if (ai && (ai.chunks.size || ai.stopped)) {
+    if (ai) {
       record.second = { t: record.t, lang, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(second))),
         ai: { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } };
     }
-    try { await chrome.storage.session.set({ [pageKey()]: { t: record.t } }); } catch (e) { /* reload just won't restore */ }
+    try { await chrome.storage.session.set({ [pageKey(page)]: { t: record.t } }); } catch (e) { /* reload just won't restore */ }
     // Newest first; everything past `keep` is removed.
     const prune = async (keep) => {
       const all = await chrome.storage.local.get(null);
@@ -105,17 +126,17 @@
       if (pages.length > keep) await chrome.storage.local.remove(pages.slice(keep));
     };
     try {
-      await chrome.storage.local.set({ [memKey()]: record });
+      await chrome.storage.local.set({ [memKey(page)]: record });
       await prune(MEM_PAGES);
     } catch (e) {
       // Storage full: keep only the newest few pages and try once more.
-      try { await prune(5); await chrome.storage.local.set({ [memKey()]: record }); } catch (e2) { /* not remembered */ }
+      try { await prune(5); await chrome.storage.local.set({ [memKey(page)]: record }); } catch (e2) { /* not remembered */ }
     }
   }
 
   function forgetPage() {
     try { chrome.storage.session.remove(pageKey()); } catch (e) { /* ignore */ }
-    try { chrome.storage.local.remove(memKey()); } catch (e) { /* ignore */ }
+    try { chrome.storage.local.remove([memKey(), 'mem:' + location.href]); } catch (e) { /* ignore */ }
   }
 
   // A sync change while subtitles show is saved with them (once it settles).
@@ -654,8 +675,10 @@
     if (!src || src === lastSrc) return;
     lastSrc = src;
     if (srcPending) { srcPending = false; return; }
-    // Ads in the same element change the source too; don't drop subtitles for them.
-    if (inAd() || Date.now() - lastAdAt < 5000) return;
+    // Ads in the same element change the source too; don't drop subtitles for
+    // them. Unless YouTube already shows another video: then the ad comes before that one.
+    const otherVideo = !!SubSettings.youTubeId(location.href) && pageOfSubs() !== SubSettings.pageOf(location.href);
+    if ((inAd() || Date.now() - lastAdAt < 5000) && !otherVideo) return;
     if (!cues.length) return;
     stashed = { cues, file };
     clearSubs(true);
@@ -780,11 +803,13 @@
   let restorePending = null; // { record, ask }
   async function checkRestore() {
     try {
-      const got = await chrome.storage.local.get(memKey());
-      const record = got[memKey()];
+      const record = await memRecord();
       if (!record) return;
       let ask = true;
       try { ask = !(await chrome.storage.session.get(pageKey()))[pageKey()]; } catch (e) { /* treat as a new visit */ }
+      // In automatic mode a YouTube video's subtitles come back by themselves:
+      // its address names the video (a feed's address doesn't, so there they're offered).
+      if (ask && SubSettings.youTubeId(location.href)) { await prefsReady; ask = !prefs.autoTranslate; }
       restorePending = { record, ask };
       startWatch();
       tryRestore();
@@ -817,17 +842,18 @@
     }
     if (!f.original) {
       const r = loadBytes(f.name, f.b64, f.encoding, v);
-      if (r.ok && restoreSecond(f)) improveShown(true);
+      if (r.ok && restoreSecond(f)) resumeShown();
       return r;
     }
     // A translation was showing: bring back the original, then the saved translation (no new request).
     const r = loadBytes(f.original.name, f.original.b64, f.original.encoding, v);
     if (r.ok && f.origLang) origLang = f.origLang;
-    if (!r.ok) return;
+    if (!r.ok) return r;
     const list = savedList(f.b64, f.ai);
     showTranslation(f.translatedTo, list, true);
     restoreSecond(f);
-    improveShown(true);
+    resumeShown();
+    return r;
   }
   // Saved lines and how far the AI pass got with them.
   function savedList(b64, ai) {
@@ -1046,13 +1072,13 @@
   // The untranslated file and its lines: what every translation starts from.
   const baseOf = () => original || { file, cues };
 
-  // Translates the original lines into `to` (cached per language). Resolves
+  // Translates the original lines into `to` with Google (cached per language).
+  // The AI never starts here: only the Improve button starts it. Resolves
   // { ok, list } or { ok: false, error }.
   async function fetchTranslation(to, quiet) {
     const base = baseOf();
     const cached = translations.get(to);
-    // Translating again also retries an AI pass that stopped, or starts one for a newly chosen model.
-    if (cached) { improve(to, base, cached, quiet); return { ok: true, list: cached }; }
+    if (cached) return { ok: true, list: cached };
     if (!quiet) toast(t('Translating {n} lines to {lang}…', { n: base.cues.length, lang: SubSettings.languageName(to) }), 15000);
     const res = await chrome.runtime.sendMessage({ type: 'translate', to, texts: base.cues.map((c) => toHtml(c.text)) })
       .catch((e) => ({ ok: false, error: e.message }));
@@ -1066,14 +1092,15 @@
     if (res.detected) origLang = res.detected;
     const list = base.cues.map((c, i) => ({ start: c.start, end: c.end, text: fromHtml(res.texts[i]) || c.text }));
     translations.set(to, list);
-    improve(to, base, list, quiet);
     return { ok: true, list };
   }
 
-  // A better AI pass (Gemini or a local model) over Google's quick version:
-  // small chunks from where the video is now, each swapped in as it arrives.
-  // Chunks already done (before a reload, or before the pass stopped) are
-  // skipped while the model stays the same; another model starts over.
+  // A better AI pass (Gemini, Claude, OpenAI or a local model) over Google's quick
+  // version, started with the Improve button: a key costs money and a local
+  // model keeps the computer busy, so it never starts by itself. Small chunks
+  // from where the video is now, each swapped in as it arrives. Chunks already
+  // done (before a reload, or before the pass stopped) are skipped while the
+  // model stays the same; another model starts over.
   const AI_CHUNK = 30;
   const improving = new Map(); // language -> { file, model } of the pass running for it
   // How far the AI pass got, shown in the card over the video.
@@ -1082,10 +1109,12 @@
   const aiFinished = (s) => s.chunks.size >= Math.ceil(s.total / AI_CHUNK);
   const aiOf = () => SubSettings.AI[prefs.translator]; // undefined for Google
   const aiModel = () => (aiOf() && prefs[aiOf().model]) || '';
-  // A pass stopped with "Stop" stays stopped through reloads and passes that
-  // start by themselves (quiet); translating again or choosing a model starts it.
+  // An AI translator with its key (if it needs one) and a model: Improve can start.
+  const aiReady = () => { const ai = aiOf(); return !!ai && (!ai.key || !!prefs[ai.key]) && !!prefs[ai.model]; };
+  // quiet: carrying on after a reload. A pass stopped with "Stop" stays
+  // stopped then; only Continue or Improve starts it again.
   async function improve(to, base, list, quiet) {
-    if (!aiOf()) return;
+    if (!aiReady()) return;
     const model = aiModel();
     const busy = improving.get(to);
     if (busy && busy.file === base.file && busy.model === model) return;
@@ -1106,12 +1135,15 @@
     const starts = [];
     for (let i = from - (from % AI_CHUNK); i < src.length; i += AI_CHUNK) starts.push(i);
     for (let i = 0; i < from - (from % AI_CHUNK); i += AI_CHUNK) starts.push(i);
+    // Another model chosen meanwhile: the background would already ask that one, so this pass stops.
     const stillWanted = () => baseOf().file === base.file && improving.get(to) === run &&
-      !!aiOf();
+      !!aiOf() && aiModel() === model;
     const shown = () => original && cues === list && file.translatedTo === to;
     // Only a language on screen gets translated: one switched off (over the
     // video, Alt + S, YouTube's CC button, dual subtitles off) waits and carries on when it's back.
     const onScreen = () => (visible && list === cues) || (dualVisible && list === secondCues());
+    // Remembered at once, so a reload right after Improve carries on.
+    if (shown()) showTranslation(to, list, true); else rememberFile();
     let said = quiet, savedAt = Date.now();
     try {
       for (let k = 0; k < starts.length; k++) {
@@ -1170,22 +1202,32 @@
     }
   }
 
-  // Gemini, Claude or a local model chosen or set up after the translation was made,
-  // or a reload in the middle of a pass: improve the translations on screen.
-  function improveShown(quiet) {
-    const ai = aiOf();
-    const ready = ai && (!ai.key || prefs[ai.key]) && prefs[ai.model];
-    if (!ready || !cues.length) return;
+  // A reload in the middle of a pass you started: it carries on, while the
+  // same model is chosen. Nothing else starts by itself.
+  function resumeShown() {
+    if (!aiReady() || !cues.length) return;
     const base = baseOf();
     for (const to of [original && file.translatedTo, prefs.secondLang]) {
       const list = to && translations.get(to);
-      if (list && (list === cues || list === secondCues())) improve(to, base, list, quiet);
+      const s = list && aiState.get(list);
+      if (s && s.model === aiModel() && (list === cues || list === secondCues())) improve(to, base, list, true);
     }
+  }
+
+  // Another translator or model chosen: a pass running with the old one stops
+  // (it would not start again by itself), and the card offers the new one.
+  function aiChanged() {
+    for (const [to] of [...improving]) {
+      const list = translations.get(to);
+      const s = list && aiState.get(list);
+      if (s && (!aiReady() || s.model !== aiModel())) stopImproving(to, list, true);
+    }
+    refreshLangs();
   }
 
   // "Stop" in the card over the video: the chunk being worked on is dropped
   // and Google's lines stay where the model hasn't been yet.
-  function stopImproving(to, list) {
+  function stopImproving(to, list, quiet) {
     const state = aiState.get(list);
     if (!state) return;
     state.stopped = true;
@@ -1193,7 +1235,7 @@
     state.running = state.paused = false;
     if (original && cues === list && file.translatedTo === to) showTranslation(to, list, true); else rememberFile();
     refreshLangs();
-    if (list === cues) toast(t('Stopped improving, Google’s version stays'), 3000);
+    if (list === cues && !quiet) toast(t('Stopped improving, Google’s version stays'), 3000);
   }
 
   async function translate(to) {
@@ -1201,6 +1243,8 @@
     const r = await fetchTranslation(to);
     if (!r.ok) return r;
     showTranslation(to, r.list);
+    // With an AI translator set up, the card over the video shows its Improve button for a moment.
+    if (aiReady()) showLangs();
     return { ok: true, count: r.list.length };
   }
 
@@ -1238,8 +1282,8 @@
     const ai = aiState.get(list);
     file = { name, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(list))), encoding: 'utf-8', usedEncoding: 'utf-8',
       translatedTo: to, origLang, original: original.file,
-      // Which chunks the AI pass already rewrote, so a reload shows it and carries on.
-      ai: ai && (ai.chunks.size || ai.stopped) ? { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } : null };
+      // That you asked the AI to improve it and which chunks it already rewrote, so a reload shows it and carries on.
+      ai: ai ? { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } : null };
     lastKey = '';
     render(true);
     rememberFile();
@@ -1338,9 +1382,9 @@
   }
 
   // One switch per language while dual subtitles are on in the settings, even
-  // with one of them hidden, so it can be switched back on. Below them, how far
-  // Gemini or the local model got with each translation on screen. The top one
-  // first. False when there is nothing to show.
+  // with one of them hidden, so it can be switched back on. Below them, for each
+  // translation on screen (not the original): how far the AI got with it, or
+  // its Improve button. The top one first. False when there is nothing to show.
   function fillLangs() {
     if (!cues.length) return false;
     const second = settings.dual && secondCues();
@@ -1356,9 +1400,16 @@
       b.addEventListener('click', () => { row.flip(); lastKey = ''; position(true); render(true); showLangs(); });
       return b;
     });
-    const progress = rows.filter((row) => row.list && aiState.has(row.list)).map((row) => aiRow(row.lang, row.list));
+    const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && (aiState.has(row.list) || aiReady()))
+      .map((row) => aiRow(row.lang, row.list));
     langsEl.replaceChildren(...switches, ...progress);
     return switches.length + progress.length > 0;
+  }
+
+  // For the popup: which model worked on these lines and whether it's still at it.
+  function aiReport(list) {
+    const s = aiState.get(list);
+    return s ? { model: s.model, running: s.running, finished: aiFinished(s) } : null;
   }
 
   // The improved lines as an .srt in Downloads, named like the file they came from.
@@ -1368,8 +1419,10 @@
   }
 
   // "🇨🇿 gemini-2.5-flash 47 %", a bar, and "Improving · 300 / 640 lines".
+  // Not asked yet, or asked with another model than the one chosen now: Improve.
   function aiRow(lang, list) {
     const s = aiState.get(list);
+    if (!s || (aiReady() && s.model !== aiModel() && !s.running)) return offerRow(lang, list, s);
     // A finished pass is all of it, also for a count saved before the count went by lines gone through.
     const done = aiFinished(s) ? s.total : Math.min(s.done, s.total);
     const share = Math.floor((done / s.total) * 100) / 100;
@@ -1386,7 +1439,7 @@
     const foot = el('div', 'ai-foot');
     foot.append(el('div', 'ai-note', note));
     // Stop a pass (a local model can keep the computer busy for minutes), or carry on with a stopped one.
-    if (!aiFinished(s) && lang) {
+    if (!aiFinished(s) && (s.running || aiReady())) {
       const b = el('button', 'ai-act', t(s.running ? 'Stop' : 'Continue'));
       b.title = s.running ? t('Stops improving. The lines done so far stay.') : t('Carries on improving from here.');
       b.addEventListener('click', (e) => {
@@ -1396,7 +1449,7 @@
         showLangs();
       });
       foot.append(b);
-    } else if (lang) {
+    } else if (aiFinished(s)) {
       const b = el('button', 'ai-act', t('Download .srt'));
       b.title = t('Saves the improved subtitles to your Downloads folder.');
       b.addEventListener('click', (e) => { e.stopPropagation(); saveImproved(lang, list); });
@@ -1404,6 +1457,50 @@
     }
     row.append(head, bar, foot);
     return row;
+  }
+
+  // "🇨🇿 gemma3:12b", then "Google · 640 lines" (or how far the previous model
+  // got), then Improve and Add to queue. Nothing is sent to the AI before you click one.
+  function offerRow(lang, list, prev) {
+    const model = aiModel();
+    const row = el('div', 'ai');
+    const head = el('div', 'ai-head');
+    head.append(el('span', 'name', (SubSettings.flag(lang) + ' ' + model).trim()));
+    const pct = prev && new Intl.NumberFormat(SubI18n.lang, { style: 'percent' }).format(aiFinished(prev) ? 1 : Math.floor((prev.done / prev.total) * 100) / 100);
+    const note = queued.has(list) ? t('Added to the translation queue')
+      : prev ? prev.model + ' · ' + pct : 'Google · ' + t('{n} lines', { n: list.length });
+    const foot = el('div', 'ai-foot');
+    const b = el('button', 'ai-act', t('Improve'));
+    b.title = t('Rewrites the lines with {model}, starting where the video is now.', { model });
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      improve(lang, baseOf(), list, false);
+      showLangs();
+    });
+    foot.append(b, queueButton(lang, list, model));
+    row.append(head, el('div', 'ai-note', note), foot);
+    return row;
+  }
+
+  // Add to queue: the queue tab translates the whole file with the same model
+  // while you watch something else, and its Play brings the result back here.
+  const queued = new WeakSet(); // translations sent to the queue from this card
+  function queueButton(lang, list, model) {
+    const b = el('button', 'ai-act', queued.has(list) ? t('Open the queue') + ' ↗' : t('Add to queue'));
+    if (!queued.has(list)) b.title = t('Translates the whole file with {model} in the translation queue, in the background. Its Play button brings it back here.', { model });
+    b.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (queued.has(list)) return send({ type: 'open-queue' });
+      b.disabled = true;
+      const base = baseOf();
+      const res = await send({ type: 'add-to-queue', lang, title: window === window.top ? pageTitle() : '', fileName: base.file.name,
+        lines: base.cues.map((c) => ({ start: c.start, end: c.end, text: c.text })) });
+      b.disabled = false;
+      if (!res || !res.ok) return toast(t('Didn’t work: {error}', { error: res ? res.error : t('Failed.') }), 5000);
+      queued.add(list);
+      showLangs();
+    });
+    return b;
   }
 
   function showLangs() {
@@ -1636,11 +1733,15 @@
   const shownIds = new Set(); // found files already offered or used here, so retries don't repeat them
   let waitTimer = 0;
 
-  function showFound(item) {
+  // asked: you turned YouTube's CC on for it (askForCaptions), so it comes
+  // again even if it was offered before, and doesn't wait for sound.
+  function showFound(item, asked) {
     if (off) return true; // "shown" so nobody keeps retrying
     if (!findVideos().length) return false;
-    if (shownIds.has(item.id)) return true;
-    if (!waiting.some((w) => w.item.id === item.id)) waiting.push({ item, t: Date.now() });
+    if (shownIds.has(item.id) && !asked) return true;
+    const w = waiting.find((x) => x.item.id === item.id);
+    if (w) w.asked = w.asked || !!asked;
+    else waiting.push({ item, t: Date.now(), asked: !!asked });
     flushFound();
     // Not watching yet (the player still starting, muted, buffering): check every
     // second too, in case the "playing" event already passed.
@@ -1655,7 +1756,7 @@
 
   function flushFound() {
     if (!waiting.length) return;
-    const v = watched();
+    const v = watched() || (waiting.some((w) => w.asked) && pickVideo());
     if (!v) return;
     const fresh = waiting.splice(0).filter((w) => Date.now() - w.t < WAIT_MS);
     if (!fresh.length) return;
@@ -1667,19 +1768,56 @@
     // Automatic mode: the newest file goes straight onto the video, translated.
     // A file you loaded yourself is never replaced.
     if (prefs.autoTranslate && (!cues.length || autoLoaded)) autoShow(fresh[fresh.length - 1].item);
-    else renderFound();
+    else { renderFound(); offerSaved(fresh[fresh.length - 1].item); }
     position(true);
+  }
+
+  // The last subtitles of the page a found file belongs to, or null. YouTube's
+  // captions name their video: its address may already show the next one.
+  async function savedFor(item) {
+    try {
+      if (!item.yt) return await memRecord();
+      const key = 'mem:' + ytPage(item.yt);
+      return (await chrome.storage.local.get(key))[key] || null;
+    } catch (e) { return null; }
+  }
+
+  // Without automatic mode the card offers the file, and this video's
+  // subtitles from last time are offered next to it. YouTube changes videos
+  // without loading a page, so they weren't offered when it started.
+  async function offerSaved(item) {
+    if (!item.yt) return;
+    const saved = await savedFor(item);
+    if (!saved || cues.length) return;
+    restorePending = null;
+    if (hintEl) hintEl.classList.remove('on'); // "New video" would hide it
+    offerRestore(saved);
   }
 
   // No card here: the toast at the top says "Translating…" and then
   // "Translated to …". Only a failure opens the card, with its buttons.
+  // This page's translation from last time comes back instead, as it was
+  // (with the AI's lines and your sync), rather than a new one from Google.
   async function autoShow(item) {
     const lang = SubSettings.languageName(prefs.translateTo);
     toast(t('Translating to {lang}…', { lang }), 15000);
     let message;
     try {
+      const saved = await savedFor(item);
       const res = await chrome.runtime.sendMessage({ type: 'fetch-item', id: item.id });
       if (!res || !res.ok) throw new Error(res ? res.error : t('Failed.'));
+      // Another site's file must be the one those subtitles started from.
+      if (saved && saved.translatedTo === prefs.translateTo && (item.yt || (saved.original || saved).name === res.name)) {
+        const back = restoreRecord(saved, video || pickVideo());
+        if (back && back.ok) {
+          autoLoaded = true;
+          restorePending = null;
+          const ai = saved.ai && saved.ai.model;
+          toast(t('Subtitles from last time:') + ' ' + lang + (ai ? ' · ' + ai : ''), 4000);
+          if (aiReady()) showLangs();
+          return;
+        }
+      }
       const r = loadBytes(res.name, res.b64, 'auto', video || pickVideo());
       if (!r.ok) throw new Error(r.error);
       autoLoaded = true;
@@ -1820,6 +1958,7 @@
         name: (original ? original.file : file).name, count: cues.length,
         encoding: (original ? original.file : file).encoding, usedEncoding: (original ? original.file : file).usedEncoding,
         translatedTo: original ? file.translatedTo : '',
+        ai: original ? aiReport(cues) : null,
       } : null,
     };
   }
@@ -1868,6 +2007,14 @@
         showOriginal();
         reply({ ok: true });
         return;
+      case 'improve':
+        // "Improve with …" in the popup: the translation on the video.
+        if (!original) return reply({ ok: false, error: t('Nothing loaded.') });
+        if (!aiReady()) return reply({ ok: false, error: t('Choose a model in the extension popup.') });
+        improve(file.translatedTo, baseOf(), cues, false);
+        showLangs();
+        reply({ ok: true });
+        return;
       case 'export':
         reply(file ? { name: file.name, b64: file.b64, encoding: file.encoding } : null);
         return;
@@ -1886,7 +2033,8 @@
         if (cues.length) runAction(msg.action);
         return;
       case 'subs-found':
-        reply({ shown: showFound(msg.item) });
+        // YouTube downloads its captions right after you turn CC on: those count as asked for.
+        reply({ shown: showFound(msg.item, !!msg.item.yt && Date.now() - ccAskedAt < 10000) });
         return;
       case 'tab-subs':
         tabHasSubs = msg.has;
@@ -1902,15 +2050,33 @@
   });
 
   // YouTube's CC button also switches our subtitles, when they are YouTube's
-  // captions: off hides them, on shows them again (like Alt + S).
-  const fromYouTube = () => { const f = original ? original.file : file; return !!f && /^youtube-/.test(f.name || ''); };
+  // captions (or came by themselves in automatic mode): off hides them, on
+  // shows them again (like Alt + S). With none of ours on screen, turning it
+  // on asks for subtitles.
+  const fromYouTube = () => { const f = original ? original.file : file; return !!f && (/^youtube-/.test(f.name || '') || autoLoaded); };
+  let ccAskedAt = 0;
+  // This video's captions go through the same steps as a new find: in
+  // automatic mode the translation from last time or a new one from Google
+  // (with Improve in the card), otherwise the card. Also when they were
+  // offered before, and without waiting for sound. If the player hasn't
+  // downloaded them yet, it does so now and 'subs-found' sees ccAskedAt.
+  async function askForCaptions() {
+    const id = SubSettings.youTubeId(location.href);
+    if (!id) return;
+    ccAskedAt = Date.now();
+    const items = await send({ type: 'recent-found', all: true });
+    const item = (items || []).find((i) => i.yt === id);
+    if (item && !cues.length) showFound(item, true);
+  }
   if (/(^|\.)youtube\.com$/.test(location.hostname)) {
     let ccButton = null;
     let ytPlayer = null;
     const barWatch = new MutationObserver(liftForControls);
     const ccWatch = new MutationObserver(() => {
-      if (off || !cues.length || !fromYouTube()) return;
+      if (off) return;
       const on = ccButton.getAttribute('aria-pressed') === 'true';
+      if (!cues.length) { if (on) askForCaptions(); return; }
+      if (!fromYouTube()) return;
       if (on !== (visible || dualVisible)) { if (on) showAll(); else hideAll(); position(true); render(true); }
     });
     // The player (and its button) can be rebuilt when YouTube changes videos.
@@ -1935,6 +2101,9 @@
     if (off || typeof e.detail !== 'string') return;
     try {
       const { url, text } = JSON.parse(e.detail);
+      // An ad before the video is another video with its own captions: not the ones you came for.
+      const page = SubSettings.youTubeId(location.href);
+      if (page && new URL(url).searchParams.get('v') !== page && document.querySelector('.html5-video-player.ad-showing')) return;
       send({ type: 'yt-captions', url, text });
     } catch (err) { /* ignore */ }
   });
