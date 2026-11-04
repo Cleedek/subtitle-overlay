@@ -1,0 +1,101 @@
+Schau jedes Web-Video mit Untertiteln in deiner Sprache.
+
+Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch im Vollbild, und hält sie synchron zum Video: Pause, Spulen und Wiedergabegeschwindigkeit funktionieren einfach. Nutze die Untertitel, die die Seite schon hat, übersetzt in deine Sprache, oder bring deine eigene .srt- oder .vtt-Datei mit.
+
+★ DAS WICHTIGSTE
+★ Jede Seite, jedes Video: Untertitel über dem Player, im Fenster oder im Vollbild, immer synchron
+★ Übersetzung in 31 Sprachen mit einem Klick, oder ganz automatisch, sobald du die Untertitel im Player der Seite einschaltest
+★ NEU: KI lässt die Übersetzung natürlich klingen, gratis auf deinem eigenen Rechner (Gemma) oder mit deinem eigenen Schlüssel für Gemini, Claude oder OpenAI
+★ NEU: eine Übersetzungswarteschlange für eine ganze Staffel, und verbesserte Untertitel, gespeichert fürs nächste Mal
+★ Zwei Sprachen gleichzeitig: eine oben, eine unten, zum gemeinsamen Schauen oder zum Sprachenlernen
+★ Findet die Untertitel, die die Seite lädt, auch auf YouTube, sodass du meist gar keine Datei brauchst
+★ Dein Stil: über 1.800 Google Fonts, Kontur, Schatten, Hintergrundbox, Größe und Position
+★ Kostenlos und Open Source: keine Werbung, kein Konto, kein Tracking, und jede Zeile Code ist öffentlich
+
+━━━━━━━━━━━━━━━━━━━━
+
+ÜBERSETZUNG IN 31 SPRACHEN
+• Ein Klick übersetzt die geladenen Untertitel mit Google Translate, direkt in der Erweiterung
+• Optional: Klicke auf Verbessern, und KI (Gemma auf deinem Rechner, oder Gemini, Claude oder OpenAI) schreibt Googles schnelle Version neu, damit sie natürlich klingt (mehr dazu unten). Fahr mit der Maus über das Video, um zu sehen, wie weit sie schon ist
+• Wähl deine Sprache einmal aus; sie bleibt dein Favorit für jeden Übersetzen-Button
+• Automatischer Modus: Schalte die Untertitel im Player der Seite ein, und sie erscheinen schon übersetzt über dem Video, mit einem kurzen Hinweis "Auf … übersetzt" statt eines Pop-ups
+• Die eigenen Untertitel der Seite werden ausgeblendet, damit du nie zwei auf einmal liest
+• Wechsle jederzeit zurück zum Original, oder speichere die Übersetzung als .srt-Datei
+• Sprachen: Vietnamesisch, Tschechisch, Englisch, Slowakisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch, Polnisch, Ungarisch, Ukrainisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Chinesisch (vereinfacht und traditionell), Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Arabisch
+
+NATÜRLICHE ÜBERSETZUNG MIT KI (OPTIONAL)
+Google Translate ist schnell, geht aber Zeile für Zeile vor, Wort für Wort. Klicke auf Verbessern, und ein KI-Modell schreibt die Untertitel mit Blick auf die ganze Szene neu, ab der Stelle, an der du gerade schaust.
+• Kostenlos: Gemma, das offene Modell von Google, läuft mit Ollama oder LM Studio auf deinem eigenen Rechner, also bleibt der KI-Schritt auf deinem Rechner. Du brauchst einen recht leistungsstarken Rechner und etwa 8 GB Speicherplatz.
+• Einrichtung in 3 Schritten: Installiere Ollama von ollama.com, lade Gemma mit einem Befehl herunter und wähle dann im Popup Lokal. Der Befehl und das Modell, das wir gerade empfehlen (auf Englisch): cleedek.com/subtitle-overlay/ai
+• Oder nutze deinen eigenen API-Schlüssel: Gemini (mit kostenlosem Kontingent), Claude oder OpenAI (kostenpflichtig).
+• Es startet nie von selbst: Ohne deinen Klick läuft nichts und es entstehen keine Kosten.
+
+ZWEI SPRACHEN GLEICHZEITIG
+• Schalte zweite Untertitel in einer beliebigen Sprache ein: Englisch oben für dich, Vietnamesisch unten für deine Partnerin oder deinen Partner
+• Oder lass das Original neben der Übersetzung stehen, ideal zum Lernen
+• Jede Untertitelspur hat ihren eigenen Abstand zum Rand
+• Ein kleines Panel über dem Video schaltet jede Sprache neben ihrer Flagge ein oder aus; die andere rückt an die gewohnte Stelle
+
+FINDET DIE UNTERTITEL, DIE EINE SEITE LÄDT
+• Wenn eine Seite Untertitel lädt (VTT-Dateien oder Streaming-Untertitel-Playlists), bietet eine kleine Karte sie dir an, mit dem Titel des Films oder der Folge, wenn die Seite ihn verrät
+• YouTube: Schalte CC ein und lies die Untertitel in deiner Sprache; der CC-Button von YouTube schaltet sie ein und aus, und die Zeilen rutschen nach oben, wenn die Player-Steuerung erscheint
+• Anzeigen, übersetzen oder als .srt speichern, mit einem Klick
+• Mehrere Videos auf einer Seite? Wähle aus, zu welchem die Untertitel gehören
+
+ÜBERSETZUNGSWARTESCHLANGE UND GESPEICHERTE UNTERTITEL
+• Zieh mehrere .srt- oder .vtt-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
+• Funktioniert mit Google, Gemini, Claude, OpenAI oder deinem lokalen Modell
+• Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst
+• Abspielen öffnet das Video mit seinen Untertiteln; Herunterladen speichert die .srt
+
+GESTALTE SIE, WIE DU WILLST
+• Über 1.800 Google Fonts, gefiltert auf die, die die Buchstaben deiner Sprache haben (č ř ž, ư ế ộ, Kyrillisch, Griechisch, Japanisch und mehr)
+• Größe, Stärke, Farbe, Kontur (mit eigener Deckkraft), Schlagschatten, Hintergrundbox (optional mit Weichzeichner dahinter) und Zeilenbreite
+• Unten, in der Mitte oder oben im Video
+• Vorlagen (Schlicht, Mit Box, Hoher Kontrast) plus deine eigenen gespeicherten Looks
+• Der Text skaliert mit dem Player, mit Live-Vorschau im Popup
+• Ein aufgeräumtes Popup mit drei Tabs: Untertitel, Stil und Verhalten, in dunklem oder hellem Look (oder passend zu deinem System)
+• Blendet Geräuschhinweise wie [Musik] und die Sprechermarken >> aus (ein Schalter holt sie zurück)
+
+TIMING KORRIGIEREN
+• Verschiebe Untertitel früher oder später in Schritten von 0,1 s oder 1 s, im Popup oder per Tastatur
+• Die Verschiebung wird für die Seite gespeichert
+
+GEMACHT ZUM LERNEN
+• Einen Satz verpasst? Alt + R spielt ihn noch einmal von vorn ab
+• Klicke auf eine Zeile, um sie zu kopieren, für ein Wörterbuch oder deine Notizen
+
+DEINE EIGENE DATEI
+• Wähle eine .srt- oder .vtt-Datei aus, oder zieh sie direkt auf das Video
+• Kaputte Buchstaben? Automatische Erkennung der Textkodierung (auch für japanische, chinesische und koreanische Dateien) mit manueller Auswahl
+• Deine Untertitel kommen zurück, wenn du die Seite neu lädst oder später wieder aufrufst
+
+VOLLBILD MIT UNTERTITELN
+• Alt + F oder der Button oben am Video; mit F verlässt du es wieder
+• Untertitel weichen aus, wenn ein Menü oder eine Benachrichtigung der Seite sie verdeckt
+
+SEITE FÜR SEITE
+• Schalte es auf jeder Seite mit einem Schalter aus; die Liste der deaktivierten Seiten ist nur einen Klick entfernt
+
+TASTENKÜRZEL
+Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt + 0 Sync zurücksetzen · Alt + R Zeile wiederholen · Alt + S ein- oder ausblenden · Alt + 1 / Alt + 2 nur eine Sprache ein- oder ausblenden · Alt + ↑ / ↓ verschieben · Alt + F Vollbild mit Untertiteln
+Jedes Tastenkürzel lässt sich im Tab Verhalten ändern oder abschalten.
+
+OBERFLÄCHE IN 8 SPRACHEN
+Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch und Chinesisch (vereinfacht). Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
+
+FÜR TÜFTLER
+Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Seite geladen hat, und speichert sie als .vtt oder .srt.
+
+DATENSCHUTZ
+Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn du übersetzt, und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Gemerkte und gespeicherte Untertitel bleiben in deinem Browser. Details in der Datenschutzerklärung.
+
+OPEN SOURCE
+Die ganze Erweiterung ist Open Source (GPL-3.0), sodass jeder genau prüfen kann, was sie tut: github.com/Cleedek/subtitle-overlay. Wenn sie dir gefällt, hilft ein Stern auf GitHub anderen, sie zu finden.
+
+DEN ENTWICKLER UNTERSTÜTZEN
+Subtitle Overlay ist kostenlos, und jede Funktion bleibt kostenlos. Wenn es deine Abende schöner macht, findest du im Popup eine Seite "Den Entwickler unterstützen" mit Revolut, PayPal, Solana und Sui. Völlig freiwillig, und danke!
+
+Mit 💜 gemacht von Cleedek in Vietnam.
+
+Die Screenshots zeigen Bilder aus Tears of Steel, © Blender Foundation, mango.blender.org, lizenziert unter CC BY 3.0.

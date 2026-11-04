@@ -199,7 +199,7 @@
     const added = [];
     const skipped = [];
     for (const f of list) {
-      if (!/\.(srt|vtt|webvtt)$/i.test(f.name)) { skipped.push(f.name); continue; }
+      if (!SubLib.SUB_FILE.test(f.name)) { skipped.push(f.name); continue; }
       const lines = SubLib.parse(SubLib.decode(new Uint8Array(await f.arrayBuffer()), 'auto').text)
         .map((c) => ({ start: c.start, end: c.end, text: c.text }));
       if (!lines.length) { skipped.push(f.name); continue; }
@@ -231,7 +231,7 @@
   // Lines a chunk-by-chunk pass went through, so a finished file is 100 %.
   const linesDone = (job) => job.chunks.reduce((n, i) => n + Math.min(CHUNK, job.lines.length - i), 0);
 
-  const outName = (job) => job.name.replace(/\.(web)?vtt$|\.srt$/i, '') + '.' + job.lang + '.srt';
+  const outName = (job) => job.name.replace(SubLib.SUB_FILE, '') + '.' + job.lang + '.srt';
   const outSrt = (job) => SubLib.toSRT(job.lines.map((c, i) => ({ start: c.start, end: c.end, text: job.out[i] || c.text })));
   const download = (job) => SubLib.saveText(outSrt(job), outName(job));
 

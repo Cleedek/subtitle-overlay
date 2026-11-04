@@ -765,7 +765,7 @@
     const cues = SubLib.parse(text);
     if (!cues.length) throw new Error(t('No subtitle lines found.'));
     const out = format === 'srt' ? SubLib.toSRT(cues) : SubLib.toVTT(cues);
-    const base = file.name.replace(/\.(web)?vtt$|\.srt$/i, '');
+    const base = file.name.replace(SubLib.SUB_FILE, '');
     SubLib.saveText(out, base + '.' + format);
   }
 

@@ -1,0 +1,101 @@
+Xem mọi video trên web với phụ đề bằng ngôn ngữ của bạn.
+
+Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của bất kỳ trang web nào, kể cả khi xem toàn màn hình, và luôn khớp với video: tạm dừng, tua hay đổi tốc độ phát đều chạy mượt. Bạn có thể dùng phụ đề sẵn có của trang, được dịch sang ngôn ngữ của bạn, hoặc tự mở tệp .srt hay .vtt của mình.
+
+★ ĐIỂM NỔI BẬT
+★ Mọi trang web, mọi video: phụ đề hiện trên trình phát, trong cửa sổ hay toàn màn hình, luôn khớp thời gian
+★ Dịch sang 31 ngôn ngữ chỉ với một cú nhấp, hoặc hoàn toàn tự động ngay khi bạn bật phụ đề trong trình phát của trang
+★ MỚI: dùng AI để bản dịch nghe tự nhiên hơn, miễn phí ngay trên máy tính của bạn (Gemma) hoặc bằng khóa Gemini, Claude hay OpenAI của riêng bạn
+★ MỚI: hàng đợi dịch cho cả một mùa phim, và phụ đề đã cải thiện được lưu lại cho lần xem sau
+★ Hai ngôn ngữ cùng lúc: một ở trên, một ở dưới, để cùng nhau xem phim hoặc để học ngoại ngữ
+★ Tự tìm phụ đề mà trang tải về, kể cả trên YouTube, nên bạn hầu như chẳng cần đến tệp phụ đề nào
+★ Phong cách của riêng bạn: hơn 1.800 phông Google Fonts, viền chữ, đổ bóng, nền chữ, cỡ chữ và vị trí
+★ Miễn phí và mã nguồn mở: không quảng cáo, không tài khoản, không theo dõi, từng dòng mã đều công khai
+
+━━━━━━━━━━━━━━━━━━━━
+
+DỊCH SANG 31 NGÔN NGỮ
+• Chỉ một cú nhấp là phụ đề đã tải được dịch bằng Google Translate, ngay trong tiện ích
+• Tùy chọn: bấm Cải thiện, AI (Gemma trên máy tính của bạn, hoặc Gemini, Claude hay OpenAI) sẽ viết lại bản dịch nhanh của Google cho tự nhiên hơn (xem thêm bên dưới). Di chuột lên video để xem đã làm được tới đâu
+• Chọn ngôn ngữ một lần, ngôn ngữ đó sẽ được dùng cho mọi nút Dịch
+• Chế độ tự động: bật phụ đề trong trình phát của trang, phụ đề sẽ hiện trên video và đã được dịch sẵn, chỉ kèm một dòng nhắc ngắn "Đã dịch sang …" thay vì cửa sổ bật lên
+• Phụ đề gốc của trang được ẩn đi, nên bạn không bao giờ phải đọc hai bộ phụ đề cùng lúc
+• Quay lại bản gốc bất cứ lúc nào, hoặc lưu bản dịch thành tệp .srt
+• Ngôn ngữ: tiếng Việt, tiếng Séc, tiếng Anh, tiếng Slovakia, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Ý, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Hungary, tiếng Ukraina, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Trung (giản thể và phồn thể), tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi, tiếng Ả Rập
+
+BẢN DỊCH TỰ NHIÊN HƠN VỚI AI (TÙY CHỌN)
+Google Translate dịch nhanh, nhưng dịch từng dòng, từng chữ. Bấm Cải thiện, một mô hình AI sẽ viết lại phụ đề dựa trên ngữ cảnh của cả cảnh phim, bắt đầu từ đoạn bạn đang xem.
+• Miễn phí: Gemma, mô hình mở của Google, chạy ngay trên máy tính của bạn qua Ollama hoặc LM Studio, nên bước AI chỉ diễn ra trên máy của bạn. Bạn cần một máy tính khá mạnh và khoảng 8 GB dung lượng ổ đĩa.
+• Cài đặt trong 3 bước: cài Ollama từ ollama.com, tải Gemma bằng một lệnh duy nhất, rồi chọn Cục bộ trong cửa sổ tiện ích. Lệnh và mô hình mà chúng tôi đang khuyên dùng: cleedek.com/subtitle-overlay/ai
+• Hoặc dùng khóa API của riêng bạn: Gemini (có gói miễn phí), Claude hoặc OpenAI (trả phí).
+• Không bao giờ tự chạy: nếu bạn không bấm thì không có gì chạy và không tốn đồng nào.
+
+HAI NGÔN NGỮ CÙNG LÚC
+• Bật phụ đề thứ hai bằng bất kỳ ngôn ngữ nào: tiếng Anh ở trên cho bạn, tiếng Việt ở dưới cho nửa kia của bạn
+• Hoặc giữ bản gốc bên cạnh bản dịch, rất tiện để học ngoại ngữ
+• Mỗi bộ phụ đề có khoảng cách riêng tới mép video
+• Một bảng nhỏ trên video giúp bật hoặc tắt từng ngôn ngữ, ngay cạnh lá cờ của ngôn ngữ đó; ngôn ngữ còn lại sẽ về vị trí quen thuộc
+
+TỰ TÌM PHỤ ĐỀ MÀ TRANG WEB TẢI
+• Khi trang tải phụ đề (tệp VTT hoặc danh sách phát phụ đề dạng streaming), một thẻ nhỏ sẽ gợi ý chúng cho bạn, kèm tên phim hoặc tên tập nếu trang có cung cấp
+• YouTube: bật CC và đọc phụ đề bằng ngôn ngữ của bạn; chính nút CC của YouTube sẽ bật tắt chúng, và các dòng chữ tự nhích lên khi thanh điều khiển của trình phát hiện ra
+• Hiển thị, dịch hoặc lưu thành .srt chỉ với một cú nhấp
+• Trang có nhiều video? Bạn chọn video nào là của bộ phụ đề đó
+
+HÀNG ĐỢI DỊCH VÀ PHỤ ĐỀ ĐÃ LƯU
+• Thả vào vài tệp .srt hoặc .vtt, hoặc bấm "Thêm vào hàng đợi" với phụ đề mà trang tải. Các tệp sẽ được dịch lần lượt trong khi bạn làm việc khác; tab hàng đợi có thể để chạy nền
+• Dùng được với Google, Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn
+• Phụ đề đã cải thiện được giữ trong tiện ích bao lâu tùy bạn chọn, và tự hiện lại khi bạn quay lại video
+• Nút Phát mở video kèm phụ đề; nút Tải xuống lưu tệp .srt
+
+TÙY CHỈNH KIỂU CHỮ THEO Ý BẠN
+• Hơn 1.800 phông Google Fonts, được lọc chỉ còn những phông có đủ chữ cái của ngôn ngữ bạn dùng (č ř ž, ư ế ộ, chữ Kirin, chữ Hy Lạp, tiếng Nhật và nhiều hơn nữa)
+• Cỡ chữ, độ đậm, màu, viền chữ (có độ đục riêng), đổ bóng, nền chữ (có thể làm mờ phía sau) và độ rộng dòng
+• Ở dưới, ở giữa hoặc ở trên video
+• Các mẫu có sẵn (Gọn, Có nền, Tương phản cao) cùng những kiểu bạn tự lưu
+• Chữ co giãn theo trình phát, có xem trước trực tiếp trong cửa sổ tiện ích
+• Cửa sổ tiện ích gọn gàng với ba tab: Phụ đề, Kiểu và Hành vi, giao diện tối hoặc sáng (hoặc theo hệ thống)
+• Ẩn các chú thích âm thanh như [Music] và dấu >> báo đổi người nói (một công tắc là hiện lại)
+
+CHỈNH THỜI GIAN
+• Cho phụ đề hiện sớm hơn hoặc muộn hơn theo bước 0,1 giây hoặc 1 giây, từ cửa sổ tiện ích hoặc bằng bàn phím
+• Độ lệch được ghi nhớ theo từng trang
+
+DÀNH CHO NGƯỜI HỌC NGOẠI NGỮ
+• Lỡ mất một câu? Alt + R phát lại câu đó từ đầu
+• Nhấp vào bất kỳ dòng nào để sao chép, dùng để tra từ điển hoặc ghi chép
+
+TỆP CỦA RIÊNG BẠN
+• Chọn tệp .srt hoặc .vtt, hoặc kéo thả thẳng vào video
+• Chữ bị lỗi font? Tự động nhận diện bảng mã (cả tệp tiếng Nhật, tiếng Trung và tiếng Hàn), có thể chọn thủ công
+• Phụ đề của bạn vẫn còn khi bạn tải lại trang hoặc quay lại trang đó sau này
+
+TOÀN MÀN HÌNH VẪN GIỮ PHỤ ĐỀ
+• Alt + F hoặc nút ở phía trên video; nhấn F để thoát
+• Phụ đề tự né sang một bên khi menu hay thông báo của trang che mất
+
+THEO TỪNG TRANG WEB
+• Tắt tiện ích trên bất kỳ trang nào chỉ bằng một công tắc; danh sách các trang đã tắt chỉ cách một cú nhấp
+
+PHÍM TẮT
+Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 giây · Alt + 0 đặt lại đồng bộ · Alt + R phát lại câu · Alt + S hiện hoặc ẩn · Alt + 1 / Alt + 2 hiện hoặc ẩn riêng một ngôn ngữ · Alt + ↑ / ↓ di chuyển · Alt + F toàn màn hình kèm phụ đề
+Mọi phím tắt đều có thể đổi hoặc tắt trong tab Hành vi.
+
+GIAO DIỆN 8 NGÔN NGỮ
+Tiếng Anh, tiếng Séc, tiếng Slovakia, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt và tiếng Trung (giản thể). Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
+
+DÀNH CHO NGƯỜI THÍCH VỌC VẠCH
+Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã tải và lưu thành .vtt hoặc .srt.
+
+QUYỀN RIÊNG TƯ
+Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi bạn dịch, và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Chi tiết có trong chính sách quyền riêng tư.
+
+MÃ NGUỒN MỞ
+Toàn bộ tiện ích là mã nguồn mở (GPL-3.0), nên ai cũng có thể kiểm tra chính xác nó làm gì: github.com/Cleedek/subtitle-overlay. Nếu bạn thích, một ngôi sao trên GitHub sẽ giúp nhiều người khác tìm thấy nó.
+
+ỦNG HỘ TÁC GIẢ
+Subtitle Overlay miễn phí và mọi tính năng sẽ luôn miễn phí. Nếu tiện ích làm những buổi tối của bạn vui hơn, trong cửa sổ tiện ích có trang "Ủng hộ tác giả" với Revolut, PayPal, Solana và Sui. Hoàn toàn tùy bạn, và xin cảm ơn bạn!
+
+Được Cleedek làm ra với 💜 tại Việt Nam.
+
+Ảnh chụp màn hình lấy từ phim Tears of Steel, © Blender Foundation, mango.blender.org, theo giấy phép CC BY 3.0.

@@ -7,9 +7,9 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 V obchodě je teď 1.0.16 (ověřeno 3. 11. 2026). Položka už existuje, takže nic nezakládáš, jen ji aktualizuješ.
 
 1. **Web je hotový (ověřeno 4. 11. 2026):** obě stránky jsou v cleedek-portfolio commitnuté (61506f2), pushnuté a online, není potřeba nic dělat:
-   - `src/pages/subtitle-overlay/privacy.astro`: zásady ochrany soukromí pro 1.0.17 (Gemini, Claude, OpenAI a lokální model, API klíče v úložišti prohlížeče, počítadlo přeložených videí pro kartu s hodnocením, fronta překladů a uložené titulky). Stejný text je v `store/privacy-policy.html`.
-   - `src/pages/subtitle-overlay/ai.astro`: nová stránka https://cleedek.com/subtitle-overlay/ai (který model stáhnout a jak ho nastavit). Odkazuje na ni nový popis v obchodě.
-2. **Nahraj balíček:** v Developer Dashboard otevři položku, záložka **Package**, **Upload new package**, nahraj `dist/subtitle-overlay-1.0.17.zip` (sestavený znovu 4. 11. 2026 s opravami pro YouTube). Starší balíček ze 3. 11. (`dist/subtitle-overlay-1.0.17-built-2026-11-03.zip`) nahraný nebyl (potvrzeno 4. 11.), takže zůstává verze 1.0.17. Ten starší nenahrávej.
+   - `src/pages/[...lang]/subtitle-overlay/privacy.astro`: zásady ochrany soukromí pro 1.0.17 (Gemini, Claude, OpenAI a lokální model, API klíče v úložišti prohlížeče, počítadlo přeložených videí pro kartu s hodnocením, fronta překladů a uložené titulky). Stejný text je v `store/privacy-policy.html`.
+   - `src/pages/[...lang]/subtitle-overlay/ai.astro`: nová stránka https://cleedek.com/subtitle-overlay/ai (který model stáhnout a jak ho nastavit). Odkazuje na ni nový popis v obchodě.
+2. **Nahraj balíček:** v Developer Dashboard otevři položku, záložka **Package**, **Upload new package**, nahraj `dist/subtitle-overlay-1.0.17.zip` (sestavený znovu 4. 11. 2026 ve 4:00 s opravami pro YouTube a s opravou přepínání dílů na stránce, třeba Prima+). Starší balíček ze 3. 11. (`dist/subtitle-overlay-1.0.17-built-2026-11-03.zip`) nahraný nebyl (potvrzeno 4. 11.), takže zůstává verze 1.0.17. Starší sestavení s datem v názvu (`…-built-2026-11-03.zip`, `…-built-2026-11-04-0330.zip`) nenahrávej.
 3. **Store listing (angličtina):** nahraď **Description** celým blokem níže. **Summary** se tu nevyplňuje, obchod si ho vezme z balíčku (je nové, viz níže).
 4. **Screenshoty:** všech 5 starých smaž a ze složky `store/images` nahraj `screenshot-1.png` až `screenshot-5.png` v tomhle pořadí:
    1. Subtitles on any video (beze změny)
@@ -67,7 +67,6 @@ TRANSLATE INTO 31 LANGUAGES
 
 MAKE IT SOUND NATURAL (OPTIONAL)
 Google Translate is quick, but it goes line by line, word for word. Click Improve and an AI model rewrites the subtitles with the whole scene in mind, starting where you are watching.
-• My wife, a native Vietnamese speaker, rated Google's subtitles 4/10. After Improve with Gemma: 8/10. One viewer's opinion, not a lab test, but it's why this feature exists.
 • Free: Gemma, Google's open model, runs on your own computer with Ollama or LM Studio, so the AI step stays on your computer. You need a fairly powerful computer and about 8 GB of disk space.
 • Set up in 3 steps: install Ollama from ollama.com, download Gemma with one command, then choose Local in the popup. The command and the model we recommend right now: cleedek.com/subtitle-overlay/ai
 • Or use your own API key: Gemini (has a free tier), Claude or OpenAI (paid).
@@ -178,7 +177,6 @@ PŘEKLAD DO 31 JAZYKŮ
 
 PŘIROZENÝ PŘEKLAD S AI (VOLITELNĚ)
 Google Translate je rychlý, ale překládá řádek po řádku, slovo od slova. Klikni na Vylepšit a AI model titulky přepíše s ohledem na celou scénu, od místa, kde se díváš.
-• Moje žena, rodilá mluvčí vietnamštiny, dala titulkům od Googlu 4/10. Po vylepšení Gemmou 8/10. Je to názor jednoho diváka, ne laboratorní test, ale právě kvůli tomu tahle funkce vznikla.
 • Zdarma: Gemma, otevřený model od Googlu, běží přímo ve tvém počítači přes Ollamu nebo LM Studio, takže krok s AI z počítače neodchází. Potřebuješ výkonnější počítač a asi 8 GB místa na disku.
 • Nastavení ve 3 krocích: nainstaluj Ollamu z ollama.com, jedním příkazem stáhni Gemmu a v popupu vyber Lokální. Příkaz a model, který teď doporučujeme (anglicky): cleedek.com/subtitle-overlay/ai
 • Nebo vlastní API klíč: Gemini (má bezplatnou úroveň), Claude nebo OpenAI (placené).

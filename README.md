@@ -13,8 +13,8 @@ The code is public so anyone can check what the extension does. It is plain Java
 
 ## What it does
 
-- **Your own file:** load an `.srt` or `.vtt` file (or drop it on the video). Old encodings (Windows-1250, Windows-1258, Shift_JIS, GBK, Big5, EUC-KR and more) are detected automatically.
-- **Subtitles found on the page:** when you turn on subtitles in a site's own player, the extension notices the subtitle file the player downloads (WebVTT, HLS playlists, YouTube captions) and offers it: show it your way, translate it, or save it as `.srt`.
+- **Your own file:** load an `.srt`, `.vtt` or `.ttml` (`.dfxp`) file (or drop it on the video). Old encodings (Windows-1250, Windows-1258, Shift_JIS, GBK, Big5, EUC-KR and more) are detected automatically.
+- **Subtitles found on the page:** when you turn on subtitles in a site's own player, the extension notices the subtitle file the player downloads (WebVTT, TTML, HLS playlists, YouTube captions) and offers it: show it your way, translate it, or save it as `.srt`.
 - **Translation:** one click, or fully automatic, into 31 languages through Google Translate. Optionally Gemini (your own free API key), Claude or OpenAI (your own paid API key) or a local model (Ollama, LM Studio) rewrites Google's quick version with the whole scene in mind, a chunk at a time from where you are watching. It only starts when you click **Improve** (over the video or in the popup), never by itself, since a key costs money and a local model keeps the computer busy.
 - **Translation queue:** drop in several `.srt` / `.vtt` files, or click **Add to queue** on subtitles a site loads, and they're translated one after another in the queue tab. Improved subtitles are kept under **Saved subtitles** for as long as you choose (a day to forever, or not at all) and come back when you return to the video; **Play** opens the page a file came from.
 - **Two languages at once:** a second set at the other edge of the video.
@@ -76,7 +76,8 @@ For local video files (`file://`), open the extension's **Details** and turn on 
 | `youtube-hook.js` | YouTube only: copies the captions the YouTube player downloads |
 | `popup.html` / `.css` / `.js` | The popup with the Subtitles, Style and Behaviour tabs |
 | `panel.*`, `devtools.*` | Optional "Subtitles" panel in DevTools |
-| `lib/subtitles.js` | Parsing SRT, VTT, HLS and YouTube formats, encodings, export |
+| `netflix-hook.js` | Netflix only: copies the subtitles the Netflix player downloads, recognised by their content |
+| `lib/subtitles.js` | Parsing SRT, VTT, TTML, HLS and YouTube formats, encodings, export |
 | `lib/settings.js` | Settings, presets, languages, shortcuts |
 | `lib/render.js` | Subtitle styling shared by the page and the popup preview |
 | `lib/i18n.js`, `lib/locales.js`, `_locales/` | Interface translations (English, Czech, Slovak, German, French, Spanish, Vietnamese, Chinese) |

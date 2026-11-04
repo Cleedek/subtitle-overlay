@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Cleedek
 
 // Background worker: watches network traffic for subtitle files the page
-// loads (VTT, SRT, HLS subtitle playlists), counts them on the icon badge,
+// loads (VTT, SRT, TTML, HLS subtitle playlists), counts them on the icon badge,
 // and downloads/stitches them when the popup asks.
 importScripts('lib/i18n.js', 'lib/locales.js', 'lib/subtitles.js', 'lib/settings.js');
 // Saved subtitles past the time they were kept for go when the browser starts.
@@ -93,6 +93,8 @@ function itemKey(url) {
 
 const guessLanguage = SubLib.guessLanguage;
 
+const NETFLIX_PAGE = /^https:\/\/www\.netflix\.com\/(?:[a-z-]+\/)?watch\/(\d+)/;
+
 async function addItem(tabId, item) {
   if (await tabIsOff(tabId)) return;
   // The address may change just before or after the file arrives: checked here too.
@@ -164,7 +166,7 @@ async function addToQueue({ lines, lang, title, fileName }, tabId) {
   title = title || tab.title || '';
   // Sites like Prima name every episode's file the same: the episode names the translation.
   const name = (title.replace(/\s*:\s*/g, ' - ').replace(/[\\/*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim()
-    || String(fileName || 'subtitles').replace(/\.(web)?vtt$|\.srt$/i, '')) + '.srt';
+    || String(fileName || 'subtitles').replace(SubLib.SUB_FILE, '')) + '.srt';
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   await chrome.storage.local.set({ ['queue:' + id]: { id, name, source: fileName || '', lang, lines, out: [], chunks: [],
     status: 'waiting', error: '', model: '', page: tab.url, title } });
@@ -207,6 +209,10 @@ chrome.webRequest.onCompleted.addListener((d) => {
     addItem(d.tabId, { kind: 'file', url: d.url, frameId: d.frameId, lang: guessLanguage(d.url) });
   } else if (M3U8_URL.test(path) || ctype.includes('mpegurl')) {
     inspectPlaylist(d.tabId, d.frameId, d.url);
+  } else {
+    const ttml = SubLib.ttmlHint(d.url, ctype);
+    if (ttml === 'sure') addItem(d.tabId, { kind: 'file', url: d.url, frameId: d.frameId, lang: guessLanguage(d.url) });
+    else if (ttml === 'check') inspectXml(d.tabId, d.frameId, d.url);
   }
 }, { urls: ['<all_urls>'], types: ['xmlhttprequest', 'media', 'other'] }, ['responseHeaders']);
 
@@ -278,6 +284,22 @@ async function inspectPlaylist(tabId, frameId, url) {
   }
 }
 
+// XML with a subtitle word in its address: it only counts if it really is TTML.
+async function inspectXml(tabId, frameId, url) {
+  if (await tabIsOff(tabId)) return;
+  const t = await getTab(tabId);
+  const key = stripQuery(url);
+  if (t.seen.includes(key)) return;
+  t.seen.push(key);
+  if (t.seen.length > 300) t.seen.splice(0, 100);
+  let text;
+  try {
+    text = SubLib.decode(await fetchBytes(url, tabId, frameId), 'auto').text;
+  } catch (e) { return; }
+  const cues = SubLib.parseTTML(text);
+  if (cues && cues.length) addItem(tabId, { kind: 'file', url, frameId, lang: guessLanguage(url) || SubLib.headerLanguage(text) });
+}
+
 // ---------- downloading ----------
 
 // Download from the worker first; if the site refuses (cookies, CORS),
@@ -318,9 +340,11 @@ async function mapLimit(list, limit, fn) {
 async function loadItem(tabId, item) {
   if (item.kind !== 'hls') {
     const bytes = item.body ? new TextEncoder().encode(item.body) : await fetchBytes(item.url, tabId, item.frameId);
-    const cues = SubLib.parse(SubLib.decode(bytes, 'auto').text);
-    // YouTube's own format becomes WebVTT, so everything after this sees a normal file.
-    if (item.yt) return { bytes: new TextEncoder().encode(SubLib.toVTT(cues)), cues };
+    const text = SubLib.decode(bytes, 'auto').text;
+    const cues = SubLib.parse(text);
+    if (!item.lang) item.lang = SubLib.headerLanguage(text);
+    // YouTube's own format and TTML become WebVTT, so everything after this sees a normal file.
+    if (item.yt || SubLib.isTTML(text)) return { bytes: new TextEncoder().encode(SubLib.toVTT(cues)), cues };
     return { bytes, cues };
   }
   let url = item.url;
@@ -342,7 +366,7 @@ async function loadItem(tabId, item) {
 
 function fileName(item) {
   if (item.yt) return ('youtube-' + item.yt + (item.lang ? '.' + item.lang : '')).replace(/[^\w.\-]+/g, '_');
-  const base = stripQuery(item.url).split('/').pop().replace(/\.(web)?vtt$|\.srt$|\.m3u8$/i, '') || 'subtitles';
+  const base = stripQuery(item.url).split('/').pop().replace(SubLib.SUB_FILE, '').replace(/\.m3u8$/i, '') || 'subtitles';
   return (base + (item.lang && !base.includes(item.lang) ? '.' + item.lang : '')).replace(/[^\w.\-]+/g, '_');
 }
 
@@ -410,7 +434,7 @@ async function aiConfig() {
   const p = await SubSettings.loadTranslation();
   if (p.translator === 'gemini') {
     if (!p.geminiKey) throw new Error(tr('Add your Gemini API key in the extension popup.'));
-    return { kind: 'gemini', base: GEMINI_BASE, key: p.geminiKey, model: p.geminiModel };
+    return { kind: 'gemini', base: GEMINI_BASE, key: p.geminiKey, model: /omni/.test(p.geminiModel) ? '' : p.geminiModel }; // Omni makes video: an old default, not a choice
   }
   if (p.translator === 'claude') {
     if (!p.claudeKey) throw new Error(tr('Add your Claude API key in the extension popup.'));
@@ -481,7 +505,7 @@ async function aiModels(cfg) {
   const data = await r.json();
   return (data.data || []).map((m) => String(m.id).replace(/^models\//, ''))
     // Gemini and OpenAI also list image, speech and embedding models; only text chat ones can translate.
-    .filter((id) => cfg.kind !== 'gemini' || (/^gemini|^gemma/.test(id) && !/image|tts|audio|live|embed|vision/.test(id)))
+    .filter((id) => cfg.kind !== 'gemini' || (/^gemini|^gemma/.test(id) && !/image|tts|audio|live|embed|vision|video|omni|transcribe|robotics/.test(id)))
     // OpenAI: no dated copies of the same model, no Pro (Responses API only, and costly).
     .filter((id) => cfg.kind !== 'openai' || (/^gpt-/.test(id) && !/image|tts|audio|realtime|live|transcribe|whisper|search|codex|cyber|oss|instruct|-pro\b|\d{4}-\d\d-\d\d/.test(id)))
     .sort();
@@ -787,6 +811,20 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       const y = ytInfo(msg.url);
       addItem(tabId, { kind: 'file', url: msg.url, frameId: sender.frameId, lang: y.lang, yt: y.v || 'video', body: msg.text,
         name: y.asr ? 'YouTube auto-captions' : 'YouTube captions' });
+      return;
+    }
+
+    case 'page-subtitles': {
+      // A TTML file the Netflix player just received (netflix-hook.js via content.js).
+      // Its address tells nothing and may work only once, so it is kept as WebVTT
+      // under a name of its own: each language and version is a separate entry.
+      if (!sender.tab || !NETFLIX_PAGE.test(sender.tab.url || '')) return;
+      const cues = SubLib.parseTTML(msg.text);
+      if (!cues || !cues.length) return;
+      const lang = SubLib.headerLanguage(msg.text);
+      const title = NETFLIX_PAGE.exec(sender.tab.url)[1];
+      addItem(tabId, { kind: 'file', url: 'https://www.netflix.com/subtitles/netflix-' + title + (lang ? '-' + lang : '') + '-' + cues.length + '.vtt',
+        frameId: sender.frameId, lang, body: SubLib.toVTT(cues), name: 'Netflix subtitles' });
       return;
     }
 

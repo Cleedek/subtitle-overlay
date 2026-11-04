@@ -981,7 +981,8 @@
     .vjs-text-track-display, .shaka-text-container, .jw-captions, .jw-text-track-container,
     .bmpui-ui-subtitle-overlay, .theoplayer-texttracks, .fp-captions, .plyr__captions,
     .mejs__captions-layer, .dash-captions-container, .ytp-caption-window-container,
-    .ytp-caption-window-container .caption-window, .ytp-caption-segment { visibility: hidden !important; }`;
+    .ytp-caption-window-container .caption-window, .ytp-caption-segment,
+    .player-timedtext, .atvwebplayersdk-captions-overlay { visibility: hidden !important; }`;
   let siteStyle = null;
   let hiddenTracks = [];
 
@@ -1386,7 +1387,7 @@
     if (!original) original = { file, cues };
     translations.set(to, list);
     cues = list;
-    const name = original.file.name.replace(/\.(web)?vtt$|\.srt$/i, '') + '.' + to + '.srt';
+    const name = original.file.name.replace(SubLib.SUB_FILE, '') + '.' + to + '.srt';
     const ai = aiState.get(list);
     file = { name, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(list))), encoding: 'utf-8', usedEncoding: 'utf-8',
       translatedTo: to, origLang, original: original.file,
@@ -1547,7 +1548,7 @@
   }
 
   // The improved lines as an .srt in Downloads, named like the file they came from.
-  const improvedName = (lang) => baseOf().file.name.replace(/\.(web)?vtt$|\.srt$/i, '') + '.' + lang + '.srt';
+  const improvedName = (lang) => baseOf().file.name.replace(SubLib.SUB_FILE, '') + '.' + lang + '.srt';
   function saveImproved(lang, list) {
     SubLib.saveText(SubLib.toSRT(list), improvedName(lang));
   }
@@ -1842,7 +1843,7 @@
     e.preventDefault();
     e.stopPropagation();
     const f = e.dataTransfer.files[0];
-    if (!f || !/\.(srt|vtt)$/i.test(f.name)) return toast(t('Drop an .srt or .vtt file'));
+    if (!f || !SubLib.SUB_FILE.test(f.name)) return toast(t('Drop an .srt or .vtt file'));
     const bytes = new Uint8Array(await f.arrayBuffer());
     pinned = v;
     const res = loadBytes(f.name, SubLib.bytesToBase64(bytes), 'auto', v);
@@ -2280,6 +2281,14 @@
     } catch (err) { /* ignore */ }
   });
   document.dispatchEvent(new CustomEvent('subtitle-overlay-yt-ask'));
+
+  // Netflix: subtitle files copied from the player by netflix-hook.js.
+  if (location.hostname === 'www.netflix.com') {
+    document.addEventListener('subtitle-overlay-page', (e) => {
+      if (!off && typeof e.detail === 'string') send({ type: 'page-subtitles', text: e.detail });
+    });
+    document.dispatchEvent(new CustomEvent('subtitle-overlay-page-ask'));
+  }
 
   window.__subOverlay = { report };
   SubSettings.loadOffSites().then((list) => {

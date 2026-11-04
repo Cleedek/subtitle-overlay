@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="cs" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rate card mockup</title>
+  <!-- The real popup styles, so the frames look exactly like the extension. -->
+  <link rel="stylesheet" href="../popup.css">
+  <style>
+    /* ---------- the mockup page around the popups (not for popup.css) ---------- */
+    :root { --page: oklch(0.13 0.008 290); --frame-edge: oklch(1 0 0 / .07); }
+    :root[data-theme="light"] { --page: oklch(0.92 0.006 290); --frame-edge: oklch(0.25 0.02 290 / .10); }
+    body { width: auto; min-width: 0; padding: 28px 24px 48px; background: var(--page); }
+    .page-head { max-width: 1220px; margin: 0 auto 24px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 620px; }
+    .tools { display: flex; gap: 8px; align-items: center; }
+    .tools .segmented { grid-template-columns: repeat(2, auto); margin: 0; }
+    .board { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; max-width: 1220px; margin: 0 auto; }
+    .col { width: 380px; display: flex; flex-direction: column; gap: 14px; }
+    .col-head { display: flex; align-items: baseline; gap: 8px; }
+    .col-head b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: var(--accent); color: oklch(0.99 0.003 290); font-size: 12px; }
+    .col-head span { font-size: 15px; font-weight: 650; }
+    .frame {
+      position: relative; padding: 16px 16px 0; background: var(--bg); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 0 0 1px var(--frame-edge), 0 18px 40px -12px var(--shadow);
+      height: 630px;
+    }
+    .frame .tabbar { position: static; }
+    /* The rest of the popup fades out: only the top matters here. */
+    .frame::after { content: ""; position: absolute; inset: auto 0 0; height: 90px; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+    .frame .tr-row button { padding: 3px 8px; font-size: 12px; }
+    .notes { font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 8px; }
+    .notes p { margin: 0; }
+    .notes strong { color: var(--text); font-weight: 600; }
+    .notes .pm { display: grid; grid-template-columns: 16px 1fr; gap: 4px 6px; }
+    .notes .pm i { font-style: normal; font-weight: 700; }
+    .notes .pm .plus { color: var(--success); }
+    .notes .pm .minus { color: var(--danger); }
+    .rules { max-width: 1220px; margin: 36px auto 0; padding: 18px 20px; background: var(--bg); border-radius: 12px; box-shadow: 0 0 0 1px var(--frame-edge); }
+    .rules h2 { margin-bottom: 12px; }
+    .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
+    .rules li strong { color: var(--text); font-weight: 600; }
+    .hidden-note { margin: 0 0 10px; padding: 8px 10px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: 11.5px; color: var(--faint); display: flex; justify-content: space-between; gap: 8px; }
+    .hidden-note button { padding: 1px 8px; font-size: 11.5px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 12px); opacity: 0; pointer-events: none;
+      padding: 8px 14px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 12.5px; font-weight: 500;
+      transition: opacity .2s var(--ease), transform .2s var(--ease);
+    }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+    /* =====================================================================
+       The card itself: written as it would go into popup.css.
+       It sits under the loaded-file card, once a translation is on screen.
+       ===================================================================== */
+    :root { --star: oklch(0.84 0.16 84); }
+    :root[data-theme="light"] { --star: oklch(0.75 0.17 70); }
+
+    .rate-card { position: relative; margin-bottom: 10px; border-radius: 10px; overflow: hidden; }
+    .rate-card.enter { animation: rc-in .34s var(--ease) both; }
+    @keyframes rc-in { from { opacity: 0; transform: translateY(6px) scale(.985); } }
+    .rc-step { display: none; }
+    .rate-card[data-step="ask"] .rc-step[data-for="ask"],
+    .rate-card[data-step="yes"] .rc-step[data-for="yes"],
+    .rate-card[data-step="no"] .rc-step[data-for="no"],
+    .rate-card[data-step="thanks"] .rc-step[data-for="thanks"] { display: flex; animation: rc-step .24s var(--ease) both; }
+    @keyframes rc-step { from { opacity: 0; transform: translateY(3px); } }
+    .rate-card button.sm { padding: 4px 10px; font-size: 12px; }
+    .rate-card button.sm svg { vertical-align: -2px; margin-right: 4px; }
+    .rc-close {
+      position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
+      border: 0; border-radius: 6px; background: transparent; color: var(--faint);
+    }
+    .rc-close:hover { background: var(--panel-hover); color: var(--text); }
+    .rc-star { color: var(--star); }
+
+    /* A · Quiet: one line, the same tinted card as Snap Translate in the footer. */
+    .rate-card.quiet {
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    .quiet .rc-step { align-items: center; gap: 10px; padding: 9px 36px 9px 10px; }
+    .quiet .rc-badge {
+      flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+      background: color-mix(in srgb, var(--star) 16%, transparent);
+    }
+    .quiet .rc-badge.love { background: color-mix(in srgb, oklch(0.66 0.21 18) 16%, transparent); color: oklch(0.66 0.21 18); }
+    .quiet .rc-text { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .quiet .rc-text strong { font-weight: 600; }
+    .quiet .rc-text span { font-size: 11.5px; color: var(--muted); }
+    .quiet .sm { flex: none; }
+    .quiet .rc-close { top: 50%; transform: translateY(-50%); }
+
+    /* B · Milestone: how much they have translated, then one wide star button. */
+    .rate-card.milestone {
+      border: 1px solid var(--line); padding: 14px 12px 10px;
+      background: radial-gradient(130% 90% at 0% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 62%), var(--panel);
+    }
+    .milestone .rc-step { flex-direction: column; gap: 12px; }
+    .ms-top { display: flex; align-items: center; gap: 12px; padding-right: 22px; }
+    .ms-ring { position: relative; flex: none; width: 52px; height: 52px; }
+    .ms-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+    .ms-ring .track { stroke: var(--line-strong); }
+    .ms-ring .fill { stroke: var(--accent); stroke-dasharray: 138.2; stroke-dashoffset: 0; }
+    .rate-card.enter .ms-ring .fill { animation: ms-draw .9s .25s var(--ease) both; }
+    @keyframes ms-draw { from { stroke-dashoffset: 138.2; } }
+    .ms-ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 19px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+    .ms-label { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+    .ms-label strong { font-size: 14px; font-weight: 650; letter-spacing: -.01em; }
+    .ms-label span { font-size: 12px; color: var(--muted); }
+    .ms-stars {
+      display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 9px 10px;
+      background: var(--bg); border-color: var(--line-strong); font-weight: 600;
+    }
+    .ms-stars .stars { display: inline-flex; gap: 2px; }
+    .ms-stars .stars > span { display: inline-flex; color: color-mix(in srgb, var(--star) 38%, transparent); transition: color .18s var(--ease), transform .18s var(--ease); }
+    .ms-stars:hover .stars > span { color: var(--star); transform: scale(1.14); }
+    .ms-stars .stars > span:nth-child(2) { transition-delay: .04s; }
+    .ms-stars .stars > span:nth-child(3) { transition-delay: .08s; }
+    .ms-stars .stars > span:nth-child(4) { transition-delay: .12s; }
+    .ms-stars .stars > span:nth-child(5) { transition-delay: .16s; }
+    .ms-stars:active { transform: scale(.985); }
+    .ms-foot { display: flex; justify-content: space-between; margin: -4px -6px 0; }
+    .ms-foot button { color: var(--muted); border-color: transparent; }
+    .ms-foot button:hover { color: var(--text); }
+    .ms-thanks { align-items: center; text-align: center; gap: 6px !important; padding: 2px 0; }
+    .ms-thanks > .rc-star { display: inline-flex; }
+    .ms-thanks p { margin: 0; color: var(--muted); font-size: 12px; }
+    .ms-thanks strong { font-size: 14px; }
+
+    /* C · Personal note: a message from the creator, then one question. */
+    .rate-card.note { border: 1px solid var(--line); background: var(--panel); padding: 12px 12px 12px; }
+    .note-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-right: 26px; }
+    .note-head img { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--bg); }
+    .note-head div { display: flex; flex-direction: column; line-height: 1.25; }
+    .note-head strong { font-weight: 600; }
+    .note-head span { font-size: 11px; color: var(--faint); }
+    .note .rc-step { flex-direction: column; gap: 10px; }
+    .note .bubble {
+      margin: 0; padding: 9px 11px; border-radius: 4px 12px 12px 12px;
+      background: var(--accent-tint); color: var(--accent-text);
+    }
+    :root[data-theme="dark"] .note .bubble { color: var(--text); }
+    .note .bubble strong { font-weight: 650; }
+    .note .acts { display: flex; gap: 6px; }
+    .note .acts button { flex: 1; }
+    .note .quiet-link { margin: -2px 0 0; text-align: center; font-size: 11.5px; }
+    .note .quiet-link button { border: 0; background: none; padding: 0; color: var(--muted); text-decoration: underline; text-underline-offset: 2px; font-size: inherit; }
+    .note .quiet-link button:hover { color: var(--text); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rate-card.enter, .rate-card .rc-step, .rate-card.enter .ms-ring .fill { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <div>
+      <h1>Hodnocení a sdílení: 3 návrhy</h1>
+      <p>Karta se objeví pod přeloženými titulky, až má uživatel za sebou 10 přeložených videí. Všechno je klikací: zkus tlačítka, křížek i najetí myší na hvězdičky.</p>
+    </div>
+    <div class="tools">
+      <div class="segmented" role="tablist">
+        <button id="themeDark" role="tab" aria-selected="true">Tmavý</button>
+        <button id="themeLight" role="tab" aria-selected="false">Světlý</button>
+      </div>
+      <button id="replay">Přehrát znovu</button>
+    </div>
+  </div>
+
+  <div class="board">
+    <div class="col">
+      <div class="col-head"><b>A</b><span>Tichý řádek</span></div>
+      <div class="frame" data-variant="quiet"></div>
+      <div class="notes">
+        <p>Jeden řádek ve stejném stylu jako karta Snap Translate dole v popupu. Jedno tlačítko. Sdílení se nabídne až po kliknutí na <strong>Rate</strong>, takže uživatel nikdy nemá dvě volby naráz.</p>
+        <div class="pm"><i class="plus">+</i><span>Nejmenší, nejmíň otravuje, zapadne do toho, co už tam je.</span><i class="minus">−</i><span>Snadno se přehlédne, nejméně kliknutí.</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>B</b><span>Milník</span></div>
+      <div class="frame" data-variant="milestone"></div>
+      <div class="notes">
+        <p>Oslaví, kolik toho člověk přeložil (kroužek se dokreslí). Hvězdičky jsou <strong>jedno tlačítko</strong>, které otevře hodnocení v Chrome Web Store. Hvězdičky se vybírají až tam, aby nemusel hodnotit dvakrát.</p>
+        <div class="pm"><i class="plus">+</i><span>Nejvíc "kontextová": číslo je důvod, proč se ptáme právě teď.</span><i class="minus">−</i><span>Největší, odsune zbytek popupu dolů. Počet řádků by se musel začít počítat.</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>C</b><span>Osobní vzkaz</span></div>
+      <div class="frame" data-variant="note"></div>
+      <div class="notes">
+        <p>Zpráva od autora a nejdřív otázka, jestli to funguje. <strong>Ano</strong> vede k hodnocení a sdílení. <strong>Ne úplně</strong> vede k nahlášení problému na GitHubu, ale odkaz na hodnocení zůstane i tam (neschováváme ho nespokojeným).</p>
+        <div class="pm"><i class="plus">+</i><span>Nejlidštější. Nespokojený člověk napíše, co nefunguje, místo jedné hvězdy.</span><i class="minus">−</i><span>K hodnocení vedou dva kliky. Fotka autora by fungovala líp než ikona.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <h2>Společná pravidla (pro všechny tři)</h2>
+    <ul>
+      <li><strong>Počítají se videa, ne kliky.</strong> Stejná stránka přeložená znovu se nepočítá podruhé. Počítá se překlad tlačítkem, automatický překlad i vylepšení AI.</li>
+      <li><strong>Jen ve správnou chvíli:</strong> hned po úspěšném překladu, nikdy při chybě, na prázdné stránce nebo v jiné záložce popupu.</li>
+      <li><strong>Křížek / Not now</strong> kartu schová a zeptá se znovu až po dalších 25 videích. Když ji zavře i podruhé, už se nikdy neukáže.</li>
+      <li><strong>Rate nebo Share</strong> = už se nikdy neptáme. Nevíme, jestli hodnocení opravdu dal, a věříme mu.</li>
+      <li><strong>Nic se nikam neposílá.</strong> Počítadlo žije jen v prohlížeči uživatele, stejně jako ostatní nastavení.</li>
+    </ul>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <!-- The top of the Subtitles tab, as it looks right after a translation. -->
+  <template id="popupTop">
+    <header>
+      <h1>Subtitle Overlay</h1>
+      <p class="muted">1 video on this page, playing</p>
+      <div class="site-row">
+        <span class="setting-label">On <span id="siteName">YouTube</span></span>
+        <label class="toggle"><input type="checkbox" role="switch" checked aria-label="On YouTube"><span></span></label>
+      </div>
+    </header>
+    <nav class="tabbar">
+      <div class="segmented tabs" role="tablist">
+        <button role="tab" aria-selected="true">Subtitles</button>
+        <button role="tab" aria-selected="false">Style</button>
+        <button role="tab" aria-selected="false">Behaviour</button>
+      </div>
+    </nav>
+    <div class="panel active">
+      <section>
+        <div class="loaded">
+          <div class="loaded-name"><strong>Tears.of.Steel.2012.en.srt</strong> <span class="muted">· 712 lines</span></div>
+          <label class="inline">Encoding <select><option>Auto</option></select></label>
+          <div class="translate-box">
+            <div class="row tr-row">
+              <span class="translated-note">Showing <strong>Czech</strong></span>
+              <button>Show original</button>
+              <button>Download .srt</button>
+            </div>
+            <p class="improve-note">Translation improved by gemma3:12b</p>
+          </div>
+        </div>
+        <div class="slot"></div>
+        <div class="row">
+          <button class="primary">Load .srt / .vtt file</button>
+          <button>Remove</button>
+        </div>
+        <p class="muted small">Tip: you can also drag a subtitle file straight onto the video.</p>
+      </section>
+      <section>
+        <h2>Found on this page</h2>
+        <div class="empty">English (auto-generated) · from the player</div>
+      </section>
+    </div>
+  </template>
+
+  <template id="icons">
+    <svg data-icon="star" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg>
+    <svg data-icon="heart" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <svg data-icon="link" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.6 9.4l2.8-2.8M7.2 4.6l1.1-1.1a2.8 2.8 0 0 1 4 4l-1.1 1.1M8.8 11.4l-1.1 1.1a2.8 2.8 0 0 1-4-4l1.1-1.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <svg data-icon="close" width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </template>
+
+  <!-- A -->
+  <template id="card-quiet">
+    <div class="rate-card quiet" data-step="ask">
+      <div class="rc-step" data-for="ask">
+        <span class="rc-badge rc-star" data-i="star"></span>
+        <span class="rc-text"><strong>10 videos translated</strong><span>A rating helps others find it.</span></span>
+        <button class="primary sm" data-go="thanks" data-store>Rate</button>
+      </div>
+      <div class="rc-step" data-for="thanks">
+        <span class="rc-badge love" data-i="heart"></span>
+        <span class="rc-text"><strong>Thank you!</strong><span>Share it with a friend?</span></span>
+        <button class="sm" data-copy><span data-i="link"></span>Copy link</button>
+      </div>
+      <button class="rc-close" title="Not now" aria-label="Not now" data-i="close"></button>
+    </div>
+  </template>
+
+  <!-- B -->
+  <template id="card-milestone">
+    <div class="rate-card milestone" data-step="ask">
+      <div class="rc-step" data-for="ask">
+        <div class="ms-top">
+          <div class="ms-ring">
+            <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><circle class="track" cx="26" cy="26" r="22" fill="none" stroke-width="3.5"/><circle class="fill" cx="26" cy="26" r="22" fill="none" stroke-width="3.5" stroke-linecap="round"/></svg>
+            <b>10</b>
+          </div>
+          <div class="ms-label"><strong>10 videos translated</strong><span>That’s 4,812 lines in Czech. Nice!</span></div>
+        </div>
+        <button class="ms-stars" data-go="thanks" data-store>
+          <span class="stars"><span data-i="star"></span><span data-i="star"></span><span data-i="star"></span><span data-i="star"></span><span data-i="star"></span></span>
+          Rate it in the Chrome Web Store
+        </button>
+        <div class="ms-foot">
+          <button class="ghost sm" data-copy><span data-i="link"></span>Share with a friend</button>
+          <button class="ghost sm" data-close>Not now</button>
+        </div>
+      </div>
+      <div class="rc-step ms-thanks" data-for="thanks">
+        <span class="rc-star" data-i="star"></span>
+        <strong>Thank you!</strong>
+        <p>Sharing it with a friend helps just as much.</p>
+        <button class="sm" data-copy><span data-i="link"></span>Copy link</button>
+      </div>
+      <button class="rc-close" title="Not now" aria-label="Not now" data-i="close"></button>
+    </div>
+  </template>
+
+  <!-- C -->
+  <template id="card-note">
+    <div class="rate-card note" data-step="ask">
+      <div class="note-head">
+        <img src="../icons/icon48.png" alt="">
+        <div><strong>Cleedek</strong><span>makes Subtitle Overlay</span></div>
+      </div>
+      <div class="rc-step" data-for="ask">
+        <p class="bubble">Hi! You’ve translated <strong>10 videos</strong> with my extension. Is it working well for you?</p>
+        <div class="acts">
+          <button class="primary sm" data-go="yes">Yes, it’s great</button>
+          <button class="sm" data-go="no">Not quite</button>
+        </div>
+      </div>
+      <div class="rc-step" data-for="yes">
+        <p class="bubble">That makes my day! Would you leave a quick rating? It’s how most people find it.</p>
+        <div class="acts">
+          <button class="primary sm" data-go="thanks" data-store><span data-i="star"></span>Rate it</button>
+          <button class="sm" data-copy><span data-i="link"></span>Copy link</button>
+        </div>
+      </div>
+      <div class="rc-step" data-for="no">
+        <p class="bubble">Sorry about that. Tell me what went wrong and I’ll try to fix it.</p>
+        <div class="acts">
+          <button class="primary sm" data-go="thanks" data-github>Tell me on GitHub</button>
+        </div>
+        <p class="quiet-link"><button data-go="thanks" data-store>or rate it anyway</button></p>
+      </div>
+      <div class="rc-step" data-for="thanks">
+        <p class="bubble">Thank you, really. 💜</p>
+      </div>
+      <button class="rc-close" title="Not now" aria-label="Not now" data-i="close"></button>
+    </div>
+  </template>
+
+  <script>
+    const icons = {};
+    for (const svg of document.getElementById('icons').content.children) icons[svg.dataset.icon] = svg;
+    const STORE = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
+
+    const toastEl = document.getElementById('toast');
+    let toastTimer;
+    function toast(text) {
+      toastEl.textContent = text;
+      toastEl.classList.add('on');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('on'), 2600);
+    }
+
+    // Swaps the card's step and lets its height glide to the new one.
+    function go(card, step) {
+      const from = card.offsetHeight;
+      card.dataset.step = step;
+      const to = card.offsetHeight;
+      if (from !== to && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        card.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: 240, easing: 'cubic-bezier(.25, 1, .5, 1)' });
+      }
+    }
+
+    function build(frame) {
+      const variant = frame.dataset.variant;
+      frame.replaceChildren(document.getElementById('popupTop').content.cloneNode(true));
+      const slot = frame.querySelector('.slot');
+      const card = document.getElementById('card-' + variant).content.firstElementChild.cloneNode(true);
+      for (const el of card.querySelectorAll('[data-i]')) el.prepend(icons[el.dataset.i].cloneNode(true));
+      slot.replaceWith(card);
+
+      card.addEventListener('click', async (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        if (b.matches('.rc-close, [data-close]')) return hide(frame, card);
+        if (b.hasAttribute('data-store')) toast('V rozšíření by se teď otevřelo hodnocení v Chrome Web Store.');
+        if (b.hasAttribute('data-github')) toast('V rozšíření by se teď otevřel nový problém na GitHubu.');
+        if (b.hasAttribute('data-copy')) {
+          const label = b.lastChild.textContent;
+          try { await navigator.clipboard.writeText(STORE); b.lastChild.textContent = 'Link copied'; }
+          catch (err) { b.lastChild.textContent = 'Link copied'; }
+          setTimeout(() => { b.lastChild.textContent = label; }, 1500);
+        }
+        if (b.dataset.go) go(card, b.dataset.go);
+      });
+
+      // As if the translation had just finished.
+      requestAnimationFrame(() => card.classList.add('enter'));
+    }
+
+    function hide(frame, card) {
+      const note = document.createElement('p');
+      note.className = 'hidden-note';
+      note.innerHTML = '<span>Skryto. Zeptá se znovu po dalších 25 videích.</span>';
+      const undo = Object.assign(document.createElement('button'), { textContent: 'Vrátit' });
+      undo.addEventListener('click', () => build(frame));
+      note.append(undo);
+      const h = card.offsetHeight;
+      card.animate([{ opacity: 1, height: h + 'px' }, { opacity: 0, height: '0px', marginBottom: '0px' }], { duration: 200, easing: 'cubic-bezier(.25, 1, .5, 1)' })
+        .finished.then(() => card.replaceWith(note));
+    }
+
+    const frames = document.querySelectorAll('.frame');
+    const buildAll = () => frames.forEach(build);
+    buildAll();
+    document.getElementById('replay').addEventListener('click', buildAll);
+
+    const themeBtns = { dark: document.getElementById('themeDark'), light: document.getElementById('themeLight') };
+    for (const [theme, btn] of Object.entries(themeBtns)) {
+      btn.addEventListener('click', () => {
+        document.documentElement.dataset.theme = theme;
+        for (const [t, b] of Object.entries(themeBtns)) b.setAttribute('aria-selected', String(t === theme));
+      });
+    }
+  </script>
+</body>
+</html>

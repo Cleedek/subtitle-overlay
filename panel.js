@@ -38,9 +38,10 @@
     const key = stripQuery(url);
     const mime = String(entry.response.content.mimeType || '').toLowerCase();
 
-    if (SUB_URL.test(key) || mime.includes('text/vtt') || mime.includes('x-subrip')) {
+    const ttml = SubLib.ttmlHint(url, mime);
+    if (SUB_URL.test(key) || mime.includes('text/vtt') || mime.includes('x-subrip') || ttml) {
       const text = await contentOf(entry);
-      if (text == null) return;
+      if (text == null || (ttml === 'check' && !SubLib.isTTML(text))) return;
       contents.set(key, text);
       addItem({ kind: 'file', url, text, lang: SubLib.guessLanguage(url) || SubLib.headerLanguage(text) });
     } else if (M3U8_URL.test(key) || mime.includes('mpegurl')) {
@@ -99,7 +100,7 @@
   }
 
   function baseName(item) {
-    const base = stripQuery(item.url).split('/').pop().replace(/\.(web)?vtt$|\.srt$|\.m3u8$/i, '') || 'subtitles';
+    const base = stripQuery(item.url).split('/').pop().replace(SubLib.SUB_FILE, '').replace(/\.m3u8$/i, '') || 'subtitles';
     return (base + (item.lang && !base.includes(item.lang) ? '.' + item.lang : '')).replace(/[^\w.\-]+/g, '_');
   }
 
