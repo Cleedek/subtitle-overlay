@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Cleedek
+
 // DevTools "Subtitles" panel: lists every subtitle response the page loads
 // and reads its content straight from DevTools, so it works even when the
 // file can't be downloaded again.

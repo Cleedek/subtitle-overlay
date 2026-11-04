@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Cleedek
+
 // Background worker: watches network traffic for subtitle files the page
 // loads (VTT, SRT, HLS subtitle playlists), counts them on the icon badge,
 // and downloads/stitches them when the popup asks.

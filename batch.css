@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Cleedek */
+
 /* The translation queue: the popup's look on a full page, a step larger. */
 body { width: auto; max-width: 680px; margin: 0 auto; padding: 40px 20px 64px; min-height: 100vh; font-size: 14px; line-height: 1.5; }
 

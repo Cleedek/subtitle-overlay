@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Cleedek
+
 // Runs inside YouTube's own page (not the extension's sandbox). YouTube's
 // caption files can only be downloaded once, by its player, so this copies
 // each one as the player receives it and hands the text to content.js.

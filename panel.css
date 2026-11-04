@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: GPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Cleedek */
+
 /* DevTools panel: reuses the popup look, but fills the whole panel. */
 body { width: auto; padding: 14px 16px; }
 .panel-head { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid var(--line); }

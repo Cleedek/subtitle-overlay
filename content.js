@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Cleedek
+
 // Runs in every page and frame. Finds the video, draws the subtitle layer on
 // top of it and keeps it in sync with the video's own clock.
 (function () {

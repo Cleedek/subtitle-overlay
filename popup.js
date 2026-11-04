@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Cleedek
+
 // Popup: loads files, lists found subtitles, edits settings (applied live).
 (async function () {
   'use strict';

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Cleedek
+
 // Translation queue: subtitle files translated one after another in this tab,
 // with the translator chosen here or in the popup (the same setting; a local
 // model is free, so it can take its time). The queue is stored, so a reload carries on where it was.

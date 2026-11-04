@@ -1,7 +1,7 @@
 # Subtitle Overlay
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kfiihdconjdcclppmdhopeejkbmkkalo?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=7c3aed)](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)
-[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-7c3aed)](LICENSE)
+[![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-7c3aed)](LICENSE)
 
 A Chrome extension (also works in Arc and other Chromium browsers) that puts subtitles on any video on the web: your own `.srt` / `.vtt` file, or the subtitles the site itself loads, translated into 31 languages, two languages at once, styled your way and sized to the player.
 
@@ -96,4 +96,4 @@ Made by [Cleedek](https://cleedek.com) in Vietnam. Store images and the promo vi
 
 ## License
 
-[GNU General Public License v3.0](LICENSE). You may use, study, change and share this code; if you publish a changed version, it has to stay open under the same license.
+[GNU General Public License v3.0 only](LICENSE) (SPDX: `GPL-3.0-only`). You may use, study, change and share this code; if you publish a changed version, it has to stay open under the same license.
