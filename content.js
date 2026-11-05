@@ -1916,6 +1916,9 @@
     // would only cover the language switches for a while.
     const item = fresh[fresh.length - 1].item;
     if (showing(item)) return;
+    // Our own press made the player download its default captions: not news,
+    // and they must not replace the ones on screen.
+    if (item.yt && cues.length && Date.now() - ccPressedAt < 5000) return;
     if (prefs.autoTranslate && (!cues.length || autoLoaded)) autoShow(item);
     else { renderFound(); offerSaved(item); }
     position(true);
@@ -2223,6 +2226,7 @@
   // on asks for subtitles.
   const fromYouTube = () => { const f = original ? original.file : file; return !!f && (/^youtube-/.test(f.name || '') || autoLoaded); };
   let ccAskedAt = 0;
+  let ccPressedAt = 0; // when we last pressed YouTube's button for you (syncCcButton)
   // This video's captions go through the same steps as a new find: in
   // automatic mode the translation from last time or a new one from Google
   // (with Improve in the card), otherwise the card. Also when they were
@@ -2252,12 +2256,45 @@
     document.addEventListener('keydown', (e) => {
       if (e.isTrusted && (e.code === 'KeyC' || /^c$/i.test(e.key)) && !e.altKey && !e.ctrlKey && !e.metaKey && !isTyping(e)) ccTouchedAt = Date.now();
     }, true);
+    let ccOurs = false; // the button is on only because we pressed it
+    const CC_MEMORY = 'yt-player-caption-persistence';
+    let ccMemory = null; // what YouTube remembered before that press
+    // Ours can show with the button off (brought back in automatic mode, or
+    // captions the player loaded by itself). Press it for you, so one press
+    // from you switches them off instead of a first press that seems to do
+    // nothing. A press we made is taken back when ours go away, or YouTube's
+    // own captions would appear. At most one try in 5 s: nothing fights
+    // YouTube if it refuses or flips it back.
+    function syncCcButton() {
+      if (!ccButton || !ccButton.isConnected || ccButton.getAttribute('aria-disabled') === 'true' || !ccButton.offsetParent) return;
+      const now = Date.now();
+      if (now - ccTouchedAt < 1500 || now - ccPressedAt < 5000) return;
+      if (document.querySelector('.html5-video-player.ad-showing')) return;
+      const on = ccButton.getAttribute('aria-pressed') === 'true';
+      let want = on;
+      if (off || !cues.length) want = on && !ccOurs;
+      else if (fromYouTube()) want = visible || dualVisible;
+      if (want === on) return;
+      if (!ccOurs) ccMemory = localStorage.getItem(CC_MEMORY);
+      ccOurs = want;
+      ccPressedAt = now;
+      ccButton.click();
+      keepCcMemory();
+    }
+    // YouTube remembers the button's state for later videos: that stays your
+    // own choice. It writes a moment after the press, once the captions have
+    // loaded, so this repeats for as long as the press is ours.
+    function keepCcMemory() {
+      if (ccMemory === null) localStorage.removeItem(CC_MEMORY);
+      else localStorage.setItem(CC_MEMORY, ccMemory);
+    }
     const ccWatch = new MutationObserver(() => {
+      const yours = Date.now() - ccTouchedAt < 1500;
+      if (yours) ccOurs = false;
       if (off) return;
       const on = ccButton.getAttribute('aria-pressed') === 'true';
       if (!cues.length) { if (on) askForCaptions(); return; }
       if (!fromYouTube() || on === (visible || dualVisible)) return;
-      const yours = Date.now() - ccTouchedAt < 1500;
       // Off and on again by itself: back as they were, unless you switched something meanwhile.
       if (on && (yours || (ccHid && ccHid === shownBefore))) showAll();
       else if (!on && yours) { hideAll(); ccHid = shownBefore; }
@@ -2276,10 +2313,13 @@
         liftForControls();
       }
       const b = document.querySelector('.ytp-subtitles-button');
-      if (!b || b === ccButton) return;
-      ccWatch.disconnect();
-      ccButton = b;
-      ccWatch.observe(b, { attributes: true, attributeFilter: ['aria-pressed'] });
+      if (b && b !== ccButton) {
+        ccWatch.disconnect();
+        ccButton = b;
+        ccWatch.observe(b, { attributes: true, attributeFilter: ['aria-pressed'] });
+      }
+      syncCcButton();
+      if (ccOurs) keepCcMemory();
     }, 1000);
   }
 
