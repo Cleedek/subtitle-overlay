@@ -426,8 +426,8 @@ kbd {
 .site-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 8px 10px 8px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
 .site-row .setting-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
 #siteName { font-weight: 600; }
-/* Off on this site: only the switch and the list of turned-off sites stay. */
-body.site-off section:not(#offSection), body.site-off .tabbar { display: none; }
+/* Off on this site: the switch, the list of turned-off sites and the extension's own language and look stay. */
+body.site-off section:not(#offSection, #interfaceSection), body.site-off .tabbar { display: none; }
 body.site-off .panel { display: block; }
 .off-list { list-style: none; margin: 0; padding: 0; }
 .off-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; }

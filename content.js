@@ -1857,11 +1857,14 @@
   // The card waits until you actually watch something: a video playing with
   // sound. Feeds like Reddit preload and autoplay muted previews, whose
   // subtitle tracks would otherwise pop up while you only scroll. Files seen
-  // more than a minute before that are dropped (they belong to other posts).
+  // more than a minute before that are dropped (they belong to other posts),
+  // unless you turn the sound on for the video that was playing when they came
+  // (Facebook starts every video muted and loads its subtitles right away).
   const found = [];
-  const waiting = []; // { item, t }
+  const waiting = []; // { item, t, video }
   let foundTimer = 0;
   const WAIT_MS = 60000;
+  const SETTLE_MS = 5000; // a small preview may start a moment before the main video
 
   const watched = () => findVideos().find((v) => isPlaying(v) && !v.muted && v.volume > 0 && area(v) > 0);
 
@@ -1891,9 +1894,16 @@
 
   function flushFound() {
     if (!waiting.length) return;
-    const v = watched() || (waiting.some((w) => w.asked) && pickVideo());
+    const biggest = pickVideo();
+    if (biggest && isPlaying(biggest)) {
+      for (const w of waiting) {
+        const age = Date.now() - w.t;
+        if (age < SETTLE_MS || (!w.video && age < WAIT_MS)) w.video = biggest;
+      }
+    }
+    const v = watched() || (waiting.some((w) => w.asked) && biggest);
     if (!v) return;
-    const fresh = waiting.splice(0).filter((w) => Date.now() - w.t < WAIT_MS);
+    const fresh = waiting.splice(0).filter((w) => Date.now() - w.t < WAIT_MS || w.video === v);
     if (!fresh.length) return;
     for (const w of fresh) shownIds.add(w.item.id);
     if (!video) attach(v);
