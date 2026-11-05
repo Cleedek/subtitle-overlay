@@ -1956,7 +1956,10 @@
   // (with the AI's lines and your sync), rather than a new one from Google.
   async function autoShow(item) {
     const lang = SubSettings.languageName(prefs.translateTo);
-    toast(t('Translating to {lang}…', { lang }), 15000);
+    // Already in that language: shown as they are, nothing goes to Google.
+    const from = (item.lang || '').toLowerCase();
+    const sameLang = from === prefs.translateTo.toLowerCase() || from.split('-')[0] === prefs.translateTo;
+    if (!sameLang) toast(t('Translating to {lang}…', { lang }), 15000);
     let message;
     try {
       const saved = await savedFor(item);
@@ -1980,6 +1983,7 @@
       const r = loadBytes(res.name, res.b64, 'auto', video || pickVideo());
       if (!r.ok) throw new Error(r.error);
       autoLoaded = true;
+      if (sameLang) return;
       const done = await translate(prefs.translateTo);
       if (!done.ok) throw new Error(done.error);
       return;

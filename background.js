@@ -7,6 +7,11 @@
 importScripts('lib/i18n.js', 'lib/subtitles.js', 'lib/settings.js');
 // Saved subtitles past the time they were kept for go when the browser starts.
 chrome.runtime.onStartup.addListener(() => { SubSettings.pruneSaved().catch(() => {}); });
+// A new install starts in automatic mode, translating into the browser's language.
+// An update changes nothing: people who already use it keep what they have.
+chrome.runtime.onInstalled.addListener(({ reason }) => {
+  if (reason === 'install') chrome.storage.local.set({ autoTranslate: true, translateTo: SubI18n.resolve('auto') });
+});
 const tr = SubI18n.t; // "t" is taken: it names a tab's captured state below
 SubI18n.load();
 
