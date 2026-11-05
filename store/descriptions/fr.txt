@@ -81,8 +81,8 @@ RACCOURCIS CLAVIER
 Alt + [ / ] synchro · Alt + Shift + [ / ] synchro par pas de 1 s · Alt + 0 réinitialiser la synchro · Alt + R rejouer la ligne · Alt + S afficher ou masquer · Alt + 1 / Alt + 2 afficher ou masquer une seule langue · Alt + ↑ / ↓ déplacer · Alt + F plein écran avec sous-titres
 Chaque raccourci peut être modifié ou désactivé dans l’onglet Comportement.
 
-INTERFACE EN 8 LANGUES
-Anglais, tchèque, slovaque, allemand, français, espagnol, vietnamien et chinois (simplifié). Elle suit la langue de ton navigateur, ou choisis-en une en bas de la fenêtre de l’extension.
+INTERFACE EN 30 LANGUES
+Anglais, tchèque, slovaque, allemand, français, espagnol, vietnamien, chinois simplifié, chinois traditionnel, italien, portugais, polonais, ukrainien, hongrois, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, japonais, coréen, thaï, indonésien, malais, filipino et hindi. Elle suit la langue de ton navigateur, ou choisis-en une en bas de la fenêtre de l’extension.
 
 POUR LES BIDOUILLEURS
 Un onglet "Subtitles" dans les DevTools liste chaque fichier de sous-titres chargé par la page et l’enregistre en .vtt ou .srt.

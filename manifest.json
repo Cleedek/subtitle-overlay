@@ -39,7 +39,6 @@
       ],
       "js": [
         "lib/i18n.js",
-        "lib/locales.js",
         "lib/subtitles.js",
         "lib/settings.js",
         "lib/render.js",

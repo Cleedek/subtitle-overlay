@@ -81,8 +81,8 @@ PHÍM TẮT
 Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 giây · Alt + 0 đặt lại đồng bộ · Alt + R phát lại câu · Alt + S hiện hoặc ẩn · Alt + 1 / Alt + 2 hiện hoặc ẩn riêng một ngôn ngữ · Alt + ↑ / ↓ di chuyển · Alt + F toàn màn hình kèm phụ đề
 Mọi phím tắt đều có thể đổi hoặc tắt trong tab Hành vi.
 
-GIAO DIỆN 8 NGÔN NGỮ
-Tiếng Anh, tiếng Séc, tiếng Slovakia, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt và tiếng Trung (giản thể). Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
+GIAO DIỆN 30 NGÔN NGỮ
+Tiếng Anh, tiếng Séc, tiếng Slovak, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt, tiếng Trung (Giản thể), tiếng Trung (Phồn thể), tiếng Italy, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Ukraina, tiếng Hungary, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino và tiếng Hindi. Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
 
 DÀNH CHO NGƯỜI THÍCH VỌC VẠCH
 Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã tải và lưu thành .vtt hoặc .srt.

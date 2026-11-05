@@ -81,8 +81,8 @@ KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + F fullscreen with subtitles
 Every shortcut can be changed or switched off in the Behaviour tab.
 
-INTERFACE IN 8 LANGUAGES
-English, Czech, Slovak, German, French, Spanish, Vietnamese and Chinese (Simplified). It follows your browser, or pick one at the bottom of the popup.
+INTERFACE IN 30 LANGUAGES
+English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, and Hindi. It follows your browser, or pick one at the bottom of the popup.
 
 FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.

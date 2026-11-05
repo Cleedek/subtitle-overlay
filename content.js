@@ -9,7 +9,7 @@
 
   const { SubLib, SubSettings, SubRender, SubI18n } = globalThis;
   const t = SubI18n.t;
-  SubI18n.load();
+  const uiReady = SubI18n.load();
 
   let settings = Object.assign({}, SubSettings.DEFAULTS);
   let cues = [];          // loaded subtitle lines, sorted by start (ms)
@@ -2291,7 +2291,8 @@
   }
 
   window.__subOverlay = { report };
-  SubSettings.loadOffSites().then((list) => {
+  // The interface text waits for its language file, so labels built below aren't left in English.
+  Promise.all([SubSettings.loadOffSites(), uiReady]).then(([list]) => {
     off = SubSettings.isOff(list, site);
     if (off) return;
     checkRestore();

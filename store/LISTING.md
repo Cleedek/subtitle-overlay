@@ -32,7 +32,7 @@ Ikona v obchodě (`icons/icon128.png`), Distribution (Public, All regions, Free)
 **Summary (max 132 characters):**
 Subtitles on any web video, in sync and in 31 languages. AI makes the translation sound natural, free on your own computer.
 
-(Obchod bere shrnutí z balíčku, tohle je jen pro kontrolu. Verze v dalších 7 jazycích jsou ve složce `_locales` a obchod si je vezme sám. Pro 1.0.17 je shrnutí nové ve všech 8 jazycích.)
+(Obchod bere shrnutí z balíčku, tohle je jen pro kontrolu. Verze v dalších 29 jazycích jsou ve složce `_locales` a obchod si je vezme sám (portugalština je tam dvakrát: `pt_BR` a `pt_PT`). Pro 1.0.17 je shrnutí nové ve všech 8 jazycích.)
 
 **Category:** Accessibility (alternative: Tools)
 
@@ -123,8 +123,8 @@ KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + F fullscreen with subtitles
 Every shortcut can be changed or switched off in the Behaviour tab.
 
-INTERFACE IN 8 LANGUAGES
-English, Czech, Slovak, German, French, Spanish, Vietnamese and Chinese (Simplified). It follows your browser, or pick one at the bottom of the popup.
+INTERFACE IN 30 LANGUAGES
+English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, and Hindi. It follows your browser, or pick one at the bottom of the popup.
 
 FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.
@@ -233,8 +233,8 @@ KLÁVESOVÉ ZKRATKY
 Alt + [ / ] načasování · Alt + Shift + [ / ] načasování po 1 s · Alt + 0 vynulovat · Alt + R zopakovat větu · Alt + S zobrazit/skrýt · Alt + 1 / Alt + 2 zobrazit/skrýt jen jeden jazyk · Alt + ↑ / ↓ posun · Alt + F celá obrazovka s titulky
 Každou zkratku si na záložce Chování změníš nebo vypneš.
 
-ROZHRANÍ V 8 JAZYCÍCH
-Čeština, slovenština, angličtina, němčina, francouzština, španělština, vietnamština a čínština (zjednodušená). Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
+ROZHRANÍ VE 30 JAZYCÍCH
+Angličtina, čeština, slovenština, němčina, francouzština, španělština, vietnamština, čínština (zjednodušená), čínština (tradiční), italština, portugalština, polština, ukrajinština, maďarština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, japonština, korejština, thajština, indonéština, malajština, filipínština a hindština. Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
 
 PRO ŠŤOURALY
 Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které stránka načetla, a uloží je jako .vtt nebo .srt.

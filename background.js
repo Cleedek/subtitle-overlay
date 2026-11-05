@@ -4,7 +4,7 @@
 // Background worker: watches network traffic for subtitle files the page
 // loads (VTT, SRT, TTML, HLS subtitle playlists), counts them on the icon badge,
 // and downloads/stitches them when the popup asks.
-importScripts('lib/i18n.js', 'lib/locales.js', 'lib/subtitles.js', 'lib/settings.js');
+importScripts('lib/i18n.js', 'lib/subtitles.js', 'lib/settings.js');
 // Saved subtitles past the time they were kept for go when the browser starts.
 chrome.runtime.onStartup.addListener(() => { SubSettings.pruneSaved().catch(() => {}); });
 const tr = SubI18n.t; // "t" is taken: it names a tab's captured state below
@@ -795,6 +795,9 @@ chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
 chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   const tabId = msg.tabId != null ? msg.tabId : sender.tab && sender.tab.id;
   switch (msg.type) {
+    case 'ui-strings':
+      SubI18n.read(msg.lang).then(reply, () => reply(null));
+      return true;
     case 'recent-found':
       // A page script that just started: files the player loaded in the last minute.
       // all: any time (YouTube's CC button turned on asks for its captions again).

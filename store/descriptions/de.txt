@@ -81,8 +81,8 @@ TASTENKÜRZEL
 Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt + 0 Sync zurücksetzen · Alt + R Zeile wiederholen · Alt + S ein- oder ausblenden · Alt + 1 / Alt + 2 nur eine Sprache ein- oder ausblenden · Alt + ↑ / ↓ verschieben · Alt + F Vollbild mit Untertiteln
 Jedes Tastenkürzel lässt sich im Tab Verhalten ändern oder abschalten.
 
-OBERFLÄCHE IN 8 SPRACHEN
-Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch und Chinesisch (vereinfacht). Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
+OBERFLÄCHE IN 30 SPRACHEN
+Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch, Chinesisch (vereinfacht), Chinesisch (traditionell), Italienisch, Portugiesisch, Polnisch, Ukrainisch, Ungarisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino und Hindi. Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
 
 FÜR TÜFTLER
 Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Seite geladen hat, und speichert sie als .vtt oder .srt.

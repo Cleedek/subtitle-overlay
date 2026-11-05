@@ -81,8 +81,8 @@ ATAJOS DE TECLADO
 Alt + [ / ] sincronía · Alt + Shift + [ / ] sincronía de 1 s · Alt + 0 restablecer sincronía · Alt + R repetir la línea · Alt + S mostrar u ocultar · Alt + 1 / Alt + 2 mostrar u ocultar solo un idioma · Alt + ↑ / ↓ mover · Alt + F pantalla completa con subtítulos
 Todos los atajos se pueden cambiar o desactivar en la pestaña Comportamiento.
 
-INTERFAZ EN 8 IDIOMAS
-Inglés, checo, eslovaco, alemán, francés, español, vietnamita y chino (simplificado). Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
+INTERFAZ EN 30 IDIOMAS
+Inglés, checo, eslovaco, alemán, francés, español, vietnamita, chino simplificado, chino tradicional, italiano, portugués, polaco, ucraniano, húngaro, neerlandés, sueco, danés, noruego, finés, griego, turco, rumano, croata, japonés, coreano, tailandés, indonesio, malayo, filipino e hindi. Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
 
 PARA CURIOSOS
 Una pestaña "Subtitles" en DevTools muestra todos los archivos de subtítulos que cargó la página y los guarda como .vtt o .srt.

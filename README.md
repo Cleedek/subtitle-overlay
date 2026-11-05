@@ -80,7 +80,7 @@ For local video files (`file://`), open the extension's **Details** and turn on 
 | `lib/subtitles.js` | Parsing SRT, VTT, TTML, HLS and YouTube formats, encodings, export |
 | `lib/settings.js` | Settings, presets, languages, shortcuts |
 | `lib/render.js` | Subtitle styling shared by the page and the popup preview |
-| `lib/i18n.js`, `lib/locales.js`, `_locales/` | Interface translations (English, Czech, Slovak, German, French, Spanish, Vietnamese, Chinese) |
+| `lib/i18n.js`, `lib/locales/`, `_locales/` | Interface translations in 30 languages, one file per language loaded only when needed. Arabic is the one translation language without an interface, it needs right-to-left layout first |
 | `lib/google-fonts.json` | List of Google Fonts with the alphabets each one supports |
 | `samples/` | Test video and subtitle files for checking timing and encodings |
 | `store/` | Chrome Web Store listing text and images |
