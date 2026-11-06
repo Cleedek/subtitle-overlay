@@ -29,10 +29,11 @@
 
   let prefs = await SubSettings.loadTranslation();
   // A job: { id, name, lang, lines: [{ start, end, text }], out: [text | null], chunks: [start], status, error, model,
-  //   retry, page, title }
+  //   retry, page, title, ahead }
   // status: 'waiting' | 'running' | 'done' | 'error'; retry: the error of a request that is asked again soon.
   // page, title: the tab it was added from with "Add to queue" (popup or the card over the video), so it can be
   // played there; source: that file's own name (YouTube's captions start with "youtube-").
+  // ahead: moved above the pass started over a video (see "passes over a video").
   let jobs = [];
   let paused = false;
   async function loadJobs() {
@@ -45,6 +46,10 @@
     }
   }
   await loadJobs();
+  // Improve passes running over videos, as the background keeps them: { key, tabId, frameId, to, name, page, model, done, total, paused }
+  const LIVE = 'live:';
+  const liveNow = await chrome.storage.session.get(null);
+  let live = Object.keys(liveNow).filter((k) => k.startsWith(LIVE)).sort().map((k) => liveNow[k]);
   let current = null; // the job a request is out for
   let mine = false; // this tab runs the queue (another open copy only shows it)
   // Files the popup added ("Add to queue"), one storage key each, until the copy that runs the queue takes them.
@@ -60,6 +65,8 @@
   async function save() {
     try { await chrome.storage.local.set({ [KEY]: { jobs, paused } }); }
     catch (e) { say(t('Couldn’t save the queue: {error}', { error: e.message }), true); }
+    checkLive();
+    wakeUp();
   }
   function say(text, error) {
     $('msg').hidden = !text;
@@ -257,11 +264,11 @@
       if (attempt >= RETRY_S.length) return res;
       job.retry = (res && res.error) || t('Translation failed.');
       render();
-      for (const end = Date.now() + RETRY_S[attempt] * 1000; Date.now() < end && !paused && jobs.includes(job);) await sleep(1000);
+      for (const end = Date.now() + RETRY_S[attempt] * 1000; Date.now() < end && !halted(job);) await sleep(1000);
       job.retry = '';
       render();
-      // Paused or removed while it waited: as if stopped mid-request.
-      if (paused || !jobs.includes(job)) return { ok: false, stopped: true };
+      // Paused, removed or overtaken while it waited: as if stopped mid-request.
+      if (halted(job)) return { ok: false, stopped: true };
     }
   }
 
@@ -273,16 +280,23 @@
     const src = job.lines.map((c) => toHtml(c.text));
     try {
       if (isAi()) {
+        // Who is who, from the whole file, kept with the job so a restart doesn't ask again.
+        if (job.sheet === undefined) {
+          const res = await ask({ type: 'ai-sheet', to: job.lang, texts: src });
+          if (res && res.stopped) { job.status = 'waiting'; return; }
+          job.sheet = (res && res.sheet) || '';
+          await save();
+        }
         for (let i = 0; i < src.length; i += CHUNK) {
           if (job.chunks.includes(i)) continue;
-          if (paused || !jobs.includes(job)) { job.status = 'waiting'; return; }
+          if (halted(job)) { job.status = 'waiting'; return; }
           // Switched to Google mid-file: Google does the rest below. Another
           // model picks up from the next chunk, and the file names the last one.
           if (!isAi()) break;
           job.model = modelName();
           const res = await request(job, { type: 'ai-translate', to: job.lang,
-            texts: src.slice(i, i + CHUNK), before: src.slice(Math.max(0, i - 4), i) });
-          // Paused or removed while the model worked on it: this chunk is asked again later.
+            texts: src.slice(i, i + CHUNK), before: src.slice(Math.max(0, i - 4), i), sheet: job.sheet });
+          // Paused, removed or overtaken while the model worked on it: this chunk is asked again later.
           if (res && res.stopped) { job.status = 'waiting'; return; }
           if (!res || !res.ok) throw new Error((res && res.error) || t('Translation failed.'));
           res.texts.forEach((text, k) => { job.out[i + k] = fromHtml(text) || null; });
@@ -310,6 +324,7 @@
       job.error = e.message;
     } finally {
       current = null;
+      if (job.ahead) letGoUntil = Date.now() + 2000;
       await save();
       render();
     }
@@ -331,7 +346,10 @@
       // Chrome's Memory Saver would close a background tab, and the queue with it.
       chrome.tabs.getCurrent((tab) => { if (tab) chrome.tabs.update(tab.id, { autoDiscardable: false }).catch(() => {}); });
       try {
-        for (let job; !paused && (job = jobs.find((j) => j.status === 'waiting'));) await work(job);
+        for (let job; !paused && (job = jobs.find((j) => j.status === 'waiting'));) {
+          if (giveWay(job)) await nap(5000);
+          else await work(job);
+        }
       } finally {
         mine = false;
         chrome.tabs.getCurrent((tab) => { if (tab) chrome.tabs.update(tab.id, { autoDiscardable: true }).catch(() => {}); });
@@ -362,34 +380,107 @@
     render();
   });
 
+  // ---------- passes over a video ----------
+
+  // Improve clicked over a video goes first: the queue stops its current
+  // request (the chunk is asked again later) and waits. A pass paused because
+  // its subtitles are off isn't using the model, so the queue carries on then.
+  // The pass shows in the list, and the arrows can put files above it (ahead);
+  // those go first and the pass waits, until the next Improve you click.
+  const active = (j) => j.status === 'waiting' || j.status === 'running';
+  // A pass let go on says it's running half a second later: nothing starts in that gap.
+  let letGoUntil = 0;
+  const giveWay = (job) => !job.ahead && (live.some((l) => !l.paused) || (live.length > 0 && Date.now() < letGoUntil));
+  const halted = (job) => paused || !jobs.includes(job) || giveWay(job);
+  const queueFirst = () => !paused && live.length > 0 && jobs.some((j) => j.ahead && active(j));
+  let wakeUp = () => {};
+  const nap = (ms) => new Promise((r) => { const id = setTimeout(r, ms); wakeUp = () => { clearTimeout(id); r(); }; });
+
+  // Asks each pass if it's still going (a closed tab or a reload never says
+  // goodbye) and, from the copy that runs the queue, if it may go now.
+  const forgetLive = (l) => chrome.storage.session.remove(l.key).catch(() => {});
+  function checkLive() {
+    for (const l of live) {
+      chrome.tabs.sendMessage(l.tabId, { type: 'ai-live-check', to: l.to, queueFirst: mine ? queueFirst() : undefined }, { frameId: l.frameId })
+        .then((res) => { if (!res || !res.running) forgetLive(l); }, () => forgetLive(l));
+    }
+  }
+  setInterval(checkLive, 20000);
+
+  const queueRunsElsewhere = async () => !mine && (await navigator.locks.query()).held.some((l) => l.name === LOCK);
+
+  chrome.storage.onChanged.addListener(async (changes, area) => {
+    const keys = area === 'session' ? Object.keys(changes).filter((k) => k.startsWith(LIVE)) : [];
+    if (!keys.length) return;
+    for (const k of keys) {
+      live = live.filter((l) => l.key !== k);
+      if (changes[k].newValue) live.push(changes[k].newValue);
+    }
+    live.sort((a, b) => (a.key < b.key ? -1 : 1));
+    // A new Improve: your click beats any order set for the one before.
+    const started = keys.some((k) => changes[k].newValue && !changes[k].oldValue);
+    if (started && jobs.some((j) => j.ahead) && !(await queueRunsElsewhere())) {
+      for (const j of jobs) delete j.ahead;
+      await save();
+    }
+    if (current && giveWay(current)) stopCurrent();
+    checkLive();
+    wakeUp();
+    render();
+  });
+
+  // Top to bottom: the files ahead, the passes, the other files. null marks the passes.
+  function waitingOrder() {
+    const waiting = jobs.filter((j) => j.status === 'waiting');
+    if (!live.length) return waiting;
+    return [...waiting.filter((j) => j.ahead), null, ...waiting.filter((j) => !j.ahead)];
+  }
+  // The files ahead come first in the list too, in the places unfinished files hold.
+  function sortAhead() {
+    const list = jobs.filter(active);
+    const sorted = [...list.filter((j) => j.ahead), ...list.filter((j) => !j.ahead)];
+    jobs = jobs.map((j) => (active(j) ? sorted.shift() : j));
+  }
+
   // ---------- moving and removing ----------
 
   // change: { id, move: -1 | 1 } swaps a waiting file with the waiting file
-  // above or below it (they're translated top to bottom); { id } removes it.
+  // above or below it (they're translated top to bottom), or the pass over a
+  // video between them; { live: true, move } moves that pass; { id } removes a file.
   // While another open copy runs the queue, its next save would undo the
   // change here, so that copy makes it.
   async function edit(change) {
-    if (!mine && (await navigator.locks.query()).held.some((l) => l.name === LOCK)) {
+    if (await queueRunsElsewhere()) {
       return chrome.storage.local.set({ [EDIT]: Object.assign({ t: Date.now() }, change) });
     }
     const job = jobs.find((j) => j.id === change.id);
-    if (!job) return;
-    let tops = null;
-    if (change.move) {
-      const waiting = jobs.filter((j) => j.status === 'waiting');
-      const other = job.status === 'waiting' && waiting[waiting.indexOf(job) + change.move];
+    if (!job && !change.live) return;
+    const tops = change.move && new Map([...$('jobs').children].map((li) => [li.dataset.id, li.getBoundingClientRect().top]));
+    if (change.live) {
+      // The file just above the passes (even one being translated) goes below them, or the one below above them.
+      const other = change.move < 0 ? jobs.filter((j) => j.ahead && active(j)).pop() : jobs.find((j) => !j.ahead && j.status === 'waiting');
       if (!other) return;
-      tops = new Map([...$('jobs').children].map((li) => [li.dataset.id, li.getBoundingClientRect().top]));
-      const a = jobs.indexOf(job), b = jobs.indexOf(other);
-      jobs[a] = other;
-      jobs[b] = job;
+      other.ahead = change.move > 0;
+    } else if (change.move) {
+      const order = waitingOrder();
+      const at = job.status === 'waiting' ? order.indexOf(job) : -1;
+      const other = at < 0 ? undefined : order[at + change.move];
+      if (other === undefined) return;
+      if (other === null) job.ahead = change.move < 0;
+      else {
+        const a = jobs.indexOf(job), b = jobs.indexOf(other);
+        jobs[a] = other;
+        jobs[b] = job;
+      }
     } else {
       if (current === job) stopCurrent();
       jobs = jobs.filter((j) => j !== job);
     }
+    if (live.length) { sortAhead(); letGoUntil = Date.now() + 2000; }
+    if (current && giveWay(current)) stopCurrent();
     await save();
     render();
-    if (tops) slide(tops, job.id);
+    if (tops) slide(tops, change.live ? live[0] && live[0].key : job.id);
   }
 
   // After a move the cards glide to their new places, so the eye can follow
@@ -449,7 +540,7 @@
   function render() {
     const waiting = jobs.some((j) => j.status === 'waiting' || j.status === 'running');
     const done = jobs.some((j) => j.status === 'done');
-    $('empty').hidden = jobs.length > 0;
+    $('empty').hidden = jobs.length > 0 || live.length > 0;
     $('pause').hidden = !waiting && !paused;
     $('pause').textContent = t(paused ? 'Resume' : 'Pause');
     $('saveAll').hidden = !done;
@@ -458,7 +549,14 @@
     // it moved, so pressing it again moves the file further.
     const arrow = document.activeElement && document.activeElement.closest('#jobs .job-move');
     const focus = arrow && { id: arrow.closest('.job').dataset.id, move: arrow.dataset.move };
-    $('jobs').replaceChildren(...jobs.map(jobRow));
+    const rows = jobs.map(jobRow);
+    if (live.length) {
+      // Above the first file that waits for them, else after the last unfinished one, else last.
+      const next = jobs.findIndex((j) => active(j) && !j.ahead);
+      const last = jobs.map(active).lastIndexOf(true);
+      rows.splice(next >= 0 ? next : last >= 0 ? last + 1 : jobs.length, 0, ...live.map(liveRow));
+    }
+    $('jobs').replaceChildren(...rows);
     if (focus) {
       const li = [...$('jobs').children].find((r) => r.dataset.id === focus.id);
       const b = li && (li.querySelector(`.job-move[data-move="${focus.move}"]:enabled`) || li.querySelector('.job-move:enabled'));
@@ -503,12 +601,12 @@
       b.addEventListener('click', async () => { job.status = 'waiting'; job.error = ''; await save(); render(); run(); });
       foot.append(b);
     } else if (job.status === 'waiting') {
-      // With two or more files waiting, the arrows change which goes first.
-      const waiting = jobs.filter((j) => j.status === 'waiting');
+      // With two or more in line, the arrows change which goes first.
+      const waiting = waitingOrder();
       if (waiting.length > 1) {
         const at = waiting.indexOf(job);
         const order = el('span', 'job-order');
-        order.append(moveButton(job, -1, at === 0), moveButton(job, 1, at === waiting.length - 1));
+        order.append(moveButton({ id: job.id, move: -1 }, at === 0), moveButton({ id: job.id, move: 1 }, at === waiting.length - 1));
         foot.append(order);
       }
     }
@@ -522,14 +620,47 @@
     return li;
   }
 
-  function moveButton(job, move, last) {
+  // A pass started over a video, while it runs: only shown here, with its own
+  // tab doing the work. × stops it, as Stop does in the card over the video.
+  function liveRow(l) {
+    const li = el('li', 'job ' + (l.paused ? 'waiting' : 'running'));
+    li.dataset.id = l.key;
+    const head = el('div', 'job-head');
+    const name = el('span', 'job-name', l.name);
+    name.title = l.name;
+    const x = el('button', 'ghost job-x', '×');
+    x.title = t('Stop');
+    x.setAttribute('aria-label', t('Stop'));
+    x.addEventListener('click', () => chrome.tabs.sendMessage(l.tabId, { type: 'ai-live-stop', to: l.to }, { frameId: l.frameId }).catch(() => forgetLive(l)));
+    head.append(name, el('span', 'job-lang', (SubSettings.flag(l.to) + ' ' + SubSettings.languageName(l.to)).trim()), x);
+    const from = el('div', 'saved-meta', siteName(l.page));
+    from.title = l.page;
+    const bar = el('div', 'job-bar');
+    const fill = el('span');
+    fill.style.width = Math.floor((l.done / l.total) * 100) + '%';
+    bar.append(fill);
+    const foot = el('div', 'job-foot');
+    const above = jobs.some((j) => j.ahead && active(j));
+    const below = jobs.some((j) => !j.ahead && j.status === 'waiting');
+    foot.append(el('span', 'job-note', t(l.paused && above ? 'Waiting' : l.paused ? 'Paused' : 'Improving') + ' · ' + l.model + ' · ' + l.done + ' / ' + t('{n} lines', { n: l.total })));
+    if (above || below) {
+      const order = el('span', 'job-order');
+      order.append(moveButton({ live: true, move: -1 }, !above), moveButton({ live: true, move: 1 }, !below));
+      foot.append(order);
+    }
+    li.append(head, from, bar, foot);
+    return li;
+  }
+
+  function moveButton(change, last) {
+    const move = change.move;
     const label = t(move < 0 ? 'Move up' : 'Move down');
     const b = el('button', 'ghost job-move', move < 0 ? '↑' : '↓');
     b.dataset.move = move;
     b.title = label;
     b.setAttribute('aria-label', label);
     b.disabled = last;
-    b.addEventListener('click', () => edit({ id: job.id, move }));
+    b.addEventListener('click', () => edit(change));
     return b;
   }
 

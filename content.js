@@ -20,6 +20,8 @@
   const translations = new Map(); // language -> translated cues, so switching back is instant
   let prefs = Object.assign({}, SubSettings.TRANSLATION); // language, automatic mode, hide the site's subtitles
   let autoLoaded = false; // the subtitles on screen came from automatic mode (a newer file may replace them)
+  let siteFile = false; // they came from the site by themselves, or back from last time (shortForSubs)
+  let prefsLoaded = false;
   let video = null;       // the video the overlay follows
   let pinned = null;      // video chosen by hand in the popup
   let visible = true;     // the main subtitles; the shortcut (Alt + S by default) hides or shows both
@@ -47,7 +49,7 @@
   // ---------- storage ----------
 
   SubSettings.load().then((s) => { settings = s; refreshStyle(); });
-  const prefsReady = SubSettings.loadTranslation().then((p) => { prefs = p; });
+  const prefsReady = SubSettings.loadTranslation().then((p) => { prefs = p; prefsLoaded = true; });
   SubSettings.loadShortcuts().then((k) => { shortcuts = k; refreshFsKey(); });
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === 'local' && (changes.shortcuts || changes.toggleKey)) SubSettings.loadShortcuts().then((k) => { shortcuts = k; refreshFsKey(); });
@@ -91,6 +93,7 @@
     if (!off) return;
     restorePending = null;
     waiting.length = 0;
+    offered = null;
     hideFound();
     hideRestore();
     clearSubs();
@@ -202,6 +205,8 @@
     return r.width * r.height;
   }
 
+  // The video the subtitles are on, unless it went away or hides (an ad that ended).
+  const liveVideo = () => (video && video.isConnected && area(video) ? video : pickVideo());
   const isPlaying = (v) => !v.paused && !v.ended && v.readyState > 2;
 
   // Pinned video first, then the largest playing one, then the largest visible one.
@@ -220,7 +225,7 @@
   let host, shadow, picEl, subsEl, dualEl, toastEl, hintEl, restoreEl, fsBtn, fsKeyEl, dropEl, foundEl, siteNoteEl, langsEl;
 
   function ensureHost() {
-    if (host) return;
+    if (host) { host.toggleAttribute('data-rtl', SubI18n.rtl); return; }
     host = document.createElement('subtitle-overlay-root');
     const hs = host.style;
     for (const [k, v] of Object.entries({
@@ -232,6 +237,8 @@
     const style = document.createElement('style');
     style.textContent = SubRender.CSS + `
       :host { all: initial; }
+      :host([data-rtl]) :is(.toast, .hint, .fs, .drop, .found, .langs) { direction: rtl; }
+      :host([data-rtl]) .langs button[aria-checked=true] .sw::after { transform: translateX(-12px); }
       .toast, .hint, .fs, .drop { font: 600 14px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; }
       .toast {
         position: absolute; top: max(10%, 52px); left: 50%; transform: translateX(-50%);
@@ -292,14 +299,13 @@
       .found {
         position: absolute; top: 12px; right: 12px; display: none; flex-direction: column; gap: 6px;
         pointer-events: auto; max-width: min(420px, calc(100% - 24px));
-        background: rgba(20,20,20,.92); padding: 10px 10px 10px 12px; border-radius: 12px;
+        background: rgba(20,20,20,.92); padding-block: 10px; padding-inline: 12px 10px; border-radius: 12px;
         font: 600 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
       }
       .found.on { display: flex; }
       .found-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .found-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-      .found-name { flex-basis: 120px; }
-      .found-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; opacity: .85; }
+      .found-name { flex: 1 1 120px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; opacity: .85; }
       .found-lang { font-size: 11px; text-transform: uppercase; background: #6d28d9; border-radius: 5px; padding: 1px 6px; }
       .found button {
         font: inherit; color: #fff; background: rgba(255,255,255,.16); border: 0;
@@ -321,13 +327,13 @@
       .found.on ~ .langs { display: none; } /* the found card uses the same corner */
       .langs button {
         display: flex; align-items: center; gap: 8px; font: inherit; color: inherit; background: transparent;
-        border: 0; border-radius: 8px; padding: 6px 8px 6px 10px; cursor: pointer; text-align: left;
+        border: 0; border-radius: 8px; padding-block: 6px; padding-inline: 10px 8px; cursor: pointer; text-align: start;
       }
       .langs button:hover { background: rgba(255,255,255,.12); }
       .langs .name { flex: 1; white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
       .langs button[aria-checked=false] .name { opacity: .55; }
       .langs .sw { position: relative; flex: none; width: 28px; height: 16px; border-radius: 999px; background: rgba(255,255,255,.28); transition: background .15s; }
-      .langs .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; transition: transform .15s; }
+      .langs .sw::after { content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; transition: transform .15s; }
       .langs button[aria-checked=true] .sw { background: #7a41e4; }
       .langs button[aria-checked=true] .sw::after { transform: translateX(12px); }
       /* How far the AI pass got: model and share, a bar, then the line count or what stopped it. */
@@ -345,13 +351,13 @@
       .langs .ai-act { flex: none; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: 11.5px; }
       .langs .ai-act:hover { background: rgba(255,255,255,.24); }
       .ai.error .ai-note { color: #fca5a5; opacity: 1; }
-      .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-right: 6px; }
+      .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-inline-end: 6px; }
       .covered { visibility: hidden !important; } /* something of the page lies over the video here */
       /* The overlay covers the whole player; the subtitles sit on the picture inside it. */
       .pic { position: absolute; pointer-events: none; }
       /* A narrow player (Shorts, a small window): the cards in the top right go
          below the fullscreen button instead of over it. */
-      :host([data-narrow]) .langs, :host([data-narrow]) .found { top: 56px; max-height: calc(100% - 68px); overflow: auto; }
+      :host([data-narrow]) .langs, :host([data-narrow]) .found { top: 56px; max-height: max(calc(100% - 68px), 180px); overflow: auto; }
     `;
     picEl = el('div', 'pic');
     subsEl = el('div', 'subs');
@@ -480,7 +486,8 @@
     hs.setProperty('top', Math.round(s.top) + 'px', 'important');
     hs.setProperty('width', Math.round(s.width) + 'px', 'important');
     hs.setProperty('height', Math.round(s.height) + 'px', 'important');
-    host.toggleAttribute('data-narrow', s.width < 760);
+    // The cards reach 420 px from the right; below this they'd cover the centred fullscreen button.
+    host.toggleAttribute('data-narrow', s.width < 1130);
     const ps = picEl.style;
     ps.left = Math.round(r.left - s.left) + 'px';
     ps.top = Math.round(r.top - s.top) + 'px';
@@ -565,8 +572,18 @@
   }
 
   // YouTube marks its player with .ad-showing while an ad plays in the same video.
+  // Most sites don't mark their ads. But subtitles the site itself loaded that
+  // go on long after a short video ends can't belong to it: it's the ad or trailer
+  // before the real video, which may play in the same element. Not for a file
+  // you loaded yourself: that always shows.
+  function shortForSubs() {
+    if (!siteFile || !video || !cues.length) return false;
+    const d = video.duration;
+    // Under 2 minutes: Prima+'s preview of a film runs 3, with the film's own subtitles.
+    return Number.isFinite(d) && d > 0 && d < 120 && cues[cues.length - 1].end / 1000 > d + 30;
+  }
   function inAd() {
-    const ad = !!(video && video.closest && video.closest('.ad-showing'));
+    const ad = !!(video && video.closest && video.closest('.ad-showing')) || shortForSubs();
     if (ad) lastAdAt = Date.now();
     return ad;
   }
@@ -624,11 +641,26 @@
       n = n.parentNode || (n instanceof ShadowRoot ? n.host : null);
       if (!n || n === document.body || n === document.documentElement || n.nodeType !== 1) break;
       const p = n.getBoundingClientRect();
-      if (p.left < r.left - 8 || p.top < r.top - 8 || p.right > r.right + 8 || p.bottom > r.bottom + 8) break;
+      const fits = p.left >= r.left - 8 && p.top >= r.top - 8 && p.right <= r.right + 8 && p.bottom <= r.bottom + 8;
+      // A letterboxed video sits in the middle of its player, with black bars
+      // around it: that box is the player too, with the controls in it.
+      const centred = Math.abs(r.left - p.left - (p.right - r.right)) <= 8 && Math.abs(r.top - p.top - (p.bottom - r.bottom)) <= 8;
+      if (!fits && !centred) break;
       root = n;
     }
     coverGeom = geom;
     return (coverRoot = root);
+  }
+  // Players often lay an invisible box over the video to catch clicks. It paints
+  // nothing, so it covers nothing; what lies under it is what counts.
+  function paints(e) {
+    if (/^(IMG|VIDEO|CANVAS|IFRAME|EMBED|OBJECT|svg)$/.test(e.tagName)) return true;
+    const st = getComputedStyle(e);
+    if (+st.opacity === 0) return false;
+    if (st.backgroundImage !== 'none' || st.backdropFilter && st.backdropFilter !== 'none') return true;
+    if (!/^(transparent|rgba\(.*,\s*0\))$/.test(st.backgroundColor)) return true;
+    if (parseFloat(st.borderTopWidth) > 0 && st.borderTopStyle !== 'none' && !/,\s*0\)$|^transparent$/.test(st.borderTopColor)) return true;
+    return [...e.childNodes].some((c) => c.nodeType === 3 && c.textContent.trim());
   }
   function covered(el) {
     if (el !== subsEl && el !== dualEl) return coveredBox(el.getBoundingClientRect());
@@ -645,7 +677,7 @@
     const root = playerRoot();
     const pts = [[b.left + 3, b.top + 3], [b.right - 3, b.top + 3], [b.left + 3, b.bottom - 3], [b.right - 3, b.bottom - 3], [(b.left + b.right) / 2, (b.top + b.bottom) / 2]];
     for (const [x, y] of pts) {
-      const top = document.elementsFromPoint(x, y).find((e) => e !== host);
+      const top = document.elementsFromPoint(x, y).find((e) => e !== host && (containsDeep(root, e) || containsDeep(e, video) || paints(e)));
       if (top && top !== document.documentElement && top !== document.body && !containsDeep(root, top) && !containsDeep(top, video)) return true;
     }
     return false;
@@ -693,6 +725,8 @@
     for (const ev of VIDEO_EVENTS) v.addEventListener(ev, kick);
     v.addEventListener('loadstart', onSourceChange);
     v.addEventListener('emptied', onSourceChange);
+    lastDuration = v.duration;
+    v.addEventListener('durationchange', onDuration);
     // The site may switch a caption track back on (for example when you pick another language).
     v.textTracks.addEventListener('change', () => { if (siteStyle) hideSiteSubs(true); });
     resizeObs = new ResizeObserver(() => position(false));
@@ -709,6 +743,9 @@
     for (const ev of VIDEO_EVENTS) video.removeEventListener(ev, kick);
     video.removeEventListener('loadstart', onSourceChange);
     video.removeEventListener('emptied', onSourceChange);
+    video.removeEventListener('durationchange', onDuration);
+    clearTimeout(swapTimer);
+    swapWaits = false;
     if (resizeObs) resizeObs.disconnect();
     resizeObs = null;
     if (siteObs) siteObs.disconnect(); // the next video gets its own watcher
@@ -721,11 +758,12 @@
   function startWatch() {
     if (watchTimer) return;
     watchTimer = setInterval(() => {
-      if (!cues.length && !stashed && !restorePending) return stopWatch();
+      if (!cues.length && !stashed && !restorePending && !offered) return stopWatch();
       if (restorePending) return tryRestore();
-      if (!video || !video.isConnected) {
+      // Gone, or hidden while another plays: Prima+'s ad has its own element, which stays on the page.
+      if (!video || !video.isConnected || !area(video)) {
         const next = pickVideo();
-        if (next) {
+        if (next && next !== video) {
           const sameSrc = (next.currentSrc || next.src) === lastSrc;
           attach(next);
           if (!sameSrc) onSourceChange();
@@ -754,6 +792,30 @@
     const otherVideo = !!SubSettings.youTubeId(location.href) && pageOfSubs() !== SubSettings.pageOf(location.href);
     if ((inAd() || Date.now() - lastAdAt < 5000) && !otherVideo) return;
     if (!cues.length) return;
+    // Same page, new stream: Prima+ loads one when you pick another audio language.
+    // As long as the new one is equally long, it's the same film.
+    if (Number.isFinite(lastDuration) && lastDuration > 0 && pageOfSubs() === SubSettings.pageOf(location.href)) {
+      swapWaits = true;
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(newVideo, 8000);
+      return;
+    }
+    newVideo();
+  }
+  let lastDuration = NaN, swapWaits = false, swapTimer = 0;
+  function onDuration() {
+    const d = video.duration;
+    if (!Number.isFinite(d) || d <= 0) return;
+    if (swapWaits && Math.abs(d - lastDuration) > 2) return newVideo();
+    clearTimeout(swapTimer);
+    swapWaits = false;
+    lastDuration = d;
+  }
+  function newVideo() {
+    clearTimeout(swapTimer);
+    swapWaits = false;
+    if (!cues.length) return;
+    lastDuration = video ? video.duration : NaN;
     stashed = { cues, file };
     clearSubs(true);
     ensureHost();
@@ -767,7 +829,7 @@
   let restoreTimer = 0;
   function offerRestore(record) {
     const show = el('button', '', t('Show'));
-    show.addEventListener('click', () => { hideRestore(); restoreRecord(record, video || pickVideo()); });
+    show.addEventListener('click', () => { hideRestore(); restoreRecord(record, liveVideo()); });
     const close = el('button', '', '×');
     close.title = t('Dismiss');
     close.addEventListener('click', hideRestore);
@@ -806,6 +868,7 @@
     file = { name, b64, encoding: encoding || 'auto', usedEncoding: used };
     loadedOn = location.href;
     autoLoaded = false;
+    siteFile = false;
     siteDismissed = false;
     original = null;
     translations.clear();
@@ -873,6 +936,7 @@
     hideSiteSubs(false);
     stopSiteWatch();
     autoLoaded = false;
+    siteFile = false;
     cues = [];
     file = null;
     original = null;
@@ -882,7 +946,7 @@
     lastKey = '';
     if (subsEl) subsEl.replaceChildren();
     if (dualEl) dualEl.replaceChildren();
-    enableMouse(false);
+    enableMouse(!!offered);
     if (fsBtn) fsBtn.classList.remove('on');
     if (langsEl) langsEl.classList.remove('on');
     send({ type: 'subs-state', has: false });
@@ -934,12 +998,14 @@
     if (!f.original) {
       const r = loadBytes(f.name, f.b64, f.encoding, v);
       offAfterLoad = null;
+      siteFile = r.ok;
       if (r.ok && restoreSecond(f)) resumeShown();
       return r;
     }
     // A translation was showing: bring back the original, then the saved translation (no new request).
     const r = loadBytes(f.original.name, f.original.b64, f.original.encoding, v);
     offAfterLoad = null;
+    siteFile = r.ok;
     if (r.ok && f.origLang) origLang = f.origLang;
     if (!r.ok) return r;
     const list = savedList(f.b64, f.ai);
@@ -1213,6 +1279,15 @@
   const aiModel = () => (aiOf() && prefs[aiOf().model]) || '';
   // An AI translator with its key (if it needs one) and a model: Improve can start.
   const aiReady = () => { const ai = aiOf(); return !!ai && (!ai.key || !!prefs[ai.key]) && !!prefs[ai.model]; };
+  // The queue tab gives way to a pass started here and lists it, so it hears
+  // how the pass goes. Files you moved above it there go first: the queue asks
+  // for that again and again, so closing its tab lets the pass carry on by itself.
+  const QUEUE_FIRST_MS = 90000;
+  let queueFirstUntil = 0;
+  function reportLive(to, state) {
+    send({ type: 'ai-live', to, model: state.model, done: state.done, total: state.total, paused: !!state.paused,
+      name: (window === window.top && location.href === loadedOn && pageTitle()) || baseOf().file.name, page: loadedOn || location.href });
+  }
   // quiet: carrying on after a reload. A pass stopped with "Stop" stays
   // stopped then; only Continue or Improve starts it again.
   async function improve(to, base, list, quiet) {
@@ -1231,6 +1306,7 @@
     state.running = true;
     state.error = '';
     refreshLangs();
+    reportLive(to, state);
     const src = base.cues.map((c) => toHtml(c.text));
     const now = video ? video.currentTime * 1000 - settings.offset : 0;
     const from = Math.max(0, base.cues.findIndex((c) => c.end >= now));
@@ -1244,32 +1320,37 @@
     // Only a language on screen gets translated: one switched off (over the
     // video, Alt + S, YouTube's CC button, dual subtitles off) waits and carries on when it's back.
     const onScreen = () => (visible && list === cues) || (dualVisible && list === secondCues());
+    const mayRun = () => onScreen() && Date.now() >= queueFirstUntil;
     // Remembered at once, so a reload right after Improve carries on.
     if (shown()) showTranslation(to, list, true); else rememberFile();
     let said = quiet, savedAt = Date.now();
     try {
+      // Who is who, from the whole file, for every chunk. Google's lines stay on screen meanwhile.
+      const sheetRes = await chrome.runtime.sendMessage({ type: 'ai-sheet', to, texts: src }).catch(() => null);
+      if (!stillWanted()) return;
+      const sheet = (sheetRes && sheetRes.sheet) || '';
       for (let k = 0; k < starts.length; k++) {
         const i = starts[k];
         if (state.chunks.has(i)) continue;
         // A new main translation lands on screen a moment after its pass starts: no "Paused" for that.
-        for (let n = 0; stillWanted() && !onScreen(); n++) {
-          if (n === 1) { state.paused = true; refreshLangs(); }
+        for (let n = 0; stillWanted() && !mayRun(); n++) {
+          if (n === 1) { state.paused = true; refreshLangs(); reportLive(to, state); }
           await new Promise((r) => setTimeout(r, 500));
         }
-        if (state.paused) { state.paused = false; refreshLangs(); }
+        if (state.paused) { state.paused = false; refreshLangs(); reportLive(to, state); }
         if (!stillWanted()) return;
-        // Subtitles switched off (or the pass stopped) while the model works on
-        // a chunk: the request stops at once, so a local model stops working
-        // too, and the chunk is asked again when they're back.
+        // Subtitles switched off (or the pass stopped, or a queued file moved
+        // above it) while the model works on a chunk: the request stops at once,
+        // so a local model stops working too, and the chunk is asked again later.
         let offMidway = false;
         const watch = setInterval(() => {
-          if (stillWanted() && onScreen()) return;
+          if (stillWanted() && mayRun()) return;
           offMidway = stillWanted();
           clearInterval(watch);
           send({ type: 'ai-stop', to });
         }, 500);
         const res = await chrome.runtime.sendMessage({ type: 'ai-translate', to,
-          texts: src.slice(i, i + AI_CHUNK), before: src.slice(Math.max(0, i - 4), i) })
+          texts: src.slice(i, i + AI_CHUNK), before: src.slice(Math.max(0, i - 4), i), sheet })
           .catch((e) => ({ ok: false, error: e.message }))
           .finally(() => clearInterval(watch));
         if (!stillWanted()) return;
@@ -1284,6 +1365,7 @@
         // Every little while the remembered file gets the better lines, so a reload carries on from here.
         if (Date.now() - savedAt > 10000) { savedAt = Date.now(); if (shown()) showTranslation(to, list, true); else rememberFile(); }
         refreshLangs();
+        reportLive(to, state);
       }
       // Done: the saved and downloadable file gets the better lines too.
       if (shown()) {
@@ -1302,6 +1384,7 @@
       if (improving.get(to) === run) improving.delete(to);
       state.running = state.paused = false;
       refreshLangs();
+      if (!improving.has(to)) send({ type: 'ai-live', to, end: true });
     }
   }
 
@@ -1472,7 +1555,7 @@
       const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
       if (!inside) return;
       let fsAppeared = false, appeared = false;
-      if (!document.fullscreenElement) {
+      if (!document.fullscreenElement && cues.length) {
         fsAppeared = !fsBtn.classList.contains('on');
         fsBtn.classList.add('on');
         clearTimeout(fsTimer);
@@ -1519,20 +1602,44 @@
   // translation on screen (not the original): how far the AI got with it, or
   // its Improve button. The top one first. False when there is nothing to show.
   function fillLangs() {
-    if (!cues.length) return false;
+    if (!cues.length) {
+      // Nothing on the video, but the site has subtitles (the card went away, or
+      // you removed them): one click brings them, the way the card would.
+      const item = offered;
+      if (!item || foundEl.classList.contains('on')) return false;
+      const b = el('button', 'offer', t('Show over video'));
+      b.title = item.lang ? (SubSettings.flag(item.lang) + ' ' + item.lang).trim() : item.name;
+      b.addEventListener('click', async () => {
+        b.disabled = true;
+        if (prefs.autoTranslate) await autoShow(item);
+        else {
+          // loadBytes says how many lines came; only a problem needs more than that.
+          const res = await chrome.runtime.sendMessage({ type: 'fetch-item', id: item.id }).catch((e) => ({ ok: false, error: e.message }));
+          const r = res && res.ok ? loadBytes(res.name, res.b64, 'auto', liveVideo()) : { ok: false, error: res ? res.error : t('Failed.') };
+          if (!r.ok) toast(t('Didn’t work: {error}', { error: r.error }), 5000);
+        }
+        showLangs();
+      });
+      langsEl.replaceChildren(b);
+      return true;
+    }
     const second = secondCues();
     // Switched off before it was ever translated, the second language still gets its switch.
     const hasSecond = !!second || (!dualVisible && !!secondLanguage());
     const labels = langLabels();
     const main = { label: labels.main, lang: original && file.translatedTo, list: cues, on: visible, second: false };
     const dual = { label: labels.second, lang: prefs.secondLang, list: second, on: dualVisible, second: true };
-    const rows = settings.place === 'top' ? [main, dual] : [dual, main];
-    const switches = !hasSecond ? [] : rows.map((row) => {
+    // With one language the card is its on/off switch: no shortcut to remember.
+    const rows = !hasSecond ? [main] : settings.place === 'top' ? [main, dual] : [dual, main];
+    const switches = rows.map((row) => {
       const b = el('button');
       b.setAttribute('role', 'switch');
       b.setAttribute('aria-checked', String(row.on));
       b.append(el('span', 'name', row.label), el('span', 'sw'));
-      b.addEventListener('click', () => { flipLang(row.second); showLangs(); });
+      b.addEventListener('click', () => {
+        if (hasSecond) flipLang(row.second); else runAction(ACTIONS.toggle);
+        showLangs();
+      });
       return b;
     });
     const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && (aiState.has(row.list) || aiReady()))
@@ -1869,6 +1976,7 @@
   const watched = () => findVideos().find((v) => isPlaying(v) && !v.muted && v.volume > 0 && area(v) > 0);
 
   const shownIds = new Set(); // found files already offered or used here, so retries don't repeat them
+  let offered = null; // the newest of them: its button stays over the video (fillLangs)
   let waitTimer = 0;
 
   // asked: you turned YouTube's CC on for it (askForCaptions), so it comes
@@ -1894,11 +2002,14 @@
 
   function flushFound() {
     if (!waiting.length) return;
+    // Automatic mode decides below: not before we know whether it's on.
+    if (!prefsLoaded) { prefsReady.then(flushFound); return; }
     const biggest = pickVideo();
-    if (biggest && isPlaying(biggest)) {
+    if (biggest) {
       for (const w of waiting) {
         const age = Date.now() - w.t;
-        if (age < SETTLE_MS || (!w.video && age < WAIT_MS)) w.video = biggest;
+        // Also a paused video: subtitles turned on during a pause wait for it, however long the pause.
+        if (age < SETTLE_MS || (isPlaying(biggest) && !w.video && age < WAIT_MS)) w.video = biggest;
       }
     }
     const v = watched() || (waiting.some((w) => w.asked) && biggest);
@@ -1906,8 +2017,11 @@
     const fresh = waiting.splice(0).filter((w) => Date.now() - w.t < WAIT_MS || w.video === v);
     if (!fresh.length) return;
     for (const w of fresh) shownIds.add(w.item.id);
-    if (!video) attach(v);
+    if (!video || !area(video)) attach(v);
     ensureHost();
+    offered = fresh[fresh.length - 1].item;
+    enableMouse(true);
+    startWatch(); // the card and its button follow the player when an ad ends
     for (const w of fresh) if (!found.some((f) => f.id === w.item.id)) found.unshift(w.item);
     found.length = Math.min(found.length, 3);
     // Automatic mode: the newest file goes straight onto the video, translated.
@@ -1926,9 +2040,13 @@
 
   // The subtitles on screen started from this file. YouTube's captions are
   // named by video and language, the way background.js names them.
+  // Other sites' captions by the file's name on the page they were loaded on:
+  // a reload brings them back before the player downloads them again.
   function showing(item) {
     const base = baseOf().file;
-    return !!(item.yt && base) && base.name === ('youtube-' + item.yt + (item.lang ? '.' + item.lang : '')).replace(/[^\w.\-]+/g, '_');
+    if (!base) return false;
+    if (item.yt) return base.name === ('youtube-' + item.yt + (item.lang ? '.' + item.lang : '')).replace(/[^\w.\-]+/g, '_');
+    return !!item.file && pageOfSubs() === SubSettings.pageOf(location.href) && (base.name === item.file || base.name.startsWith(item.file + '.'));
   }
 
   // The last subtitles of the page a found file belongs to, or null. YouTube's
@@ -1973,7 +2091,7 @@
       if (!res || !res.ok) throw new Error(res ? res.error : t('Failed.'));
       // Another site's file must be the one those subtitles started from.
       if (saved && saved.translatedTo === prefs.translateTo && (item.yt || (saved.original || saved).name === res.name)) {
-        const back = restoreRecord(saved, video || pickVideo());
+        const back = restoreRecord(saved, liveVideo());
         if (back && back.ok) {
           autoLoaded = true;
           restorePending = null;
@@ -1983,9 +2101,9 @@
           return;
         }
       }
-      const r = loadBytes(res.name, res.b64, 'auto', video || pickVideo());
+      const r = loadBytes(res.name, res.b64, 'auto', liveVideo());
       if (!r.ok) throw new Error(r.error);
-      autoLoaded = true;
+      autoLoaded = siteFile = true;
       if (sameLang) return;
       const done = await translate(prefs.translateTo);
       if (!done.ok) throw new Error(done.error);
@@ -2021,14 +2139,14 @@
         }));
       const use = el('button', '', t('Show over video'));
       use.addEventListener('click', () => foundAction(use, use.textContent, { type: 'fetch-item', id: item.id }, (res) => {
-        const r = loadBytes(res.name, res.b64, 'auto', video || pickVideo());
+        const r = loadBytes(res.name, res.b64, 'auto', liveVideo());
         if (!r.ok) throw new Error(r.error);
         return t('Showing {n} lines.', { n: r.count }) + offHint();
       }));
       const tr = el('button', '', t('Translate to {lang}', { lang: SubSettings.languageName(prefs.translateTo) }));
       tr.title = t('Shows these subtitles over the video, translated by Google Translate. Change the language in the extension popup.');
       tr.addEventListener('click', () => foundAction(tr, tr.textContent, { type: 'fetch-item', id: item.id }, async (res) => {
-        const r = loadBytes(res.name, res.b64, 'auto', video || pickVideo());
+        const r = loadBytes(res.name, res.b64, 'auto', liveVideo());
         if (!r.ok) throw new Error(r.error);
         const done = await translate(prefs.translateTo);
         if (!done.ok) throw new Error(done.error);
@@ -2181,6 +2299,16 @@
         showLangs();
         reply({ ok: true });
         return;
+      case 'ai-live-check':
+        // The queue tab: is this pass still going, and may it go now?
+        if (msg.queueFirst != null) queueFirstUntil = msg.queueFirst ? Date.now() + QUEUE_FIRST_MS : 0;
+        reply({ running: improving.has(msg.to) });
+        return;
+      case 'ai-live-stop':
+        // × on this pass in the queue tab.
+        if (translations.has(msg.to)) stopImproving(msg.to, translations.get(msg.to), true);
+        reply({ ok: true });
+        return;
       case 'export':
         reply(file ? { name: file.name, b64: file.b64, encoding: file.encoding } : null);
         return;
@@ -2205,6 +2333,7 @@
       case 'page-changed':
         // Another episode without a new page: files found before belong to the previous one.
         waiting.length = 0;
+        offered = null;
         hideFound();
         return;
       case 'tab-subs':

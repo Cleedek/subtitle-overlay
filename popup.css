@@ -126,9 +126,9 @@ select:focus-visible, input:focus-visible { outline: none; border-color: var(--a
 /* Own chevron, with room on the right. */
 select {
   appearance: none; -webkit-appearance: none; width: 100%; cursor: pointer;
-  padding-right: 30px; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 11px center;
+  padding-inline-end: 30px; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 11px center;
 }
-select.compact { width: auto; min-width: 128px; max-width: 180px; }
+select.compact { flex: none; width: auto; min-width: 128px; max-width: 220px; }
 input[type=number] { width: 58px; font-variant-numeric: tabular-nums; }
 input[type=checkbox] { accent-color: var(--accent); margin: 0; }
 
@@ -182,7 +182,7 @@ body:has(#colorPop:popover-open) .color-btn.anchor { border-color: var(--accent)
 #colorAny::-webkit-color-swatch-wrapper { opacity: 0; }
 #colorHex { width: 90px; font-variant-numeric: tabular-nums; text-transform: uppercase; }
 
-output { min-width: 38px; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+output { min-width: 38px; text-align: end; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
 
 /* Minimal slider: thin track filled from --from up to the thumb at --fill (set from popup.js). */
 input[type=range] {
@@ -212,7 +212,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
   transition: background-color .2s var(--ease);
 }
 .toggle span::after {
-  content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%;
+  content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: 14px; height: 14px; border-radius: 50%;
   background: var(--thumb); box-shadow: 0 1px 2px var(--shadow);
   transition: transform .2s var(--ease);
 }
@@ -281,8 +281,8 @@ label.inline select { flex: 1; }
 
 .keys { width: 100%; border-collapse: collapse; margin-top: 10px; }
 .keys td { padding: 2px 0; vertical-align: middle; }
-.keys td:first-child { padding-right: 8px; }
-.keys td:last-child { text-align: right; white-space: nowrap; }
+.keys td:first-child { padding-inline-end: 8px; }
+.keys td:last-child { text-align: end; white-space: nowrap; }
 
 /* ---------- font picker ---------- */
 
@@ -295,7 +295,7 @@ label.inline select { flex: 1; }
 .font-list { max-height: 176px; overflow-y: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .font-row {
   display: flex; align-items: center; gap: 6px; width: 100%; padding: 6px 9px; border: 0; border-radius: 0;
-  background: none; text-align: left; border-bottom: 1px solid var(--line);
+  background: none; text-align: start; border-bottom: 1px solid var(--line);
 }
 .font-row:last-child { border-bottom: 0; }
 .font-row:hover { background: var(--panel-hover); }
@@ -304,14 +304,14 @@ label.inline select { flex: 1; }
 .font-row .tag { font-size: 10px; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 4px; }
 .font-list .more { padding: 7px 9px; color: var(--muted); font-size: 11.5px; }
 .font-status { margin: 0; font-size: 11.5px; line-height: 1.4; color: var(--muted); }
-.font-status.ok::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
+.font-status.ok::before { content: "\2713"; color: var(--success); font-weight: 700; margin-inline-end: 5px; }
 .font-status.error { color: var(--danger); }
 
 /* ---------- presets ---------- */
 
 .presets .user { display: inline-flex; align-items: stretch; padding: 0; overflow: hidden; }
-.presets .user span { padding: 5px 4px 5px 10px; }
-.presets .user i { font-style: normal; padding: 5px 8px 5px 6px; color: var(--muted); }
+.presets .user span { padding-block: 5px; padding-inline: 10px 4px; }
+.presets .user i { font-style: normal; padding-block: 5px; padding-inline: 6px 8px; color: var(--muted); }
 .presets .user i:hover { color: var(--danger); }
 .presets button.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 
@@ -323,7 +323,7 @@ button.wide { width: 100%; padding: 8px 10px; }
 #presetName { flex: 1; }
 
 .translate { margin-top: 8px; display: flex; flex-direction: column; gap: 2px; font-size: 11.5px; color: var(--muted); }
-.translate .saved::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
+.translate .saved::before { content: "\2713"; color: var(--success); font-weight: 700; margin-inline-end: 5px; }
 .translate a { color: var(--link); }
 
 /* ---------- keyboard shortcuts drawn as keys ---------- */
@@ -343,7 +343,7 @@ kbd {
 .combo-btn:hover { background: var(--panel); border-color: var(--line); }
 .combo-btn.recording { color: var(--accent-hover); border-color: var(--accent); font-size: 11.5px; font-weight: 600; padding: 3px 8px; }
 .combo-btn.unset { color: var(--muted); font-size: 11.5px; }
-.key-btn { padding: 1px 7px; font-size: 11px; margin-right: 2px; color: var(--muted); }
+.key-btn { padding: 1px 7px; font-size: 11px; margin-inline-end: 2px; color: var(--muted); }
 #keysResetAll { margin-top: 8px; }
 
 /* ---------- translation, inside the loaded-file card ---------- */
@@ -353,7 +353,7 @@ kbd {
 .translate-box .error { margin: 0; }
 .improve-note { margin: 0; color: var(--muted); font-size: 12px; }
 .translated-note { flex: 1; color: var(--muted); font-size: 12px; }
-.translated-note::before { content: "\2713"; color: var(--success); font-weight: 700; margin-right: 5px; }
+.translated-note::before { content: "\2713"; color: var(--success); font-weight: 700; margin-inline-end: 5px; }
 .translated-note strong { color: var(--text); font-weight: 600; }
 #translatedRow button { padding: 3px 8px; font-size: 12px; }
 
@@ -371,7 +371,7 @@ kbd {
 .rate-step { display: flex; flex-direction: column; gap: 12px; }
 .rate-step.enter { animation: rate-step .24s var(--ease) both; }
 @keyframes rate-step { from { opacity: 0; transform: translateY(3px); } }
-.rate-top { display: flex; align-items: center; gap: 12px; padding-right: 22px; }
+.rate-top { display: flex; align-items: center; gap: 12px; padding-inline-end: 22px; }
 .rate-ring { position: relative; flex: none; width: 52px; height: 52px; }
 .rate-ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
 .rate-ring .track { stroke: var(--line-strong); }
@@ -405,7 +405,7 @@ kbd {
 .rate-thanks p { margin: 0; font-size: 12px; color: var(--muted); }
 .rate-star { color: var(--star); }
 .rate-close {
-  position: absolute; top: 6px; right: 6px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
+  position: absolute; top: 6px; inset-inline-end: 6px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
   border: 0; border-radius: 6px; background: transparent; color: var(--faint);
 }
 .rate-close:hover { background: var(--panel-hover); color: var(--text); }
@@ -478,7 +478,7 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
    tinted with the purple of both icons (#7c3aed), its outline a step more of the same purple. */
 .sister { position: relative; margin-bottom: 8px; }
 .sister .sister-link {
-  display: flex; align-items: center; gap: 10px; padding: 9px 36px 9px 10px;
+  display: flex; align-items: center; gap: 10px; padding-block: 9px; padding-inline: 10px 36px;
   border: 1px solid color-mix(in srgb, #7c3aed 20%, transparent); border-radius: 10px;
   background: color-mix(in srgb, #7c3aed 10%, transparent); color: var(--text); font-weight: 400; text-decoration: none;
   transition: background-color .15s var(--ease), border-color .15s var(--ease);
@@ -490,7 +490,7 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 .sister-name svg { color: var(--faint); }
 .sister-tagline { font-size: 11.5px; color: var(--muted); }
 .sister-close {
-  position: absolute; top: 50%; right: 6px; transform: translateY(-50%);
+  position: absolute; top: 50%; inset-inline-end: 6px; transform: translateY(-50%);
   display: grid; place-items: center; width: 24px; height: 24px; padding: 0;
   border: 0; border-radius: 6px; background: transparent; color: var(--faint);
 }
@@ -519,7 +519,7 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 }
 .ai-details[open] summary::before { transform: none; }
 .ai-details summary:hover { color: var(--text); }
-.ai-summary { margin-left: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; font-size: 11.5px; color: var(--faint); }
+.ai-summary { margin-inline-start: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; font-size: 11.5px; color: var(--faint); }
 .setting .hint a { color: var(--link); }
 .setting .hint.error { color: var(--danger); }
 
@@ -529,3 +529,22 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 .saved-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
 .saved-open .bookmark { transition: transform .2s var(--ease); }
 .saved-open:hover .bookmark { transform: scale(1.12); }
+
+/* Arabic reads right to left. Layout flips by itself through logical properties;
+   this covers what doesn't. Nothing here applies to other languages. */
+[dir=rtl] * { letter-spacing: normal; } /* spacing tears Arabic's joined letters apart */
+[dir=rtl] select { background-position: left 11px center; }
+[dir=rtl] .toggle input:checked + span::after { transform: translateX(-12px); }
+[dir=rtl] input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(to left, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
+}
+[dir=rtl] .ai-details summary::before { transform: rotate(90deg); }
+[dir=rtl] .ai-details[open] summary::before { transform: none; }
+[dir=rtl] #supportBack svg, [dir=rtl] .support-open svg:last-child { transform: scaleX(-1); }
+/* Time and left/right stay physical; codes, keys and addresses are written left to right. */
+[dir=rtl] .sync, [dir=rtl] .combo, [dir=rtl] .pay-id,
+[dir=rtl] input[type=password], [dir=rtl] input[type=number], [dir=rtl] #localUrl, [dir=rtl] #colorHex { direction: ltr; }
+[dir=rtl] input[data-key=shadowX] { direction: ltr; }
+[dir=rtl] input[data-key=shadowX]::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
+}

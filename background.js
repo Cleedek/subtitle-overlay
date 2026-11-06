@@ -149,7 +149,8 @@ function offer(tabId, id, attempt = 0) {
 }
 
 // yt: the YouTube video the captions belong to (content.js finds its translation from last time with it).
-const foundItem = (item) => ({ id: item.id, lang: item.lang || '', name: item.name || stripQuery(item.url).split('/').pop(), yt: item.yt || '' });
+// file: the name it gets once loaded (content.js recognises subtitles already on screen by it).
+const foundItem = (item) => ({ id: item.id, lang: item.lang || '', name: item.name || stripQuery(item.url).split('/').pop(), yt: item.yt || '', file: fileName(item) });
 const FOUND_FRESH_MS = 60000;
 
 // ---------- translation queue ----------
@@ -520,8 +521,13 @@ const englishName = (code) => {
   try { return new Intl.DisplayNames(['en'], { type: 'language' }).of(code); } catch (e) { return code; }
 };
 
-const AI_PROMPT = (lang) => [
+const AI_PROMPT = (lang, sheet) => [
   'You translate film and TV subtitles into ' + lang + '.',
+  ...(sheet ? [
+    'Notes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):',
+    '"""\n' + sheet + '\n"""',
+    'Use the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.',
+  ] : []),
   'You get JSON: "lines", numbered subtitle lines to translate, and sometimes "before", the lines just before them, for context only.',
   'Answer with JSON only: the same numbers, each with "src", that line copied exactly, and "tr", the translation of that one line.',
   'A line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.',
@@ -618,7 +624,7 @@ const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replac
 
 // One chunk of lines (HTML, like the Google path) -> the same number of
 // translated lines; one the model left out comes back '' (Google's stays).
-async function aiTranslate(lines, before, to, signal) {
+async function aiTranslate(lines, before, to, signal, sheet) {
   const cfg = await aiConfig();
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
@@ -631,7 +637,7 @@ async function aiTranslate(lines, before, to, signal) {
       model: cfg.model,
       temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
       messages: [
-        { role: 'system', content: AI_PROMPT(lang) },
+        { role: 'system', content: AI_PROMPT(lang, sheet) },
         { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
       ],
     };
@@ -677,6 +683,62 @@ async function aiTranslate(lines, before, to, signal) {
     if (again) missing.forEach((i, n) => { if (again[n]) best[i] = again[n]; });
   }
   return { texts: best, model: cfg.model };
+}
+
+// A chunk of 30 lines can't tell who is who, and many languages need to know:
+// Vietnamese pronouns depend on the age and relationship of the two people, and
+// many others mark gender or formal address. So the model first reads the whole
+// file once and writes short notes that go along with every chunk.
+const SHEET_PROMPT = (lang) => [
+  'Below are all the subtitle lines of a film or TV episode, in order. They will be translated into ' + lang + ' in small chunks, by someone who sees only these notes and the chunk.',
+  'Write the notes, in English, plain text, at most 300 words:',
+  'PEOPLE: each named character: gender, rough age, role, relationship to the others.',
+  'ADDRESS: for each pair who talk to each other, the exact ' + lang + ' words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won\'t show these words: choose them yourself from the two people\'s ages and relationship, as ' + lang + ' speakers normally would. Not just "formal" or "informal". Add what changes if their relationship changes during the story. Skip this only if ' + lang + ' has no such distinctions.',
+  'NAMES: names of people, places and things that must stay spelled the same.',
+  'Under PEOPLE, write only what the lines support, and "unknown" where they don\'t say. Start directly with PEOPLE, no introduction.',
+].join('\n');
+// A local model usually can't hold a whole film at once, and would quietly lose
+// the beginning: it gets evenly spread parts instead.
+const SHEET_MAX_CHARS = { local: 12000, other: 200000 };
+const SHEET_MAX_ANSWER = 4000;
+
+function sheetSource(lines, max) {
+  const text = lines.join('\n');
+  if (text.length <= max) return text;
+  const PARTS = 8;
+  const each = Math.floor(lines.length / PARTS);
+  const room = Math.floor(max / PARTS);
+  const parts = [];
+  for (let p = 0; p < PARTS; p++) parts.push(lines.slice(p * each, (p + 1) * each).join('\n').slice(0, room));
+  return parts.join('\n[...]\n');
+}
+
+// The notes for one file, or '' if they can't be made: translation works without
+// them. Remembered until the browser closes, so a reload doesn't pay for them again.
+async function aiSheet(texts, to, signal) {
+  const cfg = await aiConfig();
+  if (!cfg || !cfg.model) return '';
+  const lines = texts.map((t) => String(t).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
+  if (lines.length < 2) return '';
+  const hash = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(lines.join('\n')));
+  const key = 'sheet:' + [...new Uint8Array(hash)].map((b) => b.toString(16).padStart(2, '0')).join('') + ':' + to + ':' + cfg.model;
+  const kept = await chrome.storage.session.get(key);
+  if (kept[key]) return kept[key];
+  const body = {
+    model: cfg.model,
+    temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
+    messages: [
+      { role: 'system', content: SHEET_PROMPT(englishName(to)) },
+      { role: 'user', content: sheetSource(lines, cfg.kind === 'local' ? SHEET_MAX_CHARS.local : SHEET_MAX_CHARS.other) },
+    ],
+  };
+  if (cfg.kind === 'gemini' || cfg.kind === 'openai') {
+    const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
+    if (effort) body.reasoning_effort = effort;
+  }
+  const sheet = (await aiChat(cfg, body, signal)).replace(/<think>[\s\S]*?<\/think>/g, '').trim().slice(0, SHEET_MAX_ANSWER);
+  if (sheet) await chrome.storage.session.set({ [key]: sheet }).catch(() => {});
+  return sheet;
 }
 
 // ---------- Google Fonts ----------
@@ -929,9 +991,23 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       const run = new AbortController();
       if (aiRuns.has(key)) aiRuns.get(key).abort();
       aiRuns.set(key, run);
-      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal)
+      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal, msg.sheet || '')
         .then((r) => reply(Object.assign({ ok: true }, r)),
           (e) => reply(e === STOPPED ? { ok: false, stopped: true } : { ok: false, error: e.message }))
+        .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });
+      return true;
+    }
+
+    // Notes on who is who, asked once before a file's first chunk. Stoppable
+    // like a chunk. Any failure just means translating without them.
+    case 'ai-sheet': {
+      const key = tabId + ':' + sender.frameId + ':' + msg.to;
+      const run = new AbortController();
+      if (aiRuns.has(key)) aiRuns.get(key).abort();
+      aiRuns.set(key, run);
+      aiSheet(msg.texts, msg.to, run.signal)
+        .then((sheet) => reply({ ok: true, sheet }),
+          (e) => reply(e === STOPPED ? { ok: false, stopped: true } : { ok: true, sheet: '' }))
         .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });
       return true;
     }
@@ -939,6 +1015,18 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     case 'ai-stop': {
       const run = aiRuns.get(tabId + ':' + sender.frameId + ':' + msg.to);
       if (run) run.abort();
+      return;
+    }
+
+    // A page's own Improve pass, for the queue tab: it gives way to it and lists
+    // it. Kept in session storage, one key each, as this worker can restart meanwhile.
+    case 'ai-live': {
+      const key = 'live:' + tabId + ':' + sender.frameId + ':' + msg.to;
+      if (msg.end) chrome.storage.session.remove(key);
+      else {
+        chrome.storage.session.set({ [key]: { key, tabId, frameId: sender.frameId, to: msg.to, name: msg.name, page: msg.page,
+          model: msg.model, done: msg.done, total: msg.total, paused: msg.paused } });
+      }
       return;
     }
 

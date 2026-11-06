@@ -17,7 +17,7 @@ The code is public so anyone can check what the extension does. It is plain Java
 - **Subtitles found on the page:** when you turn on subtitles in a site's own player, the extension notices the subtitle file the player downloads (WebVTT, SRT, HLS playlists, YouTube captions) and offers it: show it your way, translate it, or save it as `.srt`.
 - **Coming soon:** Netflix subtitles and TTML (`.ttml`, `.dfxp`) files. They are not in the Chrome Web Store version yet; the code is already here if you install from source.
 - **Translation:** automatic after a new install, into your browser's language (switch it off or pick another of the 31 languages in the popup), or one click, through Google Translate. Optionally Gemini (your own free API key), Claude or OpenAI (your own paid API key) or a local model (Ollama, LM Studio) rewrites Google's quick version with the whole scene in mind, a chunk at a time from where you are watching. It only starts when you click **Improve** (over the video or in the popup), never by itself, since a key costs money and a local model keeps the computer busy.
-- **Translation queue:** drop in several `.srt` / `.vtt` files, or click **Add to queue** on subtitles a site loads, and they're translated one after another in the queue tab. Improved subtitles are kept under **Saved subtitles** for as long as you choose (a day to forever, or not at all) and come back when you return to the video; **Play** opens the page a file came from.
+- **Translation queue:** drop in several `.srt` / `.vtt` files, or click **Add to queue** on subtitles a site loads, and they're translated one after another in the queue tab. **Improve** clicked over a video goes first: the queue waits and shows that pass in its list, where the arrows can put a file above it. Improved subtitles are kept under **Saved subtitles** for as long as you choose (a day to forever, or not at all) and come back when you return to the video; **Play** opens the page a file came from.
 - **Two languages at once:** a second set at the other edge of the video.
 - **Style:** 1,800+ Google Fonts, colour, outline, shadow, background box with blur, position, size that follows the player, your own presets.
 - **Sync and shortcuts:** shift timing by 0.1 s or 1 s, repeat the current line, click a line to copy it, fullscreen with subtitles. Every shortcut can be changed.
@@ -81,7 +81,7 @@ For local video files (`file://`), open the extension's **Details** and turn on 
 | `lib/subtitles.js` | Parsing SRT, VTT, TTML (not in the store version yet), HLS and YouTube formats, encodings, export |
 | `lib/settings.js` | Settings, presets, languages, shortcuts |
 | `lib/render.js` | Subtitle styling shared by the page and the popup preview |
-| `lib/i18n.js`, `lib/locales/`, `_locales/` | Interface translations in 30 languages, one file per language loaded only when needed. Arabic is the one translation language without an interface, it needs right-to-left layout first |
+| `lib/i18n.js`, `lib/locales/`, `_locales/` | Interface translations in 31 languages, one file per language loaded only when needed. Arabic is the one translation language without an interface, it needs right-to-left layout first |
 | `lib/google-fonts.json` | List of Google Fonts with the alphabets each one supports |
 | `samples/` | Test video and subtitle files for checking timing and encodings |
 | `store/` | Chrome Web Store listing text and images |

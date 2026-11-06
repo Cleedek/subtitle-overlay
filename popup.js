@@ -229,6 +229,11 @@
     $('file').value = '';
   });
 
+  $('toggleSubs').addEventListener('click', async () => {
+    const lf = loadedFrame();
+    if (lf) await chrome.tabs.sendMessage(tab.id, { type: 'run-action', action: { kind: 'toggle' } }, { frameId: lf.frameId }).catch(() => {});
+  });
+
   $('clear').addEventListener('click', async () => {
     const lf = loadedFrame();
     if (lf) await chrome.tabs.sendMessage(tab.id, { type: 'clear' }, { frameId: lf.frameId }).catch(() => {});
