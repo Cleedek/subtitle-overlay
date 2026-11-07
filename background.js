@@ -498,9 +498,35 @@ function aiHeaders(cfg) {
 
 function aiError(cfg, e) {
   if (cfg.kind === 'local' && e instanceof TypeError) {
-    return new Error(tr('Can’t reach the local model at {url}. Is Ollama or LM Studio running?', { url: cfg.base.replace(/\/v1$/, '') }));
+    const err = new Error(tr('Can’t reach the local model at {url}. Is Ollama or LM Studio running?', { url: cfg.base.replace(/\/v1$/, '') }));
+    err.unreachable = true; // the address is what's wrong: the popup says it there
+    return err;
   }
   return e;
+}
+
+// Nothing answers at the address set: maybe it's only a typo in the port, or the
+// other app. Asks Ollama's and LM Studio's usual addresses; any answer at all
+// (even a refusal) means the server is there. Returns { name, url } or null.
+const LOCAL_SERVERS = [['Ollama', 11434], ['LM Studio', 1234]];
+async function findLocal(base) {
+  let set = null;
+  try { set = new URL(base); } catch (e) { /* any address is new */ }
+  for (const [name, port] of LOCAL_SERVERS) {
+    if (set && /^(localhost|127\.0\.0\.1)$/.test(set.hostname) && +set.port === port) continue;
+    const url = 'http://localhost:' + port;
+    try {
+      await fetch(url + '/v1/models', { signal: AbortSignal.timeout(1500) });
+      return { name, url };
+    } catch (e) { /* not this one */ }
+  }
+  return null;
+}
+// What a failed request tells the popup and the card over the video.
+async function aiFailure(e) {
+  if (!e.unreachable) return { ok: false, error: e.message };
+  const p = await SubSettings.loadTranslation();
+  return { ok: false, error: e.message, unreachable: true, found: await findLocal(p.localUrl) };
 }
 
 async function aiModels(cfg) {
@@ -865,6 +891,11 @@ chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
 chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   const tabId = msg.tabId != null ? msg.tabId : sender.tab && sender.tab.id;
   switch (msg.type) {
+    case 'ping':
+      // The popup checks that this worker is alive (see deadCard in popup.js).
+      reply({ ok: true });
+      return;
+
     case 'ui-strings':
       SubI18n.read(msg.lang).then(reply, () => reply(null));
       return true;
@@ -996,7 +1027,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       aiRuns.set(key, run);
       aiTranslate(msg.texts, msg.before || [], msg.to, run.signal, msg.sheet || '')
         .then((r) => reply(Object.assign({ ok: true }, r)),
-          (e) => reply(e === STOPPED ? { ok: false, stopped: true } : { ok: false, error: e.message }))
+          (e) => (e === STOPPED ? reply({ ok: false, stopped: true }) : aiFailure(e).then(reply)))
         .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });
       return true;
     }
@@ -1035,7 +1066,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 
     case 'ai-models':
       // The popup's model list: whatever the key or the local server offers.
-      aiConfig().then((cfg) => (cfg ? aiModels(cfg) : [])).then((models) => reply({ ok: true, models }), (e) => reply({ ok: false, error: e.message }));
+      aiConfig().then((cfg) => (cfg ? aiModels(cfg) : [])).then((models) => reply({ ok: true, models }), (e) => aiFailure(e).then(reply));
       return true;
 
     case 'convert-item':

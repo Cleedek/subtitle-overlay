@@ -42,6 +42,68 @@
     if (saved && tabs.includes(saved)) showTab(saved);
   } catch (e) { /* first tab */ }
 
+  // ---------- something stopped working ----------
+
+  // One card above the tabs, so a problem doesn't hide inside a folded section.
+  // Hidden with × until the problem changes (remembered until the browser closes).
+  const isDeadError = (m) => /Receiving end does not exist|Could not establish connection|Extension context invalidated/i.test(String(m || ''));
+  let alertNow = null; // { id, sig, onMain }
+  async function showAlert({ id, title, text, main, onMain, tips }) {
+    const sig = id + ':' + text;
+    try {
+      const { alertHidden } = await chrome.storage.session.get('alertHidden');
+      if (alertHidden === sig) return;
+    } catch (e) { /* shown */ }
+    alertNow = { id, sig, onMain };
+    $('alertTitle').textContent = title;
+    $('alertText').textContent = text;
+    $('alertMain').textContent = main;
+    $('alertTips').replaceChildren(...(tips || []).map((tip) => {
+      const li = document.createElement('li');
+      // `code` parts can be selected and copied at once.
+      tip.split(/`([^`]+)`/).forEach((part, i) => li.append(i % 2 ? Object.assign(document.createElement('code'), { textContent: part }) : part));
+      return li;
+    }));
+    $('alertTips').hidden = true;
+    $('alertMore').hidden = !(tips && tips.length);
+    $('alertMore').textContent = t('Tips');
+    $('alertCard').hidden = false;
+  }
+  function hideAlert(id) {
+    if (alertNow && alertNow.id === id) { $('alertCard').hidden = true; alertNow = null; }
+  }
+  $('alertMain').addEventListener('click', () => alertNow && alertNow.onMain());
+  $('alertMore').addEventListener('click', () => {
+    $('alertTips').hidden = !$('alertTips').hidden;
+    $('alertMore').textContent = $('alertTips').hidden ? t('Tips') : t('Hide tips');
+  });
+  $('alertClose').addEventListener('click', () => {
+    if (alertNow) chrome.storage.session.set({ alertHidden: alertNow.sig }).catch(() => {});
+    $('alertCard').hidden = true;
+    alertNow = null;
+  });
+
+  // The background part does the finding, the translating and the AI. When
+  // Chrome fails to start it again, all of that stops without a word.
+  function showDead() {
+    showAlert({
+      id: 'dead',
+      title: t('Subtitle Overlay stopped in the background'),
+      text: t('Subtitles from videos, translations and the AI can’t work until it starts again. After Restart, reload the video page.'),
+      main: t('Restart'),
+      onMain: () => chrome.runtime.reload(),
+      tips: [
+        t('Chrome sometimes fails to start an extension again after an update or after the computer sleeps.'),
+        t('If it keeps happening, open `chrome://extensions` and look at Errors under Subtitle Overlay.'),
+      ],
+    });
+  }
+  // A stopped worker either fails at once ("Receiving end does not exist") or never answers.
+  Promise.race([
+    chrome.runtime.sendMessage({ type: 'ping' }).then(() => 'ok', (e) => (isDeadError(e && e.message) ? 'dead' : 'ok')),
+    new Promise((r) => setTimeout(() => r('dead'), 4000)),
+  ]).then((state) => { if (state === 'dead') showDead(); });
+
   // ---------- support the creator ----------
 
   // The name is a link, so the sentence is split around {name} instead of translated as page text.
@@ -91,6 +153,8 @@
   // Its ID is known once it is in the Chrome Web Store (the store link goes in popup.html then).
   // Until then the card can't tell whether Snap Translate is installed.
   const SNAP_TRANSLATE_ID = '';
+
+  setupFeedback({ ext: 'subtitle-overlay', name: 'Subtitle Overlay', i18n: SubI18n });
 
   // A card in the footer, hidden for good once closed. Not shown when Snap Translate is
   // already installed: it answers a "hello" from another extension, and nothing else is asked.
@@ -343,20 +407,107 @@
     $('improveNote').textContent = busy ? t(ai.running ? 'Improving the translation with {model}…' : 'Translation improved by {model}', { model }) : '';
   }
 
+  // The AI can't be reached: said at the top too, with what to check. Google's
+  // translation doesn't depend on it, only Improve does.
+  function aiProblem(error, found) {
+    $('aiSummary').textContent = t('Not connected');
+    $('aiSummary').classList.add('error');
+    showAlert({
+      id: 'ai',
+      title: t('{name} isn’t working', { name: t(SubSettings.AI[translator].name) }),
+      text: error + ' ' + t('Google’s translation still works, only Improve needs the AI.'),
+      // Found at its usual address: fixed from here. Otherwise to the field that's wrong.
+      main: found ? t('Use {url}', { url: found.url.replace(/^https?:\/\//, '') }) : t('Show settings'),
+      onMain: found ? () => useAddress(found.url) : () => {
+        showTab($('tabSubs'));
+        $('aiDetails').open = true;
+        const field = !$('urlMsg').hidden ? $('localUrl') : $('aiDetails');
+        field.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        if (field === $('localUrl')) field.focus({ preventScroll: true });
+      },
+      tips: translator === 'local' ? [
+        t('Start Ollama (open the app), or turn on the server in LM Studio.'),
+        t('Check the address: Ollama uses `http://localhost:11434`, LM Studio `http://localhost:1234`.'),
+        t('See which models are installed. In Terminal: `ollama list`'),
+        t('If the server refuses the extension, allow it with OLLAMA_ORIGINS.'),
+      ] : [
+        t('Check that the API key is copied whole, with no spaces.'),
+        t('Check that the account has credit or billing turned on.'),
+        t('Check your internet connection.'),
+      ],
+    });
+  }
+
   // Fills the model list from what the key or the local server offers.
   let modelsAsked = 0;
+  // The line on top of the AI settings: connecting, connected, or not.
+  function aiStatus(state, text) {
+    $('aiStatus').hidden = false;
+    $('aiStatus').className = 'ai-status' + (state ? ' ' + state : '');
+    $('aiStatusText').textContent = text;
+    $('aiRetry').hidden = state !== 'bad';
+  }
+  $('aiRetry').addEventListener('click', () => loadModels());
+
+  // Nothing answers at the address: said under the address, not at the model
+  // list (empty then, and not what's wrong). found: Ollama or LM Studio answers
+  // at its usual address instead, one click away.
+  function addressProblem(error, found) {
+    $('localUrl').setAttribute('aria-invalid', 'true');
+    $('urlMsg').textContent = error;
+    $('urlMsg').hidden = false;
+    $('urlFound').hidden = !found;
+    if (found) {
+      $('urlFoundText').textContent = t('{name} is running at {url}', { name: found.name, url: found.url.replace(/^https?:\/\//, '') });
+      $('urlUse').textContent = t('Use');
+      $('urlUse').onclick = () => useAddress(found.url);
+    }
+    $('aiModel').replaceChildren(Object.assign(document.createElement('option'), { value: '', textContent: t('Connect first') }));
+    $('aiModel').disabled = true;
+    $('aiDetails').open = true;
+  }
+  function clearAddressProblem() {
+    $('localUrl').removeAttribute('aria-invalid');
+    $('urlMsg').hidden = true;
+    $('urlFound').hidden = true;
+    $('aiModel').disabled = false;
+  }
+  async function useAddress(url) {
+    $('localUrl').value = url;
+    await SubSettings.saveTranslation({ localUrl: url });
+    renderTranslator();
+  }
+
   async function loadModels() {
     const ask = ++modelsAsked;
     const saved = (await SubSettings.loadTranslation())[modelKey()];
     $('aiModel').replaceChildren();
+    clearAddressProblem();
     $('aiSummary').textContent = saved || '';
-    aiMsg(t('Loading models…'));
+    aiStatus('', t('Connecting…'));
+    aiMsg('');
     const res = await chrome.runtime.sendMessage({ type: 'ai-models' }).catch((e) => ({ ok: false, error: e.message }));
     if (ask !== modelsAsked) return;
-    if (!res || !res.ok) return aiMsg(res ? res.error : t('Translation failed.'), true);
-    if (!res.models.length) {
-      return aiMsg(translator === 'local' ? t('No models installed. In Terminal run: ollama pull gemma3:12b') : t('No models found for this key.'), true);
+    if (!res || !res.ok) {
+      const error = res ? res.error : t('Translation failed.');
+      aiStatus('bad', t('Not connected'));
+      if (isDeadError(error)) {
+        showDead();
+        return aiMsg(t('The extension’s background part isn’t running. Press Restart at the top.'), true);
+      }
+      aiProblem(error, res && res.found);
+      if (res && res.unreachable) return addressProblem(error, res.found);
+      return aiMsg(error, true);
     }
+    if (!res.models.length) {
+      const error = translator === 'local' ? t('No models installed. In Terminal run: ollama pull gemma3:12b') : t('No models found for this key.');
+      aiStatus('bad', t('Connected, but no models'));
+      aiProblem(error);
+      return aiMsg(error, true);
+    }
+    aiStatus('ok', t('Connected'));
+    hideAlert('ai');
+    $('aiSummary').classList.remove('error');
     $('aiModel').replaceChildren(...res.models.map((m) => Object.assign(document.createElement('option'), { value: m, textContent: m })));
     const pick = SubSettings.pickModel(translator, res.models, saved);
     $('aiModel').value = pick;
@@ -381,6 +532,10 @@
     const needsKey = !!keyField && !$(keyField).value.trim();
     // The AI settings stay folded once set up (the model shows on the fold); a missing key opens them.
     $('aiDetails').hidden = translator === 'google';
+    if (translator === 'google') hideAlert('ai');
+    $('aiStatus').hidden = true;
+    clearAddressProblem();
+    $('aiSummary').classList.remove('error');
     if (needsKey) {
       $('aiDetails').open = true;
       $('aiSummary').textContent = '';

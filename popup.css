@@ -233,6 +233,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
 
 .loaded { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
 .loaded-name { word-break: break-all; margin-bottom: 8px; }
+#toggleSubs { margin-bottom: 8px; } /* else it touches the Encoding list under it */
 label.inline { display: flex; align-items: center; gap: 8px; color: var(--muted); }
 label.inline select { flex: 1; }
 
@@ -409,6 +410,31 @@ kbd {
   border: 0; border-radius: 6px; background: transparent; color: var(--faint);
 }
 .rate-close:hover { background: var(--panel-hover); color: var(--text); }
+/* Something stopped working: the stopped background, or the AI translator. Shown above the tabs. */
+.alert-card {
+  position: relative; display: flex; flex-direction: column; gap: 6px; margin: 0 0 10px; padding: 12px 12px 10px;
+  border: 1px solid var(--danger); border-radius: 10px; background: var(--panel);
+}
+.alert-card strong { font-size: 13.5px; font-weight: 650; padding-inline-end: 22px; color: var(--danger); }
+.alert-card p { margin: 0; font-size: 12px; color: var(--muted); }
+.alert-tips { margin: 2px 0 0; padding-inline-start: 18px; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
+.alert-tips code { font-size: 11.5px; color: var(--text); user-select: all; }
+.alert-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.alert-actions button { padding: 5px 12px; font-size: 12px; }
+/* AI settings: whether the AI answers, on top. */
+.ai-status { display: flex; align-items: center; gap: 8px; min-height: 28px; font-size: 12px; color: var(--muted); }
+.ai-status .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+.ai-status.ok .dot { background: oklch(0.72 0.15 150); }
+.ai-status.bad { color: var(--danger); }
+.ai-status.bad .dot { background: var(--danger); }
+.ai-status button { margin-inline-start: auto; padding: 4px 10px; font-size: 12px; }
+/* The address is what's wrong: said under it. */
+#localUrl[aria-invalid=true] { border-color: var(--danger); }
+.ai-fields .hint.error { margin: 0; color: var(--danger); }
+.url-found { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 12px; }
+.url-found span { flex: 1; min-width: 0; }
+.url-found button { flex: none; padding: 5px 12px; font-size: 12px; }
+.ai-summary.error { color: var(--danger); margin-top: 0; } /* not the shared .error spacing: it sat 2px low */
 @media (prefers-reduced-motion: reduce) {
   .rate-card.enter, .rate-step.enter, .rate-card.enter .rate-ring .fill { animation: none; }
 }
@@ -440,7 +466,7 @@ body.site-off .panel { display: block; }
 
 body.support > :not(#supportView, script, style) { display: none !important; }
 body.support #supportView { display: block !important; }
-.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
+.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-color: var(--line-strong); }
 .support-open .heart { color: oklch(0.66 0.21 18); transition: transform .2s var(--ease); }
 .support-open:hover .heart { transform: scale(1.12); }
 .support-open .chev { color: var(--faint); }
@@ -548,3 +574,39 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 [dir=rtl] input[data-key=shadowX]::-webkit-slider-runnable-track {
   background: linear-gradient(to right, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
 }
+
+/* ---------- write to me (a second level of the popup, lib/feedback.js) ---------- */
+
+body.feedback > :not(#feedbackView, script, style) { display: none !important; }
+body.feedback #feedbackView { display: block !important; }
+.feedback-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-color: var(--line-strong); margin-bottom: 8px; }
+.feedback-open .chev { color: var(--faint); }
+[dir="rtl"] #feedbackBack svg, [dir="rtl"] .feedback-open .chev { transform: scaleX(-1); }
+.fb-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 12px; }
+.fb-types button { border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fb-types button:hover { background: var(--panel-hover); color: var(--text); }
+.fb-types button[aria-checked="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px var(--shadow); }
+.fb-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+#fbMessage, #fbEmail {
+  font: inherit; color: var(--text); background-color: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 9px; width: 100%;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+#fbMessage { display: block; resize: vertical; min-height: 96px; max-height: 240px; }
+#fbMessage::placeholder, #fbEmail::placeholder { color: var(--faint); }
+#fbMessage:hover, #fbEmail:hover { border-color: var(--line-strong); }
+#fbMessage:focus-visible, #fbEmail:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.fb-tech { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; margin-bottom: 12px; border-block: 1px solid var(--line); }
+.fb-note { margin-bottom: 12px; }
+.fb-state { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 28px 12px 16px; }
+.fb-state h1, .fb-state p { margin: 0; }
+.fb-state p.muted { max-width: 280px; margin-bottom: 10px; }
+.fb-badge { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--link); }
+.fb-badge.fail { background: color-mix(in oklch, var(--danger) 16%, transparent); color: var(--danger); }
+.fb-mail { display: block; width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--text); text-decoration: none; transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+.fb-mail:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+.fb-state .fb-address { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 6px; margin-top: 6px; font-size: 11.5px; color: var(--muted); }
+.fb-address button { padding: 1px 7px; font-size: 11px; }
+#feedbackView .hint { margin: 0; font-size: 11.5px; color: var(--faint); }
+#feedbackView .fb-note { margin-bottom: 12px; }
+#feedbackView label.setting-label { cursor: pointer; }

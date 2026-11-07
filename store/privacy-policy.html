@@ -14,7 +14,7 @@
   <p>Last updated: November 3, 2026</p>
 
   <h2>Summary</h2>
-  <p>Subtitle Overlay does not collect, store on any server, sell or share any personal data. Everything it does happens inside your browser, except downloading the subtitle font from Google Fonts and translation: when subtitles are translated, by your click or by automatic mode (on after a new install), their text is sent to Google Translate, and, only if you turn it on, to Google's Gemini API, to Anthropic's Claude API, to OpenAI's API or to a model running on your own computer.</p>
+  <p>Subtitle Overlay does not collect, store on any server, sell or share any personal data. Everything it does happens inside your browser, except downloading the subtitle font from Google Fonts and translation: when subtitles are translated, by your click or by automatic mode (on after a new install), their text is sent to Google Translate, and, only if you turn it on, to Google's Gemini API, to Anthropic's Claude API, to OpenAI's API or to a model running on your own computer. If you choose to write to the author through the form in the popup, what you send reaches the author by email.</p>
 
   <h2>What stays in your browser</h2>
   <ul>
@@ -34,6 +34,7 @@
     <li>Only if you choose OpenAI as the translator and click Improve: the subtitle text is also sent to OpenAI's API (api.openai.com) with the API key you entered, and the improved translation comes back. Your key is saved only in the browser's extension storage and is sent only to OpenAI. OpenAI says it does not use API data to train its models; see <a href="https://developers.openai.com/api/docs/guides/your-data">Data controls in the OpenAI platform</a>.</li>
     <li>Only if you choose a local model as the translator and click Improve: the subtitle text is sent to the address you entered (by default Ollama on your own computer, localhost). With a local address nothing leaves your computer.</li>
     <li>When you show or save subtitles found on a page, the extension downloads that subtitle file again from the same address the page itself used.</li>
+    <li>Only if you fill in "Write to me" and press Send: your message, the email address if you entered one, and (unless you switch it off) the extension version, browser, system and interface language go to feedback.cleedek.com, a small service that emails them to the author. The service does not store or log the message. The email is used only to reply and fix problems. While you type, the draft stays in your browser's extension storage.</li>
   </ul>
   <p>No other requests are made. There are no analytics, no accounts and no tracking.</p>
 

@@ -180,6 +180,42 @@
     try { return chrome.runtime.sendMessage(msg).catch(() => {}); } catch (e) { return Promise.resolve(); }
   }
 
+  // The extension's background part can stop (Chrome failed to restart it, or
+  // the extension was reloaded while this page stayed open). Found subtitles
+  // then go nowhere and nothing showed why, so say it on the video, once.
+  const isDeadError = (m) => /Receiving end does not exist|Could not establish connection|Extension context invalidated/i.test(String(m || ''));
+  let deadWarned = false;
+  function warnDead() {
+    if (deadWarned) return;
+    deadWarned = true;
+    if (!video) { const v = liveVideo(); if (v) attach(v); }
+    if (video) toast(t('Subtitle Overlay stopped working. Click its icon, press Restart, then reload this page.'), 12000);
+  }
+  // Reloading the extension leaves this copy running on pages already open,
+  // next to nothing it can reach any more, while a reload of the page brings the
+  // new one. Its subtitles, cards and messages would sit over the new copy's, so
+  // it takes them off the page and stays quiet (it keeps nothing it remembered).
+  const orphaned = () => { try { return !chrome.runtime || !chrome.runtime.id; } catch (e) { return true; } };
+  const orphanTimer = setInterval(() => {
+    if (!orphaned()) return;
+    clearInterval(orphanTimer);
+    off = true;
+    if (host) host.remove();
+  }, 2000);
+  function sendOrWarn(msg) {
+    try {
+      // A stopped worker either fails at once or never answers (a live one settles at once, reply or not).
+      const timer = setTimeout(warnDead, 5000);
+      return chrome.runtime.sendMessage(msg).then(() => clearTimeout(timer), (e) => {
+        clearTimeout(timer);
+        if (isDeadError(e && e.message)) warnDead();
+      });
+    } catch (e) {
+      if (isDeadError(e && e.message)) warnDead();
+      return Promise.resolve();
+    }
+  }
+
   // ---------- finding videos ----------
 
   // All <video> elements in this frame, including inside open shadow roots.
@@ -351,6 +387,11 @@
       .langs .ai-act { flex: none; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: 11.5px; }
       .langs .ai-act:hover { background: rgba(255,255,255,.24); }
       .ai.error .ai-note { color: #fca5a5; opacity: 1; }
+      /* A problem gets the whole width, its button goes under it. */
+      .ai.error .ai-foot { flex-direction: column; align-items: flex-start; gap: 7px; }
+      .ai-acts { display: flex; gap: 6px; }
+      .langs .ai-acts .ai-act:first-child { background: #7a41e4; }
+      .langs .ai-acts .ai-act:first-child:hover { background: #8b55f0; }
       .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-inline-end: 6px; }
       .covered { visibility: hidden !important; } /* something of the page lies over the video here */
       /* The overlay covers the whole player; the subtitles sit on the picture inside it. */
@@ -486,8 +527,16 @@
     return player && (!fe || containsDeep(fe, player)) ? player : v;
   }
 
+  // YouTube's small players: the miniplayer in the corner (and the hover
+  // preview on lists of videos). Nothing of ours belongs on those: no
+  // subtitles, no buttons, no language switches, no fullscreen.
+  const smallPlayer = (v) => !!(v && v.closest && v.closest('.ytp-player-minimized, ytd-miniplayer, ytd-video-preview'));
+
   function position(force) {
     if (!host || !video) return;
+    const small = smallPlayer(video);
+    host.style.setProperty('display', small ? 'none' : 'block', 'important');
+    if (small) { lastGeom = ''; fsBtn.classList.remove('on'); langsEl.classList.remove('on'); return; }
     const s = stageOf(video).getBoundingClientRect();
     const r = pictureRect(video);
     const geom = [s.left, s.top, s.width, s.height, r.left, r.top, r.width, r.height].map(Math.round).join(',');
@@ -1317,6 +1366,7 @@
     aiState.set(list, state);
     state.running = true;
     state.error = '';
+    state.found = null;
     refreshLangs();
     reportLive(to, state);
     const src = base.cues.map((c) => toHtml(c.text));
@@ -1367,7 +1417,11 @@
           .finally(() => clearInterval(watch));
         if (!stillWanted()) return;
         if (res && res.stopped && offMidway) { k--; continue; }
-        if (!res || !res.ok) throw new Error(res ? res.error || t('Translation failed.') : t('Translation failed.'));
+        if (!res || !res.ok) {
+          const err = new Error(res ? res.error || t('Translation failed.') : t('Translation failed.'));
+          err.found = (res && res.found) || null; // Ollama or LM Studio answers at its usual address instead
+          throw err;
+        }
         res.texts.forEach((text, k) => { const c = list[i + k]; if (c) c.text = fromHtml(text) || c.text; });
         state.chunks.add(i);
         state.done += res.texts.length;
@@ -1391,7 +1445,10 @@
     } catch (e) {
       if (improving.get(to) !== run) return; // replaced by a pass with another model
       state.error = e.message;
-      if (cues === list) toast(t('AI translation stopped, Google’s version stays: {error}', { error: e.message }), 6000);
+      state.found = e.found || null;
+      // Said in the language card, next to Try again (a toast on top of it said it twice).
+      // The card opens by itself and stays a while, so it's seen without hovering.
+      if (cues === list) showLangs(10000);
     } finally {
       if (improving.get(to) === run) improving.delete(to);
       state.running = state.paused = false;
@@ -1533,7 +1590,7 @@
 
   // Our own fullscreen: the video's parent element plus the overlay inside it.
   async function toggleFullscreen() {
-    if (!video) return;
+    if (!video || smallPlayer(video)) return;
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});
       return;
@@ -1569,7 +1626,7 @@
       mouseQueued = false;
       const r = stageOf(video).getBoundingClientRect();
       const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-      if (!inside) return;
+      if (!inside || smallPlayer(video)) return;
       let fsAppeared = false, appeared = false;
       const ours = ownFullscreen && document.fullscreenElement === ownFullscreen.container;
       if (ours || (!document.fullscreenElement && cues.length)) {
@@ -1699,7 +1756,7 @@
     foot.append(el('div', 'ai-note', note));
     // Stop a pass (a local model can keep the computer busy for minutes), or carry on with a stopped one.
     if (!aiFinished(s) && (s.running || aiReady())) {
-      const b = el('button', 'ai-act', t(s.running ? 'Stop' : 'Continue'));
+      const b = el('button', 'ai-act', t(s.running ? 'Stop' : s.error ? 'Try again' : 'Continue'));
       b.title = s.running ? t('Stops improving. The lines done so far stay.') : t('Carries on improving from here.');
       b.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -1707,7 +1764,20 @@
         else improve(lang, baseOf(), list, false);
         showLangs();
       });
-      foot.append(b);
+      // The address set doesn't answer, but the usual one does: fixed from here.
+      if (s.error && s.found) {
+        const use = el('button', 'ai-act', t('Use {url}', { url: s.found.url.replace(/^https?:\/\//, '') }));
+        use.title = t('{name} is running at {url}', { name: s.found.name, url: s.found.url });
+        use.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await chrome.storage.local.set({ localUrl: s.found.url });
+          improve(lang, baseOf(), list, false);
+          showLangs();
+        });
+        const acts = el('div', 'ai-acts');
+        acts.append(use, b);
+        foot.append(acts);
+      } else foot.append(b);
     } else if (aiFinished(s)) {
       const b = el('button', 'ai-act', t('Download .srt'));
       b.title = t('Saves the improved subtitles to your Downloads folder.');
@@ -1762,19 +1832,19 @@
     return b;
   }
 
-  function showLangs() {
+  function showLangs(ms) {
     if (!langsEl) return;
     if (!fillLangs()) { langsEl.classList.remove('on'); return; }
     langsEl.classList.add('on');
-    keepLangs();
+    keepLangs(ms);
   }
   // Keeps the card up a while longer, without building it again.
-  function keepLangs() {
+  function keepLangs(ms) {
     clearTimeout(langsTimer);
-    const hideLater = () => {
-      langsTimer = setTimeout(() => (langsEl.matches(':hover') ? hideLater() : langsEl.classList.remove('on')), 2500);
+    const hideLater = (wait) => {
+      langsTimer = setTimeout(() => (langsEl.matches(':hover') ? hideLater(2500) : langsEl.classList.remove('on')), wait);
     };
-    hideLater();
+    hideLater(ms || 2500);
   }
   // New progress while the card is open (it stays as long as it would anyway).
   function refreshLangs() {
@@ -1786,6 +1856,9 @@
 
   // When paused, the loop is off, so follow layout changes from these events.
   window.addEventListener('resize', () => cues.length && position(true));
+  // YouTube's miniplayer comes and goes with a page change; a paused video
+  // the same size in both would otherwise keep the overlay on (or off).
+  document.addEventListener('yt-navigate-finish', () => setTimeout(() => position(true), 400));
   window.addEventListener('scroll', () => cues.length && position(false), { capture: true, passive: true });
 
   // ---------- keyboard ----------
@@ -2479,7 +2552,7 @@
       // An ad before the video is another video with its own captions: not the ones you came for.
       const page = SubSettings.youTubeId(location.href);
       if (page && new URL(url).searchParams.get('v') !== page && document.querySelector('.html5-video-player.ad-showing')) return;
-      send({ type: 'yt-captions', url, text });
+      sendOrWarn({ type: 'yt-captions', url, text });
     } catch (err) { /* ignore */ }
   });
   document.dispatchEvent(new CustomEvent('subtitle-overlay-yt-ask'));

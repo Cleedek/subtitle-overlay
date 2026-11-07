@@ -5,7 +5,7 @@
 
 A Chrome extension (also works in Arc and other Chromium browsers) that puts subtitles on any video on the web: your own `.srt` / `.vtt` file, or the subtitles the site itself loads, translated into 31 languages, two languages at once, styled your way and sized to the player.
 
-**[➜ Add to Chrome, free, from the Chrome Web Store](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (works in Arc, Edge, Brave and other Chromium browsers too)
+**[➜ Add to Chrome, free, from the Chrome Web Store](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (works in Edge, Brave, Arc and other Chromium browsers too)
 
 [Privacy policy](https://cleedek.com/subtitle-overlay/privacy) · [Návod v češtině](README.cs.md)
 
@@ -35,6 +35,7 @@ There are no accounts, no analytics and no tracking. The extension talks to the 
 | You click Improve with OpenAI as the translator (off by default) | `api.openai.com` | The subtitle text, the target language and your API key |
 | You click Improve with a local model as the translator (off by default) | The address you entered (default `localhost:11434`) | The subtitle text and the target language |
 | Subtitles show with a Google Font (the default Vend Sans, or one you pick) | `fonts.googleapis.com`, `fonts.gstatic.com` | The font name |
+| You press Send in "Write to me" | `feedback.cleedek.com`, which emails it to the author | Your message, your email if you enter it, and (unless you switch it off) the extension version, browser, system and language |
 | A site's player downloads subtitles | That same site | The extension downloads the same subtitle file (or its HLS playlist) again, nothing else |
 
 Everything else (settings, presets, subtitles remembered for the last 30 pages; the second language of dual subtitles for at most 24 hours; the translation queue and saved subtitles; a count of translated videos, so the popup asks once for a rating) is stored only in your browser with `chrome.storage.local`. Full text: [privacy policy](https://cleedek.com/subtitle-overlay/privacy).

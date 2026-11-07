@@ -2,7 +2,7 @@
 
 Rozšíření pro Chrome a Arc: zobrazí tvoje vlastní titulky (SRT nebo VTT) přes jakékoli video na webu, i ve fullscreenu, a umí najít VTT titulky, které si stránka sama stahuje (třeba Prima+).
 
-**[➜ Přidat do Chromu zdarma z Internetového obchodu Chrome](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (funguje i v Arcu, Edgi, Brave a dalších prohlížečích na Chromiu). Tohle je nejjednodušší cesta, rozšíření se pak aktualizuje samo.
+**[➜ Přidat do Chromu zdarma z Internetového obchodu Chrome](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (funguje i v Edgi, Brave, Arcu a dalších prohlížečích na Chromiu). Tohle je nejjednodušší cesta, rozšíření se pak aktualizuje samo.
 
 ## Instalace ze zdrojového kódu (jednou)
 
