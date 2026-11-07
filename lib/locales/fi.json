@@ -105,6 +105,7 @@
   "Show / hide subtitles": "Näytä / piilota tekstitys",
   "Move subtitles up / down": "Siirrä tekstitystä ylös / alas",
   "Fullscreen with subtitles": "Koko näyttö tekstityksellä",
+  "Exit fullscreen": "Poistu koko näytöstä",
   "Repeat the current line": "Toista nykyinen rivi",
   "Alt is the Option key on a Mac. Shortcuts work on the page, not inside this popup.": "Macissa Alt on Option-näppäin. Pikanäppäimet toimivat sivulla, eivät tässä ikkunassa.",
   "⌥ is Option, ⇧ is Shift. Shortcuts work on the page, not inside this popup.": "⌥ on Option, ⇧ on Shift. Pikanäppäimet toimivat sivulla, eivät tässä ikkunassa.",

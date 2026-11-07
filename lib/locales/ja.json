@@ -105,6 +105,7 @@
   "Show / hide subtitles": "字幕の表示 / 非表示",
   "Move subtitles up / down": "字幕を上 / 下に移動",
   "Fullscreen with subtitles": "字幕付きで全画面表示",
+  "Exit fullscreen": "全画面表示を終了",
   "Repeat the current line": "現在の行をもう一度再生",
   "Alt is the Option key on a Mac. Shortcuts work on the page, not inside this popup.": "Mac では Alt は Option キーです。ショートカットはページ上で動作し、このウィンドウ内では動作しません。",
   "⌥ is Option, ⇧ is Shift. Shortcuts work on the page, not inside this popup.": "⌥ は Option、⇧ は Shift です。ショートカットはページ上で動作し、このウィンドウ内では動作しません。",

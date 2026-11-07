@@ -386,12 +386,12 @@
     restoreEl = el('div', 'hint restore');
     fsBtn = el('div', 'fs');
     const fsGo = el('button');
-    fsGo.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6V3.5C2 2.7 2.7 2 3.5 2H6M10 2h2.5c.8 0 1.5.7 1.5 1.5V6M14 10v2.5c0 .8-.7 1.5-1.5 1.5H10M6 14H3.5C2.7 14 2 13.3 2 12.5V10"/></svg>';
+    fsGo.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path/></svg>';
     fsKeyEl = el('kbd');
-    fsGo.append(el('span', '', t('Fullscreen with subtitles')), fsKeyEl);
-    refreshFsKey();
+    fsGo.append(el('span'), fsKeyEl);
     fsGo.addEventListener('click', (e) => { e.stopPropagation(); toggleFullscreen(); });
     fsBtn.append(fsGo);
+    setFsMode(false);
     dropEl = el('div', 'drop', t('Drop .srt or .vtt subtitles here'));
     foundEl = el('div', 'found');
     siteNoteEl = el('div', 'site-note');
@@ -406,6 +406,18 @@
     shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl);
     placeHost();
     useFont();
+  }
+
+  // The same button enters our fullscreen and, inside it, leaves it again
+  // (a cross and "Exit fullscreen", with Esc as its key).
+  const FS_ENTER = 'M2 6V3.5C2 2.7 2.7 2 3.5 2H6M10 2h2.5c.8 0 1.5.7 1.5 1.5V6M14 10v2.5c0 .8-.7 1.5-1.5 1.5H10M6 14H3.5C2.7 14 2 13.3 2 12.5V10';
+  const FS_EXIT = 'M4 4l8 8M12 4l-8 8';
+  function setFsMode(exit) {
+    if (!fsBtn) return;
+    fsBtn.classList.toggle('exit', exit);
+    fsBtn.querySelector('path').setAttribute('d', exit ? FS_EXIT : FS_ENTER);
+    fsBtn.querySelector('span').textContent = t(exit ? 'Exit fullscreen' : 'Fullscreen with subtitles');
+    refreshFsKey();
   }
 
   function el(tag, cls, text) {
@@ -1502,6 +1514,8 @@
     if (ownFullscreen && fe !== ownFullscreen.container) {
       video && (video.style.cssText = ownFullscreen.videoStyle);
       ownFullscreen = null;
+      setFsMode(false);
+      fsBtn.classList.remove('on');
       // The site sized its video for the page before; let it measure again
       // (YouTube's own fullscreen otherwise keeps the small size).
       setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
@@ -1535,12 +1549,14 @@
         'max-height': 'none', 'object-fit': 'contain', transform: 'none', margin: '0',
       })) video.style.setProperty(k, v, 'important');
       fsBtn.classList.remove('on');
+      setFsMode(true);
     } catch (e) {
       toast(shortcuts.fullscreen ? t('Click the video once, then press {key}', { key: fsKeyText() }) : t('Click the video once, then try again'));
     }
   }
 
-  // Show the fullscreen button (not in fullscreen) and the language switches
+  // Show the fullscreen button (its exit form in our own fullscreen, nothing
+  // in the site's fullscreen) and the language switches
   // (also in fullscreen) briefly when the mouse moves over the video.
   let fsTimer = 0, langsTimer = 0, mouseQueued = false;
   // Runs on every frame the mouse moves, so it only keeps what is already up
@@ -1555,7 +1571,8 @@
       const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
       if (!inside) return;
       let fsAppeared = false, appeared = false;
-      if (!document.fullscreenElement && cues.length) {
+      const ours = ownFullscreen && document.fullscreenElement === ownFullscreen.container;
+      if (ours || (!document.fullscreenElement && cues.length)) {
         fsAppeared = !fsBtn.classList.contains('on');
         fsBtn.classList.add('on');
         clearTimeout(fsTimer);
@@ -1804,6 +1821,8 @@
   // The key shown on the fullscreen button follows the shortcut (none when it's switched off).
   function refreshFsKey() {
     if (!fsKeyEl) return;
+    // Esc always leaves fullscreen, whatever the shortcut is.
+    if (fsBtn.classList.contains('exit')) { fsKeyEl.hidden = false; fsKeyEl.textContent = 'Esc'; return; }
     fsKeyEl.hidden = !shortcuts.fullscreen;
     if (shortcuts.fullscreen) fsKeyEl.textContent = fsKeyText();
   }

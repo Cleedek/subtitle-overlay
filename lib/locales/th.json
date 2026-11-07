@@ -105,6 +105,7 @@
   "Show / hide subtitles": "แสดง / ซ่อนคำบรรยาย",
   "Move subtitles up / down": "ย้ายคำบรรยายขึ้น / ลง",
   "Fullscreen with subtitles": "เต็มหน้าจอพร้อมคำบรรยาย",
+  "Exit fullscreen": "ออกจากโหมดเต็มหน้าจอ",
   "Repeat the current line": "เล่นบรรทัดปัจจุบันซ้ำ",
   "Alt is the Option key on a Mac. Shortcuts work on the page, not inside this popup.": "บน Mac ปุ่ม Alt คือปุ่ม Option แป้นพิมพ์ลัดใช้ได้บนหน้าเว็บ ไม่ใช่ในหน้าต่างนี้",
   "⌥ is Option, ⇧ is Shift. Shortcuts work on the page, not inside this popup.": "⌥ คือ Option, ⇧ คือ Shift แป้นพิมพ์ลัดใช้ได้บนหน้าเว็บ ไม่ใช่ในหน้าต่างนี้",
