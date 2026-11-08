@@ -587,6 +587,7 @@ function claudeBody(body) {
 
 async function aiChat(cfg, body, signal) {
   const claude = cfg.kind === 'claude';
+  let loops = 0; // answers a model got stuck in (see below)
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
@@ -610,6 +611,16 @@ async function aiChat(cfg, body, signal) {
     if ((r.status === 429 || r.status === 529) && attempt < 4 && !/limit: 0\b/.test(said) && !(cfg.kind === 'openai' && /billing/i.test(said))) {
       const wait = Number(r.headers.get('retry-after')) || 20;
       await sleep(Math.min(wait, 60) * 1000);
+      if (signal.aborted) throw STOPPED;
+      continue;
+    }
+    // Ollama cuts off a model that writes the same word over and over ("token
+    // repeat limit reached", HTTP 500). A small local model does that now and
+    // then on lines like "hahaha"; asked again, a little less strictly, it
+    // usually gets through, so it's tried twice more before the pass stops.
+    if (r.status === 500 && /repeat limit/i.test(said) && loops < 2) {
+      loops++;
+      if (body.temperature != null) body.temperature = 0.2 + 0.2 * loops;
       if (signal.aborted) throw STOPPED;
       continue;
     }

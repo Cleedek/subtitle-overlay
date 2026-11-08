@@ -671,34 +671,36 @@
     $('savedEmpty').hidden = items.length > 0;
     const when = new Intl.DateTimeFormat(SubI18n.lang, { dateStyle: 'medium', timeStyle: 'short' });
     $('savedList').replaceChildren(...items.map((item) => {
-      const li = el('li', 'job saved');
+      const li = el('li', 'job saved done');
       const head = el('div', 'job-head');
-      const name = el('span', 'job-name', item.name);
-      name.title = item.name;
+      // The video's name leads, as in the queue; the file name (often "youtube-<id>.en.vi.srt") goes underneath.
+      // Its name links back to where it was watched (the subtitles come back there by themselves).
+      const title = item.title || item.name;
+      const name = el(item.page ? 'a' : 'span', 'job-name', title);
+      name.title = title;
+      if (item.page) {
+        name.href = item.page;
+        name.target = '_blank';
+        name.rel = 'noopener';
+      }
       const x = el('button', 'ghost job-x', '×');
       x.title = t('Delete');
       x.setAttribute('aria-label', t('Delete'));
       x.addEventListener('click', () => SubSettings.forgetSaved(item.key));
-      head.append(name, el('span', 'job-lang', (SubSettings.flag(item.lang) + ' ' + SubSettings.languageName(item.lang)).trim()), x);
+      head.append(el('span', 'job-check', '✓'), name, el('span', 'job-lang', (SubSettings.flag(item.lang) + ' ' + SubSettings.languageName(item.lang)).trim()), x);
       const meta = el('div', 'saved-meta');
       const day = new Intl.DateTimeFormat(SubI18n.lang, { dateStyle: 'medium' });
       const life = item.until ? t('Deleted on {date}', { date: day.format(item.until) }) : t('Kept forever');
       meta.append([when.format(item.t), item.model, life].filter(Boolean).join(' · '));
-      // Where it was watched, to go back to it (the subtitles come back there by themselves).
-      if (item.page) {
-        const a = el('a', '', item.title || new URL(item.page).hostname);
-        a.href = item.page;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        meta.append(' · ', a);
-      }
+      const file = el('div', 'saved-meta saved-file', item.name);
+      file.title = item.name;
       const foot = el('div', 'job-foot');
       foot.append(el('span', 'job-note', ''));
       if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8' })));
       const b = el('button', item.page ? '' : 'primary', t('Download .srt'));
       b.addEventListener('click', () => SubLib.saveText(item.srt, item.name));
       foot.append(b);
-      li.append(head, meta, foot);
+      li.append(head, meta, ...(title !== item.name ? [file] : []), foot);
       return li;
     }));
   }

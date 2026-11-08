@@ -377,6 +377,10 @@
       .langs button + .ai { border-top: 1px solid rgba(255,255,255,.12); margin-top: 2px; padding-top: 8px; }
       .ai-head { display: flex; align-items: baseline; gap: 12px; }
       .ai-head .pct { font-variant-numeric: tabular-nums; }
+      /* The name stops at 200 px, so the share or check is pushed to the end of the bar itself. */
+      .ai-head .pct, .ai-check { margin-inline-start: auto; }
+      .ai-check { color: #86efac; font-weight: 700; }
+      .ai.done .ai-bar span { background: #86efac; }
       .ai-bar { height: 4px; border-radius: 999px; background: rgba(255,255,255,.18); overflow: hidden; }
       .ai-bar span { display: block; height: 100%; border-radius: inherit; background: #7a41e4; }
       .ai.running .ai-bar span { animation: ai-pulse 1.4s ease-in-out infinite; }
@@ -388,10 +392,10 @@
       .langs .ai-act:hover { background: rgba(255,255,255,.24); }
       .ai.error .ai-note { color: #fca5a5; opacity: 1; }
       /* A problem gets the whole width, its button goes under it. */
-      .ai.error .ai-foot { flex-direction: column; align-items: flex-start; gap: 7px; }
+      .ai.error .ai-foot, .ai-foot.stack { flex-direction: column; align-items: flex-start; gap: 7px; }
       .ai-acts { display: flex; gap: 6px; }
-      .langs .ai-acts .ai-act:first-child { background: #7a41e4; }
-      .langs .ai-acts .ai-act:first-child:hover { background: #8b55f0; }
+      .langs .ai.error .ai-acts .ai-act:first-child { background: #7a41e4; }
+      .langs .ai.error .ai-acts .ai-act:first-child:hover { background: #8b55f0; }
       .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-inline-end: 6px; }
       .covered { visibility: hidden !important; } /* something of the page lies over the video here */
       /* The overlay covers the whole player; the subtitles sit on the picture inside it. */
@@ -1742,10 +1746,12 @@
     // A finished pass is all of it, also for a count saved before the count went by lines gone through.
     const done = aiFinished(s) ? s.total : Math.min(s.done, s.total);
     const share = Math.floor((done / s.total) * 100) / 100;
-    const row = el('div', 'ai' + (s.running && !s.paused ? ' running' : '') + (s.error ? ' error' : ''));
+    const finished = aiFinished(s);
+    const row = el('div', 'ai' + (s.running && !s.paused ? ' running' : '') + (s.error ? ' error' : '') + (finished ? ' done' : ''));
     const head = el('div', 'ai-head');
+    // Finished: a green bar and a check, as the queue shows a finished file.
     head.append(el('span', 'name', (SubSettings.flag(lang) + ' ' + s.model).trim()),
-      el('span', 'pct', new Intl.NumberFormat(SubI18n.lang, { style: 'percent' }).format(share)));
+      finished ? el('span', 'ai-check', '✓') : el('span', 'pct', new Intl.NumberFormat(SubI18n.lang, { style: 'percent' }).format(share)));
     const bar = el('div', 'ai-bar');
     const fill = el('span');
     fill.style.width = share * 100 + '%';
@@ -1776,6 +1782,14 @@
         });
         const acts = el('div', 'ai-acts');
         acts.append(use, b);
+        foot.append(acts);
+      } else if (s.running) {
+        // A running pass is in the translation queue too, where it can be moved ahead or behind.
+        const open = el('button', 'ai-act', t('Open the queue') + ' ↗');
+        open.addEventListener('click', (e) => { e.stopPropagation(); send({ type: 'open-queue' }); });
+        const acts = el('div', 'ai-acts');
+        acts.append(open, b);
+        foot.classList.add('stack');
         foot.append(acts);
       } else foot.append(b);
     } else if (aiFinished(s)) {

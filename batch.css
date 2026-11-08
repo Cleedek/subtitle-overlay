@@ -71,7 +71,9 @@ select.compact { min-width: 180px; max-width: 260px; }
 .job-foot .job-move:disabled { opacity: .3; }
 
 .saved-meta { color: var(--muted); font-size: 12.5px; margin-top: 4px; }
-.saved-meta a { color: inherit; }
+a.job-name { color: inherit; text-decoration: none; }
+a.job-name:hover { text-decoration: underline; }
+.saved-file { margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .job.saved .job-foot { margin-top: 6px; }
 
 @media (prefers-reduced-motion: reduce) {
