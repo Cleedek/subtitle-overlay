@@ -1,6 +1,6 @@
 # Subtitle Overlay
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K1I42ACK0E)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/cleedek)
 
 Rozšíření pro Chrome a Arc: zobrazí tvoje vlastní titulky (SRT nebo VTT) přes jakékoli video na webu, i ve fullscreenu, a umí najít VTT titulky, které si stránka sama stahuje (třeba Prima+).
 
