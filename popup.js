@@ -159,6 +159,7 @@
   const SNAP_TRANSLATE_ID = '';
 
   setupFeedback({ ext: 'subtitle-overlay', name: 'Subtitle Overlay', i18n: SubI18n });
+  setupWhatsNew({ slug: 'subtitle-overlay', i18n: SubI18n }).catch(() => {});
 
   // A card in the footer, hidden for good once closed. Not shown when Snap Translate is
   // already installed: it answers a "hello" from another extension, and nothing else is asked.
@@ -236,7 +237,7 @@
     $('clear').hidden = !lf;
     $('syncSection').hidden = !lf; // nothing on the video, nothing to sync
     renderRate(lf && lf.report.loaded);
-    $('pick').textContent = t(lf ? 'Load a different file' : 'Load .srt / .vtt file');
+    $('pick').textContent = t(lf ? 'Load a different file' : 'Load .srt / .vtt / .ttml file');
     $('pick').classList.toggle('primary', !lf); // with a file loaded, Translate is the main action
     if (lf) {
       const l = lf.report.loaded;

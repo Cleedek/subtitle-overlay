@@ -4,12 +4,14 @@
 // Background worker: watches network traffic for subtitle files the page
 // loads (VTT, SRT, TTML, HLS subtitle playlists), counts them on the icon badge,
 // and downloads/stitches them when the popup asks.
-importScripts('lib/i18n.js', 'lib/subtitles.js', 'lib/settings.js', 'lib/goodbye.js');
+importScripts('lib/i18n.js', 'lib/subtitles.js', 'lib/settings.js', 'lib/goodbye.js', 'lib/whats-new.js');
 
 // The "why did you leave?" page Chrome opens after the extension is removed (lib/goodbye.js).
 setupGoodbye({ ext: 'subtitle-overlay', i18n: SubI18n });
 // Saved subtitles past the time they were kept for go when the browser starts.
 chrome.runtime.onStartup.addListener(() => { SubSettings.pruneSaved().catch(() => {}); });
+// After an update, remember the version it came from, for the popup's "What's new" card (lib/whats-new.js).
+chrome.runtime.onInstalled.addListener(rememberUpdate);
 // A new install starts in automatic mode, translating into the browser's language.
 // An update changes nothing: people who already use it keep what they have.
 chrome.runtime.onInstalled.addListener(({ reason }) => {

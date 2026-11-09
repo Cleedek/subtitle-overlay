@@ -490,7 +490,7 @@
     fsGo.addEventListener('click', (e) => { e.stopPropagation(); toggleFullscreen(); });
     fsBtn.append(fsGo);
     setFsMode(false);
-    dropEl = el('div', 'drop', t('Drop .srt or .vtt subtitles here'));
+    dropEl = el('div', 'drop', t('Drop .srt, .vtt or .ttml subtitles here'));
     foundEl = el('div', 'found');
     siteNoteEl = el('div', 'site-note');
     const noteText = el('span', '');
@@ -2263,7 +2263,7 @@
     e.preventDefault();
     e.stopPropagation();
     const f = e.dataTransfer.files[0];
-    if (!f || !SubLib.SUB_FILE.test(f.name)) return toast(t('Drop an .srt or .vtt file'));
+    if (!f || !SubLib.SUB_FILE.test(f.name)) return toast(t('Drop an .srt, .vtt or .ttml file'));
     const bytes = new Uint8Array(await f.arrayBuffer());
     pinned = v;
     const res = loadBytes(f.name, SubLib.bytesToBase64(bytes), 'auto', v);
