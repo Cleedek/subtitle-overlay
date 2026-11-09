@@ -1310,9 +1310,7 @@
     if (fresh) el.replaceChildren();
     // The preview pretends to be a 540 px tall player, so scaled text is readable.
     SubRender.applyStyle(el, settings, 540, $('preview').clientWidth || 352);
-    const [, , , sample] = SubSettings.language(lang);
-    const name = cap(SubSettings.languageName(lang));
-    if (!el.childNodes.length) SubRender.renderCues(el, [{ text: 'Příliš žluťoučký kůň <i>úpěl</i>' + (lang === 'cs' ? '' : '\n' + name + ' ' + sample) }]);
+    if (!el.childNodes.length) SubRender.renderCues(el, [{ text: SubSettings.previewText(lang) }]);
   }
 
   // Mac keyboards say Option and Shift with symbols; draw the keys the same way.

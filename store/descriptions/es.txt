@@ -18,7 +18,7 @@ TRADUCE A 31 IDIOMAS
 • Con un clic traduces los subtítulos cargados con Google Translate, directamente en la extensión
 • Opcional: pulsa Mejorar y la IA (Gemma en tu ordenador, o Gemini, Claude u OpenAI) reescribe la versión rápida de Google para que suene natural (más abajo te lo contamos). Pasa el ratón por encima del vídeo para ver cuánto lleva
 • Elige tu idioma una vez; se queda como favorito en todos los botones Traducir
-• Modo automático: activa los subtítulos en el reproductor de la web y aparecen sobre el vídeo ya traducidos, con una breve nota "Traducido al …" en lugar de una ventana emergente
+• Modo automático: activa los subtítulos en el reproductor de la web y aparecen sobre el vídeo ya traducidos, con una breve nota "Traducido al …" en lugar de una ventana emergente. En las instalaciones nuevas viene activado y traduce al idioma de tu navegador
 • Los subtítulos propios de la web se ocultan, así nunca lees dos a la vez
 • Vuelve al original cuando quieras, o guarda la traducción como archivo .srt
 • Idiomas: vietnamita, checo, inglés, eslovaco, alemán, francés, español, italiano, portugués, polaco, húngaro, ucraniano, neerlandés, sueco, danés, noruego, finlandés, griego, turco, rumano, croata, chino (simplificado y tradicional), japonés, coreano, tailandés, indonesio, malayo, filipino, hindi, árabe
@@ -28,6 +28,7 @@ Google Translate es rápido, pero va línea a línea, palabra por palabra. Pulsa
 • Gratis: Gemma, el modelo abierto de Google, se ejecuta en tu propio ordenador con Ollama o LM Studio, así que el paso de la IA se queda en tu ordenador. Necesitas un ordenador bastante potente y unos 8 GB de espacio en disco.
 • Configuración en 3 pasos: instala Ollama desde ollama.com, descarga Gemma con un solo comando y elige Local en la ventana de la extensión. El comando y el modelo que recomendamos ahora mismo (en inglés): cleedek.com/subtitle-overlay/ai
 • O usa tu propia clave API: Gemini (tiene un nivel gratuito), Claude u OpenAI (de pago).
+• Antes de empezar, repasa el archivo entero y anota quién es quién, para que el género, el trato y los nombres se mantengan de la primera línea a la última.
 • Nunca se inicia sola: nada se ejecuta y no gastas nada sin tu clic.
 
 DOS IDIOMAS A LA VEZ
@@ -71,7 +72,7 @@ TU PROPIO ARCHIVO
 • Tus subtítulos vuelven cuando recargas la página o regresas a ella más tarde
 
 PANTALLA COMPLETA SIN PERDER LOS SUBTÍTULOS
-• Alt + F o el botón en la parte superior del vídeo; F vuelve a salir
+• Alt + F o el botón en la parte superior del vídeo; F o el botón "Salir de pantalla completa" vuelve a salir
 • Los subtítulos se apartan cuando un menú o una notificación de la web los tapa
 
 WEB POR WEB
@@ -81,14 +82,17 @@ ATAJOS DE TECLADO
 Alt + [ / ] sincronía · Alt + Shift + [ / ] sincronía de 1 s · Alt + 0 restablecer sincronía · Alt + R repetir la línea · Alt + S mostrar u ocultar · Alt + 1 / Alt + 2 mostrar u ocultar solo un idioma · Alt + ↑ / ↓ mover · Alt + F pantalla completa con subtítulos
 Todos los atajos se pueden cambiar o desactivar en la pestaña Comportamiento.
 
-INTERFAZ EN 30 IDIOMAS
-Inglés, checo, eslovaco, alemán, francés, español, vietnamita, chino simplificado, chino tradicional, italiano, portugués, polaco, ucraniano, húngaro, neerlandés, sueco, danés, noruego, finés, griego, turco, rumano, croata, japonés, coreano, tailandés, indonesio, malayo, filipino e hindi. Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
+INTERFAZ EN 31 IDIOMAS
+Inglés, checo, eslovaco, alemán, francés, español, vietnamita, chino simplificado, chino tradicional, italiano, portugués, polaco, ucraniano, húngaro, neerlandés, sueco, danés, noruego, finés, griego, turco, rumano, croata, japonés, coreano, tailandés, indonesio, malayo, filipino, hindi y árabe (de derecha a izquierda). Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
 
 PARA CURIOSOS
 Una pestaña "Subtitles" en DevTools muestra todos los archivos de subtítulos que cargó la página y los guarda como .vtt o .srt.
 
 PRIVACIDAD
-Sin cuentas, sin analíticas, sin rastreo. El texto de los subtítulos se envía a Google Translate solo cuando traduces, y a Gemini, Claude, OpenAI o tu modelo local solo cuando pulsas Mejorar. Los subtítulos recordados y guardados se quedan en tu navegador. Más detalles en la política de privacidad.
+Sin cuentas, sin analíticas, sin rastreo. El texto de los subtítulos se envía a Google Translate solo cuando se traducen los subtítulos (con tu clic o en modo automático), y a Gemini, Claude, OpenAI o tu modelo local solo cuando pulsas Mejorar. Los subtítulos recordados y guardados se quedan en tu navegador. Si me escribes con "Escríbeme" en la ventana de la extensión, tu mensaje me llega por correo electrónico. Más detalles en la política de privacidad.
+
+¿UN PROBLEMA O UNA IDEA?
+Pulsa "¿Problema o idea?" en la parte inferior de la ventana de la extensión y escríbeme. Leo todos los mensajes.
 
 CÓDIGO ABIERTO
 Toda la extensión es de código abierto (GPL-3.0), así que cualquiera puede comprobar exactamente qué hace: github.com/Cleedek/subtitle-overlay. Si te gusta, una estrella en GitHub ayuda a que otras personas la encuentren.

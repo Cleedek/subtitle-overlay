@@ -18,7 +18,7 @@ TRADUCTION EN 31 LANGUES
 • Un clic traduit les sous-titres chargés avec Google Translate, directement dans l’extension
 • En option : clique sur Améliorer et l’IA (Gemma sur ton ordinateur, ou Gemini, Claude ou OpenAI) réécrit la version rapide de Google pour qu’elle sonne naturelle (plus de détails plus bas). Passe la souris sur la vidéo pour voir où elle en est
 • Choisis ta langue une seule fois ; elle reste ta préférée pour chaque bouton Traduire
-• Mode automatique : active les sous-titres dans le lecteur du site et ils apparaissent sur la vidéo déjà traduits, avec une courte note "Traduit en …" au lieu d’une fenêtre surgissante
+• Mode automatique : active les sous-titres dans le lecteur du site et ils apparaissent sur la vidéo déjà traduits, avec une courte note "Traduit en …" au lieu d’une fenêtre surgissante. Sur une nouvelle installation, il est activé et traduit dans la langue de ton navigateur
 • Les sous-titres du site sont masqués, pour ne jamais en lire deux à la fois
 • Reviens à l’original quand tu veux, ou enregistre la traduction en fichier .srt
 • Langues : vietnamien, tchèque, anglais, slovaque, allemand, français, espagnol, italien, portugais, polonais, hongrois, ukrainien, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, chinois (simplifié et traditionnel), japonais, coréen, thaï, indonésien, malais, filipino, hindi, arabe
@@ -28,6 +28,7 @@ Google Translate est rapide, mais il traduit ligne par ligne, mot à mot. Clique
 • Gratuit : Gemma, le modèle ouvert de Google, tourne sur ton propre ordinateur avec Ollama ou LM Studio, donc l’étape IA reste sur ton ordinateur. Il te faut un ordinateur assez puissant et environ 8 Go d’espace disque.
 • Installation en 3 étapes : installe Ollama depuis ollama.com, télécharge Gemma avec une seule commande, puis choisis Local dans la fenêtre de l’extension. La commande et le modèle que nous recommandons en ce moment : cleedek.com/subtitle-overlay/ai
 • Ou utilise ta propre clé API : Gemini (avec une offre gratuite), Claude ou OpenAI (payants).
+• Avant de commencer, il parcourt tout le fichier et note qui est qui, pour que le genre, le tutoiement ou le vouvoiement et les noms restent les mêmes de la première à la dernière ligne.
 • Rien ne démarre tout seul : rien ne tourne et rien n’est dépensé sans ton clic.
 
 DEUX LANGUES À LA FOIS
@@ -71,7 +72,7 @@ TON PROPRE FICHIER
 • Tes sous-titres reviennent quand tu recharges la page ou que tu y reviens plus tard
 
 UN PLEIN ÉCRAN QUI GARDE LES SOUS-TITRES
-• Alt + F ou le bouton en haut de la vidéo ; F permet d’en sortir
+• Alt + F ou le bouton en haut de la vidéo ; F ou le bouton "Quitter le plein écran" permet d’en sortir
 • Les sous-titres s’écartent quand un menu ou une notification du site les recouvre
 
 SITE PAR SITE
@@ -81,14 +82,17 @@ RACCOURCIS CLAVIER
 Alt + [ / ] synchro · Alt + Shift + [ / ] synchro par pas de 1 s · Alt + 0 réinitialiser la synchro · Alt + R rejouer la ligne · Alt + S afficher ou masquer · Alt + 1 / Alt + 2 afficher ou masquer une seule langue · Alt + ↑ / ↓ déplacer · Alt + F plein écran avec sous-titres
 Chaque raccourci peut être modifié ou désactivé dans l’onglet Comportement.
 
-INTERFACE EN 30 LANGUES
-Anglais, tchèque, slovaque, allemand, français, espagnol, vietnamien, chinois simplifié, chinois traditionnel, italien, portugais, polonais, ukrainien, hongrois, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, japonais, coréen, thaï, indonésien, malais, filipino et hindi. Elle suit la langue de ton navigateur, ou choisis-en une en bas de la fenêtre de l’extension.
+INTERFACE EN 31 LANGUES
+Anglais, tchèque, slovaque, allemand, français, espagnol, vietnamien, chinois simplifié, chinois traditionnel, italien, portugais, polonais, ukrainien, hongrois, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, japonais, coréen, thaï, indonésien, malais, filipino, hindi et arabe (de droite à gauche). Elle suit la langue de ton navigateur, ou choisis-en une en bas de la fenêtre de l’extension.
 
 POUR LES BIDOUILLEURS
 Un onglet "Subtitles" dans les DevTools liste chaque fichier de sous-titres chargé par la page et l’enregistre en .vtt ou .srt.
 
 CONFIDENTIALITÉ
-Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand tu traduis, et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Les sous-titres mémorisés et enregistrés restent dans ton navigateur. Détails dans la politique de confidentialité.
+Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand les sous-titres sont traduits (par ton clic ou en mode automatique), et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Les sous-titres mémorisés et enregistrés restent dans ton navigateur. Si tu m’écris avec "Écris-moi" dans la fenêtre de l’extension, ton message m’arrive par e-mail. Détails dans la politique de confidentialité.
+
+UN PROBLÈME OU UNE IDÉE ?
+Clique sur "Problème ou idée ?" en bas de la fenêtre de l’extension et écris-moi. Je lis chaque message.
 
 OPEN SOURCE
 Toute l’extension est open source (GPL-3.0), donc chacun peut vérifier exactement ce qu’elle fait : github.com/Cleedek/subtitle-overlay. Si elle te plaît, une étoile sur GitHub aide d’autres personnes à la trouver.

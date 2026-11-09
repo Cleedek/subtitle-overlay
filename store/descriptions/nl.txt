@@ -1,0 +1,105 @@
+Bekijk elke webvideo met ondertitels in jouw taal.
+
+Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op volledig scherm, en houdt ze synchroon met de video: pauzeren, spoelen en afspeelsnelheid werken gewoon. Gebruik de ondertitels die de site al heeft, vertaald naar jouw taal, of neem je eigen .srt- of .vtt-bestand mee.
+
+★ DE HOOGTEPUNTEN
+★ Elke site, elke video: ondertitels over de speler, in een venster of op volledig scherm, altijd synchroon
+★ Vertaal met één klik naar 31 talen, of helemaal automatisch zodra je de ondertitels aanzet in de speler van de site
+★ NIEUW: laat de vertaling natuurlijk klinken met AI, gratis op je eigen computer (Gemma) of met je eigen sleutel voor Gemini, Claude of OpenAI
+★ NIEUW: een vertaalwachtrij voor een heel seizoen, en verbeterde ondertitels bewaard voor de volgende keer
+★ Twee talen tegelijk: één bovenaan, één onderaan, om samen te kijken of een taal te leren
+★ Vindt de ondertitels die de pagina laadt, ook op YouTube, dus een bestand heb je zelden nodig
+★ Jouw stijl: ruim 1.800 Google Fonts, omlijning, schaduw, achtergrondvak, grootte en positie
+★ Gratis en open source: geen advertenties, geen account, geen tracking, en elke regel code is openbaar
+
+━━━━━━━━━━━━━━━━━━━━
+
+VERTAAL NAAR 31 TALEN
+• Eén klik vertaalt de geladen ondertitels met Google Translate, direct in de extensie
+• Optioneel: klik op Verbeteren en AI (Gemma op je computer, of Gemini, Claude of OpenAI) herschrijft de snelle versie van Google zodat die natuurlijk klinkt (meer hieronder). Beweeg de muis over de video om te zien hoe ver het al is
+• Kies je taal één keer; die blijft je favoriet voor elke knop Vertalen
+• Automatische modus: zet de ondertitels aan in de speler van de site en ze verschijnen al vertaald over de video, met een korte melding "Vertaald naar …" in plaats van een pop-upvenster. Bij nieuwe installaties staat deze modus aan en wordt er vertaald naar de taal van je browser
+• De eigen ondertitels van de site worden verborgen, zodat je nooit twee sets tegelijk leest
+• Schakel op elk moment terug naar het origineel, of sla de vertaling op als .srt-bestand
+• Talen: Vietnamees, Tsjechisch, Engels, Slowaaks, Duits, Frans, Spaans, Italiaans, Portugees, Pools, Hongaars, Oekraïens, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Chinees (vereenvoudigd en traditioneel), Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi, Arabisch
+
+NATUURLIJKE VERTALING MET AI (OPTIONEEL)
+Google Translate is snel, maar werkt regel voor regel, woord voor woord. Klik op Verbeteren en een AI-model herschrijft de ondertitels met de hele scène in gedachten, vanaf het punt waar je kijkt.
+• Gratis: Gemma, het open model van Google, draait op je eigen computer met Ollama of LM Studio, dus de AI-stap blijft op je computer. Je hebt een vrij krachtige computer nodig en ongeveer 8 GB schijfruimte.
+• In 3 stappen ingesteld: installeer Ollama via ollama.com, download Gemma met één opdracht en kies dan Lokaal in de pop-up. De opdracht en het model die we nu aanraden (in het Engels): cleedek.com/subtitle-overlay/ai
+• Of gebruik je eigen API-sleutel: Gemini (heeft een gratis versie), Claude of OpenAI (betaald).
+• Voordat het begint, leest het het hele bestand door en noteert het wie wie is, zodat geslacht, aanspreekvormen en namen gelijk blijven van de eerste tot de laatste regel.
+• Het start nooit vanzelf: zonder jouw klik draait er niets en betaal je niets.
+
+TWEE TALEN TEGELIJK
+• Zet tweede ondertitels aan in elke taal: Engels bovenaan voor jou, Vietnamees onderaan voor je partner
+• Of houd het origineel naast de vertaling, ideaal om een taal te leren
+• Elke set heeft zijn eigen afstand tot de rand
+• Een klein paneel over de video zet elke taal aan of uit, naast de bijbehorende vlag; de andere schuift naar de gewone plek
+
+VINDT DE ONDERTITELS DIE EEN SITE LAADT
+• Als een pagina ondertitels laadt (VTT-bestanden of streaming-playlists met ondertitels), biedt een klein kaartje ze aan, met de titel van de film of aflevering als de pagina die deelt
+• YouTube: zet CC aan en lees de ondertitels in jouw taal; de eigen CC-knop van YouTube zet ze aan en uit, en de regels schuiven omhoog als de bediening van de speler verschijnt
+• Toon, vertaal of bewaar ze als .srt met één klik
+• Meerdere video's op één pagina? Kies bij welke video de ondertitels horen
+
+VERTAALWACHTRIJ EN BEWAARDE ONDERTITELS
+• Sleep er meerdere .srt- of .vtt-bestanden in, of klik op "Aan wachtrij toevoegen" bij ondertitels die een site laadt. Ze worden na elkaar vertaald terwijl jij iets anders doet; het tabblad met de wachtrij mag op de achtergrond blijven
+• Werkt met Google, Gemini, Claude, OpenAI of je lokale model
+• Verbeterde ondertitels blijven in de extensie zo lang als jij kiest, en komen terug als je naar de video terugkeert
+• Afspelen opent de video met de ondertitels; .srt downloaden slaat het .srt-bestand op
+
+STIJL ZE NAAR JOUW SMAAK
+• Ruim 1.800 Google Fonts, gefilterd op de lettertypen die de letters van jouw taal hebben (č ř ž, ư ế ộ, Cyrillisch, Grieks, Japans en meer)
+• Grootte, dikte, kleur, omlijning (met eigen dekking), slagschaduw, achtergrondvak (met optionele vervaging erachter) en regelbreedte
+• Onderaan, in het midden of bovenaan de video
+• Voorinstellingen (Strak, In een kader, Hoog contrast) plus je eigen bewaarde looks
+• Tekst schaalt mee met de speler, met een live voorbeeld in de pop-up
+• Een overzichtelijke pop-up met drie tabbladen: Ondertitels, Stijl en Gedrag, in een donker of licht thema (of volgens je systeem)
+• Verbergt geluidslabels zoals [Muziek] en de sprekertekens >> (één schakelaar haalt ze terug)
+
+CORRIGEER DE TIMING
+• Verschuif ondertitels eerder of later in stappen van 0,1 s of 1 s, vanuit de pop-up of met het toetsenbord
+• De verschuiving wordt per pagina onthouden
+
+GEMAAKT OM TE LEREN
+• Een zin gemist? Alt + R speelt hem opnieuw af vanaf het begin
+• Klik op een regel om hem te kopiëren, voor een woordenboek of je aantekeningen
+
+JE EIGEN BESTAND
+• Kies een .srt- of .vtt-bestand, of sleep het direct op de video
+• Rare tekens? Automatische herkenning van de tekencodering (ook Japanse, Chinese en Koreaanse bestanden) met handmatige keuze
+• Je ondertitels komen terug als je de pagina herlaadt of er later naar terugkeert
+
+VOLLEDIG SCHERM MET ONDERTITELS
+• Alt + F of de knop bovenaan de video; met F of de knop "Volledig scherm sluiten" verlaat je het weer
+• Ondertitels gaan opzij als een menu of melding van de site ze bedekt
+
+SITE PER SITE
+• Zet het uit op elke site met één schakelaar; de lijst met uitgeschakelde sites is één klik verwijderd
+
+SNELTOETSEN
+Alt + [ / ] synchroniseren · Alt + Shift + [ / ] synchroniseren per 1 s · Alt + 0 synchronisatie herstellen · Alt + R zin herhalen · Alt + S tonen of verbergen · Alt + 1 / Alt + 2 één taal tonen of verbergen · Alt + ↑ / ↓ verplaatsen · Alt + F volledig scherm met ondertitels
+Elke sneltoets kun je wijzigen of uitzetten op het tabblad Gedrag.
+
+INTERFACE IN 31 TALEN
+Engels, Tsjechisch, Slowaaks, Duits, Frans, Spaans, Vietnamees, Vereenvoudigd Chinees, Traditioneel Chinees, Italiaans, Portugees, Pools, Oekraïens, Hongaars, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi en Arabisch (van rechts naar links). De taal volgt je browser, of kies er zelf een onderaan de pop-up.
+
+VOOR KNUTSELAARS
+Een tabblad "Subtitles" in DevTools toont elk ondertitelbestand dat de pagina heeft geladen en slaat het op als .vtt of .srt.
+
+PRIVACY
+Geen accounts, geen analytics, geen tracking. Ondertiteltekst gaat alleen naar Google Translate als ondertitels worden vertaald (door jouw klik of door de automatische modus), en alleen naar Gemini, Claude, OpenAI of je lokale model als je op Verbeteren klikt. Onthouden en bewaarde ondertitels blijven in je browser. Als je me schrijft via "Schrijf me" in de pop-up, komt je bericht per e-mail bij mij aan. Details in het privacybeleid.
+
+PROBLEEM OF IDEE?
+Klik onderaan de pop-up op "Probleem of idee?" en schrijf me. Ik lees elk bericht.
+
+OPEN SOURCE
+De hele extensie is open source (GPL-3.0), dus iedereen kan precies nagaan wat ze doet: github.com/Cleedek/subtitle-overlay. Vind je haar goed, dan helpt een ster op GitHub anderen om haar te vinden.
+
+STEUN DE MAKER
+Subtitle Overlay is gratis en elke functie blijft gratis. Maakt het je avonden beter, dan vind je in de pop-up een pagina "Steun de maker" met Revolut, PayPal, Solana en Sui. Helemaal vrijblijvend, en bedankt!
+
+Met 💜 gemaakt door Cleedek in Vietnam.
+
+Screenshots tonen beelden uit Tears of Steel, © Blender Foundation, mango.blender.org, licentie CC BY 3.0.

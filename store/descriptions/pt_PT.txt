@@ -1,0 +1,105 @@
+Vê qualquer vídeo da internet com legendas na tua língua.
+
+O Subtitle Overlay mostra legendas por cima do leitor de vídeo de qualquer site, também em ecrã inteiro, e mantém-nas sincronizadas com o vídeo: pausa, avanço e recuo e velocidade de reprodução simplesmente funcionam. Usa as legendas que o site já tem, traduzidas para a tua língua, ou carrega o teu próprio ficheiro .srt ou .vtt.
+
+★ O ESSENCIAL
+★ Qualquer site, qualquer vídeo: legendas por cima do leitor, em janela ou em ecrã inteiro, sempre sincronizadas
+★ Tradução para 31 línguas com um clique, ou totalmente automática assim que ativas as legendas no leitor do site
+★ NOVIDADE: torna a tradução natural com IA, grátis no teu próprio computador (Gemma) ou com a tua própria chave do Gemini, Claude ou OpenAI
+★ NOVIDADE: uma fila de tradução para uma temporada inteira, e legendas melhoradas guardadas para a próxima vez
+★ Duas línguas ao mesmo tempo: uma em cima, outra em baixo, para verem juntos ou para aprenderes uma língua
+★ Encontra as legendas que a página carrega, incluindo no YouTube, por isso raramente precisas de um ficheiro
+★ O teu estilo: mais de 1800 tipos de letra do Google Fonts, contorno, sombra, caixa de fundo, tamanho e posição
+★ Gratuito e de código aberto: sem anúncios, sem conta, sem rastreio, e cada linha de código é pública
+
+━━━━━━━━━━━━━━━━━━━━
+
+TRADUZ PARA 31 LÍNGUAS
+• Um clique traduz as legendas carregadas com o Google Tradutor, diretamente na extensão
+• Opcional: clica em Melhorar e a IA (Gemma no teu computador, ou Gemini, Claude ou OpenAI) reescreve a versão rápida do Google para soar natural (mais abaixo). Passa o rato por cima do vídeo para veres quanto já está feito
+• Escolhes a tua língua uma vez; fica como favorita em todos os botões Traduzir
+• Modo automático: ativa as legendas no leitor do site e elas aparecem por cima do vídeo já traduzidas, com uma nota curta "Traduzido para …" em vez de uma janela pop-up. Nas novas instalações vem ativado, a traduzir para a língua do teu navegador
+• As legendas do próprio site ficam ocultas, por isso nunca lês duas ao mesmo tempo
+• Volta ao original quando quiseres, ou guarda a tradução como ficheiro .srt
+• Línguas: vietnamita, checo, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polaco, húngaro, ucraniano, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, árabe
+
+TRADUÇÃO NATURAL COM IA (OPCIONAL)
+O Google Tradutor é rápido, mas traduz linha a linha, palavra a palavra. Clica em Melhorar e um modelo de IA reescreve as legendas tendo em conta a cena inteira, a começar onde estás a ver.
+• Grátis: o Gemma, o modelo aberto da Google, corre no teu próprio computador com o Ollama ou o LM Studio, por isso a etapa de IA não sai do teu computador. Precisas de um computador razoavelmente potente e de cerca de 8 GB de espaço em disco.
+• Configuração em 3 passos: instala o Ollama a partir de ollama.com, transfere o Gemma com um único comando e escolhe Local na janela da extensão. O comando e o modelo que recomendamos neste momento (em inglês): cleedek.com/subtitle-overlay/ai
+• Ou usa a tua própria chave de API: Gemini (tem um nível gratuito), Claude ou OpenAI (pagos).
+• Antes de começar, percorre o ficheiro inteiro e toma nota de quem é quem, para que o género, as formas de tratamento e os nomes se mantenham iguais da primeira à última linha.
+• Nunca começa sozinho: nada corre e nada é gasto sem o teu clique.
+
+DUAS LÍNGUAS AO MESMO TEMPO
+• Ativa umas segundas legendas em qualquer língua: inglês em cima para ti, vietnamita em baixo para o teu parceiro ou parceira
+• Ou mantém o original ao lado da tradução, ótimo para aprender
+• Cada conjunto tem a sua própria distância da margem
+• Um pequeno painel por cima do vídeo liga ou desliga cada língua, ao lado da respetiva bandeira; a outra passa para o sítio habitual
+
+ENCONTRA AS LEGENDAS QUE O SITE CARREGA
+• Quando uma página carrega legendas (ficheiros VTT ou listas de legendas em streaming), um pequeno cartão propõe-tas, com o título do filme ou episódio quando a página o indica
+• YouTube: ativa o CC e lê as legendas na tua língua; o próprio botão CC do YouTube liga-as e desliga-as, e as linhas sobem quando aparecem os controlos do leitor
+• Mostra, traduz ou guarda como .srt com um clique
+• Vários vídeos na mesma página? Escolhe a qual pertencem as legendas
+
+FILA DE TRADUÇÃO E LEGENDAS GUARDADAS
+• Larga vários ficheiros .srt ou .vtt, ou clica em "Adicionar à fila" nas legendas que um site carrega. São traduzidos uns atrás dos outros enquanto fazes outra coisa; o separador da fila pode ficar em segundo plano
+• Funciona com o Google, Gemini, Claude, OpenAI ou o teu modelo local
+• As legendas melhoradas ficam guardadas na extensão durante o tempo que escolheres, e voltam quando regressas ao vídeo
+• Reproduzir abre o vídeo com as legendas; Baixar guarda o .srt
+
+ESTILO À TUA MEDIDA
+• Mais de 1800 tipos de letra do Google Fonts, filtrados pelos que têm as letras da tua língua (č ř ž, ư ế ộ, cirílico, grego, japonês e mais)
+• Tamanho, espessura, cor, contorno (com opacidade própria), sombra, caixa de fundo (com desfocagem opcional por trás) e largura da linha
+• Em baixo, ao meio ou em cima do vídeo
+• Predefinições (Limpo, Com caixa, Alto contraste) e os teus próprios estilos guardados
+• O texto acompanha o tamanho do leitor, com pré-visualização em direto na janela da extensão
+• Uma janela arrumada com três separadores: Legendas, Estilo e Comportamento, em aspeto escuro ou claro (ou a seguir o sistema)
+• Oculta indicações de som como [Música] e as marcas de orador >> (um interruptor volta a mostrá-las)
+
+ACERTA A SINCRONIZAÇÃO
+• Adianta ou atrasa as legendas em passos de 0,1 s ou 1 s, na janela da extensão ou pelo teclado
+• O ajuste fica memorizado para a página
+
+FEITO PARA APRENDER
+• Perdeste uma fala? Alt + R volta a reproduzi-la desde o início
+• Clica em qualquer linha para a copiar, para um dicionário ou para as tuas notas
+
+O TEU PRÓPRIO FICHEIRO
+• Escolhe um ficheiro .srt ou .vtt, ou arrasta-o diretamente para o vídeo
+• Letras estranhas? Deteção automática da codificação do texto (também ficheiros em japonês, chinês e coreano) com escolha manual
+• As tuas legendas voltam quando recarregas a página ou regressas a ela mais tarde
+
+ECRÃ INTEIRO QUE MANTÉM AS LEGENDAS
+• Alt + F ou o botão no topo do vídeo; F ou o botão "Sair da tela cheia" volta a sair
+• As legendas afastam-se quando um menu ou uma notificação do site as tapa
+
+SITE A SITE
+• Desativa a extensão em qualquer site com um interruptor; a lista de sites desativados está a um clique
+
+ATALHOS DE TECLADO
+Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 repor sincronização · Alt + R repetir a fala · Alt + S mostrar ou ocultar · Alt + 1 / Alt + 2 mostrar ou ocultar só uma língua · Alt + ↑ / ↓ mover · Alt + F ecrã inteiro com legendas
+Todos os atalhos podem ser alterados ou desativados no separador Comportamento.
+
+INTERFACE EM 31 LÍNGUAS
+Inglês, checo, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polaco, ucraniano, húngaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi e árabe (da direita para a esquerda). Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
+
+PARA OS CURIOSOS
+Um separador "Subtitles" nas DevTools lista todos os ficheiros de legendas que a página carregou e guarda-os como .vtt ou .srt.
+
+PRIVACIDADE
+Sem contas, sem estatísticas, sem rastreio. O texto das legendas só é enviado para o Google Tradutor quando as legendas são traduzidas (com o teu clique ou pelo modo automático), e para o Gemini, Claude, OpenAI ou o teu modelo local só quando clicas em Melhorar. As legendas memorizadas e guardadas ficam no teu navegador. Se me escreveres através de "Escreva para mim" na janela da extensão, a tua mensagem chega-me por e-mail. Detalhes na política de privacidade.
+
+PROBLEMA OU IDEIA?
+Clica em "Problema ou ideia?" na parte de baixo da janela da extensão e escreve-me. Leio todas as mensagens.
+
+CÓDIGO ABERTO
+A extensão inteira é de código aberto (GPL-3.0), por isso qualquer pessoa pode verificar exatamente o que faz: github.com/Cleedek/subtitle-overlay. Se gostares, uma estrela no GitHub ajuda outras pessoas a encontrá-la.
+
+APOIA O CRIADOR
+O Subtitle Overlay é gratuito e todas as funcionalidades continuam gratuitas. Se torna as tuas noites melhores, a janela da extensão tem uma página "Apoie o criador" com Revolut, PayPal, Solana e Sui. Totalmente opcional, e obrigado!
+
+Criado com 💜 por Cleedek no Vietname.
+
+As capturas de ecrã mostram imagens de Tears of Steel, © Blender Foundation, mango.blender.org, licenciado sob CC BY 3.0.

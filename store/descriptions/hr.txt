@@ -1,0 +1,105 @@
+Gledaj bilo koji video na webu s titlovima na svom jeziku.
+
+Subtitle Overlay prikazuje titlove preko video playera na bilo kojoj web-stranici, i na cijelom zaslonu, i drži ih usklađenima s videom: pauza, premotavanje i brzina reprodukcije jednostavno rade. Koristi titlove koje stranica već ima, prevedene na svoj jezik, ili donesi vlastitu .srt ili .vtt datoteku.
+
+★ NAJVAŽNIJE
+★ Bilo koja stranica, bilo koji video: titlovi preko playera, u prozoru ili na cijelom zaslonu, uvijek usklađeni
+★ Prijevod na 31 jezik jednim klikom ili potpuno automatski, čim uključiš titlove u playeru stranice
+★ NOVO: uz AI prijevod zvuči prirodno, besplatno na tvom računalu (Gemma) ili s tvojim vlastitim ključem za Gemini, Claude ili OpenAI
+★ NOVO: red prijevoda za cijelu sezonu i poboljšani titlovi spremljeni za sljedeći put
+★ Dva jezika odjednom: jedan gore, drugi dolje, za zajedničko gledanje ili učenje jezika
+★ Pronalazi titlove koje stranica učita, i na YouTubeu, pa datoteka rijetko kad uopće treba
+★ Tvoj stil: više od 1.800 fontova iz Google Fonts, obrub, sjena, pozadinski okvir, veličina i položaj
+★ Besplatno i otvorenog koda: bez oglasa, bez računa, bez praćenja, a svaki redak koda je javan
+
+━━━━━━━━━━━━━━━━━━━━
+
+PRIJEVOD NA 31 JEZIK
+• Jednim klikom prevodiš učitane titlove pomoću Google Prevoditelja, izravno u proširenju
+• Po želji: klikni Poboljšaj i AI (Gemma na tvom računalu ili Gemini, Claude ili OpenAI) prepisat će Googleovu brzu verziju da zvuči prirodno (više u nastavku). Pomakni miš preko videa i vidjet ćeš dokle je stigao
+• Jezik odabereš jednom i ostaje tvoj favorit za svaki gumb Prevedi
+• Automatski način: uključi titlove u playeru stranice i pojavit će se preko videa već prevedeni, uz kratku napomenu "Prevedeno: …" umjesto skočnog prozora. Nove instalacije počinju s uključenim načinom i prevode na jezik tvog preglednika
+• Titlovi same stranice se skrivaju, pa nikad ne čitaš dva kompleta odjednom
+• Vrati se na izvornik kad god želiš ili spremi prijevod kao .srt datoteku
+• Jezici: vijetnamski, češki, engleski, slovački, njemački, francuski, španjolski, talijanski, portugalski, poljski, mađarski, ukrajinski, nizozemski, švedski, danski, norveški, finski, grčki, turski, rumunjski, hrvatski, kineski (pojednostavljeni i tradicionalni), japanski, korejski, tajlandski, indonezijski, malajski, filipinski, hindski, arapski
+
+NEKA ZVUČI PRIRODNO (PO ŽELJI)
+Google Prevoditelj je brz, ali prevodi redak po redak, riječ po riječ. Klikni Poboljšaj i AI model prepisat će titlove uzimajući u obzir cijelu scenu, počevši od mjesta na kojem gledaš.
+• Besplatno: Gemma, Googleov otvoreni model, radi na tvom računalu uz Ollamu ili LM Studio, pa AI korak ostaje na tvom računalu. Trebaš prilično snažno računalo i oko 8 GB prostora na disku.
+• Postavljanje u 3 koraka: instaliraj Ollamu s ollama.com, preuzmi Gemmu jednom naredbom, a zatim u prozoru proširenja odaberi Lokalno. Naredba i model koji trenutačno preporučujemo (na engleskom): cleedek.com/subtitle-overlay/ai
+• Ili koristi vlastiti API ključ: Gemini (ima besplatnu razinu), Claude ili OpenAI (plaćeno).
+• Prije nego što počne, prođe cijelu datoteku i zabilježi tko je tko, pa rod, oblici obraćanja i imena ostaju isti od prvog do zadnjeg retka.
+• Nikad ne počinje sam: bez tvog klika ništa se ne pokreće i ništa se ne troši.
+
+DVA JEZIKA ODJEDNOM
+• Uključi druge titlove na bilo kojem jeziku: engleski gore za tebe, vijetnamski dolje za tvog partnera
+• Ili zadrži izvornik uz prijevod, što je odlično za učenje
+• Svaki komplet ima vlastitu udaljenost od ruba
+• Mala ploča preko videa uključuje ili isključuje svaki jezik, pokraj njegove zastave; drugi se pomiče na uobičajeno mjesto
+
+PRONALAZI TITLOVE KOJE STRANICA UČITA
+• Kad stranica učita titlove (VTT datoteke ili streaming popise titlova), mala kartica ti ih ponudi, s naslovom filma ili epizode kad ga stranica otkrije
+• YouTube: uključi CC i čitaj titlove na svom jeziku; YouTubeov gumb CC ih uključuje i isključuje, a reci se pomaknu prema gore kad se pojave kontrole playera
+• Prikaži, prevedi ili spremi kao .srt jednim klikom
+• Više videa na jednoj stranici? Odaberi kojem titlovi pripadaju
+
+RED PRIJEVODA I SPREMLJENI TITLOVI
+• Ubaci nekoliko .srt ili .vtt datoteka ili klikni "Dodaj u red čekanja" kod titlova koje stranica učita. Prevode se jedni za drugima dok radiš nešto drugo; kartica s redom može ostati u pozadini
+• Radi s Googleom, Geminijem, Claudeom, OpenAI-jem ili tvojim lokalnim modelom
+• Poboljšani titlovi čuvaju se u proširenju koliko god ti odabereš i vraćaju se kad se vratiš na video
+• Reproduciraj otvara video s njegovim titlovima; Preuzmi sprema .srt
+
+STIL PO TVOJEM
+• Više od 1.800 fontova iz Google Fonts, filtriranih na one koji imaju slova tvog jezika (č ř ž, ư ế ộ, ćirilica, grčki, japanski i drugo)
+• Veličina, debljina, boja, obrub (s vlastitom prozirnošću), sjena, pozadinski okvir (s mogućim zamućenjem iza njega) i širina retka
+• Na dnu, u sredini ili na vrhu videa
+• Predlošci (Čisto, U okviru, Visoki kontrast) i tvoji vlastiti spremljeni izgledi
+• Tekst se prilagođava veličini playera, uz pregled uživo u prozoru proširenja
+• Pregledan prozor proširenja s tri kartice: Titlovi, Stil i Ponašanje, u tamnom ili svijetlom izgledu (ili prema sustavu)
+• Skriva oznake zvukova poput [Glazba] i oznake govornika >> (jedan prekidač ih vraća)
+
+NAMJESTI VRIJEME
+• Pomakni titlove ranije ili kasnije u koracima od 0,1 s ili 1 s, iz prozora proširenja ili tipkovnicom
+• Pomak se pamti za stranicu
+
+STVORENO ZA UČENJE
+• Promaknula ti je rečenica? Alt + R ponovno je reproducira od početka
+• Klikni bilo koji redak da ga kopiraš, za rječnik ili bilješke
+
+TVOJA VLASTITA DATOTEKA
+• Odaberi .srt ili .vtt datoteku ili je povuci izravno na video
+• Čudni znakovi? Automatsko prepoznavanje kodiranja teksta (i za japanske, kineske i korejske datoteke) uz ručni odabir
+• Tvoji titlovi vraćaju se kad ponovno učitaš stranicu ili joj se kasnije vratiš
+
+CIJELI ZASLON KOJI ZADRŽAVA TITLOVE
+• Alt + F ili gumb na vrhu videa; F ili gumb "Izađi iz cijelog zaslona" ponovno ga zatvara
+• Titlovi se sklone kad ih prekrije izbornik ili obavijest stranice
+
+STRANICU PO STRANICU
+• Isključi ga na bilo kojoj stranici jednim prekidačem; popis isključenih stranica udaljen je samo jedan klik
+
+PREČACI NA TIPKOVNICI
+Alt + [ / ] usklađivanje · Alt + Shift + [ / ] usklađivanje za 1 s · Alt + 0 poništi usklađivanje · Alt + R ponovi redak · Alt + S prikaži ili sakrij · Alt + 1 / Alt + 2 prikaži ili sakrij samo jedan jezik · Alt + ↑ / ↓ pomakni · Alt + F cijeli zaslon s titlovima
+Svaki prečac možeš promijeniti ili isključiti na kartici Ponašanje.
+
+SUČELJE NA 31 JEZIKU
+Engleski, češki, slovački, njemački, francuski, španjolski, vijetnamski, pojednostavljeni kineski, tradicionalni kineski, talijanski, portugalski, poljski, ukrajinski, mađarski, nizozemski, švedski, danski, norveški, finski, grčki, turski, rumunjski, hrvatski, japanski, korejski, tajlandski, indonezijski, malajski, filipinski, hindski i arapski (zdesna nalijevo). Prati jezik tvog preglednika, a možeš ga odabrati i na dnu prozora proširenja.
+
+ZA ZNATIŽELJNE
+Kartica "Subtitles" u DevToolsu prikazuje svaku datoteku titlova koju je stranica učitala i sprema je kao .vtt ili .srt.
+
+PRIVATNOST
+Bez računa, bez analitike, bez praćenja. Tekst titlova šalje se Google Prevoditelju samo kad se titlovi prevode (tvojim klikom ili u automatskom načinu), a Geminiju, Claudeu, OpenAI-ju ili tvom lokalnom modelu samo kad klikneš Poboljšaj. Zapamćeni i spremljeni titlovi ostaju u tvom pregledniku. Ako mi pišeš preko "Piši mi" u prozoru proširenja, tvoja poruka stiže mi e-poštom. Pojedinosti su u pravilima o privatnosti.
+
+PROBLEM ILI IDEJA?
+Klikni "Problem ili ideja?" na dnu prozora proširenja i piši mi. Čitam svaku poruku.
+
+OTVORENI KOD
+Cijelo je proširenje otvorenog koda (GPL-3.0), pa svatko može provjeriti što točno radi: github.com/Cleedek/subtitle-overlay. Ako ti se sviđa, zvjezdica na GitHubu pomaže drugima da ga pronađu.
+
+PODRŽI AUTORA
+Subtitle Overlay je besplatan i svaka značajka ostaje besplatna. Ako ti uljepšava večeri, u prozoru proširenja nalazi se stranica "Podrži autora" s Revolutom, PayPalom, Solanom i Suijem. Potpuno neobavezno, i hvala ti!
+
+S 💜 izrađuje Cleedek u Vijetnamu.
+
+Snimke zaslona prikazuju kadrove iz filma Tears of Steel, © Blender Foundation, mango.blender.org, licenca CC BY 3.0.

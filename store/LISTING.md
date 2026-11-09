@@ -2,37 +2,37 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
-## Postup pro 1.0.17 (co musíš udělat ty)
+## Postup pro 1.0.18 (co musíš udělat ty)
 
-V obchodě je teď 1.0.16 (ověřeno 3. 11. 2026). Položka už existuje, takže nic nezakládáš, jen ji aktualizuješ.
+**Stav 8. 11. 2026:** Claude vyplnil Dashboard přes Arc (nástroje ve `store/dashboard/`): popisy ve všech 32 jazycích (`store/descriptions/<jazyk>.txt`), nový screenshot 2 (EN i CS), zdůvodnění storage a Host permission a Data usage. Uloženo jako koncept, balíček 1.0.18 v konceptu už byl. Zbývá jen zkontrolovat a kliknout **Submit for review**.
 
-1. **Web je hotový (ověřeno 4. 11. 2026):** obě stránky jsou v cleedek-portfolio commitnuté (61506f2), pushnuté a online, není potřeba nic dělat:
-   - `src/pages/[...lang]/subtitle-overlay/privacy.astro`: zásady ochrany soukromí pro 1.0.17 (Gemini, Claude, OpenAI a lokální model, API klíče v úložišti prohlížeče, počítadlo přeložených videí pro kartu s hodnocením, fronta překladů a uložené titulky). Stejný text je v `store/privacy-policy.html`.
-   - `src/pages/[...lang]/subtitle-overlay/ai.astro`: nová stránka https://cleedek.com/subtitle-overlay/ai (který model stáhnout a jak ho nastavit). Odkazuje na ni nový popis v obchodě.
-2. **Nahraj balíček:** v Developer Dashboard otevři položku, záložka **Package**, **Upload new package**, nahraj `dist/subtitle-overlay-1.0.17.zip` (sestavený znovu 4. 11. 2026 ve 4:00 s opravami pro YouTube a s opravou přepínání dílů na stránce, třeba Prima+). Starší balíček ze 3. 11. (`dist/subtitle-overlay-1.0.17-built-2026-11-03.zip`) nahraný nebyl (potvrzeno 4. 11.), takže zůstává verze 1.0.17. Starší sestavení s datem v názvu (`…-built-2026-11-03.zip`, `…-built-2026-11-04-0330.zip`) nenahrávej.
-3. **Store listing (angličtina):** nahraď **Description** celým blokem níže. **Summary** se tu nevyplňuje, obchod si ho vezme z balíčku (je nové, viz níže).
-4. **Screenshoty:** všech 5 starých smaž a ze složky `store/images` nahraj `screenshot-1.png` až `screenshot-5.png` v tomhle pořadí:
-   1. Subtitles on any video (beze změny)
-   2. Subtitles that sound like people talk (nové: AI Improve a hodnocení 4/10 a 8/10)
-   3. One film, two languages (dřív 2)
-   4. Queue a season (nové: fronta překladů, uložené titulky, tmavý a světlý vzhled)
-   5. Style it your way (přefocené)
-   Small promo tile (`promo-tile-440x280.png`) a Marquee (`marquee-promo-1400x560.png`) zůstávají, nic neměň. Obrázky používají záběry z filmu Tears of Steel (Blender Foundation, licence CC BY 3.0); poděkování je přímo v obrázcích i na konci popisu, tak ho tam nech.
-5. **Video:** obchod bere jen odkaz na YouTube. Nahraj `promo-video/out/subtitle-overlay-promo-en-1080p.mp4` (45 s) na YouTube (stačí Unlisted, Neveřejné) a odkaz vlož do pole pro promo video ve Store listing.
-6. **Privacy practices:** doplň zdůvodnění u dvou nových oprávnění (**unlimitedStorage** a **declarativeNetRequestWithHostAccess**) a přepiš **storage** a **Host permission** podle textů níže. Data usage zkontroluj podle poznámky níže.
-7. **Česká verze** (rozbalovací seznam jazyka nahoře ve Store listing, Czech): nahraď popis českým blokem níže a nahraj české screenshoty `store/images/cs/screenshot-1.png` až `screenshot-5.png` ve stejném pořadí jako anglické (viz poznámka u české verze).
-8. Klikni na **Submit for review**. Kvůli přístupu na všechny weby a dvěma novým oprávněním počítej s delší kontrolou.
+V obchodě je teď podle poznámek 1.0.17 (potvrď v Dashboardu, záložka Package). Položka existuje, takže jen aktualizuješ. Oprávnění v manifestu se proti 1.0.17 nezměnila, nová zdůvodnění oprávnění tedy nejsou potřeba.
 
-Ikona v obchodě (`icons/icon128.png`), Distribution (Public, All regions, Free) a kontaktní e-mail v Account zůstávají z minula.
+1. **Web (zásady ochrany soukromí):** `cleedek-portfolio/src/pages/[...lang]/subtitle-overlay/privacy.astro` je upravená (EN + CS, datum 8. 11. 2026): formulář "Napiš mi", stránka po odinstalaci, poznámky "kdo je kdo" pro AI, automatický režim po nové instalaci, LM Studio. Anglický text je slovo od slova stejný jako `store/privacy-policy.html`. **Musí být online dřív, než odešleš ke kontrole** (commit + push, Claude to udělá na tvoje "jo").
+2. **Nahraj balíček:** záložka **Package**, **Upload new package**, soubor `dist/subtitle-overlay-1.0.18.zip` (sestavený 8. 11. 2026 z commitu afb7aff, 98 souborů, ověřený v Chromu: popup EN/CS/AR, titulky přes video).
+3. **Store listing, angličtina:** nahraď **Description** blokem níže (změny proti 1.0.17: automatický režim po instalaci, poznámky "kdo je kdo", tlačítko "Exit fullscreen", rozhraní v 31 jazycích s arabštinou, formulář v sekci Privacy a nová sekce PROBLEM OR IDEA?). Summary se bere z balíčku (beze změny).
+4. **Další jazyky popisu:** v rozbalovacím seznamu jazyka nahoře ve Store listing postupně vyber Czech, German, Spanish, French, Slovak, Vietnamese a Chinese (Simplified) a do každého vlož celý obsah souboru `store/descriptions/<jazyk>.txt` (cs, de, es, fr, sk, vi, zh_CN). **Změň všech 8 najednou**, jinak obchod hlásí "Mismatching metadata" (stalo se u 1.0.17). Překlady psal Claude, rodilý mluvčí je nekontroloval.
+5. **Screenshot 2 (nový, 8. 11. 2026):** ve Store listing smaž starý screenshot 2 a nahraj `store/images/screenshot-2.png` na stejné místo (pořadí 1 až 5 zůstává). V české verzi totéž s `store/images/cs/screenshot-2.png`. Ostatní screenshoty nech. Karta s hodnocením 4/10 a 8/10 je pryč, místo ní je jedna skutečná věta od Googlu a od Gemmy bez úprav (vietnamsky v EN, česky v CS). Video: viz níže.
+6. **Privacy practices:** Data usage: nově zaškrtni **Personally identifiable information** (volitelný e-mail ve formuláři) a **Personal communications** (text zprávy). Nech **Website content** (a **Authentication information**, pokud jsi ho zaškrtl u 1.0.17). Pak znovu všechna tři prohlášení. Zdůvodnění **storage** a **Host permission** nahraď texty níže (doplněný formulář, poznámky a Netflix). Přesné názvy políček ověř ve formuláři, odvodil jsem je z dokumentace obchodu.
+7. Klikni na **Submit for review**.
+
+Ikona, dlaždice, Distribution, Privacy policy URL a kontaktní e-mail zůstávají.
+
+## Obrázky a video pro 1.0.18
+
+- **Novinky obrázky nepotřebují:** popup na screenshotu 5 vypadá v 1.0.18 stejně, formulář ani arabština nejsou vizuálně zásadní.
+- **Screenshot 2 je předělaný** (8. 11.): místo hodnocení "Rated by my wife … 4/10 … 8/10", které obchod u 1.0.17 zamítl v textu jako "Keyword Spam" (Yellow Argon), ukazuje jednu skutečnou větu: Google vs. vylepšeno Gemmou. Zdroj: `promo-video/screens/screenshot-2(.cs).html`, render `node screens/render.mjs 2 2.cs` ve složce `promo-video`.
+- **Promo video** hodnocení pořád ukazuje (5s scéna). Rozhodnutí, jestli ho předělat, je otevřené.
+- **Netflix:** v textech obchodu záměrně není (riziko, že by to znělo jako obcházení DRM, a ochranná známka). Reviewer se o něm dozví ze zdůvodnění Host permission.
 
 ## Store listing
 
-**Name:** Subtitle Overlay
+**Name:** Subtitle Overlay: Translate Video Subtitles with AI (z `_locales/*/messages.json`, každý jazyk má vlastní překlad za dvojtečkou; obchod ho bere z balíčku, v Dashboardu se nepíše)
 
 **Summary (max 132 characters):**
 Subtitles on any web video, in sync and in 31 languages. AI makes the translation sound natural, free on your own computer.
 
-(Obchod bere shrnutí z balíčku, tohle je jen pro kontrolu. Verze v dalších 29 jazycích jsou ve složce `_locales` a obchod si je vezme sám (portugalština je tam dvakrát: `pt_BR` a `pt_PT`). Pro 1.0.17 je shrnutí nové ve všech 8 jazycích.)
+(Obchod bere shrnutí z balíčku, tohle je jen pro kontrolu. Verze v dalších 31 jazycích jsou ve složce `_locales` a obchod si je vezme sám (portugalština je tam dvakrát: `pt_BR` a `pt_PT`). Pro 1.0.18 beze změny; nově je tam i arabština.)
 
 **Category:** Accessibility (alternative: Tools)
 
@@ -60,7 +60,7 @@ TRANSLATE INTO 31 LANGUAGES
 • One click translates the loaded subtitles with Google Translate, right in the extension
 • Optional: click Improve and AI (Gemma on your computer, or Gemini, Claude or OpenAI) rewrites Google's quick version so it sounds natural (more below). Move the mouse over the video to see how far it got
 • Pick your language once; it stays your favourite for every Translate button
-• Automatic mode: turn on subtitles in the site's player and they appear over the video already translated, with a short "Translated to …" note instead of a pop-up
+• Automatic mode: turn on subtitles in the site's player and they appear over the video already translated, with a short "Translated to …" note instead of a pop-up. New installs start with it on, translating into your browser's language
 • The site's own subtitles are hidden, so you never read two sets at once
 • Switch back to the original any time, or save the translation as an .srt file
 • Languages: Vietnamese, Czech, English, Slovak, German, French, Spanish, Italian, Portuguese, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Chinese (Simplified and Traditional), Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Arabic
@@ -70,6 +70,7 @@ Google Translate is quick, but it goes line by line, word for word. Click Improv
 • Free: Gemma, Google's open model, runs on your own computer with Ollama or LM Studio, so the AI step stays on your computer. You need a fairly powerful computer and about 8 GB of disk space.
 • Set up in 3 steps: install Ollama from ollama.com, download Gemma with one command, then choose Local in the popup. The command and the model we recommend right now: cleedek.com/subtitle-overlay/ai
 • Or use your own API key: Gemini (has a free tier), Claude or OpenAI (paid).
+• Before it starts, it skims the whole file and notes who is who, so gender, forms of address and names stay the same from the first line to the last.
 • It never starts by itself: nothing runs and nothing is spent without your click.
 
 TWO LANGUAGES AT ONCE
@@ -113,7 +114,7 @@ YOUR OWN FILE
 • Your subtitles come back when you reload the page or return to it later
 
 FULLSCREEN THAT KEEPS THE SUBTITLES
-• Alt + F or the button at the top of the video; F leaves it again
+• Alt + F or the button at the top of the video; F or the "Exit fullscreen" button leaves it again
 • Subtitles step aside when a site menu or notification covers them
 
 SITE BY SITE
@@ -123,14 +124,17 @@ KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + F fullscreen with subtitles
 Every shortcut can be changed or switched off in the Behaviour tab.
 
-INTERFACE IN 30 LANGUAGES
-English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, and Hindi. It follows your browser, or pick one at the bottom of the popup.
+INTERFACE IN 31 LANGUAGES
+English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, and Arabic (right to left). It follows your browser, or pick one at the bottom of the popup.
 
 FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.
 
 PRIVACY
-No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when you translate, and to Gemini, Claude, OpenAI or your local model only when you click Improve. Remembered and saved subtitles stay in your browser. Details in the privacy policy.
+No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when subtitles are translated (by your click or by automatic mode), and to Gemini, Claude, OpenAI or your local model only when you click Improve. Remembered and saved subtitles stay in your browser. If you write to me with "Write to me" in the popup, your message reaches me by email. Details in the privacy policy.
+
+PROBLEM OR IDEA?
+Click "Problem or idea?" at the bottom of the popup and write to me. I read every message.
 
 OPEN SOURCE
 The whole extension is open source (GPL-3.0), so anyone can check exactly what it does: github.com/Cleedek/subtitle-overlay. If you like it, a star on GitHub helps other people find it.
@@ -146,7 +150,7 @@ Screenshots show frames from Tears of Steel, © Blender Foundation, mango.blende
 
 **Postup:** v Developer Dashboard otevři **Store listing**, nahoře v rozbalovacím seznamu jazyka vyber **Czech (čeština)** a nahraď popis blokem níže. Název a krátké shrnutí si obchod vezme z balíčku (`_locales/cs`), ty se tu nevyplňují.
 
-**Obrázky:** české screenshoty pro 1.0.17 jsou hotové (3. 11. 2026) ve `store/images/cs`: 1 titulky na jakémkoli videu, 2 AI a hodnocení 4/10 a 8/10, 3 dva jazyky, 4 fronta, 5 vzhled. Staré české obrázky v obchodě smaž a nahraj tyhle. České video je `promo-video/out/subtitle-overlay-promo-cs-1080p.mp4`: nahraj ho na YouTube (Unlisted) a odkaz vlož do české verze, pokud tam pole pro video je (nejsem si jistý, jestli ho obchod u překladu nabízí; jinak se ukáže anglické).
+**Obrázky:** české screenshoty z 1.0.17 (`store/images/cs`) jsou v obchodě; měnit je jen pokud se rozhodneš předělat screenshot 2 (viz výše). České video je `promo-video/out/subtitle-overlay-promo-cs-1080p.mp4`: nahraj ho na YouTube (Unlisted) a odkaz vlož do české verze, pokud tam pole pro video je (nejsem si jistý, jestli ho obchod u překladu nabízí; jinak se ukáže anglické).
 
 **Popis (Description):**
 
@@ -170,7 +174,7 @@ PŘEKLAD DO 31 JAZYKŮ
 • Jedním klikem přeložíš načtené titulky přes Google Translate, přímo v rozšíření
 • Volitelně: klikneš na Vylepšit a AI (Gemma ve tvém počítači, nebo Gemini, Claude či OpenAI) rychlý překlad od Googlu přepíše, aby zněl přirozeně (víc níže). Když pohneš myší nad videem, uvidíš, kolik už je hotovo
 • Jazyk si vybereš jednou a platí pro všechna tlačítka Přeložit
-• Automatický režim: zapni titulky v přehrávači webu a objeví se přes video rovnou přeložené, jen s krátkou poznámkou "Přeloženo: …"
+• Automatický režim: zapni titulky v přehrávači webu a objeví se přes video rovnou přeložené, jen s krátkou poznámkou "Přeloženo: …". Po nové instalaci je zapnutý a překládá do jazyka tvého prohlížeče
 • Původní titulky webu se schovají, takže nečteš dvoje naráz
 • Kdykoli se vrátíš k originálu, nebo si překlad uložíš jako .srt
 • Jazyky: vietnamština, čeština, angličtina, slovenština, němčina, francouzština, španělština, italština, portugalština, polština, maďarština, ukrajinština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, čínština (zjednodušená i tradiční), japonština, korejština, thajština, indonéština, malajština, filipínština, hindština, arabština
@@ -180,6 +184,7 @@ Google Translate je rychlý, ale překládá řádek po řádku, slovo od slova.
 • Zdarma: Gemma, otevřený model od Googlu, běží přímo ve tvém počítači přes Ollamu nebo LM Studio, takže krok s AI z počítače neodchází. Potřebuješ výkonnější počítač a asi 8 GB místa na disku.
 • Nastavení ve 3 krocích: nainstaluj Ollamu z ollama.com, jedním příkazem stáhni Gemmu a v popupu vyber Lokální. Příkaz a model, který teď doporučujeme (anglicky): cleedek.com/subtitle-overlay/ai
 • Nebo vlastní API klíč: Gemini (má bezplatnou úroveň), Claude nebo OpenAI (placené).
+• Než začne, projde celý soubor a poznamená si, kdo je kdo, takže rod, oslovení i jména sedí od první věty po poslední.
 • Sám se nikdy nespustí: bez tvého kliknutí nic neběží a nic neutratíš.
 
 DVA JAZYKY NARÁZ
@@ -223,7 +228,7 @@ VLASTNÍ SOUBOR
 • Titulky se vrátí, když stránku znovu načteš nebo se na ni později vrátíš
 
 CELÁ OBRAZOVKA I S TITULKY
-• Alt + F nebo tlačítko nahoře na videu; klávesou F ji zase opustíš
+• Alt + F nebo tlačítko nahoře na videu; klávesou F nebo tlačítkem "Ukončit celou obrazovku" ji zase opustíš
 • Titulky ustoupí, když je zakryje menu nebo upozornění webu
 
 WEB PO WEBU
@@ -233,14 +238,17 @@ KLÁVESOVÉ ZKRATKY
 Alt + [ / ] načasování · Alt + Shift + [ / ] načasování po 1 s · Alt + 0 vynulovat · Alt + R zopakovat větu · Alt + S zobrazit/skrýt · Alt + 1 / Alt + 2 zobrazit/skrýt jen jeden jazyk · Alt + ↑ / ↓ posun · Alt + F celá obrazovka s titulky
 Každou zkratku si na záložce Chování změníš nebo vypneš.
 
-ROZHRANÍ VE 30 JAZYCÍCH
-Angličtina, čeština, slovenština, němčina, francouzština, španělština, vietnamština, čínština (zjednodušená), čínština (tradiční), italština, portugalština, polština, ukrajinština, maďarština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, japonština, korejština, thajština, indonéština, malajština, filipínština a hindština. Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
+ROZHRANÍ V 31 JAZYCÍCH
+Angličtina, čeština, slovenština, němčina, francouzština, španělština, vietnamština, čínština (zjednodušená), čínština (tradiční), italština, portugalština, polština, ukrajinština, maďarština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, japonština, korejština, thajština, indonéština, malajština, filipínština, hindština a arabština (zprava doleva). Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
 
 PRO ŠŤOURALY
 Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které stránka načetla, a uloží je jako .vtt nebo .srt.
 
 SOUKROMÍ
-Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy překládáš, a do Gemini, Claude, OpenAI nebo tvého lokálního modelu jen když klikneš na Vylepšit. Zapamatované i uložené titulky zůstávají v tvém prohlížeči. Podrobnosti v zásadách ochrany soukromí.
+Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy se titulky překládají (tvým kliknutím nebo automatickým režimem), a do Gemini, Claude, OpenAI nebo tvého lokálního modelu jen když klikneš na Vylepšit. Zapamatované i uložené titulky zůstávají v tvém prohlížeči. Když mi napíšeš přes "Napiš mi" v popupu, zpráva mi přijde e-mailem. Podrobnosti v zásadách ochrany soukromí.
+
+PROBLÉM NEBO NÁPAD?
+Klikni dole v popupu na "Problém nebo nápad?" a napiš mi. Čtu každou zprávu.
 
 OPEN SOURCE
 Celé rozšíření je open source (GPL-3.0), takže si kdokoli může ověřit, co přesně dělá: github.com/Cleedek/subtitle-overlay. Jestli se ti líbí, hvězda na GitHubu pomůže, aby ho našli i další.
@@ -255,6 +263,8 @@ Screenshoty ukazují záběry z filmu Tears of Steel, © Blender Foundation, man
 ## What's new (pro tebe, v obchodě se nikam nevyplňuje)
 
 Chrome Web Store nemá pole "co je nového"; uživatelé vidí nový popis a screenshoty. Kdybys to chtěl někde zmínit (web, sociální sítě):
+
+1.0.18: Before improving the subtitles, the AI skims the whole file and notes who is who, so gender, forms of address and names stay consistent. New installs translate automatically into your browser's language. The interface now speaks 31 languages, Arabic included (right to left). "Problem or idea?" at the bottom of the popup lets you write to me directly. Clearer AI error messages with tips, an alert with a Restart button if the extension's background stops, an "Exit fullscreen" button, a one-language switch right over the video, and fixes for players like Prima+ (ads, audio switch) and YouTube (visible tags in captions, the CC button, nothing of ours on the miniplayer).
 
 1.0.17: Make the translation sound natural with AI. Google's quick translation shows at once; click Improve and Gemma on your own computer (free, with Ollama or LM Studio), Gemini (your own free API key), Claude or OpenAI (your own paid API key) rewrites it with the whole scene in mind, starting where you are watching. It never starts by itself; move the mouse over the video to see how far it got. New translation queue: drop in a whole season of subtitle files and they're translated one after another in the background; improved subtitles are saved for as long as you choose and come back when you return to the video, YouTube included. The popup, the queue and the DevTools panel come in a dark or light look. After 10 translated videos, the popup asks once whether you'd rate or share the extension. Smoother on YouTube: moving the mouse over the video or scrolling the page no longer slows it down. A language you switch off over the video stays off when you come back (and isn't translated meanwhile). On tall videos and Shorts the language panel keeps to the player's corner, and the fullscreen button no longer covers subtitles at the top. YouTube's CC button only switches the subtitles when you press it, not when YouTube flips it by itself (going fullscreen, around ads).
 
@@ -273,16 +283,16 @@ Display subtitles as a styled, synchronized overlay on top of web videos, from a
 
 **Permission justifications:**
 
-- **storage:** Saves the user's subtitle style settings, presets, the colors picked last, timing offset, translation language, translator choice (with the user's own Gemini, Claude or OpenAI API key or local model address, if entered), light or dark look and the sites the user turned the extension off on; remembers the subtitles loaded on a page (up to the last 30 pages, locally; the second language of dual subtitles for at most 24 hours) so they come back on reload or a later visit; keeps the subtitle files the user put in the translation queue and the improved subtitles the user chose to keep; counts translated videos locally to decide when to ask once for a rating; and stores the chosen interface language and second subtitle language. Nothing of this leaves the device.
+- **storage:** Saves the user's subtitle style settings, presets, the colors picked last, timing offset, translation language, translator choice (with the user's own Gemini, Claude or OpenAI API key or local model address, if entered), light or dark look and the sites the user turned the extension off on; remembers the subtitles loaded on a page (up to the last 30 pages, locally; the second language of dual subtitles for at most 24 hours) so they come back on reload or a later visit; keeps the subtitle files the user put in the translation queue and the improved subtitles the user chose to keep; counts translated videos locally to decide when to ask once for a rating; stores the chosen interface language and second subtitle language; keeps an unsent draft of the "Write to me" form; and keeps the AI translator's short who-is-who notes for a subtitle file in session storage until the browser closes. Nothing of this leaves the device (a "Write to me" message is sent only when the user presses Send).
 - **unlimitedStorage:** The translation queue and the "Saved subtitles" list keep whole subtitle files (a season of episodes, each with its original and translated lines) in the extension's local storage. Without this permission Chrome's 10 MB limit for extension storage would make adding to the queue or saving fail. Everything stays on the user's device, and the user can delete each file or choose how long improved subtitles are kept.
 - **scripting:** Asks each frame of the current tab which videos it contains, so the user can pick the video the subtitles belong to.
 - **webRequest:** Observes (never blocks or changes) network requests in the current tab to notice subtitle files (.vtt, .srt, .m3u8 subtitle playlists) the page loads, so the user can display, translate or save them.
 - **declarativeNetRequestWithHostAccess:** Used only when the user chooses a local model as the translator: one rule removes the Origin header from the extension's own requests to the local model server address the user entered (by default Ollama on localhost), because Ollama refuses requests that carry a browser extension's Origin. Requests made by websites are never changed.
-- **Host permission (all sites):** Videos with subtitles can be on any website, so the overlay must be able to run on any page and hide the site's own subtitles while it shows its own, and subtitle files the page loaded must be readable from their original address. On youtube.com a small script copies the caption file YouTube's own player downloads, because YouTube does not allow downloading it a second time. The extension also sends subtitle text to the translator the user picked (Google Translate, the Gemini, Claude or OpenAI API, or the user's own local model server, whose address can be any host).
+- **Host permission (all sites):** Videos with subtitles can be on any website, so the overlay must be able to run on any page and hide the site's own subtitles while it shows its own, and subtitle files the page loaded must be readable from their original address. On youtube.com a small script copies the caption file YouTube's own player downloads, because YouTube does not allow downloading it a second time. On netflix.com a small script likewise copies the TTML subtitle file the player receives; video data passes through untouched and is never read beyond its first bytes, saved or sent anywhere. The extension also sends subtitle text to the translator the user picked (Google Translate, the Gemini, Claude or OpenAI API, or the user's own local model server, whose address can be any host).
 
 **Remote code:** No, I am not using remote code. (Google Fonts font files are downloaded as data, and translations come back as plain text, not code.)
 
-**Data usage:** tick **Website content** (subtitle text is sent to Google Translate when the user translates, and to Gemini, Claude, OpenAI or a local model only when the user clicks Improve). Then tick all three certifications (no selling data, no unrelated use, no creditworthiness use).
+**Data usage:** tick **Website content** (subtitle text is sent to Google Translate when subtitles are translated, and to Gemini, Claude, OpenAI or a local model only when the user clicks Improve), **Personal communications** (the message the user writes in "Write to me") and **Personally identifiable information** (the optional reply email in that form). Then tick all three certifications (no selling data, no unrelated use, no creditworthiness use).
 
 Poznámka k Data usage (nejsem si jistý): API klíč, který si uživatel zadá pro Gemini, Claude nebo OpenAI, se posílá jen té službě, aby se u ní přihlásil. Ty ho nikdy nedostaneš, ale obchod by ho mohl brát jako **Authentication information**. Doporučuju to zaškrtnout taky (můj odhad, ne ověřené pravidlo): přiznat víc je bezpečnější než vynechat něco, co obchod za data považuje. Na stránce v obchodě pak bude u rozšíření vidět, že pracuje s přihlašovacími údaji.
 

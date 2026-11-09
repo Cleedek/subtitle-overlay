@@ -1,0 +1,105 @@
+Manood ng kahit anong video sa web na may subtitles sa sarili mong wika.
+
+Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit anong website, pati sa fullscreen, at pinapanatili itong naka-sync sa video: gumagana lang nang maayos ang pause, pag-seek at playback speed. Gamitin ang subtitles na mayroon na ang site, isinalin sa wika mo, o gamitin ang sarili mong .srt o .vtt file.
+
+★ ANG MGA TAMPOK
+★ Kahit anong site, kahit anong video: subtitles sa ibabaw ng player, sa window man o fullscreen, laging naka-sync
+★ Isalin sa 31 wika sa isang click, o kusang-kusa agad pagka-on mo ng subtitles sa player ng site
+★ BAGO: gawing natural ang salin gamit ang AI, libre sa sarili mong computer (Gemma) o gamit ang sarili mong Gemini, Claude o OpenAI key
+★ BAGO: pila ng pagsasalin para sa buong season, at naka-save na pinahusay na subtitles para sa susunod
+★ Dalawang wika nang sabay: isa sa itaas, isa sa ibaba, para sa sabayang panonood o pag-aaral ng wika
+★ Hinahanap ang subtitles na nilo-load ng page, kasama ang YouTube, kaya bihira kang mangailangan ng file
+★ Ang istilo mo: 1,800+ Google Fonts, outline, anino, background box, laki at posisyon
+★ Libre at open source: walang ads, walang account, walang tracking, at pampubliko ang bawat linya ng code
+
+━━━━━━━━━━━━━━━━━━━━
+
+ISALIN SA 31 WIKA
+• Isang click lang, isinasalin na ang na-load na subtitles gamit ang Google Translate, mismo sa extension
+• Opsyonal: i-click ang Pahusayin at isusulat muli ng AI (Gemma sa computer mo, o Gemini, Claude o OpenAI) ang mabilis na bersyon ng Google para maging natural ito (higit pa sa ibaba). Itapat ang mouse sa video para makita kung gaano na kalayo ang natapos
+• Piliin ang wika mo nang isang beses; mananatili itong paborito mo para sa bawat Isalin na button
+• Awtomatikong mode: i-on ang subtitles sa player ng site at lalabas ang mga ito sa ibabaw ng video na naisalin na, na may maikling paalalang "Naisalin sa …" sa halip na pop-up. Naka-on ito sa mga bagong install at isinasalin sa wika ng browser mo
+• Itinatago ang sariling subtitles ng site, kaya hindi ka magbabasa ng dalawang set nang sabay
+• Bumalik sa orihinal kahit kailan, o i-save ang salin bilang .srt file
+• Mga wika: Vietnamese, Czech, Ingles, Slovak, Aleman, Pranses, Espanyol, Italyano, Portuges, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Tsino (Pinasimple at Tradisyonal), Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Arabe
+
+GAWING NATURAL ANG SALIN (OPSYONAL)
+Mabilis ang Google Translate, pero linya kada linya at salita kada salita ito kung magsalin. I-click ang Pahusayin at isusulat muli ng isang AI model ang subtitles nang isinasaalang-alang ang buong eksena, simula sa bahaging pinapanood mo.
+• Libre: ang Gemma, ang open model ng Google, ay tumatakbo sa sarili mong computer gamit ang Ollama o LM Studio, kaya nananatili sa computer mo ang hakbang ng AI. Kailangan mo ng medyo malakas na computer at mga 8 GB na disk space.
+• I-set up sa 3 hakbang: i-install ang Ollama mula sa ollama.com, i-download ang Gemma gamit ang isang command, saka piliin ang Lokal sa popup. Ang command at ang model na inirerekomenda namin ngayon (sa Ingles): cleedek.com/subtitle-overlay/ai
+• O gamitin ang sarili mong API key: Gemini (may libreng tier), Claude o OpenAI (may bayad).
+• Bago magsimula, mabilis nitong binabasa ang buong file at itinatala kung sino ang sino, kaya pareho ang kasarian, paraan ng pagtawag at mga pangalan mula unang linya hanggang huli.
+• Hindi ito kailanman kusang nagsisimula: walang tumatakbo at walang nagagastos hangga't hindi ka nagki-click.
+
+DALAWANG WIKA NANG SABAY
+• I-on ang pangalawang subtitles sa kahit anong wika: Ingles sa itaas para sa iyo, Vietnamese sa ibaba para sa partner mo
+• O panatilihin ang orihinal katabi ng salin, na magandang paraan para matuto
+• May sariling layo mula sa gilid ang bawat set
+• Isang maliit na panel sa ibabaw ng video ang nag-o-on o nag-o-off sa bawat wika, katabi ng watawat nito; lilipat ang isa pa sa karaniwang puwesto
+
+HINAHANAP ANG SUBTITLES NA NILO-LOAD NG SITE
+• Kapag nag-load ang page ng subtitles (VTT files o streaming subtitle playlists), iaalok ang mga ito ng isang maliit na card, kasama ang pamagat ng pelikula o episode kapag ibinibigay ito ng page
+• YouTube: i-on ang CC at basahin ang captions sa wika mo; ang sariling CC button ng YouTube ang nag-o-on at nag-o-off sa mga ito, at umaangat ang mga linya kapag lumalabas ang controls ng player
+• Ipakita, isalin o i-save bilang .srt sa isang click
+• Maraming video sa isang page? Piliin kung saang video kabilang ang subtitles
+
+PILA NG PAGSASALIN AT NAKA-SAVE NA SUBTITLES
+• Maglagay ng ilang .srt o .vtt file, o i-click ang "Idagdag sa pila" sa subtitles na nilo-load ng site. Isa-isa itong isasalin habang may ginagawa kang iba; puwedeng manatili sa background ang tab ng pila
+• Gumagana sa Google, Gemini, Claude, OpenAI o sa local model mo
+• Itinatabi ang pinahusay na subtitles sa extension hangga't gusto mo, at bumabalik ang mga ito kapag binalikan mo ang video
+• Binubuksan ng "I-play" ang video kasama ang subtitles nito; sine-save naman ng "I-download ang .srt" ang file
+
+IAYOS ANG ISTILO AYON SA GUSTO MO
+• 1,800+ Google Fonts, sinala sa mga may letra ng wika mo (č ř ž, ư ế ộ, Cyrillic, Greek, Japanese at iba pa)
+• Laki, kapal, kulay, outline (may sariling opacity), drop shadow, background box (may opsyonal na blur sa likod) at lapad ng linya
+• Sa ibaba, sa gitna o sa itaas ng video
+• Presets (Malinis, May kahon, Mataas na contrast) at ang sarili mong naka-save na itsura
+• Lumalaki at lumiliit ang teksto kasabay ng player, may live preview sa popup
+• Maayos na popup na may tatlong tab: Subtitles, Estilo at Gawi, sa madilim o maliwanag na itsura (o sumusunod sa system mo)
+• Itinatago ang mga label ng tunog gaya ng [Musika] at ang mga marka ng nagsasalita na >> (isang switch lang para ibalik ang mga ito)
+
+AYUSIN ANG TIMING
+• Iusog ang subtitles nang mas maaga o mas huli nang tig-0.1 s o tig-1 s, mula sa popup o sa keyboard
+• Naaalala ang pag-usog para sa bawat page
+
+GINAWA PARA SA PAG-AARAL
+• Hindi mo nasundan ang isang linya? Pinapatugtog itong muli ng Alt + R mula sa simula
+• I-click ang kahit anong linya para kopyahin ito, para sa diksyunaryo o sa notes mo
+
+SARILI MONG FILE
+• Pumili ng .srt o .vtt file, o i-drag ito diretso sa video
+• Sirang mga letra? Awtomatikong pag-detect ng text encoding (pati Japanese, Chinese at Korean na file) na may manual na pagpili
+• Bumabalik ang subtitles mo kapag ni-reload mo ang page o binalikan mo ito mamaya
+
+FULLSCREEN NA HINDI NAWAWALA ANG SUBTITLES
+• Alt + F o ang button sa itaas ng video; F o ang button na "Lumabas sa fullscreen" para lumabas ulit
+• Umiiwas ang subtitles kapag natatakpan sila ng menu o notification ng site
+
+BAWAT SITE
+• I-off ito sa kahit anong site gamit ang isang switch; isang click lang ang layo ng listahan ng mga naka-off na site
+
+KEYBOARD SHORTCUTS
+Alt + [ / ] sync · Alt + Shift + [ / ] sync nang tig-1 s · Alt + 0 i-reset ang sync · Alt + R ulitin ang linya · Alt + S ipakita o itago · Alt + 1 / Alt + 2 ipakita o itago ang isang wika lang · Alt + ↑ / ↓ ilipat · Alt + F fullscreen na may subtitles
+Puwedeng baguhin o i-off ang bawat shortcut sa tab na Gawi.
+
+INTERFACE SA 31 WIKA
+Ingles, Czech, Slovak, Aleman, Pranses, Espanyol, Vietnamese, Pinasimpleng Tsino, Tradisyonal na Tsino, Italyano, Portuges, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi at Arabe (mula kanan pakaliwa). Sinusunod nito ang browser mo, o pumili ng wika sa ibaba ng popup.
+
+PARA SA MGA MAHILIG MAGKALIKOT
+Isang tab na "Subtitles" sa DevTools ang naglilista ng bawat subtitle file na na-load ng page at sine-save ito bilang .vtt o .srt.
+
+PRIVACY
+Walang account, walang analytics, walang tracking. Ipinapadala lang ang teksto ng subtitles sa Google Translate kapag isinasalin ang subtitles (sa click mo o sa awtomatikong mode), at sa Gemini, Claude, OpenAI o sa local model mo kapag nag-click ka lang ng Pahusayin. Nananatili sa browser mo ang mga naaalala at naka-save na subtitles. Kung susulatan mo ako gamit ang "Sumulat sa akin" sa popup, darating sa akin ang mensahe mo sa email. Mga detalye sa privacy policy.
+
+PROBLEMA O IDEYA?
+I-click ang "Problema o ideya?" sa ibaba ng popup at sumulat sa akin. Binabasa ko ang bawat mensahe.
+
+OPEN SOURCE
+Open source ang buong extension (GPL-3.0), kaya puwedeng tingnan ng kahit sino kung ano mismo ang ginagawa nito: github.com/Cleedek/subtitle-overlay. Kung nagustuhan mo ito, nakakatulong ang star sa GitHub para mahanap ito ng iba.
+
+SUPORTAHAN ANG GUMAWA
+Libre ang Subtitle Overlay at mananatiling libre ang bawat feature. Kung napapaganda nito ang mga gabi mo, may page na "Suportahan ang gumawa" sa popup na may Revolut, PayPal, Solana at Sui. Ganap na opsyonal, at salamat!
+
+Ginawa nang may 💜 ni Cleedek sa Vietnam.
+
+Ang mga screenshot ay nagpapakita ng mga eksena mula sa Tears of Steel, © Blender Foundation, mango.blender.org, lisensyado sa ilalim ng CC BY 3.0.

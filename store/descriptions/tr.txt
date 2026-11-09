@@ -1,0 +1,105 @@
+Herhangi bir web videosunu kendi dilinde altyazıyla izle.
+
+Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, tam ekranda bile gösterir ve videoyla senkronize tutar: duraklatma, ileri geri sarma ve oynatma hızı sorunsuz çalışır. Sitenin zaten sunduğu altyazıları kendi diline çevrilmiş olarak kullan ya da kendi .srt veya .vtt dosyanı getir.
+
+★ ÖNE ÇIKANLAR
+★ Her site, her video: oynatıcının üzerinde altyazı, pencerede veya tam ekranda, her zaman senkronize
+★ Tek tıkla 31 dile çeviri ya da sitenin oynatıcısında altyazıyı açtığın anda tamamen otomatik
+★ YENİ: yapay zekâ ile çeviri doğal dursun, kendi bilgisayarında ücretsiz (Gemma) ya da kendi Gemini, Claude veya OpenAI anahtarınla
+★ YENİ: bütün bir sezon için çeviri kuyruğu ve bir dahaki sefere saklanan iyileştirilmiş altyazılar
+★ Aynı anda iki dil: biri üstte, biri altta; birlikte izlemek ya da dil öğrenmek için
+★ Sayfanın yüklediği altyazıları bulur, YouTube dahil; yani çoğu zaman dosyaya hiç gerek kalmaz
+★ Senin tarzın: 1.800+ Google Fonts yazı tipi, kontur, gölge, arka plan kutusu, boyut ve konum
+★ Ücretsiz ve açık kaynak: reklam yok, hesap yok, takip yok; kodun her satırı herkese açık
+
+━━━━━━━━━━━━━━━━━━━━
+
+31 DİLE ÇEVİRİ
+• Tek tıkla yüklenen altyazıları Google Translate ile, doğrudan uzantının içinde çevir
+• İsteğe bağlı: İyileştir'e tıkla, yapay zekâ (bilgisayarındaki Gemma ya da Gemini, Claude veya OpenAI) Google'ın hızlı çevirisini doğal duyulacak şekilde yeniden yazsın (ayrıntılar aşağıda). Ne kadar ilerlediğini görmek için fareyi videonun üzerine getir
+• Dilini bir kez seç; her Çevir düğmesi için favorin olarak kalır
+• Otomatik mod: sitenin oynatıcısında altyazıyı aç, altyazılar videonun üzerinde zaten çevrilmiş olarak görünsün; açılır pencere yerine kısa bir "Çevrildi: …" notu çıkar. Yeni kurulumlarda açık gelir ve tarayıcının diline çevirir
+• Sitenin kendi altyazıları gizlenir, böylece asla iki altyazıyı birden okumazsın
+• İstediğin an orijinale dön ya da çeviriyi .srt dosyası olarak kaydet
+• Diller: Vietnamca, Çekçe, İngilizce, Slovakça, Almanca, Fransızca, İspanyolca, İtalyanca, Portekizce, Lehçe, Macarca, Ukraynaca, Felemenkçe, İsveççe, Danca, Norveççe, Fince, Yunanca, Türkçe, Rumence, Hırvatça, Çince (Basitleştirilmiş ve Geleneksel), Japonca, Korece, Tayca, Endonezce, Malayca, Filipince, Hintçe, Arapça
+
+YAPAY ZEKÂ İLE DOĞAL ÇEVİRİ (İSTEĞE BAĞLI)
+Google Translate hızlıdır ama satır satır, kelime kelime çevirir. İyileştir'e tıkla; bir yapay zekâ modeli altyazıları tüm sahneyi göz önünde bulundurarak, izlediğin yerden başlayıp yeniden yazsın.
+• Ücretsiz: Google'ın açık modeli Gemma, Ollama veya LM Studio ile kendi bilgisayarında çalışır; böylece yapay zekâ adımı bilgisayarından dışarı çıkmaz. Oldukça güçlü bir bilgisayara ve yaklaşık 8 GB disk alanına ihtiyacın var.
+• 3 adımda kurulum: ollama.com'dan Ollama'yı kur, tek bir komutla Gemma'yı indir, sonra uzantı penceresinde Yerel'i seç. Komut ve şu an önerdiğimiz model (sayfa İngilizce): cleedek.com/subtitle-overlay/ai
+• Ya da kendi API anahtarını kullan: Gemini (ücretsiz katmanı var), Claude veya OpenAI (ücretli).
+• Başlamadan önce tüm dosyaya göz atar ve kimin kim olduğunu not eder; böylece cinsiyet, hitap şekli ve isimler ilk satırdan son satıra kadar tutarlı kalır.
+• Asla kendiliğinden başlamaz: sen tıklamadan hiçbir şey çalışmaz, hiçbir ücret harcanmaz.
+
+AYNI ANDA İKİ DİL
+• Herhangi bir dilde ikinci altyazıyı aç: üstte senin için İngilizce, altta partnerin için Türkçe
+• Ya da orijinali çevirinin yanında tut; dil öğrenmek için harika
+• Her altyazının kenardan kendi mesafesi var
+• Videonun üzerindeki küçük bir panel, her dili bayrağının yanından açıp kapatır; diğeri her zamanki yerine geçer
+
+SİTENİN YÜKLEDİĞİ ALTYAZILARI BULUR
+• Bir sayfa altyazı yüklediğinde (VTT dosyaları veya akış altyazı oynatma listeleri) küçük bir kart bunları sunar; sayfa paylaşıyorsa film ya da bölüm adıyla birlikte
+• YouTube: CC'yi aç ve altyazıları kendi dilinde oku; YouTube'un kendi CC düğmesi onları açıp kapatır ve oynatıcı kontrolleri göründüğünde satırlar yukarı kayar
+• Tek tıkla göster, çevir veya .srt olarak kaydet
+• Bir sayfada birden fazla video mu var? Altyazıların hangisine ait olduğunu seç
+
+ÇEVİRİ KUYRUĞU VE KAYDEDİLEN ALTYAZILAR
+• Birkaç .srt veya .vtt dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
+• Google, Gemini, Claude, OpenAI veya yerel modelinle çalışır
+• İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir
+• Oynat, videoyu altyazılarıyla açar; İndir, .srt dosyasını kaydeder
+
+ALTYAZILARI KENDİ TARZINDA BİÇİMLENDİR
+• 1.800+ Google Fonts yazı tipi, yalnızca senin dilinin harflerini içerenler gösterilir (č ř ž, ư ế ộ, Kiril, Yunan, Japon harfleri ve daha fazlası)
+• Boyut, kalınlık, renk, kontur (kendi opaklığıyla), gölge, arka plan kutusu (isteğe bağlı arka plan bulanıklığıyla) ve satır genişliği
+• Videonun altında, ortasında veya üstünde
+• Hazır ayarlar (Sade, Kutulu, Yüksek kontrast) ve kendi kaydettiğin görünümler
+• Metin oynatıcıyla birlikte ölçeklenir, uzantı penceresinde canlı önizlemeyle
+• Üç sekmeli derli toplu bir pencere: Altyazılar, Stil ve Davranış; koyu veya açık görünümde (ya da sistemine uyar)
+• [Müzik] gibi ses etiketlerini ve >> konuşmacı işaretlerini gizler (tek bir anahtar onları geri getirir)
+
+ZAMANLAMAYI DÜZELT
+• Altyazıları 0,1 sn veya 1 sn adımlarla öne ya da geriye al; uzantı penceresinden veya klavyeden
+• Kaydırma, sayfayla birlikte hatırlanır
+
+DİL ÖĞRENMEK İÇİN TASARLANDI
+• Bir satırı mı kaçırdın? Alt + R onu baştan tekrar oynatır
+• Herhangi bir satırı kopyalamak için üzerine tıkla; sözlük ya da notların için
+
+KENDİ DOSYAN
+• Bir .srt veya .vtt dosyası seç ya da doğrudan videonun üzerine sürükle
+• Harfler bozuk mu? Otomatik metin kodlaması algılama (Japonca, Çince ve Korece dosyalar dahil), elle seçme imkânıyla
+• Sayfayı yenilediğinde ya da daha sonra geri döndüğünde altyazıların geri gelir
+
+ALTYAZILARI KORUYAN TAM EKRAN
+• Alt + F ya da videonun üstündeki düğme; F tuşu ya da "Tam ekrandan çık" düğmesiyle yeniden çıkarsın
+• Bir site menüsü ya da bildirimi altyazıları kapattığında altyazılar kenara çekilir
+
+SİTE SİTE
+• Tek bir anahtarla herhangi bir sitede kapat; kapatılan sitelerin listesi bir tık uzağında
+
+KLAVYE KISAYOLLARI
+Alt + [ / ] senkron · Alt + Shift + [ / ] 1 sn senkron · Alt + 0 senkronu sıfırla · Alt + R satırı tekrarla · Alt + S göster veya gizle · Alt + 1 / Alt + 2 yalnızca bir dili göster veya gizle · Alt + ↑ / ↓ taşı · Alt + F altyazılı tam ekran
+Her kısayol Davranış sekmesinde değiştirilebilir veya kapatılabilir.
+
+31 DİLDE ARAYÜZ
+İngilizce, Çekçe, Slovakça, Almanca, Fransızca, İspanyolca, Vietnamca, Basitleştirilmiş Çince, Geleneksel Çince, İtalyanca, Portekizce, Lehçe, Ukraynaca, Macarca, Felemenkçe, İsveççe, Danca, Norveççe, Fince, Yunanca, Türkçe, Rumence, Hırvatça, Japonca, Korece, Tayca, Endonezce, Malayca, Filipince, Hintçe ve Arapça (sağdan sola). Tarayıcının dilini izler ya da uzantı penceresinin altından bir dil seçebilirsin.
+
+MERAKLISINA
+DevTools'taki "Subtitles" sekmesi, sayfanın yüklediği her altyazı dosyasını listeler ve .vtt veya .srt olarak kaydeder.
+
+GİZLİLİK
+Hesap yok, analiz yok, takip yok. Altyazı metni yalnızca altyazılar çevrildiğinde (senin tıklamanla ya da otomatik modda) Google Translate'e, yalnızca İyileştir'e tıkladığında da Gemini, Claude, OpenAI veya yerel modeline gönderilir. Hatırlanan ve kaydedilen altyazılar tarayıcında kalır. Uzantı penceresindeki "Bana yaz" ile bana yazarsan mesajın bana e-postayla ulaşır. Ayrıntılar gizlilik politikasında.
+
+SORUN MU, FİKİR Mİ?
+Uzantı penceresinin altındaki "Sorun mu, fikir mi?" bağlantısına tıkla ve bana yaz. Her mesajı okurum.
+
+AÇIK KAYNAK
+Uzantının tamamı açık kaynaktır (GPL-3.0), yani herkes tam olarak ne yaptığını kontrol edebilir: github.com/Cleedek/subtitle-overlay. Beğendiysen GitHub'da vereceğin bir yıldız, başkalarının da onu bulmasına yardımcı olur.
+
+YAPIMCIYI DESTEKLE
+Subtitle Overlay ücretsizdir ve tüm özellikleri ücretsiz kalacak. Akşamlarını güzelleştiriyorsa uzantı penceresinde Revolut, PayPal, Solana ve Sui seçenekleriyle bir "Yapımcıyı destekle" sayfası var. Tamamen isteğe bağlı, ve teşekkürler!
+
+Vietnam'da Cleedek tarafından 💜 ile yapıldı.
+
+Ekran görüntülerinde Tears of Steel filminden kareler yer alır, © Blender Foundation, mango.blender.org, CC BY 3.0 lisanslı.

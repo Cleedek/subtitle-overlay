@@ -18,7 +18,7 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 • Ein Klick übersetzt die geladenen Untertitel mit Google Translate, direkt in der Erweiterung
 • Optional: Klicke auf Verbessern, und KI (Gemma auf deinem Rechner, oder Gemini, Claude oder OpenAI) schreibt Googles schnelle Version neu, damit sie natürlich klingt (mehr dazu unten). Fahr mit der Maus über das Video, um zu sehen, wie weit sie schon ist
 • Wähl deine Sprache einmal aus; sie bleibt dein Favorit für jeden Übersetzen-Button
-• Automatischer Modus: Schalte die Untertitel im Player der Seite ein, und sie erscheinen schon übersetzt über dem Video, mit einem kurzen Hinweis "Auf … übersetzt" statt eines Pop-ups
+• Automatischer Modus: Schalte die Untertitel im Player der Seite ein, und sie erscheinen schon übersetzt über dem Video, mit einem kurzen Hinweis "Auf … übersetzt" statt eines Pop-ups. Bei neuen Installationen ist er eingeschaltet und übersetzt in die Sprache deines Browsers
 • Die eigenen Untertitel der Seite werden ausgeblendet, damit du nie zwei auf einmal liest
 • Wechsle jederzeit zurück zum Original, oder speichere die Übersetzung als .srt-Datei
 • Sprachen: Vietnamesisch, Tschechisch, Englisch, Slowakisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch, Polnisch, Ungarisch, Ukrainisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Chinesisch (vereinfacht und traditionell), Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Arabisch
@@ -28,6 +28,7 @@ Google Translate ist schnell, geht aber Zeile für Zeile vor, Wort für Wort. Kl
 • Kostenlos: Gemma, das offene Modell von Google, läuft mit Ollama oder LM Studio auf deinem eigenen Rechner, also bleibt der KI-Schritt auf deinem Rechner. Du brauchst einen recht leistungsstarken Rechner und etwa 8 GB Speicherplatz.
 • Einrichtung in 3 Schritten: Installiere Ollama von ollama.com, lade Gemma mit einem Befehl herunter und wähle dann im Popup Lokal. Der Befehl und das Modell, das wir gerade empfehlen (auf Englisch): cleedek.com/subtitle-overlay/ai
 • Oder nutze deinen eigenen API-Schlüssel: Gemini (mit kostenlosem Kontingent), Claude oder OpenAI (kostenpflichtig).
+• Bevor es losgeht, überfliegt es die ganze Datei und notiert, wer wer ist, damit Geschlecht, Anrede und Namen von der ersten bis zur letzten Zeile gleich bleiben.
 • Es startet nie von selbst: Ohne deinen Klick läuft nichts und es entstehen keine Kosten.
 
 ZWEI SPRACHEN GLEICHZEITIG
@@ -71,7 +72,7 @@ DEINE EIGENE DATEI
 • Deine Untertitel kommen zurück, wenn du die Seite neu lädst oder später wieder aufrufst
 
 VOLLBILD MIT UNTERTITELN
-• Alt + F oder der Button oben am Video; mit F verlässt du es wieder
+• Alt + F oder der Button oben am Video; mit F oder dem Button "Vollbild beenden" verlässt du es wieder
 • Untertitel weichen aus, wenn ein Menü oder eine Benachrichtigung der Seite sie verdeckt
 
 SEITE FÜR SEITE
@@ -81,14 +82,17 @@ TASTENKÜRZEL
 Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt + 0 Sync zurücksetzen · Alt + R Zeile wiederholen · Alt + S ein- oder ausblenden · Alt + 1 / Alt + 2 nur eine Sprache ein- oder ausblenden · Alt + ↑ / ↓ verschieben · Alt + F Vollbild mit Untertiteln
 Jedes Tastenkürzel lässt sich im Tab Verhalten ändern oder abschalten.
 
-OBERFLÄCHE IN 30 SPRACHEN
-Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch, Chinesisch (vereinfacht), Chinesisch (traditionell), Italienisch, Portugiesisch, Polnisch, Ukrainisch, Ungarisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino und Hindi. Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
+OBERFLÄCHE IN 31 SPRACHEN
+Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch, Chinesisch (vereinfacht), Chinesisch (traditionell), Italienisch, Portugiesisch, Polnisch, Ukrainisch, Ungarisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi und Arabisch (von rechts nach links). Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
 
 FÜR TÜFTLER
 Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Seite geladen hat, und speichert sie als .vtt oder .srt.
 
 DATENSCHUTZ
-Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn du übersetzt, und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Gemerkte und gespeicherte Untertitel bleiben in deinem Browser. Details in der Datenschutzerklärung.
+Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn Untertitel übersetzt werden (per Klick oder im automatischen Modus), und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Gemerkte und gespeicherte Untertitel bleiben in deinem Browser. Wenn du mir über "Schreib mir" im Popup schreibst, kommt deine Nachricht per E-Mail bei mir an. Details in der Datenschutzerklärung.
+
+PROBLEM ODER IDEE?
+Klicke unten im Popup auf "Problem oder Idee?" und schreib mir. Ich lese jede Nachricht.
 
 OPEN SOURCE
 Die ganze Erweiterung ist Open Source (GPL-3.0), sodass jeder genau prüfen kann, was sie tut: github.com/Cleedek/subtitle-overlay. Wenn sie dir gefällt, hilft ein Stern auf GitHub anderen, sie zu finden.

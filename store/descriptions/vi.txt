@@ -18,7 +18,7 @@ DỊCH SANG 31 NGÔN NGỮ
 • Chỉ một cú nhấp là phụ đề đã tải được dịch bằng Google Translate, ngay trong tiện ích
 • Tùy chọn: bấm Cải thiện, AI (Gemma trên máy tính của bạn, hoặc Gemini, Claude hay OpenAI) sẽ viết lại bản dịch nhanh của Google cho tự nhiên hơn (xem thêm bên dưới). Di chuột lên video để xem đã làm được tới đâu
 • Chọn ngôn ngữ một lần, ngôn ngữ đó sẽ được dùng cho mọi nút Dịch
-• Chế độ tự động: bật phụ đề trong trình phát của trang, phụ đề sẽ hiện trên video và đã được dịch sẵn, chỉ kèm một dòng nhắc ngắn "Đã dịch sang …" thay vì cửa sổ bật lên
+• Chế độ tự động: bật phụ đề trong trình phát của trang, phụ đề sẽ hiện trên video và đã được dịch sẵn, chỉ kèm một dòng nhắc ngắn "Đã dịch sang …" thay vì cửa sổ bật lên. Khi mới cài, chế độ này đã được bật và dịch sang ngôn ngữ của trình duyệt
 • Phụ đề gốc của trang được ẩn đi, nên bạn không bao giờ phải đọc hai bộ phụ đề cùng lúc
 • Quay lại bản gốc bất cứ lúc nào, hoặc lưu bản dịch thành tệp .srt
 • Ngôn ngữ: tiếng Việt, tiếng Séc, tiếng Anh, tiếng Slovakia, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Ý, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Hungary, tiếng Ukraina, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Trung (giản thể và phồn thể), tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi, tiếng Ả Rập
@@ -28,6 +28,7 @@ Google Translate dịch nhanh, nhưng dịch từng dòng, từng chữ. Bấm C
 • Miễn phí: Gemma, mô hình mở của Google, chạy ngay trên máy tính của bạn qua Ollama hoặc LM Studio, nên bước AI chỉ diễn ra trên máy của bạn. Bạn cần một máy tính khá mạnh và khoảng 8 GB dung lượng ổ đĩa.
 • Cài đặt trong 3 bước: cài Ollama từ ollama.com, tải Gemma bằng một lệnh duy nhất, rồi chọn Cục bộ trong cửa sổ tiện ích. Lệnh và mô hình mà chúng tôi đang khuyên dùng: cleedek.com/subtitle-overlay/ai
 • Hoặc dùng khóa API của riêng bạn: Gemini (có gói miễn phí), Claude hoặc OpenAI (trả phí).
+• Trước khi bắt đầu, nó đọc lướt cả tệp và ghi chú ai là ai, để giới tính, cách xưng hô và tên riêng thống nhất từ dòng đầu tới dòng cuối.
 • Không bao giờ tự chạy: nếu bạn không bấm thì không có gì chạy và không tốn đồng nào.
 
 HAI NGÔN NGỮ CÙNG LÚC
@@ -71,7 +72,7 @@ TỆP CỦA RIÊNG BẠN
 • Phụ đề của bạn vẫn còn khi bạn tải lại trang hoặc quay lại trang đó sau này
 
 TOÀN MÀN HÌNH VẪN GIỮ PHỤ ĐỀ
-• Alt + F hoặc nút ở phía trên video; nhấn F để thoát
+• Alt + F hoặc nút ở phía trên video; nhấn F hoặc nút "Thoát toàn màn hình" để thoát
 • Phụ đề tự né sang một bên khi menu hay thông báo của trang che mất
 
 THEO TỪNG TRANG WEB
@@ -81,14 +82,17 @@ PHÍM TẮT
 Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 giây · Alt + 0 đặt lại đồng bộ · Alt + R phát lại câu · Alt + S hiện hoặc ẩn · Alt + 1 / Alt + 2 hiện hoặc ẩn riêng một ngôn ngữ · Alt + ↑ / ↓ di chuyển · Alt + F toàn màn hình kèm phụ đề
 Mọi phím tắt đều có thể đổi hoặc tắt trong tab Hành vi.
 
-GIAO DIỆN 30 NGÔN NGỮ
-Tiếng Anh, tiếng Séc, tiếng Slovak, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt, tiếng Trung (Giản thể), tiếng Trung (Phồn thể), tiếng Italy, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Ukraina, tiếng Hungary, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino và tiếng Hindi. Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
+GIAO DIỆN 31 NGÔN NGỮ
+Tiếng Anh, tiếng Séc, tiếng Slovak, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt, tiếng Trung (Giản thể), tiếng Trung (Phồn thể), tiếng Italy, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Ukraina, tiếng Hungary, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi và tiếng Ả Rập (từ phải sang trái). Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
 
 DÀNH CHO NGƯỜI THÍCH VỌC VẠCH
 Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã tải và lưu thành .vtt hoặc .srt.
 
 QUYỀN RIÊNG TƯ
-Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi bạn dịch, và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Chi tiết có trong chính sách quyền riêng tư.
+Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi phụ đề được dịch (do bạn bấm hoặc ở chế độ tự động), và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Nếu bạn viết cho tôi qua "Viết cho tôi" trong cửa sổ tiện ích, tin nhắn sẽ tới tôi qua email. Chi tiết có trong chính sách quyền riêng tư.
+
+GẶP LỖI HAY CÓ Ý TƯỞNG?
+Bấm "Sự cố hay ý tưởng?" ở cuối cửa sổ tiện ích và viết cho tôi. Tôi đọc mọi tin nhắn.
 
 MÃ NGUỒN MỞ
 Toàn bộ tiện ích là mã nguồn mở (GPL-3.0), nên ai cũng có thể kiểm tra chính xác nó làm gì: github.com/Cleedek/subtitle-overlay. Nếu bạn thích, một ngôi sao trên GitHub sẽ giúp nhiều người khác tìm thấy nó.

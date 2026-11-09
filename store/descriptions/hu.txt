@@ -1,0 +1,105 @@
+Nézz bármilyen webes videót feliratokkal, a saját nyelveden.
+
+A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a feliratokat, teljes képernyőn is, és szinkronban tartja őket a videóval: a szünet, a tekerés és a lejátszási sebesség gond nélkül működik. Használd az oldal saját feliratait a nyelvedre fordítva, vagy hozd a saját .srt vagy .vtt fájlodat.
+
+★ A LEGFONTOSABBAK
+★ Bármilyen oldal, bármilyen videó: feliratok a lejátszó fölött, ablakban vagy teljes képernyőn, mindig szinkronban
+★ Fordítás 31 nyelvre egy kattintással, vagy teljesen automatikusan, amint bekapcsolod a feliratot az oldal lejátszójában
+★ ÚJ: MI-vel természetes hangzású fordítás, ingyen a saját gépeden (Gemma), vagy a saját Gemini, Claude vagy OpenAI kulcsoddal
+★ ÚJ: fordítási várólista egy egész évadhoz, és a javított feliratok elmentve legközelebbre
+★ Két nyelv egyszerre: az egyik felül, a másik alul, közös nézéshez vagy nyelvtanuláshoz
+★ Megtalálja az oldal által betöltött feliratokat, a YouTube-on is, így ritkán van szükséged fájlra
+★ A te stílusod: több mint 1800 Google Fonts betűtípus, körvonal, árnyék, háttérdoboz, méret és pozíció
+★ Ingyenes és nyílt forráskódú: nincs reklám, nincs fiók, nincs követés, és minden kódsor nyilvános
+
+━━━━━━━━━━━━━━━━━━━━
+
+FORDÍTÁS 31 NYELVRE
+• Egy kattintással lefordítod a betöltött feliratokat a Google Fordítóval, közvetlenül a bővítményben
+• Opcionálisan: kattints a Javítás gombra, és az MI (a gépeden futó Gemma, vagy Gemini, Claude vagy OpenAI) átírja a Google gyors fordítását, hogy természetesen hangozzon (erről lejjebb). Vidd az egeret a videó fölé, és látod, hol tart
+• Egyszer választod ki a nyelvet, és onnantól ez lesz a kedvenced minden Fordítás gombnál
+• Automatikus mód: kapcsold be a feliratot az oldal lejátszójában, és már lefordítva jelenik meg a videón, felugró ablak helyett csak egy rövid "Lefordítva: …" jelzéssel. Új telepítésnél be van kapcsolva, és a böngésződ nyelvére fordít
+• Az oldal saját feliratai elrejtődnek, így sosem olvasol két feliratot egyszerre
+• Bármikor visszaválthatsz az eredetire, vagy elmentheted a fordítást .srt fájlként
+• Nyelvek: vietnámi, cseh, angol, szlovák, német, francia, spanyol, olasz, portugál, lengyel, magyar, ukrán, holland, svéd, dán, norvég, finn, görög, török, román, horvát, kínai (egyszerűsített és hagyományos), japán, koreai, thai, indonéz, maláj, filippínó, hindi, arab
+
+TERMÉSZETES FORDÍTÁS (OPCIONÁLIS)
+A Google Fordító gyors, de sorról sorra, szóról szóra halad. Kattints a Javítás gombra, és egy MI-modell az egész jelenetet figyelembe véve írja át a feliratokat, onnan kezdve, ahol éppen tartasz.
+• Ingyen: a Gemma, a Google nyílt modellje, a saját gépeden fut az Ollama vagy az LM Studio segítségével, így az MI-lépés a gépeden marad. Elég erős számítógép és körülbelül 8 GB szabad lemezterület kell hozzá.
+• Beállítás 3 lépésben: telepítsd az Ollama programot az ollama.com oldalról, egyetlen paranccsal töltsd le a Gemma modellt, majd válaszd a Helyi lehetőséget a felugró ablakban. A parancs és az általunk most ajánlott modell (angol nyelvű oldal): cleedek.com/subtitle-overlay/ai
+• Vagy használd a saját API-kulcsodat: Gemini (van ingyenes szintje), Claude vagy OpenAI (fizetős).
+• Mielőtt nekilát, átfutja az egész fájlt, és feljegyzi, ki kicsoda, így a nemek, a megszólítások és a nevek az első sortól az utolsóig egységesek maradnak.
+• Magától sosem indul el: a kattintásod nélkül semmi sem fut, és semmibe sem kerül.
+
+KÉT NYELV EGYSZERRE
+• Kapcsolj be egy második feliratot bármilyen nyelven: felül angolul neked, alul vietnámiul a párodnak
+• Vagy hagyd az eredetit a fordítás mellett, ami nyelvtanuláshoz nagyszerű
+• Mindkét feliratnak saját távolsága van a képernyő szélétől
+• A videó fölötti kis panelen a zászlaja melletti kapcsolóval bármelyik nyelvet be- vagy kikapcsolhatod; a másik a szokásos helyére kerül
+
+MEGTALÁLJA AZ OLDAL FELIRATAIT
+• Amikor egy oldal feliratot tölt be (VTT fájlokat vagy streamelt feliratlistákat), egy kis kártya felajánlja őket, a film vagy az epizód címével együtt, ha az oldal megadja
+• YouTube: kapcsold be a CC-t, és olvasd a feliratokat a saját nyelveden; a YouTube saját CC gombja ki- és bekapcsolja őket, és a sorok feljebb csúsznak, amikor megjelennek a lejátszó vezérlői
+• Megjelenítés, fordítás vagy mentés .srt formátumban egy kattintással
+• Több videó egy oldalon? Kiválaszthatod, melyikhez tartoznak a feliratok
+
+FORDÍTÁSI VÁRÓLISTA ÉS MENTETT FELIRATOK
+• Húzz be több .srt vagy .vtt fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
+• Működik a Google, a Gemini, a Claude, az OpenAI vagy a saját helyi modelled segítségével
+• A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót
+• A Lejátszás gomb megnyitja a videót a feliratokkal; az ".srt letöltése" gomb elmenti a fájlt
+
+STÍLUS ÍZLÉSED SZERINT
+• Több mint 1800 Google Fonts betűtípus, csak azok, amelyekben megvannak a nyelved betűi (č ř ž, ư ế ộ, cirill, görög, japán és még sok más)
+• Méret, vastagság, szín, körvonal (saját átlátszósággal), vetett árnyék, háttérdoboz (mögötte opcionális elmosással) és sorszélesség
+• A videó alján, közepén vagy tetején
+• Előbeállítások (Tiszta, Dobozos, Nagy kontraszt), plusz a saját mentett megjelenéseid
+• A szöveg a lejátszóval együtt méreteződik, élő előnézettel a felugró ablakban
+• Áttekinthető felugró ablak három lappal: Feliratok, Stílus és Viselkedés, sötét vagy világos megjelenéssel (vagy a rendszert követve)
+• Elrejti a hangeffektusok jelzéseit, például a [Zene] feliratot, és a >> beszélőjeleket (egy kapcsolóval visszahozhatod őket)
+
+IDŐZÍTÉS JAVÍTÁSA
+• Told a feliratokat korábbra vagy későbbre 0,1 vagy 1 másodperces lépésekben, a felugró ablakból vagy a billentyűzettel
+• Az eltolást az oldalhoz megjegyzi
+
+NYELVTANULÁSHOZ
+• Lemaradtál egy mondatról? Az Alt + R az elejétől újra lejátssza
+• Kattints bármelyik sorra a másoláshoz, szótárhoz vagy a jegyzeteidhez
+
+SAJÁT FÁJL
+• Válassz egy .srt vagy .vtt fájlt, vagy húzd közvetlenül a videóra
+• Olvashatatlan karakterek? Automatikus karakterkódolás-felismerés (japán, kínai és koreai fájlokhoz is), kézi felülbírálási lehetőséggel
+• A feliratok visszatérnek, ha újratöltöd az oldalt, vagy később visszatérsz rá
+
+TELJES KÉPERNYŐ FELIRATOKKAL
+• Alt + F vagy a gomb a videó tetején; az F billentyűvel vagy a "Kilépés a teljes képernyőből" gombbal léphetsz ki
+• A feliratok félrehúzódnak, ha az oldal menüje vagy értesítése eltakarná őket
+
+OLDALANKÉNT
+• Egyetlen kapcsolóval kikapcsolhatod bármelyik oldalon; a kikapcsolt oldalak listája egy kattintásnyira van
+
+BILLENTYŰPARANCSOK
+Alt + [ / ] szinkron · Alt + Shift + [ / ] szinkron 1 mp-cel · Alt + 0 szinkron visszaállítása · Alt + R a sor ismétlése · Alt + S megjelenítés vagy elrejtés · Alt + 1 / Alt + 2 csak az egyik nyelv megjelenítése vagy elrejtése · Alt + ↑ / ↓ mozgatás · Alt + F teljes képernyő feliratokkal
+Minden billentyűparancs módosítható vagy kikapcsolható a Viselkedés lapon.
+
+FELÜLET 31 NYELVEN
+Angol, cseh, szlovák, német, francia, spanyol, vietnámi, egyszerűsített kínai, hagyományos kínai, olasz, portugál, lengyel, ukrán, magyar, holland, svéd, dán, norvég, finn, görög, török, román, horvát, japán, koreai, thai, indonéz, maláj, filippínó, hindi és arab (jobbról balra). A böngésződ nyelvét követi, vagy választhatsz egyet a felugró ablak alján.
+
+BÜTYKÖLŐKNEK
+A DevTools "Subtitles" lapja felsorolja az oldal által betöltött összes feliratfájlt, és .vtt vagy .srt formátumban menti őket.
+
+ADATVÉDELEM
+Nincs fiók, nincs analitika, nincs követés. A feliratok szövege csak akkor kerül a Google Fordítóhoz, amikor a feliratok fordítása történik (a kattintásodra vagy automatikus módban), a Gemini, Claude, OpenAI szolgáltatáshoz vagy a helyi modelledhez pedig csak akkor, ha a Javítás gombra kattintasz. A megjegyzett és mentett feliratok a böngésződben maradnak. Ha a felugró ablakban az "Írj nekem" lehetőséggel írsz nekem, az üzeneted e-mailben jut el hozzám. Részletek az adatvédelmi irányelvekben.
+
+HIBA VAGY ÖTLET?
+Kattints a "Hiba vagy ötlet?" lehetőségre a felugró ablak alján, és írj nekem. Minden üzenetet elolvasok.
+
+NYÍLT FORRÁSKÓD
+Az egész bővítmény nyílt forráskódú (GPL-3.0), így bárki ellenőrizheti, pontosan mit csinál: github.com/Cleedek/subtitle-overlay. Ha tetszik, egy csillag a GitHubon segít, hogy mások is rátaláljanak.
+
+A KÉSZÍTŐ TÁMOGATÁSA
+A Subtitle Overlay ingyenes, és minden funkciója ingyenes is marad. Ha szebbé teszi az estéidet, a felugró ablakban találsz egy "A készítő támogatása" oldalt Revolut, PayPal, Solana és Sui lehetőséggel. Teljesen önkéntes, és köszönöm!
+
+💜-vel készítette Cleedek Vietnámban.
+
+A képernyőképeken a Tears of Steel című film képkockái láthatók, © Blender Foundation, mango.blender.org, CC BY 3.0 licenc alatt.

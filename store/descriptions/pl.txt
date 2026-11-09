@@ -1,0 +1,105 @@
+Oglądaj dowolne wideo w sieci z napisami w swoim języku.
+
+Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, także na pełnym ekranie, i utrzymuje je w synchronizacji z filmem: pauza, przewijanie i prędkość odtwarzania po prostu działają. Korzystaj z napisów, które strona już ma, przetłumaczonych na swój język, albo wczytaj własny plik .srt lub .vtt.
+
+★ NAJWAŻNIEJSZE
+★ Dowolna strona, dowolne wideo: napisy nad odtwarzaczem, w oknie i na pełnym ekranie, zawsze zsynchronizowane
+★ Tłumaczenie na 31 języków jednym kliknięciem albo w pełni automatycznie, gdy tylko włączysz napisy w odtwarzaczu strony
+★ NOWOŚĆ: AI sprawia, że tłumaczenie brzmi naturalnie, za darmo na twoim komputerze (Gemma) albo z własnym kluczem Gemini, Claude lub OpenAI
+★ NOWOŚĆ: kolejka tłumaczeń na cały sezon i ulepszone napisy zachowane na następny raz
+★ Dwa języki naraz: jeden u góry, drugi na dole, do wspólnego oglądania albo nauki języka
+★ Znajduje napisy, które wczytuje strona, także na YouTube, więc plik rzadko jest w ogóle potrzebny
+★ Twój styl: ponad 1800 czcionek Google Fonts, obrys, cień, tło, rozmiar i położenie
+★ Za darmo i open source: bez reklam, bez konta, bez śledzenia, a każda linijka kodu jest publiczna
+
+━━━━━━━━━━━━━━━━━━━━
+
+TŁUMACZENIE NA 31 JĘZYKÓW
+• Jedno kliknięcie tłumaczy wczytane napisy przez Google Translate, bezpośrednio w rozszerzeniu
+• Opcjonalnie: kliknij Ulepsz, a AI (Gemma na twoim komputerze albo Gemini, Claude lub OpenAI) przepisze szybką wersję od Google tak, by brzmiała naturalnie (więcej niżej). Najedź myszą na wideo, by zobaczyć, ile już gotowe
+• Wybierasz język raz i zostaje ulubionym dla każdego przycisku Przetłumacz
+• Tryb automatyczny: włącz napisy w odtwarzaczu strony, a pojawią się nad wideo od razu przetłumaczone, z krótką informacją "Przetłumaczono: …" zamiast wyskakującego okna. Po nowej instalacji jest włączony i tłumaczy na język twojej przeglądarki
+• Oryginalne napisy strony są ukrywane, więc nigdy nie czytasz dwóch naraz
+• W każdej chwili wrócisz do oryginału albo zapiszesz tłumaczenie jako plik .srt
+• Języki: wietnamski, czeski, angielski, słowacki, niemiecki, francuski, hiszpański, włoski, portugalski, polski, węgierski, ukraiński, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, chiński (uproszczony i tradycyjny), japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi, arabski
+
+NATURALNE TŁUMACZENIE Z AI (OPCJONALNIE)
+Google Translate jest szybki, ale tłumaczy linijka po linijce, słowo w słowo. Kliknij Ulepsz, a model AI przepisze napisy z myślą o całej scenie, zaczynając od miejsca, które właśnie oglądasz.
+• Za darmo: Gemma, otwarty model Google, działa na twoim komputerze przez Ollamę lub LM Studio, więc etap AI nie opuszcza twojego komputera. Potrzebujesz dość mocnego komputera i około 8 GB miejsca na dysku.
+• Konfiguracja w 3 krokach: zainstaluj Ollamę z ollama.com, pobierz Gemmę jednym poleceniem, a potem wybierz Lokalny w oknie rozszerzenia. Polecenie i model, który teraz polecamy (po angielsku): cleedek.com/subtitle-overlay/ai
+• Albo użyj własnego klucza API: Gemini (ma darmowy pakiet), Claude lub OpenAI (płatne).
+• Zanim zacznie, przegląda cały plik i notuje, kto jest kim, więc rodzaj gramatyczny, formy zwracania się i imiona zgadzają się od pierwszej do ostatniej linijki.
+• Nigdy nie startuje sam: bez twojego kliknięcia nic nie działa i nic nie wydajesz.
+
+DWA JĘZYKI NARAZ
+• Włącz drugie napisy w dowolnym języku: angielski u góry dla ciebie, wietnamski na dole dla partnera lub partnerki
+• Albo zostaw oryginał obok tłumaczenia, co świetnie sprawdza się w nauce
+• Każdy zestaw ma własny odstęp od krawędzi
+• Mały panel nad wideo włącza i wyłącza każdy język obok jego flagi; drugi przesuwa się na zwykłe miejsce
+
+ZNAJDUJE NAPISY, KTÓRE WCZYTUJE STRONA
+• Gdy strona wczytuje napisy (pliki VTT lub strumieniowe playlisty napisów), mała karta ci je proponuje, razem z tytułem filmu lub odcinka, jeśli strona go udostępnia
+• YouTube: włącz CC i czytaj napisy w swoim języku; przycisk CC na YouTube je włącza i wyłącza, a wiersze przesuwają się w górę, gdy pojawiają się przyciski odtwarzacza
+• Pokaż, przetłumacz albo zapisz jako .srt jednym kliknięciem
+• Kilka filmów na jednej stronie? Wybierz, do którego należą napisy
+
+KOLEJKA TŁUMACZEŃ I ZACHOWANE NAPISY
+• Wrzuć kilka plików .srt lub .vtt albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
+• Działa z Google, Gemini, Claude, OpenAI lub twoim lokalnym modelem
+• Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu
+• Odtwórz otwiera wideo z napisami; Pobierz zapisuje plik .srt
+
+STYL PO TWOJEMU
+• Ponad 1800 czcionek Google Fonts, przefiltrowanych do tych, które mają litery twojego języka (č ř ž, ư ế ộ, cyrylica, greka, japoński i inne)
+• Rozmiar, grubość, kolor, obrys (z własną przezroczystością), cień, tło (z opcjonalnym rozmyciem pod spodem) i szerokość wiersza
+• Na dole, na środku albo u góry wideo
+• Gotowe style (Czysty, W ramce, Wysoki kontrast) oraz twoje własne zapisane wyglądy
+• Tekst skaluje się razem z odtwarzaczem, z podglądem na żywo w oknie rozszerzenia
+• Przejrzyste okno z trzema kartami: Napisy, Styl i Zachowanie, w ciemnym lub jasnym wyglądzie (albo zgodnie z systemem)
+• Ukrywa opisy dźwięków, takie jak [Muzyka], i znaczniki mówiącego >> (jeden przełącznik je przywraca)
+
+POPRAW SYNCHRONIZACJĘ
+• Przesuń napisy wcześniej lub później o 0,1 s albo 1 s, w oknie rozszerzenia lub z klawiatury
+• Strona zapamiętuje przesunięcie
+
+STWORZONE DO NAUKI
+• Umknęła ci kwestia? Alt + R odtwarza ją jeszcze raz od początku
+• Kliknij dowolny wiersz, by go skopiować, na przykład do słownika albo notatek
+
+TWÓJ WŁASNY PLIK
+• Wybierz plik .srt lub .vtt albo przeciągnij go prosto na wideo
+• Krzaczki zamiast liter? Automatyczne wykrywanie kodowania (także pliki japońskie, chińskie i koreańskie) z możliwością ręcznego wyboru
+• Twoje napisy wracają, gdy odświeżysz stronę lub wrócisz na nią później
+
+PEŁNY EKRAN, KTÓRY ZACHOWUJE NAPISY
+• Alt + F albo przycisk u góry wideo; klawisz F lub przycisk "Zamknij pełny ekran" znów go opuszcza
+• Napisy usuwają się na bok, gdy zasłoni je menu lub powiadomienie strony
+
+STRONA PO STRONIE
+• Wyłącz rozszerzenie na dowolnej stronie jednym przełącznikiem; lista wyłączonych stron jest o jedno kliknięcie dalej
+
+SKRÓTY KLAWISZOWE
+Alt + [ / ] synchronizacja · Alt + Shift + [ / ] synchronizacja o 1 s · Alt + 0 reset synchronizacji · Alt + R powtórz kwestię · Alt + S pokaż lub ukryj · Alt + 1 / Alt + 2 pokaż lub ukryj tylko jeden język · Alt + ↑ / ↓ przesuń · Alt + F pełny ekran z napisami
+Każdy skrót możesz zmienić lub wyłączyć na karcie Zachowanie.
+
+INTERFEJS W 31 JĘZYKACH
+Angielski, czeski, słowacki, niemiecki, francuski, hiszpański, wietnamski, chiński uproszczony, chiński tradycyjny, włoski, portugalski, polski, ukraiński, węgierski, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi i arabski (od prawej do lewej). Dostosowuje się do przeglądarki, albo wybierz język na dole okna rozszerzenia.
+
+DLA DOCIEKLIWYCH
+Karta "Subtitles" w DevTools pokazuje każdy plik napisów wczytany przez stronę i zapisuje go jako .vtt lub .srt.
+
+PRYWATNOŚĆ
+Bez kont, bez analityki, bez śledzenia. Tekst napisów trafia do Google Translate tylko wtedy, gdy napisy są tłumaczone (twoim kliknięciem lub w trybie automatycznym), a do Gemini, Claude, OpenAI lub twojego lokalnego modelu tylko wtedy, gdy klikniesz Ulepsz. Zapamiętane i zachowane napisy zostają w twojej przeglądarce. Jeśli napiszesz do mnie przez "Napisz do mnie" w oknie rozszerzenia, twoja wiadomość dotrze do mnie e-mailem. Szczegóły w polityce prywatności.
+
+PROBLEM CZY POMYSŁ?
+Kliknij "Problem czy pomysł?" na dole okna rozszerzenia i napisz do mnie. Czytam każdą wiadomość.
+
+OPEN SOURCE
+Całe rozszerzenie jest open source (GPL-3.0), więc każdy może sprawdzić, co dokładnie robi: github.com/Cleedek/subtitle-overlay. Jeśli ci się podoba, gwiazdka na GitHubie pomoże innym je znaleźć.
+
+WESPRZYJ AUTORA
+Subtitle Overlay jest darmowy i każda funkcja pozostanie darmowa. Jeśli umila ci wieczory, w oknie rozszerzenia znajdziesz stronę "Wesprzyj autora" z Revolutem, PayPalem, Solaną i Sui. Całkowicie dobrowolnie, i dziękuję!
+
+Stworzone z 💜 przez Cleedek w Wietnamie.
+
+Zrzuty ekranu pokazują kadry z filmu Tears of Steel, © Blender Foundation, mango.blender.org, licencja CC BY 3.0.

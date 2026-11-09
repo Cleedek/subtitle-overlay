@@ -1,0 +1,105 @@
+Tonton video apa pun di web dengan subtitle dalam bahasamu.
+
+Subtitle Overlay menampilkan subtitle di atas pemutar video situs mana pun, juga dalam layar penuh, dan menjaganya tetap sinkron dengan video: jeda, lompat, dan kecepatan putar langsung berfungsi. Gunakan subtitle yang sudah ada di situs, diterjemahkan ke bahasamu, atau pakai file .srt atau .vtt milikmu sendiri.
+
+★ SOROTAN UTAMA
+★ Situs apa pun, video apa pun: subtitle di atas pemutar, dalam jendela atau layar penuh, selalu sinkron
+★ Terjemahkan ke 31 bahasa dengan sekali klik, atau sepenuhnya otomatis begitu kamu menyalakan subtitle di pemutar situs
+★ BARU: terjemahan terdengar alami berkat AI, gratis di komputermu sendiri (Gemma) atau dengan kunci Gemini, Claude, atau OpenAI milikmu
+★ BARU: antrean terjemahan untuk satu musim penuh, dan subtitle yang disempurnakan tersimpan untuk lain kali
+★ Dua bahasa sekaligus: satu di atas, satu di bawah, untuk menonton bersama atau belajar bahasa
+★ Menemukan subtitle yang dimuat halaman, termasuk di YouTube, jadi kamu jarang butuh file
+★ Gayamu sendiri: 1.800+ Google Fonts, garis tepi, bayangan, kotak latar, ukuran, dan posisi
+★ Gratis dan open source: tanpa iklan, tanpa akun, tanpa pelacakan, dan setiap baris kodenya terbuka untuk umum
+
+━━━━━━━━━━━━━━━━━━━━
+
+TERJEMAHKAN KE 31 BAHASA
+• Sekali klik menerjemahkan subtitle yang dimuat dengan Google Terjemahan, langsung di ekstensi
+• Opsional: klik Sempurnakan dan AI (Gemma di komputermu, atau Gemini, Claude, atau OpenAI) menulis ulang versi cepat dari Google agar terdengar alami (selengkapnya di bawah). Arahkan mouse ke video untuk melihat sejauh mana prosesnya
+• Pilih bahasamu sekali saja; bahasa itu jadi favoritmu untuk setiap tombol Terjemahkan
+• Mode otomatis: nyalakan subtitle di pemutar situs dan subtitle langsung muncul di atas video dalam keadaan sudah diterjemahkan, dengan catatan singkat "Diterjemahkan ke …" alih-alih pop-up. Pada instalasi baru, mode ini langsung aktif dan menerjemahkan ke bahasa browser-mu
+• Subtitle bawaan situs disembunyikan, jadi kamu tidak pernah membaca dua subtitle sekaligus
+• Kembali ke versi asli kapan saja, atau simpan terjemahannya sebagai file .srt
+• Bahasa: Vietnam, Ceko, Inggris, Slowakia, Jerman, Prancis, Spanyol, Italia, Portugis, Polandia, Hongaria, Ukraina, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Tionghoa (Sederhana dan Tradisional), Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Arab
+
+BUAT TERDENGAR ALAMI (OPSIONAL)
+Google Terjemahan memang cepat, tetapi menerjemahkan baris demi baris, kata demi kata. Klik Sempurnakan dan model AI menulis ulang subtitle dengan memperhatikan seluruh adegan, mulai dari bagian yang sedang kamu tonton.
+• Gratis: Gemma, model terbuka dari Google, berjalan di komputermu sendiri lewat Ollama atau LM Studio, jadi langkah AI tetap berada di komputermu. Kamu butuh komputer yang cukup bertenaga dan sekitar 8 GB ruang disk.
+• Siap dalam 3 langkah: instal Ollama dari ollama.com, unduh Gemma dengan satu perintah, lalu pilih Lokal di jendela ekstensi. Perintah dan model yang kami rekomendasikan saat ini (halaman berbahasa Inggris): cleedek.com/subtitle-overlay/ai
+• Atau gunakan kunci API milikmu: Gemini (ada paket gratis), Claude, atau OpenAI (berbayar).
+• Sebelum mulai, AI membaca sekilas seluruh file dan mencatat siapa adalah siapa, jadi gender, sapaan, dan nama tetap konsisten dari baris pertama hingga terakhir.
+• Tidak pernah berjalan sendiri: tanpa klikmu, tidak ada yang berjalan dan tidak ada biaya yang keluar.
+
+DUA BAHASA SEKALIGUS
+• Nyalakan subtitle kedua dalam bahasa apa pun: bahasa Inggris di atas untukmu, bahasa Vietnam di bawah untuk pasanganmu
+• Atau tampilkan versi asli di samping terjemahan, sangat cocok untuk belajar
+• Masing-masing punya jarak sendiri dari tepi layar
+• Panel kecil di atas video menyalakan atau mematikan tiap bahasa, di samping benderanya; bahasa yang satunya pindah ke posisi biasa
+
+MENEMUKAN SUBTITLE YANG DIMUAT SITUS
+• Saat halaman memuat subtitle (file VTT atau playlist subtitle streaming), kartu kecil akan menawarkannya, lengkap dengan judul film atau episode jika halaman menyediakannya
+• YouTube: nyalakan CC dan baca teksnya dalam bahasamu; tombol CC milik YouTube menyalakan dan mematikannya, dan barisnya naik saat kontrol pemutar muncul
+• Tampilkan, terjemahkan, atau simpan sebagai .srt dengan sekali klik
+• Ada beberapa video di satu halaman? Pilih video mana yang memiliki subtitle tersebut
+
+ANTREAN TERJEMAHAN DAN SUBTITLE TERSIMPAN
+• Masukkan beberapa file .srt atau .vtt, atau klik "Tambahkan ke antrean" pada subtitle yang dimuat situs. Semuanya diterjemahkan satu per satu sementara kamu melakukan hal lain; tab antrean boleh tetap di latar belakang
+• Bisa dengan Google, Gemini, Claude, OpenAI, atau model lokalmu
+• Subtitle yang disempurnakan disimpan di ekstensi selama yang kamu mau, dan muncul lagi saat kamu kembali ke video itu
+• Putar membuka video beserta subtitlenya; Unduh .srt menyimpan file-nya
+
+ATUR GAYA SESUKAMU
+• 1.800+ Google Fonts, disaring hanya yang memiliki huruf bahasamu (č ř ž, ư ế ộ, Sirilik, Yunani, Jepang, dan lainnya)
+• Ukuran, ketebalan, warna, garis tepi (dengan opasitas sendiri), bayangan, kotak latar (dengan blur opsional di belakangnya), dan lebar baris
+• Di bawah, di tengah, atau di atas video
+• Preset (Bersih, Berkotak, Kontras tinggi) plus tampilan simpananmu sendiri
+• Teks menyesuaikan ukuran pemutar, dengan pratinjau langsung di jendela ekstensi
+• Jendela ekstensi yang rapi dengan tiga tab: Subtitle, Gaya, dan Perilaku, dalam tampilan gelap atau terang (atau mengikuti sistem)
+• Menyembunyikan label suara seperti [Musik] dan penanda pembicara >> (satu tombol untuk memunculkannya lagi)
+
+ATUR WAKTUNYA
+• Geser subtitle lebih awal atau lebih lambat per 0,1 detik atau 1 detik, dari jendela ekstensi atau keyboard
+• Pergeseran diingat untuk halaman tersebut
+
+DIBUAT UNTUK BELAJAR
+• Ketinggalan satu kalimat? Alt + R memutarnya lagi dari awal
+• Klik baris mana pun untuk menyalinnya, untuk kamus atau catatanmu
+
+FILE MILIKMU SENDIRI
+• Pilih file .srt atau .vtt, atau seret langsung ke video
+• Huruf berantakan? Deteksi encoding teks otomatis (juga untuk file Jepang, Tionghoa, dan Korea) dengan pilihan manual
+• Subtitle-mu kembali saat kamu memuat ulang halaman atau membukanya lagi nanti
+
+LAYAR PENUH YANG TETAP MENAMPILKAN SUBTITLE
+• Alt + F atau tombol di bagian atas video; tekan F atau tombol "Keluar dari layar penuh" untuk keluar lagi
+• Subtitle menyingkir saat menu atau notifikasi situs menutupinya
+
+SITUS DEMI SITUS
+• Matikan di situs mana pun dengan satu tombol; daftar situs yang dimatikan hanya sejauh satu klik
+
+PINTASAN KEYBOARD
+Alt + [ / ] sinkronkan · Alt + Shift + [ / ] sinkronkan per 1 detik · Alt + 0 reset sinkronisasi · Alt + R ulangi baris · Alt + S tampilkan atau sembunyikan · Alt + 1 / Alt + 2 tampilkan atau sembunyikan satu bahasa saja · Alt + ↑ / ↓ pindahkan · Alt + F layar penuh dengan subtitle
+Setiap pintasan bisa diubah atau dimatikan di tab Perilaku.
+
+ANTARMUKA DALAM 31 BAHASA
+Inggris, Ceko, Slowakia, Jerman, Prancis, Spanyol, Vietnam, Tionghoa Sederhana, Tionghoa Tradisional, Italia, Portugis, Polandia, Ukraina, Hongaria, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, dan Arab (kanan ke kiri). Mengikuti bahasa browser-mu, atau pilih sendiri di bagian bawah jendela ekstensi.
+
+UNTUK YANG SUKA MENGULIK
+Tab "Subtitles" di DevTools menampilkan setiap file subtitle yang dimuat halaman dan menyimpannya sebagai .vtt atau .srt.
+
+PRIVASI
+Tanpa akun, tanpa analitik, tanpa pelacakan. Teks subtitle dikirim ke Google Terjemahan hanya saat subtitle diterjemahkan (lewat klikmu atau mode otomatis), dan ke Gemini, Claude, OpenAI, atau model lokalmu hanya saat kamu mengklik Sempurnakan. Subtitle yang diingat dan disimpan tetap berada di browser-mu. Jika kamu menulis kepadaku lewat "Tulis pesan" di jendela ekstensi, pesanmu sampai kepadaku melalui email. Detailnya ada di kebijakan privasi.
+
+MASALAH ATAU IDE?
+Klik "Masalah atau ide?" di bagian bawah jendela ekstensi dan tulis pesan untukku. Aku membaca setiap pesan.
+
+OPEN SOURCE
+Seluruh ekstensi ini open source (GPL-3.0), jadi siapa pun bisa memeriksa apa persisnya yang dilakukannya: github.com/Cleedek/subtitle-overlay. Kalau kamu suka, bintang di GitHub membantu orang lain menemukannya.
+
+DUKUNG PEMBUATNYA
+Subtitle Overlay gratis dan semua fiturnya akan tetap gratis. Kalau ekstensi ini membuat malammu lebih menyenangkan, di jendela ekstensi ada halaman "Dukung pembuatnya" dengan Revolut, PayPal, Solana, dan Sui. Sepenuhnya opsional, dan terima kasih!
+
+Dibuat dengan 💜 oleh Cleedek di Vietnam.
+
+Tangkapan layar menampilkan cuplikan dari Tears of Steel, © Blender Foundation, mango.blender.org, berlisensi CC BY 3.0.

@@ -3,3 +3,4 @@ promo-video/
 dist/
 store/film-options/
 store/marquee-promo-1400x560.png
+store/dashboard/_*.js

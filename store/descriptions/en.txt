@@ -18,7 +18,7 @@ TRANSLATE INTO 31 LANGUAGES
 • One click translates the loaded subtitles with Google Translate, right in the extension
 • Optional: click Improve and AI (Gemma on your computer, or Gemini, Claude or OpenAI) rewrites Google's quick version so it sounds natural (more below). Move the mouse over the video to see how far it got
 • Pick your language once; it stays your favourite for every Translate button
-• Automatic mode: turn on subtitles in the site's player and they appear over the video already translated, with a short "Translated to …" note instead of a pop-up
+• Automatic mode: turn on subtitles in the site's player and they appear over the video already translated, with a short "Translated to …" note instead of a pop-up. New installs start with it on, translating into your browser's language
 • The site's own subtitles are hidden, so you never read two sets at once
 • Switch back to the original any time, or save the translation as an .srt file
 • Languages: Vietnamese, Czech, English, Slovak, German, French, Spanish, Italian, Portuguese, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Chinese (Simplified and Traditional), Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Arabic
@@ -28,6 +28,7 @@ Google Translate is quick, but it goes line by line, word for word. Click Improv
 • Free: Gemma, Google's open model, runs on your own computer with Ollama or LM Studio, so the AI step stays on your computer. You need a fairly powerful computer and about 8 GB of disk space.
 • Set up in 3 steps: install Ollama from ollama.com, download Gemma with one command, then choose Local in the popup. The command and the model we recommend right now: cleedek.com/subtitle-overlay/ai
 • Or use your own API key: Gemini (has a free tier), Claude or OpenAI (paid).
+• Before it starts, it skims the whole file and notes who is who, so gender, forms of address and names stay the same from the first line to the last.
 • It never starts by itself: nothing runs and nothing is spent without your click.
 
 TWO LANGUAGES AT ONCE
@@ -71,7 +72,7 @@ YOUR OWN FILE
 • Your subtitles come back when you reload the page or return to it later
 
 FULLSCREEN THAT KEEPS THE SUBTITLES
-• Alt + F or the button at the top of the video; F leaves it again
+• Alt + F or the button at the top of the video; F or the "Exit fullscreen" button leaves it again
 • Subtitles step aside when a site menu or notification covers them
 
 SITE BY SITE
@@ -81,14 +82,17 @@ KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + F fullscreen with subtitles
 Every shortcut can be changed or switched off in the Behaviour tab.
 
-INTERFACE IN 30 LANGUAGES
-English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, and Hindi. It follows your browser, or pick one at the bottom of the popup.
+INTERFACE IN 31 LANGUAGES
+English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, and Arabic (right to left). It follows your browser, or pick one at the bottom of the popup.
 
 FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.
 
 PRIVACY
-No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when you translate, and to Gemini, Claude, OpenAI or your local model only when you click Improve. Remembered and saved subtitles stay in your browser. Details in the privacy policy.
+No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when subtitles are translated (by your click or by automatic mode), and to Gemini, Claude, OpenAI or your local model only when you click Improve. Remembered and saved subtitles stay in your browser. If you write to me with "Write to me" in the popup, your message reaches me by email. Details in the privacy policy.
+
+PROBLEM OR IDEA?
+Click "Problem or idea?" at the bottom of the popup and write to me. I read every message.
 
 OPEN SOURCE
 The whole extension is open source (GPL-3.0), so anyone can check exactly what it does: github.com/Cleedek/subtitle-overlay. If you like it, a star on GitHub helps other people find it.

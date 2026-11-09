@@ -18,7 +18,7 @@ PREKLAD DO 31 JAZYKOV
 • Jedným klikom preložíš načítané titulky cez Google Translate, priamo v rozšírení
 • Voliteľne: klikni na Vylepšiť a AI (Gemma v tvojom počítači, alebo Gemini, Claude či OpenAI) prepíše rýchly preklad od Googlu, aby znel prirodzene (viac nižšie). Keď pohneš myšou nad videom, uvidíš, koľko už je hotové
 • Jazyk si vyberieš raz a zostane tvojím obľúbeným pre všetky tlačidlá Preložiť
-• Automatický režim: zapni titulky v prehrávači webu a objavia sa cez video rovno preložené, s krátkou poznámkou "Preložené: …" namiesto vyskakovacieho okna
+• Automatický režim: zapni titulky v prehrávači webu a objavia sa cez video rovno preložené, s krátkou poznámkou "Preložené: …" namiesto vyskakovacieho okna. Po novej inštalácii je zapnutý a prekladá do jazyka tvojho prehliadača
 • Pôvodné titulky webu sa skryjú, takže nečítaš dvoje naraz
 • Kedykoľvek sa vrátiš k originálu, alebo si preklad uložíš ako .srt
 • Jazyky: vietnamčina, čeština, angličtina, slovenčina, nemčina, francúzština, španielčina, taliančina, portugalčina, poľština, maďarčina, ukrajinčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, čínština (zjednodušená aj tradičná), japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina, arabčina
@@ -28,6 +28,7 @@ Google Translate je rýchly, ale prekladá riadok po riadku, slovo po slove. Kli
 • Zadarmo: Gemma, otvorený model od Googlu, beží priamo v tvojom počítači cez Ollamu alebo LM Studio, takže krok s AI zostáva v tvojom počítači. Potrebuješ výkonnejší počítač a asi 8 GB miesta na disku.
 • Nastavenie v 3 krokoch: nainštaluj Ollamu z ollama.com, jedným príkazom stiahni Gemmu a v okne rozšírenia vyber Lokálny. Príkaz a model, ktorý teraz odporúčame (po anglicky): cleedek.com/subtitle-overlay/ai
 • Alebo vlastný API kľúč: Gemini (má bezplatnú úroveň), Claude alebo OpenAI (platené).
+• Skôr než začne, prejde celý súbor a poznačí si, kto je kto, takže rod, oslovenie aj mená sedia od prvej vety po poslednú.
 • Nikdy sa nespustí sám: bez tvojho kliknutia nič nebeží a nič neminieš.
 
 DVA JAZYKY NARAZ
@@ -71,7 +72,7 @@ VLASTNÝ SÚBOR
 • Titulky sa vrátia, keď stránku znova načítaš alebo sa na ňu neskôr vrátiš
 
 CELÁ OBRAZOVKA AJ S TITULKAMI
-• Alt + F alebo tlačidlo hore na videu; klávesom F ju zase opustíš
+• Alt + F alebo tlačidlo hore na videu; klávesom F alebo tlačidlom "Ukončiť celú obrazovku" ju zase opustíš
 • Titulky ustúpia, keď ich zakryje menu alebo upozornenie webu
 
 WEB PO WEBE
@@ -81,14 +82,17 @@ KLÁVESOVÉ SKRATKY
 Alt + [ / ] načasovanie · Alt + Shift + [ / ] načasovanie po 1 s · Alt + 0 vynulovať načasovanie · Alt + R zopakovať vetu · Alt + S zobraziť/skryť · Alt + 1 / Alt + 2 zobraziť/skryť len jeden jazyk · Alt + ↑ / ↓ posun · Alt + F celá obrazovka s titulkami
 Každú skratku si na karte Správanie zmeníš alebo vypneš.
 
-ROZHRANIE V 30 JAZYKOCH
-Angličtina, čeština, slovenčina, nemčina, francúzština, španielčina, vietnamčina, čínština (zjednodušená), čínština (tradičná), taliančina, portugalčina, poľština, ukrajinčina, maďarčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina a hindčina. Riadi sa prehliadačom, alebo si jazyk vyberieš dole v okne rozšírenia.
+ROZHRANIE V 31 JAZYKOCH
+Angličtina, čeština, slovenčina, nemčina, francúzština, španielčina, vietnamčina, čínština (zjednodušená), čínština (tradičná), taliančina, portugalčina, poľština, ukrajinčina, maďarčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina a arabčina (sprava doľava). Riadi sa prehliadačom, alebo si jazyk vyberieš dole v okne rozšírenia.
 
 PRE ZVEDAVCOV
 Karta "Subtitles" v DevTools ukáže všetky súbory titulkov, ktoré stránka načítala, a uloží ich ako .vtt alebo .srt.
 
 SÚKROMIE
-Žiadne účty, žiadna analytika, žiadne sledovanie. Text titulkov ide do Google Translate len vtedy, keď prekladáš, a do Gemini, Claude, OpenAI alebo tvojho lokálneho modelu len vtedy, keď klikneš na Vylepšiť. Zapamätané aj uložené titulky zostávajú v tvojom prehliadači. Podrobnosti nájdeš v zásadách ochrany súkromia.
+Žiadne účty, žiadna analytika, žiadne sledovanie. Text titulkov ide do Google Translate len vtedy, keď sa titulky prekladajú (tvojím kliknutím alebo automatickým režimom), a do Gemini, Claude, OpenAI alebo tvojho lokálneho modelu len vtedy, keď klikneš na Vylepšiť. Zapamätané aj uložené titulky zostávajú v tvojom prehliadači. Keď mi napíšeš cez "Napíš mi" v okne rozšírenia, správa mi príde e-mailom. Podrobnosti nájdeš v zásadách ochrany súkromia.
+
+PROBLÉM ALEBO NÁPAD?
+Klikni dole v okne rozšírenia na "Problém alebo nápad?" a napíš mi. Čítam každú správu.
 
 OPEN SOURCE
 Celé rozšírenie je open source (GPL-3.0), takže si ktokoľvek môže overiť, čo presne robí: github.com/Cleedek/subtitle-overlay. Ak sa ti páči, hviezdička na GitHube pomôže, aby ho našli aj ďalší.
