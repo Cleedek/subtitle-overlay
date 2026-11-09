@@ -3,6 +3,8 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kfiihdconjdcclppmdhopeejkbmkkalo?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=7c3aed)](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)
 [![License: GPL-3.0-only](https://img.shields.io/badge/license-GPL--3.0--only-7c3aed)](LICENSE)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K1I42ACK0E)
+
 A Chrome extension (also works in Arc and other Chromium browsers) that puts subtitles on any video on the web: your own `.srt` / `.vtt` file, or the subtitles the site itself loads, translated into 31 languages, two languages at once, styled your way and sized to the player.
 
 **[➜ Add to Chrome, free, from the Chrome Web Store](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (works in Edge, Brave, Arc and other Chromium browsers too)

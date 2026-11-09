@@ -1,5 +1,7 @@
 # Subtitle Overlay
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K1I42ACK0E)
+
 Rozšíření pro Chrome a Arc: zobrazí tvoje vlastní titulky (SRT nebo VTT) přes jakékoli video na webu, i ve fullscreenu, a umí najít VTT titulky, které si stránka sama stahuje (třeba Prima+).
 
 **[➜ Přidat do Chromu zdarma z Internetového obchodu Chrome](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (funguje i v Edgi, Brave, Arcu a dalších prohlížečích na Chromiu). Tohle je nejjednodušší cesta, rozšíření se pak aktualizuje samo.
