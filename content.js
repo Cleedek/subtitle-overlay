@@ -415,6 +415,7 @@
       .ask .hello { display: flex; flex-direction: column; gap: 3px; padding-inline-end: 24px; }
       .ask .hello strong { font-size: 14.5px; font-weight: 700; }
       .ask .hello span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+      .ask .intro { margin: 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.12); font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
       .ask .tile { display: flex; flex-direction: column; gap: 10px; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
       .ask .who { display: flex; align-items: center; gap: 10px; }
       .ask .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255,255,255,.14); }
@@ -1801,13 +1802,14 @@
     close.addEventListener('click', endAsk);
 
     const hello = el('div', 'hello');
-    const lines = stats.lines ? t('That’s {count} translated lines. Nice!', { n: stats.lines, count: stats.lines.toLocaleString(SubI18n.lang) }) + ' ' : '';
-    hello.append(el('strong', '', t('{n} videos translated', { n })),
-      el('span', '', lines + t('I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:')));
+    hello.append(el('strong', '', t('{n} videos translated', { n })));
+    if (stats.lines) hello.append(el('span', '', t('That’s {count} translated lines. Nice!', { n: stats.lines, count: stats.lines.toLocaleString(SubI18n.lang) })));
+    // The why, under a thin line, apart from the numbers.
+    const intro = el('p', 'intro', t('I make Subtitle Overlay on my own, for free. Any support helps me keep giving it the care it deserves.'));
 
     const tile = el('div', 'tile');
     const who = el('div', 'who');
-    who.append(photo(38), two(t('Send Filip a tip'), t('You choose the amount') + ' · ' + t('No account needed'), 'strong', 'span'));
+    who.append(photo(38), two(t('Send me any tip you like'), t('No account needed'), 'strong', 'span'));
     const logos = el('img', 'logos');
     logos.src = chrome.runtime.getURL('icons/support/pay-logos-dark.svg');
     logos.alt = 'Google Pay, Apple Pay, PayPal, Visa, Mastercard';
@@ -1848,7 +1850,7 @@
     compact.append(cWho, cMain, links);
 
     askEl.setAttribute('aria-label', t('Support the creator'));
-    askEl.append(close, hello, tile, minor, gh, el('p', 'once', t('You’ll only see this once.')), compact);
+    askEl.append(close, hello, intro, tile, minor, gh, el('p', 'once', t('You’ll only see this once.')), compact);
   }
 
   // ---------- language switches (dual subtitles) ----------
