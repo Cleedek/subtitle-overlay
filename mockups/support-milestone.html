@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="cs" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support milestone mockup</title>
+  <!-- The real popup styles, so the frames look exactly like the extension. -->
+  <link rel="stylesheet" href="../popup.css">
+  <style>
+    /* ---------- the mockup page around the popups (not for popup.css) ---------- */
+    :root { --page: oklch(0.13 0.008 290); --frame-edge: oklch(1 0 0 / .07); --heart: oklch(0.66 0.21 18); }
+    :root[data-theme="light"] { --page: oklch(0.92 0.006 290); --frame-edge: oklch(0.25 0.02 290 / .10); --heart: oklch(0.58 0.21 18); }
+    body { width: auto; min-width: 0; padding: 28px 24px 48px; background: var(--page); }
+    .page-head { max-width: 1240px; margin: 0 auto 24px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 680px; }
+    .tools { display: flex; gap: 8px; align-items: center; }
+    .tools .segmented { grid-template-columns: repeat(2, auto); margin: 0; }
+    .board { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px 28px; max-width: 1240px; margin: 0 auto; }
+    .col { width: 380px; display: flex; flex-direction: column; gap: 14px; }
+    .col-head { display: flex; align-items: baseline; gap: 8px; }
+    .col-head b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: var(--accent); color: oklch(0.99 0.003 290); font-size: 12px; }
+    .col-head span { font-size: 15px; font-weight: 650; }
+    .col-head em { font-style: normal; font-size: 12px; color: var(--faint); margin-left: auto; }
+    .frame {
+      position: relative; padding: 16px; background: var(--bg); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 0 0 1px var(--frame-edge), 0 18px 40px -12px var(--shadow);
+      height: 600px; /* Chrome's tallest popup */
+    }
+    .frame .tabbar { position: static; }
+    .frame .tr-row button { padding: 3px 8px; font-size: 12px; }
+    .notes { font-size: 12.5px; color: var(--muted); display: flex; flex-direction: column; gap: 8px; }
+    .notes p { margin: 0; }
+    .notes strong { color: var(--text); font-weight: 600; }
+    .notes .pm { display: grid; grid-template-columns: 16px 1fr; gap: 4px 6px; }
+    .notes .pm i { font-style: normal; font-weight: 700; }
+    .notes .pm .plus { color: var(--success); }
+    .notes .pm .minus { color: var(--danger); }
+    .rules { max-width: 1240px; margin: 40px auto 0; padding: 18px 20px; background: var(--bg); border-radius: 12px; box-shadow: 0 0 0 1px var(--frame-edge); }
+    .rules h2 { margin-bottom: 12px; }
+    .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
+    .rules li strong { color: var(--text); font-weight: 600; }
+    .closed-note { position: absolute; inset: auto 16px 16px; margin: 0; padding: 8px 10px; border: 1px dashed var(--line-strong); border-radius: 10px; font-size: 11.5px; color: var(--faint); display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--bg); z-index: 5; }
+    .closed-note button { padding: 1px 8px; font-size: 11.5px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; z-index: 50;
+      padding: 8px 14px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 12.5px; font-weight: 500;
+      transition: opacity .2s var(--ease), transform .2s var(--ease);
+    }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+    /* =====================================================================
+       Shared pieces of the milestone ask (as they would go into popup.css)
+       ===================================================================== */
+    .ms { --in: ms-in .38s var(--ease) both; }
+    .ms .heart { color: var(--heart); }
+    .ms button svg, .ms a svg { flex: none; }
+    .ms-donate {
+      display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 10px 12px;
+      font-weight: 650; font-size: 13.5px;
+    }
+    .ms-donate .heart { color: currentColor; transition: transform .2s var(--ease); }
+    .ms-donate:hover .heart { transform: scale(1.14); }
+    .ms-donate:active { transform: scale(.985); }
+    .ms-second { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .ms-second button { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 8px; font-size: 12.5px; }
+    .ms-second button svg { color: var(--muted); }
+    .ms-later { display: block; margin: 0 auto; padding: 4px 8px; border: 0; background: none; color: var(--faint); font-size: 12px; }
+    .ms-later:hover { color: var(--text); background: none; }
+    .ms-gh { display: inline-flex; align-items: center; justify-content: center; gap: 6px; align-self: center; margin: -2px auto 0; padding: 3px 8px; border: 0; background: none; color: var(--muted); font-size: 11.5px; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+    .ms-gh:hover { color: var(--text); background: none; text-decoration-color: currentColor; }
+    .inline-card .foot .ms-gh { margin: 0; padding: 2px 4px; font-size: 11px; color: var(--faint); }
+    .ms-once { margin: 0; text-align: center; font-size: 11px; color: var(--faint); }
+    .ms .pay-logos { margin: 0; gap: 4px 12px; }
+    .ms .pay-logos.sm svg { transform: scale(.82); }
+    .ms-methods { margin: 0; text-align: center; font-size: 11.5px; color: var(--muted); }
+    .ms-close {
+      position: absolute; top: 10px; right: 10px; z-index: 3; display: grid; place-items: center; width: 26px; height: 26px; padding: 0;
+      border: 0; border-radius: 7px; background: transparent; color: var(--faint);
+    }
+    .ms-close:hover { background: var(--panel-hover); color: var(--text); }
+    .num { font-variant-numeric: tabular-nums; }
+    .me { display: flex; align-items: center; gap: 9px; }
+    .me img { flex: none; width: 30px; height: 30px; border-radius: 8px; }
+    .me div { display: flex; flex-direction: column; line-height: 1.25; }
+    .me strong { font-weight: 600; }
+    .me span { font-size: 11px; color: var(--faint); }
+    @keyframes ms-in { from { opacity: 0; transform: translateY(8px); } }
+    @keyframes ms-up { from { transform: translateY(100%); } }
+    @keyframes ms-fade { from { opacity: 0; } }
+
+    /* Sheet over the dimmed popup (C, D, E use the takeover/sheet differently) */
+    .scrim { position: absolute; inset: 0; z-index: 2; background: oklch(0.1 0.01 290 / .55); backdrop-filter: blur(2px); animation: ms-fade .3s var(--ease) both; }
+    :root[data-theme="light"] .scrim { background: oklch(0.3 0.02 290 / .28); }
+    .sheet {
+      position: absolute; inset: auto 0 0; z-index: 3; padding: 18px 16px 14px; border-radius: 16px 16px 0 0;
+      background: var(--bg); border-top: 1px solid var(--line); box-shadow: 0 -12px 40px -10px var(--shadow);
+      animation: ms-up .42s var(--ease) both;
+    }
+    .sheet .ms-close { top: 10px; right: 10px; }
+    .grab { width: 36px; height: 4px; border-radius: 4px; background: var(--line-strong); margin: -8px auto 12px; }
+
+    /* Full-popup takeover (A, B): same idea as the "Support the creator" level */
+    .takeover { position: absolute; inset: 0; z-index: 2; padding: 16px; background: var(--bg); display: flex; flex-direction: column; animation: ms-fade .3s var(--ease) both; }
+    .takeover > * { animation: var(--in); }
+    .takeover > *:nth-child(2) { animation-delay: .04s; } .takeover > *:nth-child(3) { animation-delay: .08s; }
+    .takeover > *:nth-child(4) { animation-delay: .12s; } .takeover > *:nth-child(5) { animation-delay: .16s; }
+    .takeover > *:nth-child(6) { animation-delay: .2s; } .takeover > *:nth-child(7) { animation-delay: .24s; }
+
+    /* ---------- A · Dopis od autora ---------- */
+    .letter { gap: 14px; }
+    .letter .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .letter .stat { padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+    .letter .stat b { display: block; font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+    .letter .stat span { font-size: 11.5px; color: var(--muted); }
+    .letter .stat.hi { background: radial-gradient(120% 120% at 0% 0%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 70%), var(--panel); border-color: var(--accent-line); }
+    .letter h2.big { font-size: 17px; text-transform: none; letter-spacing: -.01em; color: var(--text); font-weight: 700; margin: 0; line-height: 1.3; }
+    .letter .body { margin: 0; color: var(--muted); line-height: 1.5; }
+    .letter .body strong { color: var(--text); font-weight: 600; }
+    .letter .stack { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+
+    /* ---------- B · Účtenka ---------- */
+    .receipt-wrap { gap: 12px; }
+    .receipt-wrap h2.big { font-size: 16px; text-transform: none; letter-spacing: -.01em; color: var(--text); font-weight: 700; margin: 0 0 2px; text-align: center; }
+    .receipt-wrap .r-title { display: block; width: 100%; padding: 0 24px; }
+    .receipt-wrap .r-sub { margin: 0; text-align: center; color: var(--muted); font-size: 12px; }
+    .receipt {
+      --edge: radial-gradient(circle at 6px 0, transparent 5px, #000 5.5px) 0 0 / 12px 100% repeat-x;
+      position: relative; margin: 0 6px; padding: 16px 16px 14px; background: var(--panel); color: var(--text);
+      font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+      -webkit-mask: linear-gradient(#000 0 0) 0 8px / 100% calc(100% - 16px) no-repeat,
+        radial-gradient(circle at 6px 8px, transparent 5px, #000 5.5px) 0 0 / 12px 8px repeat-x,
+        radial-gradient(circle at 6px 0, transparent 5px, #000 5.5px) 0 100% / 12px 8px repeat-x;
+      transform-origin: top; animation: ms-print .7s .1s var(--ease) both;
+    }
+    @keyframes ms-print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+    .receipt .r-head { text-align: center; color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+    .receipt .r-row { display: flex; gap: 6px; }
+    .receipt .r-row span:nth-child(2) { flex: 1; border-bottom: 1px dotted var(--line-strong); transform: translateY(-4px); }
+    .receipt .r-row.zero b { color: var(--success); font-weight: 600; }
+    .receipt .r-sum { display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line-strong); font-weight: 700; font-size: 13px; }
+    .receipt .r-tip { display: flex; justify-content: space-between; color: var(--muted); }
+    .receipt .r-tip b { color: var(--link); font-weight: 600; }
+    .receipt .r-foot { margin-top: 10px; text-align: center; color: var(--faint); font-size: 10.5px; }
+    .receipt-wrap .stack { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+
+    /* ---------- C · Karta milníku (inline, where the rate card lives) ---------- */
+    .inline-card {
+      position: relative; margin-bottom: 10px; padding: 14px 12px 10px; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--accent-line);
+      background: radial-gradient(130% 90% at 0% 0%, color-mix(in srgb, var(--heart) 14%, transparent), transparent 60%), var(--panel);
+      display: flex; flex-direction: column; gap: 11px; animation: var(--in);
+    }
+    .inline-card .top { display: flex; align-items: center; gap: 12px; padding-right: 24px; }
+    .inline-card .ring { position: relative; flex: none; width: 54px; height: 54px; }
+    .inline-card .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+    .inline-card .ring .track { stroke: var(--line-strong); }
+    .inline-card .ring .fill { stroke: var(--heart); stroke-dasharray: 144.5; animation: ms-draw 1s .25s var(--ease) both; }
+    @keyframes ms-draw { from { stroke-dashoffset: 144.5; } }
+    .inline-card .ring b { position: absolute; inset: 0; display: grid; place-items: center; font-size: 16px; font-weight: 750; letter-spacing: -.03em; }
+    .inline-card .lbl { display: flex; flex-direction: column; gap: 1px; }
+    .inline-card .lbl strong { font-size: 14px; font-weight: 650; }
+    .inline-card .lbl span { font-size: 12px; color: var(--muted); }
+    .inline-card .why { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+    .inline-card .why strong { color: var(--text); font-weight: 600; }
+    .inline-card .acts { display: flex; gap: 6px; }
+    .inline-card .acts .ms-donate { flex: 1; width: auto; padding: 8px 10px; font-size: 13px; }
+    .inline-card .icon-btn { display: grid; place-items: center; width: 38px; padding: 0; }
+    .inline-card .icon-btn svg { color: var(--muted); }
+    .inline-card .foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--faint); }
+    .inline-card .foot .pay-logos { justify-content: flex-start; gap: 2px 8px; }
+    .inline-card .foot .pay-logos svg { transform: scale(.72); transform-origin: left center; margin-right: -6px; }
+
+    /* ---------- D · Na co to pomůže (sheet) ---------- */
+    .why-sheet { display: flex; flex-direction: column; gap: 12px; }
+    .why-sheet .chip { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-text); font-size: 11.5px; font-weight: 600; }
+    .why-sheet h2.big { font-size: 17px; text-transform: none; letter-spacing: -.01em; color: var(--text); font-weight: 700; margin: -2px 0 -4px; line-height: 1.3; padding-right: 24px; }
+    .why-sheet .reasons { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .why-sheet .reasons li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+    .why-sheet .reasons .ic { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); color: var(--muted); }
+    .why-sheet .reasons li.future .ic { background: var(--accent-tint); border-color: var(--accent-line); color: var(--accent-text); }
+    .why-sheet .reasons strong { display: block; font-weight: 600; font-size: 12.5px; }
+    .why-sheet .reasons span { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+    .why-sheet .reasons .tag { display: inline-block; margin-left: 4px; padding: 0 6px; border-radius: 999px; border: 1px solid var(--accent-line); color: var(--accent-text); font-size: 10px; font-weight: 600; vertical-align: 1px; }
+
+    /* ---------- E · Tři cesty (ranked tiles in a sheet) ---------- */
+    .ways { display: flex; flex-direction: column; gap: 10px; }
+    .ways .hello { display: flex; flex-direction: column; gap: 3px; padding-right: 26px; }
+    .ways .hello strong { font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
+    .ways .hello span { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+    .tile { display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); text-align: left; color: var(--text); }
+    .tile.main { border-color: var(--accent-line); background: radial-gradient(140% 120% at 100% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%), var(--panel); }
+    .tile .t-top { display: flex; align-items: center; gap: 10px; }
+    .tile .t-ic { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: color-mix(in srgb, var(--heart) 18%, transparent); color: var(--heart); }
+    .tile .t-txt { display: flex; flex-direction: column; flex: 1; }
+    .tile .t-txt strong { font-weight: 650; font-size: 13.5px; }
+    .tile .t-txt span { font-size: 11.5px; color: var(--muted); }
+    .tile .pay-logos { justify-content: flex-start; gap: 4px 10px; }
+    .ways .minor { display: grid; grid-template-columns: 1.25fr 1fr; gap: 6px; }
+    .ways .minor button { display: flex; align-items: center; gap: 8px; padding: 9px 10px; text-align: left; border-radius: 10px; }
+    .ways .minor button svg { color: var(--muted); }
+    .ways .minor button div { display: flex; flex-direction: column; line-height: 1.25; }
+    .ways .minor button b { font-weight: 600; font-size: 12.5px; }
+    .ways .minor button small { font-size: 10.5px; color: var(--faint); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ms *, .ms, .scrim, .sheet, .takeover, .receipt { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <div>
+      <h1>Podpora autora po 250 videích: 5 návrhů</h1>
+      <p>Jednorázová výzva, když uživatel přeloží 250. video. Primárně finanční podpora, sekundárně sdílení a recenze. Texty jsou v češtině s tykáním; v rozšíření by šly přes překlady jako zbytek UI. Všechno je klikací, čísla jsou ukázková.</p>
+    </div>
+    <div class="tools">
+      <div class="segmented" role="tablist">
+        <button id="themeDark" role="tab" aria-selected="true">Tmavý</button>
+        <button id="themeLight" role="tab" aria-selected="false">Světlý</button>
+      </div>
+      <button id="replay">Přehrát znovu</button>
+    </div>
+  </div>
+
+  <div class="board">
+    <div class="col">
+      <div class="col-head"><b>A</b><span>Dopis od autora</span><em>celé okno</em></div>
+      <div class="frame" data-variant="letter"></div>
+      <div class="notes">
+        <p>Celý popup se na chvíli promění v osobní vzkaz (stejně jako teď "Support the creator"). Nahoře dvě čísla, pod nimi důvod v první osobě, dole jedno velké tlačítko a pod ním dvě menší: <strong>Sdílet</strong> a <strong>Recenze</strong>.</p>
+        <div class="pm"><i class="plus">+</i><span>Nejvíc místa na vysvětlení "proč". Nejosobnější.</span><i class="minus">−</i><span>Nejvíc textu. Kdo nečte, uvidí jen tlačítko.</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>B</b><span>Účtenka</span><em>celé okno</em></div>
+      <div class="frame" data-variant="receipt"></div>
+      <div class="notes">
+        <p>Vtip s pointou: účtenka za 250 videí, reklamy 0, předplatné 0 Kč, <strong>celkem 0 Kč</strong>. Pod čarou "Spropitné: dobrovolné". Říká "je to zdarma" a "spropitné je v pohodě" bez jediné věty navíc.</p>
+        <div class="pm"><i class="plus">+</i><span>Nejzapamatovatelnější, sdílí se screenshotem sám.</span><i class="minus">−</i><span>Méně prostoru pro "proč". Měna se musí řešit podle jazyka (0 Kč / $0 / 0 €).</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>C</b><span>Karta milníku</span><em>v záložce Subtitles</em></div>
+      <div class="frame" data-variant="inline"></div>
+      <div class="notes">
+        <p>Bratr hodnoticí karty: objeví se na stejném místě pod překladem, kroužek s číslem 250 se dokreslí. Velké tlačítko na podporu, vedle dvě ikonová tlačítka (sdílet, recenze). Nic nezakrývá.</p>
+        <div class="pm"><i class="plus">+</i><span>Nejmíň vyrušuje, uživatel může dál pracovat.</span><i class="minus">−</i><span>Nejsnáz se přehlédne. Ikony bez popisku jsou méně jasné (mají tooltip).</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>D</b><span>Na co to pomůže</span><em>spodní panel</em></div>
+      <div class="frame" data-variant="why"></div>
+      <div class="notes">
+        <p>Panel vyjede zespodu přes ztlumený popup. Místo odstavce tři krátké body: zdarma bez reklam, údržba když se weby mění, a <strong>sen do budoucna</strong>: překlad i videí bez titulků (označený "jednou", aby to neznělo jako slib).</p>
+        <div class="pm"><i class="plus">+</i><span>"Proč" se dá přečíst za 3 vteřiny. Konkrétní budoucnost motivuje.</span><i class="minus">−</i><span>Zmínka o budoucí funkci tvoří očekávání. Pokud nepřijde, může to mrzet.</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="col-head"><b>E</b><span>Tři cesty</span><em>spodní panel</em></div>
+      <div class="frame" data-variant="ways"></div>
+      <div class="notes">
+        <p>Jasné pořadí: jedna velká dlaždice s penězi (loga, výčet metod, rovnou tlačítko), pod ní dvě menší. <strong>Sdílení</strong> je o něco širší než <strong>recenze</strong>, aby bylo vidět, že je důležitější.</p>
+        <div class="pm"><i class="plus">+</i><span>Hierarchie je čitelná na první pohled. Nejlíp ukáže, že platba je snadná.</span><i class="minus">−</i><span>Nejvíc "UI", nejméně osobní tón.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <h2>Společná pravidla (pro všech pět)</h2>
+    <ul>
+      <li><strong>Jen jednou.</strong> Ukáže se při 250. přeloženém videu (stejné počítadlo jako hodnoticí karta). Ať zavře křížkem, "Teď ne" nebo cokoli klikne, už se nikdy nevrátí.</li>
+      <li><strong>Ve správnou chvíli:</strong> hned po úspěšném překladu, nikdy při chybě. Když by se ten den měla ukázat i hodnoticí karta, má přednost tahle a hodnoticí počká.</li>
+      <li><strong>"Podpořit"</strong> otevře stávající obrazovku Support the creator na záložce Ko-fi (případně podle jazyka Czech bank / VietQR / Revolut, jak už to funguje).</li>
+      <li><strong>"Sdílet"</strong> zkopíruje odkaz do Chrome Web Store (jako u hodnoticí karty). <strong>"Recenze"</strong> otevře hodnocení ve Web Store.</li>
+      <li><strong>Hvězdička na GitHubu</strong> je úplně poslední, nejmenší volba (textový odkaz), pro lidi, kteří nechtějí platit ani psát recenzi.</li>
+      <li><strong>Podpora dole v patičce zůstává</strong> beze změny. Výzva o tom jen jednou řekne.</li>
+      <li><strong>Nic se nikam neposílá.</strong> Počítadlo i to, že výzva už proběhla, žije jen v prohlížeči uživatele.</li>
+    </ul>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <!-- The top of the Subtitles tab, right after a translation. -->
+  <template id="popupTop">
+    <header>
+      <h1>Subtitle Overlay</h1>
+      <p class="muted">1 video on this page, playing</p>
+      <div class="site-row">
+        <span class="setting-label">On <span>YouTube</span></span>
+        <label class="toggle"><input type="checkbox" role="switch" checked aria-label="On YouTube"><span></span></label>
+      </div>
+    </header>
+    <nav class="tabbar">
+      <div class="segmented tabs" role="tablist">
+        <button role="tab" aria-selected="true">Subtitles</button>
+        <button role="tab" aria-selected="false">Style</button>
+        <button role="tab" aria-selected="false">Behaviour</button>
+      </div>
+    </nav>
+    <div class="panel active">
+      <section>
+        <div class="loaded">
+          <div class="loaded-name"><strong>Tears.of.Steel.2012.en.srt</strong> <span class="muted">· 712 lines</span></div>
+          <div class="translate-box">
+            <div class="row tr-row">
+              <span class="translated-note">Showing <strong>Czech</strong></span>
+              <button>Show original</button>
+              <button>Download .srt</button>
+            </div>
+          </div>
+        </div>
+        <div class="slot"></div>
+        <div class="row">
+          <button class="primary">Load .srt / .vtt file</button>
+          <button>Remove</button>
+        </div>
+        <p class="muted small">Tip: you can also drag a subtitle file straight onto the video.</p>
+      </section>
+      <section>
+        <h2>Found on this page</h2>
+        <div class="empty">English (auto-generated) · from the player</div>
+      </section>
+    </div>
+  </template>
+
+  <template id="icons">
+    <svg data-icon="heart" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <svg data-icon="star" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <svg data-icon="share" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3.5 8v5.5h9V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg data-icon="close" width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <svg data-icon="github" width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+    <svg data-icon="gift" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6.5h11v2.5h-11zM3.5 9v5h9V9M8 6.5V14M8 6.5S7 3 5.3 3.2C3.8 3.4 4.4 6 8 6.5Zm0 0S9 3 10.7 3.2c1.5.2.9 2.8-2.7 3.3Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <svg data-icon="noad" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.8 3.8l8.4 8.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <svg data-icon="wrench" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2.2a3.3 3.3 0 0 0-3.9 4.4L2.5 10.7a1.4 1.4 0 0 0 2 2l4.1-4.1a3.3 3.3 0 0 0 4.4-3.9l-2 2-1.8-.6-.6-1.8 2-2Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <svg data-icon="wave" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h1M5 5v6M8 3v10M11 5.5v5M14 8h-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </template>
+
+  <template id="logos">
+    <ul class="pay-logos">
+      <ul class="pay-logos">
+        <li title="Google Pay"><svg width="39.5" height="16.5" viewBox="29.6 35.1 50.8 21.2"><path d="M74.9932 48.6348H75.0283L77.9473 41.3086H79.999L73.6924 55.9971H71.7461L74.0908 50.8584L69.9521 41.3086H72.0039L74.9932 48.6348ZM65.1221 40.9756C66.5171 40.9756 67.6198 41.3562 68.4287 42.1055C69.2374 42.8547 69.6357 43.9017 69.6357 45.2217V51.5127H67.8301V50.0977H67.748C66.9626 51.2631 65.9311 51.8457 64.6299 51.8457C63.528 51.8457 62.5901 51.5127 61.8516 50.8467C61.1249 50.2283 60.7149 49.3128 60.7383 48.3496C60.7383 47.2912 61.1366 46.4585 61.9219 45.8281C62.7073 45.1978 63.7624 44.8887 65.0752 44.8887C66.2005 44.8887 67.115 45.1026 67.8418 45.5068V45.0664C67.8417 44.4124 67.5606 43.7943 67.0684 43.3662C66.5643 42.9143 65.9192 42.6641 65.251 42.6641C64.1961 42.6642 63.3634 43.1167 62.7539 44.0205L61.0898 42.9619C61.9807 41.6418 63.3286 40.9757 65.1221 40.9756ZM56.1777 36.5986C57.3851 36.5749 58.5573 37.0384 59.4131 37.8945C61.1247 39.512 61.2301 42.236 59.624 43.9844L59.4131 44.1982C58.5339 45.0427 57.4555 45.4707 56.1777 45.4707H53.0596V51.5127H51.1719V36.5986H56.1777ZM65.3691 46.4346C64.6071 46.4346 63.9621 46.6245 63.4463 46.9932C62.9422 47.3618 62.6846 47.8259 62.6846 48.3848C62.6846 48.8843 62.9188 49.3483 63.3057 49.6338C63.7278 49.9668 64.2439 50.1457 64.7715 50.1338C65.5687 50.1337 66.3308 49.8121 66.8936 49.2412C67.5149 48.6466 67.8311 47.9445 67.8311 47.1357C67.2448 46.6603 66.4241 46.4227 65.3691 46.4346ZM53.0596 43.6396H56.2256C56.929 43.6633 57.6092 43.3776 58.0898 42.8662C59.0744 41.8316 59.0508 40.167 58.0312 39.168C57.5506 38.6923 56.9055 38.4298 56.2256 38.4297H53.0596V43.6396Z" style="fill:var(--logo-ink)"/><path d="M46.546 44.1661C46.546 43.5834 46.4991 43.0006 46.4053 42.4297H38.4453V45.7242H43.0056C42.818 46.7827 42.2084 47.7342 41.3175 48.3289V50.4697H44.0372C45.6316 48.983 46.546 46.7827 46.546 44.1661Z" fill="#4285F4"/><path d="M38.4442 52.5392C40.7185 52.5392 42.6411 51.778 44.0361 50.4697L41.3164 48.3289C40.5544 48.8522 39.5814 49.1496 38.4442 49.1496C36.2403 49.1496 34.3763 47.6391 33.7081 45.6172H30.9062V47.8294C32.3365 50.7195 35.2555 52.5392 38.4442 52.5392Z" fill="#34A853"/><path d="M33.708 45.6157C33.3563 44.5572 33.3563 43.4035 33.708 42.3331V40.1328H30.9058C29.6981 42.5472 29.6981 45.4016 30.9058 47.816L33.708 45.6157Z" fill="#FBBC04"/><path d="M38.4442 38.8003C39.6517 38.7765 40.8123 39.2404 41.6798 40.0848L44.0948 37.6348C42.559 36.1838 40.5427 35.3869 38.4442 35.4107C35.2555 35.4107 32.3365 37.2423 30.9062 40.1324L33.7081 42.3446C34.3763 40.3108 36.2403 38.8003 38.4442 38.8003Z" fill="#EA4335"/></svg><span class="visually-hidden">Google Pay</span></li>
+        <li title="Apple Pay"><svg width="39.0" height="16.5" viewBox="29.6 33.6 50.8 21.5"><path d="M36.6924 37.8659C37.6325 37.9452 38.5726 37.3901 39.1601 36.6863C39.7379 35.9627 40.1198 34.9913 40.0219 34C39.1895 34.0397 38.1613 34.5551 37.5737 35.2787C37.0352 35.9032 36.5749 36.9143 36.6924 37.8659ZM47.8755 50.6333V35.1796H53.6041C56.5615 35.1796 58.6277 37.2414 58.6277 40.2548C58.6277 43.2683 56.5223 45.3499 53.5258 45.3499H50.2453V50.6333H47.8755ZM40.012 38.0542C39.1838 38.006 38.4281 38.3064 37.8177 38.549C37.4249 38.7051 37.0923 38.8373 36.8392 38.8373C36.5552 38.8373 36.2089 38.6981 35.82 38.5417L35.82 38.5417L35.82 38.5417L35.82 38.5417C35.3104 38.3368 34.7278 38.1025 34.1169 38.1137C32.7166 38.1335 31.4142 38.9365 30.6993 40.2152C29.2304 42.7726 30.3174 46.5593 31.7373 48.6409C32.4326 49.6718 33.265 50.8018 34.3617 50.7622C34.8442 50.7438 35.1913 50.5947 35.5505 50.4404C35.9641 50.2628 36.3937 50.0782 37.0645 50.0782C37.712 50.0782 38.1228 50.2579 38.5172 50.4305C38.8921 50.5945 39.2522 50.752 39.7868 50.7424C40.9227 50.7225 41.6376 49.7115 42.3328 48.6806C43.0831 47.5741 43.4129 46.4943 43.4629 46.3304L43.4688 46.3114C43.4676 46.3102 43.4583 46.3059 43.4419 46.2984C43.1911 46.1821 41.274 45.2937 41.2557 42.9114C41.2372 40.9118 42.7762 39.8987 43.0185 39.7392C43.0332 39.7295 43.0432 39.723 43.0477 39.7196C42.0684 38.2525 40.5408 38.0939 40.012 38.0542ZM62.9561 50.7523C64.4445 50.7523 65.8253 49.989 66.452 48.7797H66.501V50.6333H68.6945V42.9412C68.6945 40.7108 66.9318 39.2735 64.2193 39.2735C61.7026 39.2735 59.842 40.7307 59.7735 42.733H61.9083C62.0845 41.7814 62.9561 41.1569 64.1508 41.1569C65.6 41.1569 66.4128 41.8409 66.4128 43.0998V43.9522L63.4555 44.1307C60.7038 44.2992 59.2153 45.4391 59.2153 47.4217C59.2153 49.424 60.7527 50.7523 62.9561 50.7523ZM63.5924 48.9185C62.3292 48.9185 61.5262 48.3039 61.5262 47.3622C61.5262 46.3908 62.2998 45.8257 63.7785 45.7365L66.4127 45.568V46.4403C66.4127 47.8876 65.1984 48.9185 63.5924 48.9185ZM75.9702 51.238C75.0204 53.9442 73.9334 54.8363 71.6224 54.8363C71.4461 54.8363 70.8585 54.8165 70.7214 54.7768V52.9232C70.8683 52.943 71.2307 52.9628 71.4167 52.9628C72.4645 52.9628 73.0521 52.5167 73.4144 51.357L73.6298 50.673L69.6149 39.4222H72.0924L74.8833 48.5517H74.9322L77.7231 39.4222H80.1321L75.9702 51.238ZM50.2451 37.2018H52.9772C55.0336 37.2018 56.2087 38.312 56.2087 40.2648C56.2087 42.2175 55.0336 43.3377 52.9674 43.3377H50.2451V37.2018Z" fill-rule="evenodd" clip-rule="evenodd" style="fill:var(--logo-ink)"/></svg><span class="visually-hidden">Apple Pay</span></li>
+        <li title="PayPal"><svg width="44.8" height="12.2" viewBox="34.8 50.3 40.4 11.0"><path d="M39.8 50.4805H36.6888C36.4759 50.4805 36.2948 50.6352 36.2616 50.8453L35.0033 58.8234C34.9783 58.9809 35.1002 59.1228 35.2599 59.1228H36.7452C36.9581 59.1228 37.1392 58.9681 37.1724 58.7575L37.5118 56.6057C37.5445 56.395 37.726 56.2405 37.9385 56.2405H38.9234C40.9729 56.2405 42.1556 55.2487 42.4647 53.2834C42.6038 52.4236 42.4705 51.748 42.0678 51.2748C41.6257 50.7554 40.8413 50.4805 39.8 50.4805ZM40.159 53.3944C39.9889 54.5108 39.1358 54.5108 38.3111 54.5108H37.8416L38.1709 52.4257C38.1905 52.2998 38.2997 52.207 38.4271 52.207H38.6422C39.2041 52.207 39.7341 52.207 40.008 52.5272C40.1712 52.7184 40.2213 53.0022 40.159 53.3944ZM49.1002 53.3586H47.6103C47.4834 53.3586 47.3737 53.4514 47.3541 53.5775L47.2882 53.9942L47.184 53.8432C46.8615 53.375 46.1423 53.2186 45.4244 53.2186C43.7779 53.2186 42.3718 54.4655 42.0979 56.2148C41.9556 57.0872 42.1579 57.9215 42.6529 58.5034C43.107 59.0384 43.7567 59.2613 44.5295 59.2613C45.856 59.2613 46.5918 58.4083 46.5918 58.4083L46.5253 58.8224C46.5002 58.9807 46.6221 59.1226 46.7809 59.1226H48.123C48.3365 59.1226 48.5165 58.9679 48.5501 58.7573L49.3554 53.658C49.3809 53.5011 49.2594 53.3586 49.1002 53.3586ZM47.0234 56.2584C46.8796 57.1095 46.204 57.6809 45.3426 57.6809C44.9099 57.6809 44.564 57.5422 44.3421 57.2792C44.1219 57.0182 44.0381 56.6464 44.1082 56.2325C44.2425 55.3885 44.9295 54.7986 45.7779 54.7986C46.2009 54.7986 46.5449 54.939 46.7714 55.2043C46.9983 55.4723 47.0885 55.8462 47.0234 56.2584ZM55.5379 53.3584H57.0352C57.2449 53.3584 57.3672 53.5935 57.2481 53.7655L52.2685 60.9533C52.1878 61.0698 52.055 61.139 51.9131 61.139H50.4177C50.2072 61.139 50.0842 60.902 50.2061 60.7295L51.7567 58.5409L50.1076 53.7013C50.0506 53.5331 50.1748 53.3584 50.3537 53.3584H51.8249C52.016 53.3584 52.1847 53.4838 52.2398 53.6668L53.115 56.5897L55.1801 53.5481C55.2609 53.4293 55.3952 53.3584 55.5379 53.3584Z" fill-rule="evenodd" clip-rule="evenodd" style="fill:var(--logo-ink)"/><path d="M71.7703 58.8239L73.0471 50.6998C73.0667 50.5737 73.176 50.4809 73.3029 50.4805H74.7404C74.8991 50.4805 75.021 50.6228 74.996 50.7803L73.7368 58.758C73.704 58.9685 73.5229 59.1232 73.3097 59.1232H72.0259C71.8671 59.1232 71.7452 58.9813 71.7703 58.8239ZM61.9915 50.4809H58.8797C58.6673 50.4809 58.4863 50.6356 58.453 50.8457L57.1947 58.8239C57.1696 58.9813 57.2915 59.1232 57.4505 59.1232H59.0471C59.1955 59.1232 59.3225 59.015 59.3456 58.8676L59.7027 56.6062C59.7355 56.3954 59.917 56.2409 60.1294 56.2409H61.1138C63.1637 56.2409 64.3463 55.2491 64.6555 53.2838C64.7951 52.4241 64.661 51.7485 64.2585 51.2752C63.8166 50.7558 63.0328 50.4809 61.9915 50.4809ZM62.3505 53.3948C62.1808 54.5112 61.3277 54.5112 60.5025 54.5112H60.0334L60.3633 52.4262C60.3829 52.3003 60.4911 52.2074 60.6189 52.2074H60.8341C61.3955 52.2074 61.9261 52.2074 62.1997 52.5276C62.3631 52.7188 62.4128 53.0026 62.3505 53.3948ZM71.2909 53.359H69.8021C69.6741 53.359 69.5654 53.4518 69.5463 53.578L69.4804 53.9946L69.3758 53.8436C69.0532 53.3754 68.3345 53.219 67.6166 53.219C65.9701 53.219 64.5644 54.466 64.2905 56.2152C64.1486 57.0876 64.3501 57.922 64.845 58.5039C65.3 59.0388 65.9488 59.2618 66.7217 59.2618C68.0482 59.2618 68.7838 58.4087 68.7838 58.4087L68.7174 58.8228C68.6924 58.9811 68.8143 59.123 68.9741 59.123H70.3156C70.528 59.123 70.709 58.9683 70.7423 58.7578L71.548 53.6584C71.5726 53.5015 71.4507 53.359 71.2909 53.359ZM69.2143 56.2588C69.0713 57.11 68.3949 57.6813 67.5332 57.6813C67.1014 57.6813 66.7549 57.5426 66.5328 57.2796C66.3126 57.0186 66.2299 56.6468 66.2991 56.2329C66.4341 55.3889 67.1202 54.799 67.9686 54.799C68.3918 54.799 68.7356 54.9394 68.9623 55.2047C69.1901 55.4727 69.2802 55.8466 69.2143 56.2588Z" fill-rule="evenodd" clip-rule="evenodd" fill="#179BD7"/></svg><span class="visually-hidden">PayPal</span></li>
+        <li title="Visa"><svg width="32.1" height="10.4" viewBox="28.8 36.8 49.4 16.0"><path d="M41.2505 52.5165H37.0099L33.8299 40.3847C33.679 39.8267 33.3585 39.3333 32.8871 39.1008C31.7106 38.5165 30.4142 38.0514 29 37.8169V37.3498H35.8313C36.7742 37.3498 37.4813 38.0514 37.5991 38.8663L39.2491 47.6173L43.4877 37.3498H47.6104L41.2505 52.5165ZM49.9675 52.5165H45.9626L49.2604 37.3498H53.2653L49.9675 52.5165ZM58.4467 41.5514C58.5646 40.7346 59.2717 40.2675 60.0967 40.2675C61.3931 40.1502 62.8052 40.3848 63.9838 40.9671L64.6909 37.7016C63.5123 37.2345 62.216 37 61.0395 37C57.1524 37 54.3239 39.1008 54.3239 42.0165C54.3239 44.2346 56.3274 45.3992 57.7417 46.1008C59.2717 46.8004 59.861 47.2675 59.7431 47.9671C59.7431 49.0165 58.5646 49.4836 57.3881 49.4836C55.9739 49.4836 54.5596 49.1338 53.2653 48.5494L52.5582 51.8169C53.9724 52.3992 55.5025 52.6338 56.9167 52.6338C61.2752 52.749 63.9838 50.6502 63.9838 47.5C63.9838 43.5329 58.4467 43.3004 58.4467 41.5514V41.5514ZM78 52.5165L74.82 37.3498H71.4044C70.6972 37.3498 69.9901 37.8169 69.7544 38.5165L63.8659 52.5165H67.9887L68.8116 50.3004H73.8772L74.3486 52.5165H78ZM71.9936 41.4342L73.1701 47.1502H69.8723L71.9936 41.4342Z" fill-rule="evenodd" clip-rule="evenodd" style="fill:var(--logo-ink)"/></svg><span class="visually-hidden">Visa</span></li>
+        <li title="Mastercard"><svg width="26.8" height="16.5" viewBox="32.8 29.8 45.4 28.0"><path d="M64.3525 30C71.8897 30 77.9998 36.181 78 43.8057C78 51.4305 71.8898 57.6123 64.3525 57.6123C60.9742 57.6123 57.8832 56.3694 55.5 54.3125C53.1168 56.3694 50.0258 57.6123 46.6475 57.6123C39.1102 57.6123 33 51.4305 33 43.8057C33.0002 36.181 39.1103 30 46.6475 30C50.0254 30 53.1169 31.2413 55.5 33.2979C57.8831 31.2413 60.9746 30 64.3525 30Z" fill="#ED0006"/><path d="M64.3525 30C71.8897 30 77.9998 36.181 78 43.8057C78 51.4305 71.8898 57.6123 64.3525 57.6123C60.9742 57.6123 57.8832 56.3694 55.5 54.3125C58.434 51.7802 60.2949 48.013 60.2949 43.8057C60.2948 39.5981 58.4344 35.8301 55.5 33.2979C57.8831 31.2413 60.9746 30 64.3525 30Z" fill="#F9A000"/><path d="M55.498 33.2969C58.4324 35.8291 60.293 39.5971 60.293 43.8047C60.293 48.0121 58.4321 51.7793 55.498 54.3115C52.564 51.7793 50.7031 48.012 50.7031 43.8047C50.7031 39.5971 52.5637 35.8291 55.498 33.2969Z" fill="#FF5E00"/></svg><span class="visually-hidden">Mastercard</span></li>
+      </ul>
+    </ul>
+  </template>
+
+  <!-- A · Dopis od autora -->
+  <template id="v-letter">
+    <div class="takeover ms letter">
+      <div class="me"><img src="../icons/icon128.png" alt=""><div><strong>Filip</strong><span>autor Subtitle Overlay</span></div></div>
+      <div class="stats">
+        <div class="stat hi"><b class="num">250</b><span>přeložených videí</span></div>
+        <div class="stat"><b class="num">48 210</b><span>přeložených řádků</span></div>
+      </div>
+      <h2 class="big">Mám radost, že ti Subtitle Overlay slouží. Pomůžeš mi, aby to tak zůstalo?</h2>
+      <p class="body">Rozšíření dělám sám, <strong>úplně zdarma a bez reklam</strong>. Stálo mě spoustu večerů, než se dostalo sem. Tvoje podpora mi dá čas se mu věnovat dál, opravovat ho, když se weby změní, a jednou třeba přidat i překlad videí, která titulky vůbec nemají.</p>
+      <div class="stack">
+        <button class="primary ms-donate" data-act="donate"><span data-i="heart" class="heart"></span>Podpořit Subtitle Overlay</button>
+        <p class="ms-methods">Ko-fi s Apple Pay a Google Pay, karta, PayPal, Revolut, QR platba i krypto</p>
+        <div class="ms-second">
+          <button data-act="share"><span data-i="share"></span><span>Poslat kamarádovi</span></button>
+          <button data-act="review"><span data-i="star"></span><span>Napsat recenzi</span></button>
+        </div>
+        <button class="ms-gh" data-act="github"><span data-i="github"></span>Nebo dej hvězdičku na GitHubu</button>
+        <button class="ms-later" data-act="close">Teď ne</button>
+        <p class="ms-once">Tohle okno uvidíš jen jednou. Podpora zůstane dole v rozšíření.</p>
+      </div>
+    </div>
+  </template>
+
+  <!-- B · Účtenka -->
+  <template id="v-receipt">
+    <div class="takeover ms receipt-wrap">
+      <button class="ms-close" title="Teď ne" aria-label="Teď ne" data-act="close" data-i="close"></button>
+      <div class="r-title"><h2 class="big">250 videí. Tady je tvůj účet.</h2><p class="r-sub">Dělám to sám a zdarma, tak ať víš, kolik tě to stálo.</p></div>
+      <div class="receipt">
+        <div class="r-head">Subtitle Overlay · účtenka</div>
+        <div class="r-row"><span>Přeložená videa</span><span></span><b class="num">250</b></div>
+        <div class="r-row"><span>Přeložené řádky</span><span></span><b class="num">48 210</b></div>
+        <div class="r-row zero"><span>Reklamy</span><span></span><b class="num">0</b></div>
+        <div class="r-row zero"><span>Sledování</span><span></span><b class="num">0</b></div>
+        <div class="r-row zero"><span>Předplatné</span><span></span><b class="num">0 Kč</b></div>
+        <div class="r-sum"><span>Celkem</span><span class="num">0 Kč</span></div>
+        <div class="r-tip"><span>Spropitné</span><b>dobrovolné</b></div>
+        <div class="r-foot">Díky, že ho používáš. Filip</div>
+      </div>
+      <div class="stack">
+        <button class="primary ms-donate" data-act="donate"><span data-i="heart" class="heart"></span>Přidat spropitné</button>
+        <div data-logos class="sm"></div>
+        <div class="ms-second">
+          <button data-act="share"><span data-i="share"></span><span>Sdílet</span></button>
+          <button data-act="review"><span data-i="star"></span><span>Recenze</span></button>
+        </div>
+        <button class="ms-gh" data-act="github"><span data-i="github"></span>Nebo dej hvězdičku na GitHubu</button>
+        <p class="ms-once">Ptám se jen jednou. Spropitné najdeš i dole v rozšíření.</p>
+      </div>
+    </div>
+  </template>
+
+  <!-- C · Karta milníku -->
+  <template id="v-inline">
+    <div class="inline-card ms">
+      <button class="ms-close" title="Teď ne (už se neukáže)" aria-label="Teď ne" data-act="close" data-i="close"></button>
+      <div class="top">
+        <div class="ring">
+          <svg width="54" height="54" viewBox="0 0 54 54" aria-hidden="true"><circle class="track" cx="27" cy="27" r="23" fill="none" stroke-width="3.5"/><circle class="fill" cx="27" cy="27" r="23" fill="none" stroke-width="3.5" stroke-linecap="round"/></svg>
+          <b class="num">250</b>
+        </div>
+        <div class="lbl"><strong>250 přeložených videí</strong><span class="num">To je 48 210 řádků. Paráda!</span></div>
+      </div>
+      <p class="why">Subtitle Overlay dělám sám, <strong>zdarma a bez reklam</strong>. Jestli ti šetří čas, malý příspěvek mi pomůže se mu věnovat i dál.</p>
+      <div class="acts">
+        <button class="primary ms-donate" data-act="donate"><span data-i="heart" class="heart"></span>Podpořit autora</button>
+        <button class="icon-btn" title="Poslat kamarádovi" aria-label="Poslat kamarádovi" data-act="share" data-i="share"></button>
+        <button class="icon-btn" title="Napsat recenzi" aria-label="Napsat recenzi" data-act="review" data-i="star"></button>
+      </div>
+      <div class="foot"><div data-logos></div><button class="ms-gh" data-act="github" title="Hvězdička na GitHubu"><span data-i="github"></span>GitHub</button></div>
+    </div>
+  </template>
+
+  <!-- D · Na co to pomůže -->
+  <template id="v-why">
+    <div class="ms">
+      <div class="scrim" data-act="close"></div>
+      <div class="sheet why-sheet">
+        <div class="grab"></div>
+        <button class="ms-close" title="Teď ne" aria-label="Teď ne" data-act="close" data-i="close"></button>
+        <span class="chip"><span data-i="heart" class="heart"></span><span class="num">250 videí · 48 210 řádků</span></span>
+        <h2 class="big">Ahoj, tady Filip. Pomůžeš mi v tom pokračovat?</h2>
+        <ul class="reasons">
+          <li><span class="ic" data-i="noad"></span><div><strong>100% zdarma, bez reklam a sledování</strong><span>A tak to i zůstane.</span></div></li>
+          <li><span class="ic" data-i="wrench"></span><div><strong>Péče, když se weby změní</strong><span>Opravy, nové weby a jazyky. Stojí to hodně večerů.</span></div></li>
+          <li class="future"><span class="ic" data-i="wave"></span><div><strong>Překlad i bez titulků<span class="tag">jednou</span></strong><span>Sen: přeložit i video, které titulky nemá vůbec.</span></div></li>
+        </ul>
+        <button class="primary ms-donate" data-act="donate"><span data-i="heart" class="heart"></span>Podpořit Subtitle Overlay</button>
+        <div data-logos class="sm"></div>
+        <div class="ms-second">
+          <button data-act="share"><span data-i="share"></span><span>Poslat kamarádovi</span></button>
+          <button data-act="review"><span data-i="star"></span><span>Napsat recenzi</span></button>
+        </div>
+        <button class="ms-gh" data-act="github"><span data-i="github"></span>Nebo dej hvězdičku na GitHubu</button>
+        <p class="ms-once">Ukážu se jen jednou. Podpora zůstane dole v rozšíření.</p>
+      </div>
+    </div>
+  </template>
+
+  <!-- E · Tři cesty -->
+  <template id="v-ways">
+    <div class="ms">
+      <div class="scrim" data-act="close"></div>
+      <div class="sheet ways">
+        <div class="grab"></div>
+        <button class="ms-close" title="Teď ne" aria-label="Teď ne" data-act="close" data-i="close"></button>
+        <div class="hello">
+          <strong>Právě jsi přeložil 250. video</strong>
+          <span>Subtitle Overlay dělám sám a zdarma. Aby mohl dál růst, pomůže mi cokoli z tohohle:</span>
+        </div>
+        <div class="tile main">
+          <div class="t-top">
+            <span class="t-ic" data-i="heart"></span>
+            <div class="t-txt"><strong>Pošli příspěvek</strong><span>Částku volíš ty, bez registrace</span></div>
+          </div>
+          <div data-logos></div>
+          <button class="primary ms-donate" data-act="donate">Podpořit autora</button>
+          <span class="ms-methods" style="text-align:left">Taky Revolut, QR platba z banky nebo krypto</span>
+        </div>
+        <div class="minor">
+          <button data-act="share"><span data-i="share"></span><div><b>Pošli kamarádovi</b><small>Zkopíruje odkaz</small></div></button>
+          <button data-act="review"><span data-i="star"></span><div><b>Recenze</b><small>Ve Web Store</small></div></button>
+        </div>
+        <button class="ms-gh" data-act="github"><span data-i="github"></span>Nebo dej hvězdičku na GitHubu</button>
+        <p class="ms-once">Tohle uvidíš jen jednou. Podpora zůstane dole v rozšíření.</p>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const icons = {};
+    for (const svg of $('icons').content.children) icons[svg.dataset.icon] = svg;
+    const STORE = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
+
+    let toastTimer;
+    function toast(text) {
+      $('toast').textContent = text;
+      $('toast').classList.add('on');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => $('toast').classList.remove('on'), 2600);
+    }
+
+    function build(frame) {
+      const v = frame.dataset.variant;
+      frame.replaceChildren($('popupTop').content.cloneNode(true));
+      const ask = $('v-' + v).content.firstElementChild.cloneNode(true);
+      for (const el of ask.querySelectorAll('[data-i]')) el.prepend(icons[el.dataset.i].cloneNode(true));
+      for (const el of ask.querySelectorAll('[data-logos]')) {
+        const ul = $('logos').content.firstElementChild.cloneNode(true);
+        if (el.classList.contains('sm')) ul.classList.add('sm');
+        el.replaceWith(ul);
+      }
+      const slot = frame.querySelector('.slot');
+      if (v === 'inline') slot.replaceWith(ask); else { slot.remove(); frame.append(ask); }
+
+      ask.addEventListener('click', async (e) => {
+        const b = e.target.closest('[data-act]');
+        if (!b) return;
+        const act = b.dataset.act;
+        if (act === 'close') return close(frame, ask);
+        if (act === 'donate') toast('Otevře se obrazovka Support the creator (Ko-fi). Výzva se už neukáže.');
+        if (act === 'github') toast('Otevře se github.com/Cleedek/subtitle-overlay (hvězdička).');
+        if (act === 'review') toast('Otevře se hodnocení v Chrome Web Store.');
+        if (act === 'share') {
+          try { await navigator.clipboard.writeText(STORE); } catch (err) {}
+          toast('Odkaz na Chrome Web Store je zkopírovaný.');
+        }
+      });
+    }
+
+    function close(frame, ask) {
+      ask.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing: 'ease-out' }).finished.then(() => {
+        ask.remove();
+        const note = document.createElement('p');
+        note.className = 'closed-note';
+        note.innerHTML = '<span>Zavřeno. Tahle výzva se už neukáže.</span>';
+        const again = Object.assign(document.createElement('button'), { textContent: 'Znovu' });
+        again.addEventListener('click', () => build(frame));
+        note.append(again);
+        frame.append(note);
+      });
+    }
+
+    const frames = document.querySelectorAll('.frame');
+    const buildAll = () => frames.forEach(build);
+    buildAll();
+    $('replay').addEventListener('click', buildAll);
+
+    const themeBtns = { dark: $('themeDark'), light: $('themeLight') };
+    for (const [theme, btn] of Object.entries(themeBtns)) {
+      btn.addEventListener('click', () => {
+        document.documentElement.dataset.theme = theme;
+        for (const [t, b] of Object.entries(themeBtns)) b.setAttribute('aria-selected', String(t === theme));
+      });
+    }
+  </script>
+</body>
+</html>

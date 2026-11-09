@@ -40,6 +40,7 @@
   let bareFullscreen = false;
   let ownFullscreen = null; // { container, videoStyle } while our own fullscreen is on
   let off = false;        // turned off on this site from the popup: offer, show and restore nothing
+  let askEl = null;       // the one-time support card under the language switches
 
   // The site is the tab's address, also inside a player frame from another domain.
   const topUrl = window === window.top ? location.href
@@ -273,7 +274,7 @@
     const style = document.createElement('style');
     style.textContent = SubRender.CSS + `
       :host { all: initial; }
-      :host([data-rtl]) :is(.toast, .hint, .fs, .drop, .found, .langs) { direction: rtl; }
+      :host([data-rtl]) :is(.toast, .hint, .fs, .drop, .found, .langs, .ask) { direction: rtl; }
       :host([data-rtl]) .langs button[aria-checked=true] .sw::after { transform: translateX(-12px); }
       .toast, .hint, .fs, .drop { font: 600 14px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; }
       .toast {
@@ -397,6 +398,57 @@
       .langs .ai.error .ai-acts .ai-act:first-child { background: #7a41e4; }
       .langs .ai.error .ai-acts .ai-act:first-child:hover { background: #8b55f0; }
       .found-msg .saved::before { content: "\\2713"; color: #86efac; font-weight: 700; margin-inline-end: 6px; }
+      /* The one-time "support the creator" card, under the language switches (same dark card). */
+      .ask {
+        position: absolute; top: 12px; right: 12px; display: none; flex-direction: column; gap: 10px; width: 300px;
+        pointer-events: auto; background: rgba(20,20,20,.92); padding: 14px 12px 10px; border-radius: 12px;
+        font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
+      }
+      .langs.on ~ .ask.on { display: flex; animation: ask-in .4s cubic-bezier(.25, 1, .5, 1) both; }
+      .found.on ~ .ask { display: none !important; }
+      @keyframes ask-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
+      @media (prefers-reduced-motion: reduce) { .langs.on ~ .ask.on { animation: none; } }
+      .ask a, .ask button { font: inherit; color: #fff; text-decoration: none; cursor: pointer; }
+      .ask svg { flex: none; }
+      .ask .x { position: absolute; top: 8px; inset-inline-end: 8px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 7px; background: transparent; color: rgba(255,255,255,.6); }
+      .ask .x:hover { background: rgba(255,255,255,.14); color: #fff; }
+      .ask .hello { display: flex; flex-direction: column; gap: 3px; padding-inline-end: 24px; }
+      .ask .hello strong { font-size: 14.5px; font-weight: 700; }
+      .ask .hello span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+      .ask .tile { display: flex; flex-direction: column; gap: 10px; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
+      .ask .who { display: flex; align-items: center; gap: 10px; }
+      .ask .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255,255,255,.14); }
+      .ask .who div { display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
+      .ask .who strong { font-weight: 650; font-size: 13.5px; }
+      .ask .who span { font-size: 11.5px; color: rgba(255,255,255,.65); }
+      .ask .logos { display: block; width: 200px; height: auto; max-width: 100%; }
+      .ask .main { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 12px; border-radius: 8px; background: #7c3aed; font-weight: 650; font-size: 13.5px; }
+      .ask .main:hover { background: #8b5cf6; }
+      .ask .main:active { transform: scale(.985); }
+      .ask .more { font-size: 11px; color: rgba(255,255,255,.6); }
+      .ask .minor { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      .ask .minor > * { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border: 0; border-radius: 9px; background: rgba(255,255,255,.1); text-align: start; }
+      .ask .minor > *:hover { background: rgba(255,255,255,.18); }
+      .ask .minor svg { color: rgba(255,255,255,.7); }
+      .ask .minor div { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+      .ask .minor b { font-weight: 600; font-size: 12.5px; }
+      .ask .minor small { font-size: 10.5px; color: rgba(255,255,255,.55); }
+      .ask .gh { display: inline-flex; align-items: center; justify-content: center; gap: 6px; align-self: center; padding: 2px 8px; color: rgba(255,255,255,.65); font-size: 11.5px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
+      .ask .gh:hover { color: #fff; text-decoration-color: currentColor; }
+      .ask .once { margin: -2px 0 0; text-align: center; font-size: 10.5px; color: rgba(255,255,255,.5); }
+      .ask .compact { display: none; }
+      /* A smaller video (under 500 px tall): the photo, one sentence, the button and small links. */
+      .ask.compact { width: 280px; padding: 10px; gap: 8px; }
+      .ask.compact > :not(.compact, .x) { display: none; }
+      .ask.compact .compact { display: flex; flex-direction: column; gap: 8px; }
+      .ask.compact .who { padding-inline-end: 22px; gap: 9px; }
+      .ask.compact .who img { width: 34px; height: 34px; }
+      .ask.compact .who strong { font-weight: 700; font-size: 13px; }
+      .ask.compact .main { padding: 7px 10px; font-size: 13px; }
+      .ask .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px 4px; font-size: 11.5px; color: rgba(255,255,255,.4); }
+      .ask .links > * { border: 0; background: none; padding: 1px 4px; border-radius: 5px; color: rgba(255,255,255,.75); font-size: 11.5px; }
+      .ask .links > :first-child { color: #fff; font-weight: 600; }
+      .ask .links > *:hover { background: rgba(255,255,255,.12); color: #fff; }
       .covered { visibility: hidden !important; } /* something of the page lies over the video here */
       /* The overlay covers the whole player; the subtitles sit on the picture inside it. */
       .pic { position: absolute; pointer-events: none; }
@@ -447,8 +499,12 @@
     noteClose.addEventListener('click', () => { siteDismissed = true; setSiteNote(siteSeen); });
     siteNoteEl.append(noteText, noteClose);
     langsEl = el('div', 'langs');
-    for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) langsEl.addEventListener(type, (e) => e.stopPropagation());
-    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl);
+    askEl = el('div', 'ask'); // filled the first time it shows (fillAsk)
+    askEl.setAttribute('role', 'dialog');
+    for (const node of [langsEl, askEl]) {
+      for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) node.addEventListener(type, (e) => e.stopPropagation());
+    }
+    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl);
     placeHost();
     useFont();
   }
@@ -750,7 +806,7 @@
   function checkCovered() {
     if (!host || !video || !host.isConnected) return;
     coverAt = performance.now();
-    for (const el of [subsEl, dualEl, langsEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl]) {
+    for (const el of [subsEl, dualEl, langsEl, askEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl]) {
       // The notice only fades out and keeps its size: testing it while gone costs as much as shown.
       if (!el || (el === toastEl && !el.classList.contains('on'))) continue;
       el.classList.toggle('covered', !document.fullscreenElement && covered(el));
@@ -1443,6 +1499,8 @@
         if (prefs.aiNotices) toast(t('Translation improved by {model}', { model }), 3000);
       } else rememberFile();
       if (prefs.aiSaveFile) saveImproved(to, list);
+      // For the support card: background.js counts each improved page once.
+      send({ type: 'count-video', page: pageOfSubs(), ai: true });
       // The episode the subtitles were loaded on, even if the site moved on to the next one meanwhile.
       SubSettings.keepSubtitles({ name: improvedName(to), lang: to, model, page: loadedOn || location.href,
         title: window === window.top && location.href === loadedOn ? pageTitle() : '', srt: SubLib.toSRT(list) }, prefs.keepFor).catch(() => {});
@@ -1645,6 +1703,152 @@
       if (fsAppeared || appeared) checkCovered(); else checkCoveredSoon();
       if (fsAppeared) liftForControls(); // subtitles at the top step below the button
     });
+  }
+
+  // ---------- the one-time "support the creator" card ----------
+
+  // Under the language switches, once SubSettings.supportAskDue says so: on 3
+  // videos at most, and any click on it (the cross too) ends it for good.
+  const KOFI = 'https://ko-fi.com/cleedek';
+  const STORE = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
+  const GITHUB = 'https://github.com/Cleedek/subtitle-overlay';
+  const ICON = {
+    heart: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor"/></svg>',
+    share: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3.5 8v5.5h9V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    star: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    github: '<svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>',
+    close: '<svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  };
+  let askData = null; // { stats, installedAt, supportAsk } from storage
+  chrome.storage.local.get(['stats', 'installedAt', 'supportAsk']).then((v) => { askData = v; }).catch(() => {});
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !askData) return;
+    for (const k of ['stats', 'installedAt', 'supportAsk']) if (changes[k]) askData[k] = changes[k].newValue;
+    if (changes.supportAsk && askData.supportAsk && askData.supportAsk.done && askEl) askEl.classList.remove('on');
+  });
+
+  // Due, over a translation, on a video tall enough (a small one waits for a
+  // bigger one), and on one of its 3 pages. A 4th page ends it for good.
+  function askWanted() {
+    if (!askData || !original || !cues.length || !video) return false;
+    const a = askData.supportAsk || {};
+    if (a.done || !SubSettings.supportAskDue(askData.stats, askData.installedAt)) return false;
+    if (stageOf(video).getBoundingClientRect().height < 300) return false;
+    const pages = a.pages || [];
+    const id = SubSettings.fingerprint(String(pageOfSubs()));
+    if (pages.includes(id)) return true;
+    if (pages.length >= SubSettings.SUPPORT_ASK.pages) { endAsk(); return false; }
+    askData.supportAsk = Object.assign({}, a, { pages: pages.concat(id) });
+    send({ type: 'support-ask', page: id });
+    return true;
+  }
+
+  function endAsk() {
+    if (askData) askData.supportAsk = Object.assign({}, askData.supportAsk, { done: true });
+    send({ type: 'support-ask', done: true });
+    if (askEl) askEl.classList.remove('on');
+  }
+
+  // With the language switches: right under them, compact on a smaller video.
+  function updateAsk() {
+    if (!askEl) return;
+    const on = langsEl.classList.contains('on') && askWanted();
+    if (on && !askEl.firstChild) fillAsk();
+    askEl.classList.toggle('on', on);
+    if (!on) return;
+    // The switches step down below the fullscreen button at times: right under wherever they are.
+    askEl.style.top = (langsEl.offsetTop + langsEl.offsetHeight + 8) + 'px';
+    askEl.classList.toggle('compact', stageOf(video).getBoundingClientRect().height < 500);
+  }
+
+  function fillAsk() {
+    const stats = (askData && askData.stats) || {};
+    const n = stats.videos || 0;
+    const link = (cls, href) => {
+      const a = el('a', cls);
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.addEventListener('click', endAsk);
+      return a;
+    };
+    const share = (cls) => {
+      const b = el('button', cls);
+      b.addEventListener('click', async () => {
+        endAsk();
+        try { await navigator.clipboard.writeText(STORE); toast(t('The link is copied. Send it to someone who’d like it.'), 3500); }
+        catch (e) { toast(STORE, 6000); }
+      });
+      return b;
+    };
+    const photo = (size) => {
+      const img = el('img');
+      img.src = chrome.runtime.getURL('icons/support/filip.jpg');
+      img.width = img.height = size;
+      img.alt = '';
+      img.addEventListener('error', () => img.remove()); // a page that blocks it: the card works without
+      return img;
+    };
+    const two = (strong, small, tagStrong, tagSmall) => {
+      const d = el('div');
+      d.append(el(tagStrong || 'b', '', strong), el(tagSmall || 'small', '', small));
+      return d;
+    };
+
+    const close = el('button', 'x');
+    close.innerHTML = ICON.close;
+    close.title = close.ariaLabel = t('Close (it won’t come back)');
+    close.addEventListener('click', endAsk);
+
+    const hello = el('div', 'hello');
+    const lines = stats.lines ? t('That’s {count} translated lines. Nice!', { n: stats.lines, count: stats.lines.toLocaleString(SubI18n.lang) }) + ' ' : '';
+    hello.append(el('strong', '', t('{n} videos translated', { n })),
+      el('span', '', lines + t('I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:')));
+
+    const tile = el('div', 'tile');
+    const who = el('div', 'who');
+    who.append(photo(38), two(t('Send Filip a tip'), t('You choose the amount') + ' · ' + t('No account needed'), 'strong', 'span'));
+    const logos = el('img', 'logos');
+    logos.src = chrome.runtime.getURL('icons/support/pay-logos-dark.svg');
+    logos.alt = 'Google Pay, Apple Pay, PayPal, Visa, Mastercard';
+    logos.addEventListener('error', () => logos.remove());
+    const main = link('main', KOFI);
+    main.innerHTML = ICON.heart;
+    main.append(t('Support the creator'));
+    tile.append(who, logos, main, el('span', 'more', t('More ways to pay in the extension popup')));
+
+    const minor = el('div', 'minor');
+    const shareBtn = share('');
+    shareBtn.innerHTML = ICON.share;
+    shareBtn.append(two(t('Share with a friend'), t('Copies the link')));
+    const review = link('', STORE + '/reviews');
+    review.innerHTML = ICON.star;
+    review.append(two(t('Write a review'), t('In the Chrome Web Store')));
+    minor.append(shareBtn, review);
+
+    const gh = link('gh', GITHUB);
+    gh.innerHTML = ICON.github;
+    gh.append(t('Or give it a star on GitHub'));
+
+    // The smaller video's version.
+    const compact = el('div', 'compact');
+    const cWho = el('div', 'who');
+    cWho.append(photo(34), two(t('{n} videos translated', { n }), t('I make it on my own, for free. Will you support me?'), 'strong', 'span'));
+    const cMain = link('main', KOFI);
+    cMain.innerHTML = ICON.heart;
+    cMain.append(t('Support the creator'));
+    const links = el('div', 'links');
+    const cShare = share('');
+    cShare.textContent = t('Share with a friend');
+    const cReview = link('', STORE + '/reviews');
+    cReview.textContent = t('Write a review');
+    const cGh = link('', GITHUB);
+    cGh.textContent = 'GitHub ★';
+    links.append(cShare, '·', cReview, '·', cGh);
+    compact.append(cWho, cMain, links);
+
+    askEl.setAttribute('aria-label', t('Support the creator'));
+    askEl.append(close, hello, tile, minor, gh, el('p', 'once', t('You’ll only see this once.')), compact);
   }
 
   // ---------- language switches (dual subtitles) ----------
@@ -1851,12 +2055,13 @@
     if (!fillLangs()) { langsEl.classList.remove('on'); return; }
     langsEl.classList.add('on');
     keepLangs(ms);
+    updateAsk();
   }
   // Keeps the card up a while longer, without building it again.
   function keepLangs(ms) {
     clearTimeout(langsTimer);
     const hideLater = (wait) => {
-      langsTimer = setTimeout(() => (langsEl.matches(':hover') ? hideLater(2500) : langsEl.classList.remove('on')), wait);
+      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') ? hideLater(2500) : langsEl.classList.remove('on')), wait);
     };
     hideLater(ms || 2500);
   }

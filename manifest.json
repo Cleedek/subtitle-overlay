@@ -69,5 +69,16 @@
       "run_at": "document_start",
       "world": "MAIN"
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/support/filip.jpg",
+        "icons/support/pay-logos-dark.svg"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
   ]
 }

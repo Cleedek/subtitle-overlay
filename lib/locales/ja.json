@@ -441,5 +441,15 @@
   "Connect first": "先に接続してください",
   "Connecting…": "接続中…",
   "Connected": "接続済み",
-  "Connected, but no models": "接続済み（モデルなし）"
+  "Connected, but no models": "接続済み（モデルなし）",
+  "Close (it won’t come back)": "閉じる（再表示されません）",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Subtitle Overlay は私ひとりで無料で作っています。これからも育てていくために、どれかひとつでも助けになります：",
+  "Send Filip a tip": "Filip にチップを送る",
+  "More ways to pay in the extension popup": "ほかの支払い方法は拡張機能のウィンドウにあります",
+  "Copies the link": "リンクをコピー",
+  "Write a review": "レビューを書く",
+  "In the Chrome Web Store": "Chrome ウェブストアで",
+  "Or give it a star on GitHub": "または GitHub でスターを付ける",
+  "You’ll only see this once.": "この表示は一度だけです。",
+  "I make it on my own, for free. Will you support me?": "ひとりで無料で作っています。応援してもらえますか？"
 }

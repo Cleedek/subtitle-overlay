@@ -441,5 +441,15 @@
   "Connect first": "Kết nối trước",
   "Connecting…": "Đang kết nối…",
   "Connected": "Đã kết nối",
-  "Connected, but no models": "Đã kết nối, nhưng không có mô hình"
+  "Connected, but no models": "Đã kết nối, nhưng không có mô hình",
+  "Close (it won’t come back)": "Đóng (sẽ không hiện lại)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Mình tự làm Subtitle Overlay và miễn phí. Để nó tiếp tục phát triển, bất kỳ điều nào dưới đây cũng giúp mình:",
+  "Send Filip a tip": "Gửi tiền tip cho Filip",
+  "More ways to pay in the extension popup": "Thêm cách thanh toán trong cửa sổ tiện ích",
+  "Copies the link": "Sao chép liên kết",
+  "Write a review": "Viết đánh giá",
+  "In the Chrome Web Store": "Trên Chrome Web Store",
+  "Or give it a star on GitHub": "Hoặc tặng một sao trên GitHub",
+  "You’ll only see this once.": "Bạn chỉ thấy thông báo này một lần.",
+  "I make it on my own, for free. Will you support me?": "Mình tự làm và miễn phí. Bạn ủng hộ mình nhé?"
 }

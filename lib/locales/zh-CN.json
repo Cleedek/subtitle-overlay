@@ -441,5 +441,15 @@
   "Connect first": "请先连接",
   "Connecting…": "正在连接…",
   "Connected": "已连接",
-  "Connected, but no models": "已连接，但没有模型"
+  "Connected, but no models": "已连接，但没有模型",
+  "Close (it won’t come back)": "关闭（不会再出现）",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Subtitle Overlay 由我一个人免费制作。为了让它继续成长，以下任何一种方式都能帮到我：",
+  "Send Filip a tip": "给 Filip 打赏",
+  "More ways to pay in the extension popup": "更多付款方式在扩展程序窗口中",
+  "Copies the link": "复制链接",
+  "Write a review": "写评价",
+  "In the Chrome Web Store": "在 Chrome 应用商店",
+  "Or give it a star on GitHub": "或者在 GitHub 上点个星",
+  "You’ll only see this once.": "这个提示只会出现一次。",
+  "I make it on my own, for free. Will you support me?": "我一个人免费制作它。愿意支持我吗？"
 }

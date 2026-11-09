@@ -441,5 +441,15 @@
   "Connect first": "Hubungkan dulu",
   "Connecting…": "Menghubungkan…",
   "Connected": "Terhubung",
-  "Connected, but no models": "Terhubung, tapi tidak ada model"
+  "Connected, but no models": "Terhubung, tapi tidak ada model",
+  "Close (it won’t come back)": "Tutup (tidak akan muncul lagi)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Aku membuat Subtitle Overlay sendiri dan gratis. Supaya terus berkembang, apa pun dari ini membantuku:",
+  "Send Filip a tip": "Kirim tip untuk Filip",
+  "More ways to pay in the extension popup": "Cara bayar lain ada di jendela ekstensi",
+  "Copies the link": "Menyalin tautan",
+  "Write a review": "Tulis ulasan",
+  "In the Chrome Web Store": "Di Chrome Web Store",
+  "Or give it a star on GitHub": "Atau beri bintang di GitHub",
+  "You’ll only see this once.": "Kamu hanya akan melihat ini sekali.",
+  "I make it on my own, for free. Will you support me?": "Aku membuatnya sendiri dan gratis. Mau dukung aku?"
 }

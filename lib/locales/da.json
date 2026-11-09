@@ -441,5 +441,15 @@
   "Connect first": "Forbind først",
   "Connecting…": "Forbinder…",
   "Connected": "Forbundet",
-  "Connected, but no models": "Forbundet, men ingen modeller"
+  "Connected, but no models": "Forbundet, men ingen modeller",
+  "Close (it won’t come back)": "Luk (kommer ikke igen)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Jeg laver Subtitle Overlay alene og gratis. For at det kan blive ved med at vokse, hjælper alt dette:",
+  "Send Filip a tip": "Send Filip drikkepenge",
+  "More ways to pay in the extension popup": "Flere måder at betale på i udvidelsens vindue",
+  "Copies the link": "Kopierer linket",
+  "Write a review": "Skriv en anmeldelse",
+  "In the Chrome Web Store": "I Chrome Web Store",
+  "Or give it a star on GitHub": "Eller giv den en stjerne på GitHub",
+  "You’ll only see this once.": "Det her ser du kun én gang.",
+  "I make it on my own, for free. Will you support me?": "Jeg laver det alene og gratis. Vil du støtte mig?"
 }

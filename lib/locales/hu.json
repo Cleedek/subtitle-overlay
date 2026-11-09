@@ -441,5 +441,15 @@
   "Connect first": "Előbb csatlakozz",
   "Connecting…": "Csatlakozás…",
   "Connected": "Csatlakozva",
-  "Connected, but no models": "Csatlakozva, de nincs modell"
+  "Connected, but no models": "Csatlakozva, de nincs modell",
+  "Close (it won’t come back)": "Bezárás (nem jön vissza)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "A Subtitle Overlayt egyedül és ingyen készítem. Hogy tovább fejlődhessen, ezek közül bármi segít:",
+  "Send Filip a tip": "Küldj Filipnek borravalót",
+  "More ways to pay in the extension popup": "További fizetési módok a bővítmény ablakában",
+  "Copies the link": "Kimásolja a linket",
+  "Write a review": "Írj értékelést",
+  "In the Chrome Web Store": "A Chrome Webáruházban",
+  "Or give it a star on GitHub": "Vagy adj neki csillagot a GitHubon",
+  "You’ll only see this once.": "Ezt csak egyszer látod.",
+  "I make it on my own, for free. Will you support me?": "Egyedül és ingyen csinálom. Támogatsz?"
 }

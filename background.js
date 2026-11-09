@@ -14,6 +14,11 @@ chrome.runtime.onStartup.addListener(() => { SubSettings.pruneSaved().catch(() =
 // An update changes nothing: people who already use it keep what they have.
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') chrome.storage.local.set({ autoTranslate: true, translateTo: SubI18n.resolve('auto') });
+  // When it started being used, for the support card's 3 weeks. Someone who
+  // already had it before this was counted starts from the update.
+  chrome.storage.local.get('installedAt').then(({ installedAt }) => {
+    if (!installedAt) chrome.storage.local.set({ installedAt: Date.now() });
+  }).catch(() => {});
 });
 const tr = SubI18n.t; // "t" is taken: it names a tab's captured state below
 SubI18n.load();
@@ -851,26 +856,36 @@ async function loadIntoTab(tabId, name, b64) {
   return chrome.tabs.sendMessage(tabId, { type: 'load', name, b64, encoding: 'auto', videoIndex: target.index }, { frameId: target.frameId });
 }
 
-// ---------- translated videos, for the rating card in the popup ----------
+// ---------- translated videos, for the rating card and the support card ----------
 
 // A page counts once: the last 100 are kept as short fingerprints, not their
 // addresses. Written here only, one after another, so two frames can't lose a count.
+// ai: an AI pass finished improving it, counted apart (and once) for the support card.
 const STATS_PAGES = 100;
-const fingerprint = (s) => {
-  let h = 0x811c9dc5; // FNV-1a
-  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193);
-  return (h >>> 0).toString(36);
-};
 let statsWrite = Promise.resolve();
-function countVideo(page, lines) {
+function countVideo(page, lines, ai) {
   statsWrite = statsWrite.then(async () => {
     const { stats = { videos: 0, lines: 0, pages: [] } } = await chrome.storage.local.get('stats');
-    const id = fingerprint(String(page));
-    if (stats.pages.includes(id)) return;
-    stats.pages = stats.pages.concat(id).slice(-STATS_PAGES);
-    stats.videos++;
-    stats.lines += Number(lines) || 0;
+    const id = SubSettings.fingerprint(String(page));
+    const key = ai ? 'aiPages' : 'pages';
+    const seen = stats[key] || [];
+    if (seen.includes(id)) return;
+    stats[key] = seen.concat(id).slice(-STATS_PAGES);
+    if (ai) stats.aiVideos = (stats.aiVideos || 0) + 1;
+    else { stats.videos++; stats.lines += Number(lines) || 0; }
     await chrome.storage.local.set({ stats });
+  }).catch(() => {});
+}
+
+// The support card over the video: the pages it showed on, and done for good
+// after any click on it (or once it showed on its last page).
+function supportAsk(msg) {
+  statsWrite = statsWrite.then(async () => {
+    const { supportAsk: a = { pages: [] } } = await chrome.storage.local.get('supportAsk');
+    if (a.done) return;
+    if (msg.done) a.done = true;
+    else if (msg.page && !a.pages.includes(msg.page)) a.pages = a.pages.concat(msg.page);
+    await chrome.storage.local.set({ supportAsk: a });
   }).catch(() => {});
 }
 
@@ -1028,7 +1043,11 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 
     case 'count-video':
       // A page showed a new translation (content.js).
-      countVideo(msg.page, msg.lines);
+      countVideo(msg.page, msg.lines, msg.ai);
+      return;
+
+    case 'support-ask':
+      supportAsk(msg);
       return;
 
     case 'ai-translate': {

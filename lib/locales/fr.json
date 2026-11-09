@@ -441,5 +441,15 @@
   "Connect first": "Connectez d’abord",
   "Connecting…": "Connexion…",
   "Connected": "Connecté",
-  "Connected, but no models": "Connecté, mais aucun modèle"
+  "Connected, but no models": "Connecté, mais aucun modèle",
+  "Close (it won’t come back)": "Fermer (ne reviendra pas)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Je fais Subtitle Overlay seul et gratuitement. Pour qu’il continue de grandir, tout ceci m’aide :",
+  "Send Filip a tip": "Envoie un pourboire à Filip",
+  "More ways to pay in the extension popup": "D’autres moyens de paiement dans la fenêtre de l’extension",
+  "Copies the link": "Copie le lien",
+  "Write a review": "Écrire un avis",
+  "In the Chrome Web Store": "Sur le Chrome Web Store",
+  "Or give it a star on GitHub": "Ou mets-lui une étoile sur GitHub",
+  "You’ll only see this once.": "Tu ne verras ceci qu’une fois.",
+  "I make it on my own, for free. Will you support me?": "Je le fais seul et gratuitement. Tu me soutiens ?"
 }

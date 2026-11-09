@@ -441,5 +441,15 @@
   "Connect first": "먼저 연결하세요",
   "Connecting…": "연결 중…",
   "Connected": "연결됨",
-  "Connected, but no models": "연결됨, 모델 없음"
+  "Connected, but no models": "연결됨, 모델 없음",
+  "Close (it won’t come back)": "닫기 (다시 표시되지 않아요)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Subtitle Overlay는 혼자서 무료로 만들고 있어요. 계속 발전할 수 있도록 이 중 무엇이든 도움이 돼요:",
+  "Send Filip a tip": "Filip에게 팁 보내기",
+  "More ways to pay in the extension popup": "다른 결제 방법은 확장 프로그램 창에 있어요",
+  "Copies the link": "링크를 복사해요",
+  "Write a review": "리뷰 쓰기",
+  "In the Chrome Web Store": "Chrome 웹 스토어에서",
+  "Or give it a star on GitHub": "또는 GitHub에서 별 주기",
+  "You’ll only see this once.": "이 안내는 한 번만 보여요.",
+  "I make it on my own, for free. Will you support me?": "혼자서 무료로 만들고 있어요. 응원해 주실래요?"
 }

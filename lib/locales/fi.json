@@ -441,5 +441,15 @@
   "Connect first": "Yhdistä ensin",
   "Connecting…": "Yhdistetään…",
   "Connected": "Yhdistetty",
-  "Connected, but no models": "Yhdistetty, mutta ei malleja"
+  "Connected, but no models": "Yhdistetty, mutta ei malleja",
+  "Close (it won’t come back)": "Sulje (ei palaa)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Teen Subtitle Overlayta yksin ja ilmaiseksi. Jotta se voi kasvaa, mikä tahansa näistä auttaa:",
+  "Send Filip a tip": "Lähetä Filipille tippi",
+  "More ways to pay in the extension popup": "Lisää maksutapoja laajennuksen ikkunassa",
+  "Copies the link": "Kopioi linkin",
+  "Write a review": "Kirjoita arvio",
+  "In the Chrome Web Store": "Chrome Web Storessa",
+  "Or give it a star on GitHub": "Tai anna sille tähti GitHubissa",
+  "You’ll only see this once.": "Näet tämän vain kerran.",
+  "I make it on my own, for free. Will you support me?": "Teen tätä yksin ja ilmaiseksi. Tuetko minua?"
 }

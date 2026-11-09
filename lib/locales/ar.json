@@ -441,5 +441,15 @@
   "Connect first": "اتصل أولًا",
   "Connecting…": "جارٍ الاتصال…",
   "Connected": "متصل",
-  "Connected, but no models": "متصل، لكن لا توجد نماذج"
+  "Connected, but no models": "متصل، لكن لا توجد نماذج",
+  "Close (it won’t come back)": "إغلاق (لن يظهر مجددًا)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "أصنع Subtitle Overlay وحدي ومجانًا. ليستمر في التطور، يساعدني أي مما يلي:",
+  "Send Filip a tip": "أرسل إكرامية إلى فيليب",
+  "More ways to pay in the extension popup": "طرق دفع أخرى في نافذة الإضافة",
+  "Copies the link": "ينسخ الرابط",
+  "Write a review": "اكتب مراجعة",
+  "In the Chrome Web Store": "في سوق Chrome الإلكتروني",
+  "Or give it a star on GitHub": "أو امنحه نجمة على GitHub",
+  "You’ll only see this once.": "لن ترى هذا إلا مرة واحدة.",
+  "I make it on my own, for free. Will you support me?": "أصنعه وحدي ومجانًا. هل تدعمني؟"
 }

@@ -441,5 +441,15 @@
   "Connect first": "पहले कनेक्ट करें",
   "Connecting…": "कनेक्ट हो रहा है…",
   "Connected": "कनेक्ट है",
-  "Connected, but no models": "कनेक्ट है, पर कोई मॉडल नहीं"
+  "Connected, but no models": "कनेक्ट है, पर कोई मॉडल नहीं",
+  "Close (it won’t come back)": "बंद करें (दोबारा नहीं दिखेगा)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "मैं Subtitle Overlay अकेले और मुफ़्त में बनाता हूँ। इसे आगे बढ़ाने में इनमें से कुछ भी मदद करेगा:",
+  "Send Filip a tip": "Filip को टिप भेजें",
+  "More ways to pay in the extension popup": "एक्सटेंशन की विंडो में भुगतान के और तरीके",
+  "Copies the link": "लिंक कॉपी करता है",
+  "Write a review": "रिव्यू लिखें",
+  "In the Chrome Web Store": "Chrome Web Store में",
+  "Or give it a star on GitHub": "या GitHub पर स्टार दें",
+  "You’ll only see this once.": "यह आपको सिर्फ़ एक बार दिखेगा।",
+  "I make it on my own, for free. Will you support me?": "मैं इसे अकेले और मुफ़्त में बनाता हूँ। क्या आप मेरा साथ देंगे?"
 }

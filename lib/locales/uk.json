@@ -441,5 +441,15 @@
   "Connect first": "Спершу підключись",
   "Connecting…": "Підключення…",
   "Connected": "Підключено",
-  "Connected, but no models": "Підключено, але моделей немає"
+  "Connected, but no models": "Підключено, але моделей немає",
+  "Close (it won’t come back)": "Закрити (більше не з’явиться)",
+  "I make Subtitle Overlay on my own, for free. To keep it growing, any of these helps:": "Я роблю Subtitle Overlay сам і безкоштовно. Щоб він і далі розвивався, допоможе будь-що з цього:",
+  "Send Filip a tip": "Надішли Філіпу чайові",
+  "More ways to pay in the extension popup": "Більше способів оплати у вікні розширення",
+  "Copies the link": "Копіює посилання",
+  "Write a review": "Написати відгук",
+  "In the Chrome Web Store": "У Chrome Web Store",
+  "Or give it a star on GitHub": "Або постав зірочку на GitHub",
+  "You’ll only see this once.": "Це вікно ти побачиш лише раз.",
+  "I make it on my own, for free. Will you support me?": "Я роблю це сам і безкоштовно. Підтримаєш мене?"
 }
