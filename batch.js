@@ -552,13 +552,24 @@
   menu.addEventListener('toggle', (e) => { if (e.newState === 'closed') { menuFor = ''; markOpen(); } });
 
   async function videoTabs() {
-    const tabs = (await chrome.tabs.query({})).filter((tab) => /^https?:/.test(tab.url || '') && !tab.discarded);
+    const tabs = (await chrome.tabs.query({})).filter((tab) => /^https?:/.test(tab.url || '') && !tab.discarded && !tab.frozen);
+    // Each tab gets a moment to answer. Without injectImmediately Chrome waits for
+    // every frame to finish loading, and an ad frame that never does (Prima+) would
+    // keep the whole menu on "Looking for videos…".
+    // null when the tab can't be used (browser pages, the Web Store) or didn't answer.
+    const run = (tab, how, ms) => Promise.race([
+      chrome.scripting.executeScript(Object.assign({ target: { tabId: tab.id, allFrames: true }, injectImmediately: true }, how)).catch(() => null),
+      new Promise((resolve) => setTimeout(() => resolve(null), ms)),
+    ]);
+    const ask = (tab) => run(tab, { func: () => { try { return window.__subOverlay ? window.__subOverlay.report() : null; } catch (e) { return null; } } }, 2000);
+    // A tab opened before the extension was installed, reloaded or updated has no
+    // content script until the page is reloaded; start it there instead.
+    const files = chrome.runtime.getManifest().content_scripts[0].js;
     const found = await Promise.all(tabs.map(async (tab) => {
-      const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id, allFrames: true },
-        func: () => (window.__subOverlay ? window.__subOverlay.report() : null),
-      }).catch(() => []);
-      const frames = results.filter((r) => r.result).map((r) => ({ frameId: r.frameId, report: r.result }));
+      let results = await ask(tab);
+      if (results && results.length && !results.some((r) => r && r.result) && await run(tab, { files }, 3000)) results = await ask(tab);
+      results = results || [];
+      const frames = results.filter((r) => r && r.result && Array.isArray(r.result.videos)).map((r) => ({ frameId: r.frameId, report: r.result }));
       const videos = frames.flatMap((f) => f.report.videos.map((v) => Object.assign({ frameId: f.frameId }, v)));
       if (!videos.length) return null;
       const top = frames.find((f) => f.frameId === 0);
@@ -634,7 +645,7 @@
       menu.style.left = Math.max(12 + scrollX, at.right - menu.offsetWidth) + 'px';
     };
     place();
-    const list = await videoTabs();
+    const list = await videoTabs().catch(() => []);
     if (menuFor !== id) return; // closed, or opened for another file meanwhile
     if (!list.length) {
       const e = el('div', 'tab-empty');
