@@ -2,6 +2,14 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
+## Postup pro 1.0.19 (co musíš udělat ty)
+
+**Stav 10. 11. 2026:** V obchodě je 1.0.18. Novinky: karta "Co je nového" po aktualizaci, "Pustit na…" ve frontě překladů, aktualizace upraveného vlastního stylu, popisky s .ttml. Oprávnění v manifestu se nezměnila a nic nového se nesbírá, takže zdůvodnění, Privacy practices ani zásady ochrany soukromí není potřeba měnit.
+
+1. **Changelog na webu:** cleedek.com musí mít 1.0.19 dřív, než to obchod schválí, protože karta na něj odkazuje (Claude připraví, ty schválíš push).
+2. **Nahraj balíček:** záložka **Package**, **Upload new package**, soubor `dist/subtitle-overlay-1.0.19.zip` (sestavený 10. 11. 2026 z commitu 2cf1e9b, 100 souborů, ověřený v Chromu: popup bez chyb, karta "Co je nového" česky).
+3. Popisy, screenshoty a video nech, jak jsou. Klikni na **Submit for review**.
+
 ## Postup pro 1.0.18 (co musíš udělat ty)
 
 **Stav 8. 11. 2026:** Claude vyplnil Dashboard přes Arc (nástroje ve `store/dashboard/`): popisy ve všech 32 jazycích (`store/descriptions/<jazyk>.txt`), nový screenshot 2 (EN i CS), zdůvodnění storage a Host permission a Data usage. Uloženo jako koncept, balíček 1.0.18 v konceptu už byl. Zbývá jen zkontrolovat a kliknout **Submit for review**.
