@@ -28,7 +28,8 @@
   --seg-quiet: oklch(0.48 0.012 290); /* chosen option inside a setting */
   --key-face: linear-gradient(oklch(0.29 0.012 290), oklch(0.235 0.010 290));
   --key-edge: inset 0 1px 0 oklch(1 0 0 / .12), 0 2px 0 oklch(0.12 0.008 290), 0 0 0 1px oklch(1 0 0 / .08);
-  --qr: none; /* the QR codes are drawn white */
+  --logo-ink: #fff; /* the black parts of the payment logos */
+  --qr-filter: none; /* the QR images are drawn white */
   --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a29fb3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --ease: cubic-bezier(.25, 1, .5, 1); /* ease-out-quart */
 }
@@ -60,7 +61,8 @@
   --seg-quiet: oklch(0.86 0.012 290);
   --key-face: linear-gradient(oklch(1 0 0), oklch(0.955 0.005 290));
   --key-edge: inset 0 1px 0 oklch(1 0 0), 0 2px 0 oklch(0.82 0.01 290), 0 0 0 1px oklch(0.25 0.02 290 / .14);
-  --qr: invert(.86); /* dark modules on the light card, as QR codes usually are */
+  --logo-ink: #000;
+  --qr-filter: brightness(0);
   --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23686872' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 /* The moment the look switches (lib/theme.js), so nothing fades in behind the rest. */
@@ -481,13 +483,22 @@ body.support #supportView { display: block !important; }
 .support .segmented { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: auto; }
 .support .segmented button { white-space: nowrap; padding-inline: 6px; }
 .segmented button[hidden] { display: none; }
-.pay-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px 16px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
-.qr { display: block; width: 196px; height: 196px; filter: var(--qr); }
+.pay-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 28px 16px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+/* QR codes straight on the card, which is their quiet zone: white in dark mode, black in light mode. */
+.qr { display: block; width: 196px; height: 196px; filter: var(--qr-filter); }
 .pay-id { margin: 14px 0 4px; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
 .pay-id span { color: var(--text); }
 .pay-note { margin: 0 0 14px; font-size: 12px; max-width: 280px; }
 .pay-actions { width: 100%; justify-content: center; }
 .pay-actions > * { flex: 1; text-align: center; padding: 8px 10px; }
+
+/* Ko-fi: the payment logos and two short promises under the address */
+.pay-logos { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 14px; margin: 16px 0 10px; padding: 0; }
+.pay-logos svg { display: block; }
+.pay-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin: 0 0 14px; font-size: 12px; color: var(--muted); }
+.pay-points span { display: inline-flex; align-items: center; gap: 5px; }
+.pay-points svg { color: var(--success); flex: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 a.btn { font: inherit; text-decoration: none; border-radius: 8px; border: 1px solid var(--accent); transition: background-color .15s var(--ease), border-color .15s var(--ease); }
 a.btn.primary { background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
 a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
