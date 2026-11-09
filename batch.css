@@ -76,8 +76,45 @@ a.job-name:hover { text-decoration: underline; }
 .saved-file { margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .job.saved .job-foot { margin-top: 6px; }
 
+/* "Show on…": a menu of the open tabs with a video (batch.js). A popover, so it
+   sits above everything and closes on a click outside or Esc; batch.js places it
+   under its button, in page coordinates, so it scrolls along with the page. */
+.show-on { display: inline-flex; align-items: center; gap: 6px; }
+.show-on svg { flex: none; transition: transform .15s var(--ease); }
+.show-on[aria-expanded="true"] svg { transform: rotate(180deg); }
+.job-note.showing { color: var(--accent-text); }
+.job-note.error-text { color: var(--danger); }
+.tab-menu {
+  position: absolute; inset: auto; margin: 0; width: min(340px, calc(100vw - 24px));
+  max-height: min(420px, calc(100vh - 24px)); overflow-y: auto;
+  background: var(--bg); color: var(--text); border: 1px solid var(--line-strong); border-radius: 12px; padding: 6px;
+  box-shadow: 0 16px 36px -10px var(--shadow);
+  font-size: 13px;
+}
+.tab-menu:popover-open { animation: menu-in .16s var(--ease) both; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(-4px); } }
+.tab-menu-title { padding: 6px 8px 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.tab-row {
+  width: 100%; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 2px 10px; text-align: left;
+  padding: 7px 8px; border: 0; border-radius: 8px; background: transparent; font-size: 13px;
+}
+.tab-row:hover, .tab-row:focus-visible { background: var(--panel-hover); }
+.fav {
+  grid-row: 1 / span 2; width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center;
+  font-size: 13px; font-weight: 700; background: var(--accent-tint); color: var(--accent-text);
+}
+.fav.img { background: var(--panel); }
+.fav img { width: 16px; height: 16px; }
+.tab-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.tab-site { grid-column: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--muted); }
+.tab-tag { grid-row: 1 / span 2; grid-column: 3; font-size: 10.5px; font-weight: 600; color: var(--accent-text); background: var(--accent-tint); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+.tab-empty { padding: 10px 8px 8px; font-size: 12.5px; color: var(--muted); }
+.tab-empty strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+.tab-foot { margin: 4px 2px 0; padding: 8px 6px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--faint); }
+
 @media (prefers-reduced-motion: reduce) {
   .job.running .job-bar::after { animation: none; display: none; }
+  .tab-menu:popover-open { animation: none; }
 }
 @media (max-width: 520px) {
   body { padding-top: 24px; }

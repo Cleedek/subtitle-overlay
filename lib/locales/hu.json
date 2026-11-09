@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "A Chrome Webáruházban",
   "Or give it a star on GitHub": "Vagy adj neki csillagot a GitHubon",
   "You’ll only see this once.": "Ezt csak egyszer látod.",
-  "I make it on my own, for free. Will you support me?": "Egyedül és ingyen csinálom. Támogatsz?"
+  "I make it on my own, for free. Will you support me?": "Egyedül és ingyen csinálom. Támogatsz?",
+  "Show on…": "Megjelenítés itt…",
+  "Show on": "Megjelenítés itt",
+  "Shows these subtitles over a video in another open tab.": "Ezeket a feliratokat egy másik nyitott lap videóján jeleníti meg.",
+  "Last viewed": "Utoljára nézett",
+  "No open tab has a video": "Egyik nyitott lapon sincs videó",
+  "Open the video in another tab and start it, then try again.": "Nyisd meg a videót egy másik lapon és indítsd el, aztán próbáld újra.",
+  "Only tabs with a video are listed.": "Csak a videót tartalmazó lapok látszanak.",
+  "Showing on {site}": "Fut itt: {site}"
 }

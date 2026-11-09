@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "V Chrome Web Store",
   "Or give it a star on GitHub": "Alebo daj hviezdičku na GitHube",
   "You’ll only see this once.": "Toto uvidíš len raz.",
-  "I make it on my own, for free. Will you support me?": "Robím to sám a zadarmo. Podporíš ma?"
+  "I make it on my own, for free. Will you support me?": "Robím to sám a zadarmo. Podporíš ma?",
+  "Show on…": "Pustiť na…",
+  "Show on": "Pustiť na",
+  "Shows these subtitles over a video in another open tab.": "Zobrazí tieto titulky cez video v inej otvorenej karte.",
+  "Last viewed": "Naposledy",
+  "No open tab has a video": "Žiadna otvorená karta nemá video",
+  "Open the video in another tab and start it, then try again.": "Otvor video v inej karte a spusti ho, potom to skús znova.",
+  "Only tabs with a video are listed.": "Sú tu len karty s videom.",
+  "Showing on {site}": "Beží na {site}"
 }

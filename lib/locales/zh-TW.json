@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "在 Chrome 線上應用程式商店",
   "Or give it a star on GitHub": "或在 GitHub 上給顆星",
   "You’ll only see this once.": "這個提示只會出現一次。",
-  "I make it on my own, for free. Will you support me?": "我一個人免費製作它。願意支持我嗎？"
+  "I make it on my own, for free. Will you support me?": "我一個人免費製作它。願意支持我嗎？",
+  "Show on…": "顯示到…",
+  "Show on": "顯示到",
+  "Shows these subtitles over a video in another open tab.": "在另一個已開啟分頁的影片上顯示這些字幕。",
+  "Last viewed": "最近查看",
+  "No open tab has a video": "沒有開啟的分頁包含影片",
+  "Open the video in another tab and start it, then try again.": "請在另一個分頁開啟影片並開始播放，然後再試一次。",
+  "Only tabs with a video are listed.": "只列出有影片的分頁。",
+  "Showing on {site}": "正在 {site} 上顯示"
 }

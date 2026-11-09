@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "În Chrome Web Store",
   "Or give it a star on GitHub": "Sau dă-i o stea pe GitHub",
   "You’ll only see this once.": "Vei vedea asta o singură dată.",
-  "I make it on my own, for free. Will you support me?": "Îl fac singur și gratuit. Mă susții?"
+  "I make it on my own, for free. Will you support me?": "Îl fac singur și gratuit. Mă susții?",
+  "Show on…": "Arată pe…",
+  "Show on": "Arată pe",
+  "Shows these subtitles over a video in another open tab.": "Arată aceste subtitrări peste un videoclip dintr-o altă filă deschisă.",
+  "Last viewed": "Văzută ultima",
+  "No open tab has a video": "Nicio filă deschisă nu are un videoclip",
+  "Open the video in another tab and start it, then try again.": "Deschide videoclipul într-o altă filă și pornește-l, apoi încearcă din nou.",
+  "Only tabs with a video are listed.": "Apar doar filele cu un videoclip.",
+  "Showing on {site}": "Se afișează pe {site}"
 }

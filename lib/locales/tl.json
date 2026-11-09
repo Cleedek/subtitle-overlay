@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Sa Chrome Web Store",
   "Or give it a star on GitHub": "O bigyan ito ng star sa GitHub",
   "You’ll only see this once.": "Isang beses mo lang ito makikita.",
-  "I make it on my own, for free. Will you support me?": "Ako lang ang gumagawa nito, at libre. Susuportahan mo ba ako?"
+  "I make it on my own, for free. Will you support me?": "Ako lang ang gumagawa nito, at libre. Susuportahan mo ba ako?",
+  "Show on…": "Ipakita sa…",
+  "Show on": "Ipakita sa",
+  "Shows these subtitles over a video in another open tab.": "Ipinapakita ang mga subtitle na ito sa ibabaw ng video sa ibang bukas na tab.",
+  "Last viewed": "Huling tiningnan",
+  "No open tab has a video": "Walang bukas na tab na may video",
+  "Open the video in another tab and start it, then try again.": "Buksan ang video sa ibang tab at i-play ito, saka subukan ulit.",
+  "Only tabs with a video are listed.": "Mga tab lang na may video ang nakalista.",
+  "Showing on {site}": "Ipinapakita sa {site}"
 }

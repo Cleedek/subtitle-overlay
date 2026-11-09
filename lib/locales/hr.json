@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "U Chrome web-trgovini",
   "Or give it a star on GitHub": "Ili mu daj zvjezdicu na GitHubu",
   "You’ll only see this once.": "Ovo ćeš vidjeti samo jednom.",
-  "I make it on my own, for free. Will you support me?": "Radim to sam i besplatno. Hoćeš li me podržati?"
+  "I make it on my own, for free. Will you support me?": "Radim to sam i besplatno. Hoćeš li me podržati?",
+  "Show on…": "Prikaži na…",
+  "Show on": "Prikaži na",
+  "Shows these subtitles over a video in another open tab.": "Prikazuje ove titlove preko videa u drugoj otvorenoj kartici.",
+  "Last viewed": "Zadnje gledano",
+  "No open tab has a video": "Nijedna otvorena kartica nema video",
+  "Open the video in another tab and start it, then try again.": "Otvori video u drugoj kartici i pokreni ga, pa pokušaj ponovno.",
+  "Only tabs with a video are listed.": "Prikazane su samo kartice s videom.",
+  "Showing on {site}": "Prikazuje se na {site}"
 }

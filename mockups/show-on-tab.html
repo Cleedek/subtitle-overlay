@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="cs" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Show on tab mockup</title>
+  <!-- The real queue page styles, so the list looks exactly like the extension. -->
+  <link rel="stylesheet" href="../popup.css">
+  <link rel="stylesheet" href="../batch.css">
+  <style>
+    /* ---------- the mockup page around the queue (not for batch.css) ---------- */
+    :root { --page: oklch(0.13 0.008 290); --frame-edge: oklch(1 0 0 / .07); }
+    :root[data-theme="light"] { --page: oklch(0.92 0.006 290); --frame-edge: oklch(0.25 0.02 290 / .10); }
+    body { max-width: 1180px; padding: 28px 24px 64px; background: var(--page); }
+    .page-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 680px; font-size: 13px; }
+    .tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .tools .segmented { grid-template-columns: repeat(2, auto); margin: 0; }
+    .layout { display: grid; grid-template-columns: minmax(0, 680px) minmax(240px, 1fr); gap: 32px; align-items: start; }
+    .qpage { background: var(--bg); border-radius: 14px; padding: 8px 28px 28px; box-shadow: 0 0 0 1px var(--frame-edge), 0 18px 40px -12px var(--shadow); }
+    .qpage section + section { border-top: 1px solid var(--line); }
+    #saved { padding-bottom: 230px; } /* room for the open menu */
+    .notes { position: sticky; top: 24px; font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 14px; }
+    .notes h2 { margin: 0 0 -6px; }
+    .notes p { margin: 0; }
+    .notes strong { color: var(--text); font-weight: 600; }
+    .notes ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+    .new { outline: 2px dashed var(--accent-line); outline-offset: 3px; }
+    .toast {
+      position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; z-index: 50;
+      padding: 8px 14px; border-radius: 999px; background: var(--text); color: var(--bg); font-size: 12.5px; font-weight: 500;
+      transition: opacity .2s var(--ease), transform .2s var(--ease);
+    }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .notes { position: static; } .qpage { padding: 8px 16px 20px; } }
+
+    /* =====================================================================
+       "Show on…" and its tab menu (as they would go into batch.css)
+       ===================================================================== */
+    .job { position: relative; }
+    .show-on { display: inline-flex; align-items: center; gap: 6px; }
+    .show-on svg { flex: none; transition: transform .15s var(--ease); }
+    .show-on[aria-expanded="true"] svg { transform: rotate(180deg); }
+    .tab-menu {
+      position: absolute; right: 12px; top: calc(100% - 6px); z-index: 10; width: 340px; max-width: calc(100% - 24px);
+      background: var(--bg); border: 1px solid var(--line-strong); border-radius: 12px; padding: 6px;
+      box-shadow: 0 16px 36px -10px var(--shadow);
+      transform-origin: top right; animation: menu-in .16s var(--ease) both;
+    }
+    @keyframes menu-in { from { opacity: 0; transform: translateY(-4px) scale(.98); } }
+    .tab-menu-title { padding: 6px 8px 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+    .tab-row {
+      width: 100%; display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 2px 10px; text-align: left;
+      padding: 7px 8px; border: 0; border-radius: 8px; background: transparent; font-size: 13px;
+    }
+    .tab-row:hover, .tab-row:focus-visible { background: var(--panel-hover); }
+    .fav { grid-row: 1 / span 2; width: 28px; height: 28px; border-radius: 7px; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: oklch(0.99 0.003 290); }
+    .tab-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+    .tab-site { grid-column: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--muted); }
+    .tab-tag { grid-row: 1 / span 2; grid-column: 3; font-size: 10.5px; font-weight: 600; color: var(--accent-text); background: var(--accent-tint); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+    .tab-empty { padding: 10px 8px 8px; font-size: 12.5px; color: var(--muted); }
+    .tab-empty strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
+    .tab-foot { margin: 4px 2px 0; padding: 8px 6px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--faint); }
+    .job-note.showing { color: var(--accent-text); }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <div>
+      <h1>"Show on…" ve frontě: návrh</h1>
+      <p>Každé hotové a uložené titulky dostanou tlačítko <strong>Show on…</strong>. Otevře seznam záložek, ve kterých je video, a jedním klikem titulky pustí tam. Funguje i bez odkazu na původní stránku. Je to skutečná stránka fronty se skutečnými styly, data jsou ukázková. Nové prvky jsou orámované přerušovanou čarou.</p>
+    </div>
+    <div class="tools">
+      <div class="segmented" role="tablist" aria-label="Záložky">
+        <button id="tabsSome" role="tab" aria-selected="true">3 záložky s videem</button>
+        <button id="tabsNone" role="tab" aria-selected="false">Žádná</button>
+      </div>
+      <div class="segmented" role="tablist" aria-label="Motiv">
+        <button id="themeDark" role="tab" aria-selected="true">Tmavý</button>
+        <button id="themeLight" role="tab" aria-selected="false">Světlý</button>
+      </div>
+      <button id="reset">Vrátit</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <main class="qpage">
+      <section>
+        <div class="queue-head"><h2>Queue</h2><div class="queue-actions"><button class="ghost">Download all</button><button class="ghost">Clear finished</button></div></div>
+        <ul class="jobs" id="jobs"></ul>
+      </section>
+      <section id="saved">
+        <div class="queue-head"><h2>Saved subtitles</h2></div>
+        <ul class="jobs" id="savedList"></ul>
+      </section>
+    </main>
+
+    <aside class="notes">
+      <h2>Jak to funguje</h2>
+      <p><strong>Bez odkazu</strong> (soubor nahraný ručně do fronty, druhá a třetí karta): <strong>Show on…</strong> je hlavní fialové tlačítko, Download zůstává vedle.</p>
+      <p><strong>S odkazem</strong> (první karta): zůstává <strong>Play</strong> jako dnes, Show on… je vedle jako druhá možnost, třeba když stejný film pouštíš na jiném webu.</p>
+      <p><strong>Seznam záložek</strong> ukazuje jen ty, kde rozšíření vidí video. Nahoře je ta, kde jsi byl naposledy, se štítkem <strong>Last viewed</strong>. Ikonka webu, název stránky a adresa, ať je jasné, kam to jde.</p>
+      <p><strong>Po kliknutí</strong> tě to přepne do té záložky a titulky se pustí přes video. Na kartě ve frontě pak chvíli svítí "Showing on…".</p>
+      <p><strong>Žádná záložka s videem:</strong> přepni nahoře na "Žádná". Seznam jednou větou řekne, co udělat.</p>
+      <h2>Otevřené otázky</h2>
+      <ul>
+        <li>Jestli se titulky dají pustit bez obnovení stránky. Pokud ne, stránka se jednou obnoví (jako dnes u Play).</li>
+        <li>Časování: titulky z jiného zdroje nemusí sedět. Doladí se v Sync v popupu na té stránce.</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const CHEV = '<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const TABS = [
+      { name: 'Zrádci, 2. řada, 5. díl', site: 'iprima.cz', letter: 'P', color: 'oklch(0.55 0.19 25)', last: true },
+      { name: 'Perfect Days (2023)', site: 'mubi.com', letter: 'M', color: 'oklch(0.35 0.02 290)' },
+      { name: 'How a jet engine works', site: 'youtube.com', letter: 'Y', color: 'oklch(0.58 0.22 27)' },
+    ];
+    const queue = [
+      { id: 'q1', title: 'The Bear S03E02', lang: '🇨🇿 Czech', note: 'Done · 1 312 lines', from: 'disneyplus.com', page: true },
+      { id: 'q2', title: 'Perfect.Days.2023.1080p.WEB.srt', lang: '🇨🇿 Czech', note: 'Done · 986 lines · gemma3:12b', page: false },
+    ];
+    const saved = [
+      { id: 's1', title: 'Zradci.S02E05.srt', lang: '🇨🇿 Czech', meta: '8 Nov 2026, 21:14 · gemma3:12b · Kept forever', page: false, open: true },
+    ];
+    let noTabs = false;
+
+    let toastTimer;
+    function toast(text) {
+      $('toast').textContent = text;
+      $('toast').classList.add('on');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => $('toast').classList.remove('on'), 2800);
+    }
+    const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+    function menu(job, li) {
+      const m = el('div', 'tab-menu new');
+      m.setAttribute('role', 'menu');
+      if (noTabs) {
+        const e = el('div', 'tab-empty');
+        e.append(el('strong', '', 'No open tab has a video'), 'Open the video in another tab and start it, then try again.');
+        m.append(e);
+        return m;
+      }
+      m.append(el('div', 'tab-menu-title', 'Show on'));
+      for (const tab of TABS) {
+        const r = el('button', 'tab-row');
+        r.setAttribute('role', 'menuitem');
+        const fav = el('span', 'fav', tab.letter);
+        fav.style.background = tab.color;
+        r.append(fav, el('span', 'tab-name', tab.name), el('span', 'tab-site', tab.site));
+        if (tab.last) r.append(el('span', 'tab-tag', 'Last viewed'));
+        r.addEventListener('click', () => {
+          close();
+          li.querySelector('.job-note').textContent = 'Showing on ' + tab.site;
+          li.querySelector('.job-note').classList.add('showing');
+          toast('Přepne do záložky ' + tab.site + ' a pustí titulky přes video.');
+        });
+        m.append(r);
+      }
+      m.append(el('div', 'tab-foot', 'Only tabs with a video are listed.'));
+      return m;
+    }
+
+    function close() {
+      for (const m of document.querySelectorAll('.tab-menu')) m.remove();
+      for (const b of document.querySelectorAll('.show-on')) b.setAttribute('aria-expanded', 'false');
+    }
+
+    function showOn(job, li, primary) {
+      const b = el('button', 'show-on new' + (primary ? ' primary' : ''));
+      b.innerHTML = 'Show on… ' + CHEV;
+      b.setAttribute('aria-haspopup', 'menu');
+      b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = b.getAttribute('aria-expanded') === 'true';
+        close();
+        if (open) return;
+        b.setAttribute('aria-expanded', 'true');
+        li.append(menu(job, li));
+      });
+      return b;
+    }
+
+    function row(job, isSaved) {
+      const li = el('li', 'job done' + (isSaved ? ' saved' : ''));
+      const head = el('div', 'job-head');
+      const x = el('button', 'ghost job-x', '×');
+      head.append(el('span', 'job-check', '✓'), el('span', 'job-name', job.title), el('span', 'job-lang', job.lang), x);
+      li.append(head);
+      if (isSaved) li.append(el('div', 'saved-meta', job.meta));
+      else {
+        if (job.from) li.append(el('div', 'saved-meta', job.from));
+        const bar = el('div', 'job-bar'); const fill = el('span'); fill.style.width = '100%'; bar.append(fill); li.append(bar);
+      }
+      const foot = el('div', 'job-foot');
+      foot.append(el('span', 'job-note', isSaved ? '' : job.note));
+      if (job.page) {
+        const play = el('button', 'primary', 'Play');
+        play.addEventListener('click', () => toast('Jako dnes: otevře původní stránku a pustí titulky tam.'));
+        foot.append(play, showOn(job, li, false));
+      } else foot.append(showOn(job, li, true));
+      foot.append(el('button', '', 'Download .srt'));
+      li.append(foot);
+      if (job.open) setTimeout(() => foot.querySelector('.show-on').click());
+      return li;
+    }
+
+    function build() {
+      close();
+      $('jobs').replaceChildren(...queue.map((j) => row(j, false)));
+      $('savedList').replaceChildren(...saved.map((j) => row(j, true)));
+    }
+    document.addEventListener('click', (e) => { if (!e.target.closest('.tab-menu')) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    build();
+    $('reset').onclick = build;
+    for (const [id, val] of [['tabsSome', false], ['tabsNone', true]]) {
+      $(id).onclick = (e) => {
+        e.stopPropagation();
+        noTabs = val;
+        $('tabsSome').setAttribute('aria-selected', !val);
+        $('tabsNone').setAttribute('aria-selected', val);
+        build();
+      };
+    }
+    for (const [id, theme] of [['themeDark', 'dark'], ['themeLight', 'light']]) {
+      $(id).onclick = () => {
+        document.documentElement.dataset.theme = theme;
+        $('themeDark').setAttribute('aria-selected', theme === 'dark');
+        $('themeLight').setAttribute('aria-selected', theme === 'light');
+      };
+    }
+  </script>
+</body>
+</html>

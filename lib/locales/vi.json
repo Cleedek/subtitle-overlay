@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Trên Chrome Web Store",
   "Or give it a star on GitHub": "Hoặc tặng một sao trên GitHub",
   "You’ll only see this once.": "Bạn chỉ thấy thông báo này một lần.",
-  "I make it on my own, for free. Will you support me?": "Mình tự làm và miễn phí. Bạn ủng hộ mình nhé?"
+  "I make it on my own, for free. Will you support me?": "Mình tự làm và miễn phí. Bạn ủng hộ mình nhé?",
+  "Show on…": "Hiện trên…",
+  "Show on": "Hiện trên",
+  "Shows these subtitles over a video in another open tab.": "Hiện phụ đề này trên video ở một thẻ khác đang mở.",
+  "Last viewed": "Xem gần nhất",
+  "No open tab has a video": "Không có thẻ nào đang mở có video",
+  "Open the video in another tab and start it, then try again.": "Mở video ở một thẻ khác và bấm phát, rồi thử lại.",
+  "Only tabs with a video are listed.": "Chỉ liệt kê các thẻ có video.",
+  "Showing on {site}": "Đang hiện trên {site}"
 }

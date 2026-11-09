@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "ใน Chrome เว็บสโตร์",
   "Or give it a star on GitHub": "หรือให้ดาวบน GitHub",
   "You’ll only see this once.": "คุณจะเห็นข้อความนี้แค่ครั้งเดียว",
-  "I make it on my own, for free. Will you support me?": "ผมทำคนเดียวและให้ใช้ฟรี ช่วยสนับสนุนผมไหม?"
+  "I make it on my own, for free. Will you support me?": "ผมทำคนเดียวและให้ใช้ฟรี ช่วยสนับสนุนผมไหม?",
+  "Show on…": "แสดงบน…",
+  "Show on": "แสดงบน",
+  "Shows these subtitles over a video in another open tab.": "แสดงคำบรรยายนี้บนวิดีโอในแท็บอื่นที่เปิดอยู่",
+  "Last viewed": "ดูล่าสุด",
+  "No open tab has a video": "ไม่มีแท็บที่เปิดอยู่ซึ่งมีวิดีโอ",
+  "Open the video in another tab and start it, then try again.": "เปิดวิดีโอในแท็บอื่นแล้วกดเล่น จากนั้นลองอีกครั้ง",
+  "Only tabs with a video are listed.": "แสดงเฉพาะแท็บที่มีวิดีโอ",
+  "Showing on {site}": "กำลังแสดงบน {site}"
 }

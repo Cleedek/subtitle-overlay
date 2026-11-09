@@ -535,6 +535,145 @@
   }
   const siteName = (page) => { try { return new URL(page).hostname.replace(/^www\./, ''); } catch (e) { return ''; } };
 
+  // ---------- "Show on…": over a video in another open tab ----------
+  // For subtitles that don't know their page (a file added here by hand), and for
+  // the same film on another site. A menu lists the open tabs with a video, the one
+  // looked at last first; the pick gets the subtitles at once, as a file loaded in
+  // the popup does, without a reload.
+  const shownOn = new Map(); // row id -> { text, error } said under it after a pick (while this page is open)
+  let menuFor = ''; // row id of the open menu
+  const menu = el('div', 'tab-menu');
+  menu.popover = 'auto';
+  menu.setAttribute('role', 'menu');
+  document.body.append(menu);
+  const markOpen = () => {
+    for (const b of document.querySelectorAll('.show-on')) b.setAttribute('aria-expanded', String(b.dataset.menu === menuFor));
+  };
+  menu.addEventListener('toggle', (e) => { if (e.newState === 'closed') { menuFor = ''; markOpen(); } });
+
+  async function videoTabs() {
+    const tabs = (await chrome.tabs.query({})).filter((tab) => /^https?:/.test(tab.url || '') && !tab.discarded);
+    const found = await Promise.all(tabs.map(async (tab) => {
+      const results = await chrome.scripting.executeScript({
+        target: { tabId: tab.id, allFrames: true },
+        func: () => (window.__subOverlay ? window.__subOverlay.report() : null),
+      }).catch(() => []);
+      const frames = results.filter((r) => r.result).map((r) => ({ frameId: r.frameId, report: r.result }));
+      const videos = frames.flatMap((f) => f.report.videos.map((v) => Object.assign({ frameId: f.frameId }, v)));
+      if (!videos.length) return null;
+      const top = frames.find((f) => f.frameId === 0);
+      return { tab, frames, videos, title: (top && top.report.title) || tab.title || tab.url };
+    }));
+    return found.filter(Boolean).sort((a, b) => (b.tab.lastAccessed || 0) - (a.tab.lastAccessed || 0));
+  }
+
+  // The video they go to, picked as the popup picks it: the one showing subtitles
+  // now, else one playing, else the largest.
+  function targetOf(found) {
+    const lf = found.frames.find((f) => f.report.loaded);
+    const current = found.videos.filter((v) => v.current && v.visible);
+    const showing = lf && current.find((v) => v.frameId === lf.frameId);
+    if (showing) return showing;
+    const playing = current.filter((v) => v.playing);
+    const pool = playing.length ? playing : current.length ? current : found.videos.filter((v) => v.visible);
+    return (pool.length ? pool : found.videos).sort((a, b) => b.width * b.height - a.width * a.height)[0];
+  }
+
+  async function showOnTab(found, id, file) {
+    const v = targetOf(found);
+    const lf = found.frames.find((f) => f.report.loaded);
+    if (lf && lf.frameId !== v.frameId) await chrome.tabs.sendMessage(found.tab.id, { type: 'clear' }, { frameId: lf.frameId }).catch(() => {});
+    const res = await chrome.tabs.sendMessage(found.tab.id, { type: 'load', name: file.name, b64: b64(file.text), encoding: 'utf-8', videoIndex: v.index }, { frameId: v.frameId })
+      .catch(() => null);
+    const ok = res && res.ok;
+    shownOn.set(id, ok ? { text: t('Showing on {site}', { site: siteName(found.tab.url) }) }
+      : { text: (res && res.error) || t('The page didn’t answer. Reload the page and try again.'), error: true });
+    render();
+    renderSaved();
+    if (!ok) return;
+    await chrome.tabs.update(found.tab.id, { active: true });
+    await chrome.windows.update(found.tab.windowId, { focused: true });
+  }
+
+  function tabRow(found, last, id, file) {
+    const r = el('button', 'tab-row');
+    r.setAttribute('role', 'menuitem');
+    const site = siteName(found.tab.url);
+    const fav = el('span', 'fav', (site[0] || '?').toUpperCase());
+    if (/^(https?|data):/.test(found.tab.favIconUrl || '')) {
+      const img = el('img');
+      img.alt = '';
+      img.addEventListener('load', () => { fav.classList.add('img'); fav.replaceChildren(img); });
+      img.src = found.tab.favIconUrl;
+    }
+    r.append(fav, el('span', 'tab-name', found.title), el('span', 'tab-site', site));
+    if (last) r.append(el('span', 'tab-tag', t('Last viewed')));
+    r.title = found.title;
+    r.addEventListener('click', () => {
+      menu.hidePopover();
+      showOnTab(found, id, file).catch((e) => { shownOn.set(id, { text: e.message, error: true }); render(); renderSaved(); });
+    });
+    return r;
+  }
+
+  async function openMenu(button, id, file) {
+    menuFor = id;
+    markOpen();
+    menu.replaceChildren(el('div', 'tab-empty', t('Looking for videos…')));
+    if (!menu.matches(':popover-open')) menu.showPopover();
+    // Under the button, its right edge on the button's, in page coordinates so the
+    // page scrolls it along; above the button when it wouldn't fit below (the last
+    // saved file sits at the bottom of the page, and the menu can't extend the page).
+    const r = button.getBoundingClientRect();
+    const at = { top: r.top + scrollY, bottom: r.bottom + scrollY, right: r.right + scrollX };
+    const place = () => {
+      const h = menu.offsetHeight;
+      const below = at.bottom - scrollY + 6 + h <= innerHeight - 8;
+      const fitsAbove = at.top - scrollY - 6 - h >= 8;
+      menu.style.top = (below || !fitsAbove ? at.bottom + 6 : at.top - 6 - h) + 'px';
+      menu.style.left = Math.max(12 + scrollX, at.right - menu.offsetWidth) + 'px';
+    };
+    place();
+    const list = await videoTabs();
+    if (menuFor !== id) return; // closed, or opened for another file meanwhile
+    if (!list.length) {
+      const e = el('div', 'tab-empty');
+      e.append(el('strong', '', t('No open tab has a video')), t('Open the video in another tab and start it, then try again.'));
+      menu.replaceChildren(e);
+      return place();
+    }
+    menu.replaceChildren(el('div', 'tab-menu-title', t('Show on')), ...list.map((found, i) => tabRow(found, i === 0, id, file)),
+      el('div', 'tab-foot', t('Only tabs with a video are listed.')));
+    place();
+    menu.querySelector('.tab-row').focus();
+  }
+
+  // file: () => { name, text }, read when the menu opens.
+  function showOnButton(id, file, primary) {
+    const b = el('button', 'show-on' + (primary ? ' primary' : ''), t('Show on…'));
+    b.insertAdjacentHTML('beforeend', '<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    b.title = t('Shows these subtitles over a video in another open tab.');
+    b.dataset.menu = id;
+    b.setAttribute('aria-haspopup', 'menu');
+    b.setAttribute('aria-expanded', String(menuFor === id));
+    // As the menu's invoker, a click on it doesn't count as a click outside (which
+    // would close the menu and this click open it again); what it does is up to us.
+    b.popoverTargetElement = menu;
+    b.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (menuFor === id) return menu.hidePopover();
+      openMenu(b, id, file()).catch((err) => menu.replaceChildren(el('div', 'tab-empty', err.message)));
+    });
+    return b;
+  }
+  function shownNote(id, note) {
+    const s = shownOn.get(id);
+    if (s && s.error) note.classList.add('error-text');
+    if (s) note.textContent = (note.textContent ? note.textContent + ' · ' : '') + s.text;
+    if (s && !s.error) note.classList.add('showing');
+    return note;
+  }
+
   // ---------- list ----------
 
   function render() {
@@ -590,10 +729,11 @@
         : job.status === 'running' ? (job.retry ? t('Didn’t work, trying again soon: {error}', { error: job.retry }) : t('Translating') + ' · ' + lines)
           : (paused ? t('Paused') : t('Waiting')) + (n ? ' · ' + lines : '');
     const foot = el('div', 'job-foot');
-    foot.append(el('span', 'job-note', note));
+    foot.append(job.status === 'done' ? shownNote(job.id, el('span', 'job-note', note)) : el('span', 'job-note', note));
     if (job.status === 'done') {
       if (job.page) foot.append(playButton(() => playJob(job)));
-      const b = el('button', job.page ? '' : 'primary', t('Download .srt'));
+      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job) }), !job.page));
+      const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => download(job));
       foot.append(b);
     } else if (job.status === 'error') {
@@ -695,9 +835,10 @@
       const file = el('div', 'saved-meta saved-file', item.name);
       file.title = item.name;
       const foot = el('div', 'job-foot');
-      foot.append(el('span', 'job-note', ''));
+      foot.append(shownNote('saved:' + item.key, el('span', 'job-note', '')));
       if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8' })));
-      const b = el('button', item.page ? '' : 'primary', t('Download .srt'));
+      foot.append(showOnButton('saved:' + item.key, () => ({ name: item.name, text: item.srt }), !item.page));
+      const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => SubLib.saveText(item.srt, item.name));
       foot.append(b);
       li.append(head, meta, ...(title !== item.name ? [file] : []), foot);

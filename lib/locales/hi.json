@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Chrome Web Store में",
   "Or give it a star on GitHub": "या GitHub पर स्टार दें",
   "You’ll only see this once.": "यह आपको सिर्फ़ एक बार दिखेगा।",
-  "I make it on my own, for free. Will you support me?": "मैं इसे अकेले और मुफ़्त में बनाता हूँ। क्या आप मेरा साथ देंगे?"
+  "I make it on my own, for free. Will you support me?": "मैं इसे अकेले और मुफ़्त में बनाता हूँ। क्या आप मेरा साथ देंगे?",
+  "Show on…": "यहाँ दिखाएँ…",
+  "Show on": "यहाँ दिखाएँ",
+  "Shows these subtitles over a video in another open tab.": "इन सबटाइटल को किसी दूसरे खुले टैब के वीडियो पर दिखाता है।",
+  "Last viewed": "आख़िरी बार देखा",
+  "No open tab has a video": "किसी खुले टैब में वीडियो नहीं है",
+  "Open the video in another tab and start it, then try again.": "वीडियो को दूसरे टैब में खोलकर चलाएँ, फिर दोबारा कोशिश करें।",
+  "Only tabs with a video are listed.": "सिर्फ़ वीडियो वाले टैब दिखाए जाते हैं।",
+  "Showing on {site}": "{site} पर चल रहे हैं"
 }

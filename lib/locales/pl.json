@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "W Chrome Web Store",
   "Or give it a star on GitHub": "Albo daj gwiazdkę na GitHubie",
   "You’ll only see this once.": "Zobaczysz to tylko raz.",
-  "I make it on my own, for free. Will you support me?": "Robię to sam i za darmo. Wesprzesz mnie?"
+  "I make it on my own, for free. Will you support me?": "Robię to sam i za darmo. Wesprzesz mnie?",
+  "Show on…": "Pokaż na…",
+  "Show on": "Pokaż na",
+  "Shows these subtitles over a video in another open tab.": "Pokazuje te napisy na filmie w innej otwartej karcie.",
+  "Last viewed": "Ostatnio oglądane",
+  "No open tab has a video": "Żadna otwarta karta nie ma filmu",
+  "Open the video in another tab and start it, then try again.": "Otwórz film w innej karcie i go uruchom, potem spróbuj ponownie.",
+  "Only tabs with a video are listed.": "Na liście są tylko karty z filmem.",
+  "Showing on {site}": "Wyświetlane na {site}"
 }

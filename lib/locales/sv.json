@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "I Chrome Web Store",
   "Or give it a star on GitHub": "Eller ge den en stjärna på GitHub",
   "You’ll only see this once.": "Det här ser du bara en gång.",
-  "I make it on my own, for free. Will you support me?": "Jag gör det ensam och gratis. Stöttar du mig?"
+  "I make it on my own, for free. Will you support me?": "Jag gör det ensam och gratis. Stöttar du mig?",
+  "Show on…": "Visa på…",
+  "Show on": "Visa på",
+  "Shows these subtitles over a video in another open tab.": "Visar de här undertexterna över en video i en annan öppen flik.",
+  "Last viewed": "Senast visad",
+  "No open tab has a video": "Ingen öppen flik har en video",
+  "Open the video in another tab and start it, then try again.": "Öppna videon i en annan flik och starta den, försök sedan igen.",
+  "Only tabs with a video are listed.": "Bara flikar med en video visas.",
+  "Showing on {site}": "Visas på {site}"
 }

@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "في سوق Chrome الإلكتروني",
   "Or give it a star on GitHub": "أو امنحه نجمة على GitHub",
   "You’ll only see this once.": "لن ترى هذا إلا مرة واحدة.",
-  "I make it on my own, for free. Will you support me?": "أصنعه وحدي ومجانًا. هل تدعمني؟"
+  "I make it on my own, for free. Will you support me?": "أصنعه وحدي ومجانًا. هل تدعمني؟",
+  "Show on…": "اعرض على…",
+  "Show on": "اعرض على",
+  "Shows these subtitles over a video in another open tab.": "يعرض هذه الترجمة فوق فيديو في علامة تبويب أخرى مفتوحة.",
+  "Last viewed": "آخر ما شاهدته",
+  "No open tab has a video": "لا توجد علامة تبويب مفتوحة فيها فيديو",
+  "Open the video in another tab and start it, then try again.": "افتح الفيديو في علامة تبويب أخرى وشغّله، ثم حاول مجددًا.",
+  "Only tabs with a video are listed.": "تظهر فقط علامات التبويب التي فيها فيديو.",
+  "Showing on {site}": "معروضة على {site}"
 }

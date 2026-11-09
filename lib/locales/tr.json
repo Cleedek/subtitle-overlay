@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Chrome Web Mağazası’nda",
   "Or give it a star on GitHub": "Ya da GitHub’da bir yıldız ver",
   "You’ll only see this once.": "Bunu yalnızca bir kez göreceksin.",
-  "I make it on my own, for free. Will you support me?": "Tek başıma ve ücretsiz yapıyorum. Beni destekler misin?"
+  "I make it on my own, for free. Will you support me?": "Tek başıma ve ücretsiz yapıyorum. Beni destekler misin?",
+  "Show on…": "Şurada göster…",
+  "Show on": "Şurada göster",
+  "Shows these subtitles over a video in another open tab.": "Bu altyazıları açık başka bir sekmedeki videonun üzerinde gösterir.",
+  "Last viewed": "Son bakılan",
+  "No open tab has a video": "Açık sekmelerin hiçbirinde video yok",
+  "Open the video in another tab and start it, then try again.": "Videoyu başka bir sekmede açıp başlat, sonra tekrar dene.",
+  "Only tabs with a video are listed.": "Yalnızca video olan sekmeler listelenir.",
+  "Showing on {site}": "{site} üzerinde gösteriliyor"
 }

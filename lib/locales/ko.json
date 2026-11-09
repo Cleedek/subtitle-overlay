@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Chrome 웹 스토어에서",
   "Or give it a star on GitHub": "또는 GitHub에서 별 주기",
   "You’ll only see this once.": "이 안내는 한 번만 보여요.",
-  "I make it on my own, for free. Will you support me?": "혼자서 무료로 만들고 있어요. 응원해 주실래요?"
+  "I make it on my own, for free. Will you support me?": "혼자서 무료로 만들고 있어요. 응원해 주실래요?",
+  "Show on…": "다음에 표시…",
+  "Show on": "다음에 표시",
+  "Shows these subtitles over a video in another open tab.": "이 자막을 열려 있는 다른 탭의 동영상 위에 표시합니다.",
+  "Last viewed": "마지막으로 봄",
+  "No open tab has a video": "동영상이 있는 열린 탭이 없습니다",
+  "Open the video in another tab and start it, then try again.": "다른 탭에서 동영상을 열고 재생한 뒤 다시 시도하세요.",
+  "Only tabs with a video are listed.": "동영상이 있는 탭만 표시됩니다.",
+  "Showing on {site}": "{site}에서 표시 중"
 }

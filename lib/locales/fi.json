@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Chrome Web Storessa",
   "Or give it a star on GitHub": "Tai anna sille tähti GitHubissa",
   "You’ll only see this once.": "Näet tämän vain kerran.",
-  "I make it on my own, for free. Will you support me?": "Teen tätä yksin ja ilmaiseksi. Tuetko minua?"
+  "I make it on my own, for free. Will you support me?": "Teen tätä yksin ja ilmaiseksi. Tuetko minua?",
+  "Show on…": "Näytä kohteessa…",
+  "Show on": "Näytä kohteessa",
+  "Shows these subtitles over a video in another open tab.": "Näyttää nämä tekstitykset videon päällä toisessa avoimessa välilehdessä.",
+  "Last viewed": "Viimeksi katsottu",
+  "No open tab has a video": "Missään avoimessa välilehdessä ei ole videota",
+  "Open the video in another tab and start it, then try again.": "Avaa video toisessa välilehdessä ja käynnistä se, sitten yritä uudelleen.",
+  "Only tabs with a video are listed.": "Vain välilehdet, joissa on video, näytetään.",
+  "Showing on {site}": "Näkyy sivulla {site}"
 }

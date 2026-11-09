@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "У Chrome Web Store",
   "Or give it a star on GitHub": "Або постав зірочку на GitHub",
   "You’ll only see this once.": "Це вікно ти побачиш лише раз.",
-  "I make it on my own, for free. Will you support me?": "Я роблю це сам і безкоштовно. Підтримаєш мене?"
+  "I make it on my own, for free. Will you support me?": "Я роблю це сам і безкоштовно. Підтримаєш мене?",
+  "Show on…": "Показати на…",
+  "Show on": "Показати на",
+  "Shows these subtitles over a video in another open tab.": "Показує ці субтитри поверх відео в іншій відкритій вкладці.",
+  "Last viewed": "Остання переглянута",
+  "No open tab has a video": "У жодній відкритій вкладці немає відео",
+  "Open the video in another tab and start it, then try again.": "Відкрий відео в іншій вкладці й запусти його, потім спробуй ще раз.",
+  "Only tabs with a video are listed.": "У списку лише вкладки з відео.",
+  "Showing on {site}": "Показуються на {site}"
 }

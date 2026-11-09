@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "Chrome ウェブストアで",
   "Or give it a star on GitHub": "または GitHub でスターを付ける",
   "You’ll only see this once.": "この表示は一度だけです。",
-  "I make it on my own, for free. Will you support me?": "ひとりで無料で作っています。応援してもらえますか？"
+  "I make it on my own, for free. Will you support me?": "ひとりで無料で作っています。応援してもらえますか？",
+  "Show on…": "表示先…",
+  "Show on": "表示先",
+  "Shows these subtitles over a video in another open tab.": "この字幕を、開いている別のタブの動画に重ねて表示します。",
+  "Last viewed": "最後に表示",
+  "No open tab has a video": "動画のあるタブが開いていません",
+  "Open the video in another tab and start it, then try again.": "別のタブで動画を開いて再生してから、もう一度お試しください。",
+  "Only tabs with a video are listed.": "動画のあるタブだけが表示されます。",
+  "Showing on {site}": "{site} で表示中"
 }

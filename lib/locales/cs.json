@@ -451,5 +451,13 @@
   "In the Chrome Web Store": "V Chrome Web Store",
   "Or give it a star on GitHub": "Nebo dej hvězdičku na GitHubu",
   "You’ll only see this once.": "Tohle uvidíš jen jednou.",
-  "I make it on my own, for free. Will you support me?": "Dělám to sám a zdarma. Podpoříš mě?"
+  "I make it on my own, for free. Will you support me?": "Dělám to sám a zdarma. Podpoříš mě?",
+  "Show on…": "Pustit na…",
+  "Show on": "Pustit na",
+  "Shows these subtitles over a video in another open tab.": "Zobrazí tyto titulky přes video v jiné otevřené záložce.",
+  "Last viewed": "Naposledy",
+  "No open tab has a video": "Žádná otevřená záložka nemá video",
+  "Open the video in another tab and start it, then try again.": "Otevři video v jiné záložce a spusť ho, pak to zkus znovu.",
+  "Only tabs with a video are listed.": "Jsou tu jen záložky s videem.",
+  "Showing on {site}": "Běží na {site}"
 }
