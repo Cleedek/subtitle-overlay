@@ -1149,11 +1149,35 @@
       b.addEventListener('click', () => { pickPreset('u:' + p.name); queueSave(Object.assign({}, p.values)); });
       box.append(b);
     }
+    showUpdate(marked);
   }
+
+  // Picked one of your own presets and then changed something: offer to
+  // write the change back into it, so you don't need a new preset.
+  function editedPreset(marked) {
+    if (!activePreset || !activePreset.startsWith('u:') || marked === activePreset) return null;
+    return userPresets.find((p) => 'u:' + p.name === activePreset) || null;
+  }
+  function showUpdate(marked) {
+    const p = editedPreset(marked);
+    const btn = $('presetUpdate');
+    btn.hidden = !p || !$('saveForm').hidden;
+    if (p) btn.textContent = t('Update "{name}"', { name: p.name });
+    // With Update on offer, a new preset is the second choice.
+    $('presetNew').classList.toggle('primary', btn.hidden);
+    $('presetNew').classList.toggle('ghost', !btn.hidden);
+  }
+  $('presetUpdate').addEventListener('click', async () => {
+    const p = editedPreset(markedPreset());
+    if (!p) return;
+    userPresets = await SubSettings.savePreset(p.name, settings);
+    renderPresets();
+  });
 
   function toggleSaveForm(open) {
     $('saveForm').hidden = !open;
     $('presetNew').hidden = open;
+    showUpdate(markedPreset());
     if (open) {
       $('presetName').value = t('My preset {n}', { n: userPresets.length + 1 });
       $('presetName').select();

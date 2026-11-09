@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "Auf translate-subtitles.com übersetzen",
   "No subtitle lines found.": "Keine Untertitelzeilen gefunden.",
   "Delete preset \"{name}\"": "Vorlage \"{name}\" löschen",
+  "Update \"{name}\"": "\"{name}\" aktualisieren",
   "My preset {n}": "Meine Vorlage {n}",
   "System sans": "System, serifenlos",
   "Monospace": "Monospace",

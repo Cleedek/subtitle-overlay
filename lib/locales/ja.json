@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "translate-subtitles.com で翻訳する",
   "No subtitle lines found.": "字幕の行が見つかりません。",
   "Delete preset \"{name}\"": "プリセット \"{name}\" を削除",
+  "Update \"{name}\"": "\"{name}\" を更新",
   "My preset {n}": "マイプリセット {n}",
   "System sans": "システムのサンセリフ",
   "Monospace": "等幅",

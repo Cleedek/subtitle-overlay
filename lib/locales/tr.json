@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "translate-subtitles.com’da çevir",
   "No subtitle lines found.": "Altyazı satırı bulunamadı.",
   "Delete preset \"{name}\"": "\"{name}\" hazır ayarını sil",
+  "Update \"{name}\"": "\"{name}\" güncelle",
   "My preset {n}": "Hazır ayarım {n}",
   "System sans": "Sistem sans",
   "Monospace": "Eş aralıklı",

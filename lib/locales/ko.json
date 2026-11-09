@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "translate-subtitles.com에서 번역하기",
   "No subtitle lines found.": "자막 줄을 찾지 못했어요.",
   "Delete preset \"{name}\"": "프리셋 \"{name}\" 삭제",
+  "Update \"{name}\"": "\"{name}\" 업데이트",
   "My preset {n}": "내 프리셋 {n}",
   "System sans": "시스템 산세리프",
   "Monospace": "고정폭",

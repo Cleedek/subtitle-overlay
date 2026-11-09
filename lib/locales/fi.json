@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "Käännä se sivustolla translate-subtitles.com",
   "No subtitle lines found.": "Tekstitysrivejä ei löytynyt.",
   "Delete preset \"{name}\"": "Poista esiasetus \"{name}\"",
+  "Update \"{name}\"": "Päivitä \"{name}\"",
   "My preset {n}": "Oma esiasetukseni {n}",
   "System sans": "Järjestelmän päätteetön",
   "Monospace": "Tasalevyinen",

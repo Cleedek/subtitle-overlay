@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "ترجمه على translate-subtitles.com",
   "No subtitle lines found.": "لم يُعثر على أسطر ترجمة مصاحبة.",
   "Delete preset \"{name}\"": "حذف الإعداد المسبق \"{name}\"",
+  "Update \"{name}\"": "تحديث \"{name}\"",
   "My preset {n}": "إعدادي المسبق {n}",
   "System sans": "خط النظام بدون زوائد",
   "Monospace": "أحادي المسافة",

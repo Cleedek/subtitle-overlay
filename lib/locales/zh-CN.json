@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "在 translate-subtitles.com 上翻译",
   "No subtitle lines found.": "没有找到字幕行。",
   "Delete preset \"{name}\"": "删除预设\"{name}\"",
+  "Update \"{name}\"": "更新\"{name}\"",
   "My preset {n}": "我的预设 {n}",
   "System sans": "系统无衬线",
   "Monospace": "等宽",

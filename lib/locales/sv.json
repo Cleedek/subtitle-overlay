@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "Översätt den på translate-subtitles.com",
   "No subtitle lines found.": "Inga undertextrader hittades.",
   "Delete preset \"{name}\"": "Ta bort förinställningen \"{name}\"",
+  "Update \"{name}\"": "Uppdatera \"{name}\"",
   "My preset {n}": "Min förinställning {n}",
   "System sans": "Systemets sans",
   "Monospace": "Monospace",

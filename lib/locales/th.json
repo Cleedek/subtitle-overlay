@@ -144,6 +144,7 @@
   "Translate it on translate-subtitles.com": "แปลบน translate-subtitles.com",
   "No subtitle lines found.": "ไม่พบบรรทัดคำบรรยาย",
   "Delete preset \"{name}\"": "ลบค่าที่ตั้งไว้ \"{name}\"",
+  "Update \"{name}\"": "อัปเดต \"{name}\"",
   "My preset {n}": "ค่าที่ตั้งไว้ของฉัน {n}",
   "System sans": "ไม่มีเชิงของระบบ",
   "Monospace": "ความกว้างคงที่",
