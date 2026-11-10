@@ -6,7 +6,7 @@ Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, t
 ★ Dowolna strona, dowolne wideo: napisy nad odtwarzaczem, w oknie i na pełnym ekranie, zawsze zsynchronizowane
 ★ Tłumaczenie na 31 języków jednym kliknięciem albo w pełni automatycznie, gdy tylko włączysz napisy w odtwarzaczu strony
 ★ NOWOŚĆ: AI sprawia, że tłumaczenie brzmi naturalnie, za darmo na twoim komputerze (Gemma) albo z własnym kluczem Gemini, Claude lub OpenAI
-★ NOWOŚĆ: kolejka tłumaczeń na cały sezon i ulepszone napisy zachowane na następny raz
+★ NOWOŚĆ: jeśli strona ma już napisy w twoim języku, dostajesz właśnie je, a tłumaczenie wkracza tylko wtedy, gdy ich brak
 ★ Dwa języki naraz: jeden u góry, drugi na dole, do wspólnego oglądania albo nauki języka
 ★ Znajduje napisy, które wczytuje strona, także na YouTube, więc plik rzadko jest w ogóle potrzebny
 ★ Twój styl: ponad 1800 czcionek Google Fonts, obrys, cień, tło, rozmiar i położenie
@@ -19,14 +19,15 @@ TŁUMACZENIE NA 31 JĘZYKÓW
 • Opcjonalnie: kliknij Ulepsz, a AI (Gemma na twoim komputerze albo Gemini, Claude lub OpenAI) przepisze szybką wersję od Google tak, by brzmiała naturalnie (więcej niżej). Najedź myszą na wideo, by zobaczyć, ile już gotowe
 • Wybierasz język raz i zostaje ulubionym dla każdego przycisku Przetłumacz
 • Tryb automatyczny: włącz napisy w odtwarzaczu strony, a pojawią się nad wideo od razu przetłumaczone, z krótką informacją "Przetłumaczono: …" zamiast wyskakującego okna. Po nowej instalacji jest włączony i tłumaczy na język twojej przeglądarki
-• Oryginalne napisy strony są ukrywane, więc nigdy nie czytasz dwóch naraz
+• Jeśli strona ma napisy w twoim języku (YouTube i serwisy streamingowe), mają pierwszeństwo; Google lub AI tłumaczą tylko wtedy, gdy ich brak
+• Oryginalne napisy strony są ukryte, dopóki działają nasze, i wracają, gdy tylko wyłączysz nasze
 • W każdej chwili wrócisz do oryginału albo zapiszesz tłumaczenie jako plik .srt
 • Języki: wietnamski, czeski, angielski, słowacki, niemiecki, francuski, hiszpański, włoski, portugalski, polski, węgierski, ukraiński, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, chiński (uproszczony i tradycyjny), japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi, arabski
 
 NATURALNE TŁUMACZENIE Z AI (OPCJONALNIE)
 Google Translate jest szybki, ale tłumaczy linijka po linijce, słowo w słowo. Kliknij Ulepsz, a model AI przepisze napisy z myślą o całej scenie, zaczynając od miejsca, które właśnie oglądasz.
 • Za darmo: Gemma, otwarty model Google, działa na twoim komputerze przez Ollamę lub LM Studio, więc etap AI nie opuszcza twojego komputera. Potrzebujesz dość mocnego komputera i około 8 GB miejsca na dysku.
-• Konfiguracja w 3 krokach: zainstaluj Ollamę z ollama.com, pobierz Gemmę jednym poleceniem, a potem wybierz Lokalny w oknie rozszerzenia. Polecenie i model, który teraz polecamy (po angielsku): cleedek.com/subtitle-overlay/ai
+• Okno rozszerzenia przeprowadzi cię przez konfigurację: zainstaluj Ollamę z ollama.com i pobierz Gemmę jednym kliknięciem (potrzeba co najmniej 16 GB RAM). Więcej o tym i model, który teraz polecamy (po angielsku): cleedek.com/subtitle-overlay/ai
 • Albo użyj własnego klucza API: Gemini (ma darmowy pakiet), Claude lub OpenAI (płatne).
 • Zanim zacznie, przegląda cały plik i notuje, kto jest kim, więc rodzaj gramatyczny, formy zwracania się i imiona zgadzają się od pierwszej do ostatniej linijki.
 • Nigdy nie startuje sam: bez twojego kliknięcia nic nie działa i nic nie wydajesz.
@@ -47,7 +48,7 @@ KOLEJKA TŁUMACZEŃ I ZACHOWANE NAPISY
 • Wrzuć kilka plików .srt lub .vtt albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
 • Działa z Google, Gemini, Claude, OpenAI lub twoim lokalnym modelem
 • Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu
-• Odtwórz otwiera wideo z napisami; Pobierz zapisuje plik .srt
+• Odtwórz otwiera wideo z napisami, "Pokaż na…" nakłada je na wideo otwarte już w innej karcie, a Pobierz zapisuje plik .srt
 
 STYL PO TWOJEMU
 • Ponad 1800 czcionek Google Fonts, przefiltrowanych do tych, które mają litery twojego języka (č ř ž, ư ế ộ, cyrylica, greka, japoński i inne)
@@ -98,8 +99,10 @@ OPEN SOURCE
 Całe rozszerzenie jest open source (GPL-3.0), więc każdy może sprawdzić, co dokładnie robi: github.com/Cleedek/subtitle-overlay. Jeśli ci się podoba, gwiazdka na GitHubie pomoże innym je znaleźć.
 
 WESPRZYJ AUTORA
-Subtitle Overlay jest darmowy i każda funkcja pozostanie darmowa. Jeśli umila ci wieczory, w oknie rozszerzenia znajdziesz stronę "Wesprzyj autora" z Revolutem, PayPalem, Solaną i Sui. Całkowicie dobrowolnie, i dziękuję!
+Subtitle Overlay jest darmowy i każda funkcja pozostanie darmowa. Jeśli umila ci wieczory, w oknie rozszerzenia znajdziesz stronę "Wesprzyj autora" z Ko-fi i kilkoma innymi sposobami płatności. Po wielu przetłumaczonych filmach raz zapyta też mała karta nad wideo (najwyżej przy trzech filmach; jedno kliknięcie i już nie wróci). Całkowicie dobrowolnie, i dziękuję!
 
 Stworzone z 💜 przez Cleedek w Wietnamie.
+
+Subtitle Overlay to niezależny projekt. Nie jest powiązany z żadną ze stron ani serwisów streamingowych, z którymi działa, ani przez nie popierany czy sponsorowany. To, że na nich działa, to nasza własna praca: przetestowaliśmy go na tych stronach, a na niektórych dopasowaliśmy do ich odtwarzacza. Nazwy i loga tych serwisów należą do ich właścicieli.
 
 Zrzuty ekranu pokazują kadry z filmu Tears of Steel, © Blender Foundation, mango.blender.org, licencja CC BY 3.0.

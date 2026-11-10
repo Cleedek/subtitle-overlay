@@ -6,7 +6,7 @@ Subtitle Overlay zobrazí titulky cez prehrávač na akomkoľvek webe, aj na cel
 ★ Akýkoľvek web, akékoľvek video: titulky cez prehrávač, v okne aj na celej obrazovke, vždy synchrónne
 ★ Preklad do 31 jazykov jedným klikom, alebo úplne automaticky, hneď ako zapneš titulky v prehrávači webu
 ★ NOVINKA: s AI znie preklad prirodzene, zadarmo priamo v tvojom počítači (Gemma) alebo s vlastným kľúčom Gemini, Claude či OpenAI
-★ NOVINKA: front prekladov na celú sériu a vylepšené titulky uložené na nabudúce
+★ NOVINKA: keď má web titulky v tvojom jazyku, dostaneš rovno tie a prekladá sa len tam, kde chýbajú
 ★ Dva jazyky naraz: jeden hore, druhý dole, na spoločné pozeranie aj učenie jazykov
 ★ Nájde titulky, ktoré stránka načíta, aj na YouTube, takže súbor väčšinou vôbec nepotrebuješ
 ★ Tvoj štýl: viac ako 1 800 písiem Google Fonts, obrys, tieň, podklad, veľkosť aj pozícia
@@ -19,14 +19,15 @@ PREKLAD DO 31 JAZYKOV
 • Voliteľne: klikni na Vylepšiť a AI (Gemma v tvojom počítači, alebo Gemini, Claude či OpenAI) prepíše rýchly preklad od Googlu, aby znel prirodzene (viac nižšie). Keď pohneš myšou nad videom, uvidíš, koľko už je hotové
 • Jazyk si vyberieš raz a zostane tvojím obľúbeným pre všetky tlačidlá Preložiť
 • Automatický režim: zapni titulky v prehrávači webu a objavia sa cez video rovno preložené, s krátkou poznámkou "Preložené: …" namiesto vyskakovacieho okna. Po novej inštalácii je zapnutý a prekladá do jazyka tvojho prehliadača
-• Pôvodné titulky webu sa skryjú, takže nečítaš dvoje naraz
+• Má web titulky v tvojom jazyku (YouTube a streamovacie služby)? Potom dostaneš tie; Google alebo AI prekladá, len keď žiadne nie sú
+• Pôvodné titulky webu sa skryjú, kým bežia naše, a vrátia sa, hneď ako naše vypneš
 • Kedykoľvek sa vrátiš k originálu, alebo si preklad uložíš ako .srt
 • Jazyky: vietnamčina, čeština, angličtina, slovenčina, nemčina, francúzština, španielčina, taliančina, portugalčina, poľština, maďarčina, ukrajinčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, čínština (zjednodušená aj tradičná), japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina, arabčina
 
 PRIRODZENÝ PREKLAD S AI (VOLITEĽNÉ)
 Google Translate je rýchly, ale prekladá riadok po riadku, slovo po slove. Klikni na Vylepšiť a AI model titulky prepíše s ohľadom na celú scénu, od miesta, kde práve pozeráš.
 • Zadarmo: Gemma, otvorený model od Googlu, beží priamo v tvojom počítači cez Ollamu alebo LM Studio, takže krok s AI zostáva v tvojom počítači. Potrebuješ výkonnejší počítač a asi 8 GB miesta na disku.
-• Nastavenie v 3 krokoch: nainštaluj Ollamu z ollama.com, jedným príkazom stiahni Gemmu a v okne rozšírenia vyber Lokálny. Príkaz a model, ktorý teraz odporúčame (po anglicky): cleedek.com/subtitle-overlay/ai
+• Okno rozšírenia ťa nastavením prevedie: nainštaluj Ollamu z ollama.com a jedným kliknutím stiahni Gemmu (potrebuje aspoň 16 GB RAM). Viac o tom a model, ktorý teraz odporúčame (po anglicky): cleedek.com/subtitle-overlay/ai
 • Alebo vlastný API kľúč: Gemini (má bezplatnú úroveň), Claude alebo OpenAI (platené).
 • Skôr než začne, prejde celý súbor a poznačí si, kto je kto, takže rod, oslovenie aj mená sedia od prvej vety po poslednú.
 • Nikdy sa nespustí sám: bez tvojho kliknutia nič nebeží a nič neminieš.
@@ -47,7 +48,7 @@ FRONT PREKLADOV A ULOŽENÉ TITULKY
 • Pridaj niekoľko súborov .srt alebo .vtt, alebo klikni na "Pridať do frontu" pri titulkoch, ktoré web načíta. Preložia sa jeden po druhom, kým robíš niečo iné; karta s frontom môže zostať na pozadí
 • Funguje s Googlom, Gemini, Claude, OpenAI aj s tvojím lokálnym modelom
 • Vylepšené titulky zostanú v rozšírení tak dlho, ako si vyberieš, a vrátia sa, keď sa k videu vrátiš
-• Prehrať otvorí video aj s titulkami; Stiahnuť uloží .srt
+• Prehrať otvorí video aj s titulkami, "Pustiť na…" ich dá na video, ktoré máš otvorené v inej karte, a Stiahnuť uloží .srt
 
 ŠTÝL PODĽA TEBA
 • Viac ako 1 800 písiem Google Fonts, vyfiltrovaných na tie, ktoré majú písmená tvojho jazyka (č ř ž, ư ế ộ, azbuka, gréčtina, japončina a ďalšie)
@@ -98,8 +99,10 @@ OPEN SOURCE
 Celé rozšírenie je open source (GPL-3.0), takže si ktokoľvek môže overiť, čo presne robí: github.com/Cleedek/subtitle-overlay. Ak sa ti páči, hviezdička na GitHube pomôže, aby ho našli aj ďalší.
 
 PODPOR AUTORA
-Subtitle Overlay je zadarmo a všetky funkcie zadarmo zostanú. Ak ti spríjemňuje večery, v okne rozšírenia nájdeš stránku "Podporiť autora" s Revolutom, PayPalom, Solanou a Sui. Úplne dobrovoľne, a ďakujem!
+Subtitle Overlay je zadarmo a všetky funkcie zadarmo zostanú. Ak ti spríjemňuje večery, v okne rozšírenia nájdeš stránku "Podporiť autora" s Ko-fi a niekoľkými ďalšími spôsobmi platby. Po veľa preložených videách sa raz opýta aj malá karta nad videom (najviac pri troch videách; jedno kliknutie a už sa neukáže). Úplne dobrovoľne, a ďakujem!
 
 S 💜 vo Vietname vytvára Cleedek.
+
+Subtitle Overlay je nezávislý projekt. Nie je spojený so žiadnym z webov ani streamovacích služieb, s ktorými funguje, a tie ho nepodporujú ani nesponzorujú. To, že na nich funguje, je naša vlastná práca: vyskúšali sme ho tam a na niektorých ho priamo prispôsobili ich prehrávaču. Názvy a logá týchto služieb patria ich vlastníkom.
 
 Snímky obrazovky ukazujú zábery z filmu Tears of Steel, © Blender Foundation, mango.blender.org, licencia CC BY 3.0.

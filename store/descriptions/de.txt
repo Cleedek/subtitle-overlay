@@ -6,7 +6,7 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 ★ Jede Seite, jedes Video: Untertitel über dem Player, im Fenster oder im Vollbild, immer synchron
 ★ Übersetzung in 31 Sprachen mit einem Klick, oder ganz automatisch, sobald du die Untertitel im Player der Seite einschaltest
 ★ NEU: KI lässt die Übersetzung natürlich klingen, gratis auf deinem eigenen Rechner (Gemma) oder mit deinem eigenen Schlüssel für Gemini, Claude oder OpenAI
-★ NEU: eine Übersetzungswarteschlange für eine ganze Staffel, und verbesserte Untertitel, gespeichert fürs nächste Mal
+★ NEU: Hat die Seite schon Untertitel in deiner Sprache, bekommst du diese, und übersetzt wird nur, wenn es keine gibt
 ★ Zwei Sprachen gleichzeitig: eine oben, eine unten, zum gemeinsamen Schauen oder zum Sprachenlernen
 ★ Findet die Untertitel, die die Seite lädt, auch auf YouTube, sodass du meist gar keine Datei brauchst
 ★ Dein Stil: über 1.800 Google Fonts, Kontur, Schatten, Hintergrundbox, Größe und Position
@@ -19,14 +19,15 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 • Optional: Klicke auf Verbessern, und KI (Gemma auf deinem Rechner, oder Gemini, Claude oder OpenAI) schreibt Googles schnelle Version neu, damit sie natürlich klingt (mehr dazu unten). Fahr mit der Maus über das Video, um zu sehen, wie weit sie schon ist
 • Wähl deine Sprache einmal aus; sie bleibt dein Favorit für jeden Übersetzen-Button
 • Automatischer Modus: Schalte die Untertitel im Player der Seite ein, und sie erscheinen schon übersetzt über dem Video, mit einem kurzen Hinweis "Auf … übersetzt" statt eines Pop-ups. Bei neuen Installationen ist er eingeschaltet und übersetzt in die Sprache deines Browsers
-• Die eigenen Untertitel der Seite werden ausgeblendet, damit du nie zwei auf einmal liest
+• Hat die Seite Untertitel in deiner Sprache (YouTube und Streamingdienste), kommen diese zuerst; Google oder KI übersetzen nur, wenn es keine gibt
+• Die eigenen Untertitel der Seite werden ausgeblendet, solange unsere laufen, und kommen zurück, sobald du unsere ausschaltest
 • Wechsle jederzeit zurück zum Original, oder speichere die Übersetzung als .srt-Datei
 • Sprachen: Vietnamesisch, Tschechisch, Englisch, Slowakisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch, Polnisch, Ungarisch, Ukrainisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Chinesisch (vereinfacht und traditionell), Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Arabisch
 
 NATÜRLICHE ÜBERSETZUNG MIT KI (OPTIONAL)
 Google Translate ist schnell, geht aber Zeile für Zeile vor, Wort für Wort. Klicke auf Verbessern, und ein KI-Modell schreibt die Untertitel mit Blick auf die ganze Szene neu, ab der Stelle, an der du gerade schaust.
 • Kostenlos: Gemma, das offene Modell von Google, läuft mit Ollama oder LM Studio auf deinem eigenen Rechner, also bleibt der KI-Schritt auf deinem Rechner. Du brauchst einen recht leistungsstarken Rechner und etwa 8 GB Speicherplatz.
-• Einrichtung in 3 Schritten: Installiere Ollama von ollama.com, lade Gemma mit einem Befehl herunter und wähle dann im Popup Lokal. Der Befehl und das Modell, das wir gerade empfehlen (auf Englisch): cleedek.com/subtitle-overlay/ai
+• Das Popup führt dich durch die Einrichtung: Installiere Ollama von ollama.com und lade Gemma mit einem Klick herunter (braucht mindestens 16 GB RAM). Mehr dazu und das Modell, das wir gerade empfehlen (auf Englisch): cleedek.com/subtitle-overlay/ai
 • Oder nutze deinen eigenen API-Schlüssel: Gemini (mit kostenlosem Kontingent), Claude oder OpenAI (kostenpflichtig).
 • Bevor es losgeht, überfliegt es die ganze Datei und notiert, wer wer ist, damit Geschlecht, Anrede und Namen von der ersten bis zur letzten Zeile gleich bleiben.
 • Es startet nie von selbst: Ohne deinen Klick läuft nichts und es entstehen keine Kosten.
@@ -47,7 +48,7 @@ FINDET DIE UNTERTITEL, DIE EINE SEITE LÄDT
 • Zieh mehrere .srt- oder .vtt-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
 • Funktioniert mit Google, Gemini, Claude, OpenAI oder deinem lokalen Modell
 • Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst
-• Abspielen öffnet das Video mit seinen Untertiteln; Herunterladen speichert die .srt
+• Abspielen öffnet das Video mit seinen Untertiteln, "Zeigen auf…" legt sie über ein Video, das in einem anderen Tab schon offen ist, und Herunterladen speichert die .srt
 
 GESTALTE SIE, WIE DU WILLST
 • Über 1.800 Google Fonts, gefiltert auf die, die die Buchstaben deiner Sprache haben (č ř ž, ư ế ộ, Kyrillisch, Griechisch, Japanisch und mehr)
@@ -98,8 +99,10 @@ OPEN SOURCE
 Die ganze Erweiterung ist Open Source (GPL-3.0), sodass jeder genau prüfen kann, was sie tut: github.com/Cleedek/subtitle-overlay. Wenn sie dir gefällt, hilft ein Stern auf GitHub anderen, sie zu finden.
 
 DEN ENTWICKLER UNTERSTÜTZEN
-Subtitle Overlay ist kostenlos, und jede Funktion bleibt kostenlos. Wenn es deine Abende schöner macht, findest du im Popup eine Seite "Den Entwickler unterstützen" mit Revolut, PayPal, Solana und Sui. Völlig freiwillig, und danke!
+Subtitle Overlay ist kostenlos, und jede Funktion bleibt kostenlos. Wenn es deine Abende schöner macht, findest du im Popup eine Seite "Den Entwickler unterstützen" mit Ko-fi und ein paar weiteren Zahlungswegen. Nach vielen übersetzten Videos fragt außerdem einmal eine kleine Karte über dem Video (bei höchstens drei Videos; ein Klick darauf und sie kommt nie wieder). Völlig freiwillig, und danke!
 
 Mit 💜 gemacht von Cleedek in Vietnam.
+
+Subtitle Overlay ist ein unabhängiges Projekt. Es steht in keiner Verbindung zu den Websites und Streamingdiensten, mit denen es funktioniert, und wird von ihnen weder unterstützt noch gesponsert. Dass es dort funktioniert, ist unsere eigene Arbeit: Wir haben es auf diesen Seiten getestet und auf einigen an ihre Player angepasst. Namen und Logos dieser Dienste gehören ihren Inhabern.
 
 Die Screenshots zeigen Bilder aus Tears of Steel, © Blender Foundation, mango.blender.org, lizenziert unter CC BY 3.0.

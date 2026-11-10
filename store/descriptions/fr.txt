@@ -6,7 +6,7 @@ Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’imp
 ★ N’importe quel site, n’importe quelle vidéo : des sous-titres sur le lecteur, en fenêtre ou en plein écran, toujours synchronisés
 ★ Traduction en 31 langues en un clic, ou entièrement automatique dès que tu actives les sous-titres dans le lecteur du site
 ★ NOUVEAU : l’IA rend la traduction naturelle, gratuitement sur ton ordinateur (Gemma) ou avec ta propre clé Gemini, Claude ou OpenAI
-★ NOUVEAU : une file de traduction pour toute une saison, et des sous-titres améliorés enregistrés pour la prochaine fois
+★ NOUVEAU : si le site a déjà des sous-titres dans ta langue, tu les obtiens, et la traduction n’intervient que s’il n’y en a pas
 ★ Deux langues à la fois : une en haut, une en bas, pour regarder à deux ou apprendre une langue
 ★ Trouve les sous-titres que la page charge, YouTube compris, donc tu as rarement besoin d’un fichier
 ★ Ton style : plus de 1 800 polices Google Fonts, contour, ombre, fond, taille et position
@@ -19,14 +19,15 @@ TRADUCTION EN 31 LANGUES
 • En option : clique sur Améliorer et l’IA (Gemma sur ton ordinateur, ou Gemini, Claude ou OpenAI) réécrit la version rapide de Google pour qu’elle sonne naturelle (plus de détails plus bas). Passe la souris sur la vidéo pour voir où elle en est
 • Choisis ta langue une seule fois ; elle reste ta préférée pour chaque bouton Traduire
 • Mode automatique : active les sous-titres dans le lecteur du site et ils apparaissent sur la vidéo déjà traduits, avec une courte note "Traduit en …" au lieu d’une fenêtre surgissante. Sur une nouvelle installation, il est activé et traduit dans la langue de ton navigateur
-• Les sous-titres du site sont masqués, pour ne jamais en lire deux à la fois
+• Si le site a des sous-titres dans ta langue (YouTube et plateformes de streaming), ils passent en premier ; Google ou l’IA ne traduisent que s’il n’y en a pas
+• Les sous-titres du site sont masqués tant que les nôtres sont affichés, et reviennent dès que tu coupes les nôtres
 • Reviens à l’original quand tu veux, ou enregistre la traduction en fichier .srt
 • Langues : vietnamien, tchèque, anglais, slovaque, allemand, français, espagnol, italien, portugais, polonais, hongrois, ukrainien, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, chinois (simplifié et traditionnel), japonais, coréen, thaï, indonésien, malais, filipino, hindi, arabe
 
 UNE TRADUCTION NATURELLE (EN OPTION)
 Google Translate est rapide, mais il traduit ligne par ligne, mot à mot. Clique sur Améliorer et un modèle d’IA réécrit les sous-titres en tenant compte de toute la scène, à partir de l’endroit où tu en es.
 • Gratuit : Gemma, le modèle ouvert de Google, tourne sur ton propre ordinateur avec Ollama ou LM Studio, donc l’étape IA reste sur ton ordinateur. Il te faut un ordinateur assez puissant et environ 8 Go d’espace disque.
-• Installation en 3 étapes : installe Ollama depuis ollama.com, télécharge Gemma avec une seule commande, puis choisis Local dans la fenêtre de l’extension. La commande et le modèle que nous recommandons en ce moment : cleedek.com/subtitle-overlay/ai
+• La fenêtre de l’extension te guide : installe Ollama depuis ollama.com, puis télécharge Gemma en un clic (il faut au moins 16 Go de RAM). Plus d’infos et le modèle que nous recommandons en ce moment : cleedek.com/subtitle-overlay/ai
 • Ou utilise ta propre clé API : Gemini (avec une offre gratuite), Claude ou OpenAI (payants).
 • Avant de commencer, il parcourt tout le fichier et note qui est qui, pour que le genre, le tutoiement ou le vouvoiement et les noms restent les mêmes de la première à la dernière ligne.
 • Rien ne démarre tout seul : rien ne tourne et rien n’est dépensé sans ton clic.
@@ -47,7 +48,7 @@ FILE DE TRADUCTION ET SOUS-TITRES ENREGISTRÉS
 • Dépose plusieurs fichiers .srt ou .vtt, ou clique sur "Ajouter à la file" pour des sous-titres qu’un site charge. Ils sont traduits l’un après l’autre pendant que tu fais autre chose ; l’onglet de la file peut rester en arrière-plan
 • Fonctionne avec Google, Gemini, Claude, OpenAI ou ton modèle local
 • Les sous-titres améliorés restent dans l’extension aussi longtemps que tu le choisis, et reviennent quand tu retournes sur la vidéo
-• Lire ouvre la vidéo avec ses sous-titres ; Télécharger enregistre le .srt
+• Lire ouvre la vidéo avec ses sous-titres, "Afficher sur…" les pose sur une vidéo déjà ouverte dans un autre onglet, et Télécharger enregistre le .srt
 
 DES SOUS-TITRES À TON STYLE
 • Plus de 1 800 polices Google Fonts, filtrées pour garder celles qui ont les lettres de ta langue (č ř ž, ư ế ộ, cyrillique, grec, japonais et plus encore)
@@ -98,8 +99,10 @@ OPEN SOURCE
 Toute l’extension est open source (GPL-3.0), donc chacun peut vérifier exactement ce qu’elle fait : github.com/Cleedek/subtitle-overlay. Si elle te plaît, une étoile sur GitHub aide d’autres personnes à la trouver.
 
 SOUTENIR LE CRÉATEUR
-Subtitle Overlay est gratuit et chaque fonction reste gratuite. Si l’extension rend tes soirées plus agréables, la fenêtre de l’extension a une page "Soutenir le créateur" avec Revolut, PayPal, Solana et Sui. Entièrement facultatif, et merci !
+Subtitle Overlay est gratuit et chaque fonction reste gratuite. Si l’extension rend tes soirées plus agréables, la fenêtre de l’extension a une page "Soutenir le créateur" avec Ko-fi et quelques autres moyens de paiement. Après beaucoup de vidéos traduites, une petite carte au-dessus de la vidéo te le demande aussi une fois (sur trois vidéos au maximum ; un clic dessus et elle ne revient plus). Entièrement facultatif, et merci !
 
 Créé avec 💜 par Cleedek au Vietnam.
+
+Subtitle Overlay est un projet indépendant. Il n’est ni affilié, ni approuvé, ni sponsorisé par les sites ou les plateformes de streaming avec lesquels il fonctionne. S’il y fonctionne, c’est grâce à notre propre travail : nous l’avons testé sur ces sites et, sur certains, adapté à leur lecteur. Les noms et logos de ces services appartiennent à leurs propriétaires.
 
 Les captures d’écran montrent des images de Tears of Steel, © Blender Foundation, mango.blender.org, sous licence CC BY 3.0.

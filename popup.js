@@ -159,6 +159,7 @@
   const SNAP_TRANSLATE_ID = '';
 
   setupFeedback({ ext: 'subtitle-overlay', name: 'Subtitle Overlay', i18n: SubI18n });
+  setupPrefsView(['uiLang', 'uiTheme']);
   setupWhatsNew({ slug: 'subtitle-overlay', i18n: SubI18n }).catch(() => {});
 
   // A card in the footer, hidden for good once closed. Not shown when Snap Translate is
@@ -238,7 +239,6 @@
     $('syncSection').hidden = !lf; // nothing on the video, nothing to sync
     renderRate(lf && lf.report.loaded);
     $('pick').textContent = t(lf ? 'Load a different file' : 'Load .srt / .vtt / .ttml file');
-    $('pick').classList.toggle('primary', !lf); // with a file loaded, Translate is the main action
     if (lf) {
       const l = lf.report.loaded;
       $('loadedName').textContent = l.name;
@@ -373,11 +373,11 @@
   // naturally). It never starts by itself: a key costs money, a local model the
   // computer's time.
   const TRANSLATOR_HINTS = {
-    google: 'Fast and free. Translates line by line.',
+    google: 'Google translates line by line, fast and free. Turn this on and an AI rewrites it with the whole scene in mind.',
     gemini: 'Google translates at once. Click Improve and Gemini rewrites it with the whole scene in mind. Needs an API key.',
     claude: 'Google translates at once. Click Improve and Claude rewrites it with the whole scene in mind. Needs an API key.',
     openai: 'Google translates at once. Click Improve and OpenAI rewrites it with the whole scene in mind. Needs an API key.',
-    local: 'Google translates at once. Click Improve and a model on this computer rewrites it. Free, and the rewrite stays on your computer, but slower. Needs Ollama or LM Studio.',
+    local: 'Google translates at once. Click Improve and an AI on your own computer rewrites it, so it reads like real speech. Free, and nothing leaves your computer.',
   };
   let translator = prefs.translator;
   $('geminiKey').value = prefs.geminiKey;
@@ -420,7 +420,7 @@
     showAlert({
       id: 'ai',
       title: t('{name} isn’t working', { name: t(SubSettings.AI[translator].name) }),
-      text: error + ' ' + t('Google’s translation still works, only Improve needs the AI.'),
+      text: error + (/[.!?…]$/.test(error) ? ' ' : '. ') + t('Google’s translation still works, only Improve needs the AI.'),
       // Found at its usual address: fixed from here. Otherwise to the field that's wrong.
       main: found ? t('Use {url}', { url: found.url.replace(/^https?:\/\//, '') }) : t('Show settings'),
       onMain: found ? () => useAddress(found.url) : () => {
@@ -483,7 +483,103 @@
     renderTranslator();
   }
 
+  // Local, first time: a guide instead of "Not connected". Set up = a model was
+  // picked once (localModel is saved then). Until then nothing here is an error,
+  // the person just hasn't installed it yet. Every 3 s while the popup is open it
+  // looks again, so the steps tick themselves. "Set it up yourself" shows the
+  // usual settings (LM Studio, another address) instead.
+  const SETUP_MODEL = 'gemma3:12b';
+  let localSetUp = !!prefs.localModel;
+  let setupByHand = false;
+  let setupShown = false; // the guide was on screen in this popup: say "Ready" when it's done
+  let setupTimer = 0;
+  const inSetup = () => translator === 'local' && !localSetUp && !setupByHand;
+  function stopSetupPoll() { clearInterval(setupTimer); setupTimer = 0; }
+
+  function setupStep(n, state) { // 'now' | 'done' | 'later'
+    const li = $('lsStep' + n);
+    li.className = 'ls-step ' + state;
+    li.querySelector('.ls-n').textContent = state === 'done' ? '✓' : String(n);
+    const title = li.querySelector('.ls-t');
+    if (title.dataset.todo) title.textContent = t(state === 'done' ? title.dataset.done : title.dataset.todo);
+    const body = li.querySelector('.ls-body');
+    if (body) body.hidden = state !== 'now';
+  }
+
+  async function checkLocal() {
+    const res = await chrome.runtime.sendMessage({ type: 'ai-models' }).catch((e) => ({ ok: false, error: e.message }));
+    if (!inSetup()) return;
+    // Something else than "nothing installed": refused, the background is down,
+    // or LM Studio answers at its own address. The usual settings say what to do.
+    if (!res || (!res.ok && (!res.unreachable || res.found))) {
+      setupByHand = true;
+      stopSetupPoll();
+      $('localSetup').hidden = true;
+      return renderTranslator();
+    }
+    if (res.ok && res.models.length) {
+      localSetUp = true;
+      stopSetupPoll();
+      return renderTranslator();
+    }
+    setupShown = true;
+    $('localSetup').hidden = false;
+    $('aiDetails').hidden = true;
+    hideAlert('ai');
+    setupStep(1, res.ok ? 'done' : 'now');
+    setupStep(2, res.ok ? 'now' : 'later');
+    setupStep(3, 'later');
+    renderPull();
+    if (!setupTimer) setupTimer = setInterval(() => (inSetup() ? checkLocal() : stopSetupPoll()), 3000);
+  }
+
+  // "Download Gemma 3": the background asks Ollama to download it and writes the
+  // progress to storage.session (also seen by a popup opened later).
+  let pull = null;
+  const gb = (b) => (b / 1e9).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  function renderPull() {
+    // "running" that nobody updated for 20 s: it stopped (the background was shut down).
+    const running = !!pull && pull.state === 'running' && Date.now() - pull.at < 20000;
+    const stopped = !!pull && (pull.state === 'error' || (pull.state === 'running' && !running));
+    $('lsPullStart').hidden = running;
+    $('lsPullRun').hidden = !running;
+    if (running) {
+      $('lsPullBar').style.width = (pull.total ? Math.min(100, pull.completed / pull.total * 100) : 0) + '%';
+      $('lsPullText').textContent = pull.total
+        ? t('{done} of {total} GB', { done: gb(pull.completed), total: gb(pull.total) })
+        : t('Starting the download…');
+    }
+    $('lsPullError').hidden = !(pull && pull.state === 'error');
+    $('lsPullError').textContent = pull && pull.state === 'error' ? pull.error : '';
+    $('lsPull').textContent = t(stopped ? 'Continue the download' : 'Download Gemma 3');
+  }
+  chrome.storage.session.get('localPull').then(({ localPull }) => { pull = localPull || null; renderPull(); }).catch(() => {});
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'session' || !changes.localPull) return;
+    pull = changes.localPull.newValue || null;
+    renderPull();
+    if (pull && pull.state === 'done' && inSetup()) checkLocal();
+  });
+  $('lsPull').addEventListener('click', () => {
+    pull = { state: 'running', at: Date.now(), completed: 0, total: 0 };
+    renderPull();
+    chrome.runtime.sendMessage({ type: 'ai-pull', model: SETUP_MODEL }).catch(() => {});
+  });
+  $('lsCopy').addEventListener('click', async () => {
+    await navigator.clipboard.writeText('ollama pull ' + SETUP_MODEL).catch(() => {});
+    $('lsCopy').textContent = t('Copied');
+    setTimeout(() => { $('lsCopy').textContent = t('Copy'); }, 1500);
+  });
+  $('lsManual').addEventListener('click', () => {
+    setupByHand = true;
+    stopSetupPoll();
+    $('localSetup').hidden = true;
+    renderTranslator();
+    $('aiDetails').open = true;
+  });
+
   async function loadModels() {
+    if (inSetup()) return checkLocal();
     const ask = ++modelsAsked;
     const saved = (await SubSettings.loadTranslation())[modelKey()];
     $('aiModel').replaceChildren();
@@ -523,6 +619,8 @@
   }
 
   function renderTranslator() {
+    $('aiOn').checked = translator !== 'google';
+    $('aiPicker').hidden = translator === 'google';
     for (const b of document.querySelectorAll('[data-translator]')) {
       // aria-checked for screen readers, aria-selected for the shared segmented style.
       b.setAttribute('aria-checked', String(b.dataset.translator === translator));
@@ -536,8 +634,11 @@
     const keyField = SubSettings.AI[translator] && SubSettings.AI[translator].key;
     const needsKey = !!keyField && !$(keyField).value.trim();
     // The AI settings stay folded once set up (the model shows on the fold); a missing key opens them.
-    $('aiDetails').hidden = translator === 'google';
-    if (translator === 'google') hideAlert('ai');
+    $('aiDetails').hidden = translator === 'google' || inSetup();
+    $('localSetup').hidden = !inSetup() || !setupShown;
+    $('localReady').hidden = !(translator === 'local' && localSetUp && setupShown);
+    if (!inSetup()) stopSetupPoll();
+    if (translator === 'google' || inSetup()) hideAlert('ai');
     $('aiStatus').hidden = true;
     clearAddressProblem();
     $('aiSummary').classList.remove('error');
@@ -552,10 +653,19 @@
   for (const b of document.querySelectorAll('[data-translator]')) {
     b.addEventListener('click', async () => {
       translator = b.dataset.translator;
-      await SubSettings.saveTranslation({ translator });
+      prefs.aiPick = translator;
+      await SubSettings.saveTranslation({ translator, aiPick: translator });
       renderTranslator();
     });
   }
+  // Off = Google alone (it always translates first anyway). On = the AI picked last time, Local at first.
+  $('aiOn').addEventListener('change', async () => {
+    const known = prefs.aiPick === 'local' || !!SubSettings.AI[prefs.aiPick];
+    translator = $('aiOn').checked ? (known ? prefs.aiPick : 'local') : 'google';
+    if (translator !== 'google') prefs.aiPick = translator;
+    await SubSettings.saveTranslation({ translator });
+    renderTranslator();
+  });
   $('geminiKey').addEventListener('change', async () => {
     await SubSettings.saveTranslation({ geminiKey: $('geminiKey').value.trim() });
     renderTranslator();
@@ -774,7 +884,7 @@
       let meta;
       if (!d) meta = t('Checking…');
       else if (d.error) meta = d.error;
-      else if (item.kind === 'hls') meta = t('Streaming subtitles') + (d.count ? ' · ' + t('{n} lines', { n: d.count }) : d.pieces ? ' · ' + t('{n} pieces', { n: d.pieces }) : '') + (d.preview ? ' · "' + d.preview + '"' : '');
+      else if (item.kind === 'hls' || item.kind === 'dash') meta = t('Streaming subtitles') + (d.count ? ' · ' + t('{n} lines', { n: d.count }) : d.pieces ? ' · ' + t('{n} pieces', { n: d.pieces }) : '') + (d.preview ? ' · "' + d.preview + '"' : '');
       else meta = t('{n} lines', { n: d.count }) + (d.preview ? ' · "' + d.preview + '"' : '');
       if (episode) meta = file + ' · ' + meta;
       cards.push(card(item.lang, episode || file, meta, item.url, () => fetchNetworkItem(item)));
@@ -789,12 +899,9 @@
         }));
       }
     }
-    if (!cards.length) {
-      const p = document.createElement('div');
-      p.className = 'empty';
-      p.textContent = t('No subtitle files seen yet. Turn on subtitles in the site’s own player (for example the CC button on Prima+), let it play a moment, then open this again.');
-      cards.push(p);
-    }
+    // Nothing found: the section stays hidden. "Translate automatically" already says
+    // to turn on the site's subtitles, so an empty box would only repeat it.
+    $('foundSection').hidden = !cards.length;
     box.replaceChildren(...cards);
   }
 
@@ -958,11 +1065,25 @@
     $('distanceLabel').textContent = t(settings.place === 'top' ? 'Distance from top' : 'Distance from bottom');
     $('dualSetting').hidden = $('secondLangSetting').hidden = !settings.dual;
     $('dualLabel').textContent = t(settings.place === 'top' ? 'Second subtitles: distance from bottom' : 'Second subtitles: distance from top');
+    showStyleSummary();
     renderPreview();
     renderPresets();
     showColors();
     if (googleFonts.length) renderFonts();
     SubRender.ensureFont(document, settings.font).then(renderPreview, () => {});
+  }
+
+  // The folded rows of the Style tab say what is inside: the font's name, and each effect's tile its main values.
+  function showStyleSummary() {
+    const f = settings.font;
+    const builtIn = { sans: 'System sans', serif: 'Serif', mono: 'Monospace' };
+    $('fontNow').textContent = SubRender.isGoogle(f) ? SubRender.googleName(f) : t(builtIn[f] || 'System sans');
+    const sums = {
+      outline: `${settings.outlineOpacity}% · ${settings.outlineWidth} px`,
+      shadow: `${settings.shadowOpacity}% · ${settings.shadowBlur} px`,
+      box: `${settings.boxOpacity}% · ${settings.boxPadding} px`,
+    };
+    for (const [k, text] of Object.entries(sums)) $('fxSum-' + k).textContent = settings[k] ? text : t('Off');
   }
 
   // The filled part of a slider's track: up to the thumb, or between 0 and

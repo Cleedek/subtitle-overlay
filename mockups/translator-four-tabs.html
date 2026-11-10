@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Překladač na 4 záložky</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: oklch(0.185 0.008 290);
+  --panel: oklch(0.225 0.010 290);
+  --line: oklch(0.29 0.012 290);
+  --line-strong: oklch(0.36 0.014 290);
+  --text: oklch(0.94 0.006 290);
+  --muted: oklch(0.70 0.014 290);
+  --faint: oklch(0.64 0.014 290);
+  --accent: oklch(0.54 0.23 293);
+  --quiet: oklch(0.48 0.012 290);
+  --free: oklch(0.80 0.15 150);
+  --page: oklch(0.13 0.006 290);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text); font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+.doc { max-width: 1320px; margin: 0 auto; padding: 40px 24px 80px; }
+.doc > h1 { font-size: 26px; margin: 0 0 6px; }
+.lead { color: var(--muted); max-width: 72ch; margin: 0 0 36px; font-size: 14px; }
+.lead b { color: var(--text); }
+.row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 10px; width: 380px; }
+.tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.tag b { color: var(--text); }
+.tag .rec { color: var(--free); margin-left: 6px; }
+.why { color: var(--muted); font-size: 12.5px; margin: 0; }
+.why strong { color: var(--text); font-weight: 600; }
+.why ul { margin: 6px 0 0; padding-left: 16px; }
+.pro { color: oklch(0.82 0.12 150); } .con { color: oklch(0.78 0.12 30); }
+
+.pop { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.pop + .pop { margin-top: 0; }
+.state { font-size: 11px; color: var(--faint); margin: -4px 0 4px; }
+.sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; margin-bottom: 8px; }
+.lbl { font-weight: 500; }
+.hint { font-size: 11.5px; color: var(--faint); margin: 8px 0 0; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 99px; }
+.seg span { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6px 4px; border-radius: 99px; color: var(--muted); font-size: 12.5px; line-height: 1.15; white-space: nowrap; }
+.seg span.on { background: var(--quiet); color: var(--text); font-weight: 600; }
+.seg span.tight { padding-block: 2px; }
+.seg i { font-style: normal; font-size: 7.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--free); margin-top: 2px; }
+.seg.cramped span { padding-inline: 2px; font-size: 12px; }
+.inline-free { font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--free); margin-left: 5px; }
+.toggle { width: 36px; height: 22px; border-radius: 99px; background: var(--line-strong); position: relative; flex: none; }
+.toggle::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--text); }
+.toggle.on { background: var(--accent); }
+.toggle.on::after { left: 17px; }
+.guide { margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--panel); }
+.guide b { display: block; font-size: 12.5px; margin-bottom: 2px; }
+.guide p { margin: 0; font-size: 11.5px; color: var(--muted); }
+.guide .steps { margin-top: 8px; font-size: 11.5px; color: var(--faint); }
+.base { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px dashed var(--line-strong); border-radius: 8px; color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+.base svg { flex: none; color: var(--free); }
+.chips { display: flex; gap: 6px; margin-top: 8px; }
+.chips span { padding: 4px 10px; border: 1px solid var(--line-strong); border-radius: 99px; font-size: 12px; color: var(--muted); }
+.chips span.on { border-color: var(--text); color: var(--text); font-weight: 600; }
+.field { margin-top: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; color: var(--faint); font-size: 12px; }
+.link { color: var(--muted); font-size: 11.5px; text-decoration: underline; text-underline-offset: 2px; }
+.now { margin-bottom: 40px; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>Překladač: 4 záložky místo 5</h1>
+  <p class="lead">Jak to funguje dnes: <b>Google přeloží vždycky jako první</b>, i když je vybraná AI. AI titulky přepíše, až když uživatel klikne na <b>Vylepšit</b>, sama se nespustí nikdy. Záložka „Google“ tedy ve skutečnosti znamená „bez AI“. Proto ji jde vyndat, aniž by se cokoli rozbilo. Lokální bez nastavení už dnes ukazuje návod místo chyby.</p>
+
+  <div class="col now">
+    <div class="tag"><b>Dnes</b></div>
+    <div class="pop">
+      <div class="sh"><span class="lbl">Překladač</span></div>
+      <div class="seg cramped"><span class="on">Google</span><span class="tight">Lokální<i>Zdarma</i></span><span>Gemini</span><span>Claude</span><span>OpenAI</span></div>
+      <p class="hint">5 záložek, „Lokální“ + „Zdarma“ se v češtině sotva vejde.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- A -->
+    <div class="col">
+      <div class="tag"><b>A</b> · Přepínač + 4 modely <span class="rec">doporučuji</span></div>
+      <div class="state">Nový uživatel, Lokální ještě není nastavené</div>
+      <div class="pop">
+        <div class="sh"><span class="lbl">Vylepšit pomocí AI</span><span class="toggle on"></span></div>
+        <div class="seg"><span class="on tight">Lokální<i>Zdarma</i></span><span>Gemini</span><span>Claude</span><span>OpenAI</span></div>
+        <p class="hint">Google přeloží hned. Klikněte na Vylepšit a AI titulky přepíše podle celé scény.</p>
+        <div class="guide"><b>Titulky, které zní jako opravdová řeč</b><p>Zdarma, nic neodchází z počítače.</p><div class="steps">① Nainstalujte Ollama · ② Stáhněte model · ③ Hotovo</div></div>
+      </div>
+      <div class="state">Přepínač vypnutý</div>
+      <div class="pop">
+        <div class="sh"><span class="lbl">Vylepšit pomocí AI</span><span class="toggle"></span></div>
+        <p class="hint" style="margin-top:0">Překládá Google. Zapněte, pokud chcete přirozenější titulky.</p>
+      </div>
+      <div class="why">
+        <ul>
+          <li class="pro">Je hned jasné, že Google je základ a AI je přidaná hodnota navíc.</li>
+          <li class="pro">Kdo AI nechce, jedním přepínačem skryje i návod. Žádný šum.</li>
+          <li class="pro">„Lokální Zdarma“ má konečně místo.</li>
+          <li class="con">O jeden prvek víc (přepínač). Výchozí stav (zapnuto/vypnuto) je potřeba rozhodnout.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- B -->
+    <div class="col">
+      <div class="tag"><b>B</b> · Jen 4 modely, Google beze slov</div>
+      <div class="state">Nový uživatel, Lokální ještě není nastavené</div>
+      <div class="pop">
+        <div class="base"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Základní překlad vždy obstará Google</div>
+        <div class="sh"><span class="lbl">Vylepšení pomocí AI</span></div>
+        <div class="seg"><span class="on tight">Lokální<i>Zdarma</i></span><span>Gemini</span><span>Claude</span><span>OpenAI</span></div>
+        <div class="guide"><b>Titulky, které zní jako opravdová řeč</b><p>Zdarma, nic neodchází z počítače.</p><div class="steps">① Nainstalujte Ollama · ② Stáhněte model · ③ Hotovo · <span class="link">Zatím ne</span></div></div>
+      </div>
+      <div class="why">
+        <ul>
+          <li class="pro">Nejméně prvků, nejčistší.</li>
+          <li class="pro">AI se stejně spouští jen tlačítkem Vylepšit, takže „vypnout“ ani není co.</li>
+          <li class="con">Kdo AI nechce, vidí návod pořád, dokud neklikne „Zatím ne“ (pak se sbalí do jednoho řádku).</li>
+          <li class="con">Tlačítko Vylepšit bude vidět vždycky, i lidem bez AI (klik otevře návod).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- C -->
+    <div class="col">
+      <div class="tag"><b>C</b> · Podle ceny: Google / Lokální / Vlastní klíč</div>
+      <div class="state">Vybraná AI s vlastním klíčem</div>
+      <div class="pop">
+        <div class="sh"><span class="lbl">Překladač</span></div>
+        <div class="seg"><span>Google</span><span class="tight">Lokální<i>Zdarma</i></span><span class="on">Vlastní klíč</span></div>
+        <div class="chips"><span class="on">Gemini</span><span>Claude</span><span>OpenAI</span></div>
+        <div class="field">API klíč Gemini</div>
+        <p class="hint">Google přeloží hned. Klikněte na Vylepšit a Gemini titulky přepíše podle celé scény.</p>
+      </div>
+      <div class="why">
+        <ul>
+          <li class="pro">Jen 3 záložky, Google zůstává jako volba, nic se nemění pro stávající uživatele.</li>
+          <li class="pro">Rozdělení dává smysl: zdarma online, zdarma u vás, placené s klíčem.</li>
+          <li class="con">Neplní tvůj cíl „pryč s Googlem“, jen šetří místo jinak.</li>
+          <li class="con">O úroveň hlouběji: poskytovatele vybíráš ve druhém řádku.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

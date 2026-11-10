@@ -6,7 +6,7 @@ Subtitle Overlay visar undertexter ovanpå videospelaren på vilken webbplats so
 ★ Vilken webbplats och vilken video som helst: undertexter ovanpå spelaren, i fönster eller helskärm, alltid i synk
 ★ Översätt till 31 språk med ett klick, eller helt automatiskt så fort du slår på undertexterna i webbplatsens spelare
 ★ NYHET: AI får översättningen att låta naturlig, gratis på din egen dator (Gemma) eller med din egen nyckel till Gemini, Claude eller OpenAI
-★ NYHET: en översättningskö för en hel säsong, och förbättrade undertexter som sparas till nästa gång
+★ NYHET: har webbplatsen redan undertexter på ditt språk får du dem, och det översätts bara när det inte finns några
 ★ Två språk samtidigt: ett överst och ett nederst, för att titta tillsammans eller lära dig ett språk
 ★ Hittar undertexterna som sidan laddar, även på YouTube, så du behöver sällan någon fil alls
 ★ Din stil: över 1 800 Google Fonts, kontur, skugga, bakgrundsruta, storlek och position
@@ -19,14 +19,15 @@ Subtitle Overlay visar undertexter ovanpå videospelaren på vilken webbplats so
 • Valfritt: klicka på Förbättra så skriver AI (Gemma på din dator, eller Gemini, Claude eller OpenAI) om Googles snabba version så att den låter naturlig (mer nedan). För musen över videon för att se hur långt den har kommit
 • Välj ditt språk en gång; det blir din favorit för varje Översätt-knapp
 • Automatiskt läge: slå på undertexterna i webbplatsens spelare så dyker de upp ovanpå videon redan översatta, med en kort notis "Översatt till …" i stället för ett popup-fönster. Nya installationer har läget påslaget och översätter till webbläsarens språk
-• Webbplatsens egna undertexter döljs, så du läser aldrig två uppsättningar samtidigt
+• Har webbplatsen undertexter på ditt språk (YouTube och streamingtjänster) kommer de först; Google eller AI översätter bara när det inte finns några
+• Webbplatsens egna undertexter döljs medan våra är på och kommer tillbaka så fort du stänger av våra
 • Byt tillbaka till originalet när du vill, eller spara översättningen som en .srt-fil
 • Språk: vietnamesiska, tjeckiska, engelska, slovakiska, tyska, franska, spanska, italienska, portugisiska, polska, ungerska, ukrainska, nederländska, svenska, danska, norska, finska, grekiska, turkiska, rumänska, kroatiska, kinesiska (förenklad och traditionell), japanska, koreanska, thailändska, indonesiska, malajiska, filippinska, hindi, arabiska
 
 NATURLIG ÖVERSÄTTNING MED AI (VALFRITT)
 Google Translate är snabbt, men det går rad för rad, ord för ord. Klicka på Förbättra så skriver en AI-modell om undertexterna med hela scenen i åtanke, med start där du tittar.
 • Gratis: Gemma, Googles öppna modell, körs på din egen dator med Ollama eller LM Studio, så AI-steget stannar på din dator. Du behöver en ganska kraftfull dator och ungefär 8 GB diskutrymme.
-• Klart i 3 steg: installera Ollama från ollama.com, ladda ner Gemma med ett enda kommando och välj sedan Lokal i tilläggets fönster. Kommandot och modellen vi rekommenderar just nu (sidan är på engelska): cleedek.com/subtitle-overlay/ai
+• Tilläggets fönster guidar dig: installera Ollama från ollama.com och ladda ner Gemma med ett klick (kräver minst 16 GB RAM). Mer om det och modellen vi rekommenderar just nu (sidan är på engelska): cleedek.com/subtitle-overlay/ai
 • Eller använd din egen API-nyckel: Gemini (har en gratisnivå), Claude eller OpenAI (betalt).
 • Innan den börjar skummar den igenom hela filen och noterar vem som är vem, så att kön, tilltal och namn håller sig desamma från första repliken till den sista.
 • Den startar aldrig av sig själv: ingenting körs och ingenting kostar utan ditt klick.
@@ -47,7 +48,7 @@ HITTAR UNDERTEXTERNA SOM EN WEBBPLATS LADDAR
 • Släpp in flera .srt- eller .vtt-filer, eller klicka på "Lägg till i kön" vid undertexter som en webbplats laddar. De översätts en efter en medan du gör något annat; fliken med kön kan ligga i bakgrunden
 • Fungerar med Google, Gemini, Claude, OpenAI eller din lokala modell
 • Förbättrade undertexter sparas i tillägget så länge du vill och kommer tillbaka när du återvänder till videon
-• Spela upp öppnar videon med dess undertexter; Ladda ner sparar .srt-filen
+• Spela upp öppnar videon med dess undertexter, "Visa på…" lägger dem över en video som redan är öppen i en annan flik, och Ladda ner sparar .srt-filen
 
 STYLA DEM PÅ DITT SÄTT
 • Över 1 800 Google Fonts, filtrerade till dem som har bokstäverna i ditt språk (č ř ž, ư ế ộ, kyrilliska, grekiska, japanska med mera)
@@ -98,8 +99,10 @@ Klicka på "Problem eller idé?" längst ner i tilläggets fönster och skriv ti
 Hela tillägget är öppen källkod (GPL-3.0), så vem som helst kan kontrollera exakt vad det gör: github.com/Cleedek/subtitle-overlay. Om du gillar det hjälper en stjärna på GitHub andra att hitta det.
 
 STÖD SKAPAREN
-Subtitle Overlay är gratis och alla funktioner förblir gratis. Om det gör dina kvällar bättre finns sidan "Stöd skaparen" i tilläggets fönster, med Revolut, PayPal, Solana och Sui. Helt frivilligt, och tack!
+Subtitle Overlay är gratis och alla funktioner förblir gratis. Om det gör dina kvällar bättre finns sidan "Stöd skaparen" i tilläggets fönster, med Ko-fi och några andra sätt att betala. Efter många översatta videor frågar också ett litet kort över videon en gång (på högst tre videor; ett klick på det och det kommer aldrig tillbaka). Helt frivilligt, och tack!
 
 Skapat med 💜 av Cleedek i Vietnam.
+
+Subtitle Overlay är ett oberoende projekt. Det är inte knutet till, godkänt eller sponsrat av någon av de webbplatser eller streamingtjänster det fungerar med. Att det fungerar där är vårt eget arbete: vi har testat det på de sidorna och på några av dem anpassat det till deras spelare. Namn och logotyper för tjänsterna tillhör sina ägare.
 
 Skärmbilderna visar bildrutor från Tears of Steel, © Blender Foundation, mango.blender.org, licensierad under CC BY 3.0.

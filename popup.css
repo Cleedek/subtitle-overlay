@@ -11,7 +11,7 @@
   --line-strong: oklch(0.36 0.014 290);
   --text: oklch(0.94 0.006 290);
   --muted: oklch(0.70 0.014 290);
-  --faint: oklch(0.56 0.014 290);
+  --faint: oklch(0.64 0.014 290);
   --accent: oklch(0.54 0.23 293);
   --accent-hover: oklch(0.60 0.21 293);
   --accent-soft: oklch(0.54 0.23 293 / .22);
@@ -210,16 +210,19 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
 .toggle { position: relative; display: inline-flex; flex: none; cursor: pointer; }
 .toggle input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .toggle span {
-  width: 30px; height: 18px; border-radius: 999px; background: var(--line-strong); position: relative;
+  width: 36px; height: 22px; border-radius: 999px; background: var(--line-strong); position: relative;
   transition: background-color .2s var(--ease);
 }
 .toggle span::after {
-  content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: 14px; height: 14px; border-radius: 50%;
+  content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: 18px; height: 18px; border-radius: 50%;
   background: var(--thumb); box-shadow: 0 1px 2px var(--shadow);
   transition: transform .2s var(--ease);
 }
 .toggle input:checked + span { background: var(--accent); }
-.toggle input:checked + span::after { transform: translateX(12px); }
+.toggle input:checked + span::after { transform: translateX(14px); }
+/* The whole row is the switch: the hidden input stretches over the row it sits in. */
+.setting-head:has(> .toggle), .site-row:has(> .toggle) { position: relative; }
+.setting-head > .toggle, .site-row > .toggle { position: static; }
 .toggle:hover span { filter: brightness(1.12); }
 .toggle input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 
@@ -455,7 +458,7 @@ kbd {
 .site-row .setting-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
 #siteName { font-weight: 600; }
 /* Off on this site: the switch, the list of turned-off sites and the extension's own language and look stay. */
-body.site-off section:not(#offSection, #interfaceSection), body.site-off .tabbar { display: none; }
+body.site-off section:not(#offSection), body.site-off .tabbar { display: none; }
 body.site-off .panel { display: block; }
 .off-list { list-style: none; margin: 0; padding: 0; }
 .off-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; }
@@ -534,10 +537,66 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 .sister-close:hover { background: var(--panel-hover); color: var(--text); }
 
 /* Translator: Google, Gemini or a local model */
-.segmented.translator { grid-template-columns: repeat(5, 1fr); margin: 0; }
+.segmented.translator { grid-template-columns: repeat(4, 1fr); margin: 0; }
+.segmented.translator[hidden] { display: none; }
+/* Taller than other segmented controls ("XL"): Local + FREE sit on two lines with room above and below. */
+.segmented.translator button { min-height: 36px; }
 .segmented.translator button { padding-inline: 4px; }
 /* Quieter than the tabs at the top: a choice inside a setting. Text on this gray: 5.5:1 dark, 10.7:1 light. */
 .segmented.translator button[aria-selected="true"] { background: var(--seg-quiet); color: var(--text); box-shadow: none; }
+/* "Free" under Local: the one AI choice that costs nothing. */
+/* Small caps line under the name. Name + caps are one block centred in the segment
+   (tight line height, so no empty leading pushes it off centre); the other segments
+   set the row's height, so it stays as tall as before. */
+.segmented.translator button[data-translator="local"] { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-block: 0; line-height: 1.15; }
+.seg-free { display: block; margin-top: 2px; font-size: 7.5px; line-height: 1; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--success); }
+/* Light theme: --success is too pale for 7.5 px text on the grey chip. */
+:root[data-theme="light"] .seg-free { color: oklch(0.45 0.13 150); }
+/* Dark theme, chosen: a lighter green keeps it above 4.5:1 on the grey chip. */
+:root:not([data-theme="light"]) .segmented.translator button[aria-selected="true"] .seg-free { color: oklch(0.91 0.11 150); }
+
+/* Local, never set up: a guide instead of an error. */
+.ls { display: flex; flex-direction: column; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.ls[hidden], .ls-ready[hidden] { display: none; }
+.ls h3 { margin: 0; font-size: 14px; font-weight: 650; color: var(--text); }
+.ls-lead { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+.ls-score { display: grid; gap: 5px; font-size: 11.5px; color: var(--faint); }
+.ls-bar { display: grid; grid-template-columns: 56px 1fr 32px; gap: 8px; align-items: center; }
+.ls-bar i { display: block; height: 6px; border-radius: 3px; background: var(--line); }
+.ls-bar i::before { content: ""; display: block; width: var(--w); height: 100%; border-radius: inherit; background: var(--line-strong); }
+.ls-bar.after i::before { background: var(--accent); }
+.ls-bar b { font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; text-align: end; }
+.ls-bar.after span, .ls-bar.after b { color: var(--text); font-weight: 600; }
+.ls-facts { display: flex; flex-wrap: wrap; gap: 6px; }
+.ls-fact { padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); font-size: 11.5px; color: var(--muted); }
+.ls-fact.free { color: var(--success); border-color: color-mix(in oklch, var(--success) 40%, var(--line)); }
+.ls-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ls-step { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+.ls-n { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong); font-size: 11.5px; font-weight: 650; color: var(--muted); }
+.ls-step.now .ls-n { background: var(--accent); border-color: var(--accent); color: oklch(0.99 0.003 290); }
+.ls-step.done .ls-n { background: color-mix(in oklch, var(--success) 22%, transparent); border-color: transparent; color: var(--success); }
+.ls-t { font-size: 13px; line-height: 22px; font-weight: 500; color: var(--muted); }
+.ls-step.now .ls-t { font-weight: 600; color: var(--text); }
+.ls-body[hidden], #lsPullStart[hidden], #lsPullRun[hidden] { display: none; }
+.ls-d { margin: 2px 0 0; font-size: 11.5px; color: var(--faint); }
+.ls-act { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.ls-act button, .ls-btn { padding: 6px 12px; }
+.ls-btn { display: inline-flex; align-items: center; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; text-decoration: none; }
+.ls-btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.ls-wait { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; font-size: 11.5px; color: var(--faint); }
+.ls-pulse { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--faint); animation: ls-pulse 1.4s ease-in-out infinite; }
+@keyframes ls-pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .ls-pulse { animation: none; } }
+.ls-cmd { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 8px 0 0; font-size: 11.5px; color: var(--faint); }
+.ls-cmd code { padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font-size: 11.5px; user-select: all; }
+.ls-cmd button { padding: 1px 8px; font-size: 11.5px; }
+.ls-track { height: 6px; margin-top: 8px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.ls-track i { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--accent); transition: width .4s var(--ease); }
+.ls-row { font-variant-numeric: tabular-nums; }
+.ls-more { margin: 0; font-size: 11.5px; color: var(--faint); }
+.ls-link { padding: 0; border: 0; background: none; color: var(--link); font-size: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.ls-link:hover { background: none; color: var(--text); }
+.ls-ready { margin: 0; padding: 10px 12px; border-radius: 10px; background: color-mix(in oklch, var(--success) 12%, transparent); font-size: 12.5px; color: var(--text); }
 .ai-fields { display: flex; flex-direction: column; gap: 6px; }
 .ai-fields .label { margin: 0; }
 .ai-fields[hidden] { display: none; }
@@ -571,7 +630,7 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
    this covers what doesn't. Nothing here applies to other languages. */
 [dir=rtl] * { letter-spacing: normal; } /* spacing tears Arabic's joined letters apart */
 [dir=rtl] select { background-position: left 11px center; }
-[dir=rtl] .toggle input:checked + span::after { transform: translateX(-12px); }
+[dir=rtl] .toggle input:checked + span::after { transform: translateX(-14px); }
 [dir=rtl] input[type=range]::-webkit-slider-runnable-track {
   background: linear-gradient(to left, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
 }
@@ -638,3 +697,84 @@ body.feedback #feedbackView { display: block !important; }
 .news-more:hover { background: var(--panel-hover); }
 .news-link { margin-top: 0; padding-top: 10px; border-top: 0; } /* sits right under the GitHub link */
 .has-news #sister { display: none !important; } /* one card at a time, news first */
+
+/* ---------- footer list + "Language & appearance" screen (lib/prefs-view.js) ---------- */
+
+body.prefs > :not(#prefsView, script, style) { display: none !important; }
+body.prefs #prefsView { display: block !important; }
+.prefs-view .prefs { display: flex; flex-direction: column; gap: 18px; margin-top: 10px; }
+.prefs-group h2 { margin: 0 0 8px 2px; }
+/* Quiet segmented control (like the translator picker): the chosen look is a grey thumb, not white. */
+.segmented.prefs-seg { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(max-content, 1fr); margin: 0; }
+.segmented.prefs-seg button { padding-inline: 10px; white-space: nowrap; }
+.segmented.prefs-seg.wrap { grid-auto-columns: minmax(0, 1fr); border-radius: 14px; }
+.segmented.prefs-seg.wrap button { white-space: normal; border-radius: 11px; line-height: 1.2; padding-block: 5px; }
+.segmented.prefs-seg button[aria-checked="true"] { background: var(--seg-quiet); color: var(--text); font-weight: 600; box-shadow: none; }
+/* Languages: one list to scroll, own name on top, name in the current language under it, check on the chosen one. */
+.lang-list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.lang-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 12px;
+  border: 0; border-radius: 0; background: transparent; text-align: start; font-weight: 500;
+}
+.lang-row + .lang-row { border-top: 1px solid var(--line); }
+.lang-row:hover { background: var(--panel-hover); border-color: var(--line); }
+.lang-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.lang-own { color: var(--text); }
+.lang-sub { color: var(--faint); font-size: 12px; font-weight: 400; }
+.lang-check { flex: none; color: var(--text); visibility: hidden; }
+.lang-row[aria-checked="true"] .lang-check { visibility: visible; }
+.lang-row[aria-checked="true"] .lang-own { font-weight: 600; }
+.foot-list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.foot-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 9px 12px;
+  border: 0; border-radius: 0; background: transparent; text-align: start; font-weight: 500;
+}
+.foot-row + .foot-row { border-top: 1px solid var(--line); }
+.foot-row:hover { background: var(--panel); border-color: var(--line); }
+.foot-row > svg:first-child { flex: none; color: var(--muted); }
+.foot-row.support-open > svg:first-child { color: oklch(0.66 0.21 18); }
+.foot-text { flex: 1; min-width: 0; }
+.foot-now { color: var(--faint); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
+.foot-row .chev { flex: none; color: var(--faint); }
+[dir=rtl] .foot-row .chev { transform: scaleX(-1); }
+.foot-links { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 18px; row-gap: 4px; margin-top: 10px; }
+.foot-links .star-link { margin-top: 0; padding-top: 0; border-top: 0; }
+.foot-list + p { margin-top: 14px; }
+
+/* ---------- Style tab, folded (2026-11 UX audit) ---------- */
+
+details.fold > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 8px 0; color: var(--muted); font-weight: 500; }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before {
+  content: ""; flex: none; width: 6px; height: 6px; margin: 0 3px; border: solid currentColor; border-width: 0 1.5px 1.5px 0;
+  transform: rotate(-45deg); transition: transform .2s var(--ease);
+}
+[dir=rtl] details.fold > summary::before { transform: rotate(135deg); }
+details.fold[open] > summary::before { transform: rotate(45deg); }
+details.fold > summary:hover { color: var(--text); }
+details.fold:not(.setting) { border-top: 1px solid var(--line); }
+details.fold[open]:not(.setting) { padding-bottom: 6px; }
+/* The font row reads like any other setting: label left, the chosen font right. */
+details.font-fold { display: block; }
+details.font-fold > summary { color: var(--text); padding: 0; min-height: 26px; justify-content: flex-start; }
+details.font-fold > summary .setting-label { flex: 1; }
+details.font-fold > summary::before { order: 3; }
+.fold-value { color: var(--muted); font-size: 12px; max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+details.font-fold[open] > summary { margin-bottom: 10px; }
+.fx-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 4px 0 10px; }
+.fx-tile {
+  position: relative; display: flex; flex-direction: column; gap: 3px; padding: 8px 9px; min-height: 52px; cursor: pointer;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 9px;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+.fx-tile:hover { border-color: var(--line-strong); }
+.fx-tile input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.fx-tile:has(input:checked) { background: var(--accent-tint); border-color: var(--accent-line); }
+.fx-tile:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.fx-name { font-weight: 600; font-size: 12.5px; line-height: 1.25; }
+.fx-sum { color: var(--muted); font-size: 11.5px; }
+.fx-tile:has(input:checked) .fx-sum { color: var(--accent-text); }
+#panelStyle:has([data-key=outline]:not(:checked)) [data-fx=outline] .setting-body,
+#panelStyle:has([data-key=shadow]:not(:checked)) [data-fx=shadow] .setting-body,
+#panelStyle:has([data-key=box]:not(:checked)) [data-fx=box] .setting-body { opacity: .4; }
+.save-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }

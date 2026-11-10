@@ -6,7 +6,7 @@ Subtitle Overlay memaparkan sari kata di atas pemain video mana-mana laman web, 
 ★ Mana-mana laman, mana-mana video: sari kata di atas pemain, dalam tetingkap atau skrin penuh, sentiasa selari
 ★ Terjemah ke 31 bahasa dengan satu klik, atau sepenuhnya automatik sebaik sahaja anda hidupkan sari kata dalam pemain laman itu
 ★ BAHARU: jadikan terjemahan lebih semula jadi dengan AI, percuma di komputer anda sendiri (Gemma) atau dengan kunci Gemini, Claude atau OpenAI anda sendiri
-★ BAHARU: baris gilir terjemahan untuk satu musim penuh, dan sari kata yang ditambah baik disimpan untuk lain kali
+★ BAHARU: jika laman itu sudah ada sari kata dalam bahasa anda, anda terus dapat sari kata itu, dan terjemahan hanya digunakan jika tiada
 ★ Dua bahasa serentak: satu di atas, satu di bawah, untuk menonton bersama atau belajar bahasa
 ★ Mengesan sari kata yang dimuatkan oleh halaman, termasuk YouTube, jadi anda jarang perlukan fail langsung
 ★ Gaya anda sendiri: 1,800+ Google Fonts, garis luar, bayang, kotak latar, saiz dan kedudukan
@@ -19,14 +19,15 @@ TERJEMAH KE 31 BAHASA
 • Pilihan: klik Tambah baik dan AI (Gemma di komputer anda, atau Gemini, Claude atau OpenAI) menulis semula versi pantas Google supaya kedengaran semula jadi (lebih lanjut di bawah). Gerakkan tetikus ke atas video untuk melihat kemajuannya
 • Pilih bahasa anda sekali sahaja; ia kekal sebagai pilihan utama untuk setiap butang Terjemah
 • Mod automatik: hidupkan sari kata dalam pemain laman itu dan ia muncul di atas video dalam keadaan sudah diterjemah, dengan nota ringkas "Diterjemah ke …" dan bukannya tetingkap timbul. Pemasangan baharu bermula dengan mod ini dihidupkan, menterjemah ke bahasa pelayar anda
-• Sari kata asal laman itu disembunyikan, jadi anda tidak membaca dua set sekali gus
+• Jika laman itu ada sari kata dalam bahasa anda (YouTube dan perkhidmatan penstriman), sari kata itu didahulukan; Google atau AI hanya menterjemah jika tiada
+• Sari kata asal laman itu disembunyikan selagi sari kata kami dihidupkan, dan kembali sebaik sahaja anda mematikan sari kata kami
 • Kembali kepada versi asal bila-bila masa, atau simpan terjemahan sebagai fail .srt
 • Bahasa: Vietnam, Czech, Inggeris, Slovak, Jerman, Perancis, Sepanyol, Itali, Portugis, Poland, Hungary, Ukraine, Belanda, Sweden, Denmark, Norway, Finland, Greek, Turki, Romania, Croatia, Cina (Ringkas dan Tradisional), Jepun, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Arab
 
 JADIKAN IA SEMULA JADI (PILIHAN)
 Google Terjemah memang pantas, tetapi ia menterjemah baris demi baris, perkataan demi perkataan. Klik Tambah baik dan model AI menulis semula sari kata dengan mengambil kira keseluruhan babak, bermula dari tempat anda sedang menonton.
 • Percuma: Gemma, model terbuka Google, berjalan di komputer anda sendiri melalui Ollama atau LM Studio, jadi langkah AI kekal di komputer anda. Anda perlukan komputer yang agak berkuasa dan kira-kira 8 GB ruang cakera.
-• Sediakan dalam 3 langkah: pasang Ollama dari ollama.com, muat turun Gemma dengan satu arahan, kemudian pilih Tempatan dalam tetingkap sambungan. Arahan dan model yang kami syorkan sekarang (dalam bahasa Inggeris): cleedek.com/subtitle-overlay/ai
+• Tetingkap sambungan membimbing anda langkah demi langkah: pasang Ollama dari ollama.com, kemudian muat turun Gemma dengan satu klik (perlukan sekurang-kurangnya 16 GB RAM). Maklumat lanjut dan model yang kami syorkan sekarang (dalam bahasa Inggeris): cleedek.com/subtitle-overlay/ai
 • Atau gunakan kunci API anda sendiri: Gemini (ada peringkat percuma), Claude atau OpenAI (berbayar).
 • Sebelum bermula, ia meneliti keseluruhan fail dan mencatat siapa ialah siapa, supaya jantina, cara panggilan dan nama kekal sama dari baris pertama hingga terakhir.
 • Ia tidak pernah bermula dengan sendirinya: tiada apa yang berjalan dan tiada belanja tanpa klik anda.
@@ -47,7 +48,7 @@ BARIS GILIR TERJEMAHAN DAN SARI KATA TERSIMPAN
 • Masukkan beberapa fail .srt atau .vtt, atau klik "Tambah ke baris gilir" pada sari kata yang dimuatkan laman. Ia diterjemah satu demi satu sementara anda membuat kerja lain; tab baris gilir boleh dibiarkan di latar belakang
 • Berfungsi dengan Google, Gemini, Claude, OpenAI atau model tempatan anda
 • Sari kata yang ditambah baik disimpan dalam sambungan selama mana yang anda pilih, dan muncul semula apabila anda kembali ke video itu
-• Main membuka video berserta sari katanya; Muat turun .srt menyimpan fail .srt
+• Main membuka video berserta sari katanya, "Papar di…" meletakkannya pada video yang sudah dibuka dalam tab lain, dan Muat turun .srt menyimpan fail .srt
 
 GAYAKAN IKUT CITA RASA ANDA
 • 1,800+ Google Fonts, ditapis kepada fon yang mempunyai huruf bahasa anda (č ř ž, ư ế ộ, Cyril, Greek, Jepun dan banyak lagi)
@@ -98,8 +99,10 @@ SUMBER TERBUKA
 Keseluruhan sambungan ini ialah sumber terbuka (GPL-3.0), jadi sesiapa sahaja boleh menyemak dengan tepat apa yang dilakukannya: github.com/Cleedek/subtitle-overlay. Jika anda menyukainya, bintang di GitHub membantu orang lain menemuinya.
 
 SOKONG PENCIPTA
-Subtitle Overlay adalah percuma dan setiap ciri akan kekal percuma. Jika ia menjadikan malam anda lebih seronok, tetingkap sambungan ada halaman "Sokong pencipta" dengan Revolut, PayPal, Solana dan Sui. Sepenuhnya pilihan, dan terima kasih!
+Subtitle Overlay adalah percuma dan setiap ciri akan kekal percuma. Jika ia menjadikan malam anda lebih seronok, tetingkap sambungan ada halaman "Sokong pencipta" dengan Ko-fi dan beberapa cara bayaran lain. Selepas banyak video diterjemah, satu kad kecil di atas video juga akan bertanya sekali (paling banyak pada tiga video; satu klik padanya dan ia tidak akan muncul lagi). Sepenuhnya pilihan, dan terima kasih!
 
 Dicipta dengan 💜 oleh Cleedek di Vietnam.
+
+Subtitle Overlay ialah projek bebas. Ia tidak bergabung dengan, disokong atau ditaja oleh mana-mana laman web atau perkhidmatan penstriman yang digunakan bersamanya. Ia berfungsi di sana hasil usaha kami sendiri: kami mengujinya di laman tersebut dan, pada sesetengahnya, menyesuaikannya dengan pemain video mereka. Nama dan logo perkhidmatan tersebut milik pemiliknya.
 
 Tangkapan skrin menunjukkan babak daripada Tears of Steel, © Blender Foundation, mango.blender.org, dilesenkan di bawah CC BY 3.0.

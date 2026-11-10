@@ -6,7 +6,7 @@ A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a fe
 ★ Bármilyen oldal, bármilyen videó: feliratok a lejátszó fölött, ablakban vagy teljes képernyőn, mindig szinkronban
 ★ Fordítás 31 nyelvre egy kattintással, vagy teljesen automatikusan, amint bekapcsolod a feliratot az oldal lejátszójában
 ★ ÚJ: MI-vel természetes hangzású fordítás, ingyen a saját gépeden (Gemma), vagy a saját Gemini, Claude vagy OpenAI kulcsoddal
-★ ÚJ: fordítási várólista egy egész évadhoz, és a javított feliratok elmentve legközelebbre
+★ ÚJ: ha az oldalon már van felirat a nyelveden, azt kapod, és fordítás csak akkor készül, ha nincs
 ★ Két nyelv egyszerre: az egyik felül, a másik alul, közös nézéshez vagy nyelvtanuláshoz
 ★ Megtalálja az oldal által betöltött feliratokat, a YouTube-on is, így ritkán van szükséged fájlra
 ★ A te stílusod: több mint 1800 Google Fonts betűtípus, körvonal, árnyék, háttérdoboz, méret és pozíció
@@ -19,14 +19,15 @@ FORDÍTÁS 31 NYELVRE
 • Opcionálisan: kattints a Javítás gombra, és az MI (a gépeden futó Gemma, vagy Gemini, Claude vagy OpenAI) átírja a Google gyors fordítását, hogy természetesen hangozzon (erről lejjebb). Vidd az egeret a videó fölé, és látod, hol tart
 • Egyszer választod ki a nyelvet, és onnantól ez lesz a kedvenced minden Fordítás gombnál
 • Automatikus mód: kapcsold be a feliratot az oldal lejátszójában, és már lefordítva jelenik meg a videón, felugró ablak helyett csak egy rövid "Lefordítva: …" jelzéssel. Új telepítésnél be van kapcsolva, és a böngésződ nyelvére fordít
-• Az oldal saját feliratai elrejtődnek, így sosem olvasol két feliratot egyszerre
+• Ha az oldalon van felirat a nyelveden (YouTube és streamingszolgáltatások), az az első; a Google vagy az MI csak akkor fordít, ha nincs
+• Az oldal saját feliratai rejtve maradnak, amíg a miénk be van kapcsolva, és visszajönnek, amint kikapcsolod a miénket
 • Bármikor visszaválthatsz az eredetire, vagy elmentheted a fordítást .srt fájlként
 • Nyelvek: vietnámi, cseh, angol, szlovák, német, francia, spanyol, olasz, portugál, lengyel, magyar, ukrán, holland, svéd, dán, norvég, finn, görög, török, román, horvát, kínai (egyszerűsített és hagyományos), japán, koreai, thai, indonéz, maláj, filippínó, hindi, arab
 
 TERMÉSZETES FORDÍTÁS (OPCIONÁLIS)
 A Google Fordító gyors, de sorról sorra, szóról szóra halad. Kattints a Javítás gombra, és egy MI-modell az egész jelenetet figyelembe véve írja át a feliratokat, onnan kezdve, ahol éppen tartasz.
 • Ingyen: a Gemma, a Google nyílt modellje, a saját gépeden fut az Ollama vagy az LM Studio segítségével, így az MI-lépés a gépeden marad. Elég erős számítógép és körülbelül 8 GB szabad lemezterület kell hozzá.
-• Beállítás 3 lépésben: telepítsd az Ollama programot az ollama.com oldalról, egyetlen paranccsal töltsd le a Gemma modellt, majd válaszd a Helyi lehetőséget a felugró ablakban. A parancs és az általunk most ajánlott modell (angol nyelvű oldal): cleedek.com/subtitle-overlay/ai
+• A felugró ablak végigvezet: telepítsd az Ollama programot az ollama.com oldalról, és egy kattintással töltsd le a Gemma modellt (legalább 16 GB RAM kell hozzá). Bővebben és az általunk most ajánlott modell (angol nyelvű oldal): cleedek.com/subtitle-overlay/ai
 • Vagy használd a saját API-kulcsodat: Gemini (van ingyenes szintje), Claude vagy OpenAI (fizetős).
 • Mielőtt nekilát, átfutja az egész fájlt, és feljegyzi, ki kicsoda, így a nemek, a megszólítások és a nevek az első sortól az utolsóig egységesek maradnak.
 • Magától sosem indul el: a kattintásod nélkül semmi sem fut, és semmibe sem kerül.
@@ -47,7 +48,7 @@ FORDÍTÁSI VÁRÓLISTA ÉS MENTETT FELIRATOK
 • Húzz be több .srt vagy .vtt fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
 • Működik a Google, a Gemini, a Claude, az OpenAI vagy a saját helyi modelled segítségével
 • A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót
-• A Lejátszás gomb megnyitja a videót a feliratokkal; az ".srt letöltése" gomb elmenti a fájlt
+• A Lejátszás gomb megnyitja a videót a feliratokkal, a "Megjelenítés itt…" egy másik lapon már megnyitott videóra teszi őket, az ".srt letöltése" gomb pedig elmenti a fájlt
 
 STÍLUS ÍZLÉSED SZERINT
 • Több mint 1800 Google Fonts betűtípus, csak azok, amelyekben megvannak a nyelved betűi (č ř ž, ư ế ộ, cirill, görög, japán és még sok más)
@@ -98,8 +99,10 @@ NYÍLT FORRÁSKÓD
 Az egész bővítmény nyílt forráskódú (GPL-3.0), így bárki ellenőrizheti, pontosan mit csinál: github.com/Cleedek/subtitle-overlay. Ha tetszik, egy csillag a GitHubon segít, hogy mások is rátaláljanak.
 
 A KÉSZÍTŐ TÁMOGATÁSA
-A Subtitle Overlay ingyenes, és minden funkciója ingyenes is marad. Ha szebbé teszi az estéidet, a felugró ablakban találsz egy "A készítő támogatása" oldalt Revolut, PayPal, Solana és Sui lehetőséggel. Teljesen önkéntes, és köszönöm!
+A Subtitle Overlay ingyenes, és minden funkciója ingyenes is marad. Ha szebbé teszi az estéidet, a felugró ablakban találsz egy "A készítő támogatása" oldalt Ko-fi-jal és néhány más fizetési móddal. Sok lefordított videó után egyszer egy kis kártya is megkérdezi a videó fölött (legfeljebb három videónál; egy kattintás rá, és többé nem jön vissza). Teljesen önkéntes, és köszönöm!
 
 💜-vel készítette Cleedek Vietnámban.
+
+A Subtitle Overlay független projekt. Nem áll kapcsolatban azokkal az oldalakkal és streamingszolgáltatásokkal, amelyeken működik, és azok nem is támogatják vagy szponzorálják. Hogy ott működik, az a saját munkánk: kipróbáltuk ezeken az oldalakon, és némelyiken a lejátszójukhoz igazítottuk. A szolgáltatások neve és logója a tulajdonosaiké.
 
 A képernyőképeken a Tears of Steel című film képkockái láthatók, © Blender Foundation, mango.blender.org, CC BY 3.0 licenc alatt.

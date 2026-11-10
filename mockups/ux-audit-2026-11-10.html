@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UX návrhy k odsouhlasení</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: oklch(0.185 0.008 290);
+  --panel: oklch(0.225 0.010 290);
+  --panel-hover: oklch(0.255 0.012 290);
+  --line: oklch(0.29 0.012 290);
+  --line-strong: oklch(0.36 0.014 290);
+  --text: oklch(0.94 0.006 290);
+  --muted: oklch(0.70 0.014 290);
+  --faint: oklch(0.64 0.014 290);
+  --accent: oklch(0.54 0.23 293);
+  --accent-soft: oklch(0.54 0.23 293 / .22);
+  --accent-tint: oklch(0.33 0.09 293);
+  --accent-line: oklch(0.45 0.13 293);
+  --thumb: oklch(0.97 0.004 290);
+  --page: oklch(0.13 0.006 290);
+  --note: oklch(0.84 0.13 84);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text); font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+.doc { max-width: 1320px; margin: 0 auto; padding: 40px 24px 80px; }
+.doc > h1 { font-size: 26px; margin: 0 0 6px; }
+.doc > p.lead { color: var(--muted); max-width: 70ch; margin: 0 0 40px; font-size: 14px; }
+.part { margin: 0 0 64px; }
+.part > h2 { font-size: 19px; margin: 0 0 6px; }
+.part > p { color: var(--muted); max-width: 72ch; margin: 0 0 22px; font-size: 14px; }
+.row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 10px; }
+.tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.tag b { color: var(--text); }
+.why { max-width: 380px; color: var(--muted); font-size: 12.5px; margin: 0; }
+.why strong { color: var(--text); font-weight: 600; }
+.pro { color: oklch(0.82 0.12 150); } .con { color: oklch(0.78 0.12 30); }
+
+/* the popup frame */
+.pop { width: 380px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 0 16px 14px; overflow: hidden; }
+.pop.wide { width: 780px; }
+.pop .fade { height: 30px; margin: 0 -16px; background: linear-gradient(transparent, var(--bg)); position: relative; top: -2px; }
+.pop .cut { text-align: center; color: var(--faint); font-size: 11px; padding: 4px 0 10px; border-bottom: 1px dashed var(--line); margin: 0 -16px 0; }
+section { border-top: 1px solid var(--line); padding: 14px 0; }
+section.first, .pop > section:first-child { border-top: 0; }
+h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 10px; }
+.title { font-size: 15px; font-weight: 700; margin: 16px 0 2px; }
+.hint { font-size: 11.5px; color: var(--faint); margin: 4px 0 0; }
+.sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 30px; }
+.sh + .sh { margin-top: 6px; }
+.lbl { font-size: 13px; }
+.sel { min-width: 150px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 5px 30px 5px 9px; position: relative; color: var(--text); }
+.sel::after { content: ""; position: absolute; right: 10px; top: 50%; width: 6px; height: 6px; border: solid var(--muted); border-width: 0 1.5px 1.5px 0; transform: translateY(-70%) rotate(45deg); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; color: var(--text); font-weight: 500; }
+.btn.full { width: 100%; }
+.btn.big { padding: 9px 12px; font-weight: 600; border-color: var(--line-strong); background: transparent; }
+.btn.primary { background: var(--accent); border-color: var(--accent); font-weight: 600; }
+.btn.ghost { background: transparent; }
+.heart { color: oklch(0.66 0.21 18); }
+.chev { color: var(--faint); }
+.ic { width: 14px; height: 14px; flex: none; }
+.sw { width: 36px; height: 22px; border-radius: 99px; background: var(--line-strong); position: relative; flex: none; }
+.sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--thumb); }
+.sw.on { background: var(--accent); } .sw.on::after { left: 16px; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 99px; }
+.seg span { text-align: center; padding: 5px 6px; border-radius: 99px; color: var(--muted); font-size: 12.5px; }
+.seg span.on { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; }
+.sister { display: flex; align-items: center; gap: 10px; background: oklch(0.22 0.05 293); border: 1px solid var(--accent-line); border-radius: 10px; padding: 9px 10px; }
+.sister i { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); flex: none; }
+.sister b { display: block; font-size: 13px; } .sister small { color: var(--muted); font-size: 11.5px; }
+.sister .x { margin-left: auto; color: var(--muted); }
+.credit { text-align: center; font-size: 11.5px; color: var(--faint); margin: 12px 0 0; }
+.credit b { color: var(--muted); }
+.links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted); font-weight: 600; margin-top: 8px; }
+.list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.list > div { display: flex; align-items: center; gap: 10px; padding: 9px 12px; }
+.list > div + div { border-top: 1px solid var(--line); }
+.list .end { margin-left: auto; color: var(--faint); font-size: 12px; display: inline-flex; gap: 6px; align-items: center; }
+.gear { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); }
+.gear.on { border-color: var(--accent-line); background: var(--accent-tint); color: var(--text); }
+.drawer { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin-top: 10px; }
+.mark { outline: 2px dashed var(--note); outline-offset: 4px; border-radius: 10px; }
+
+/* style tab */
+.preview { height: 92px; border-radius: 10px; background: repeating-linear-gradient(135deg, oklch(0.3 0.01 290) 0 10px, oklch(0.27 0.01 290) 10px 20px); display: grid; place-items: end center; padding-bottom: 14px; }
+.preview span { font-size: 19px; font-weight: 650; color: #fafaf7; text-shadow: 0 0 2px #000, 0 1px 2px #000; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips span { padding: 3px 10px; font-size: 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); }
+.chips span.on { background: var(--accent-tint); border-color: var(--accent-line); color: var(--text); }
+.rng { display: grid; grid-template-columns: 1fr 50px; gap: 10px; align-items: center; margin-top: 6px; }
+.rng .track { height: 4px; border-radius: 4px; background: var(--line-strong); position: relative; }
+.rng .track i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--accent); }
+.rng .track i::after { content: ""; position: absolute; right: -8px; top: -6px; width: 16px; height: 16px; border-radius: 50%; background: var(--thumb); }
+.rng output { text-align: right; color: var(--muted); font-size: 12px; }
+.fold { display: flex; align-items: center; gap: 8px; color: var(--muted); font-weight: 500; padding: 4px 0; }
+.fold::before { content: ""; width: 6px; height: 6px; border: solid var(--muted); border-width: 0 1.5px 1.5px 0; transform: rotate(-45deg); margin: 0 3px; }
+.fold.open::before { transform: rotate(45deg); }
+.fx { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.fx div { border: 1px solid var(--line); border-radius: 9px; padding: 8px 9px; display: flex; flex-direction: column; gap: 6px; background: var(--panel); }
+.fx div.on { border-color: var(--accent-line); background: var(--accent-tint); }
+.fx b { font-size: 12px; font-weight: 600; }
+.fx small { color: var(--muted); font-size: 11px; }
+.dot { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid var(--line-strong); }
+.meter { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; margin-top: 10px; }
+.meter i { display: block; height: 8px; border-radius: 4px; background: var(--line-strong); }
+.meter i.new { background: var(--accent); }
+
+/* edge trim wide tab */
+.et { --bg: oklch(0.985 0.003 290); --panel: oklch(0.96 0.005 290); --line: oklch(0.90 0.008 290); --line-strong: oklch(0.83 0.012 290); --text: oklch(0.22 0.012 290); --muted: oklch(0.46 0.016 290); --faint: oklch(0.53 0.014 290); --thumb: oklch(1 0 0); color: var(--text); }
+.et .seg span.on { background: #fff; box-shadow: 0 1px 2px oklch(0.3 0.02 290 / .18); }
+.two { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; }
+.drop { border: 1.5px dashed var(--line-strong); border-radius: 12px; background: var(--panel); padding: 30px 16px; text-align: center; }
+.drop b { display: block; margin: 8px 0 4px; }
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.thumbs div { aspect-ratio: 1; border-radius: 10px; background: conic-gradient(oklch(0.93 0.004 290) 25%, #fff 0 50%, oklch(0.93 0.004 290) 0 75%, #fff 0) 0 0 / 14px 14px; border: 1px solid var(--line); display: grid; place-items: center; font-size: 11px; color: var(--muted); }
+.stage { border: 1px solid var(--line); border-radius: 12px; background: #fff; height: 190px; display: grid; place-items: center; position: relative; }
+.ball-old { width: 82px; height: 82px; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #f4f4f6, #b9b8c2 70%, #a3a2ad); box-shadow: 0 10px 14px -6px oklch(0.3 0.02 290 / .35); }
+.ball-new { width: 92px; height: 92px; border-radius: 50%; position: relative;
+  background:
+    radial-gradient(circle at 34% 28%, #fff 0 4%, transparent 14%),
+    radial-gradient(circle at 38% 34%, oklch(0.96 0.02 293) 0%, oklch(0.78 0.11 293) 38%, oklch(0.50 0.19 293) 72%, oklch(0.33 0.14 293) 100%);
+  box-shadow: inset -10px -14px 22px oklch(0.25 0.1 293 / .55), inset 6px 6px 12px oklch(1 0 0 / .35); }
+.ball-new::after { content: ""; position: absolute; left: 6%; right: 6%; bottom: -26px; height: 14px; border-radius: 50%; background: radial-gradient(closest-side, oklch(0.2 0.03 290 / .38), transparent); }
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cmp .stage { height: 150px; }
+.cmp small { display: block; text-align: center; color: var(--muted); margin-top: 6px; font-size: 11.5px; }
+.looks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; }
+.looks span { border: 1px solid var(--line); border-radius: 9px; padding: 8px 0; text-align: center; font-size: 11.5px; color: var(--muted); background: var(--panel); }
+.looks span.on { border-color: var(--accent); color: var(--text); font-weight: 600; box-shadow: 0 0 0 1px var(--accent); }
+@media (max-width: 860px) { .pop.wide { width: 100%; } .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>UX návrhy k odsouhlasení</h1>
+  <p class="lead">Statické mockupy, nic z toho ještě není v kódu. Barvy, písmo a rozměry odpovídají skutečným popupům (380 px, tmavý vzhled). Žlutý přerušovaný rámeček ukazuje, co se mění.</p>
+
+  <!-- ============ 1. FOOTER + INTERFACE ============ -->
+  <div class="part">
+    <h2>1. Patička a "Interface" (jazyk, vzhled)</h2>
+    <p>Dnes patička zabírá asi 300 px a "Interface" sedí uprostřed. Všechny tři varianty platí pro všechny tři extensions stejně. Promo sesterské extension zůstává (zavřené se už nevrací).</p>
+    <div class="row">
+
+      <div class="col">
+        <div class="tag">Dnes</div>
+        <div class="pop">
+          <section class="first" style="padding-top:12px"><h3>Interface</h3>
+            <div class="sh"><span class="lbl">Language</span><span class="sel">Same as browser</span></div>
+            <div class="sh"><span class="lbl">Appearance</span><span class="sel">Dark</span></div>
+          </section>
+          <section>
+            <div class="sister"><i></i><div><b>Snap Translate ↗</b><small>Text in any picture, in your language</small></div><span class="x">✕</span></div>
+            <div class="btn big full" style="margin-top:8px"><svg class="ic" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Problem or idea? <span class="chev">›</span></div>
+            <div class="btn big full" style="margin-top:8px"><span class="heart">♥</span>Support the creator <span class="chev">›</span></div>
+            <p class="credit">Created with 💜 by <b>Cleedek</b> in Vietnam</p>
+          </section>
+          <section style="padding-bottom:0"><div class="links" style="flex-direction:column;align-items:center;gap:6px;margin:0">Open source on GitHub<span>What's new in version 1.0.19 ↗</span></div></section>
+        </div>
+        <p class="why">Asi 330 px, dvě velká tlačítka váží stejně jako hlavní akce.</p>
+      </div>
+
+      <div class="col">
+        <div class="tag"><b>A</b> · Dvě tlačítka vedle sebe</div>
+        <div class="pop">
+          <section class="first" style="padding-top:14px">
+            <div class="sister"><i></i><div><b>Snap Translate ↗</b><small>Text in any picture, in your language</small></div><span class="x">✕</span></div>
+            <div class="mark" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+              <div class="btn"><svg class="ic" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Problem or idea?</div>
+              <div class="btn"><span class="heart">♥</span>Support</div>
+            </div>
+          </section>
+          <section class="mark" style="margin-top:6px"><h3>Interface</h3>
+            <div class="sh"><span class="lbl">Language</span><span class="sel">Same as browser</span></div>
+            <div class="sh"><span class="lbl">Appearance</span><span class="sel">Dark</span></div>
+          </section>
+          <p class="credit mark" style="margin-top:4px;padding:2px 0">Made with 💜 by <b>Cleedek</b> · GitHub · What's new 1.0.19 ↗</p>
+        </div>
+        <p class="why"><strong>Nejmenší zásah.</strong> Tlačítka menší a vedle sebe, "Interface" úplně dole, kredit, GitHub a novinky v jednom řádku. <span class="pro">Asi o 110 px kratší.</span> <span class="con">Na "Support" v některých jazycích nemusí stačit půl šířky (otestuju na němčině).</span></p>
+      </div>
+
+      <div class="col">
+        <div class="tag"><b>B</b> · Ozubené kolo v hlavičce</div>
+        <div class="pop">
+          <div class="sh mark" style="margin-top:14px"><div class="title" style="margin:0">Subtitle Overlay</div><span class="gear on"><svg class="ic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></div>
+          <div class="drawer mark" style="margin-bottom:12px">
+            <div class="sh"><span class="lbl">Language</span><span class="sel">Same as browser</span></div>
+            <div class="sh"><span class="lbl">Appearance</span><span class="sel">Dark</span></div>
+          </div>
+          <div class="fade" style="height:14px"></div><div class="cut">⋯ obsah popupu ⋯</div>
+          <section style="border-top:0">
+            <div class="sister"><i></i><div><b>Snap Translate ↗</b><small>Text in any picture, in your language</small></div><span class="x">✕</span></div>
+            <div class="links mark" style="margin-top:12px;gap:16px"><span>💬 Problem or idea?</span><span><span class="heart">♥</span> Support</span><span>GitHub</span><span>What's new ↗</span></div>
+            <p class="credit">Made with 💜 by <b>Cleedek</b> in Vietnam</p>
+          </section>
+        </div>
+        <p class="why"><strong>Nejčistší.</strong> Jazyk a vzhled se rozbalí pod kolečkem v hlavičce (tady otevřené), patička je jen řádek odkazů. <span class="pro">Asi o 200 px kratší.</span> <span class="con">Podpora je nejméně vidět, což může snížit dary.</span></p>
+      </div>
+
+      <div class="col">
+        <div class="tag"><b>C</b> · Seznam jako v nastavení iOS</div>
+        <div class="pop">
+          <section class="first" style="padding-top:14px">
+            <div class="sister"><i></i><div><b>Snap Translate ↗</b><small>Text in any picture, in your language</small></div><span class="x">✕</span></div>
+            <div class="list mark" style="margin-top:10px">
+              <div><svg class="ic" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Problem or idea?<span class="end">›</span></div>
+              <div><span class="heart">♥</span>Support the creator<span class="end">›</span></div>
+              <div><span style="color:var(--muted)">◐</span>Language &amp; appearance<span class="end">Čeština · Dark ›</span></div>
+            </div>
+            <p class="credit">Made with 💜 by <b>Cleedek</b> · GitHub · What's new 1.0.19 ↗</p>
+          </section>
+        </div>
+        <p class="why"><strong>Kompromis.</strong> Tři řádky v jednom bloku, jazyk a vzhled se otevřou na vlastní obrazovce (stejně jako dnes podpora). <span class="pro">Asi o 150 px kratší, podpora zůstává dobře vidět.</span> <span class="con">Jazyk je o jeden klik dál.</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 2. STYLE TAB ============ -->
+  <div class="part">
+    <h2>2. Subtitle Overlay: kratší záložka Style</h2>
+    <p>Dnes asi 2 270 px na okno, které má nejvýš 600 px. Návrh: nahoře předvolby a náhled, pak velikost a pozice, písmo jako jeden řádek, který se rozbalí, a efekty jako tři dlaždice. Jemné jezdce (průhlednost, rozmazání, posun) jsou schované pod "Fine-tune effects". Nic se neodstraňuje, jen sbaluje.</p>
+    <div class="row">
+      <div class="col">
+        <div class="tag"><b>Návrh</b></div>
+        <div class="pop">
+          <section class="first" style="padding-top:14px">
+            <div class="chips"><span class="on">Clean</span><span>Boxed</span><span>High contrast</span><span>My preset</span></div>
+            <div class="preview" style="margin-top:10px"><span>The quick brown fox jumps</span></div>
+          </section>
+          <section><h3>Size and position</h3>
+            <div class="sh"><span class="lbl">Position</span><span class="sel" style="min-width:120px">Bottom</span></div>
+            <div class="lbl" style="margin-top:10px">Text size</div><div class="rng"><div class="track"><i style="width:44%"></i></div><output>48 px</output></div>
+            <div class="lbl" style="margin-top:10px">Distance from bottom</div><div class="rng"><div class="track"><i style="width:20%"></i></div><output>56 px</output></div>
+            <div class="fold mark" style="margin-top:10px">More: scale with player, line width</div>
+          </section>
+          <section class="mark"><h3>Text</h3>
+            <div class="sh"><span class="lbl">Font</span><span class="sel" style="min-width:150px">Vend Sans</span></div>
+            <div class="sh"><span class="lbl">Weight</span><span class="sel" style="min-width:150px">Semibold</span></div>
+            <div class="sh"><span class="lbl">Color</span><span class="dot"></span></div>
+            <p class="hint">Font opens the search and list from today, in place.</p>
+          </section>
+          <section class="mark"><h3>Effects</h3>
+            <div class="fx">
+              <div class="on"><b>Outline</b><small>50% · 1 px</small></div>
+              <div><b>Shadow</b><small>Off</small></div>
+              <div><b>Box</b><small>Off</small></div>
+            </div>
+            <div class="fold" style="margin-top:8px">Fine-tune effects</div>
+          </section>
+          <section style="padding-bottom:4px">
+            <div style="display:grid;grid-template-columns:1fr auto;gap:8px"><div class="btn primary">Save as preset</div><div class="btn ghost">Reset</div></div>
+          </section>
+        </div>
+        <div class="meter"><span style="width:52px">Dnes</span><i style="width:300px"></i>~2 270 px</div>
+        <div class="meter"><span style="width:52px">Návrh</span><i class="new" style="width:118px"></i>~900 px</div>
+      </div>
+      <div class="col" style="max-width:420px">
+        <div class="tag">Co se mění</div>
+        <p class="why"><strong>Písmo:</strong> dnes je vidět hledání, sedm filtrů a seznam se scrollem uvnitř scrollu. V návrhu je to jeden řádek "Font: Vend Sans", po kliknutí se pod ním rozbalí přesně to, co je tam dnes.</p>
+        <p class="why"><strong>Efekty:</strong> dlaždice se zapínají kliknutím a ukazují aktuální hodnotu. Jezdce pro všechny tři (dnes 9 řádků) se ukážou po "Fine-tune effects".</p>
+        <p class="why"><strong>Méně častá nastavení</strong> (škálování s přehrávačem, šířka řádku) jsou pod "More".</p>
+        <p class="why"><strong>Reset</strong> je vedle "Save as preset" místo samostatného řádku.</p>
+        <p class="why"><strong>Patička</strong> by se řídila variantou z bodu 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 3. EDGE TRIM WIDE TAB ============ -->
+  <div class="part">
+    <h2>3. Edge Trim: širší rozložení v kartě a hezčí ukázková koule</h2>
+    <p>Když se Edge Trim otevře v kartě, je tam dnes stejný úzký sloupec 380 px. Návrh: na šířku dva sloupce, vlevo obrázky, vpravo nastavení (stejný princip jako fronta v Subtitle Overlay). Popup zůstává úzký jako dnes.</p>
+    <div class="row">
+      <div class="col">
+        <div class="tag"><b>Návrh</b> · Edge Trim v kartě, režim stínu</div>
+        <div class="pop wide et">
+          <div class="sh" style="margin-top:16px"><div class="title" style="margin:0">Edge Trim</div><div class="seg" style="width:260px"><span>Trim</span><span class="on">Add shadow</span></div></div>
+          <div class="two" style="margin-top:16px">
+            <div>
+              <div class="drop"><svg width="22" height="22" viewBox="0 0 24 24" style="color:var(--accent)"><circle cx="12" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><ellipse cx="12" cy="20.5" rx="7" ry="1.6" fill="currentColor" opacity=".45"/></svg><b>Drop pictures for the shadow here or click to choose</b><span class="hint">You can also paste a copied picture.</span></div>
+              <div class="thumbs"><div>logo.png</div><div>product.png</div><div>icon.png</div></div>
+            </div>
+            <div>
+              <div class="stage"><div class="ball-new"></div></div>
+              <div class="looks"><span class="on">Soft</span><span>Strong</span><span>Floating</span><span>Above</span><span>Side</span></div>
+              <div class="fold" style="margin-top:10px">Advanced shadow settings</div>
+              <section style="margin-top:8px"><h3>Trimming</h3><div class="seg"><span class="on">Keep</span><span>Trim haze</span><span>Trim more</span></div></section>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="tag">Ukázková koule: dnes a návrh</div>
+        <div class="et" style="width:380px">
+          <div class="cmp">
+            <div><div class="stage"><div class="ball-old"></div></div><small>Dnes</small></div>
+            <div><div class="stage"><div class="ball-new"></div></div><small>Návrh: lesklá fialová koule</small></div>
+          </div>
+        </div>
+        <p class="why" style="color:var(--muted)">Koule v barvě značky s odleskem a měkkým kontaktním stínem pod ní, aby bylo líp vidět, co dělá samotný stín. <span class="con">Tady je nakreslená přes CSS jen pro představu. Ve skutečnosti by to byl obrázek (PNG s průhledností), aby na něm šel stín počítat stejně jako na obrázku od uživatele.</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

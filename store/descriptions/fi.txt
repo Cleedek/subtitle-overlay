@@ -6,7 +6,7 @@ Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen 
 ★ Mikä tahansa sivusto, mikä tahansa video: tekstitys soittimen päällä, ikkunassa tai koko näytöllä, aina tahdissa
 ★ Käännös 31 kielelle yhdellä klikkauksella tai täysin automaattisesti heti, kun laitat tekstityksen päälle sivuston soittimessa
 ★ UUTTA: tekoäly tekee käännöksestä luontevan, ilmaiseksi omalla tietokoneellasi (Gemma) tai omalla Gemini-, Claude- tai OpenAI-avaimellasi
-★ UUTTA: käännösjono kokonaiselle tuotantokaudelle ja parannetut tekstitykset tallessa seuraavaa kertaa varten
+★ UUTTA: jos sivustolla on jo tekstitys kielelläsi, saat sen, ja käännös tehdään vain, kun sellaista ei ole
 ★ Kaksi kieltä kerralla: yksi ylhäällä, toinen alhaalla, yhteiseen katseluun tai kielen opiskeluun
 ★ Löytää sivun lataamat tekstitykset, myös YouTubessa, joten tiedostoa tarvitset harvoin
 ★ Oma tyylisi: yli 1 800 Google Fonts -fonttia, ääriviiva, varjo, taustalaatikko, koko ja sijainti
@@ -19,14 +19,15 @@ KÄÄNNÖS 31 KIELELLE
 • Valinnainen: klikkaa Paranna, niin tekoäly (Gemma tietokoneellasi tai Gemini, Claude tai OpenAI) kirjoittaa Googlen nopean version uudelleen luontevaksi (lisää alempana). Vie hiiri videon päälle, niin näet, kuinka pitkällä se on
 • Valitse kielesi kerran; se pysyy suosikkinasi jokaisessa Käännä-painikkeessa
 • Automaattinen tila: laita tekstitys päälle sivuston soittimessa, niin se ilmestyy videon päälle valmiiksi käännettynä, ja erillisen ilmoitusikkunan sijaan näet lyhyen huomautuksen "Käännetty: …". Uusissa asennuksissa tila on päällä ja kääntää selaimesi kielelle
-• Sivuston oma tekstitys piilotetaan, joten et koskaan lue kahta tekstitystä yhtä aikaa
+• Jos sivustolla on tekstitys kielelläsi (YouTube ja suoratoistopalvelut), se tulee ensin; Google tai tekoäly kääntää vain, kun sellaista ei ole
+• Sivuston oma tekstitys piilotetaan, kun meidän tekstityksemme on päällä, ja se palaa heti, kun suljet meidän tekstityksemme
 • Palaa alkuperäiseen milloin tahansa tai tallenna käännös .srt-tiedostona
 • Kielet: vietnam, tšekki, englanti, slovakki, saksa, ranska, espanja, italia, portugali, puola, unkari, ukraina, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, kiina (yksinkertaistettu ja perinteinen), japani, korea, thai, indonesia, malaiji, filipino, hindi, arabia
 
 LUONTEVA KÄÄNNÖS TEKOÄLYLLÄ (VALINNAINEN)
 Google Kääntäjä on nopea, mutta se etenee rivi riviltä, sana sanalta. Klikkaa Paranna, niin tekoälymalli kirjoittaa tekstityksen uudelleen koko kohtauksen huomioiden, alkaen siitä kohdasta, jota katsot.
 • Ilmainen: Gemma, Googlen avoin malli, toimii omalla tietokoneellasi Ollaman tai LM Studion avulla, joten tekoälyvaihe pysyy tietokoneellasi. Tarvitset melko tehokkaan tietokoneen ja noin 8 Gt levytilaa.
-• Käyttöön 3 vaiheessa: asenna Ollama osoitteesta ollama.com, lataa Gemma yhdellä komennolla ja valitse sitten ponnahdusikkunasta Paikallinen. Komento ja malli, joita suosittelemme juuri nyt (englanniksi): cleedek.com/subtitle-overlay/ai
+• Ponnahdusikkuna opastaa sinut läpi: asenna Ollama osoitteesta ollama.com ja lataa Gemma yhdellä napsautuksella (vaatii vähintään 16 Gt RAM-muistia). Lisää tietoa ja malli, jota suosittelemme juuri nyt (englanniksi): cleedek.com/subtitle-overlay/ai
 • Tai käytä omaa API-avaintasi: Gemini (ilmainen taso saatavilla), Claude tai OpenAI (maksullisia).
 • Ennen aloittamista se silmäilee koko tiedoston ja merkitsee muistiin, kuka on kuka, joten sukupuoli, puhuttelumuodot ja nimet pysyvät samoina ensimmäisestä rivistä viimeiseen.
 • Se ei koskaan käynnisty itsestään: ilman klikkaustasi mikään ei käynnisty eikä rahaa kulu.
@@ -47,7 +48,7 @@ KÄÄNNÖSJONO JA TALLENNETUT TEKSTITYKSET
 • Pudota useita .srt- tai .vtt-tiedostoja tai klikkaa "Lisää jonoon" sivuston lataaman tekstityksen kohdalla. Ne käännetään yksi kerrallaan sillä aikaa, kun teet muuta; jonon välilehti voi jäädä taustalle
 • Toimii Googlen, Geminin, Clauden, OpenAI:n tai paikallisen mallisi kanssa
 • Parannetut tekstitykset säilyvät laajennuksessa niin kauan kuin haluat ja palaavat, kun palaat videon pariin
-• Toista avaa videon tekstityksineen; Lataa .srt tallentaa tiedoston
+• Toista avaa videon tekstityksineen, "Näytä kohteessa…" tuo ne toisessa välilehdessä jo auki olevan videon päälle, ja Lataa .srt tallentaa tiedoston
 
 TYYLITTELE OMAN MAKUSI MUKAAN
 • Yli 1 800 Google Fonts -fonttia, suodatettuna niihin, joissa on kielesi kirjaimet (č ř ž, ư ế ộ, kyrillinen, kreikkalainen ja japanilainen kirjoitus ja paljon muuta)
@@ -98,8 +99,10 @@ AVOIN LÄHDEKOODI
 Koko laajennus on avointa lähdekoodia (GPL-3.0), joten kuka tahansa voi tarkistaa, mitä se tarkalleen tekee: github.com/Cleedek/subtitle-overlay. Jos pidät siitä, tähti GitHubissa auttaa muita löytämään sen.
 
 TUE TEKIJÄÄ
-Subtitle Overlay on ilmainen, ja jokainen ominaisuus pysyy ilmaisena. Jos se tekee illoistasi parempia, ponnahdusikkunassa on "Tue tekijää" -sivu, jossa on Revolut, PayPal, Solana ja Sui. Täysin vapaaehtoista, ja kiitos!
+Subtitle Overlay on ilmainen, ja jokainen ominaisuus pysyy ilmaisena. Jos se tekee illoistasi parempia, ponnahdusikkunassa on "Tue tekijää" -sivu, jossa on Ko-fi ja muutama muu maksutapa. Kun olet kääntänyt paljon videoita, pieni kortti videon päällä kysyy myös kerran (enintään kolmella videolla; yksi napsautus siihen, eikä se enää palaa). Täysin vapaaehtoista, ja kiitos!
 
 Tehty 💜 Vietnamissa, tekijänä Cleedek.
+
+Subtitle Overlay on itsenäinen projekti. Se ei ole sidoksissa mihinkään sivustoon tai suoratoistopalveluun, joiden kanssa se toimii, eivätkä ne tue tai sponsoroi sitä. Se, että se toimii niissä, on omaa työtämme: testasimme sen niillä sivustoilla ja mukautimme sen joillakin niiden soittimiin. Palvelujen nimet ja logot kuuluvat omistajilleen.
 
 Kuvakaappaukset näyttävät kohtauksia elokuvasta Tears of Steel, © Blender Foundation, mango.blender.org, lisenssi CC BY 3.0.

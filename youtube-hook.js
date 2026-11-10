@@ -15,7 +15,19 @@
   const fire = (detail) => document.dispatchEvent(new CustomEvent('subtitle-overlay-yt', { detail }));
   const emit = (url, text) => {
     if (!text) return;
-    const detail = JSON.stringify({ url: String(new URL(url, location.href)), text });
+    const full = new URL(url, location.href);
+    // The video's caption languages (written by people, or made by YouTube's
+    // speech recognition: 'asr'), so content.js can pick a better one.
+    let tracks = null;
+    try {
+      const p = document.getElementById('movie_player');
+      const r = p && p.getPlayerResponse && p.getPlayerResponse();
+      const list = r && r.captions && r.captions.playerCaptionsTracklistRenderer && r.captions.playerCaptionsTracklistRenderer.captionTracks;
+      if (Array.isArray(list) && r.videoDetails && r.videoDetails.videoId === full.searchParams.get('v')) {
+        tracks = list.map((t) => ({ lang: t.languageCode || '', asr: t.kind === 'asr' })).filter((t) => t.lang);
+      }
+    } catch (e) { /* no list */ }
+    const detail = JSON.stringify({ url: String(full), text, tracks });
     recent.push(detail);
     if (recent.length > 3) recent.shift();
     fire(detail);

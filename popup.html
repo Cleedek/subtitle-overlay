@@ -9,6 +9,29 @@
   <script src="lib/theme.js"></script>
 </head>
 <body>
+  <!-- "Language & appearance", opened from the footer list (lib/prefs-view.js). -->
+  <div id="prefsView" class="prefs-view" hidden>
+    <div class="support-head">
+      <button id="prefsBack" class="round-btn" title="Back" aria-label="Back"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <h1>Language &amp; appearance</h1>
+    </div>
+    <div class="prefs">
+      <div class="prefs-group">
+        <h2 id="themeLabel">Appearance</h2>
+        <div id="themeSeg" class="segmented prefs-seg" role="radiogroup" aria-labelledby="themeLabel"></div>
+        <select id="uiTheme" hidden>
+          <option value="auto">Same as browser</option>
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+      <div class="prefs-group">
+        <h2 id="langLabel">Language</h2>
+        <div id="langList" class="lang-list" role="radiogroup" aria-labelledby="langLabel"></div>
+        <select id="uiLang" hidden></select>
+      </div>
+    </div>
+  </div>
   <div id="supportView" class="support" hidden>
     <div class="support-head">
       <button id="supportBack" class="round-btn" title="Back" aria-label="Back"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -219,7 +242,7 @@
       <button id="rateClose" class="rate-close" title="Not now" aria-label="Not now"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </div>
     <div class="row">
-      <button id="pick" class="primary">Load .srt / .vtt / .ttml file</button>
+      <button id="pick">Load .srt / .vtt / .ttml file</button>
       <button id="clear" hidden>Remove</button>
       <input id="file" type="file" accept=".srt,.vtt,.ttml,.ttml2,.dfxp,.xml" hidden>
     </div>
@@ -244,7 +267,7 @@
     <p class="muted small">Positive = subtitles appear later.</p>
   </section>
 
-  <section>
+  <section id="foundSection" hidden>
     <h2>Found on this page</h2>
     <div id="captured"></div>
   </section>
@@ -263,15 +286,64 @@
         <p class="hint">Turn on subtitles in the site’s player and they appear over the video, already translated. The site’s own subtitles are hidden.</p>
       </div>
       <div class="setting" id="translatorSetting">
-        <span class="setting-label">Translator</span>
-        <div class="segmented translator" role="radiogroup" aria-label="Translator">
-          <button data-translator="google" role="radio">Google</button>
+        <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="aiOn" type="checkbox" role="switch" aria-label="Improve with AI"><span></span></label></div>
+        <div class="segmented translator" id="aiPicker" role="radiogroup" aria-label="AI model">
+          <button data-translator="local" role="radio">Local<span class="seg-free">Free</span></button>
           <button data-translator="gemini" role="radio">Gemini</button>
           <button data-translator="claude" role="radio">Claude</button>
           <button data-translator="openai" role="radio">OpenAI</button>
-          <button data-translator="local" role="radio">Local</button>
         </div>
         <p class="hint" id="translatorHint"></p>
+        <!-- Local, never set up yet: a guide instead of an error. Each step ticks itself. -->
+        <div class="ls" id="localSetup" hidden>
+          <div class="ls-head">
+            <h3>Subtitles that sound like people talk</h3>
+            <p class="ls-lead">Google translates each line on its own. The AI reads the whole scene, so jokes, names and who is talking come out right.</p>
+          </div>
+          <div class="ls-score" role="img" aria-label="In our test a viewer rated Google’s translation 4 out of 10 and the AI’s 8 out of 10.">
+            <span class="ls-score-title">In our test, a viewer rated it</span>
+            <div class="ls-bar"><span>Google</span><i style="--w: 40%"></i><b>4/10</b></div>
+            <div class="ls-bar after"><span>Local AI</span><i style="--w: 80%"></i><b>8/10</b></div>
+          </div>
+          <div class="ls-facts"><span class="ls-fact free">Free, no account</span><span class="ls-fact">Stays on your computer</span><span class="ls-fact">About 8 GB download</span><span class="ls-fact">Needs at least 16 GB of RAM</span></div>
+          <ol class="ls-steps">
+            <li class="ls-step" id="lsStep1">
+              <span class="ls-n" aria-hidden="true">1</span>
+              <div>
+                <div class="ls-t" data-todo="Install Ollama" data-done="Ollama is running">Install Ollama</div>
+                <div class="ls-body">
+                  <p class="ls-d">A free app that runs AI models on your computer.</p>
+                  <div class="ls-act"><a class="ls-btn primary" href="https://ollama.com/download" target="_blank" rel="noopener">Download Ollama ↗</a></div>
+                  <p class="ls-wait"><span class="ls-pulse" aria-hidden="true"></span><span>Open it once it’s installed. This step ticks itself.</span></p>
+                </div>
+              </div>
+            </li>
+            <li class="ls-step" id="lsStep2">
+              <span class="ls-n" aria-hidden="true">2</span>
+              <div>
+                <div class="ls-t" data-todo="Download the translation model" data-done="Gemma 3 is downloaded">Download the translation model</div>
+                <div class="ls-body">
+                  <div id="lsPullStart">
+                    <p class="ls-d">Gemma 3 by Google. Once, about 8 GB.</p>
+                    <div class="ls-act"><button type="button" class="primary" id="lsPull">Download Gemma 3</button></div>
+                    <p class="ls-cmd"><span>Or in Terminal:</span> <code>ollama pull gemma3:12b</code> <button type="button" id="lsCopy">Copy</button></p>
+                  </div>
+                  <div id="lsPullRun" hidden>
+                    <div class="ls-track"><i id="lsPullBar"></i></div>
+                    <p class="ls-d ls-row"><span id="lsPullText"></span></p>
+                  </div>
+                  <p id="lsPullError" class="hint error" hidden></p>
+                </div>
+              </div>
+            </li>
+            <li class="ls-step" id="lsStep3">
+              <span class="ls-n" aria-hidden="true">3</span>
+              <div><div class="ls-t">Click Improve under the subtitles on a video</div></div>
+            </li>
+          </ol>
+          <p class="ls-more"><span>Use LM Studio or another address?</span> <button type="button" class="ls-link" id="lsManual">Set it up yourself</button></p>
+        </div>
+        <p class="ls-ready" id="localReady" hidden>Ready. Under the translated subtitles on a video, click Improve.</p>
         <details class="ai-details" id="aiDetails" hidden>
           <summary><span>AI settings</span><span id="aiSummary" class="ai-summary"></span></summary>
           <div class="ai-body">
@@ -370,18 +442,22 @@
         <div class="setting-head"><span class="setting-label">Text size</span><span class="value"><input type="number" data-key="size" min="14" max="96" aria-label="Text size in px"><span>px</span></span></div>
         <input type="range" data-key="size" min="14" max="96" aria-label="Text size">
       </div>
-      <div class="setting">
-        <div class="setting-head"><span class="setting-label">Scale with player</span><label class="toggle"><input type="checkbox" role="switch" data-key="scale" aria-label="Scale with player"><span></span></label></div>
-        <p class="hint">Sizes are for a 1080 px tall player.</p>
-      </div>
-      <div class="setting">
-        <div class="setting-head"><span class="setting-label">Max line width</span><output data-for="maxWidth" data-unit="%"></output></div>
-        <input type="range" data-key="maxWidth" min="40" max="100" aria-label="Max line width">
-      </div>
+      <details class="fold">
+        <summary>Scale with player, line width</summary>
+        <div class="setting">
+          <div class="setting-head"><span class="setting-label">Scale with player</span><label class="toggle"><input type="checkbox" role="switch" data-key="scale" aria-label="Scale with player"><span></span></label></div>
+          <p class="hint">Sizes are for a 1080 px tall player.</p>
+        </div>
+        <div class="setting">
+          <div class="setting-head"><span class="setting-label">Max line width</span><output data-for="maxWidth" data-unit="%"></output></div>
+          <input type="range" data-key="maxWidth" min="40" max="100" aria-label="Max line width">
+        </div>
+      </details>
 
       <p class="group">Text</p>
-      <div class="setting">
-        <div class="setting-head"><span class="setting-label">Font</span></div>
+      <!-- One row with the font's name; the search and list open under it. -->
+      <details class="setting fold font-fold">
+        <summary class="setting-head"><span class="setting-label">Font</span><span id="fontNow" class="fold-value"></span></summary>
         <div class="font-picker">
           <input id="fontSearch" type="search" placeholder="Search Google Fonts" autocomplete="off" aria-label="Search Google Fonts">
           <div class="chips" id="fontCats">
@@ -399,7 +475,7 @@
           <div id="fontList" class="font-list" role="listbox"></div>
           <p id="fontStatus" class="font-status" hidden aria-live="polite"></p>
         </div>
-      </div>
+      </details>
       <div class="setting">
         <div class="setting-head">
           <span class="setting-label">Weight</span>
@@ -415,31 +491,40 @@
       </div>
 
       <p class="group">Effects</p>
-      <div class="setting">
-        <div class="setting-head"><span class="setting-label">Outline</span><label class="toggle"><input type="checkbox" role="switch" data-key="outline" aria-label="Outline"><span></span></label></div>
-        <div class="setting-body">
-          <div class="sub"><span>Opacity</span><input type="range" data-key="outlineOpacity" min="0" max="100" aria-label="Outline opacity"><output data-for="outlineOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="outlineColor" popovertarget="colorPop" aria-label="Outline color"></button></div>
-          <div class="sub"><span>Width</span><input type="range" data-key="outlineWidth" min="0" max="6" step="0.5" aria-label="Outline width"><output data-for="outlineWidth"></output><i></i></div>
-        </div>
+      <!-- A tile turns an effect on or off; its sliders wait under "Fine-tune effects". -->
+      <div class="fx-tiles">
+        <label class="fx-tile"><input type="checkbox" role="switch" data-key="outline"><span class="fx-name">Outline</span><span class="fx-sum" id="fxSum-outline"></span></label>
+        <label class="fx-tile"><input type="checkbox" role="switch" data-key="shadow"><span class="fx-name">Drop shadow</span><span class="fx-sum" id="fxSum-shadow"></span></label>
+        <label class="fx-tile"><input type="checkbox" role="switch" data-key="box"><span class="fx-name">Background box</span><span class="fx-sum" id="fxSum-box"></span></label>
       </div>
-      <div class="setting">
-        <div class="setting-head"><span class="setting-label">Drop shadow</span><label class="toggle"><input type="checkbox" role="switch" data-key="shadow" aria-label="Drop shadow"><span></span></label></div>
-        <div class="setting-body">
-          <div class="sub"><span>Opacity</span><input type="range" data-key="shadowOpacity" min="0" max="100" aria-label="Shadow opacity"><output data-for="shadowOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="shadowColor" popovertarget="colorPop" aria-label="Shadow color"></button></div>
-          <div class="sub"><span>Blur</span><input type="range" data-key="shadowBlur" min="0" max="40" aria-label="Shadow blur"><output data-for="shadowBlur"></output><i></i></div>
-          <div class="sub"><span>Spread</span><input type="range" data-key="shadowSpread" min="0" max="10" aria-label="Shadow spread"><output data-for="shadowSpread"></output><i></i></div>
-          <div class="sub"><span>X</span><input type="range" data-key="shadowX" min="-10" max="10" aria-label="Shadow offset left or right"><output data-for="shadowX"></output><i></i></div>
-          <div class="sub"><span>Y</span><input type="range" data-key="shadowY" min="-10" max="10" aria-label="Shadow offset up or down"><output data-for="shadowY"></output><i></i></div>
+      <details class="fold">
+        <summary>Fine-tune effects</summary>
+        <div class="setting" data-fx="outline">
+          <div class="setting-head"><span class="setting-label">Outline</span></div>
+          <div class="setting-body">
+            <div class="sub"><span>Opacity</span><input type="range" data-key="outlineOpacity" min="0" max="100" aria-label="Outline opacity"><output data-for="outlineOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="outlineColor" popovertarget="colorPop" aria-label="Outline color"></button></div>
+            <div class="sub"><span>Width</span><input type="range" data-key="outlineWidth" min="0" max="6" step="0.5" aria-label="Outline width"><output data-for="outlineWidth"></output><i></i></div>
+          </div>
         </div>
-      </div>
-      <div class="setting">
-        <div class="setting-head"><span class="setting-label">Background box</span><label class="toggle"><input type="checkbox" role="switch" data-key="box" aria-label="Background box"><span></span></label></div>
-        <div class="setting-body">
-          <div class="sub"><span>Opacity</span><input type="range" data-key="boxOpacity" min="0" max="100" aria-label="Box opacity"><output data-for="boxOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="boxColor" popovertarget="colorPop" aria-label="Box color"></button></div>
-          <div class="sub"><span>Padding</span><input type="range" data-key="boxPadding" min="0" max="24" aria-label="Box padding"><output data-for="boxPadding"></output><i></i></div>
-          <div class="sub"><span>Blur</span><input type="range" data-key="boxBlur" min="0" max="20" aria-label="Blur behind the box"><output data-for="boxBlur"></output><i></i></div>
+        <div class="setting" data-fx="shadow">
+          <div class="setting-head"><span class="setting-label">Drop shadow</span></div>
+          <div class="setting-body">
+            <div class="sub"><span>Opacity</span><input type="range" data-key="shadowOpacity" min="0" max="100" aria-label="Shadow opacity"><output data-for="shadowOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="shadowColor" popovertarget="colorPop" aria-label="Shadow color"></button></div>
+            <div class="sub"><span>Blur</span><input type="range" data-key="shadowBlur" min="0" max="40" aria-label="Shadow blur"><output data-for="shadowBlur"></output><i></i></div>
+            <div class="sub"><span>Spread</span><input type="range" data-key="shadowSpread" min="0" max="10" aria-label="Shadow spread"><output data-for="shadowSpread"></output><i></i></div>
+            <div class="sub"><span>X</span><input type="range" data-key="shadowX" min="-10" max="10" aria-label="Shadow offset left or right"><output data-for="shadowX"></output><i></i></div>
+            <div class="sub"><span>Y</span><input type="range" data-key="shadowY" min="-10" max="10" aria-label="Shadow offset up or down"><output data-for="shadowY"></output><i></i></div>
+          </div>
         </div>
-      </div>
+        <div class="setting" data-fx="box">
+          <div class="setting-head"><span class="setting-label">Background box</span></div>
+          <div class="setting-body">
+            <div class="sub"><span>Opacity</span><input type="range" data-key="boxOpacity" min="0" max="100" aria-label="Box opacity"><output data-for="boxOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="boxColor" popovertarget="colorPop" aria-label="Box color"></button></div>
+            <div class="sub"><span>Padding</span><input type="range" data-key="boxPadding" min="0" max="24" aria-label="Box padding"><output data-for="boxPadding"></output><i></i></div>
+            <div class="sub"><span>Blur</span><input type="range" data-key="boxBlur" min="0" max="20" aria-label="Blur behind the box"><output data-for="boxBlur"></output><i></i></div>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -450,9 +535,10 @@
       <button id="presetCancel" class="ghost">Cancel</button>
     </div>
     <button id="presetUpdate" class="primary wide" hidden></button>
-    <button id="presetNew" class="primary wide">Save as preset</button>
-    <p class="muted small">Every change is saved automatically. A preset lets you come back to this exact look in one click.</p>
-    <button id="resetAll" class="ghost wide">Reset to defaults</button>
+    <div class="save-row">
+      <button id="presetNew" class="primary">Save as preset</button>
+      <button id="resetAll" class="ghost">Reset to defaults</button>
+    </div>
   </section>
 
   </div>
@@ -477,6 +563,10 @@
         <div class="setting-head"><span class="setting-label">Click to copy</span><label class="toggle"><input type="checkbox" role="switch" data-key="clickCopy" aria-label="Click to copy"><span></span></label></div>
         <p class="hint">Click a line on the video to copy its text. A click on the text then no longer pauses the video.</p>
       </div>
+      <div class="setting">
+        <div class="setting-head"><span class="setting-label">Status messages</span><label class="toggle"><input type="checkbox" role="switch" data-key="statusNotices" aria-label="Status messages"><span></span></label></div>
+        <p class="hint">Short messages over the video while subtitles load and translate, like "Translating…" and "Translated to…". Errors still show.</p>
+      </div>
     </div>
   </section>
 
@@ -496,25 +586,6 @@
   </section>
   </div>
 
-  <!-- How the extension's own windows look and speak, under every tab. Apart from the Style tab,
-       so it's clear this isn't the subtitles. Same group as in Snap Translate and Edge Trim. -->
-  <section id="interfaceSection">
-    <h2>Interface</h2>
-    <div class="prefs">
-      <div class="setting-head">
-        <label for="uiLang" class="setting-label">Language</label>
-        <select id="uiLang" class="compact"></select>
-      </div>
-      <div class="setting-head">
-        <label for="uiTheme" class="setting-label">Appearance</label>
-        <select id="uiTheme" class="compact">
-          <option value="auto">Same as browser</option>
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-        </select>
-      </div>
-    </div>
-  </section>
 
   <footer class="credit">
     <!-- The creator's other extension. popup.js shows it unless it is installed or was closed.
@@ -529,11 +600,17 @@
       </a>
       <button id="sisterClose" class="sister-close" title="Hide" aria-label="Hide"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
     </div>
-    <button id="feedbackOpen" class="ghost wide feedback-open"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h11v8h-6l-3 2.5v-2.5h-2v-8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg> Problem or idea? <svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button id="supportOpen" class="ghost wide support-open"><svg class="heart" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Support the creator <svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <!-- Variant C of the 2026-11 UX audit: one list instead of two big buttons and a separate Interface section. -->
+    <div class="foot-list">
+      <button id="feedbackOpen" class="foot-row"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h11v8h-6l-3 2.5v-2.5h-2v-8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="foot-text">Problem or idea?</span><svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button id="supportOpen" class="foot-row support-open"><svg class="heart" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="foot-text">Support the creator</span><svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button id="prefsOpen" class="foot-row"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.2 8h11.6M8 2c-2 2-2 10 0 12M8 2c2 2 2 10 0 12" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="foot-text">Language &amp; appearance</span><span id="prefsNow" class="foot-now"></span><svg class="chev" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
     <p id="credit"></p>
-    <a id="starGithub" class="star-link" href="https://github.com/Cleedek/subtitle-overlay" target="_blank" rel="noopener" title="Open source: read the code yourself"><svg class="gh" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> Open source on GitHub</a>
-    <a id="newsLink" class="star-link news-link" target="_blank" rel="noopener" hidden><span id="newsLinkText"></span> <svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <div class="foot-links">
+      <a id="starGithub" class="star-link" href="https://github.com/Cleedek/subtitle-overlay" target="_blank" rel="noopener" title="Open source: read the code yourself"><svg class="gh" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> Open source on GitHub</a>
+      <a id="newsLink" class="star-link news-link" target="_blank" rel="noopener" hidden><span id="newsLinkText"></span> <svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
   </footer>
 
   <!-- One colour popover for the four colour buttons in the Style tab (popup.js). -->
@@ -553,6 +630,7 @@
   <script src="lib/render.js"></script>
   <script src="lib/feedback.js"></script>
   <script src="lib/whats-new.js"></script>
+  <script src="lib/prefs-view.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

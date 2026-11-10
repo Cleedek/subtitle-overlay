@@ -1,0 +1,426 @@
+<title>Nahlásit problém</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; mockups sit in a wrapping row of small popup frames. */
+:root {
+  --bg: oklch(0.985 0.004 290);
+  --surface: oklch(0.965 0.007 290);
+  --line: oklch(0.90 0.01 290);
+  --fg: oklch(0.22 0.014 290);
+  --muted: oklch(0.46 0.016 290);
+  --accent: oklch(0.52 0.22 293);
+  --accent-soft: oklch(0.93 0.045 293);
+  --accent-ink: oklch(0.40 0.17 293);
+  --good: oklch(0.52 0.14 150);
+  --warn: oklch(0.58 0.15 70);
+  --bad: oklch(0.55 0.19 25);
+  /* the popup mockups always use the extension's own dark look */
+  --p-bg: oklch(0.185 0.008 290);
+  --p-panel: oklch(0.225 0.010 290);
+  --p-line: oklch(0.29 0.012 290);
+  --p-text: oklch(0.94 0.006 290);
+  --p-muted: oklch(0.70 0.014 290);
+  --p-accent: oklch(0.54 0.23 293);
+  --p-tint: oklch(0.33 0.09 293);
+  --p-accent-text: oklch(0.88 0.06 293);
+  --p-ok: oklch(0.86 0.13 150);
+  --p-warn: oklch(0.84 0.14 80);
+  --p-bad: oklch(0.72 0.16 22);
+  --font: "Albert Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: oklch(0.16 0.008 290); --surface: oklch(0.20 0.01 290); --line: oklch(0.30 0.012 290);
+  --fg: oklch(0.94 0.006 290); --muted: oklch(0.72 0.014 290);
+  --accent: oklch(0.70 0.16 293); --accent-soft: oklch(0.28 0.07 293); --accent-ink: oklch(0.86 0.08 293);
+  --good: oklch(0.80 0.13 150); --warn: oklch(0.82 0.13 80); --bad: oklch(0.74 0.15 22);
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: oklch(0.16 0.008 290); --surface: oklch(0.20 0.01 290); --line: oklch(0.30 0.012 290);
+  --fg: oklch(0.94 0.006 290); --muted: oklch(0.72 0.014 290);
+  --accent: oklch(0.70 0.16 293); --accent-soft: oklch(0.28 0.07 293); --accent-ink: oklch(0.86 0.08 293);
+  --good: oklch(0.80 0.13 150); --warn: oklch(0.82 0.13 80); --bad: oklch(0.74 0.15 22);
+  color-scheme: dark; }
+
+body { background: var(--bg); color: var(--fg); font: 16px/1.6 var(--font); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-block: 48px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; line-height: 1.15; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 1.125rem; font-weight: 700; }
+p { margin: 0; }
+.lede { max-width: 68ch; font-size: 1.125rem; color: var(--muted); }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+header { display: grid; gap: 16px; margin-bottom: 40px; }
+section { display: grid; gap: 20px; padding-block: 40px; border-top: 1px solid var(--line); }
+.prose { display: grid; gap: 12px; max-width: 68ch; }
+.prose p, .prose li { color: var(--fg); }
+.muted { color: var(--muted); }
+code { font: 0.875em var(--mono); background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+
+.insight { display: grid; gap: 8px; background: var(--accent-soft); border-radius: 14px; padding: 20px 22px; max-width: 76ch; }
+.insight strong { color: var(--accent-ink); }
+
+/* variants */
+.variants { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px 24px; }
+.variant { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.variant .tag { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.letter { font: 600 13px/1 var(--mono); color: var(--accent-ink); }
+.pick { font: 600 11px/1 var(--font); text-transform: uppercase; letter-spacing: .06em; color: var(--bg); background: var(--accent); padding: 4px 7px; border-radius: 99px; }
+.variant p { font-size: 15px; }
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px; }
+.pc div { display: grid; gap: 4px; align-content: start; }
+.pc b { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.pc .plus b { color: var(--good); } .pc .minus b { color: var(--bad); }
+.pc ul { margin: 0; padding-left: 16px; color: var(--muted); }
+
+/* popup mockup */
+.pop { background: var(--p-bg); color: var(--p-text); border-radius: 14px; padding: 14px; font: 13px/1.45 system-ui, sans-serif;
+  display: grid; gap: 10px; box-shadow: 0 1px 0 oklch(1 0 0 / .06) inset, 0 8px 24px oklch(0.1 0.01 290 / .25); max-width: 340px; }
+.pop .bar { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+.pop .bar i { font-style: normal; color: var(--p-muted); font-weight: 400; font-size: 12px; }
+.pop .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: var(--p-panel); border-radius: 10px; padding: 9px 11px; }
+.pop .sw { width: 30px; height: 18px; border-radius: 99px; background: var(--p-accent); position: relative; flex: none; }
+.pop .sw::after { content: ""; position: absolute; right: 2px; top: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; }
+.pop .tabs { display: flex; gap: 4px; background: var(--p-panel); border-radius: 9px; padding: 3px; }
+.pop .tabs span { flex: 1; text-align: center; padding: 4px; border-radius: 7px; color: var(--p-muted); font-size: 12px; }
+.pop .tabs span:first-child { background: var(--p-line); color: var(--p-text); }
+.pop .ghostblock { height: 46px; border-radius: 10px; background: var(--p-panel); opacity: .55; }
+.pop .lnk { color: var(--p-accent-text); font-size: 12.5px; }
+.pop .card { border-radius: 10px; padding: 10px 11px; display: grid; gap: 6px; background: var(--p-tint); }
+.pop .card.warn { background: oklch(0.30 0.06 75); }
+.pop .card strong { font-size: 13px; }
+.pop .card p { color: var(--p-text); opacity: .86; font-size: 12.5px; }
+.pop .btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.pop .b { padding: 5px 10px; border-radius: 8px; font-size: 12px; background: var(--p-line); }
+.pop .b.p { background: var(--p-accent); color: #fff; }
+.pop .foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--p-line); padding-top: 9px; color: var(--p-muted); font-size: 12px; }
+.pop .foot .hl { color: var(--p-text); background: var(--p-panel); padding: 3px 8px; border-radius: 99px; outline: 1.5px dashed var(--p-accent); outline-offset: 2px; }
+.pop .hl-ring { outline: 1.5px dashed var(--p-accent); outline-offset: 3px; border-radius: 6px; }
+.check { display: grid; gap: 7px; }
+.check div { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; font-size: 12.5px; }
+.dot { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+.dot.ok { background: oklch(0.86 0.13 150 / .18); color: var(--p-ok); }
+.dot.now { background: oklch(0.84 0.14 80 / .2); color: var(--p-warn); }
+.dot.todo { border: 1.5px solid var(--p-line); color: var(--p-muted); }
+.check small { display: block; color: var(--p-muted); font-size: 11.5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { border: 1px solid var(--p-line); border-radius: 99px; padding: 4px 9px; font-size: 12px; }
+.chips span.on { background: var(--p-tint); border-color: oklch(0.45 0.13 293); color: var(--p-accent-text); }
+.kv { font: 11px/1.5 var(--mono); color: var(--p-muted); background: var(--p-panel); border-radius: 8px; padding: 8px 10px; }
+.kv b { color: var(--p-text); font-weight: 500; }
+
+/* video mockup */
+.video { position: relative; aspect-ratio: 16/9; max-width: 340px; width: 100%; border-radius: 12px; overflow: hidden;
+  background: radial-gradient(120% 90% at 30% 30%, oklch(0.42 0.06 250), oklch(0.16 0.02 270)); }
+.video .ctrl { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: linear-gradient(transparent, oklch(0 0 0 / .7));
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 0 10px; color: #fff; font: 600 10px/1 system-ui; }
+.video .cc { border: 1.5px solid #fff; border-radius: 3px; padding: 1px 3px; }
+.video .cc.ring { box-shadow: 0 0 0 3px oklch(0.84 0.14 80); }
+.video .bubble { position: absolute; right: 8px; bottom: 38px; max-width: 200px; background: var(--p-bg); color: var(--p-text); border-radius: 10px; padding: 8px 10px; font: 12px/1.4 system-ui; }
+.video .bubble::after { content: ""; position: absolute; right: 22px; bottom: -6px; border: 6px solid transparent; border-bottom: 0; border-top-color: var(--p-bg); }
+.video .pill { position: absolute; left: 10px; top: 10px; background: oklch(0 0 0 / .62); color: #fff; border-radius: 99px; padding: 5px 10px; font: 12px/1 system-ui; display: flex; gap: 6px; align-items: center; }
+.video .pill u { text-decoration: none; color: oklch(0.85 0.08 293); }
+
+/* welcome tab mockup */
+.tab { background: var(--p-bg); color: var(--p-text); border-radius: 12px; padding: 16px; display: grid; gap: 12px; max-width: 340px; font: 13px/1.4 system-ui; }
+.tab h4 { margin: 0; font-size: 16px; }
+.steps3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.steps3 div { background: var(--p-panel); border-radius: 9px; padding: 8px; display: grid; gap: 6px; font-size: 11.5px; }
+.steps3 .thumb { aspect-ratio: 4/3; border-radius: 6px; background: radial-gradient(circle at 50% 60%, oklch(0.4 0.08 293), oklch(0.22 0.02 290)); position: relative; }
+.steps3 .thumb span { position: absolute; bottom: 4px; right: 4px; font: 700 8px/1 system-ui; border: 1px solid #fff; border-radius: 2px; padding: 1px 2px; }
+
+/* flow */
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; align-items: start; }
+.flow > div { display: grid; gap: 10px; min-width: 0; }
+.step-label { font: 600 13px/1.3 var(--font); }
+.step-label span { font-family: var(--mono); color: var(--accent-ink); margin-right: 6px; }
+
+/* tables */
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 15px; }
+th, td { text-align: left; padding: 12px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 600 12px/1.2 var(--font); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+td:first-child { font-weight: 700; white-space: nowrap; }
+tr.rec td { background: var(--accent-soft); }
+.lv { font: 600 11px/1 var(--mono); padding: 3px 6px; border-radius: 4px; white-space: nowrap; }
+.lv.e { color: var(--good); border: 1px solid currentColor; }
+.lv.p { color: var(--warn); border: 1px solid currentColor; }
+.lv.u { color: var(--bad); border: 1px solid currentColor; }
+
+/* email mockup */
+.mail { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; display: grid; gap: 12px; max-width: 620px; font-size: 15px; }
+.mail .meta { font: 12px/1.5 var(--mono); color: var(--muted); }
+.mail table { min-width: 0; font: 13px/1.4 var(--mono); }
+.mail td, .mail th { padding: 6px 8px; }
+.mail td:first-child { font-weight: 500; }
+.trend { font-weight: 600; }
+.trend.up { color: var(--bad); } .trend.new { color: var(--accent-ink); }
+
+.plan { display: grid; gap: 14px; counter-reset: s; max-width: 76ch; padding: 0; margin: 0; list-style: none; }
+.plan li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; }
+.plan li::before { counter-increment: s; content: counter(s); font: 700 15px/36px var(--mono); text-align: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent-ink); height: 36px; }
+.plan b { display: block; }
+.audit { display: grid; gap: 8px; max-width: 76ch; font-size: 15px; }
+.audit p b { font-weight: 700; }
+@media (max-width: 420px) { .pc { grid-template-columns: 1fr; } .steps3 { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Subtitle Overlay · návrh</span>
+  <h1>Nahlásit problém a první spuštění</h1>
+  <p class="lede">Hypotéza: lidi extension vyzkouší jednou, nezapnou titulky v přehrávači webu, nic se nestane a odinstalují ji. Tady je několik způsobů, jak je naučit ten jeden krok, jak jim dát tlačítko pro nahlášení a jak hlášení sbírat a jednou týdně shrnout.</p>
+</header>
+
+<div class="insight">
+  <strong>Klíčová věc, kterou už máme v kódu</strong>
+  <p>Extension už teď ví, jestli na stránce našla video a jestli z webu chodí titulky (popup ukazuje stav "Looking for videos…", máme zachycené titulky z Netflixu, YouTube a HLS). Takže diagnostiku nemusíme nechat na uživateli. Popup může sám poznat situaci "video tu je, ale titulky z webu nechodí" a rovnou poradit: "Zapni titulky (CC) v přehrávači". Ruční návod je až záložní plán.</p>
+</div>
+
+<!-- ============ A: first run ============ -->
+<section>
+  <span class="eyebrow">Část A</span>
+  <h2>První spuštění: krátký návod</h2>
+  <p class="lede">Tři varianty. Všechny učí stejnou věc ve třech krocích: pusť video, zapni titulky v přehrávači, vyber jazyk překladu.</p>
+  <div class="variants">
+
+    <div class="variant">
+      <div class="tag"><span class="letter">A1</span><h3>Uvítací stránka po instalaci</h3></div>
+      <div class="tab">
+        <h4>Hotovo. Ještě jeden krok na každém webu.</h4>
+        <div class="steps3">
+          <div><div class="thumb"></div>1. Pusť video</div>
+          <div><div class="thumb"><span>CC</span></div>2. Zapni titulky v přehrávači</div>
+          <div><div class="thumb"></div>3. Překlad se objeví sám</div>
+        </div>
+        <span class="pop" style="padding:0;box-shadow:none;background:none"><span class="lnk">Vyzkoušet na ukázkovém videu →</span></span>
+      </div>
+      <p>Hned po instalaci se otevře karta s krátkou animací (třeba smyčka z promo videa, které už máme) a odkazem na ukázkové video, kde to člověk zkusí.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Vidí to každý, hned</li><li>Prostor na animaci</li></ul></div><div class="minus"><b>Minus</b><ul><li>Lidi tyhle karty často zavřou bez čtení</li><li>Není u videa, kde to potřebují</li></ul></div></div>
+    </div>
+
+    <div class="variant">
+      <div class="tag"><span class="letter">A2</span><h3>Bublina u videa poprvé</h3></div>
+      <div class="video">
+        <div class="bubble">Zapni titulky v přehrávači, přeložím je do češtiny.</div>
+        <div class="ctrl"><span>⚙</span><span class="cc ring">CC</span><span>⛶</span></div>
+      </div>
+      <p>Když extension poprvé najde video a z webu nechodí titulky, ukáže nad přehrávačem malou bublinu (podobně jako dnešní kartu podpory nad videem). Zmizí, jakmile titulky dorazí.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Přesně v momentě, kdy to člověk potřebuje</li><li>Sama zmizí, když to funguje</li></ul></div><div class="minus"><b>Minus</b><ul><li>Neumíme spolehlivě ukázat na tlačítko CC na každém webu, šipka by mířila jen obecně</li><li>Zasahuje do přehrávače</li></ul></div></div>
+    </div>
+
+    <div class="variant">
+      <div class="tag"><span class="letter">A3</span><h3>Kontrolní seznam, který se odškrtává sám</h3><span class="pick">Doporučuji</span></div>
+      <div class="pop">
+        <div class="bar">Subtitle Overlay <i>netflix.com</i></div>
+        <div class="card" style="background:var(--p-panel)">
+          <strong>Jak začít</strong>
+          <div class="check">
+            <div><span class="dot ok">✓</span><span>Video nalezeno</span></div>
+            <div><span class="dot now">2</span><span>Zapni titulky v přehrávači<small>Ikona CC nebo "Titulky" v přehrávači webu. Jazyk je jedno.</small></span></div>
+            <div><span class="dot todo">3</span><span>Překlad do češtiny se objeví sám</span></div>
+          </div>
+        </div>
+        <div class="tabs"><span>Titulky</span><span>Styl</span><span>Chování</span></div>
+        <div class="ghostblock"></div>
+      </div>
+      <p>Prvních pár otevření popupu ukazuje nahoře tři kroky. Kroky se odškrtnou samy podle toho, co extension vidí. Když jsou všechny tři hotové, karta poděkuje a už se neukáže.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Návod a diagnostika v jednom</li><li>Pracuje se stavy, které už máme</li><li>Žádné nové okno</li></ul></div><div class="minus"><b>Minus</b><ul><li>Uvidí ho jen ten, kdo otevře popup</li><li>Popup je o kus delší</li></ul></div></div>
+    </div>
+  </div>
+  <p class="muted" style="max-width:76ch">Kombinace, která dává smysl: A3 jako základ a A2 jen jako jednorázové upozornění pro lidi, kteří popup vůbec neotevřou. A1 bych vynechal, nebo nechal jen jako odkaz na ukázkové video.</p>
+</section>
+
+<!-- ============ B: report entry ============ -->
+<section>
+  <span class="eyebrow">Část B</span>
+  <h2>Kde bude "Nahlásit problém"</h2>
+  <p class="lede">Pět míst. Čárkovaný rámeček ukazuje nový prvek. Všechna vedou do stejného průvodce (část C).</p>
+  <div class="variants">
+
+    <div class="variant">
+      <div class="tag"><span class="letter">B1</span><h3>Odkaz pod přepínačem webu</h3><span class="pick">Doporučuji</span></div>
+      <div class="pop">
+        <div class="bar">Subtitle Overlay <i>max.com</i></div>
+        <div class="row"><span>Na max.com</span><span class="sw"></span></div>
+        <span class="lnk hl-ring" style="justify-self:start">Nefunguje to tady? Nahlásit problém</span>
+        <div class="tabs"><span>Titulky</span><span>Styl</span><span>Chování</span></div>
+        <div class="ghostblock"></div>
+      </div>
+      <p>Tichý odkaz hned pod řádkem "Na [web]", kam to podle tebe patří. Vždy viditelný, týká se právě otevřeného webu, takže doménu známe automaticky.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Je tam, kde se člověk dívá</li><li>Jasně patří k webu</li></ul></div><div class="minus"><b>Minus</b><ul><li>Další řádek v popupu</li></ul></div></div>
+    </div>
+
+    <div class="variant">
+      <div class="tag"><span class="letter">B2</span><h3>Chytrý stav, když titulky nechodí</h3><span class="pick">Doporučuji</span></div>
+      <div class="pop">
+        <div class="bar">Subtitle Overlay <i>max.com</i></div>
+        <div class="card warn">
+          <strong>Video vidím, titulky z webu zatím ne</strong>
+          <p>Zapni titulky (CC) v přehrávači. Pak je přeložím.</p>
+          <div class="btns"><span class="b p">Zkusil jsem, pořád nic</span><span class="b">Zavřít</span></div>
+        </div>
+        <div class="row"><span>Na max.com</span><span class="sw"></span></div>
+        <div class="ghostblock"></div>
+      </div>
+      <p>Používá existující výstražnou kartu (tu, co dnes hlásí zastavené pozadí a chyby AI). Objeví se jen když běží video a po pár vteřinách nepřišly titulky. Tlačítko "pořád nic" otevře hlášení s už vyplněnou diagnózou.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Řeší nejčastější případ bez hlášení</li><li>Hlášení pak mají lepší data</li></ul></div><div class="minus"><b>Minus</b><ul><li>Na webech, kde titulky nechytáme, by svítila pořád (nutný seznam podporovaných webů)</li></ul></div></div>
+    </div>
+
+    <div class="variant">
+      <div class="tag"><span class="letter">B3</span><h3>V patičce vedle zpětné vazby</h3></div>
+      <div class="pop">
+        <div class="bar">Subtitle Overlay <i>max.com</i></div>
+        <div class="row"><span>Na max.com</span><span class="sw"></span></div>
+        <div class="ghostblock"></div>
+        <div class="foot"><span>Nastavení</span><span class="hl">Nahlásit problém</span><span>Podpořit</span></div>
+      </div>
+      <p>Úplně dole, jako stálá položka patičky. Dnešní "Zpětná vazba" by se přejmenovala nebo rozdělila. Uklizené, ale schované.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Nepřidává nic do hlavní části</li><li>Lidi tam pomoc hledají</li></ul></div><div class="minus"><b>Minus</b><ul><li>Kdo je naštvaný, často nescrolluje</li></ul></div></div>
+    </div>
+
+    <div class="variant">
+      <div class="tag"><span class="letter">B4</span><h3>Štítek na videu při najetí myší</h3></div>
+      <div class="video">
+        <div class="pill">Titulky nedorazily · <u>Pomoc</u></div>
+        <div class="ctrl"><span>⚙</span><span class="cc">CC</span><span>⛶</span></div>
+      </div>
+      <p>Malý štítek v rohu přehrávače, viditelný jen při najetí myší a jen když video hraje bez titulků. Kliknutí otevře průvodce v malém panelu.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Najde ho i ten, kdo nezná ikonu extension</li></ul></div><div class="minus"><b>Minus</b><ul><li>Zasahuje do cizího přehrávače</li><li>Na některých webech se bude prát s jejich ovládáním</li></ul></div></div>
+    </div>
+
+    <div class="variant">
+      <div class="tag"><span class="letter">B5</span><h3>Pravé tlačítko na ikoně extension</h3></div>
+      <div class="pop" style="gap:4px;max-width:240px">
+        <div class="row" style="background:none;padding:6px 8px">Možnosti</div>
+        <div class="row" style="background:none;padding:6px 8px">Připnout</div>
+        <div class="row hl-ring" style="padding:6px 8px">Nahlásit problém s tímto webem</div>
+        <div class="row" style="background:none;padding:6px 8px">Odebrat z Chromu…</div>
+      </div>
+      <p>Položka v kontextovém menu ikony extension, hned nad "Odebrat z Chromu". Chytí lidi přesně ve chvíli, kdy se chystají odinstalovat.</p>
+      <div class="pc"><div class="plus"><b>Plus</b><ul><li>Poslední šance před odinstalací</li><li>Levné na výrobu</li></ul></div><div class="minus"><b>Minus</b><ul><li>Málokdo pravé tlačítko zkouší</li></ul></div></div>
+    </div>
+  </div>
+  <p class="muted" style="max-width:76ch">Doporučená kombinace: B1 + B2 v popupu, B5 jako levný bonus. B4 až podle dat, pokud se ukáže, že lidi popup vůbec neotevírají.</p>
+</section>
+
+<!-- ============ C: wizard ============ -->
+<section>
+  <span class="eyebrow">Část C</span>
+  <h2>Co se stane po kliknutí</h2>
+  <p class="lede">Krátký průvodce o třech obrazovkách. Hlavní smysl: vyřešit to dřív, než to člověk pošle. Odeslat jde až po kontrole, ale nikdy ho nezablokujeme.</p>
+  <div class="flow">
+    <div>
+      <p class="step-label"><span>1</span>Co nefunguje?</p>
+      <div class="pop">
+        <div class="bar">Nahlásit problém <i>max.com</i></div>
+        <div class="chips"><span class="on">Titulky se nezobrazují</span><span>Překlad je špatně</span><span>Titulky nesedí časově</span><span>Vypadá to divně</span><span>Něco jiného</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="step-label"><span>2</span>Kontrola podle typu problému</p>
+      <div class="pop">
+        <div class="bar">Zkusíme to opravit <i>max.com</i></div>
+        <div class="check">
+          <div><span class="dot ok">✓</span><span>Extension je na tomto webu zapnutá</span></div>
+          <div><span class="dot ok">✓</span><span>Video nalezeno</span></div>
+          <div><span class="dot now">!</span><span>Titulky z webu nechodí<small>Zapni CC v přehrávači a pusť video pár vteřin. Kontrola běží sama.</small></span></div>
+          <div><span class="dot todo">4</span><span>Obnov stránku (po aktualizaci extension je to nutné)</span></div>
+        </div>
+        <div class="btns"><span class="b">Už to funguje</span><span class="b p">Pořád nic, nahlásit</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="step-label"><span>3</span>Odeslat (už vyplněno)</p>
+      <div class="pop">
+        <div class="bar">Odeslat hlášení</div>
+        <div class="kv">web: <b>max.com</b><br>problém: <b>titulky se nezobrazují</b><br>video: <b>ano</b> · titulky z webu: <b>ne</b><br>verze: <b>1.0.19</b> · Chrome 142</div>
+        <div class="row" style="color:var(--p-muted)">Chceš něco dodat? (nepovinné)</div>
+        <div class="btns"><span class="b p">Odeslat</span></div>
+        <p style="color:var(--p-muted);font-size:11.5px">Posílám jen název webu a údaje výše. Žádnou celou adresu ani historii.</p>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <p>Kroky v obrazovce 2 se mění podle typu. "Titulky nesedí časově" ukáže posun titulků, "Překlad je špatně" nabídne jiného překladače. Na webech, které vůbec nepodporujeme, krok 2 rovnou řekne "Tenhle web zatím neznáme, tvoje hlášení nám pomůže ho přidat".</p>
+    <p>Dnešní formulář zpětné vazby zůstane pro nápady a ostatní věci. Průvodce může jeho odesílání použít, takže e-mail, který ti dnes chodí, chodit nepřestane.</p>
+  </div>
+</section>
+
+<!-- ============ D: storage ============ -->
+<section>
+  <span class="eyebrow">Část D</span>
+  <h2>Kam hlášení ukládat</h2>
+  <p class="lede">Dnes Worker na feedback.cleedek.com zprávu jen pošle e-mailem a nikam ji neukládá. Na počítání "HBO nahlásilo 7 lidí" potřebujeme databázi.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Možnost</th><th>Jak to funguje</th><th>Výhody</th><th>Nevýhody</th></tr></thead>
+    <tbody>
+      <tr class="rec"><td>1. Databáze u Workeru (Cloudflare D1)<br><span class="pick">Doporučuji</span></td><td>Stávající Worker dostane novou adresu pro hlášení a uloží každé jako jeden řádek: doména, typ problému, výsledek kontroly, verze, jazyk, datum.</td><td>Nic nového, všechno zůstane u Cloudflare, kde už Worker běží. Data máš jen ty. Jde dotazovat jako tabulku.</td><td>Žádná hotová grafika, přehled si musíme udělat (e-mail nebo jednoduchá stránka).</td></tr>
+      <tr><td>2. PostHog</td><td>Hlášení se pošle jako událost do PostHogu (ten už používáš u Scootappu).</td><td>Hotové grafy a filtry zdarma.</td><td>Další firma, která dostává data z extension, takže víc vysvětlování v zásadách soukromí a ve Web Store. Pro open source extension s důrazem na soukromí horší dojem.</td></tr>
+      <tr><td>3. GitHub issues</td><td>Worker založí issue v soukromém repu, jedno na doménu, další hlášení přidá jako komentář.</td><td>Rovnou pracovní seznam, kde můžeš odškrtávat opravené weby.</td><td>Spam a duplicity se špatně hlídají. Další přístupový klíč k údržbě.</td></tr>
+      <tr><td>4. Jen e-mail jako dnes</td><td>Gmail štítek a ručně počítat.</td><td>Nulová práce.</td><td>Žádné počty ani týdenní přehled. Při desítkách hlášení neudržitelné.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="prose">
+    <h3>Co ukládat (a co ne)</h3>
+    <p>Jen <b>doménu</b> (<code>max.com</code>), nikdy celou adresu, protože v adrese bývá název filmu nebo osobní údaje. K tomu typ problému, výsledky automatické kontroly (video ano/ne, titulky z webu ano/ne), verzi extension, prohlížeč a jazyk. Bez e-mailu, pokud ho člověk sám nevyplní.</p>
+    <p>Je potřeba upravit zásady soukromí a informace pro Web Store. Podle tvého pravidla se živá stránka se zásadami mění až ve chvíli, kdy to jde do Store, takže to připravím, ale nevydám.</p>
+    <p>Bonus: uninstall stránka feedback.cleedek.com/bye může zapisovat do stejné tabulky. Pokud tam přidáme volbu "Titulky se nezobrazily" a pole "Na jakém webu?", dostaneme přímý test tvé hypotézy.</p>
+  </div>
+</section>
+
+<!-- ============ E: weekly summary ============ -->
+<section>
+  <span class="eyebrow">Část E</span>
+  <h2>Týdenní shrnutí</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Možnost</th><th>Jak to funguje</th><th>Výhody</th><th>Nevýhody</th></tr></thead>
+    <tbody>
+      <tr class="rec"><td>1. Plánovaná úloha ve Workeru<br><span class="pick">Doporučuji</span></td><td>Cloudflare spustí Worker každé pondělí ráno. Ten spočítá hlášení za 7 dní podle domén a pokud jich je aspoň 5, pošle e-mail stejnou cestou jako dnešní zpětná vazba.</td><td>Běží samo, i když máš Mac vypnutý. Žádná nová služba.</td><td>Shrnutí je jen tabulka čísel, bez úvahy, co je příčina.</td></tr>
+      <tr><td>2. Okamžité upozornění</td><td>K tomu navíc: když jeden web dosáhne 5 hlášení za týden, e-mail přijde hned.</td><td>Když web něco změní a extension přestane fungovat, víš to ten den, ne v pondělí.</td><td>Musí si pamatovat, že už upozornil, aby nespamoval.</td></tr>
+      <tr><td>3. Claude úloha nad daty</td><td>Naplánovaná úloha (jako tvůj denní report z PostHogu) přečte tabulku, porovná weby s kódem extension a napíše shrnutí s návrhem, co opravit.</td><td>Chytřejší: rozliší "nový neznámý web" od "web, co dřív fungoval".</td><td>Běží jen při zapnutém Macu. Má smysl až když bude dat víc.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="muted">Ukázka e-mailu z možnosti 1 (vymyšlená čísla, jen pro představu):</p>
+  <div class="mail">
+    <div class="meta">Od: feedback@cleedek.com · Předmět: Subtitle Overlay: 14 hlášení za týden (3.–9. 11.)</div>
+    <table>
+      <thead><tr><th>web</th><th>hlášení</th><th>titulky z webu</th><th>oproti min. týdnu</th></tr></thead>
+      <tbody>
+        <tr><td>max.com</td><td>7</td><td>ne 7×</td><td class="trend up">+6</td></tr>
+        <tr><td>disneyplus.com</td><td>4</td><td>ne 3×, ano 1×</td><td class="trend">+1</td></tr>
+        <tr><td>ivysilani.cz</td><td>3</td><td>ne 3×</td><td class="trend new">nový web</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="font-size:14px">Z toho 9 lidí po kontrole napsalo "už to funguje" a neposlali hlášení.</p>
+  </div>
+  <div class="prose"><p>Poslední řádek je důležitý: když budeme počítat i ty, kterým pomohla kontrola, uvidíme, jestli tvoje hypotéza sedí. Pokud jich bude hodně, je hlavní problém nezapnuté CC, ne chyba v extension.</p></div>
+</section>
+
+<!-- ============ F: plan ============ -->
+<section>
+  <span class="eyebrow">Doporučení</span>
+  <h2>Pořadí, ve kterém bych to stavěl</h2>
+  <ol class="plan">
+    <li><div><b>Chytrý stav B2 + odkaz B1</b>Největší dopad na hypotézu, používá stavy a kartu, které už existují.</div></li>
+    <li><div><b>Kontrolní seznam A3 pro nové uživatele</b>Stejná logika jako B2, jen podaná jako "jak začít".</div></li>
+    <li><div><b>Průvodce C a ukládání do D1</b>Nová adresa ve Workeru, tabulka, odeslání z průvodce. Plus úprava zásad soukromí (připravit, nevydat).</div></li>
+    <li><div><b>Týdenní e-mail a okamžité upozornění</b>Plánovaná úloha ve stejném Workeru.</div></li>
+    <li><div><b>Později podle dat</b>Uninstall otázka na web, štítek na videu B4, Claude shrnutí.</div></li>
+  </ol>
+</section>
+
+<section>
+  <span class="eyebrow">Na co si dát pozor</span>
+  <div class="audit">
+    <p><b>Seznam podporovaných webů.</b> Chytrý stav B2 dává smysl jen tam, kde titulky z webu umíme chytit. Na ostatních webech musí říct něco jiného ("tenhle web zatím neznáme"), jinak bude zbytečně strašit. Nejsem si jistý, jak přesně dnes extension tyhle weby rozlišuje, to bych ověřil v kódu jako první.</p>
+    <p><b>Kolik vteřin čekat.</b> Některé weby posílají titulky se zpožděním. Když kartu ukážeme moc brzy, bude otravovat i tam, kde všechno funguje.</p>
+    <p><b>Limity Cloudflare.</b> Pro tenhle objem by bezplatné tarify D1 a plánovaných úloh měly stačit, ale přesné limity jsem teď neověřoval. Ověřit v dokumentaci Cloudflare (developers.cloudflare.com, sekce D1 Pricing a Cron Triggers).</p>
+    <p><b>Spam.</b> Worker už má limit 5 zpráv za minutu z jedné adresy. Pro počítání je navíc dobré brát jedno hlášení na instalaci a web za den, aby jeden naštvaný člověk nevyrobil "10 hlášení".</p>
+  </div>
+</section>
+</div>

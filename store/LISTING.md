@@ -4,11 +4,59 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 
 ## Postup pro 1.0.19 (co musíš udělat ty)
 
-**Stav 10. 11. 2026:** V obchodě je 1.0.18. Novinky: karta "Co je nového" po aktualizaci, "Pustit na…" ve frontě překladů, aktualizace upraveného vlastního stylu, popisky s .ttml. Oprávnění v manifestu se nezměnila a nic nového se nesbírá, takže zdůvodnění, Privacy practices ani zásady ochrany soukromí není potřeba měnit.
+**Stav 10. 11. 2026:** V obchodě je 1.0.18. Commitnutá 1.0.19 (2cf1e9b) má kartu "Co je nového", "Pustit na…" ve frontě, aktualizaci upraveného vlastního stylu a jednorázovou kartu podpory nad videem. **Předpoklad těchto podkladů:** do 1.0.19 půjde i zatím necommitnutá práce z 10. 11. (titulky přímo od webu: YouTube, Netflix, HLS, a z 11. 11. i Prime Video a HBO Max/DASH; jazyk pro Netflix; průvodce Lokální AI se stažením Gemmy; přepínač Stavové zprávy; titulky webu schované jen, když běží naše). Pokud ne, z popisů vyhoď body označené (N) níže a ze zásad poslední tři nové odrážky.
 
-1. **Changelog na webu:** cleedek.com musí mít 1.0.19 dřív, než to obchod schválí, protože karta na něj odkazuje (Claude připraví, ty schválíš push).
-2. **Nahraj balíček:** záložka **Package**, **Upload new package**, soubor `dist/subtitle-overlay-1.0.19.zip` (sestavený 10. 11. 2026 z commitu 2cf1e9b, 100 souborů, ověřený v Chromu: popup bez chyb, karta "Co je nového" česky).
-3. Popisy, screenshoty a video nech, jak jsou. Klikni na **Submit for review**.
+**Co je připravené (necommitnuté):**
+
+| Podklad | Kde | Stav |
+|---|---|---|
+| Popis ve 32 jazycích | `store/descriptions/<jazyk>.txt` (EN a CS i níže v tomhle souboru) | hotovo, překlady psal Claude, rodilí mluvčí nekontrolovali |
+| Zásady ochrany soukromí | `store/privacy-policy.html` + `cleedek-portfolio/.../subtitle-overlay/privacy.astro` (EN slovo od slova stejné, CS překlad), datum 10. 11. 2026 | hotovo, web **není pushnutý** |
+| Changelog na webu | `cleedek-portfolio/src/content/projects/{en,cs}/subtitle-overlay.md`, blok "Coming to the store" (+2 body: titulky od webu, Lokální AI) | hotovo, **není pushnutý** |
+| Zdůvodnění storage, declarativeNetRequest a Host permission | níže v sekci Privacy practices (texty nahrazené) | hotovo |
+| Karta "Co je nového" | `lib/whats-new.js` + 30 jazyků v `lib/locales` | hotovo 11. 11. (schváleno), ověřeno v Chromu (de, fi, ar, ja, cs, uk) |
+| Nový screenshot 1 (podporované služby), 32 jazyků | `store/images/**/screenshot-1.png`, jiná session | rozpracované |
+| Balíček zip | `dist/subtitle-overlay-1.0.19.zip` je z commitu 2cf1e9b, **bez** necommitnuté práce | sestavit znovu, až bude vše commitnuté |
+
+**Změny v popisu (všech 32 jazyků naráz, jinak "Mismatching metadata"):**
+- (N) Highlight "NOVĚ: fronta překladů…" nahrazený: když má web titulky ve tvém jazyce, dostaneš ty.
+- (N) V sekci Překlad nový bod o titulcích od webu; bod "titulky webu se schovají" upřesněný (jen dokud běží naše).
+- (N) Lokální AI: místo "3 kroky s příkazem" teď "popup tě provede, Gemma jedním kliknutím, aspoň 16 GB RAM".
+- Fronta: přidané "Pustit na…".
+- Podpora: místo "Revolut, PayPal, Solana a Sui" (PayPal a Sui už v popupu nejsou) teď "Ko-fi a několik dalších způsobů platby" + věta o jednorázové kartě nad videem (nejvýš 3 videa, jedno kliknutí a zmizí). Kartu přiznávám schválně, aby ji reviewer nebral jako nečekanou reklamu.
+- Nový odstavec na konci (všech 32 jazyků): Subtitle Overlay je nezávislý projekt, není spojený s weby ani streamovacími službami, ty ho nepodporují ani nesponzorují, funkčnost je naše práce (vyzkoušeno, někde přizpůsobené přehrávači), názvy a loga patří vlastníkům. Služby v něm jmenovitě nejsou, takže sedí i k novému screenshotu s logy.
+- Netflix v textech dál záměrně není.
+
+**Postup v Dashboardu:**
+1. **Web:** schválíš push cleedek-portfolio (zásady + changelog). Musí být online dřív, než odešleš ke kontrole, protože karta "Co je nového" i obchod na web odkazují.
+2. **Package:** Upload new package, nově sestavený `dist/subtitle-overlay-1.0.19.zip`.
+3. **Store listing:** popisy přes `store/dashboard/fill.py <kód> store/descriptions/<jazyk>.txt` pro všech 32 jazyků (nástroje ve `store/dashboard/`).
+4. **Screenshot 1:** druhá session ho předělává ve všech 32 jazycích (`store/images/screenshot-1.png` a `store/images/<jazyk>/screenshot-1.png` se 10. 11. mění). V Dashboardu smaž starý screenshot 1 a nahraj nový na stejné místo (globální i v každém jazyce), přes `mkupload.py` + `moveleft.js`. Ostatní screenshoty nech.
+5. **Privacy practices:** nahraď zdůvodnění **storage**, **declarativeNetRequestWithHostAccess** a **Host permission** texty níže. Data usage, Single purpose a Remote code beze změny. Pak znovu tři prohlášení.
+6. Ulož koncept (`save.js`), zkontroluj a klikni **Submit for review** (to dělá vždycky člověk).
+
+**Rizika, na která se podívej před odesláním:**
+- **Jazyk pro Netflix (preferredTextLocale):** rozšíření mění požadavek přehrávače Netflixu, aby se objevily titulky, které Netflix ve tvém regionu běžně nenabízí. Jestli to reviewer nebo Netflix bude brát jako obcházení omezení, nevím jistě. Zdůvodnění to přiznává otevřeně. Bezpečnější varianta je pustit 1.0.19 bez téhle části.
+- **Netflix na screenshotu** vs. rozhodnutí z 1.0.18 nechat Netflix mimo texty obchodu (riziko, že to bude znít jako obcházení DRM, a ochranná známka). Rozhodl ses pro screenshot, jen ať o tom víš.
+- **Průvodce Lokální AI** je od 10. 11. přeložený do všech 30 jazyků rozhraní (překlady Claude, bez rodilých mluvčích). Stažení 8 GB přes skutečnou Ollamu v Chromu zatím nikdo nevyzkoušel.
+
+### Karta "Co je nového" pro 1.0.19 (schváleno a přeloženo 11. 11. 2026)
+
+Teď karta říká: Netflix a .ttml · kdo je kdo · 23 dalších jazyků · spousta drobností. Neříká nic o dvou největších novinkách. Návrh (max. 4 body, tučně je popisek z rozhraní):
+
+EN:
+- Added support for **Netflix**, and if a site already has subtitles in your language, you get those instead of a translation
+- Free AI translation on your own computer: **Local AI** now sets itself up in two steps
+- Before **Improve** starts, the AI notes who is who, so names and forms of address stay consistent
+- The interface now comes in **23 more languages**, plus lots of smaller improvements
+
+CS:
+- Přidaná podpora **Netflixu**, a když má web titulky ve tvém jazyce, dostaneš je místo překladu
+- Bezplatný AI překlad ve tvém počítači: **Lokální AI** se teď nastaví ve dvou krocích
+- Než začne **Vylepšit**, AI si poznamená, kdo je kdo, takže jména a oslovení sedí
+- Rozhraní nově v **23 dalších jazycích** a spousta drobných vylepšení
+
+Hotovo: body jsou v `lib/whats-new.js`, překlady ve všech 30 jazycích, tři staré texty karty odebrané. Česká verze v rozšíření má drobně jiné znění než návrh výše (např. "AI překlad zdarma ve tvém počítači").
 
 ## Postup pro 1.0.18 (co musíš udělat ty)
 
@@ -56,7 +104,7 @@ Subtitle Overlay draws subtitles over the video player of any website, also in f
 ★ Any site, any video: subtitles over the player, in a window or fullscreen, always in sync
 ★ Translate into 31 languages in one click, or fully automatically as soon as you turn on subtitles in the site's player
 ★ NEW: make the translation sound natural with AI, free on your own computer (Gemma) or with your own Gemini, Claude or OpenAI key
-★ NEW: a translation queue for a whole season, and improved subtitles saved for next time
+★ NEW: if the site already has subtitles in your language, you get those, and translation steps in only when it doesn't
 ★ Two languages at once: one at the top, one at the bottom, for watching together or learning a language
 ★ Finds the subtitles the page loads, YouTube included, so you rarely need a file at all
 ★ Your style: 1,800+ Google Fonts, outline, shadow, background box, size and position
@@ -69,14 +117,15 @@ TRANSLATE INTO 31 LANGUAGES
 • Optional: click Improve and AI (Gemma on your computer, or Gemini, Claude or OpenAI) rewrites Google's quick version so it sounds natural (more below). Move the mouse over the video to see how far it got
 • Pick your language once; it stays your favourite for every Translate button
 • Automatic mode: turn on subtitles in the site's player and they appear over the video already translated, with a short "Translated to …" note instead of a pop-up. New installs start with it on, translating into your browser's language
-• The site's own subtitles are hidden, so you never read two sets at once
+• If the site has subtitles in your language (YouTube and streaming sites), those come first; Google or AI only translate when there are none
+• The site's own subtitles are hidden while ours are on and come back as soon as you turn ours off
 • Switch back to the original any time, or save the translation as an .srt file
 • Languages: Vietnamese, Czech, English, Slovak, German, French, Spanish, Italian, Portuguese, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Chinese (Simplified and Traditional), Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Arabic
 
 MAKE IT SOUND NATURAL (OPTIONAL)
 Google Translate is quick, but it goes line by line, word for word. Click Improve and an AI model rewrites the subtitles with the whole scene in mind, starting where you are watching.
 • Free: Gemma, Google's open model, runs on your own computer with Ollama or LM Studio, so the AI step stays on your computer. You need a fairly powerful computer and about 8 GB of disk space.
-• Set up in 3 steps: install Ollama from ollama.com, download Gemma with one command, then choose Local in the popup. The command and the model we recommend right now: cleedek.com/subtitle-overlay/ai
+• The popup walks you through it: install Ollama from ollama.com, then download Gemma with one click (it needs at least 16 GB of RAM). More about it and the model we recommend right now: cleedek.com/subtitle-overlay/ai
 • Or use your own API key: Gemini (has a free tier), Claude or OpenAI (paid).
 • Before it starts, it skims the whole file and notes who is who, so gender, forms of address and names stay the same from the first line to the last.
 • It never starts by itself: nothing runs and nothing is spent without your click.
@@ -97,7 +146,7 @@ TRANSLATION QUEUE AND SAVED SUBTITLES
 • Drop in several .srt or .vtt files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
 • Works with Google, Gemini, Claude, OpenAI or your local model
 • Improved subtitles are kept in the extension for as long as you choose, and come back when you return to the video
-• Play opens the video with its subtitles; Download saves the .srt
+• Play opens the video with its subtitles, "Show on…" puts them over a video already open in another tab, and Download saves the .srt
 
 STYLE THEM YOUR WAY
 • 1,800+ Google Fonts, filtered to the ones that have the letters of your language (č ř ž, ư ế ộ, Cyrillic, Greek, Japanese and more)
@@ -148,9 +197,11 @@ OPEN SOURCE
 The whole extension is open source (GPL-3.0), so anyone can check exactly what it does: github.com/Cleedek/subtitle-overlay. If you like it, a star on GitHub helps other people find it.
 
 SUPPORT THE CREATOR
-Subtitle Overlay is free and every feature stays free. If it makes your evenings better, the popup has a "Support the creator" page with Revolut, PayPal, Solana and Sui. Completely optional, and thank you!
+Subtitle Overlay is free and every feature stays free. If it makes your evenings better, the popup has a "Support the creator" page with Ko-fi and a few other ways to pay. After many translated videos, a small card over the video asks once too (on three videos at most; one click on it and it's gone for good). Completely optional, and thank you!
 
 Created with 💜 by Cleedek in Vietnam.
+
+Subtitle Overlay is an independent project. It is not affiliated with, endorsed by or sponsored by any of the websites or streaming services it works with. Support for them is our own work: we tested it on those sites and, on some of them, adapted it to their players. Names and logos of those services belong to their owners.
 
 Screenshots show frames from Tears of Steel, © Blender Foundation, mango.blender.org, licensed CC BY 3.0.
 
@@ -170,7 +221,7 @@ Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na ce
 ★ Jakýkoli web, jakékoli video: titulky přes přehrávač, v okně i na celé obrazovce, vždy v synchronizaci
 ★ Překlad do 31 jazyků jedním klikem, nebo úplně sám, jakmile zapneš titulky v přehrávači webu
 ★ NOVĚ: s AI zní překlad přirozeně, zdarma ve tvém počítači (Gemma) nebo s vlastním klíčem Gemini, Claude či OpenAI
-★ NOVĚ: fronta překladů na celou sérii a vylepšené titulky uložené na příště
+★ NOVĚ: když má web titulky ve tvém jazyce, dostaneš rovnou ty a překládá se jen tam, kde chybí
 ★ Dva jazyky naráz: jeden nahoře, druhý dole, pro společné sledování i učení jazyků
 ★ Najde titulky, které stránka načte, i na YouTube, takže soubor většinou vůbec nepotřebuješ
 ★ Tvůj styl: přes 1 800 písem Google Fonts, obrys, stín, podklad, velikost i pozice
@@ -183,14 +234,15 @@ PŘEKLAD DO 31 JAZYKŮ
 • Volitelně: klikneš na Vylepšit a AI (Gemma ve tvém počítači, nebo Gemini, Claude či OpenAI) rychlý překlad od Googlu přepíše, aby zněl přirozeně (víc níže). Když pohneš myší nad videem, uvidíš, kolik už je hotovo
 • Jazyk si vybereš jednou a platí pro všechna tlačítka Přeložit
 • Automatický režim: zapni titulky v přehrávači webu a objeví se přes video rovnou přeložené, jen s krátkou poznámkou "Přeloženo: …". Po nové instalaci je zapnutý a překládá do jazyka tvého prohlížeče
-• Původní titulky webu se schovají, takže nečteš dvoje naráz
+• Má web titulky ve tvém jazyce (YouTube a streamovací služby)? Pak dostaneš ty; Google nebo AI překládá, jen když žádné nejsou
+• Původní titulky webu se schovají, dokud běží naše, a vrátí se, jakmile naše vypneš
 • Kdykoli se vrátíš k originálu, nebo si překlad uložíš jako .srt
 • Jazyky: vietnamština, čeština, angličtina, slovenština, němčina, francouzština, španělština, italština, portugalština, polština, maďarština, ukrajinština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, čínština (zjednodušená i tradiční), japonština, korejština, thajština, indonéština, malajština, filipínština, hindština, arabština
 
 PŘIROZENÝ PŘEKLAD S AI (VOLITELNĚ)
 Google Translate je rychlý, ale překládá řádek po řádku, slovo od slova. Klikni na Vylepšit a AI model titulky přepíše s ohledem na celou scénu, od místa, kde se díváš.
 • Zdarma: Gemma, otevřený model od Googlu, běží přímo ve tvém počítači přes Ollamu nebo LM Studio, takže krok s AI z počítače neodchází. Potřebuješ výkonnější počítač a asi 8 GB místa na disku.
-• Nastavení ve 3 krocích: nainstaluj Ollamu z ollama.com, jedním příkazem stáhni Gemmu a v popupu vyber Lokální. Příkaz a model, který teď doporučujeme (anglicky): cleedek.com/subtitle-overlay/ai
+• Popup tě nastavením provede: nainstaluj Ollamu z ollama.com a jedním kliknutím stáhni Gemmu (potřebuje aspoň 16 GB RAM). Víc o tom a model, který teď doporučujeme (anglicky): cleedek.com/subtitle-overlay/ai
 • Nebo vlastní API klíč: Gemini (má bezplatnou úroveň), Claude nebo OpenAI (placené).
 • Než začne, projde celý soubor a poznamená si, kdo je kdo, takže rod, oslovení i jména sedí od první věty po poslední.
 • Sám se nikdy nespustí: bez tvého kliknutí nic neběží a nic neutratíš.
@@ -211,7 +263,7 @@ FRONTA PŘEKLADŮ A ULOŽENÉ TITULKY
 • Přidej několik souborů .srt nebo .vtt, nebo klikni na "Přidat do fronty" u titulků, které web načte. Přeloží se jeden po druhém, zatímco děláš něco jiného; záložka s frontou může zůstat na pozadí
 • Funguje s Googlem, Gemini, Claude, OpenAI i s tvým lokálním modelem
 • Vylepšené titulky zůstanou v rozšíření tak dlouho, jak si vybereš, a vrátí se, když se k videu vrátíš
-• Přehrát otevře video i s titulky; Stáhnout uloží .srt
+• Přehrát otevře video i s titulky, "Pustit na…" je dá na video, které máš otevřené v jiné záložce, a Stáhnout uloží .srt
 
 STYL PODLE TEBE
 • Přes 1 800 písem Google Fonts, vyfiltrovaných na ta, která mají písmena tvého jazyka (č ř ž, ư ế ộ, azbuka, řečtina, japonština a další)
@@ -262,9 +314,11 @@ OPEN SOURCE
 Celé rozšíření je open source (GPL-3.0), takže si kdokoli může ověřit, co přesně dělá: github.com/Cleedek/subtitle-overlay. Jestli se ti líbí, hvězda na GitHubu pomůže, aby ho našli i další.
 
 PODPOŘ AUTORA
-Subtitle Overlay je zdarma a všechny funkce zdarma zůstanou. Pokud ti zpříjemňuje večery, v popupu najdeš stránku "Podpořit autora" s Revolutem, PayPalem, Solanou a Sui. Úplně dobrovolně, a děkuju!
+Subtitle Overlay je zdarma a všechny funkce zdarma zůstanou. Pokud ti zpříjemňuje večery, v popupu najdeš stránku "Podpořit autora" s Ko-fi a několika dalšími způsoby platby. Po hodně přeložených videích se jednou zeptá i malá karta nad videem (nejvýš u tří videí; jedno kliknutí a už se neukáže). Úplně dobrovolně, a děkuju!
 
 S 💜 ve Vietnamu vytváří Cleedek.
+
+Subtitle Overlay je nezávislý projekt. Není spojený s žádným z webů ani streamovacích služeb, se kterými funguje, ty ho nepodporují ani nesponzorují. Že na nich funguje, je naše vlastní práce: vyzkoušeli jsme ho tam a na některých ho přímo přizpůsobili jejich přehrávači. Názvy a loga těch služeb patří jejich vlastníkům.
 
 Screenshoty ukazují záběry z filmu Tears of Steel, © Blender Foundation, mango.blender.org, licence CC BY 3.0.
 
@@ -291,12 +345,12 @@ Display subtitles as a styled, synchronized overlay on top of web videos, from a
 
 **Permission justifications:**
 
-- **storage:** Saves the user's subtitle style settings, presets, the colors picked last, timing offset, translation language, translator choice (with the user's own Gemini, Claude or OpenAI API key or local model address, if entered), light or dark look and the sites the user turned the extension off on; remembers the subtitles loaded on a page (up to the last 30 pages, locally; the second language of dual subtitles for at most 24 hours) so they come back on reload or a later visit; keeps the subtitle files the user put in the translation queue and the improved subtitles the user chose to keep; counts translated videos locally to decide when to ask once for a rating; stores the chosen interface language and second subtitle language; keeps an unsent draft of the "Write to me" form; and keeps the AI translator's short who-is-who notes for a subtitle file in session storage until the browser closes. Nothing of this leaves the device (a "Write to me" message is sent only when the user presses Send).
+- **storage:** Saves the user's subtitle style settings, presets, the colors picked last, timing offset, translation language, translator choice (with the user's own Gemini, Claude or OpenAI API key or local model address, if entered), light or dark look and the sites the user turned the extension off on; remembers the subtitles loaded on a page (up to the last 30 pages, locally; the second language of dual subtitles for at most 24 hours) so they come back on reload or a later visit; keeps the subtitle files the user put in the translation queue and the improved subtitles the user chose to keep; counts translated videos locally to decide when to ask once for a rating; stores the chosen interface language and second subtitle language; keeps an unsent draft of the "Write to me" form; remembers the version the extension was updated from, to show a short "What's new" card once; counts videos improved by AI and the day counting started, plus fingerprints of up to three pages where a one-time support card showed, to decide when that card appears; and keeps in session storage, until the browser closes, the AI translator's short who-is-who notes for a subtitle file, the subtitle languages a Netflix or Prime Video tab offers, and the progress of a local model download the user started. Nothing of this leaves the device (a "Write to me" message is sent only when the user presses Send).
 - **unlimitedStorage:** The translation queue and the "Saved subtitles" list keep whole subtitle files (a season of episodes, each with its original and translated lines) in the extension's local storage. Without this permission Chrome's 10 MB limit for extension storage would make adding to the queue or saving fail. Everything stays on the user's device, and the user can delete each file or choose how long improved subtitles are kept.
 - **scripting:** Asks each frame of the current tab which videos it contains, so the user can pick the video the subtitles belong to.
 - **webRequest:** Observes (never blocks or changes) network requests in the current tab to notice subtitle files (.vtt, .srt, .m3u8 subtitle playlists) the page loads, so the user can display, translate or save them.
-- **declarativeNetRequestWithHostAccess:** Used only when the user chooses a local model as the translator: one rule removes the Origin header from the extension's own requests to the local model server address the user entered (by default Ollama on localhost), because Ollama refuses requests that carry a browser extension's Origin. Requests made by websites are never changed.
-- **Host permission (all sites):** Videos with subtitles can be on any website, so the overlay must be able to run on any page and hide the site's own subtitles while it shows its own, and subtitle files the page loaded must be readable from their original address. On youtube.com a small script copies the caption file YouTube's own player downloads, because YouTube does not allow downloading it a second time. On netflix.com a small script likewise copies the TTML subtitle file the player receives; video data passes through untouched and is never read beyond its first bytes, saved or sent anywhere. The extension also sends subtitle text to the translator the user picked (Google Translate, the Gemini, Claude or OpenAI API, or the user's own local model server, whose address can be any host).
+- **declarativeNetRequestWithHostAccess:** Used only for a local model the user chose (translating with it, or downloading a model into it from the setup guide): one rule removes the Origin header from the extension's own requests to the local model server address the user entered (by default Ollama on localhost), because Ollama refuses requests that carry a browser extension's Origin. Requests made by websites are never changed.
+- **Host permission (all sites):** Videos with subtitles can be on any website, so the overlay must be able to run on any page and hide the site's own subtitles while it shows its own, and subtitle files the page loaded must be readable from their original address. Before translating, the extension checks whether the site itself offers subtitles in the user's language and, if so, downloads that file from the site instead of sending text to a translator. On youtube.com a small script copies the caption file YouTube's own player downloads (YouTube does not allow downloading it a second time) and reads the list of caption languages from the player; a caption file in another language is fetched from the same address with only the language changed. On netflix.com a small script copies the TTML subtitle file the player receives (video data passes through untouched and is never read beyond its first bytes, saved or sent anywhere) and reads the list of subtitle files in the data the player receives. It also adds the user's translation language to the player's request for that list (preferredTextLocale), so subtitles in that language are listed when Netflix has them; nothing else in the request is changed, and that language is kept in netflix.com's localStorage until the user turns the extension off on Netflix. On primevideo.com and Amazon's sites a small script reads the list of subtitle files in the answer Prime Video's player receives when a title starts; it changes nothing and asks for nothing extra. On other sites (HBO Max, for example) the subtitle tracks are read from the streaming manifest (HLS playlist or DASH .mpd) the page loaded. The extension also sends subtitle text to the translator the user picked (Google Translate, the Gemini, Claude or OpenAI API, or the user's own local model server, whose address can be any host).
 
 **Remote code:** No, I am not using remote code. (Google Fonts font files are downloaded as data, and translations come back as plain text, not code.)
 

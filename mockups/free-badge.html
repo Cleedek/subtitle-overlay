@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="cs" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free badge mockup</title>
+  <!-- The real popup styles, so the frames look exactly like the extension. -->
+  <link rel="stylesheet" href="../popup.css">
+  <style>
+    /* ---------- the mockup page around the popups (not for popup.css) ---------- */
+    :root { --page: oklch(0.13 0.008 290); --frame-edge: oklch(1 0 0 / .07); }
+    :root[data-theme="light"] { --page: oklch(0.92 0.006 290); --frame-edge: oklch(0.25 0.02 290 / .10); }
+    body { width: auto; min-width: 0; padding: 28px 24px 48px; background: var(--page); }
+    .page-head { max-width: 1240px; margin: 0 auto 24px; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 720px; }
+    .tools { display: flex; gap: 8px; }
+    .tools .segmented { grid-template-columns: repeat(2, auto); margin: 0; }
+    .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 28px; max-width: 1240px; margin: 0 auto; }
+    .col { display: flex; flex-direction: column; gap: 10px; }
+    .col-head { display: flex; align-items: baseline; gap: 8px; }
+    .col-head b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: var(--accent); color: oklch(0.99 0.003 290); font-size: 12px; }
+    .col-head span { font-size: 15px; font-weight: 650; }
+    .frame { width: 380px; box-sizing: border-box; padding: 4px 16px 8px; background: var(--bg); border-radius: 12px; box-shadow: 0 0 0 1px var(--frame-edge), 0 18px 40px -12px var(--shadow); }
+    .frame .setting { padding: 14px 0 10px; }
+    .frame .setting + .setting { border-top: 1px solid var(--line); }
+    .tag { font-size: 11px; color: var(--faint); margin-bottom: -4px; }
+    .notes { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; max-width: 380px; }
+    .notes p { margin: 0; }
+    .notes strong { color: var(--text); font-weight: 600; }
+
+    /* =====================================================================
+       Free badge variants (one of them goes into popup.css)
+       ===================================================================== */
+    .segmented.translator { overflow: visible; }
+    .segmented.translator button { position: relative; }
+    .free { pointer-events: none; white-space: nowrap; font-weight: 700; line-height: 1; }
+
+    /* A: green tag over the top-right corner, dark text */
+    .vA .free { position: absolute; top: -10px; right: -6px; padding: 3px 6px; border-radius: 999px;
+      background: var(--success); color: oklch(0.2 0.03 150); font-size: 9.5px; letter-spacing: .02em;
+      box-shadow: 0 0 0 2px var(--bg); }
+
+    /* B: tab centred on the track's top edge */
+    .vB .segmented.translator { margin-top: 6px; }
+    .vB .free { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); padding: 3px 7px; border-radius: 6px;
+      background: var(--success); color: oklch(0.2 0.03 150); font-size: 9px; text-transform: uppercase; letter-spacing: .06em;
+      box-shadow: 0 0 0 2px var(--bg); }
+
+    /* C: two-tone chip: green dot part + dark word, overhanging the corner */
+    .vC .free { position: absolute; top: -10px; right: -8px; display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px 2px 3px; border-radius: 999px;
+      background: oklch(0.16 0.01 290); color: var(--success); font-size: 9.5px; border: 1px solid color-mix(in oklch, var(--success) 55%, transparent);
+      box-shadow: 0 0 0 2px var(--bg); }
+    :root[data-theme="light"] .vC .free { background: oklch(0.24 0.014 290); color: oklch(0.86 0.13 150); }
+    .vC .free::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--success); }
+    :root[data-theme="light"] .vC .free::before { background: oklch(0.86 0.13 150); }
+
+    /* D: tag hanging off the bottom edge */
+    .vD .free { position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%); padding: 3px 7px; border-radius: 999px;
+      background: var(--success); color: oklch(0.2 0.03 150); font-size: 9px; text-transform: uppercase; letter-spacing: .06em;
+      box-shadow: 0 0 0 2px var(--bg); }
+    .vD .setting .hint { margin-top: 6px; }
+
+    /* E: no word in the control: a green dot on the corner, the word in the hint */
+    .vE .free { position: absolute; top: 3px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--success); font-size: 0; box-shadow: 0 0 0 2px var(--seg-track); }
+    .vE button[aria-selected="true"] .free { box-shadow: 0 0 0 2px var(--seg-quiet); }
+    .vE .hint b { color: var(--success); font-weight: 600; }
+
+    /* F: green ring around the whole segment when not chosen, tag on top-left */
+    .vF .free { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); padding: 2px 6px; border-radius: 999px;
+      background: var(--bg); color: var(--success); font-size: 9.5px; border: 1px solid color-mix(in oklch, var(--success) 60%, transparent); }
+    .vF button[data-k="local"]:not([aria-selected="true"]) { box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--success) 45%, transparent); }
+  </style>
+</head>
+<body>
+  <header class="page-head">
+    <div>
+      <h1>"Zdarma" u Local: varianty</h1>
+      <p>Každá varianta ve třech jazycích a dvou stavech (Local nevybraný / vybraný). Němčina "Kostenlos" je nejdelší slovo, na kterém se pozná, jestli se to vejde. Popup je široký 380 px jako v rozšíření.</p>
+    </div>
+    <div class="tools">
+      <div class="segmented" role="radiogroup" aria-label="Theme">
+        <button data-t="dark" aria-selected="true">Dark</button>
+        <button data-t="light">Light</button>
+      </div>
+    </div>
+  </header>
+  <div class="board" id="board"></div>
+
+  <script>
+    const LANGS = {
+      cs: { label: 'Překladač', local: 'Lokální', free: 'Zdarma', hint: 'Google přeloží hned. Klikni na Vylepšit a AI přímo v tvém počítači překlad přepíše.', hintFree: 'Zdarma', hintRest: ' a nic neopustí tvůj počítač.' },
+      en: { label: 'Translator', local: 'Local', free: 'Free', hint: 'Google translates at once. Click Improve and an AI on your own computer rewrites it.', hintFree: 'Free', hintRest: ', and nothing leaves your computer.' },
+      de: { label: 'Übersetzer', local: 'Lokal', free: 'Kostenlos', hint: 'Google übersetzt sofort. Klick auf Verbessern, und eine KI auf deinem Computer schreibt es neu.', hintFree: 'Kostenlos', hintRest: ', und nichts verlässt deinen Computer.' },
+    };
+    const VARIANTS = [
+      ['A', 'Zelený štítek přes roh', 'Tvoje první myšlenka: plná zelená, tmavý text, přesahuje přes hranu vpravo nahoře. Výrazné, jasně "promo".'],
+      ['B', 'Záložka nad středem', 'Štítek sedí na horní hraně uprostřed segmentu, VELKÝMI písmeny. Klidnější než A, víc jako "doporučeno".'],
+      ['C', 'Dvoubarevný chip', 'Tmavý chip se zelenou tečkou a zeleným slovem, přes roh. Ladí s tmavým UI, méně křiklavé.'],
+      ['D', 'Visačka dole', 'Štítek visí z dolní hrany. Nekoliduje s nadpisem "Překladač", ale posune hint níž.'],
+      ['E', 'Jen tečka + slovo v hintu', 'Nejtišší. V přepínači jen zelená tečka, slovo "Zdarma" zeleně v textu pod ním. Méně promo, ale nejčistší.'],
+      ['F', 'Obrys + štítek', 'Lokální má jemný zelený obrys, dokud není vybraný, a nad ním obrysový štítek. Upozorní na sebe i bez plné barvy.'],
+    ];
+    const seg = (L, sel) => `
+      <div class="setting">
+        <span class="tag">${sel ? 'vybraný' : 'nevybraný'}</span>
+        <span class="setting-label">${L.label}</span>
+        <div class="segmented translator" role="radiogroup">
+          ${[['google', 'Google'], ['local', L.local], ['gemini', 'Gemini'], ['claude', 'Claude'], ['openai', 'OpenAI']].map(([k, n]) =>
+            `<button role="radio" data-k="${k}" aria-selected="${(sel ? 'local' : 'google') === k}">${n}${k === 'local' ? `<span class="free">${L.free}</span>` : ''}</button>`).join('')}
+        </div>
+        <p class="hint">${L.hint} <b>${L.hintFree}</b>${L.hintRest}</p>
+      </div>`;
+    document.getElementById('board').innerHTML = VARIANTS.map(([k, name, note]) => `
+      <div class="col v${k}">
+        <div class="col-head"><b>${k}</b><span>${name}</span></div>
+        <div class="frame">${seg(LANGS.cs, false)}${seg(LANGS.cs, true)}${seg(LANGS.en, false)}${seg(LANGS.de, true)}</div>
+        <div class="notes"><p>${note}</p></div>
+      </div>`).join('');
+    document.querySelectorAll('.tools [data-t]').forEach((b) => b.addEventListener('click', () => {
+      document.documentElement.dataset.theme = b.dataset.t;
+      document.querySelectorAll('.tools [data-t]').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+    }));
+  </script>
+</body>
+</html>

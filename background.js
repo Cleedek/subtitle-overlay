@@ -78,10 +78,10 @@ async function checkPage(tabId, url) {
   return t;
 }
 
-// Segment pieces of an HLS subtitle playlist are hidden: the playlist stands for them.
+// Segment pieces of an HLS playlist or DASH track are hidden: the track stands for them.
 function visibleItems(t) {
-  const prefixes = t.items.filter((i) => i.kind === 'hls' && i.segmentPrefix).map((i) => i.segmentPrefix);
-  return t.items.filter((i) => i.kind === 'hls' || !prefixes.some((p) => i.url.startsWith(p)));
+  const prefixes = t.items.filter((i) => (i.kind === 'hls' || i.kind === 'dash') && i.segmentPrefix).map((i) => i.segmentPrefix);
+  return t.items.filter((i) => i.kind === 'hls' || i.kind === 'dash' || !prefixes.some((p) => i.url.startsWith(p)));
 }
 
 function updateBadge(tabId) {
@@ -109,6 +109,9 @@ function itemKey(url) {
 const guessLanguage = SubLib.guessLanguage;
 
 const NETFLIX_PAGE = /^https:\/\/www\.netflix\.com\/(?:[a-z-]+\/)?watch\/(\d+)/;
+// How the card over the video names a site whose address says less.
+const SITE_NAMES = { 'play.hbomax.com': 'HBO Max', 'play.max.com': 'HBO Max', 'disneyplus.com': 'Disney+', 'apps.disneyplus.com': 'Disney+' };
+const PRIME_PAGE = /^https:\/\/www\.(?:primevideo\.com|amazon\.[a-z.]+)\//;
 
 async function addItem(tabId, item) {
   if (await tabIsOff(tabId)) return;
@@ -123,12 +126,19 @@ async function addItem(tabId, item) {
   // happens once you turn them on. Tracks merely listed in a streaming playlist
   // stay in the popup until then.
   const loaded = (i) => i.kind === 'file' || !!i.segments;
+  // A piece of a DASH track arrived: the player turned that track on, so the
+  // track is offered (the piece itself stays hidden, see visibleItems).
+  if (item.kind === 'file') {
+    const track = t.items.find((i) => i.kind === 'dash' && i.segmentPrefix && item.url.startsWith(i.segmentPrefix));
+    if (track && !track.segments) { track.segments = track.pieces; track.loadedAt = Date.now(); offer(tabId, track.id); }
+  }
   if (existing) {
     const wasLoaded = loaded(existing);
     // Keep the newest signed URL, fill in anything new we learned.
     existing.url = item.url;
-    for (const k of ['lang', 'name', 'segmentPrefix', 'segments']) if (item[k] && !existing[k]) existing[k] = item[k];
+    for (const k of ['lang', 'name', 'segmentPrefix', 'segments', 'tracks']) if (item[k] && !existing[k]) existing[k] = item[k];
     if (item.body) { existing.body = item.body; delete existing.details; }
+    if (item.mpd) existing.mpd = item.mpd; // the newest signed manifest address
     if (!wasLoaded && loaded(existing)) { existing.loadedAt = Date.now(); offer(tabId, existing.id); }
   } else {
     item.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -160,8 +170,78 @@ function offer(tabId, id, attempt = 0) {
 
 // yt: the YouTube video the captions belong to (content.js finds its translation from last time with it).
 // file: the name it gets once loaded (content.js recognises subtitles already on screen by it).
-const foundItem = (item) => ({ id: item.id, lang: item.lang || '', name: item.name || stripQuery(item.url).split('/').pop(), yt: item.yt || '', file: fileName(item) });
+// asr: YouTube's automatic captions (speech recognition), never put on the video by themselves.
+const foundItem = (item) => ({ id: item.id, lang: item.lang || '', name: item.name || stripQuery(item.url).split('/').pop(), yt: item.yt || '', file: fileName(item), asr: !!item.asr });
 const FOUND_FRESH_MS = 60000;
+
+// ---------- the site's own subtitles in your language ----------
+
+// Streaming sites often have subtitles in the language you want, just not the
+// ones you turned on. The best fit among what this tab's player listed:
+// Netflix's manifest, YouTube's caption list (only ones written by people),
+// HLS playlists (Disney+ and others), DASH manifests (HBO Max and others) and
+// Prime Video's list of subtitle files. Forced subtitles (only the foreign
+// bits) and captions for the deaf come last or not at all.
+async function nativeTrack(tabId, pageUrl, lang) {
+  if (!lang || lang === 'orig') return { ok: false };
+  const t = await getTab(tabId);
+  const best = (list, score) => list.map((x) => [x, score(x)]).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1])[0];
+  const finish = (cues, name, site) => (cues && cues.length ? { ok: true, text: SubLib.toVTT(cues), name, site } : { ok: false });
+
+  const nf = NETFLIX_PAGE.exec(pageUrl || '');
+  if (nf && t.netflix && t.netflix.length) {
+    const m = t.netflix.find((x) => x.movieId === nf[1]) || t.netflix[0];
+    const hit = best(m.tracks, (tr) => (tr.forced ? 0 : SubLib.langMatch(tr.lang, lang) * 2 - (tr.cc ? 1 : 0)));
+    if (hit) {
+      for (const url of hit[0].urls) {
+        try {
+          const text = SubLib.decode(await fetchBytes(url, tabId, 0), 'utf-8').text;
+          return finish(SubLib.parse(text), 'netflix-' + m.movieId + '.' + hit[0].lang + '.vtt', 'Netflix');
+        } catch (e) { /* the next address */ }
+      }
+    }
+    return { ok: false };
+  }
+
+  // Prime Video: TTML files from the list the player got (prime-hook.js).
+  if (PRIME_PAGE.test(pageUrl || '') && t.site && t.site.tracks.length) {
+    const hit = best(t.site.tracks, (tr) => (tr.forced ? 0 : SubLib.langMatch(tr.lang, lang) * 2 - (tr.cc ? 1 : 0)));
+    if (!hit) return { ok: false };
+    for (const url of hit[0].urls) {
+      try {
+        const text = SubLib.decode(await fetchBytes(url, tabId, 0), 'utf-8').text;
+        const name = ('primevideo-' + (t.site.id || 'title') + '.' + hit[0].lang).replace(/[^\w.\-]+/g, '_') + '.vtt';
+        return finish(SubLib.parse(text), name, 'Prime Video');
+      } catch (e) { /* the next address */ }
+    }
+    return { ok: false };
+  }
+
+  // YouTube: the player's own caption address with another language in it
+  // (only the player can get a working address, see youtube-hook.js).
+  const yt = t.items.find((i) => i.yt && i.tracks && !/[?&]tlang=/.test(i.url));
+  if (yt) {
+    // '*': any written by people, the language of the ones loaded first.
+    const hit = best(yt.tracks, (tr) => (tr.asr ? 0 : lang === '*' ? (SubLib.langMatch(tr.lang, yt.lang) ? 2 : 1) : SubLib.langMatch(tr.lang, lang)));
+    if (!hit) return { ok: false };
+    const u = new URL(yt.url);
+    u.searchParams.set('lang', hit[0].lang);
+    for (const k of ['kind', 'tlang', 'name', 'variant']) u.searchParams.delete(k);
+    const text = SubLib.decode(await fetchBytes(u.href, tabId, yt.frameId), 'utf-8').text;
+    const name = ('youtube-' + yt.yt + '.' + hit[0].lang).replace(/[^\w.\-]+/g, '_'); // named like fileName() names YouTube's
+    return finish(SubLib.parseYouTube(text), name, 'YouTube');
+  }
+
+  // HLS and DASH (HBO Max) tracks the network watcher found; captions for the deaf come second.
+  const hls = best(visibleItems(t).filter((i) => (i.kind === 'hls' || i.kind === 'dash') && !i.forced && i.lang),
+    (i) => SubLib.langMatch(i.lang, lang) * 2 - (i.cc ? 1 : 0));
+  if (hls) {
+    const { cues } = await loadItem(tabId, hls[0]);
+    const host = new URL(pageUrl || hls[0].url).hostname.replace(/^www\./, '');
+    return finish(cues, fileName(hls[0]) + '.vtt', SITE_NAMES[host] || host);
+  }
+  return { ok: false };
+}
 
 // ---------- translation queue ----------
 
@@ -201,6 +281,7 @@ async function openQueue() {
 const VTT_URL = /\.(web)?vtt$/i;
 const SRT_URL = /\.srt$/i;
 const M3U8_URL = /\.m3u8$/i;
+const MPD_URL = /\.mpd$/i;
 
 // Sites the user turned the extension off on: nothing is collected there.
 let offSites = [];
@@ -225,6 +306,8 @@ chrome.webRequest.onCompleted.addListener((d) => {
     addItem(d.tabId, { kind: 'file', url: d.url, frameId: d.frameId, lang: guessLanguage(d.url) });
   } else if (M3U8_URL.test(path) || ctype.includes('mpegurl')) {
     inspectPlaylist(d.tabId, d.frameId, d.url);
+  } else if (MPD_URL.test(path) || ctype.includes('dash+xml')) {
+    inspectManifest(d.tabId, d.frameId, d.url);
   } else {
     const ttml = SubLib.ttmlHint(d.url, ctype);
     if (ttml === 'sure') addItem(d.tabId, { kind: 'file', url: d.url, frameId: d.frameId, lang: guessLanguage(d.url) });
@@ -300,6 +383,52 @@ async function inspectPlaylist(tabId, frameId, url) {
   }
 }
 
+// ---------- DASH manifests ----------
+
+// HBO Max and other DASH players: the manifest lists every subtitle language.
+// Each one becomes an item whose address points at the manifest (`mpd`) plus
+// its own name, so the list keeps them apart; loadItem reads the manifest again.
+async function inspectManifest(tabId, frameId, url) {
+  if (await tabIsOff(tabId)) return;
+  const t = await getTab(tabId);
+  const key = stripQuery(url);
+  if (t.seen.includes(key)) return;
+  t.seen.push(key);
+  if (t.seen.length > 300) t.seen.splice(0, 100);
+  let text;
+  try {
+    text = await fetchText(url, tabId, frameId);
+  } catch (e) { return; }
+  for (const track of SubLib.dashTracks(text, url)) {
+    const item = { kind: 'dash', url: dashItemUrl(url, track), mpd: url, track: track.key, frameId,
+      lang: track.lang, name: track.name, forced: track.forced, cc: track.cc };
+    if (track.parts) {
+      // What all its pieces' addresses start with ("…/t/vi/" or "…/sub-vi-00").
+      const a = stripQuery(track.parts[0]), b = stripQuery(track.parts[1] || track.parts[0]);
+      let n = 0;
+      while (n < a.length && a[n] === b[n]) n++;
+      item.segmentPrefix = a.length === b.length && n === a.length ? a : a.slice(0, n);
+      item.pieces = track.parts.length;
+    }
+    addItem(tabId, item);
+  }
+}
+const dashItemUrl = (mpd, tr) => stripQuery(mpd).replace(/\.mpd$/i, '') + '/subtitles-' + (tr.lang || 'x') + '-' + tr.key.replace(/[^\w.-]+/g, '_');
+
+async function loadDash(tabId, item) {
+  const text = await fetchText(item.mpd, tabId, item.frameId);
+  const track = SubLib.dashTracks(text, item.mpd).find((x) => x.key === item.track);
+  if (!track) throw new Error(tr('No subtitle track in this playlist.'));
+  if (track.file) {
+    const cues = SubLib.parse(SubLib.decode(await fetchBytes(track.file, tabId, item.frameId), 'auto').text);
+    return { bytes: new TextEncoder().encode(SubLib.toVTT(cues)), cues };
+  }
+  const texts = await mapLimit(track.parts, 6, (s) => fetchText(s, tabId, item.frameId));
+  const cues = SubLib.stitchSegments(texts);
+  if (!cues.length) throw new Error(tr('The pieces are not plain WebVTT text.'));
+  return { bytes: new TextEncoder().encode(SubLib.toVTT(cues)), cues };
+}
+
 // XML with a subtitle word in its address: it only counts if it really is TTML.
 async function inspectXml(tabId, frameId, url) {
   if (await tabIsOff(tabId)) return;
@@ -354,6 +483,7 @@ async function mapLimit(list, limit, fn) {
 
 // Returns { bytes, cues } for an item. HLS playlists are stitched into one file.
 async function loadItem(tabId, item) {
+  if (item.kind === 'dash') return loadDash(tabId, item);
   if (item.kind !== 'hls') {
     const bytes = item.body ? new TextEncoder().encode(item.body) : await fetchBytes(item.url, tabId, item.frameId);
     const text = SubLib.decode(bytes, 'auto').text;
@@ -410,7 +540,8 @@ async function translateBatch(lines, to) {
   return data.map((d) => (Array.isArray(d) ? d : [d, '']));
 }
 
-async function translateTexts(texts, to) {
+// onProgress(done, total) after each batch, in lines: the card over the video shows how far it got.
+async function translateTexts(texts, to, onProgress) {
   const batches = [];
   let cur = [], size = 0;
   for (const t of texts) {
@@ -421,11 +552,13 @@ async function translateTexts(texts, to) {
   if (cur.length) batches.push(cur);
   // Two requests at a time: fast for a full film, gentle enough not to get blocked.
   const out = new Array(batches.length);
-  let next = 0;
+  let next = 0, done = 0;
   const worker = async () => {
     while (next < batches.length) {
       const i = next++;
       out[i] = await translateBatch(batches[i], to);
+      done += batches[i].length;
+      if (onProgress) onProgress(done, texts.length);
     }
   };
   await Promise.all([worker(), worker()]);
@@ -553,6 +686,59 @@ async function aiModels(cfg) {
     .sort();
 }
 
+// The popup's setup guide: downloads a model into Ollama (its /api/pull), so
+// nobody has to open Terminal. Progress goes to storage.session `localPull`
+// ({ model, state: running|done|error, completed, total, error, at }), so a
+// popup opened again later still sees it. Ollama keeps what it already has, so
+// a stopped download continues where it was when started again.
+let pulling = null;
+function pullModel(model) {
+  if (pulling) return pulling;
+  pulling = (async () => {
+    const save = (s) => chrome.storage.session.set({ localPull: Object.assign({ model, at: Date.now() }, s) });
+    const parts = {}; // Ollama sends progress per layer: digest -> { total, completed }
+    try {
+      const p = await SubSettings.loadTranslation();
+      const root = String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '');
+      await allowLocal(root + '/v1');
+      await save({ state: 'running', completed: 0, total: 0 });
+      let r;
+      try {
+        r = await fetch(root + '/api/pull', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model, stream: true }) });
+      } catch (e) { throw new Error(tr('Can’t reach the local model at {url}. Is Ollama or LM Studio running?', { url: root })); }
+      if (!r.ok) throw new Error(serverSays(await r.text()) || tr('The model server answered HTTP {status}.', { status: r.status }));
+      const reader = r.body.pipeThrough(new TextDecoderStream()).getReader();
+      let buf = '';
+      let shown = 0;
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buf += value;
+        const lines = buf.split('\n');
+        buf = lines.pop();
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const j = JSON.parse(line);
+          if (j.error) throw new Error(String(j.error).slice(0, 200));
+          if (j.digest && j.total) parts[j.digest] = { total: j.total, completed: j.completed || 0 };
+        }
+        // Twice a second is enough for a progress bar (and each save keeps the worker awake).
+        if (Date.now() - shown > 500) {
+          shown = Date.now();
+          const all = Object.values(parts);
+          await save({ state: 'running', total: all.reduce((s, x) => s + x.total, 0), completed: all.reduce((s, x) => s + x.completed, 0) });
+        }
+      }
+      await save({ state: 'done' });
+    } catch (e) {
+      await save({ state: 'error', error: e.message });
+    } finally {
+      pulling = null;
+    }
+  })();
+  return pulling;
+}
+
 const englishName = (code) => {
   try { return new Intl.DisplayNames(['en'], { type: 'language' }).of(code); } catch (e) { return code; }
 };
@@ -568,6 +754,7 @@ const AI_PROMPT = (lang, sheet) => [
   'Answer with JSON only: the same numbers, each with "src", that line copied exactly, and "tr", the translation of that one line.',
   'A line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.',
   'Keep <i>, <b>, <u> tags and <br> line breaks where they belong.',
+  'Give exactly one translation for each line: never a second version, no "(or: ...)", no notes or explanations.',
   'Write natural, spoken ' + lang + ' that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context.',
 ].join('\n');
 
@@ -707,7 +894,7 @@ async function aiTranslate(lines, before, to, signal, sheet) {
     return keys.map((k, i) => {
       const a = out && out[k];
       const s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
-      return typeof s === 'string' ? s.trim() : '';
+      return typeof s === 'string' ? SubLib.dropAlternative(s.trim()) : '';
     });
   }
   // A second try of the whole chunk only when many lines are missing: the
@@ -941,7 +1128,8 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       const cues = SubLib.parseYouTube(msg.text);
       if (!cues || !cues.length) return;
       const y = ytInfo(msg.url);
-      addItem(tabId, { kind: 'file', url: msg.url, frameId: sender.frameId, lang: y.lang, yt: y.v || 'video', body: msg.text,
+      addItem(tabId, { kind: 'file', url: msg.url, frameId: sender.frameId, lang: y.lang, yt: y.v || 'video', body: msg.text, asr: y.asr,
+        tracks: Array.isArray(msg.tracks) ? msg.tracks.slice(0, 200) : undefined,
         name: y.asr ? 'YouTube auto-captions' : 'YouTube captions' });
       return;
     }
@@ -959,6 +1147,38 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
         frameId: sender.frameId, lang, body: SubLib.toVTT(cues), name: 'Netflix subtitles' });
       return;
     }
+
+    case 'nf-tracks': {
+      // The subtitle languages in the Netflix player's manifest (netflix-hook.js).
+      // Kept for a few titles: the player may fetch the next episode's early.
+      if (!sender.tab || !/^https:\/\/www\.netflix\.com\//.test(sender.tab.url || '') || !Array.isArray(msg.tracks)) return;
+      getTab(tabId).then((t) => {
+        const list = (t.netflix || []).filter((m) => m.movieId !== String(msg.movieId));
+        list.unshift({ movieId: String(msg.movieId), tracks: msg.tracks.slice(0, 120), time: Date.now() });
+        t.netflix = list.slice(0, 4);
+        chrome.storage.session.set({ ['cap:' + tabId]: t }).catch(() => {});
+      });
+      return;
+    }
+
+    case 'site-tracks': {
+      // Prime Video's subtitle files for the title playing (prime-hook.js).
+      // Only the newest list is kept: it belongs to what is on screen.
+      if (!sender.tab || !PRIME_PAGE.test(sender.tab.url || '') || !Array.isArray(msg.tracks)) return;
+      const tracks = msg.tracks.slice(0, 150).filter((x) => x && typeof x.lang === 'string' && Array.isArray(x.urls))
+        .map((x) => ({ lang: x.lang, name: String(x.name || ''), cc: !!x.cc, forced: !!x.forced, urls: x.urls.filter((u) => /^https:/.test(u)).slice(0, 3) }));
+      getTab(tabId).then((t) => {
+        t.site = { site: 'Prime Video', id: String(msg.id || ''), tracks, time: Date.now() };
+        chrome.storage.session.set({ ['cap:' + tabId]: t }).catch(() => {});
+      });
+      return;
+    }
+
+    case 'native-track':
+      // Subtitles the site itself has in this language: used as they are instead
+      // of a translation. Replies { ok, text (WebVTT), name, site } or { ok: false }.
+      nativeTrack(tabId, sender.tab && sender.tab.url, msg.lang).then(reply, () => reply({ ok: false }));
+      return true;
 
     case 'site-off':
       // Turned off from the popup: forget what this tab found and clear the badge.
@@ -980,6 +1200,10 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
           if (item.kind === 'hls') {
             const text = await fetchText(item.url, tabId, item.frameId);
             details = { pieces: text.includes('#EXTINF') ? segmentUrls(text, item.url).length : null };
+          } else if (item.kind === 'dash') {
+            // Only the manifest is read here; the pieces download when the track is used.
+            const track = SubLib.dashTracks(await fetchText(item.mpd, tabId, item.frameId), item.mpd).find((x) => x.key === item.track);
+            details = { pieces: track && track.parts ? track.parts.length : null };
           } else {
             const { bytes, cues } = await loadItem(tabId, item);
             const text = SubLib.decode(bytes, 'auto').text;
@@ -1003,7 +1227,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
         try {
           const { bytes, cues } = await loadItem(tabId, item);
           if (!cues.length) throw new Error(tr('No subtitle lines found.'));
-          if (item.kind === 'hls') {
+          if (item.kind === 'hls' || item.kind === 'dash') {
             item.details = Object.assign({}, item.details, { count: cues.length, preview: SubLib.preview(cues) });
             saveTab(tabId);
           }
@@ -1040,7 +1264,10 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       return;
 
     case 'translate':
-      translateTexts(msg.texts, msg.to).then((r) => reply({ ok: true, texts: r.texts, detected: r.detected }), (e) => reply({ ok: false, error: e.message }));
+      translateTexts(msg.texts, msg.to, (done, total) => {
+        // Only the frame that asked: its card shows the bar. The last batch is the answer itself.
+        if (tabId != null && done < total) chrome.tabs.sendMessage(tabId, { type: 'translate-progress', to: msg.to, done, total }, { frameId: sender.frameId || 0 }).catch(() => {});
+      }).then((r) => reply({ ok: true, texts: r.texts, detected: r.detected }), (e) => reply({ ok: false, error: e.message }));
       return true;
 
     case 'count-video':
@@ -1100,6 +1327,12 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       // The popup's model list: whatever the key or the local server offers.
       aiConfig().then((cfg) => (cfg ? aiModels(cfg) : [])).then((models) => reply({ ok: true, models }), (e) => aiFailure(e).then(reply));
       return true;
+
+    case 'ai-pull':
+      // The setup guide's "Download Gemma 3": answers at once, progress goes to storage.session.
+      pullModel(String(msg.model || 'gemma3:12b'));
+      reply({ ok: true });
+      return;
 
     case 'convert-item':
       // "Download .srt" on the card over the video: the page saves the text itself.

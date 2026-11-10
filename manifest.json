@@ -68,6 +68,36 @@
       ],
       "run_at": "document_start",
       "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://www.primevideo.com/*",
+        "https://www.amazon.com/*",
+        "https://www.amazon.co.uk/*",
+        "https://www.amazon.de/*",
+        "https://www.amazon.co.jp/*",
+        "https://www.amazon.fr/*",
+        "https://www.amazon.it/*",
+        "https://www.amazon.es/*",
+        "https://www.amazon.ca/*",
+        "https://www.amazon.com.au/*",
+        "https://www.amazon.in/*",
+        "https://www.amazon.com.br/*",
+        "https://www.amazon.com.mx/*",
+        "https://www.amazon.nl/*",
+        "https://www.amazon.se/*",
+        "https://www.amazon.pl/*",
+        "https://www.amazon.com.be/*",
+        "https://www.amazon.com.tr/*",
+        "https://www.amazon.ae/*",
+        "https://www.amazon.sa/*",
+        "https://www.amazon.sg/*"
+      ],
+      "js": [
+        "prime-hook.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
     }
   ],
   "web_accessible_resources": [

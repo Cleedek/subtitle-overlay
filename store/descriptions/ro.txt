@@ -6,7 +6,7 @@ Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, i
 ★ Orice site, orice videoclip: subtitrări peste player, în fereastră sau pe ecran complet, mereu sincronizate
 ★ Traducere în 31 de limbi dintr-un clic, sau complet automat, imediat ce pornești subtitrările în playerul site-ului
 ★ NOU: traducerea sună natural cu AI, gratuit pe propriul calculator (Gemma) sau cu propria cheie Gemini, Claude ori OpenAI
-★ NOU: o coadă de traducere pentru un sezon întreg și subtitrări îmbunătățite păstrate pentru data viitoare
+★ NOU: dacă site-ul are deja subtitrări în limba ta, le primești pe acelea, iar traducerea intervine doar când nu există
 ★ Două limbi deodată: una sus, una jos, pentru vizionat împreună sau pentru învățat o limbă
 ★ Găsește subtitrările pe care le încarcă pagina, inclusiv pe YouTube, așa că rareori ai nevoie de un fișier
 ★ Stilul tău: peste 1.800 de fonturi Google Fonts, contur, umbră, fundal, mărime și poziție
@@ -19,14 +19,15 @@ TRADUCERE ÎN 31 DE LIMBI
 • Opțional: dă clic pe Îmbunătățește și AI-ul (Gemma pe calculatorul tău, sau Gemini, Claude ori OpenAI) rescrie versiunea rapidă de la Google ca să sune natural (mai multe mai jos). Mișcă mouse-ul peste videoclip ca să vezi cât a progresat
 • Alegi limba o singură dată; rămâne favorita ta pentru fiecare buton Tradu
 • Mod automat: pornește subtitrările în playerul site-ului și apar peste videoclip deja traduse, cu o scurtă notă "Tradus în …" în loc de o fereastră pop-up. La instalările noi este pornit din start și traduce în limba browserului tău
-• Subtitrările proprii ale site-ului sunt ascunse, așa că nu citești niciodată două seturi deodată
+• Dacă site-ul are subtitrări în limba ta (YouTube și servicii de streaming), acelea vin primele; Google sau AI-ul traduc doar când nu există
+• Subtitrările proprii ale site-ului sunt ascunse cât timp ale noastre sunt pornite și revin imediat ce le oprești pe ale noastre
 • Revii oricând la original sau salvezi traducerea ca fișier .srt
 • Limbi: vietnameză, cehă, engleză, slovacă, germană, franceză, spaniolă, italiană, portugheză, poloneză, maghiară, ucraineană, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, chineză (simplificată și tradițională), japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, arabă
 
 TRADUCERE NATURALĂ CU AI (OPȚIONAL)
 Google Traducere e rapid, dar traduce rând cu rând, cuvânt cu cuvânt. Dă clic pe Îmbunătățește și un model AI rescrie subtitrările ținând cont de toată scena, începând de unde te uiți.
 • Gratuit: Gemma, modelul deschis de la Google, rulează pe propriul calculator cu Ollama sau LM Studio, așa că etapa AI rămâne pe calculatorul tău. Ai nevoie de un calculator destul de puternic și de aproximativ 8 GB de spațiu pe disc.
-• Configurare în 3 pași: instalează Ollama de pe ollama.com, descarcă Gemma cu o singură comandă, apoi alege Local în fereastra extensiei. Comanda și modelul pe care le recomandăm acum (în engleză): cleedek.com/subtitle-overlay/ai
+• Fereastra extensiei te ghidează: instalează Ollama de pe ollama.com și descarcă Gemma cu un clic (are nevoie de cel puțin 16 GB RAM). Mai multe și modelul pe care îl recomandăm acum (în engleză): cleedek.com/subtitle-overlay/ai
 • Sau folosește propria cheie API: Gemini (are un nivel gratuit), Claude sau OpenAI (cu plată).
 • Înainte să înceapă, parcurge tot fișierul și notează cine este cine, astfel încât genul, formele de adresare și numele rămân aceleași de la primul rând până la ultimul.
 • Nu pornește niciodată singur: nimic nu rulează și nu se cheltuiește nimic fără clicul tău.
@@ -47,7 +48,7 @@ COADĂ DE TRADUCERE ȘI SUBTITRĂRI SALVATE
 • Adaugă mai multe fișiere .srt sau .vtt, sau dă clic pe "Adaugă în coadă" la subtitrările pe care le încarcă un site. Sunt traduse unul după altul în timp ce faci altceva; fila cu coada poate rămâne în fundal
 • Funcționează cu Google, Gemini, Claude, OpenAI sau modelul tău local
 • Subtitrările îmbunătățite sunt păstrate în extensie cât timp alegi tu și revin când te întorci la videoclip
-• Redă deschide videoclipul cu subtitrările lui; Descarcă salvează fișierul .srt
+• Redă deschide videoclipul cu subtitrările lui, "Arată pe…" le pune peste un videoclip deja deschis în altă filă, iar Descarcă salvează fișierul .srt
 
 STILUL TĂU
 • Peste 1.800 de fonturi Google Fonts, filtrate la cele care au literele limbii tale (č ř ž, ư ế ộ, chirilice, grecești, japoneze și altele)
@@ -98,8 +99,10 @@ OPEN SOURCE
 Întreaga extensie este open source (GPL-3.0), așa că oricine poate verifica exact ce face: github.com/Cleedek/subtitle-overlay. Dacă îți place, o stea pe GitHub îi ajută și pe alții să o găsească.
 
 SUSȚINE CREATORUL
-Subtitle Overlay este gratuit și fiecare funcție rămâne gratuită. Dacă îți face serile mai plăcute, fereastra extensiei are o pagină "Susține creatorul" cu Revolut, PayPal, Solana și Sui. Complet opțional, și mulțumesc!
+Subtitle Overlay este gratuit și fiecare funcție rămâne gratuită. Dacă îți face serile mai plăcute, fereastra extensiei are o pagină "Susține creatorul" cu Ko-fi și alte câteva moduri de plată. După multe videoclipuri traduse, o mică fereastră peste videoclip te întreabă și ea o dată (pe cel mult trei videoclipuri; un clic pe ea și nu mai apare). Complet opțional, și mulțumesc!
 
 Creat cu 💜 de Cleedek în Vietnam.
+
+Subtitle Overlay este un proiect independent. Nu este afiliat, aprobat sau sponsorizat de niciunul dintre site-urile sau serviciile de streaming cu care funcționează. Faptul că funcționează acolo este munca noastră: l-am testat pe acele site-uri și, pe unele, l-am adaptat playerului lor. Numele și siglele acestor servicii aparțin proprietarilor lor.
 
 Capturile de ecran arată cadre din Tears of Steel, © Blender Foundation, mango.blender.org, licență CC BY 3.0.

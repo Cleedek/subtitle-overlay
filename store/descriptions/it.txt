@@ -6,7 +6,7 @@ Subtitle Overlay mostra i sottotitoli sopra il player video di qualsiasi sito, a
 ★ Qualsiasi sito, qualsiasi video: sottotitoli sopra il player, in finestra o a schermo intero, sempre sincronizzati
 ★ Traduzione in 31 lingue con un clic, o del tutto automatica non appena attivi i sottotitoli nel player del sito
 ★ NOVITÀ: traduzioni dal suono naturale con l’IA, gratis sul tuo computer (Gemma) o con la tua chiave Gemini, Claude o OpenAI
-★ NOVITÀ: una coda di traduzione per un’intera stagione, e i sottotitoli migliorati salvati per la prossima volta
+★ NOVITÀ: se il sito ha già i sottotitoli nella tua lingua, ricevi quelli, e si traduce solo quando mancano
 ★ Due lingue insieme: una in alto, una in basso, per guardare in compagnia o imparare una lingua
 ★ Trova i sottotitoli che la pagina carica, anche su YouTube, così raramente ti serve un file
 ★ Il tuo stile: oltre 1.800 Google Fonts, contorno, ombra, riquadro di sfondo, dimensione e posizione
@@ -19,14 +19,15 @@ TRADUCI IN 31 LINGUE
 • Facoltativo: clicca Migliora e l’IA (Gemma sul tuo computer, oppure Gemini, Claude o OpenAI) riscrive la versione rapida di Google perché suoni naturale (dettagli più sotto). Passa il mouse sul video per vedere a che punto è
 • Scegli la lingua una volta sola; resta la tua preferita per ogni pulsante Traduci
 • Modalità automatica: attiva i sottotitoli nel player del sito e compaiono sul video già tradotti, con una breve nota "Tradotto in …" invece di un pop-up. Nelle nuove installazioni è attiva fin da subito e traduce nella lingua del tuo browser
-• I sottotitoli del sito vengono nascosti, così non ne leggi mai due insieme
+• Se il sito ha i sottotitoli nella tua lingua (YouTube e servizi di streaming), vengono prima quelli; Google o l’IA traducono solo quando mancano
+• I sottotitoli del sito vengono nascosti finché i nostri sono attivi e tornano appena spegni i nostri
 • Torna all’originale quando vuoi, o salva la traduzione come file .srt
 • Lingue: vietnamita, ceco, inglese, slovacco, tedesco, francese, spagnolo, italiano, portoghese, polacco, ungherese, ucraino, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, cinese (semplificato e tradizionale), giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, arabo
 
 UNA TRADUZIONE PIÙ NATURALE (FACOLTATIVO)
 Google Traduttore è veloce, ma procede riga per riga, parola per parola. Clicca Migliora e un modello di IA riscrive i sottotitoli tenendo conto dell’intera scena, a partire dal punto in cui stai guardando.
 • Gratis: Gemma, il modello aperto di Google, gira sul tuo computer con Ollama o LM Studio, quindi il passaggio con l’IA resta sul tuo computer. Ti serve un computer abbastanza potente e circa 8 GB di spazio su disco.
-• Configurazione in 3 passaggi: installa Ollama da ollama.com, scarica Gemma con un solo comando, poi scegli Locale nel popup. Il comando e il modello che consigliamo ora (pagina in inglese): cleedek.com/subtitle-overlay/ai
+• Il popup ti guida passo passo: installa Ollama da ollama.com e scarica Gemma con un clic (servono almeno 16 GB di RAM). Di più e il modello che consigliamo ora (pagina in inglese): cleedek.com/subtitle-overlay/ai
 • Oppure usa la tua chiave API: Gemini (ha un livello gratuito), Claude o OpenAI (a pagamento).
 • Prima di iniziare, scorre l’intero file e annota chi è chi, così genere, forme di cortesia e nomi restano coerenti dalla prima all’ultima battuta.
 • Non parte mai da solo: senza un tuo clic non si avvia nulla e non si spende nulla.
@@ -47,7 +48,7 @@ CODA DI TRADUZIONE E SOTTOTITOLI SALVATI
 • Trascina più file .srt o .vtt, oppure clicca "Aggiungi alla coda" sui sottotitoli caricati da un sito. Vengono tradotti uno dopo l’altro mentre fai altro; la scheda della coda può restare in background
 • Funziona con Google, Gemini, Claude, OpenAI o il tuo modello locale
 • I sottotitoli migliorati restano nell’estensione per tutto il tempo che scegli, e ricompaiono quando torni al video
-• Riproduci apre il video con i suoi sottotitoli; Scarica .srt salva il file
+• Riproduci apre il video con i suoi sottotitoli, "Mostra su…" li mette su un video già aperto in un’altra scheda, e Scarica .srt salva il file
 
 LO STILE CHE VUOI TU
 • Oltre 1.800 Google Fonts, filtrati per mostrare quelli che hanno le lettere della tua lingua (č ř ž, ư ế ộ, cirillico, greco, giapponese e altro)
@@ -98,8 +99,10 @@ OPEN SOURCE
 L’intera estensione è open source (GPL-3.0), così chiunque può verificare esattamente cosa fa: github.com/Cleedek/subtitle-overlay. Se ti piace, una stella su GitHub aiuta altre persone a trovarla.
 
 SOSTIENI L’AUTORE
-Subtitle Overlay è gratuito e ogni funzione resterà gratuita. Se rende più belle le tue serate, nel popup trovi la pagina "Sostieni l’autore" con Revolut, PayPal, Solana e Sui. Del tutto facoltativo, e grazie!
+Subtitle Overlay è gratuito e ogni funzione resterà gratuita. Se rende più belle le tue serate, nel popup trovi la pagina "Sostieni l’autore" con Ko-fi e qualche altro modo di pagare. Dopo molti video tradotti, anche una piccola scheda sopra il video lo chiede una volta (al massimo su tre video; un clic e non torna più). Del tutto facoltativo, e grazie!
 
 Creato con 💜 da Cleedek in Vietnam.
+
+Subtitle Overlay è un progetto indipendente. Non è affiliato, approvato né sponsorizzato da nessuno dei siti o servizi di streaming con cui funziona. Che funzioni lì è merito del nostro lavoro: l’abbiamo provato su quei siti e, su alcuni, adattato al loro player. Nomi e loghi di quei servizi appartengono ai rispettivi proprietari.
 
 Gli screenshot mostrano fotogrammi di Tears of Steel, © Blender Foundation, mango.blender.org, con licenza CC BY 3.0.

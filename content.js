@@ -28,7 +28,8 @@
   let dualVisible = true; // the second subtitles, switched apart in the language panel over the video
   let shownBefore = null; // which of the two were on before everything was hidden at once
   let shortcuts = SubSettings.defaultShortcuts(); // every shortcut, changeable in the popup
-  let origLang = '';      // the original's language, as Google Translate detected it
+  let origLang = '';      // the original's language: from the site, the file, Chrome on this computer, or Google
+  let langPending = null; // while Chrome is still recognising it (findOrigLang)
   let tabHasSubs = false; // some frame in this tab has subtitles (for shortcut forwarding)
   let lastSrc = '';
   let srcPending = false; // the subtitles were put on a video with no source yet: its first one is theirs
@@ -386,6 +387,8 @@
       .ai-bar span { display: block; height: 100%; border-radius: inherit; background: #7a41e4; }
       .ai.running .ai-bar span { animation: ai-pulse 1.4s ease-in-out infinite; }
       @keyframes ai-pulse { 50% { opacity: .5; } }
+      .ai.waiting .ai-bar span { width: 38%; animation: ai-sweep 1.6s ease-in-out infinite; }
+      @keyframes ai-sweep { from { transform: translateX(-100%); } to { transform: translateX(270%); } }
       @media (prefers-reduced-motion: reduce) { .ai.running .ai-bar span { animation: none; } }
       .ai-foot { display: flex; align-items: center; gap: 10px; }
       .ai-note { flex: 1; font-weight: 500; font-size: 11.5px; opacity: .7; }
@@ -552,6 +555,12 @@
     return false;
   }
 
+  // What it is doing by itself (loading, translating, done). The Behaviour tab can turn
+  // these off. Errors and what answers your own keys and clicks still use toast().
+  function notice(text, ms) {
+    if (settings.statusNotices !== false) toast(text, ms);
+  }
+
   let toastTimer = 0;
   function toast(text, ms) {
     ensureHost();
@@ -588,6 +597,16 @@
     return player && (!fe || containsDeep(fe, player)) ? player : v;
   }
 
+  // The stage cut to the window's width. Some players (Netflix in its own
+  // fullscreen or a full window) make the video element wider than the screen,
+  // which pushed the language switches in the right corner off the edge.
+  function visibleBox(b) {
+    const vw = document.documentElement.clientWidth || window.innerWidth;
+    const left = Math.max(b.left, 0), right = Math.min(b.right, vw);
+    if (right - left < 200) return b; // mostly off screen: leave it as it is
+    return { left, top: b.top, width: right - left, height: b.height, right, bottom: b.bottom };
+  }
+
   // YouTube's small players: the miniplayer in the corner (and the hover
   // preview on lists of videos). Nothing of ours belongs on those: no
   // subtitles, no buttons, no language switches, no fullscreen.
@@ -598,7 +617,7 @@
     const small = smallPlayer(video);
     host.style.setProperty('display', small ? 'none' : 'block', 'important');
     if (small) { lastGeom = ''; fsBtn.classList.remove('on'); langsEl.classList.remove('on'); return; }
-    const s = stageOf(video).getBoundingClientRect();
+    const s = visibleBox(stageOf(video).getBoundingClientRect());
     const r = pictureRect(video);
     const geom = [s.left, s.top, s.width, s.height, r.left, r.top, r.width, r.height].map(Math.round).join(',');
     if (!force && geom === lastGeom) return;
@@ -633,8 +652,7 @@
   // the top step down the same way below our fullscreen button while it shows.
   function liftForControls() {
     if (!subsEl) return;
-    const player = video && video.closest && video.closest('.html5-video-player');
-    const bar = player && !player.classList.contains('ytp-autohide') && player.querySelector('.ytp-chrome-bottom');
+    const bar = controlBar();
     // Never in fullscreen: there the subtitles stay put and the bar may cover them,
     // instead of jumping up and down every time the mouse moves.
     const shows = bar && host && !document.fullscreenElement;
@@ -653,6 +671,22 @@
       layer.style.setProperty('--lift', lift + 'px');
       layer.style.setProperty('--drop', drop + 'px');
     }
+  }
+
+  // The player's own control bar while it shows, or null. Netflix fades its
+  // controls out (or takes them away) when the mouse rests.
+  var onNetflix = location.hostname === 'www.netflix.com'; // var: position() may run before this line
+  function controlBar() {
+    const player = video && video.closest && video.closest('.html5-video-player');
+    if (player) return !player.classList.contains('ytp-autohide') && player.querySelector('.ytp-chrome-bottom');
+    if (!onNetflix) return null;
+    const bar = document.querySelector('.watch-video--bottom-controls-container');
+    if (!bar) return null;
+    for (let n = bar; n && n !== document.body; n = n.parentElement) {
+      const cs = getComputedStyle(n);
+      if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) return null;
+    }
+    return bar;
   }
 
   function refreshStyle() {
@@ -723,6 +757,7 @@
 
   function render(force) {
     if (!subsEl || !video) return;
+    syncSiteSubs();
     let idx = [], idxDual = [];
     const hide = !cues.length || inAd() || (video.paused && settings.onPause === 'hide');
     const now = video.currentTime * 1000 - settings.offset;
@@ -732,14 +767,17 @@
     const key = idx.join(',') + '|' + idxDual.join(',');
     if (!force && key === lastKey) return;
     lastKey = key;
-    const clean = (list) => (settings.hideSounds
-      ? list.map((c) => Object.assign({}, c, { text: SubLib.cleanCaption(c.text) })).filter((c) => c.text)
-      : list);
+    // Also lines translated earlier with a second version in brackets (see SubLib.dropAlternative).
+    const clean = (list) => list.map((c) => {
+      const text = SubLib.dropAlternative(settings.hideSounds ? SubLib.cleanCaption(c.text) : c.text);
+      return text === c.text ? c : Object.assign({}, c, { text });
+    }).filter((c) => c.text);
     shownCues = clean(idx.map((i) => cues[i]));
     shownDual = clean(idxDual.map((i) => second[i]));
     for (const layer of [subsEl, dualEl]) layer.classList.toggle('copy', !!settings.clickCopy);
     SubRender.renderCues(subsEl, shownCues);
     SubRender.renderCues(dualEl, shownDual);
+    if (!siteStyle) return; // none of ours on: the site's own subtitles show
     // The site draws its line a moment after ours, so look a little later.
     startSiteWatch();
     checkSiteText();
@@ -979,6 +1017,40 @@
 
   // ---------- loading ----------
 
+  // The language the loaded subtitles are in, known before anything goes to
+  // Google: the site says it (it ends up in the file name, "….cs.vtt",
+  // "youtube-….cs"), the file says it ("Language: cs" in a WebVTT header,
+  // xml:lang in TTML), or Chrome recognises it on this computer from a sample
+  // of the lines. Google's answer to the first translation still corrects it.
+  function findOrigLang(name, text, list) {
+    langPending = null;
+    // Only after a dot and only a language we translate to ("cze" counts as cs): "film.the.srt" is no language.
+    const tail = /\.([a-z]{2,3}(?:[-_][a-z0-9]{2,4})?)$/i.exec(name.replace(SubLib.SUB_FILE, ''));
+    const known = tail && SubSettings.LANGUAGES.find((l) => SubLib.langMatch(tail[1], l[0]) > 0);
+    const fromName = known ? (tail[1].includes('-') || tail[1].includes('_') ? tail[1].replace('_', '-') : known[0]) : '';
+    const said = SubLib.headerLanguage(text) || fromName;
+    if (said) { origLang = said.toLowerCase(); return; }
+    if (!chrome.i18n || !chrome.i18n.detectLanguage) return;
+    // Up to 80 lines from all over the file: the first minutes are often only names and music.
+    const step = Math.max(1, Math.floor(list.length / 80));
+    const sample = list.filter((c, i) => i % step === 0).slice(0, 80)
+      .map((c) => SubLib.cleanCaption ? SubLib.cleanCaption(c.text) : c.text).join('\n').replace(/<[^>]+>/g, '');
+    let job = null;
+    job = langPending = new Promise((done) => chrome.i18n.detectLanguage(sample, (r) => {
+      try {
+        const best = r && r.isReliable && r.languages && r.languages[0];
+        // Only while these are still the subtitles on screen and Google hasn't answered meanwhile.
+        if (best && best.language !== 'und' && best.percentage >= 60 && baseOf().cues === list && !origLang) {
+          origLang = best.language;
+          refreshLangs();
+        }
+      } finally {
+        if (langPending === job) langPending = null;
+        done();
+      }
+    }));
+  }
+
   function loadBytes(name, b64, encoding, targetVideo) {
     const bytes = SubLib.base64ToBytes(b64);
     const { text, encoding: used } = SubLib.decode(bytes, encoding || 'auto');
@@ -995,6 +1067,7 @@
     original = null;
     translations.clear();
     origLang = '';
+    findOrigLang(name, text, parsed);
     stashed = null;
     if (hintEl) hintEl.classList.remove('on');
     hideRestore();
@@ -1005,7 +1078,7 @@
     srcPending = !lastSrc;
     afterLoad();
     rememberFile();
-    toast(t('Loaded {n} lines', { n: parsed.length }) + (settings.offset ? ' · ' + t('Sync: {offset}', { offset: fmtOffset(settings.offset) }) : ''));
+    notice(t('Loaded {n} lines', { n: parsed.length }) + (settings.offset ? ' · ' + t('Sync: {offset}', { offset: fmtOffset(settings.offset) }) : ''));
     return { ok: true, count: parsed.length, encoding: used };
   }
 
@@ -1029,7 +1102,6 @@
   let offAfterLoad = null;
 
   function afterLoad() {
-    hideSiteSubs(true);
     const off = offAfterLoad;
     offAfterLoad = null;
     if (off) {
@@ -1131,6 +1203,7 @@
     if (r.ok && f.origLang) origLang = f.origLang;
     if (!r.ok) return r;
     const list = savedList(f.b64, f.ai);
+    if (f.native) nativeSite.set(list, f.native);
     showTranslation(f.translatedTo, list, true);
     restoreSecond(f);
     resumeShown();
@@ -1173,6 +1246,15 @@
     .player-timedtext, .atvwebplayersdk-captions-overlay { visibility: hidden !important; }`;
   let siteStyle = null;
   let hiddenTracks = [];
+
+  // The site's own subtitles stay hidden only while some of ours are switched
+  // on. With both languages off (or Alt + S), the site's show again.
+  function syncSiteSubs() {
+    const want = !off && cues.length > 0 && (visible || (!!settings.dual && dualVisible));
+    if (want === !!siteStyle) return;
+    hideSiteSubs(want);
+    if (!want) stopSiteWatch();
+  }
 
   function hideSiteSubs(on) {
     if (on && cues.length) {
@@ -1283,7 +1365,7 @@
   }
 
   function checkSiteText() {
-    if (!video || !cues.length || knownPlayer()) return setSiteNote(false);
+    if (!video || !cues.length || !siteStyle || knownPlayer()) return setSiteNote(false);
     const source = original ? original.cues : cues;
     // The site's own timing, without our sync offset; also the line just
     // starting, since the site may switch a moment before our clock says so.
@@ -1367,7 +1449,19 @@
     const base = baseOf();
     const cached = translations.get(to);
     if (cached) return { ok: true, list: cached };
-    if (!quiet) toast(t('Translating {n} lines to {lang}…', { n: base.cues.length, lang: SubSettings.languageName(to) }), 15000);
+    // The site has subtitles in that language itself (Netflix, YouTube, Disney+…):
+    // those are used as they are. Nothing to translate, and people wrote them.
+    const own = await siteTrack(to);
+    if (baseOf().file !== base.file) return { ok: false, error: t('Other subtitles were loaded meanwhile.') };
+    if (translations.has(to)) return { ok: true, list: translations.get(to) };
+    if (own) {
+      nativeSite.set(own.list, own.site);
+      translations.set(to, own.list);
+      countOwn();
+      if (!quiet) notice(t('Subtitles from {site}: {lang}', { site: own.site, lang: SubSettings.languageName(to) }), 4000);
+      return { ok: true, list: own.list };
+    }
+    if (!quiet) notice(t('Translating {n} lines to {lang}…', { n: base.cues.length, lang: SubSettings.languageName(to) }), 15000);
     const res = await chrome.runtime.sendMessage({ type: 'translate', to, texts: base.cues.map((c) => toHtml(c.text)) })
       .catch((e) => ({ ok: false, error: e.message }));
     if (!res || !res.ok) {
@@ -1383,6 +1477,22 @@
     // For the rating card in the popup: background.js counts each page once.
     chrome.runtime.sendMessage({ type: 'count-video', page: pageOfSubs(), lines: list.length }).catch(() => {});
     return { ok: true, list };
+  }
+
+  // Translations that are really the site's own subtitles in that language:
+  // list -> the site's name. Their lines have their own timing, so the AI
+  // (which rewrites Google's lines one by one) never works on them.
+  const nativeSite = new WeakMap();
+  // A video watched with the site's own subtitles in your language counts for
+  // the support card like a translated one (it's still our overlay, style and
+  // dual subtitles), but adds no translated lines.
+  const countOwn = () => chrome.runtime.sendMessage({ type: 'count-video', page: pageOfSubs(), lines: 0 }).catch(() => {});
+  // The site's own subtitles in a language, as { list, site, name, text }, or null.
+  async function siteTrack(lang) {
+    const res = await chrome.runtime.sendMessage({ type: 'native-track', lang }).catch(() => null);
+    if (!res || !res.ok) return null;
+    const list = SubLib.parse(res.text);
+    return list.length ? { list, site: res.site, name: res.name, text: res.text } : null;
   }
 
   // A better AI pass (Gemini, Claude, OpenAI or a local model) over Google's quick
@@ -1413,7 +1523,7 @@
   // quiet: carrying on after a reload. A pass stopped with "Stop" stays
   // stopped then; only Continue or Improve starts it again.
   async function improve(to, base, list, quiet) {
-    if (!aiReady()) return;
+    if (!aiReady() || nativeSite.has(list)) return;
     const model = aiModel();
     const busy = improving.get(to);
     if (busy && busy.file === base.file && busy.model === model) return;
@@ -1487,7 +1597,7 @@
         state.chunks.add(i);
         state.done += res.texts.length;
         // Said once the first chunk is back: said earlier, "Translated to …" would cover it.
-        if (!said && cues === list) { said = true; if (prefs.aiNotices) toast(t('Improving the translation with {model}…', { model }), 4000); }
+        if (!said && cues === list) { said = true; if (prefs.aiNotices) notice(t('Improving the translation with {model}…', { model }), 4000); }
         if (cues === list) { lastKey = ''; render(true); }
         // Every little while the remembered file gets the better lines, so a reload carries on from here.
         if (Date.now() - savedAt > 10000) { savedAt = Date.now(); if (shown()) showTranslation(to, list, true); else rememberFile(); }
@@ -1497,7 +1607,7 @@
       // Done: the saved and downloadable file gets the better lines too.
       if (shown()) {
         showTranslation(to, list, true);
-        if (prefs.aiNotices) toast(t('Translation improved by {model}', { model }), 3000);
+        if (prefs.aiNotices) notice(t('Translation improved by {model}', { model }), 3000);
       } else rememberFile();
       if (prefs.aiSaveFile) saveImproved(to, list);
       // For the support card: background.js counts each improved page once.
@@ -1556,9 +1666,15 @@
     if (list === cues && !quiet) toast(t('Stopped improving, Google’s version stays'), 3000);
   }
 
+  // The main translation on its way: { to, done, total } in lines, for the bar
+  // in the card over the video (background.js reports after each batch).
+  let translating = null;
   async function translate(to) {
     if (!cues.length) return { ok: false, error: t('Nothing loaded.') };
+    const mine = translating = { to, done: 0, total: baseOf().cues.length };
+    refreshLangs();
     const r = await fetchTranslation(to);
+    if (translating === mine) { translating = null; refreshLangs(); }
     if (!r.ok) return r;
     showTranslation(to, r.list);
     // With an AI translator set up, the card over the video shows its Improve button for a moment.
@@ -1571,9 +1687,18 @@
   let secondPending = null; // { lang, base }: the second translation being fetched
   // The language the second subtitles are in ('orig' for the original), or ''
   // when there are none: dual subtitles off, or the same language as the main ones.
+  // The second language you chose, or 'orig' when that is the language the
+  // original is in anyway (Czech second over a Czech film): no Google pass, and
+  // no two "Czech" switches while the main translation is still on its way.
+  // "cs", "cze" and "cs-CZ" are one language, "zh-CN" and "zh-TW" are not.
+  const sameLanguage = (a, b) => SubLib.langMatch(a, b) > 0;
+  function secondWanted() {
+    const lang = prefs.secondLang || 'orig';
+    return lang !== 'orig' && origLang && sameLanguage(lang, origLang) ? 'orig' : lang;
+  }
   function secondLanguage() {
     if (!settings.dual || !cues.length) return '';
-    const lang = prefs.secondLang || 'orig';
+    const lang = secondWanted();
     if (lang === 'orig') return original ? lang : ''; // the main subtitles already are the original
     return lang === (original ? file.translatedTo : '') ? '' : lang;
   }
@@ -1584,7 +1709,9 @@
   }
   // Switched off, they aren't translated: that waits until they're switched on.
   async function ensureSecond() {
-    const lang = prefs.secondLang || 'orig';
+    // The original's language first: a second language that is the original's own needs no Google.
+    if (langPending) await langPending;
+    const lang = secondWanted();
     const base = baseOf().file;
     if (!settings.dual || !cues.length || !dualVisible || lang === 'orig' || translations.has(lang)) return;
     // A fetch for other subtitles doesn't count: YouTube often sends its captions
@@ -1605,14 +1732,15 @@
     const name = original.file.name.replace(SubLib.SUB_FILE, '') + '.' + to + '.srt';
     const ai = aiState.get(list);
     file = { name, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(list))), encoding: 'utf-8', usedEncoding: 'utf-8',
-      translatedTo: to, origLang, original: original.file,
+      translatedTo: to, origLang, original: original.file, native: nativeSite.get(list) || '',
       // That you asked the AI to improve it and which chunks it already rewrote, so a reload shows it and carries on.
       ai: ai ? { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } : null };
     lastKey = '';
     render(true);
     refreshLangs();
     rememberFile();
-    if (!quiet) toast(t('Translated to {lang}', { lang: SubSettings.languageName(to) }), 3000);
+    // The site's own subtitles in that language: fetchTranslation already said where they came from.
+    if (!quiet && !nativeSite.has(list)) notice(t('Translated to {lang}', { lang: SubSettings.languageName(to) }), 3000);
   }
 
   function showOriginal() {
@@ -1877,7 +2005,7 @@
   // The names of the main and the second subtitles, with their flags.
   function langLabels() {
     const mainLang = original ? file.translatedTo : origLang;
-    const secondLang = (prefs.secondLang || 'orig') === 'orig' ? origLang : prefs.secondLang;
+    const secondLang = secondWanted() === 'orig' ? origLang : secondWanted();
     return { main: langLabel(mainLang), second: langLabel(secondLang) };
   }
 
@@ -1912,7 +2040,7 @@
     const hasSecond = !!second || (!dualVisible && !!secondLanguage());
     const labels = langLabels();
     const main = { label: labels.main, lang: original && file.translatedTo, list: cues, on: visible, second: false };
-    const dual = { label: labels.second, lang: prefs.secondLang, list: second, on: dualVisible, second: true };
+    const dual = { label: labels.second, lang: secondWanted(), list: second, on: dualVisible, second: true };
     // With one language the card is its on/off switch: no shortcut to remember.
     const rows = !hasSecond ? [main] : settings.place === 'top' ? [main, dual] : [dual, main];
     const switches = rows.map((row) => {
@@ -1926,10 +2054,31 @@
       });
       return b;
     });
-    const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && (aiState.has(row.list) || aiReady()))
+    const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && !nativeSite.has(row.list) && (aiState.has(row.list) || aiReady()))
       .map((row) => aiRow(row.lang, row.list));
+    // While Google translates: its bar, in place of the switch the new language gets when it's done.
+    if (translating) progress.unshift(translatingRow(translating));
     langsEl.replaceChildren(...switches, ...progress);
     return switches.length + progress.length > 0;
+  }
+
+  // "🇻🇳 Google 47 %", a bar, and "Translating · 300 / 640 lines". Before the
+  // first batch is back the bar only runs to and fro: no share to tell yet.
+  function translatingRow(job) {
+    const row = el('div', 'ai running' + (job.done ? '' : ' waiting'));
+    const head = el('div', 'ai-head');
+    const share = Math.floor((job.done / job.total) * 100) / 100;
+    head.append(el('span', 'name', (SubSettings.flag(job.to) + ' Google').trim()));
+    if (job.done) head.append(el('span', 'pct', new Intl.NumberFormat(SubI18n.lang, { style: 'percent' }).format(share)));
+    const bar = el('div', 'ai-bar');
+    const fill = el('span');
+    if (job.done) fill.style.width = share * 100 + '%';
+    bar.append(fill);
+    const lines = t('{n} lines', { n: job.total });
+    const foot = el('div', 'ai-foot');
+    foot.append(el('div', 'ai-note', t('Translating') + ' · ' + (job.done ? job.done + ' / ' + lines : lines)));
+    row.append(head, bar, foot);
+    return row;
   }
 
   // For the popup: which model worked on these lines and whether it's still at it.
@@ -2346,8 +2495,11 @@
     // Our own press made the player download its default captions: not news,
     // and they must not replace the ones on screen.
     if (item.yt && cues.length && Date.now() - ccPressedAt < 5000) return;
-    if (prefs.autoTranslate && (!cues.length || autoLoaded)) autoShow(item);
-    else { renderFound(); offerSaved(item); }
+    if (prefs.autoTranslate) {
+      // Subtitles you put on yourself (or brought back) stay, and no card asks
+      // about the new file: its button waits in the language panel (offered).
+      if (!cues.length || autoLoaded) autoShow(item);
+    } else { renderFound(); offerSaved(item); }
     position(true);
   }
 
@@ -2392,8 +2544,8 @@
     const lang = SubSettings.languageName(prefs.translateTo);
     // Already in that language: shown as they are, nothing goes to Google.
     const from = (item.lang || '').toLowerCase();
-    const sameLang = from === prefs.translateTo.toLowerCase() || from.split('-')[0] === prefs.translateTo;
-    if (!sameLang) toast(t('Translating to {lang}…', { lang }), 15000);
+    let sameLang = from === prefs.translateTo.toLowerCase() || from.split('-')[0] === prefs.translateTo;
+    if (!sameLang && !item.asr) notice(t('Translating to {lang}…', { lang }), 15000);
     let message;
     try {
       const saved = await savedFor(item);
@@ -2409,17 +2561,43 @@
           autoLoaded = true;
           restorePending = null;
           const ai = saved.ai && saved.ai.model;
-          toast(t('Subtitles from last time:') + ' ' + lang + (ai ? ' · ' + ai : ''), 4000);
+          notice(t('Subtitles from last time:') + ' ' + lang + (ai ? ' · ' + ai : ''), 4000);
           if (aiReady()) showLangs();
           return;
         }
       }
-      const r = loadBytes(res.name, res.b64, 'auto', liveVideo());
+      let name = res.name, b64 = res.b64;
+      let autoCaps = false; // only YouTube's automatic captions: say they may be wrong
+      // YouTube's automatic captions (speech recognition) are often wrong, and
+      // a translation of them worse. Captions written by people go first: in
+      // your language as they are, else in another one, translated.
+      if (item.asr) {
+        const bytes64 = (text) => SubLib.bytesToBase64(new TextEncoder().encode(text));
+        const own = await siteTrack(prefs.translateTo);
+        const human = own || await siteTrack('*');
+        if (cues.length && !autoLoaded) return;
+        // With none, the automatic ones are used after all (translated if
+        // needed): automatic mode never stops at a card asking you to do it.
+        if (human) {
+          name = human.name;
+          b64 = bytes64(human.text);
+          sameLang = !!own;
+        } else autoCaps = true;
+        if (!sameLang) notice(t('Translating to {lang}…', { lang }), 15000);
+      }
+      const r = loadBytes(name, b64, 'auto', liveVideo());
       if (!r.ok) throw new Error(r.error);
       autoLoaded = siteFile = true;
+      const autoNote = () => notice(t('From YouTube’s auto-generated captions: expect some mistakes'), 7000);
+      if (item.asr && sameLang) {
+        if (autoCaps) autoNote();
+        else notice(t('Subtitles from {site}: {lang}', { site: 'YouTube', lang }), 4000);
+        countOwn();
+      }
       if (sameLang) return;
       const done = await translate(prefs.translateTo);
       if (!done.ok) throw new Error(done.error);
+      if (autoCaps) autoNote(); // in place of "Translated to …"
       return;
     } catch (e) {
       message = t('Automatic translation didn’t work: {error}', { error: e.message });
@@ -2600,6 +2778,12 @@
       case 'translate':
         translate(msg.to).then(reply);
         return true;
+      case 'translate-progress':
+        if (translating && translating.to === msg.to && msg.done > translating.done) {
+          translating.done = msg.done;
+          refreshLangs();
+        }
+        return;
       case 'show-original':
         showOriginal();
         reply({ ok: true });
@@ -2608,6 +2792,7 @@
         // "Improve with …" in the popup: the translation on the video.
         if (!original) return reply({ ok: false, error: t('Nothing loaded.') });
         if (!aiReady()) return reply({ ok: false, error: t('Choose a model in the extension popup.') });
+        if (nativeSite.has(cues)) return reply({ ok: false, error: t('Subtitles from {site}: {lang}', { site: nativeSite.get(cues), lang: SubSettings.languageName(file.translatedTo) }) });
         improve(file.translatedTo, baseOf(), cues, false);
         showLangs();
         reply({ ok: true });
@@ -2715,7 +2900,8 @@
       const on = ccButton.getAttribute('aria-pressed') === 'true';
       let want = on;
       if (off || !cues.length) want = on && !ccOurs;
-      else if (fromYouTube()) want = visible || dualVisible;
+      // Ours off: the button stays as it is, so YouTube's own captions can show instead.
+      else if (fromYouTube() && (visible || dualVisible)) want = true;
       if (want === on) return;
       if (!ccOurs) ccMemory = localStorage.getItem(CC_MEMORY);
       ccOurs = want;
@@ -2769,22 +2955,81 @@
   document.addEventListener('subtitle-overlay-yt', (e) => {
     if (off || typeof e.detail !== 'string') return;
     try {
-      const { url, text } = JSON.parse(e.detail);
+      const { url, text, tracks } = JSON.parse(e.detail);
       // An ad before the video is another video with its own captions: not the ones you came for.
       const page = SubSettings.youTubeId(location.href);
       if (page && new URL(url).searchParams.get('v') !== page && document.querySelector('.html5-video-player.ad-showing')) return;
-      sendOrWarn({ type: 'yt-captions', url, text });
+      sendOrWarn({ type: 'yt-captions', url, text, tracks });
     } catch (err) { /* ignore */ }
   });
   document.dispatchEvent(new CustomEvent('subtitle-overlay-yt-ask'));
 
   // Netflix: subtitle files copied from the player by netflix-hook.js.
-  if (location.hostname === 'www.netflix.com') {
+  if (onNetflix) {
+    // The controls come and go with the mouse: lift the subtitles above them meanwhile.
+    // Checked at most once a frame, plus a late look once a fade-out has finished.
+    let liftQueued = false, liftLate = 0;
+    const queueLift = () => {
+      if (liftQueued) return;
+      liftQueued = true;
+      requestAnimationFrame(() => { liftQueued = false; liftForControls(); });
+      clearTimeout(liftLate);
+      liftLate = setTimeout(liftForControls, 400);
+    };
+    let nfRoot = null;
+    const nfWatch = new MutationObserver(queueLift);
+    setInterval(() => {
+      const root = document.querySelector('.watch-video') || (video && video.parentElement);
+      if (root && root !== nfRoot) {
+        nfWatch.disconnect();
+        nfRoot = root;
+        nfWatch.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+        queueLift();
+      }
+    }, 1000);
+    document.addEventListener('mousemove', queueLift, { passive: true });
     document.addEventListener('subtitle-overlay-page', (e) => {
       if (!off && typeof e.detail === 'string') send({ type: 'page-subtitles', text: e.detail });
     });
     document.dispatchEvent(new CustomEvent('subtitle-overlay-page-ask'));
+    // The title's subtitle languages, for using Netflix's own ones in your language.
+    document.addEventListener('subtitle-overlay-nf-tracks', (e) => {
+      if (off || typeof e.detail !== 'string') return;
+      try {
+        const { movieId, tracks } = JSON.parse(e.detail);
+        send({ type: 'nf-tracks', movieId, tracks });
+      } catch (err) { /* ignore */ }
+    });
+    document.dispatchEvent(new CustomEvent('subtitle-overlay-nf-tracks-ask'));
+    // The language you translate into, for netflix-hook.js: it asks Netflix for
+    // those subtitles even where Netflix doesn't list them. Netflix's own codes
+    // differ for a few languages. Turned off on Netflix: nothing is asked.
+    const NF_LOCALE = { 'zh-CN': 'zh-Hans', 'zh-TW': 'zh-Hant', tl: 'fil', no: 'nb' };
+    const keepLocale = () => {
+      try {
+        if (off || !prefs.translateTo) localStorage.removeItem('subtitleOverlayLang');
+        else localStorage.setItem('subtitleOverlayLang', NF_LOCALE[prefs.translateTo] || prefs.translateTo);
+      } catch (err) { /* storage blocked: Netflix's own list only */ }
+    };
+    Promise.all([prefsReady, SubSettings.loadOffSites()]).then(([, list]) => {
+      if (SubSettings.isOff(list, site)) off = true;
+      keepLocale();
+    });
+    chrome.storage.onChanged.addListener((c, area) => {
+      if (area === 'local' && (c.translateTo || c.offSites)) setTimeout(keepLocale, 0); // after the listener above updated prefs and off
+    });
   }
+
+  // Prime Video: the title's subtitle languages, listed by prime-hook.js, for
+  // using Amazon's own ones in your language.
+  document.addEventListener('subtitle-overlay-site-tracks', (e) => {
+    if (off || typeof e.detail !== 'string') return;
+    try {
+      const { site, id, tracks } = JSON.parse(e.detail);
+      send({ type: 'site-tracks', site, id, tracks });
+    } catch (err) { /* ignore */ }
+  });
+  document.dispatchEvent(new CustomEvent('subtitle-overlay-site-tracks-ask'));
 
   window.__subOverlay = { report };
   // The interface text waits for its language file, so labels built below aren't left in English.

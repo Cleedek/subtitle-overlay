@@ -6,7 +6,7 @@ Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, t
 ★ Her site, her video: oynatıcının üzerinde altyazı, pencerede veya tam ekranda, her zaman senkronize
 ★ Tek tıkla 31 dile çeviri ya da sitenin oynatıcısında altyazıyı açtığın anda tamamen otomatik
 ★ YENİ: yapay zekâ ile çeviri doğal dursun, kendi bilgisayarında ücretsiz (Gemma) ya da kendi Gemini, Claude veya OpenAI anahtarınla
-★ YENİ: bütün bir sezon için çeviri kuyruğu ve bir dahaki sefere saklanan iyileştirilmiş altyazılar
+★ YENİ: sitede zaten senin dilinde altyazı varsa onu alırsın, çeviri yalnızca hiç yoksa devreye girer
 ★ Aynı anda iki dil: biri üstte, biri altta; birlikte izlemek ya da dil öğrenmek için
 ★ Sayfanın yüklediği altyazıları bulur, YouTube dahil; yani çoğu zaman dosyaya hiç gerek kalmaz
 ★ Senin tarzın: 1.800+ Google Fonts yazı tipi, kontur, gölge, arka plan kutusu, boyut ve konum
@@ -19,14 +19,15 @@ Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, t
 • İsteğe bağlı: İyileştir'e tıkla, yapay zekâ (bilgisayarındaki Gemma ya da Gemini, Claude veya OpenAI) Google'ın hızlı çevirisini doğal duyulacak şekilde yeniden yazsın (ayrıntılar aşağıda). Ne kadar ilerlediğini görmek için fareyi videonun üzerine getir
 • Dilini bir kez seç; her Çevir düğmesi için favorin olarak kalır
 • Otomatik mod: sitenin oynatıcısında altyazıyı aç, altyazılar videonun üzerinde zaten çevrilmiş olarak görünsün; açılır pencere yerine kısa bir "Çevrildi: …" notu çıkar. Yeni kurulumlarda açık gelir ve tarayıcının diline çevirir
-• Sitenin kendi altyazıları gizlenir, böylece asla iki altyazıyı birden okumazsın
+• Sitede senin dilinde altyazı varsa (YouTube ve yayın hizmetleri) önce o gelir; Google ya da yapay zekâ yalnızca hiç yoksa çevirir
+• Sitenin kendi altyazıları bizimkiler açıkken gizlenir ve bizimkileri kapattığın anda geri gelir
 • İstediğin an orijinale dön ya da çeviriyi .srt dosyası olarak kaydet
 • Diller: Vietnamca, Çekçe, İngilizce, Slovakça, Almanca, Fransızca, İspanyolca, İtalyanca, Portekizce, Lehçe, Macarca, Ukraynaca, Felemenkçe, İsveççe, Danca, Norveççe, Fince, Yunanca, Türkçe, Rumence, Hırvatça, Çince (Basitleştirilmiş ve Geleneksel), Japonca, Korece, Tayca, Endonezce, Malayca, Filipince, Hintçe, Arapça
 
 YAPAY ZEKÂ İLE DOĞAL ÇEVİRİ (İSTEĞE BAĞLI)
 Google Translate hızlıdır ama satır satır, kelime kelime çevirir. İyileştir'e tıkla; bir yapay zekâ modeli altyazıları tüm sahneyi göz önünde bulundurarak, izlediğin yerden başlayıp yeniden yazsın.
 • Ücretsiz: Google'ın açık modeli Gemma, Ollama veya LM Studio ile kendi bilgisayarında çalışır; böylece yapay zekâ adımı bilgisayarından dışarı çıkmaz. Oldukça güçlü bir bilgisayara ve yaklaşık 8 GB disk alanına ihtiyacın var.
-• 3 adımda kurulum: ollama.com'dan Ollama'yı kur, tek bir komutla Gemma'yı indir, sonra uzantı penceresinde Yerel'i seç. Komut ve şu an önerdiğimiz model (sayfa İngilizce): cleedek.com/subtitle-overlay/ai
+• Uzantı penceresi seni adım adım yönlendirir: ollama.com'dan Ollama'yı kur ve tek tıkla Gemma'yı indir (en az 16 GB RAM gerekir). Ayrıntılar ve şu an önerdiğimiz model (sayfa İngilizce): cleedek.com/subtitle-overlay/ai
 • Ya da kendi API anahtarını kullan: Gemini (ücretsiz katmanı var), Claude veya OpenAI (ücretli).
 • Başlamadan önce tüm dosyaya göz atar ve kimin kim olduğunu not eder; böylece cinsiyet, hitap şekli ve isimler ilk satırdan son satıra kadar tutarlı kalır.
 • Asla kendiliğinden başlamaz: sen tıklamadan hiçbir şey çalışmaz, hiçbir ücret harcanmaz.
@@ -47,7 +48,7 @@ SİTENİN YÜKLEDİĞİ ALTYAZILARI BULUR
 • Birkaç .srt veya .vtt dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
 • Google, Gemini, Claude, OpenAI veya yerel modelinle çalışır
 • İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir
-• Oynat, videoyu altyazılarıyla açar; İndir, .srt dosyasını kaydeder
+• Oynat, videoyu altyazılarıyla açar; "Şurada göster…" onları başka bir sekmede zaten açık olan bir videonun üzerine koyar; İndir, .srt dosyasını kaydeder
 
 ALTYAZILARI KENDİ TARZINDA BİÇİMLENDİR
 • 1.800+ Google Fonts yazı tipi, yalnızca senin dilinin harflerini içerenler gösterilir (č ř ž, ư ế ộ, Kiril, Yunan, Japon harfleri ve daha fazlası)
@@ -98,8 +99,10 @@ AÇIK KAYNAK
 Uzantının tamamı açık kaynaktır (GPL-3.0), yani herkes tam olarak ne yaptığını kontrol edebilir: github.com/Cleedek/subtitle-overlay. Beğendiysen GitHub'da vereceğin bir yıldız, başkalarının da onu bulmasına yardımcı olur.
 
 YAPIMCIYI DESTEKLE
-Subtitle Overlay ücretsizdir ve tüm özellikleri ücretsiz kalacak. Akşamlarını güzelleştiriyorsa uzantı penceresinde Revolut, PayPal, Solana ve Sui seçenekleriyle bir "Yapımcıyı destekle" sayfası var. Tamamen isteğe bağlı, ve teşekkürler!
+Subtitle Overlay ücretsizdir ve tüm özellikleri ücretsiz kalacak. Akşamlarını güzelleştiriyorsa uzantı penceresinde Ko-fi ve birkaç başka ödeme yoluyla bir "Yapımcıyı destekle" sayfası var. Çok sayıda video çevirdikten sonra videonun üzerindeki küçük bir kart da bir kez sorar (en fazla üç videoda; üzerine bir tıklama ve bir daha gelmez). Tamamen isteğe bağlı, ve teşekkürler!
 
 Vietnam'da Cleedek tarafından 💜 ile yapıldı.
+
+Subtitle Overlay bağımsız bir projedir. Birlikte çalıştığı web sitelerinin veya yayın hizmetlerinin hiçbiriyle bağlantılı değildir; onlar tarafından onaylanmamış veya sponsorluk almamıştır. Oralarda çalışması bizim emeğimizdir: o sitelerde test ettik ve bazılarında oynatıcılarına uyarladık. Bu hizmetlerin adları ve logoları sahiplerine aittir.
 
 Ekran görüntülerinde Tears of Steel filminden kareler yer alır, © Blender Foundation, mango.blender.org, CC BY 3.0 lisanslı.

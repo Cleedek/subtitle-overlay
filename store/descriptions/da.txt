@@ -6,7 +6,7 @@ Subtitle Overlay viser undertekster oven på videoafspilleren på enhver hjemmes
 ★ Enhver side, enhver video: undertekster over afspilleren, i et vindue eller i fuld skærm, altid synkroniseret
 ★ Oversæt til 31 sprog med ét klik, eller helt automatisk, så snart du slår undertekster til i sidens afspiller
 ★ NYHED: få oversættelsen til at lyde naturlig med AI, gratis på din egen computer (Gemma) eller med din egen Gemini-, Claude- eller OpenAI-nøgle
-★ NYHED: en oversættelseskø til en hel sæson, og forbedrede undertekster gemt til næste gang
+★ NYHED: har siden allerede undertekster på dit sprog, får du dem, og der oversættes kun, når der ingen er
 ★ To sprog på én gang: ét øverst og ét nederst, når I ser sammen, eller når du lærer et sprog
 ★ Finder de undertekster, siden indlæser, også på YouTube, så du sjældent har brug for en fil
 ★ Din stil: over 1.800 Google Fonts, kontur, skygge, baggrundsboks, størrelse og placering
@@ -19,14 +19,15 @@ OVERSÆT TIL 31 SPROG
 • Valgfrit: klik på Forbedr, så omskriver AI (Gemma på din computer, eller Gemini, Claude eller OpenAI) Googles hurtige version, så den lyder naturlig (mere nedenfor). Før musen hen over videoen for at se, hvor langt den er nået
 • Vælg dit sprog én gang; det forbliver din favorit på alle Oversæt-knapper
 • Automatisk tilstand: slå undertekster til i sidens afspiller, og de dukker op over videoen allerede oversat, med en kort "Oversat til …"-note i stedet for en pop op. Nye installationer starter med den slået til og oversætter til din browsers sprog
-• Sidens egne undertekster skjules, så du aldrig læser to sæt på én gang
+• Har siden undertekster på dit sprog (YouTube og streamingtjenester), kommer de først; Google eller AI oversætter kun, når der ingen er
+• Sidens egne undertekster skjules, mens vores er tændt, og kommer tilbage, så snart du slukker vores
 • Skift tilbage til originalen når som helst, eller gem oversættelsen som en .srt-fil
 • Sprog: vietnamesisk, tjekkisk, engelsk, slovakisk, tysk, fransk, spansk, italiensk, portugisisk, polsk, ungarsk, ukrainsk, nederlandsk, svensk, dansk, norsk, finsk, græsk, tyrkisk, rumænsk, kroatisk, kinesisk (forenklet og traditionelt), japansk, koreansk, thai, indonesisk, malajisk, filippinsk, hindi, arabisk
 
 FÅ DET TIL AT LYDE NATURLIGT (VALGFRIT)
 Google Oversæt er hurtigt, men det går linje for linje, ord for ord. Klik på Forbedr, og en AI-model omskriver underteksterne med hele scenen for øje, startende fra der, hvor du ser.
 • Gratis: Gemma, Googles åbne model, kører på din egen computer med Ollama eller LM Studio, så AI-trinnet bliver på din computer. Du skal bruge en nogenlunde kraftig computer og cirka 8 GB diskplads.
-• Klar i 3 trin: installer Ollama fra ollama.com, hent Gemma med én kommando, og vælg derefter Lokal i pop op-vinduet. Kommandoen og den model, vi anbefaler lige nu (på engelsk): cleedek.com/subtitle-overlay/ai
+• Pop op-vinduet guider dig igennem: installer Ollama fra ollama.com, og hent Gemma med ét klik (kræver mindst 16 GB RAM). Mere om det og den model, vi anbefaler lige nu (på engelsk): cleedek.com/subtitle-overlay/ai
 • Eller brug din egen API-nøgle: Gemini (har et gratis niveau), Claude eller OpenAI (betalt).
 • Før den går i gang, skimmer den hele filen og noterer, hvem der er hvem, så køn, tiltaleformer og navne forbliver de samme fra første til sidste replik.
 • Den starter aldrig af sig selv: intet kører, og intet bliver brugt, uden at du klikker.
@@ -47,7 +48,7 @@ OVERSÆTTELSESKØ OG GEMTE UNDERTEKSTER
 • Træk flere .srt- eller .vtt-filer ind, eller klik på "Føj til køen" ved undertekster, som en side indlæser. De oversættes én efter én, mens du laver noget andet; kø-fanen kan blive i baggrunden
 • Virker med Google, Gemini, Claude, OpenAI eller din lokale model
 • Forbedrede undertekster gemmes i udvidelsen, så længe du vælger, og kommer tilbage, når du vender tilbage til videoen
-• Afspil åbner videoen med dens undertekster; Download gemmer .srt-filen
+• Afspil åbner videoen med dens undertekster, "Vis på…" lægger dem over en video, der allerede er åben i en anden fane, og Download gemmer .srt-filen
 
 STYL DEM, SOM DU VIL
 • Over 1.800 Google Fonts, filtreret til dem, der har bogstaverne i dit sprog (č ř ž, ư ế ộ, kyrillisk, græsk, japansk og mere)
@@ -98,8 +99,10 @@ OPEN SOURCE
 Hele udvidelsen er open source (GPL-3.0), så alle kan tjekke præcis, hvad den gør: github.com/Cleedek/subtitle-overlay. Hvis du kan lide den, hjælper en stjerne på GitHub andre med at finde den.
 
 STØT SKABEREN
-Subtitle Overlay er gratis, og alle funktioner forbliver gratis. Hvis den gør dine aftener bedre, har pop op-vinduet en "Støt skaberen"-side med Revolut, PayPal, Solana og Sui. Helt frivilligt, og tak!
+Subtitle Overlay er gratis, og alle funktioner forbliver gratis. Hvis den gør dine aftener bedre, har pop op-vinduet en "Støt skaberen"-side med Ko-fi og et par andre måder at betale på. Efter mange oversatte videoer spørger et lille kort over videoen også én gang (højst på tre videoer; ét klik på det, og det kommer aldrig igen). Helt frivilligt, og tak!
 
 Skabt med 💜 af Cleedek i Vietnam.
+
+Subtitle Overlay er et uafhængigt projekt. Det er ikke tilknyttet, godkendt eller sponsoreret af nogen af de websites eller streamingtjenester, det virker med. At det virker der, er vores eget arbejde: vi har testet det på de sider og på nogle af dem tilpasset det deres afspillere. Navne og logoer for tjenesterne tilhører deres ejere.
 
 Skærmbillederne viser billeder fra Tears of Steel, © Blender Foundation, mango.blender.org, licenseret under CC BY 3.0.
