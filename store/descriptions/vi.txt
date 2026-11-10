@@ -47,7 +47,7 @@ TỰ TÌM PHỤ ĐỀ MÀ TRANG WEB TẢI
 HÀNG ĐỢI DỊCH VÀ PHỤ ĐỀ ĐÃ LƯU
 • Thả vào vài tệp .srt hoặc .vtt, hoặc bấm "Thêm vào hàng đợi" với phụ đề mà trang tải. Các tệp sẽ được dịch lần lượt trong khi bạn làm việc khác; tab hàng đợi có thể để chạy nền
 • Dùng được với Google, Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn
-• Phụ đề đã cải thiện được giữ trong tiện ích bao lâu tùy bạn chọn, và tự hiện lại khi bạn quay lại video
+• Phụ đề đã cải thiện được giữ trong tiện ích bao lâu tùy bạn chọn, và tự hiện lại khi bạn quay lại video, và cả trên bất kỳ trang nào khác có cùng phụ đề, không cần hỏi lại AI
 • Nút Phát mở video kèm phụ đề, "Hiện trên…" đặt phụ đề lên một video đang mở ở thẻ khác, và nút Tải xuống lưu tệp .srt
 
 TÙY CHỈNH KIỂU CHỮ THEO Ý BẠN
@@ -90,10 +90,10 @@ DÀNH CHO NGƯỜI THÍCH VỌC VẠCH
 Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã tải và lưu thành .vtt hoặc .srt.
 
 QUYỀN RIÊNG TƯ
-Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi phụ đề được dịch (do bạn bấm hoặc ở chế độ tự động), và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Nếu bạn viết cho tôi qua "Viết cho tôi" trong cửa sổ tiện ích, tin nhắn sẽ tới tôi qua email. Chi tiết có trong chính sách quyền riêng tư.
+Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi phụ đề được dịch (do bạn bấm hoặc ở chế độ tự động), và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Nếu bạn viết cho tôi qua "Viết cho tôi" trong cửa sổ tiện ích, tin nhắn sẽ tới tôi qua email. Báo cáo sự cố chỉ được gửi khi bạn bấm Gửi và chỉ có tên trang web, không bao giờ có địa chỉ trang. Chi tiết có trong chính sách quyền riêng tư.
 
 GẶP LỖI HAY CÓ Ý TƯỞNG?
-Bấm "Sự cố hay ý tưởng?" ở cuối cửa sổ tiện ích và viết cho tôi. Tôi đọc mọi tin nhắn.
+Bấm "Sự cố hay ý tưởng?" ở cuối cửa sổ tiện ích và viết cho tôi. Tôi đọc mọi tin nhắn. Phụ đề không hiện trên một trang web? Nhãn "Trợ giúp" trên video sẽ hướng dẫn bạn, và "Báo cáo sự cố" gửi cho tôi tên trang web để tôi sửa.
 
 MÃ NGUỒN MỞ
 Toàn bộ tiện ích là mã nguồn mở (GPL-3.0), nên ai cũng có thể kiểm tra chính xác nó làm gì: github.com/Cleedek/subtitle-overlay. Nếu bạn thích, một ngôi sao trên GitHub sẽ giúp nhiều người khác tìm thấy nó.

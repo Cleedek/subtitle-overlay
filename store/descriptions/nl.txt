@@ -47,7 +47,7 @@ VINDT DE ONDERTITELS DIE EEN SITE LAADT
 VERTAALWACHTRIJ EN BEWAARDE ONDERTITELS
 • Sleep er meerdere .srt- of .vtt-bestanden in, of klik op "Aan wachtrij toevoegen" bij ondertitels die een site laadt. Ze worden na elkaar vertaald terwijl jij iets anders doet; het tabblad met de wachtrij mag op de achtergrond blijven
 • Werkt met Google, Gemini, Claude, OpenAI of je lokale model
-• Verbeterde ondertitels blijven in de extensie zo lang als jij kiest, en komen terug als je naar de video terugkeert
+• Verbeterde ondertitels blijven in de extensie zo lang als jij kiest, en komen terug als je naar de video terugkeert, en op elke andere pagina met dezelfde ondertitels, zonder de AI opnieuw te vragen
 • Afspelen opent de video met de ondertitels, "Tonen op…" zet ze op een video die al open is in een ander tabblad, en .srt downloaden slaat het .srt-bestand op
 
 STIJL ZE NAAR JOUW SMAAK
@@ -90,10 +90,10 @@ VOOR KNUTSELAARS
 Een tabblad "Subtitles" in DevTools toont elk ondertitelbestand dat de pagina heeft geladen en slaat het op als .vtt of .srt.
 
 PRIVACY
-Geen accounts, geen analytics, geen tracking. Ondertiteltekst gaat alleen naar Google Translate als ondertitels worden vertaald (door jouw klik of door de automatische modus), en alleen naar Gemini, Claude, OpenAI of je lokale model als je op Verbeteren klikt. Onthouden en bewaarde ondertitels blijven in je browser. Als je me schrijft via "Schrijf me" in de pop-up, komt je bericht per e-mail bij mij aan. Details in het privacybeleid.
+Geen accounts, geen analytics, geen tracking. Ondertiteltekst gaat alleen naar Google Translate als ondertitels worden vertaald (door jouw klik of door de automatische modus), en alleen naar Gemini, Claude, OpenAI of je lokale model als je op Verbeteren klikt. Onthouden en bewaarde ondertitels blijven in je browser. Als je me schrijft via "Schrijf me" in de pop-up, komt je bericht per e-mail bij mij aan. Een probleemmelding wordt alleen verstuurd als je op Versturen drukt en bevat de naam van de site, nooit het adres van de pagina. Details in het privacybeleid.
 
 PROBLEEM OF IDEE?
-Klik onderaan de pop-up op "Probleem of idee?" en schrijf me. Ik lees elk bericht.
+Klik onderaan de pop-up op "Probleem of idee?" en schrijf me. Ik lees elk bericht. Verschijnen er op een site geen ondertitels? Het label "Hulp" bij de video helpt je verder, en "Probleem melden" stuurt mij de naam van de site zodat ik het kan oplossen.
 
 OPEN SOURCE
 De hele extensie is open source (GPL-3.0), dus iedereen kan precies nagaan wat ze doet: github.com/Cleedek/subtitle-overlay. Vind je haar goed, dan helpt een ster op GitHub anderen om haar te vinden.

@@ -47,7 +47,7 @@ NAJDE TITULKY, KTERÉ WEB NAČTE
 FRONTA PŘEKLADŮ A ULOŽENÉ TITULKY
 • Přidej několik souborů .srt nebo .vtt, nebo klikni na "Přidat do fronty" u titulků, které web načte. Přeloží se jeden po druhém, zatímco děláš něco jiného; záložka s frontou může zůstat na pozadí
 • Funguje s Googlem, Gemini, Claude, OpenAI i s tvým lokálním modelem
-• Vylepšené titulky zůstanou v rozšíření tak dlouho, jak si vybereš, a vrátí se, když se k videu vrátíš
+• Vylepšené titulky zůstanou v rozšíření tak dlouho, jak si vybereš, a vrátí se, když se k videu vrátíš, a taky na jakékoli jiné stránce se stejnými titulky, aniž by se znovu ptaly AI
 • Přehrát otevře video i s titulky, "Pustit na…" je dá na video, které máš otevřené v jiné záložce, a Stáhnout uloží .srt
 
 STYL PODLE TEBE
@@ -90,10 +90,10 @@ PRO ŠŤOURALY
 Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které stránka načetla, a uloží je jako .vtt nebo .srt.
 
 SOUKROMÍ
-Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy se titulky překládají (tvým kliknutím nebo automatickým režimem), a do Gemini, Claude, OpenAI nebo tvého lokálního modelu jen když klikneš na Vylepšit. Zapamatované i uložené titulky zůstávají v tvém prohlížeči. Když mi napíšeš přes "Napiš mi" v popupu, zpráva mi přijde e-mailem. Podrobnosti v zásadách ochrany soukromí.
+Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy se titulky překládají (tvým kliknutím nebo automatickým režimem), a do Gemini, Claude, OpenAI nebo tvého lokálního modelu jen když klikneš na Vylepšit. Zapamatované i uložené titulky zůstávají v tvém prohlížeči. Když mi napíšeš přes "Napiš mi" v popupu, zpráva mi přijde e-mailem. Hlášení problému se odešle, jen když stiskneš Odeslat, a obsahuje název webu, nikdy adresu stránky. Podrobnosti v zásadách ochrany soukromí.
 
 PROBLÉM NEBO NÁPAD?
-Klikni dole v popupu na "Problém nebo nápad?" a napiš mi. Čtu každou zprávu.
+Klikni dole v popupu na "Problém nebo nápad?" a napiš mi. Čtu každou zprávu. Na nějakém webu se titulky neukazují? Štítek "Pomoc" u videa tě provede a "Nahlásit problém" mi pošle název webu, abych to mohl opravit.
 
 OPEN SOURCE
 Celé rozšíření je open source (GPL-3.0), takže si kdokoli může ověřit, co přesně dělá: github.com/Cleedek/subtitle-overlay. Jestli se ti líbí, hvězda na GitHubu pomůže, aby ho našli i další.

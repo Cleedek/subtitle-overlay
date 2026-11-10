@@ -47,7 +47,7 @@ MEGTALÁLJA AZ OLDAL FELIRATAIT
 FORDÍTÁSI VÁRÓLISTA ÉS MENTETT FELIRATOK
 • Húzz be több .srt vagy .vtt fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
 • Működik a Google, a Gemini, a Claude, az OpenAI vagy a saját helyi modelled segítségével
-• A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót
+• A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót, és bármely más oldalon is, ahol ugyanaz a felirat, anélkül hogy újra megkérdeznéd az MI-t
 • A Lejátszás gomb megnyitja a videót a feliratokkal, a "Megjelenítés itt…" egy másik lapon már megnyitott videóra teszi őket, az ".srt letöltése" gomb pedig elmenti a fájlt
 
 STÍLUS ÍZLÉSED SZERINT
@@ -90,10 +90,10 @@ BÜTYKÖLŐKNEK
 A DevTools "Subtitles" lapja felsorolja az oldal által betöltött összes feliratfájlt, és .vtt vagy .srt formátumban menti őket.
 
 ADATVÉDELEM
-Nincs fiók, nincs analitika, nincs követés. A feliratok szövege csak akkor kerül a Google Fordítóhoz, amikor a feliratok fordítása történik (a kattintásodra vagy automatikus módban), a Gemini, Claude, OpenAI szolgáltatáshoz vagy a helyi modelledhez pedig csak akkor, ha a Javítás gombra kattintasz. A megjegyzett és mentett feliratok a böngésződben maradnak. Ha a felugró ablakban az "Írj nekem" lehetőséggel írsz nekem, az üzeneted e-mailben jut el hozzám. Részletek az adatvédelmi irányelvekben.
+Nincs fiók, nincs analitika, nincs követés. A feliratok szövege csak akkor kerül a Google Fordítóhoz, amikor a feliratok fordítása történik (a kattintásodra vagy automatikus módban), a Gemini, Claude, OpenAI szolgáltatáshoz vagy a helyi modelledhez pedig csak akkor, ha a Javítás gombra kattintasz. A megjegyzett és mentett feliratok a böngésződben maradnak. Ha a felugró ablakban az "Írj nekem" lehetőséggel írsz nekem, az üzeneted e-mailben jut el hozzám. A problémabejelentés csak akkor megy el, ha megnyomod a Küldés gombot, és az oldal nevét tartalmazza, soha nem az oldal címét. Részletek az adatvédelmi irányelvekben.
 
 HIBA VAGY ÖTLET?
-Kattints a "Hiba vagy ötlet?" lehetőségre a felugró ablak alján, és írj nekem. Minden üzenetet elolvasok.
+Kattints a "Hiba vagy ötlet?" lehetőségre a felugró ablak alján, és írj nekem. Minden üzenetet elolvasok. Egy oldalon nem jelenik meg a felirat? A videón lévő "Súgó" címke végigvezet, a "Probléma bejelentése" pedig elküldi nekem az oldal nevét, hogy kijavíthassam.
 
 NYÍLT FORRÁSKÓD
 Az egész bővítmény nyílt forráskódú (GPL-3.0), így bárki ellenőrizheti, pontosan mit csinál: github.com/Cleedek/subtitle-overlay. Ha tetszik, egy csillag a GitHubon segít, hogy mások is rátaláljanak.

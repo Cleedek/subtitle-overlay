@@ -163,11 +163,25 @@
     </div>
   </div>
 
+  <!-- "How to start": for someone whose subtitles never showed yet. Its steps tick themselves (popup.js renderGuide). -->
+  <div id="startGuide" class="guide-card" hidden>
+    <strong id="guideTitle">How to start</strong>
+    <button id="guideClose" class="news-close" title="Close" aria-label="Close"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <ol id="guideSteps" class="guide-steps"></ol>
+  </div>
+
   <!-- Shown once after an update that has news (lib/whats-new.js). -->
   <div id="whatsNew" class="news-card" hidden>
     <div class="news-head"><strong>What's new</strong> <span id="newsVersion"></span></div>
     <button id="newsClose" class="news-close" title="Close" aria-label="Close"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-    <ul id="newsList" class="news-list"></ul>
+    <!-- Pages of up to 3 highlights: they slide by themselves every 5 s, hold still under the mouse,
+         and can be swiped (trackpad, touch), clicked through with the arrows or picked with the dots. -->
+    <div id="newsList" class="news-pages"></div>
+    <div id="newsNav" class="news-nav" hidden>
+      <button id="newsPrev" class="news-arrow prev" title="Previous" aria-label="Previous"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div id="newsDots" class="news-dots"></div>
+      <button id="newsNext" class="news-arrow next" title="Next" aria-label="Next"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
     <a id="newsMore" class="news-more" target="_blank" rel="noopener">View full changelog <svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   </div>
 
@@ -386,6 +400,17 @@
           </div>
         </details>
       </div>
+      <div class="setting" id="shareSetting">
+        <div class="setting-head"><span class="setting-label">Find subtitles from others</span><label class="toggle"><input id="shareFind" type="checkbox" role="switch" aria-label="Find subtitles from others"><span></span></label></div>
+        <p class="hint">Looks for a version someone already improved and shared. Only the start of the subtitles’ fingerprint is sent, never the page or the video.</p>
+        <div id="shareAutoRow" class="share-sub">
+          <div class="setting-head"><span class="setting-label">Use shared automatically</span><label class="toggle"><input id="shareAuto" type="checkbox" role="switch" aria-label="Use shared automatically"><span></span></label></div>
+          <p class="hint">No click on Use. Google’s version is always one click away.</p>
+        </div>
+        <div class="setting-head"><span class="setting-label">Share my improved subtitles</span><label class="toggle"><input id="shareMine" type="checkbox" role="switch" aria-label="Share my improved subtitles"><span></span></label></div>
+        <p class="hint">Only finished versions from a local model with 12B or more, or from a paid one.</p>
+        <p class="hint share-count" id="shareCountRow" hidden><span id="shareCountText"></span> <button type="button" class="ls-link" id="shareDelete">Delete my shared subtitles</button></p>
+      </div>
       <div class="setting">
         <div class="setting-head"><span class="setting-label">Second subtitles</span><label class="toggle"><input type="checkbox" role="switch" data-key="dual" aria-label="Second subtitles"><span></span></label></div>
         <p class="hint">A second set at the other edge of the video, in any language or the original. Handy when two people watch together.</p>
@@ -491,7 +516,7 @@
       </div>
 
       <p class="group">Effects</p>
-      <!-- A tile turns an effect on or off; its sliders wait under "Fine-tune effects". -->
+      <!-- A tile turns an effect on or off; each section under "Fine-tune effects" has the same switch, so it can be turned on from there too. -->
       <div class="fx-tiles">
         <label class="fx-tile"><input type="checkbox" role="switch" data-key="outline"><span class="fx-name">Outline</span><span class="fx-sum" id="fxSum-outline"></span></label>
         <label class="fx-tile"><input type="checkbox" role="switch" data-key="shadow"><span class="fx-name">Drop shadow</span><span class="fx-sum" id="fxSum-shadow"></span></label>
@@ -500,14 +525,14 @@
       <details class="fold">
         <summary>Fine-tune effects</summary>
         <div class="setting" data-fx="outline">
-          <div class="setting-head"><span class="setting-label">Outline</span></div>
+          <div class="setting-head"><span class="setting-label">Outline</span><label class="toggle small"><input type="checkbox" role="switch" data-key="outline" aria-label="Outline"><span></span></label></div>
           <div class="setting-body">
             <div class="sub"><span>Opacity</span><input type="range" data-key="outlineOpacity" min="0" max="100" aria-label="Outline opacity"><output data-for="outlineOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="outlineColor" popovertarget="colorPop" aria-label="Outline color"></button></div>
             <div class="sub"><span>Width</span><input type="range" data-key="outlineWidth" min="0" max="6" step="0.5" aria-label="Outline width"><output data-for="outlineWidth"></output><i></i></div>
           </div>
         </div>
         <div class="setting" data-fx="shadow">
-          <div class="setting-head"><span class="setting-label">Drop shadow</span></div>
+          <div class="setting-head"><span class="setting-label">Drop shadow</span><label class="toggle small"><input type="checkbox" role="switch" data-key="shadow" aria-label="Drop shadow"><span></span></label></div>
           <div class="setting-body">
             <div class="sub"><span>Opacity</span><input type="range" data-key="shadowOpacity" min="0" max="100" aria-label="Shadow opacity"><output data-for="shadowOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="shadowColor" popovertarget="colorPop" aria-label="Shadow color"></button></div>
             <div class="sub"><span>Blur</span><input type="range" data-key="shadowBlur" min="0" max="40" aria-label="Shadow blur"><output data-for="shadowBlur"></output><i></i></div>
@@ -517,10 +542,11 @@
           </div>
         </div>
         <div class="setting" data-fx="box">
-          <div class="setting-head"><span class="setting-label">Background box</span></div>
+          <div class="setting-head"><span class="setting-label">Background box</span><label class="toggle small"><input type="checkbox" role="switch" data-key="box" aria-label="Background box"><span></span></label></div>
           <div class="setting-body">
             <div class="sub"><span>Opacity</span><input type="range" data-key="boxOpacity" min="0" max="100" aria-label="Box opacity"><output data-for="boxOpacity" data-unit="%"></output><button type="button" class="color-btn" data-color="boxColor" popovertarget="colorPop" aria-label="Box color"></button></div>
-            <div class="sub"><span>Padding</span><input type="range" data-key="boxPadding" min="0" max="24" aria-label="Box padding"><output data-for="boxPadding"></output><i></i></div>
+            <div class="sub"><span>Sides</span><input type="range" data-key="boxPaddingX" min="0" max="24" aria-label="Box padding left and right"><output data-for="boxPaddingX"></output><i></i></div>
+            <div class="sub"><span>Top &amp; bottom</span><input type="range" data-key="boxPaddingY" min="0" max="24" aria-label="Box padding top and bottom"><output data-for="boxPaddingY"></output><i></i></div>
             <div class="sub"><span>Blur</span><input type="range" data-key="boxBlur" min="0" max="20" aria-label="Blur behind the box"><output data-for="boxBlur"></output><i></i></div>
           </div>
         </div>

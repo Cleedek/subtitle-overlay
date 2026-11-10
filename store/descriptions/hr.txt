@@ -47,7 +47,7 @@ PRONALAZI TITLOVE KOJE STRANICA UČITA
 RED PRIJEVODA I SPREMLJENI TITLOVI
 • Ubaci nekoliko .srt ili .vtt datoteka ili klikni "Dodaj u red čekanja" kod titlova koje stranica učita. Prevode se jedni za drugima dok radiš nešto drugo; kartica s redom može ostati u pozadini
 • Radi s Googleom, Geminijem, Claudeom, OpenAI-jem ili tvojim lokalnim modelom
-• Poboljšani titlovi čuvaju se u proširenju koliko god ti odabereš i vraćaju se kad se vratiš na video
+• Poboljšani titlovi čuvaju se u proširenju koliko god ti odabereš i vraćaju se kad se vratiš na video, i na bilo kojoj drugoj stranici s istim titlovima, bez ponovnog pitanja AI-ju
 • Reproduciraj otvara video s njegovim titlovima, "Prikaži na…" stavlja ih na video koji je već otvoren u drugoj kartici, a Preuzmi sprema .srt
 
 STIL PO TVOJEM
@@ -90,10 +90,10 @@ ZA ZNATIŽELJNE
 Kartica "Subtitles" u DevToolsu prikazuje svaku datoteku titlova koju je stranica učitala i sprema je kao .vtt ili .srt.
 
 PRIVATNOST
-Bez računa, bez analitike, bez praćenja. Tekst titlova šalje se Google Prevoditelju samo kad se titlovi prevode (tvojim klikom ili u automatskom načinu), a Geminiju, Claudeu, OpenAI-ju ili tvom lokalnom modelu samo kad klikneš Poboljšaj. Zapamćeni i spremljeni titlovi ostaju u tvom pregledniku. Ako mi pišeš preko "Piši mi" u prozoru proširenja, tvoja poruka stiže mi e-poštom. Pojedinosti su u pravilima o privatnosti.
+Bez računa, bez analitike, bez praćenja. Tekst titlova šalje se Google Prevoditelju samo kad se titlovi prevode (tvojim klikom ili u automatskom načinu), a Geminiju, Claudeu, OpenAI-ju ili tvom lokalnom modelu samo kad klikneš Poboljšaj. Zapamćeni i spremljeni titlovi ostaju u tvom pregledniku. Ako mi pišeš preko "Piši mi" u prozoru proširenja, tvoja poruka stiže mi e-poštom. Prijava problema šalje se samo kad pritisneš Pošalji i sadrži naziv stranice, nikad adresu podstranice. Pojedinosti su u pravilima o privatnosti.
 
 PROBLEM ILI IDEJA?
-Klikni "Problem ili ideja?" na dnu prozora proširenja i piši mi. Čitam svaku poruku.
+Klikni "Problem ili ideja?" na dnu prozora proširenja i piši mi. Čitam svaku poruku. Na nekoj stranici se ne prikazuju titlovi? Oznaka "Pomoć" na videu vodi te kroz to, a "Prijavi problem" šalje mi naziv stranice da to mogu popraviti.
 
 OTVORENI KOD
 Cijelo je proširenje otvorenog koda (GPL-3.0), pa svatko može provjeriti što točno radi: github.com/Cleedek/subtitle-overlay. Ako ti se sviđa, zvjezdica na GitHubu pomaže drugima da ga pronađu.

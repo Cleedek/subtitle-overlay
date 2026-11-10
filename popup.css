@@ -225,6 +225,10 @@ input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px va
 .setting-head > .toggle, .site-row > .toggle { position: static; }
 .toggle:hover span { filter: brightness(1.12); }
 .toggle input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* The effects' own switches under "Fine-tune effects": a side control, so smaller. */
+.toggle.small span { width: 28px; height: 16px; }
+.toggle.small span::after { width: 12px; height: 12px; }
+.toggle.small input:checked + span::after { transform: translateX(12px); }
 
 /* ---------- layout bits ---------- */
 
@@ -270,7 +274,7 @@ label.inline select { flex: 1; }
 .setting-body { display: flex; flex-direction: column; gap: 8px; transition: opacity .2s var(--ease); }
 /* --label-w: the longest row label in the interface language (popup.js). */
 .sub { display: grid; grid-template-columns: var(--label-w, 54px) minmax(0, 1fr) 38px 26px; align-items: center; gap: 10px; }
-.sub > span { color: var(--muted); font-size: 12px; }
+.sub > span { color: var(--muted); font-size: 12px; white-space: nowrap; }
 /* Effect switched off: its fine-tuning stays usable but steps back. */
 .setting:has(.toggle input:not(:checked)) .setting-body { opacity: .4; }
 
@@ -631,6 +635,7 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 [dir=rtl] * { letter-spacing: normal; } /* spacing tears Arabic's joined letters apart */
 [dir=rtl] select { background-position: left 11px center; }
 [dir=rtl] .toggle input:checked + span::after { transform: translateX(-14px); }
+[dir=rtl] .toggle.small input:checked + span::after { transform: translateX(-12px); }
 [dir=rtl] input[type=range]::-webkit-slider-runnable-track {
   background: linear-gradient(to left, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
 }
@@ -693,6 +698,25 @@ body.feedback #feedbackView { display: block !important; }
 .news-list li { position: relative; padding-inline-start: 14px; }
 .news-list li::before { content: ""; position: absolute; inset-inline-start: 1px; top: .5lh; translate: 0 -50%; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 .news-list b { font-weight: 650; }
+/* One page per screen width; a trackpad or finger swipes between them, snapping to whole pages.
+   The row is as tall as its tallest page, so the card never jumps. */
+.news-pages { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.news-pages::-webkit-scrollbar { display: none; }
+.news-pages > .news-list { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+/* Under the pages: arrow · dots · arrow. The arrows keep their place and only show under the mouse. */
+.news-nav { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: -4px; }
+.news-nav[hidden] { display: none; }
+.news-arrow { width: 22px; height: 22px; padding: 0; border-radius: 50%; display: grid; place-items: center; background: transparent; border: 0; color: var(--muted);
+  opacity: 0; transition: opacity .15s var(--ease), background-color .15s var(--ease), color .15s var(--ease); }
+.news-arrow:dir(rtl) svg { scale: -1 1; }
+.news-card:hover .news-arrow, .news-arrow:focus-visible { opacity: 1; }
+.news-arrow:hover { background: var(--panel-hover); color: var(--text); border-color: transparent; }
+.news-dots { display: flex; justify-content: center; gap: 2px; }
+.news-dots button { width: 18px; height: 14px; padding: 0; border: 0; background: transparent; display: grid; place-items: center; }
+.news-dots button::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); transition: background-color .2s var(--ease), width .2s var(--ease); }
+.news-dots button[aria-current="true"]::after { width: 14px; border-radius: 3px; background: var(--accent); }
+.news-dots button:hover::after { background: var(--muted); }
+.news-dots button[aria-current="true"]:hover::after { background: var(--accent); }
 .news-more { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--text); font-size: 12px; font-weight: 600; text-decoration: none; transition: background-color .15s var(--ease); }
 .news-more:hover { background: var(--panel-hover); }
 .news-link { margin-top: 0; padding-top: 10px; border-top: 0; } /* sits right under the GitHub link */
@@ -778,3 +802,24 @@ details.font-fold[open] > summary { margin-bottom: 10px; }
 #panelStyle:has([data-key=shadow]:not(:checked)) [data-fx=shadow] .setting-body,
 #panelStyle:has([data-key=box]:not(:checked)) [data-fx=box] .setting-body { opacity: .4; }
 .save-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+
+/* Shared subtitles: "Use shared automatically" belongs to "Find", shown only while it's on. */
+.share-sub { display: flex; flex-direction: column; gap: 10px; }
+.share-sub[hidden] { display: none; }
+.share-count { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+
+/* ---------- "How to start" (popup.js renderGuide) ---------- */
+
+.guide-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 12px; margin: 0 0 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.guide-card > strong { font-size: 13.5px; font-weight: 650; padding-inline-end: 22px; }
+.guide-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 12.5px; }
+.guide-steps li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; }
+.guide-steps .dot { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 750; margin-top: 1px; }
+.guide-steps .ok .dot { background: color-mix(in oklch, var(--success) 20%, transparent); color: var(--success); }
+.guide-steps .now .dot { background: var(--accent-tint); color: var(--accent-text); }
+.guide-steps .todo .dot { box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--faint); }
+.guide-steps .ok b { font-weight: 500; color: var(--muted); }
+.guide-steps b { display: block; font-weight: 600; }
+.guide-steps small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+.guide-card.done > strong { color: var(--success); }
+

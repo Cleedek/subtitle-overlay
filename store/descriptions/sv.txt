@@ -47,7 +47,7 @@ HITTAR UNDERTEXTERNA SOM EN WEBBPLATS LADDAR
 ÖVERSÄTTNINGSKÖ OCH SPARADE UNDERTEXTER
 • Släpp in flera .srt- eller .vtt-filer, eller klicka på "Lägg till i kön" vid undertexter som en webbplats laddar. De översätts en efter en medan du gör något annat; fliken med kön kan ligga i bakgrunden
 • Fungerar med Google, Gemini, Claude, OpenAI eller din lokala modell
-• Förbättrade undertexter sparas i tillägget så länge du vill och kommer tillbaka när du återvänder till videon
+• Förbättrade undertexter sparas i tillägget så länge du vill och kommer tillbaka när du återvänder till videon, och på alla andra sidor med samma undertexter, utan att fråga AI:n igen
 • Spela upp öppnar videon med dess undertexter, "Visa på…" lägger dem över en video som redan är öppen i en annan flik, och Ladda ner sparar .srt-filen
 
 STYLA DEM PÅ DITT SÄTT
@@ -90,10 +90,10 @@ FÖR TEKNIKNÖRDAR
 En flik "Subtitles" i DevTools listar varje undertextfil som sidan har laddat och sparar den som .vtt eller .srt.
 
 INTEGRITET
-Inga konton, ingen analys, ingen spårning. Undertexternas text skickas till Google Translate bara när undertexter översätts (genom ditt klick eller i automatiskt läge), och till Gemini, Claude, OpenAI eller din lokala modell bara när du klickar på Förbättra. Ihågkomna och sparade undertexter stannar i din webbläsare. Om du skriver till mig via "Skriv till mig" i tilläggets fönster når ditt meddelande mig via e-post. Mer information finns i integritetspolicyn.
+Inga konton, ingen analys, ingen spårning. Undertexternas text skickas till Google Translate bara när undertexter översätts (genom ditt klick eller i automatiskt läge), och till Gemini, Claude, OpenAI eller din lokala modell bara när du klickar på Förbättra. Ihågkomna och sparade undertexter stannar i din webbläsare. Om du skriver till mig via "Skriv till mig" i tilläggets fönster når ditt meddelande mig via e-post. En problemrapport skickas bara när du trycker på Skicka och innehåller webbplatsens namn, aldrig sidans adress. Mer information finns i integritetspolicyn.
 
 PROBLEM ELLER IDÉ?
-Klicka på "Problem eller idé?" längst ner i tilläggets fönster och skriv till mig. Jag läser varje meddelande.
+Klicka på "Problem eller idé?" längst ner i tilläggets fönster och skriv till mig. Jag läser varje meddelande. Visas inga undertexter på en webbplats? Etiketten "Hjälp" på videon guidar dig, och "Rapportera ett problem" skickar webbplatsens namn till mig så att jag kan fixa det.
 
 ÖPPEN KÄLLKOD
 Hela tillägget är öppen källkod (GPL-3.0), så vem som helst kan kontrollera exakt vad det gör: github.com/Cleedek/subtitle-overlay. Om du gillar det hjälper en stjärna på GitHub andra att hitta det.

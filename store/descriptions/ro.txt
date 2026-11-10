@@ -47,7 +47,7 @@ GĂSEȘTE SUBTITRĂRILE PE CARE LE ÎNCARCĂ UN SITE
 COADĂ DE TRADUCERE ȘI SUBTITRĂRI SALVATE
 • Adaugă mai multe fișiere .srt sau .vtt, sau dă clic pe "Adaugă în coadă" la subtitrările pe care le încarcă un site. Sunt traduse unul după altul în timp ce faci altceva; fila cu coada poate rămâne în fundal
 • Funcționează cu Google, Gemini, Claude, OpenAI sau modelul tău local
-• Subtitrările îmbunătățite sunt păstrate în extensie cât timp alegi tu și revin când te întorci la videoclip
+• Subtitrările îmbunătățite sunt păstrate în extensie cât timp alegi tu și revin când te întorci la videoclip, și pe orice altă pagină cu aceleași subtitrări, fără să mai întrebi AI-ul
 • Redă deschide videoclipul cu subtitrările lui, "Arată pe…" le pune peste un videoclip deja deschis în altă filă, iar Descarcă salvează fișierul .srt
 
 STILUL TĂU
@@ -90,10 +90,10 @@ PENTRU CURIOȘI
 O filă "Subtitles" în DevTools listează fiecare fișier de subtitrare încărcat de pagină și îl salvează ca .vtt sau .srt.
 
 CONFIDENȚIALITATE
-Fără conturi, fără analize, fără urmărire. Textul subtitrărilor este trimis la Google Traducere doar când subtitrările sunt traduse (prin clicul tău sau de modul automat) și la Gemini, Claude, OpenAI sau modelul tău local doar când dai clic pe Îmbunătățește. Subtitrările reținute și salvate rămân în browserul tău. Dacă îmi scrii prin "Scrie-mi" din fereastra extensiei, mesajul tău ajunge la mine pe e-mail. Detalii în politica de confidențialitate.
+Fără conturi, fără analize, fără urmărire. Textul subtitrărilor este trimis la Google Traducere doar când subtitrările sunt traduse (prin clicul tău sau de modul automat) și la Gemini, Claude, OpenAI sau modelul tău local doar când dai clic pe Îmbunătățește. Subtitrările reținute și salvate rămân în browserul tău. Dacă îmi scrii prin "Scrie-mi" din fereastra extensiei, mesajul tău ajunge la mine pe e-mail. Un raport de problemă se trimite doar când apeși Trimite și conține numele site-ului, niciodată adresa paginii. Detalii în politica de confidențialitate.
 
 PROBLEMĂ SAU IDEE?
-Dă clic pe "Problemă sau idee?" în partea de jos a ferestrei extensiei și scrie-mi. Citesc fiecare mesaj.
+Dă clic pe "Problemă sau idee?" în partea de jos a ferestrei extensiei și scrie-mi. Citesc fiecare mesaj. Subtitrările nu apar pe un site? Eticheta "Ajutor" de pe video te ghidează, iar "Raportează o problemă" îmi trimite numele site-ului ca să pot repara.
 
 OPEN SOURCE
 Întreaga extensie este open source (GPL-3.0), așa că oricine poate verifica exact ce face: github.com/Cleedek/subtitle-overlay. Dacă îți place, o stea pe GitHub îi ajută și pe alții să o găsească.

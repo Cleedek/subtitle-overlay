@@ -47,7 +47,7 @@ FINDET DIE UNTERTITEL, DIE EINE SEITE LÄDT
 ÜBERSETZUNGSWARTESCHLANGE UND GESPEICHERTE UNTERTITEL
 • Zieh mehrere .srt- oder .vtt-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
 • Funktioniert mit Google, Gemini, Claude, OpenAI oder deinem lokalen Modell
-• Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst
+• Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst, und auch auf jeder anderen Seite mit denselben Untertiteln, ohne die KI erneut zu fragen
 • Abspielen öffnet das Video mit seinen Untertiteln, "Zeigen auf…" legt sie über ein Video, das in einem anderen Tab schon offen ist, und Herunterladen speichert die .srt
 
 GESTALTE SIE, WIE DU WILLST
@@ -90,10 +90,10 @@ FÜR TÜFTLER
 Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Seite geladen hat, und speichert sie als .vtt oder .srt.
 
 DATENSCHUTZ
-Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn Untertitel übersetzt werden (per Klick oder im automatischen Modus), und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Gemerkte und gespeicherte Untertitel bleiben in deinem Browser. Wenn du mir über "Schreib mir" im Popup schreibst, kommt deine Nachricht per E-Mail bei mir an. Details in der Datenschutzerklärung.
+Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn Untertitel übersetzt werden (per Klick oder im automatischen Modus), und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Gemerkte und gespeicherte Untertitel bleiben in deinem Browser. Wenn du mir über "Schreib mir" im Popup schreibst, kommt deine Nachricht per E-Mail bei mir an. Eine Problemmeldung wird nur gesendet, wenn du auf Senden drückst, und enthält den Namen der Seite, nie die Adresse der Seite. Details in der Datenschutzerklärung.
 
 PROBLEM ODER IDEE?
-Klicke unten im Popup auf "Problem oder Idee?" und schreib mir. Ich lese jede Nachricht.
+Klicke unten im Popup auf "Problem oder Idee?" und schreib mir. Ich lese jede Nachricht. Auf einer Seite erscheinen keine Untertitel? Das Label "Hilfe" am Video führt dich durch, und "Problem melden" schickt mir den Namen der Seite, damit ich es beheben kann.
 
 OPEN SOURCE
 Die ganze Erweiterung ist Open Source (GPL-3.0), sodass jeder genau prüfen kann, was sie tut: github.com/Cleedek/subtitle-overlay. Wenn sie dir gefällt, hilft ein Stern auf GitHub anderen, sie zu finden.

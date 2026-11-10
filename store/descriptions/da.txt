@@ -47,7 +47,7 @@ FINDER DE UNDERTEKSTER, SIDEN INDLÆSER
 OVERSÆTTELSESKØ OG GEMTE UNDERTEKSTER
 • Træk flere .srt- eller .vtt-filer ind, eller klik på "Føj til køen" ved undertekster, som en side indlæser. De oversættes én efter én, mens du laver noget andet; kø-fanen kan blive i baggrunden
 • Virker med Google, Gemini, Claude, OpenAI eller din lokale model
-• Forbedrede undertekster gemmes i udvidelsen, så længe du vælger, og kommer tilbage, når du vender tilbage til videoen
+• Forbedrede undertekster gemmes i udvidelsen, så længe du vælger, og kommer tilbage, når du vender tilbage til videoen, og på enhver anden side med de samme undertekster, uden at spørge AI'en igen
 • Afspil åbner videoen med dens undertekster, "Vis på…" lægger dem over en video, der allerede er åben i en anden fane, og Download gemmer .srt-filen
 
 STYL DEM, SOM DU VIL
@@ -90,10 +90,10 @@ TIL DE NYSGERRIGE
 En "Subtitles"-fane i DevTools viser alle de undertekstfiler, siden har indlæst, og gemmer dem som .vtt eller .srt.
 
 PRIVATLIV
-Ingen konti, ingen analyse, ingen sporing. Underteksttekst sendes kun til Google Oversæt, når undertekster bliver oversat (når du klikker, eller i automatisk tilstand), og kun til Gemini, Claude, OpenAI eller din lokale model, når du klikker på Forbedr. Huskede og gemte undertekster bliver i din browser. Hvis du skriver til mig via "Skriv til mig" i pop op-vinduet, når din besked frem til mig som e-mail. Detaljer i privatlivspolitikken.
+Ingen konti, ingen analyse, ingen sporing. Underteksttekst sendes kun til Google Oversæt, når undertekster bliver oversat (når du klikker, eller i automatisk tilstand), og kun til Gemini, Claude, OpenAI eller din lokale model, når du klikker på Forbedr. Huskede og gemte undertekster bliver i din browser. Hvis du skriver til mig via "Skriv til mig" i pop op-vinduet, når din besked frem til mig som e-mail. En problemrapport sendes kun, når du trykker på Send, og indeholder sidens navn, aldrig sidens adresse. Detaljer i privatlivspolitikken.
 
 PROBLEM ELLER IDÉ?
-Klik på "Problem eller idé?" nederst i pop op-vinduet, og skriv til mig. Jeg læser hver eneste besked.
+Klik på "Problem eller idé?" nederst i pop op-vinduet, og skriv til mig. Jeg læser hver eneste besked. Vises der ingen undertekster på en side? Mærket "Hjælp" på videoen guider dig, og "Rapportér et problem" sender mig sidens navn, så jeg kan rette det.
 
 OPEN SOURCE
 Hele udvidelsen er open source (GPL-3.0), så alle kan tjekke præcis, hvad den gør: github.com/Cleedek/subtitle-overlay. Hvis du kan lide den, hjælper en stjerne på GitHub andre med at finde den.

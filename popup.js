@@ -350,6 +350,26 @@
   }));
   $('keepFor').value = prefs.keepFor;
   $('keepFor').addEventListener('change', () => SubSettings.saveTranslation({ keepFor: $('keepFor').value }));
+  // Shared improved subtitles: find (on by default), use automatically, share mine.
+  for (const key of ['shareFind', 'shareAuto', 'shareMine']) {
+    $(key).checked = prefs[key];
+    $(key).addEventListener('change', () => { SubSettings.saveTranslation({ [key]: $(key).checked }); showShare(); });
+  }
+  async function showShare() {
+    $('shareSetting').hidden = !SubSettings.SHARING;
+    $('shareAutoRow').hidden = !$('shareFind').checked;
+    const { shareCount } = await chrome.storage.local.get('shareCount');
+    $('shareCountRow').hidden = !shareCount;
+    if (shareCount) $('shareCountText').textContent = t('Shared: {n}', { n: shareCount });
+  }
+  showShare();
+  $('shareDelete').addEventListener('click', async () => {
+    if (!confirm(t('Delete every subtitle you shared? This can’t be undone.'))) return;
+    $('shareDelete').disabled = true;
+    const r = await chrome.runtime.sendMessage({ type: 'share-delete' }).catch(() => null);
+    $('shareDelete').disabled = false;
+    if (r && r.ok) showShare(); else $('shareCountText').textContent = t('Didn’t work: {error}', { error: (r && r.error) || t('Failed.') });
+  });
   const cap = (s) => s.charAt(0).toLocaleUpperCase(SubI18n.lang) + s.slice(1);
   const langOption = ([code]) => {
     const o = document.createElement('option');
@@ -874,7 +894,60 @@
     return (top && top.report.title) || ((frames || []).find((f) => f.report.title) || { report: {} }).report.title || '';
   }
 
+  // ---------- "How to start" ----------
+
+  // For someone whose subtitles never showed yet: three steps that tick
+  // themselves from what this page has. Gone for good once all three worked
+  // (shown done that one time) or after the cross.
+  var guide = null; // { done, videos } from storage (var: renderCaptured may run before this line)
+  chrome.storage.local.get(['startGuide', 'stats']).then(({ startGuide, stats }) => {
+    guide = { done: !!(startGuide && startGuide.done), videos: (stats && (stats.videos || stats.aiVideos)) || 0 };
+    renderGuide();
+  }).catch(() => {});
+  const endGuide = () => { if (guide) guide.done = true; chrome.storage.local.set({ startGuide: { done: true } }).catch(() => {}); };
+  $('guideClose').addEventListener('click', () => { endGuide(); $('startGuide').hidden = true; });
+
+  function renderGuide() {
+    const card = $('startGuide');
+    if (!guide || guide.done || guide.videos > 0 || frames === null || (!$('siteRow').hidden && !$('siteOn').checked)) { card.hidden = true; return; }
+    const vids = allVideos().filter((v) => v.visible);
+    const lf = loadedFrame();
+    const video = vids.length > 0;
+    const subs = !!lf || capturedItems.length > 0 || vids.some((v) => v.tracks && v.tracks.length);
+    const shown = !!lf;
+    const rows = [
+      [video, t('Play a video'), t('Any video with subtitles, on any site.')],
+      [subs, t('Turn on subtitles in the player'), t('The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.')],
+      [shown, t('The translation appears by itself'), t('Over the video, in your language. You can change the language below.')],
+    ];
+    const next = rows.findIndex(([ok]) => !ok);
+    $('guideSteps').replaceChildren(...rows.map(([ok, title, note], i) => {
+      const li = document.createElement('li');
+      li.className = ok ? 'ok' : i === next ? 'now' : 'todo';
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      dot.textContent = ok ? '✓' : String(i + 1);
+      const body = document.createElement('div');
+      const b = document.createElement('b');
+      b.textContent = title;
+      body.append(b);
+      if (!ok && i === next) {
+        const small = document.createElement('small');
+        small.textContent = note;
+        body.append(small);
+      }
+      li.append(dot, body);
+      return li;
+    }));
+    const done = next === -1;
+    card.classList.toggle('done', done);
+    $('guideTitle').textContent = done ? t('All set. It works.') : t('How to start');
+    card.hidden = false;
+    if (done) endGuide(); // shown done this once
+  }
+
   function renderCaptured() {
+    renderGuide();
     const box = $('captured');
     const cards = [];
     const episode = episodeTitle();
@@ -1081,7 +1154,7 @@
     const sums = {
       outline: `${settings.outlineOpacity}% · ${settings.outlineWidth} px`,
       shadow: `${settings.shadowOpacity}% · ${settings.shadowBlur} px`,
-      box: `${settings.boxOpacity}% · ${settings.boxPadding} px`,
+      box: `${settings.boxOpacity}% · ${settings.boxPaddingX} × ${settings.boxPaddingY} px`,
     };
     for (const [k, text] of Object.entries(sums)) $('fxSum-' + k).textContent = settings[k] ? text : t('Off');
   }

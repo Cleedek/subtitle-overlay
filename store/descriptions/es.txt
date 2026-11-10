@@ -47,7 +47,7 @@ ENCUENTRA LOS SUBTÍTULOS QUE CARGA UNA WEB
 COLA DE TRADUCCIÓN Y SUBTÍTULOS GUARDADOS
 • Arrastra varios archivos .srt o .vtt, o pulsa "Añadir a la cola" en los subtítulos que carga una web. Se traducen uno tras otro mientras haces otra cosa; la pestaña de la cola puede quedarse en segundo plano
 • Funciona con Google, Gemini, Claude, OpenAI o tu modelo local
-• Los subtítulos mejorados se guardan en la extensión el tiempo que tú elijas, y vuelven cuando regresas al vídeo
+• Los subtítulos mejorados se guardan en la extensión el tiempo que tú elijas, y vuelven cuando regresas al vídeo, y en cualquier otra página con los mismos subtítulos, sin volver a preguntar a la IA
 • Reproducir abre el vídeo con sus subtítulos, "Mostrar en…" los pone sobre un vídeo que ya tienes abierto en otra pestaña, y Descargar guarda el .srt
 
 A TU ESTILO
@@ -90,10 +90,10 @@ PARA CURIOSOS
 Una pestaña "Subtitles" en DevTools muestra todos los archivos de subtítulos que cargó la página y los guarda como .vtt o .srt.
 
 PRIVACIDAD
-Sin cuentas, sin analíticas, sin rastreo. El texto de los subtítulos se envía a Google Translate solo cuando se traducen los subtítulos (con tu clic o en modo automático), y a Gemini, Claude, OpenAI o tu modelo local solo cuando pulsas Mejorar. Los subtítulos recordados y guardados se quedan en tu navegador. Si me escribes con "Escríbeme" en la ventana de la extensión, tu mensaje me llega por correo electrónico. Más detalles en la política de privacidad.
+Sin cuentas, sin analíticas, sin rastreo. El texto de los subtítulos se envía a Google Translate solo cuando se traducen los subtítulos (con tu clic o en modo automático), y a Gemini, Claude, OpenAI o tu modelo local solo cuando pulsas Mejorar. Los subtítulos recordados y guardados se quedan en tu navegador. Si me escribes con "Escríbeme" en la ventana de la extensión, tu mensaje me llega por correo electrónico. Un reporte de problema solo se envía cuando pulsas Enviar y lleva el nombre del sitio, nunca la dirección de la página. Más detalles en la política de privacidad.
 
 ¿UN PROBLEMA O UNA IDEA?
-Pulsa "¿Problema o idea?" en la parte inferior de la ventana de la extensión y escríbeme. Leo todos los mensajes.
+Pulsa "¿Problema o idea?" en la parte inferior de la ventana de la extensión y escríbeme. Leo todos los mensajes. ¿No aparecen subtítulos en un sitio? La etiqueta "Ayuda" sobre el vídeo te guía, y "Reportar un problema" me envía el nombre del sitio para que pueda arreglarlo.
 
 CÓDIGO ABIERTO
 Toda la extensión es de código abierto (GPL-3.0), así que cualquiera puede comprobar exactamente qué hace: github.com/Cleedek/subtitle-overlay. Si te gusta, una estrella en GitHub ayuda a que otras personas la encuentren.

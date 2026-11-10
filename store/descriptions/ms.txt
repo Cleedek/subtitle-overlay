@@ -47,7 +47,7 @@ MENGESAN SARI KATA YANG DIMUATKAN LAMAN
 BARIS GILIR TERJEMAHAN DAN SARI KATA TERSIMPAN
 • Masukkan beberapa fail .srt atau .vtt, atau klik "Tambah ke baris gilir" pada sari kata yang dimuatkan laman. Ia diterjemah satu demi satu sementara anda membuat kerja lain; tab baris gilir boleh dibiarkan di latar belakang
 • Berfungsi dengan Google, Gemini, Claude, OpenAI atau model tempatan anda
-• Sari kata yang ditambah baik disimpan dalam sambungan selama mana yang anda pilih, dan muncul semula apabila anda kembali ke video itu
+• Sari kata yang ditambah baik disimpan dalam sambungan selama mana yang anda pilih, dan muncul semula apabila anda kembali ke video itu, dan di mana-mana halaman lain dengan sari kata yang sama, tanpa bertanya kepada AI lagi
 • Main membuka video berserta sari katanya, "Papar di…" meletakkannya pada video yang sudah dibuka dalam tab lain, dan Muat turun .srt menyimpan fail .srt
 
 GAYAKAN IKUT CITA RASA ANDA
@@ -90,10 +90,10 @@ UNTUK YANG SUKA MENGODEK
 Tab "Subtitles" dalam DevTools menyenaraikan setiap fail sari kata yang dimuatkan halaman dan menyimpannya sebagai .vtt atau .srt.
 
 PRIVASI
-Tiada akaun, tiada analitik, tiada penjejakan. Teks sari kata dihantar ke Google Terjemah hanya apabila sari kata diterjemah (dengan klik anda atau oleh mod automatik), dan ke Gemini, Claude, OpenAI atau model tempatan anda hanya apabila anda klik Tambah baik. Sari kata yang diingati dan disimpan kekal dalam pelayar anda. Jika anda menghubungi saya melalui "Tulis kepada saya" dalam tetingkap sambungan, mesej anda sampai kepada saya melalui e-mel. Butiran dalam dasar privasi.
+Tiada akaun, tiada analitik, tiada penjejakan. Teks sari kata dihantar ke Google Terjemah hanya apabila sari kata diterjemah (dengan klik anda atau oleh mod automatik), dan ke Gemini, Claude, OpenAI atau model tempatan anda hanya apabila anda klik Tambah baik. Sari kata yang diingati dan disimpan kekal dalam pelayar anda. Jika anda menghubungi saya melalui "Tulis kepada saya" dalam tetingkap sambungan, mesej anda sampai kepada saya melalui e-mel. Laporan masalah hanya dihantar apabila anda menekan Hantar dan mengandungi nama laman, bukan alamat halaman. Butiran dalam dasar privasi.
 
 MASALAH ATAU IDEA?
-Klik "Masalah atau idea?" di bahagian bawah tetingkap sambungan dan tulis kepada saya. Saya baca setiap mesej.
+Klik "Masalah atau idea?" di bahagian bawah tetingkap sambungan dan tulis kepada saya. Saya baca setiap mesej. Sari kata tidak muncul di sesebuah laman? Label "Bantuan" pada video membimbing anda, dan "Laporkan masalah" menghantar nama laman kepada saya supaya saya boleh membaikinya.
 
 SUMBER TERBUKA
 Keseluruhan sambungan ini ialah sumber terbuka (GPL-3.0), jadi sesiapa sahaja boleh menyemak dengan tepat apa yang dilakukannya: github.com/Cleedek/subtitle-overlay. Jika anda menyukainya, bintang di GitHub membantu orang lain menemuinya.

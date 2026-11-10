@@ -47,7 +47,7 @@ ENCONTRA AS LEGENDAS QUE O SITE CARREGA
 FILA DE TRADUÇÃO E LEGENDAS GUARDADAS
 • Larga vários ficheiros .srt ou .vtt, ou clica em "Adicionar à fila" nas legendas que um site carrega. São traduzidos uns atrás dos outros enquanto fazes outra coisa; o separador da fila pode ficar em segundo plano
 • Funciona com o Google, Gemini, Claude, OpenAI ou o teu modelo local
-• As legendas melhoradas ficam guardadas na extensão durante o tempo que escolheres, e voltam quando regressas ao vídeo
+• As legendas melhoradas ficam guardadas na extensão durante o tempo que escolheres, e voltam quando regressas ao vídeo, e em qualquer outra página com as mesmas legendas, sem voltar a perguntar à IA
 • Reproduzir abre o vídeo com as legendas, "Mostrar em…" coloca-as sobre um vídeo já aberto noutro separador, e Baixar guarda o .srt
 
 ESTILO À TUA MEDIDA
@@ -90,10 +90,10 @@ PARA OS CURIOSOS
 Um separador "Subtitles" nas DevTools lista todos os ficheiros de legendas que a página carregou e guarda-os como .vtt ou .srt.
 
 PRIVACIDADE
-Sem contas, sem estatísticas, sem rastreio. O texto das legendas só é enviado para o Google Tradutor quando as legendas são traduzidas (com o teu clique ou pelo modo automático), e para o Gemini, Claude, OpenAI ou o teu modelo local só quando clicas em Melhorar. As legendas memorizadas e guardadas ficam no teu navegador. Se me escreveres através de "Escreva para mim" na janela da extensão, a tua mensagem chega-me por e-mail. Detalhes na política de privacidade.
+Sem contas, sem estatísticas, sem rastreio. O texto das legendas só é enviado para o Google Tradutor quando as legendas são traduzidas (com o teu clique ou pelo modo automático), e para o Gemini, Claude, OpenAI ou o teu modelo local só quando clicas em Melhorar. As legendas memorizadas e guardadas ficam no teu navegador. Se me escreveres através de "Escreva para mim" na janela da extensão, a tua mensagem chega-me por e-mail. Um relato de problema só é enviado quando carregas em Enviar e leva o nome do site, nunca o endereço da página. Detalhes na política de privacidade.
 
 PROBLEMA OU IDEIA?
-Clica em "Problema ou ideia?" na parte de baixo da janela da extensão e escreve-me. Leio todas as mensagens.
+Clica em "Problema ou ideia?" na parte de baixo da janela da extensão e escreve-me. Leio todas as mensagens. As legendas não aparecem num site? A etiqueta "Ajuda" no vídeo guia-te, e "Relatar um problema" envia-me o nome do site para eu poder corrigir.
 
 CÓDIGO ABERTO
 A extensão inteira é de código aberto (GPL-3.0), por isso qualquer pessoa pode verificar exatamente o que faz: github.com/Cleedek/subtitle-overlay. Se gostares, uma estrela no GitHub ajuda outras pessoas a encontrá-la.

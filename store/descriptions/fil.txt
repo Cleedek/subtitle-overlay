@@ -47,7 +47,7 @@ HINAHANAP ANG SUBTITLES NA NILO-LOAD NG SITE
 PILA NG PAGSASALIN AT NAKA-SAVE NA SUBTITLES
 • Maglagay ng ilang .srt o .vtt file, o i-click ang "Idagdag sa pila" sa subtitles na nilo-load ng site. Isa-isa itong isasalin habang may ginagawa kang iba; puwedeng manatili sa background ang tab ng pila
 • Gumagana sa Google, Gemini, Claude, OpenAI o sa local model mo
-• Itinatabi ang pinahusay na subtitles sa extension hangga't gusto mo, at bumabalik ang mga ito kapag binalikan mo ang video
+• Itinatabi ang pinahusay na subtitles sa extension hangga't gusto mo, at bumabalik ang mga ito kapag binalikan mo ang video, at sa anumang ibang page na may parehong subtitle, nang hindi na muling nagtatanong sa AI
 • Binubuksan ng "I-play" ang video kasama ang subtitles nito, inilalagay ng "Ipakita sa…" ang mga ito sa video na bukas na sa ibang tab, at sine-save naman ng "I-download ang .srt" ang file
 
 IAYOS ANG ISTILO AYON SA GUSTO MO
@@ -90,10 +90,10 @@ PARA SA MGA MAHILIG MAGKALIKOT
 Isang tab na "Subtitles" sa DevTools ang naglilista ng bawat subtitle file na na-load ng page at sine-save ito bilang .vtt o .srt.
 
 PRIVACY
-Walang account, walang analytics, walang tracking. Ipinapadala lang ang teksto ng subtitles sa Google Translate kapag isinasalin ang subtitles (sa click mo o sa awtomatikong mode), at sa Gemini, Claude, OpenAI o sa local model mo kapag nag-click ka lang ng Pahusayin. Nananatili sa browser mo ang mga naaalala at naka-save na subtitles. Kung susulatan mo ako gamit ang "Sumulat sa akin" sa popup, darating sa akin ang mensahe mo sa email. Mga detalye sa privacy policy.
+Walang account, walang analytics, walang tracking. Ipinapadala lang ang teksto ng subtitles sa Google Translate kapag isinasalin ang subtitles (sa click mo o sa awtomatikong mode), at sa Gemini, Claude, OpenAI o sa local model mo kapag nag-click ka lang ng Pahusayin. Nananatili sa browser mo ang mga naaalala at naka-save na subtitles. Kung susulatan mo ako gamit ang "Sumulat sa akin" sa popup, darating sa akin ang mensahe mo sa email. Ipinapadala lang ang ulat ng problema kapag pinindot mo ang Ipadala, at pangalan lang ng site ang laman nito, hindi kailanman ang address ng page. Mga detalye sa privacy policy.
 
 PROBLEMA O IDEYA?
-I-click ang "Problema o ideya?" sa ibaba ng popup at sumulat sa akin. Binabasa ko ang bawat mensahe.
+I-click ang "Problema o ideya?" sa ibaba ng popup at sumulat sa akin. Binabasa ko ang bawat mensahe. Hindi lumalabas ang subtitle sa isang site? Gagabayan ka ng label na "Tulong" sa video, at ipapadala sa akin ng "Mag-ulat ng problema" ang pangalan ng site para maayos ko ito.
 
 OPEN SOURCE
 Open source ang buong extension (GPL-3.0), kaya puwedeng tingnan ng kahit sino kung ano mismo ang ginagawa nito: github.com/Cleedek/subtitle-overlay. Kung nagustuhan mo ito, nakakatulong ang star sa GitHub para mahanap ito ng iba.

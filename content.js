@@ -42,6 +42,7 @@
   let ownFullscreen = null; // { container, videoStyle } while our own fullscreen is on
   let off = false;        // turned off on this site from the popup: offer, show and restore nothing
   let askEl = null;       // the one-time support card under the language switches
+  let shareEl = null;     // the one-time "share it with others?" card, in the same place
 
   // The site is the tab's address, also inside a player frame from another domain.
   const topUrl = window === window.top ? location.href
@@ -144,7 +145,7 @@
     const ai = second && aiState.get(second);
     if (ai) {
       record.second = { t: record.t, lang, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(second))),
-        ai: { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } };
+        ai: { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped, ms: ai.ms || 0, kept: ai.kept || 0, shared: ai.shared || null } };
     }
     // A language switched off over the video stays off after a reload (hiding
     // everything at once with the shortcut or YouTube's CC button doesn't count).
@@ -394,6 +395,12 @@
       .ai-note { flex: 1; font-weight: 500; font-size: 11.5px; opacity: .7; }
       .langs .ai-act { flex: none; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.14); font-size: 11.5px; }
       .langs .ai-act:hover { background: rgba(255,255,255,.24); }
+      .langs .ai-act.main { background: #7a41e4; }
+      .langs .ai-act.main:hover { background: #8b55f0; }
+      .langs .ai-act.ghost { background: transparent; color: rgba(255,255,255,.6); }
+      .langs .ai-act.ghost:hover { background: rgba(255,255,255,.12); color: #fff; }
+      .ai-foot.wrap { flex-wrap: wrap; gap: 6px; }
+      .shared-chip { margin-inline-start: auto; flex: none; padding: 1px 6px; border-radius: 5px; background: rgba(134,239,172,.16); color: #86efac; font-size: 10.5px; font-weight: 650; letter-spacing: .02em; text-transform: uppercase; }
       .ai.error .ai-note { color: #fca5a5; opacity: 1; }
       /* A problem gets the whole width, its button goes under it. */
       .ai.error .ai-foot, .ai-foot.stack { flex-direction: column; align-items: flex-start; gap: 7px; }
@@ -443,6 +450,19 @@
       .ask .compact { display: none; }
       /* A smaller video (under 500 px tall): the photo, one sentence, the button and small links. */
       .ask.compact { width: 280px; padding: 10px; gap: 8px; }
+      /* "Share it with others?" (same card as the support one). */
+      .ask.share .title { font-size: 14.5px; font-weight: 700; padding-inline-end: 24px; line-height: 1.3; }
+      .ask.share p { margin: 0; font-size: 12px; color: rgba(255,255,255,.75); line-height: 1.45; }
+      .ask.share .info { display: flex; gap: 8px; align-items: flex-start; padding: 8px 9px; border-radius: 9px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); font-size: 11.5px; line-height: 1.45; color: rgba(255,255,255,.78); }
+      .ask.share .info svg { flex: none; margin-top: 1px; color: rgba(255,255,255,.6); }
+      .ask.share .info a { color: #fff; text-decoration: underline; }
+      .ask.share .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      .ask.share .pair button { justify-content: center; padding: 9px 12px; border: 0; border-radius: 8px; background: rgba(255,255,255,.12); font-weight: 650; font-size: 13.5px; }
+      .ask.share .pair button:hover { background: rgba(255,255,255,.2); }
+      .ask.share .pair button.main { background: #7c3aed; }
+      .ask.share .pair button.main:hover { background: #8b5cf6; }
+      .ask.share .never { align-self: center; border: 0; background: none; padding: 2px 6px; font-size: 11.5px; color: rgba(255,255,255,.55); text-decoration: underline; text-decoration-color: rgba(255,255,255,.25); text-underline-offset: 3px; }
+      .ask.share .never:hover { color: #fff; }
       .ask.compact > :not(.compact, .x) { display: none; }
       .ask.compact .compact { display: flex; flex-direction: column; gap: 8px; }
       .ask.compact .who { padding-inline-end: 22px; gap: 9px; }
@@ -505,10 +525,12 @@
     langsEl = el('div', 'langs');
     askEl = el('div', 'ask'); // filled the first time it shows (fillAsk)
     askEl.setAttribute('role', 'dialog');
-    for (const node of [langsEl, askEl]) {
+    shareEl = el('div', 'ask share'); // filled each time it shows (fillShareAsk)
+    shareEl.setAttribute('role', 'dialog');
+    for (const node of [langsEl, askEl, shareEl]) {
       for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) node.addEventListener(type, (e) => e.stopPropagation());
     }
-    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl);
+    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl, shareEl);
     placeHost();
     useFont();
   }
@@ -845,7 +867,7 @@
   function checkCovered() {
     if (!host || !video || !host.isConnected) return;
     coverAt = performance.now();
-    for (const el of [subsEl, dualEl, langsEl, askEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl]) {
+    for (const el of [subsEl, dualEl, langsEl, askEl, shareEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl, helpEl]) {
       // The notice only fades out and keeps its size: testing it while gone costs as much as shown.
       if (!el || (el === toastEl && !el.classList.contains('on'))) continue;
       el.classList.toggle('covered', !document.fullscreenElement && covered(el));
@@ -1214,7 +1236,7 @@
     const list = SubLib.parse(SubLib.decode(SubLib.base64ToBytes(b64), 'utf-8').text);
     if (ai && ai.model) {
       aiState.set(list, { model: ai.model, done: Math.min(ai.done, list.length), total: list.length,
-        chunks: new Set(ai.chunks), running: false, error: '', stopped: !!ai.stopped });
+        chunks: new Set(ai.chunks), running: false, error: '', stopped: !!ai.stopped, ms: ai.ms || 0, kept: ai.kept || 0, shared: ai.shared || null });
     }
     return list;
   }
@@ -1461,6 +1483,18 @@
       if (!quiet) notice(t('Subtitles from {site}: {lang}', { site: own.site, lang: SubSettings.languageName(to) }), 4000);
       return { ok: true, list: own.list };
     }
+    // Translated and improved before on this computer (Saved subtitles): used
+    // as it is, the model's work isn't done again and Google isn't asked.
+    const kept = await keptTranslation(base, to);
+    if (baseOf().file !== base.file) return { ok: false, error: t('Other subtitles were loaded meanwhile.') };
+    if (translations.has(to)) return { ok: true, list: translations.get(to) };
+    if (kept) {
+      translations.set(to, kept);
+      countOwn();
+      return { ok: true, list: kept };
+    }
+    // Shared by someone else: asked at the same time as Google, so Google's lines never wait for it long.
+    const lookup = sharedTranslation(base, to);
     if (!quiet) notice(t('Translating {n} lines to {lang}…', { n: base.cues.length, lang: SubSettings.languageName(to) }), 15000);
     const res = await chrome.runtime.sendMessage({ type: 'translate', to, texts: base.cues.map((c) => toHtml(c.text)) })
       .catch((e) => ({ ok: false, error: e.message }));
@@ -1476,7 +1510,229 @@
     translations.set(to, list);
     // For the rating card in the popup: background.js counts each page once.
     chrome.runtime.sendMessage({ type: 'count-video', page: pageOfSubs(), lines: list.length }).catch(() => {});
+    // A shared copy found in time is offered (or used at once with "Use shared automatically");
+    // one that comes later is offered when it comes.
+    const LATE = {};
+    const found = await Promise.race([lookup, new Promise((r) => setTimeout(() => r(LATE), 1500))]);
+    if (found === LATE) { lookup.then((f) => offerShared(to, list, f)); return { ok: true, list }; }
+    if (found && translations.get(to) === list) {
+      if (prefs.shareAuto) { googleOf.set(found.list, list); translations.set(to, found.list); return { ok: true, list: found.list }; }
+      sharedOffer.set(list, found);
+    }
     return { ok: true, list };
+  }
+
+  // The fingerprint of the original lines (SubSettings.sourceKey), worked out once per file.
+  const srcKeys = new WeakMap(); // base file -> Promise of the key ('' when it can't be made)
+  function srcKeyOf(base) {
+    if (!srcKeys.has(base.file)) srcKeys.set(base.file, SubSettings.sourceKey(base.cues).catch(() => ''));
+    return srcKeys.get(base.file);
+  }
+  // The copy of these original lines in `to` from Saved subtitles, as cues with
+  // the original's timing (and its AI state when a model made it), or null.
+  async function keptTranslation(base, to) {
+    const src = await srcKeyOf(base);
+    const item = src && await SubSettings.findKept(src, to).catch(() => null);
+    if (!item || !item.srt) return null;
+    const list = SubLib.parse(item.srt);
+    if (list.length !== base.cues.length) return null;
+    list.forEach((c, i) => { c.start = base.cues[i].start; c.end = base.cues[i].end; });
+    if (item.model && item.model !== 'Google') {
+      const chunks = new Set();
+      for (let i = 0; i < list.length; i += AI_CHUNK) chunks.add(i);
+      aiState.set(list, { model: item.model, done: list.length, total: list.length, chunks, running: false, error: '', stopped: false,
+        ms: item.ms || 0, kept: item.t || Date.now() });
+    }
+    return list;
+  }
+
+  // ---------- shared improved subtitles ----------
+  // Someone else improved the same original lines with a good model and shared
+  // them (~/subtitle-share). The card over the video offers them in place of
+  // Improve, or they're used at once with "Use shared automatically".
+  const sharedOffer = new WeakMap(); // Google's cues -> { list, item }: a shared copy offered over them
+  const googleOf = new WeakMap();    // shared cues -> Google's cues they replaced
+  const noShared = new WeakMap();    // base file -> Set of languages whose shared copy you turned down
+  const turnedDown = (base, to) => !!(noShared.get(base.file) || new Set()).has(to);
+  function turnDown(to) {
+    const f = baseOf().file;
+    if (!noShared.has(f)) noShared.set(f, new Set());
+    noShared.get(f).add(to);
+  }
+  // The newest shared copy of these lines in `to` as { list, item }, or null.
+  async function sharedTranslation(base, to) {
+    try {
+      if (!SubSettings.SHARING || !prefs.shareFind || turnedDown(base, to)) return null;
+      const src = await srcKeyOf(base);
+      const res = src && await send({ type: 'share-find', src, lang: to });
+      if (!res || !res.srt || !res.item) return null;
+      const list = SubLib.parse(res.srt);
+      if (list.length !== base.cues.length) return null;
+      list.forEach((c, i) => { c.start = base.cues[i].start; c.end = base.cues[i].end; });
+      const chunks = new Set();
+      for (let i = 0; i < list.length; i += AI_CHUNK) chunks.add(i);
+      aiState.set(list, { model: res.item.model, done: list.length, total: list.length, chunks, running: false, error: '', stopped: false,
+        ms: res.item.ms || 0, shared: { id: res.item.id, tag: res.item.tag, t: res.item.t } });
+      return { list, item: res.item };
+    } catch (e) { return null; }
+  }
+  // A copy that came after Google's lines were already on screen.
+  function offerShared(to, googleList, found) {
+    if (!found || translations.get(to) !== googleList) return;
+    if (prefs.shareAuto) return useShared(to, googleList, found);
+    sharedOffer.set(googleList, found);
+    refreshLangs();
+    if (googleList === cues || googleList === secondCues()) showLangs(8000);
+  }
+  // Puts another version of a language's lines on screen (main or second subtitles).
+  function swapTranslation(lang, list, old = translations.get(lang)) {
+    translations.set(lang, list);
+    if (original && file.translatedTo === lang && cues === old) showTranslation(lang, list, true);
+    else { lastKey = ''; position(true); render(true); rememberFile(); }
+    refreshLangs();
+  }
+  function useShared(lang, googleList, found) {
+    sharedOffer.delete(googleList);
+    googleOf.set(found.list, googleList);
+    swapTranslation(lang, found.list, googleList);
+  }
+  // Back to Google's quick version (asked for now if the shared copy came instead of it).
+  async function backToGoogle(lang, list) {
+    turnDown(lang);
+    const g = googleOf.get(list);
+    if (g) return swapTranslation(lang, g, list);
+    translations.delete(lang);
+    const r = await fetchTranslation(lang, true);
+    if (r.ok) swapTranslation(lang, r.list, list);
+  }
+  // Your own model instead: over Google's lines, or over a copy of the shared ones.
+  function improveMyself(lang, list, offer) {
+    turnDown(lang);
+    if (offer) { sharedOffer.delete(list); improve(lang, baseOf(), list, false); return; }
+    const copy = list.map((c) => ({ start: c.start, end: c.end, text: c.text }));
+    swapTranslation(lang, copy, list);
+    improve(lang, baseOf(), copy, false);
+  }
+  // "2 days ago" in the interface language.
+  function agoText(ts) {
+    const rtf = new Intl.RelativeTimeFormat(SubI18n.lang, { numeric: 'auto' });
+    const sec = (ts - Date.now()) / 1000;
+    for (const [unit, n] of [['year', 31536000], ['month', 2592000], ['week', 604800], ['day', 86400], ['hour', 3600], ['minute', 60]]) {
+      if (Math.abs(sec) >= n) return rtf.format(Math.round(sec / n), unit);
+    }
+    return rtf.format(0, 'second');
+  }
+  // "🇨🇿 gemma3:12b  SHARED", "Improved 2 days ago by user #4F2A", then Use (offer)
+  // or Back to Google (in use), Improve myself, and Report on a copy in use.
+  function sharedRow(lang, list, s, offer) {
+    const info = s ? Object.assign({ model: s.model }, s.shared) : offer.item;
+    const row = el('div', 'ai' + (s ? ' done' : ''));
+    const head = el('div', 'ai-head');
+    head.append(el('span', 'name', (SubSettings.flag(lang) + ' ' + info.model).trim()), el('span', 'shared-chip', '\u267b ' + t('Shared')));
+    row.append(head);
+    if (s) {
+      const bar = el('div', 'ai-bar');
+      const fill = el('span');
+      fill.style.width = '100%';
+      bar.append(fill);
+      row.append(bar);
+    }
+    row.append(el('div', 'ai-note', t('Improved {ago} by user #{tag}', { ago: agoText(info.t), tag: info.tag })));
+    const foot = el('div', 'ai-foot wrap');
+    const act = (label, cls, fn, title) => {
+      const b = el('button', 'ai-act' + (cls ? ' ' + cls : ''), label);
+      if (title) b.title = title;
+      b.addEventListener('click', (e) => { e.stopPropagation(); fn(); showLangs(); });
+      foot.append(b);
+    };
+    if (offer) act(t('Use'), 'main', () => useShared(lang, list, offer));
+    else act(t('Back to Google'), '', () => backToGoogle(lang, list));
+    if (aiReady()) act(t('Improve myself'), '', () => improveMyself(lang, list, offer), t('Rewrites the lines with {model}, starting where the video is now.', { model: aiModel() }));
+    if (s) {
+      act(t('Report'), 'ghost', () => {
+        send({ type: 'share-report', id: info.id });
+        backToGoogle(lang, list);
+        toast(t('Thanks, reported. Back to Google’s version.'), 3500);
+      }, t('Wrong or offensive subtitles: tell us and go back to Google’s version.'));
+    }
+    row.append(foot);
+    return row;
+  }
+
+  // ---------- "share it with others?" ----------
+  // After a good model finished improving (SubSettings.shareable): sent at once
+  // when you said yes before; otherwise the card asks, the first time and then
+  // again after 3 more, until you say yes or "Don't ask again".
+  let shareAsking = null; // the finished pass the card asks about: { src, lang, model, lines, ms, srt, tag }
+  async function afterImproved(to, list, state, base) {
+    try {
+      if (!SubSettings.SHARING || !SubSettings.shareable(prefs.translator, state.model)) return;
+      const src = await srcKeyOf(base);
+      if (!src) return;
+      // Only the formatting the server takes (italic, bold, underline).
+      const srt = SubLib.toSRT(list).replace(/<\/?(?!(?:i|b|u)\b)[a-z][^>]*>/gi, '');
+      const job = { src, lang: to, model: state.model, lines: list.length, ms: Math.round(state.ms || 0), srt };
+      if (prefs.shareMine) { send({ type: 'share-send', job }); return; }
+      const got = await chrome.storage.local.get(['shareAsk', 'shareImproved']);
+      const n = (got.shareImproved || 0) + 1;
+      await chrome.storage.local.set({ shareImproved: n });
+      const a = got.shareAsk;
+      if (a === 'never' || a === 'yes' || (a && a.next && n < a.next)) return;
+      job.tag = await SubSettings.shareTag(await SubSettings.shareOwner());
+      shareAsking = job;
+      shareEl.replaceChildren();
+      if (list === cues || list === secondCues()) showLangs(20000);
+    } catch (e) { /* nothing shared, nothing asked */ }
+  }
+  async function answerShare(kind) {
+    const job = shareAsking;
+    shareAsking = null;
+    shareEl.classList.remove('on');
+    if (kind === 'yes') {
+      prefs.shareMine = true;
+      await chrome.storage.local.set({ shareMine: true, shareAsk: 'yes' }).catch(() => {});
+      const r = job && await send({ type: 'share-send', job });
+      toast(r && r.ok ? t('Thanks! Shared.') : t('Sharing didn’t work this time. The next ones will be shared.'), 3500);
+    } else if (kind === 'never') {
+      await chrome.storage.local.set({ shareAsk: 'never' }).catch(() => {});
+    } else {
+      const { shareImproved } = await chrome.storage.local.get('shareImproved').catch(() => ({}));
+      await chrome.storage.local.set({ shareAsk: { next: (shareImproved || 0) + 3 } }).catch(() => {});
+    }
+  }
+  // "38 minutes" / "50 seconds" in the interface language.
+  function durationText(ms) {
+    const min = ms >= 60000;
+    return new Intl.NumberFormat(SubI18n.lang, { style: 'unit', unit: min ? 'minute' : 'second', unitDisplay: 'long' })
+      .format(Math.max(1, Math.round(ms / (min ? 60000 : 1000))));
+  }
+  function fillShareAsk() {
+    const job = shareAsking;
+    const close = el('button', 'x');
+    close.innerHTML = ICON.close;
+    close.title = t('Not now');
+    close.addEventListener('click', () => answerShare('later'));
+    const title = el('strong', 'title', job.ms >= 1000 ? t('Done in {time}. Save it for others?', { time: durationText(job.ms) }) : t('Improved. Share it with others?'));
+    const intro = el('p', '', t('Share the improved subtitles and the next person with the same video gets them at once. Their computer doesn’t have to do the work again.'));
+    const info = el('div', 'info');
+    info.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>';
+    const text = el('span', '', t('Only the subtitles and the model’s name are sent, signed anonymously as #{tag}. The page address, the video’s name and your name are not sent.', { tag: job.tag }) + ' ');
+    const more = el('a', '', t('More about privacy'));
+    more.href = SubSettings.PRIVACY_URL;
+    more.target = '_blank';
+    more.rel = 'noopener';
+    text.append(more);
+    info.append(text);
+    const pair = el('div', 'pair');
+    const yes = el('button', 'main', t('Share'));
+    yes.addEventListener('click', () => answerShare('yes'));
+    const later = el('button', '', t('Not now'));
+    later.addEventListener('click', () => answerShare('later'));
+    pair.append(yes, later);
+    const never = el('button', 'never', t('Don’t ask again'));
+    never.addEventListener('click', () => answerShare('never'));
+    shareEl.setAttribute('aria-label', t('Share improved subtitles'));
+    shareEl.append(close, title, intro, info, pair, never);
   }
 
   // Translations that are really the site's own subtitles in that language:
@@ -1529,7 +1785,7 @@
     if (busy && busy.file === base.file && busy.model === model) return;
     const prev = aiState.get(list);
     const state = prev && prev.model === model ? prev
-      : { model, done: 0, total: list.length, chunks: new Set(), running: false, error: '', stopped: false };
+      : { model, done: 0, total: list.length, chunks: new Set(), running: false, error: '', stopped: false, ms: 0 };
     if (aiFinished(state) || (state.stopped && quiet)) return;
     state.stopped = false;
     const run = { file: base.file, model };
@@ -1559,7 +1815,10 @@
     let said = quiet, savedAt = Date.now();
     try {
       // Who is who, from the whole file, for every chunk. Google's lines stay on screen meanwhile.
+      // How long the model worked on it (state.ms, pauses not counted): said when it's done.
+      let t0 = Date.now();
       const sheetRes = await chrome.runtime.sendMessage({ type: 'ai-sheet', to, texts: src }).catch(() => null);
+      state.ms = (state.ms || 0) + Date.now() - t0;
       if (!stillWanted()) return;
       const sheet = (sheetRes && sheetRes.sheet) || '';
       for (let k = 0; k < starts.length; k++) {
@@ -1582,6 +1841,7 @@
           clearInterval(watch);
           send({ type: 'ai-stop', to });
         }, 500);
+        t0 = Date.now();
         const res = await chrome.runtime.sendMessage({ type: 'ai-translate', to,
           texts: src.slice(i, i + AI_CHUNK), before: src.slice(Math.max(0, i - 4), i), sheet })
           .catch((e) => ({ ok: false, error: e.message }))
@@ -1593,6 +1853,7 @@
           err.found = (res && res.found) || null; // Ollama or LM Studio answers at its usual address instead
           throw err;
         }
+        state.ms += Date.now() - t0;
         res.texts.forEach((text, k) => { const c = list[i + k]; if (c) c.text = fromHtml(text) || c.text; });
         state.chunks.add(i);
         state.done += res.texts.length;
@@ -1613,8 +1874,11 @@
       // For the support card: background.js counts each improved page once.
       send({ type: 'count-video', page: pageOfSubs(), ai: true });
       // The episode the subtitles were loaded on, even if the site moved on to the next one meanwhile.
-      SubSettings.keepSubtitles({ name: improvedName(to), lang: to, model, page: loadedOn || location.href,
-        title: window === window.top && location.href === loadedOn ? pageTitle() : '', srt: SubLib.toSRT(list) }, prefs.keepFor).catch(() => {});
+      // With the original's fingerprint, so the same subtitles get it back without asking the model again.
+      const keep = { name: improvedName(to), lang: to, model, page: loadedOn || location.href, ms: state.ms,
+        title: window === window.top && location.href === loadedOn ? pageTitle() : '', srt: SubLib.toSRT(list) };
+      srcKeyOf(base).then((src) => SubSettings.keepSubtitles(Object.assign({ src }, keep), prefs.keepFor)).catch(() => {});
+      afterImproved(to, list, state, base);
     } catch (e) {
       if (improving.get(to) !== run) return; // replaced by a pass with another model
       state.error = e.message;
@@ -1734,7 +1998,7 @@
     file = { name, b64: SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toSRT(list))), encoding: 'utf-8', usedEncoding: 'utf-8',
       translatedTo: to, origLang, original: original.file, native: nativeSite.get(list) || '',
       // That you asked the AI to improve it and which chunks it already rewrote, so a reload shows it and carries on.
-      ai: ai ? { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped } : null };
+      ai: ai ? { model: ai.model, done: ai.done, chunks: [...ai.chunks], stopped: ai.stopped, ms: ai.ms || 0, kept: ai.kept || 0, shared: ai.shared || null } : null };
     lastKey = '';
     render(true);
     refreshLangs();
@@ -1881,7 +2145,12 @@
   // With the language switches: right under them, compact on a smaller video.
   function updateAsk() {
     if (!askEl) return;
-    const on = langsEl.classList.contains('on') && askWanted();
+    // "Share it with others?" goes first: the support card waits while it's there.
+    const shareOn = langsEl.classList.contains('on') && !!shareAsking && !!video;
+    if (shareOn && !shareEl.firstChild) fillShareAsk();
+    shareEl.classList.toggle('on', shareOn);
+    if (shareOn) shareEl.style.top = (langsEl.offsetTop + langsEl.offsetHeight + 8) + 'px';
+    const on = langsEl.classList.contains('on') && !shareOn && askWanted();
     if (on && !askEl.firstChild) fillAsk();
     askEl.classList.toggle('on', on);
     if (!on) return;
@@ -1981,6 +2250,416 @@
     askEl.append(close, hello, intro, tile, minor, gh, el('p', 'once', t('You’ll only see this once.')), compact);
   }
 
+  // ---------- help: "turn the site's subtitles on" and "report a problem" ----------
+
+  // Many sites send their subtitles only once you switch them on in their own
+  // player. When a video has played a while with sound and none came, a card
+  // in the bottom right says so (once per site). After that a small "Help"
+  // label shows there while the mouse moves over the video. Both open a short
+  // check that fixes the common cases and ends in a problem report, which
+  // sends only the site's name and the checks shown (background.js).
+  const HELP_AFTER_MS = 10000;
+  const PROBLEMS = {
+    no_subs: 'Subtitles don’t show',
+    bad_translation: 'Translation is wrong',
+    timing: 'Subtitles are out of sync',
+    other: 'Something else',
+  };
+  let helpEl = null;
+  let helpVideo = null;   // the video being watched for it
+  let helpPlayed = 0;     // ms it played with sound, no subtitles
+  let helpArmed = false;  // played long enough: the label may show
+  let helpMode = '';      // '' | 'hint' | 'pill' | 'wizard'
+  let helpTimer = 0, pillTimer = 0, helpMouseQueued = false;
+  let wiz = null;         // { step, problem, note, sending }
+  const hasSubs = () => !!(offered || cues.length);
+
+  const HELP_CSS = `
+    :host([data-rtl]) .help { direction: rtl; }
+    .help {
+      position: absolute; inset-inline-end: 12px; bottom: max(76px, 14%); display: none; pointer-events: auto;
+      font: 500 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
+    }
+    .help.on { display: block; }
+    .help button, .help textarea { font: inherit; color: #fff; }
+    .help button { cursor: pointer; border: 0; }
+    .help .pill {
+      display: flex; align-items: center; gap: 7px; padding: 7px 12px 7px 10px; border-radius: 999px;
+      background: rgba(20,20,20,.86); font-weight: 600; font-size: 12.5px;
+    }
+    .help .pill:hover { background: rgba(40,40,40,.95); }
+    .help .pill i { font-style: normal; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #7a41e4; font-size: 11px; font-weight: 800; }
+    .help .pill u { text-decoration: none; color: #c4b5fd; }
+    .help .card {
+      position: relative; width: 300px; max-width: calc(100vw - 24px); max-height: var(--help-max, 420px); overflow: auto;
+      display: flex; flex-direction: column; gap: 10px; padding: 14px 12px 12px; border-radius: 12px;
+      background: rgba(20,20,20,.94); box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
+      animation: help-in .35s cubic-bezier(.25, 1, .5, 1) both;
+    }
+    @keyframes help-in { from { opacity: 0; transform: translateY(6px) scale(.98); } }
+    @media (prefers-reduced-motion: reduce) { .help .card { animation: none; } }
+    .help .head { display: flex; align-items: center; gap: 6px; padding-inline-end: 26px; min-height: 24px; }
+    .help .head strong { font-size: 14.5px; font-weight: 700; line-height: 1.3; }
+    .help .x, .help .back { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border-radius: 7px; background: transparent; color: rgba(255,255,255,.65); flex: none; }
+    .help .x { position: absolute; top: 10px; inset-inline-end: 8px; }
+    .help .x:hover, .help .back:hover { background: rgba(255,255,255,.14); color: #fff; }
+    :host([data-rtl]) .help .back svg { transform: scaleX(-1); }
+    .help p { margin: 0; }
+    .help .lead { font-size: 13.5px; font-weight: 600; }
+    .help .soft { font-size: 12px; color: rgba(255,255,255,.7); line-height: 1.45; }
+    .help .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .help .btn { padding: 7px 12px; border-radius: 8px; background: rgba(255,255,255,.14); font-weight: 600; font-size: 12.5px; }
+    .help .btn:hover { background: rgba(255,255,255,.24); }
+    .help .btn.main { background: #7c3aed; }
+    .help .btn.main:hover { background: #8b5cf6; }
+    .help .btn:disabled { opacity: .6; cursor: default; }
+    .help .link { align-self: flex-start; padding: 2px 4px; margin: -4px -4px 0; border-radius: 5px; background: none; color: rgba(255,255,255,.55); font-size: 11.5px; }
+    .help .link:hover { color: #fff; background: rgba(255,255,255,.1); }
+    .help .chips { display: flex; flex-direction: column; gap: 6px; }
+    .help .chip { text-align: start; padding: 9px 11px; border-radius: 9px; background: rgba(255,255,255,.08); font-weight: 600; }
+    .help .chip:hover { background: rgba(255,255,255,.16); }
+    .help .steps { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+    .help .steps li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; align-items: start; }
+    .help .dot { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 800; margin-top: 1px; }
+    .help .dot.ok { background: rgba(134,239,172,.18); color: #86efac; }
+    .help .dot.now { background: rgba(252,211,77,.2); color: #fcd34d; }
+    .help .dot.todo { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.28); color: rgba(255,255,255,.6); }
+    .help .steps b { display: block; font-weight: 600; }
+    .help .steps small { display: block; margin-top: 2px; font-size: 11.5px; color: rgba(255,255,255,.66); line-height: 1.45; }
+    .help .steps .btn { margin-top: 6px; padding: 4px 10px; font-size: 11.5px; }
+    .help .good { display: flex; gap: 8px; align-items: center; padding: 9px 10px; border-radius: 9px; background: rgba(134,239,172,.12); color: #bbf7d0; font-weight: 600; }
+    .help dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0; padding: 9px 10px; border-radius: 9px; background: rgba(255,255,255,.07); font-size: 12px; }
+    .help dt { color: rgba(255,255,255,.6); }
+    .help dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+    .help textarea {
+      resize: vertical; min-height: 56px; padding: 8px 10px; border-radius: 9px; border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06); font-size: 12.5px;
+    }
+    .help textarea:focus { outline: 2px solid #7c3aed; outline-offset: 0; border-color: transparent; }
+    .help button:focus-visible { outline: 2px solid #a78bfa; outline-offset: 2px; }
+    /* The report link at the bottom of the language switches. */
+    .langs .report { justify-content: center; font-size: 11.5px; font-weight: 500; opacity: .7; padding-block: 5px; border-top: 1px solid rgba(255,255,255,.12); border-radius: 0 0 8px 8px; margin-top: 2px; }
+    .langs .report:hover { opacity: 1; }
+  `;
+  const BACK_SVG = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function ensureHelp() {
+    ensureHost();
+    if (helpEl) return;
+    const style = document.createElement('style');
+    style.textContent = HELP_CSS;
+    helpEl = el('div', 'help');
+    helpEl.setAttribute('role', 'dialog');
+    // Clicks and keys stay ours: no pause, no fullscreen, no player shortcuts while typing.
+    for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick', 'keydown', 'keyup', 'keypress', 'wheel']) {
+      helpEl.addEventListener(type, (e) => e.stopPropagation());
+    }
+    helpEl.addEventListener('mouseleave', () => { if (helpMode === 'pill') hidePillSoon(1200); });
+    shadow.append(style, helpEl);
+  }
+
+  // A video plays somewhere on the page: watch it for a while. "timeupdate"
+  // too, for a video that started before this script did (autoplay).
+  function onHelpPlay(e) {
+    const v = e.target;
+    if (!(v instanceof HTMLVideoElement) || off || hasSubs()) return;
+    if (v === helpVideo && helpTimer) return;
+    if (v !== helpVideo) {
+      if (helpVideo && helpVideo.isConnected && isPlaying(helpVideo) && area(helpVideo) >= area(v)) return; // a preview next to the main one
+      helpVideo = v; helpPlayed = 0; helpArmed = false;
+    }
+    if (!helpTimer && isPlaying(v)) helpTimer = setInterval(helpWatch, 1000);
+  }
+  document.addEventListener('playing', onHelpPlay, true);
+  document.addEventListener('timeupdate', onHelpPlay, true);
+
+  function stopHelpWatch() {
+    clearInterval(helpTimer);
+    helpTimer = 0;
+  }
+
+  function helpWatch() {
+    if (helpMode === 'wizard') renderWizard(); // its checks follow what happens
+    const v = helpVideo;
+    if (!v || !v.isConnected || off) { if (helpMode !== 'wizard') stopHelpWatch(); return; }
+    if (hasSubs()) {
+      if (helpMode === 'hint' || helpMode === 'pill') hideHelp();
+      helpArmed = false;
+      helpPlayed = 0;
+      if (helpMode !== 'wizard') stopHelpWatch();
+      return;
+    }
+    if (!isPlaying(v)) { if (helpMode !== 'wizard') stopHelpWatch(); return; } // the next "playing" starts it again
+    const watching = !v.muted && v.volume > 0 && area(v) > 0 && !smallPlayer(v)
+      && !(v.closest && v.closest('.ad-showing')) && document.visibilityState === 'visible';
+    if (!watching) return;
+    helpPlayed += 1000;
+    if (!helpArmed && helpPlayed >= HELP_AFTER_MS) armHelp(v);
+  }
+
+  async function armHelp(v) {
+    helpArmed = true;
+    const r = stageOf(v).getBoundingClientRect();
+    if (r.width < 360 || r.height < 200) return; // a preview or a small embed
+    if (video !== v && !cues.length) attach(v); // the overlay sits over this video
+    ensureHelp();
+    position(true);
+    enableHelpMouse(true);
+    const st = await chrome.storage.local.get(['helpSites', 'helpOff']).catch(() => ({}));
+    if (hasSubs() || helpMode) return;
+    const sites = Array.isArray(st.helpSites) ? st.helpSites : [];
+    if (st.helpOff || !site || sites.includes(site)) return;
+    chrome.storage.local.set({ helpSites: sites.concat(site).slice(-200) }).catch(() => {});
+    showHint();
+  }
+
+  function enableHelpMouse(on) {
+    document[on ? 'addEventListener' : 'removeEventListener']('mousemove', onHelpMouse, { passive: true, capture: true });
+  }
+  function onHelpMouse(e) {
+    if (helpMouseQueued || !helpArmed || helpMode === 'hint' || helpMode === 'wizard' || hasSubs() || !helpVideo || off) return;
+    helpMouseQueued = true;
+    requestAnimationFrame(() => {
+      helpMouseQueued = false;
+      if (smallPlayer(helpVideo)) return;
+      const r = stageOf(helpVideo).getBoundingClientRect();
+      if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return;
+      showPill();
+    });
+  }
+
+  function setHelp(mode, nodes) {
+    ensureHelp();
+    helpMode = mode;
+    helpEl.replaceChildren(...nodes);
+    helpEl.classList.toggle('on', !!mode);
+    if (!mode) return;
+    if (video) position(true);
+    const h = stageOf(video || helpVideo).getBoundingClientRect().height;
+    helpEl.style.setProperty('--help-max', Math.max(200, Math.round(h * 0.86 - 76)) + 'px');
+    checkCovered();
+  }
+  function hideHelp() {
+    clearTimeout(pillTimer);
+    wiz = null;
+    if (helpEl) setHelp('', []);
+  }
+
+  function button(cls, text, onClick) {
+    const b = el('button', cls, text);
+    b.type = 'button';
+    b.addEventListener('click', onClick);
+    return b;
+  }
+  function closeButton(onClick) {
+    const b = button('x', '', onClick);
+    b.innerHTML = ICON.close;
+    b.title = t('Close');
+    b.setAttribute('aria-label', t('Close'));
+    return b;
+  }
+
+  // The card once per site: turn the subtitles on in the player.
+  function showHint() {
+    const card = el('div', 'card');
+    card.setAttribute('aria-label', t('Turn on subtitles in the player'));
+    const head = el('div', 'head');
+    head.append(el('strong', '', t('Turn on subtitles in the player')));
+    const never = button('link', t('Don’t show this again'), () => {
+      chrome.storage.local.set({ helpOff: true }).catch(() => {});
+      hideHelp();
+    });
+    card.append(closeButton(hideHelp), head,
+      el('p', 'lead', t('Then I’ll translate them: {lang}', { lang: langLabel(prefs.translateTo) })),
+      el('p', 'soft', t('Some sites send their subtitles only once you turn them on in their player. Until then I can’t see them. Any language works.')));
+    const acts = el('div', 'acts');
+    acts.append(button('btn main', t('Got it'), hideHelp), button('btn', t('Still nothing?'), () => openWizard('no_subs')));
+    card.append(acts, never);
+    setHelp('hint', [card]);
+  }
+
+  // The small label while the mouse moves over a video without subtitles.
+  function showPill() {
+    if (helpMode !== 'pill') {
+      const pill = button('pill', '', () => openWizard('no_subs'));
+      pill.append(el('i', '', '?'), t('No subtitles?'), ' ', el('u', '', t('Help')));
+      setHelp('pill', [pill]);
+    }
+    hidePillSoon(2500);
+  }
+  function hidePillSoon(ms) {
+    clearTimeout(pillTimer);
+    pillTimer = setTimeout(() => {
+      if (helpMode !== 'pill') return;
+      if (helpEl.matches(':hover')) return hidePillSoon(1200);
+      hideHelp();
+    }, ms);
+  }
+
+  // ---------- the check and the report ----------
+
+  function openWizard(problem) {
+    ensureHelp();
+    helpEl.dataset.key = helpEl.dataset.step = '';
+    wiz = { step: problem ? (problem === 'other' ? 'send' : 'check') : 'pick', problem: problem || '', note: '', from: problem ? 'video' : 'langs' };
+    if (!helpTimer) helpTimer = setInterval(helpWatch, 1000);
+    renderWizard();
+    const first = helpEl.querySelector('.chip, .btn.main, textarea');
+    if (first) first.focus({ preventScroll: true });
+  }
+
+  function step(dotKind, mark, title, note, extra) {
+    const li = el('li');
+    const body = el('div');
+    body.append(el('b', '', title));
+    if (note) body.append(el('small', '', note));
+    if (extra) body.append(extra);
+    li.append(el('span', 'dot ' + dotKind, mark), body);
+    return li;
+  }
+
+  function renderWizard() {
+    if (!wiz) return;
+    // Re-drawing every second would throw away what you type and where the focus is.
+    if (wiz.step === 'send' || wiz.step === 'sent' || wiz.step === 'failed') {
+      if (helpMode === 'wizard' && helpEl.dataset.step === wiz.step) return;
+    }
+    const key = wiz.step + ':' + hasSubs() + ':' + !!(video || helpVideo);
+    if (helpMode === 'wizard' && helpEl.dataset.key === key) return;
+    helpEl.dataset.key = key;
+    helpEl.dataset.step = wiz.step;
+
+    const card = el('div', 'card');
+    const head = el('div', 'head');
+    if (wiz.step === 'check' || wiz.step === 'send' || wiz.step === 'failed') {
+      const back = button('back', '', () => {
+        wiz.step = wiz.step === 'check' || !wiz.problem || wiz.problem === 'other' ? 'pick' : 'check';
+        if (wiz.step === 'pick') wiz.problem = '';
+        renderWizard();
+      });
+      back.innerHTML = BACK_SVG;
+      back.title = t('Back');
+      back.setAttribute('aria-label', t('Back'));
+      head.append(back);
+    }
+    const titles = { pick: 'What’s wrong?', check: 'Let’s try to fix it', send: 'Send a report', sent: 'Thank you', failed: 'Couldn’t send it' };
+    head.append(el('strong', '', t(titles[wiz.step])));
+    card.setAttribute('aria-label', t(titles[wiz.step]));
+    card.append(closeButton(hideHelp), head);
+
+    if (wiz.step === 'pick') {
+      const chips = el('div', 'chips');
+      for (const [k, label] of Object.entries(PROBLEMS)) {
+        chips.append(button('chip', t(label), () => {
+          wiz.problem = k;
+          wiz.step = k === 'other' ? 'send' : 'check';
+          renderWizard();
+        }));
+      }
+      card.append(chips);
+    } else if (wiz.step === 'check') {
+      card.append(...checkFor(wiz.problem));
+    } else if (wiz.step === 'send') {
+      card.append(...sendForm());
+    } else if (wiz.step === 'sent') {
+      card.append(el('p', 'soft', t('Only the site’s name and the checks went out. I look at every site that comes up, and the most reported ones first.')));
+      const acts = el('div', 'acts');
+      acts.append(button('btn main', t('Close'), hideHelp));
+      card.append(acts);
+    } else if (wiz.step === 'failed') {
+      card.append(el('p', 'soft', t('Check your connection and try again in a moment.')));
+      const acts = el('div', 'acts');
+      acts.append(button('btn main', t('Try again'), () => { wiz.step = 'send'; sendReport(); }), button('btn', t('Close'), hideHelp));
+      card.append(acts);
+    }
+    setHelp('wizard', [card]);
+  }
+
+  function checkFor(problem) {
+    const out = [];
+    const acts = el('div', 'acts');
+    const report = (label) => button('btn' + (label ? '' : ' main'), t(label || 'Still nothing, report it'), () => { wiz.step = 'send'; renderWizard(); });
+    if (problem === 'no_subs') {
+      if (hasSubs()) {
+        const good = el('div', 'good');
+        good.append('✓ ', t('It works now. The subtitles arrived.'));
+        out.push(good);
+        acts.append(button('btn main', t('Close'), hideHelp), report('Report it anyway'));
+        out.push(acts);
+        return out;
+      }
+      const list = el('ol', 'steps');
+      const hasVideo = !!(video || helpVideo);
+      list.append(
+        step(hasVideo ? 'ok' : 'now', hasVideo ? '✓' : '!', t(hasVideo ? 'Video found' : 'No video found yet'), hasVideo ? '' : t('Start the video, then open this again.')),
+        step('now', '2', t('Turn on subtitles in the player'), t('Use the CC or Subtitles button in the site’s player and let the video play a few seconds. This check updates by itself.')),
+        step('todo', '3', t('Still nothing? Reload the page'), t('Needed after the extension updates. Then start the video again.'),
+          button('btn', t('Reload page'), () => location.reload())),
+        step('todo', '4', t('Not every video has subtitles'), t('If the player offers none, there is nothing to translate.')),
+      );
+      out.push(list);
+      acts.append(report());
+    } else {
+      const tips = problem === 'timing'
+        ? [['Shift the subtitles', 'Open the extension and use Sync to move them earlier or later.']]
+        : [['Try Improve with AI', 'In the language switches over the video or in the extension. AI translation reads the whole scene, so it sounds more natural.'],
+          ['Check the language', 'The language you translate into is in the extension, on the Subtitles tab.']];
+      const list = el('ol', 'steps');
+      tips.forEach(([title, note], i) => list.append(step('todo', String(i + 1), t(title), t(note))));
+      out.push(list);
+      acts.append(report('Report it'));
+    }
+    out.push(acts);
+    return out;
+  }
+
+  function reportData() {
+    return {
+      site,
+      problem: wiz.problem || 'other',
+      checks: { video: !!(video || helpVideo), siteSubs: hasSubs() },
+      translateTo: prefs.translateTo || '',
+      lang: SubI18n.lang,
+      note: wiz.note.trim(),
+    };
+  }
+
+  function sendForm() {
+    const d = reportData();
+    const yes = t('Yes'), no = t('No');
+    const dl = el('dl');
+    for (const [k, v] of [['Site', d.site], ['Problem', t(PROBLEMS[d.problem])], ['Video', d.checks.video ? yes : no],
+      ['Subtitles from the site', d.checks.siteSubs ? yes : no], ['Version', chrome.runtime.getManifest().version]]) {
+      dl.append(el('dt', '', t(k)), el('dd', '', v));
+    }
+    const note = el('textarea');
+    note.rows = 3;
+    note.maxLength = 1000;
+    note.placeholder = t('Anything to add? (optional)');
+    note.setAttribute('aria-label', t('Anything to add? (optional)'));
+    note.value = wiz.note;
+    note.addEventListener('input', () => { wiz.note = note.value; });
+    const acts = el('div', 'acts');
+    const go = button('btn main', t('Send'), sendReport);
+    go.disabled = !!wiz.sending || !site;
+    acts.append(go);
+    return [dl, note, acts, el('p', 'soft', t('Only the site’s name and the details above are sent, never the page address or what you watch.'))];
+  }
+
+  async function sendReport() {
+    if (!wiz || wiz.sending) return;
+    wiz.sending = true;
+    const go = helpEl.querySelector('.btn.main');
+    if (go) { go.disabled = true; go.textContent = t('Sending…'); }
+    const res = await send({ type: 'report-problem', report: reportData() });
+    if (!wiz) return;
+    wiz.sending = false;
+    wiz.step = res && res.ok ? 'sent' : 'failed';
+    renderWizard();
+  }
+
+  window.addEventListener('scroll', () => helpMode && !cues.length && position(false), { capture: true, passive: true });
+
   // ---------- language switches (dual subtitles) ----------
 
   const cap = (s) => s.charAt(0).toLocaleUpperCase(SubI18n.lang) + s.slice(1);
@@ -2054,11 +2733,13 @@
       });
       return b;
     });
-    const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && !nativeSite.has(row.list) && (aiState.has(row.list) || aiReady()))
+    const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && !nativeSite.has(row.list) && (aiState.has(row.list) || aiReady() || sharedOffer.has(row.list)))
       .map((row) => aiRow(row.lang, row.list));
     // While Google translates: its bar, in place of the switch the new language gets when it's done.
     if (translating) progress.unshift(translatingRow(translating));
-    langsEl.replaceChildren(...switches, ...progress);
+    const report = el('button', 'report', t('Report a problem'));
+    report.addEventListener('click', () => { langsEl.classList.remove('on'); openWizard(''); });
+    langsEl.replaceChildren(...switches, ...progress, report);
     return switches.length + progress.length > 0;
   }
 
@@ -2097,6 +2778,8 @@
   // Not asked yet, or asked with another model than the one chosen now: Improve.
   function aiRow(lang, list) {
     const s = aiState.get(list);
+    if (s && s.shared && !s.running) return sharedRow(lang, list, s, null);
+    if (!s && sharedOffer.has(list)) return sharedRow(lang, list, null, sharedOffer.get(list));
     if (!s || (aiReady() && s.model !== aiModel() && !s.running)) return offerRow(lang, list, s);
     // A finished pass is all of it, also for a count saved before the count went by lines gone through.
     const done = aiFinished(s) ? s.total : Math.min(s.done, s.total);
@@ -2112,6 +2795,7 @@
     fill.style.width = share * 100 + '%';
     bar.append(fill);
     const note = s.error ? t('Stopped') + ': ' + s.error
+      : finished && s.kept ? t('Improved on this computer · {date}', { date: new Intl.DateTimeFormat(SubI18n.lang, { day: 'numeric', month: 'numeric' }).format(s.kept) })
       : t(s.running ? (s.paused ? 'Paused' : 'Improving') : aiFinished(s) ? 'Improved' : 'Stopped') + ' · ' + done + ' / ' + t('{n} lines', { n: s.total });
     const foot = el('div', 'ai-foot');
     foot.append(el('div', 'ai-note', note));
@@ -2212,7 +2896,7 @@
   function keepLangs(ms) {
     clearTimeout(langsTimer);
     const hideLater = (wait) => {
-      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') ? hideLater(2500) : langsEl.classList.remove('on')), wait);
+      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') || shareEl.matches(':hover') ? hideLater(2500) : langsEl.classList.remove('on')), wait);
     };
     hideLater(ms || 2500);
   }
@@ -2236,6 +2920,8 @@
   function isTyping(e) {
     const t = e.composedPath ? e.composedPath()[0] : e.target;
     if (!t || !t.tagName) return false;
+    // Our own report form, inside the closed shadow root: the event only shows the host.
+    if (t === host && shadow && shadow.activeElement && /^(TEXTAREA|INPUT)$/.test(shadow.activeElement.tagName)) return true;
     if (t.isContentEditable) return true;
     if (t.tagName === 'TEXTAREA' || t.tagName === 'SELECT') return true;
     if (t.tagName === 'INPUT') return !/^(button|checkbox|radio|range|submit|reset|color|file|image)$/i.test(t.type);
@@ -2607,6 +3293,18 @@
 
   // Media events don't bubble, so listen in the capture phase.
   document.addEventListener('playing', flushFound, true);
+  // A real video (not a short clip or a tiny preview) started here: the background keeps the
+  // website for the "why did you leave?" page (lib/goodbye.js). At most once a minute per page.
+  // Recent video sites for the uninstall page: off until it is tested and in the privacy policy.
+  const RECENT_SITES = false;
+  let siteToldAt = 0;
+  document.addEventListener('playing', (event) => {
+    const v = event.target;
+    if (!(v instanceof HTMLVideoElement) || Date.now() - siteToldAt < 60000) return;
+    if (!RECENT_SITES || v.duration < 30 || area(v) < 200 * 120) return;
+    siteToldAt = Date.now();
+    chrome.runtime.sendMessage({ type: 'video-site' }).catch(() => {});
+  }, true);
   document.addEventListener('volumechange', flushFound, true);
 
   function renderFound(message) {

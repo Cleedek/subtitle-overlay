@@ -47,7 +47,7 @@ LÖYTÄÄ SIVUSTON LATAAMAT TEKSTITYKSET
 KÄÄNNÖSJONO JA TALLENNETUT TEKSTITYKSET
 • Pudota useita .srt- tai .vtt-tiedostoja tai klikkaa "Lisää jonoon" sivuston lataaman tekstityksen kohdalla. Ne käännetään yksi kerrallaan sillä aikaa, kun teet muuta; jonon välilehti voi jäädä taustalle
 • Toimii Googlen, Geminin, Clauden, OpenAI:n tai paikallisen mallisi kanssa
-• Parannetut tekstitykset säilyvät laajennuksessa niin kauan kuin haluat ja palaavat, kun palaat videon pariin
+• Parannetut tekstitykset säilyvät laajennuksessa niin kauan kuin haluat ja palaavat, kun palaat videon pariin, ja millä tahansa muulla sivulla, jossa on samat tekstitykset, kysymättä tekoälyltä uudelleen
 • Toista avaa videon tekstityksineen, "Näytä kohteessa…" tuo ne toisessa välilehdessä jo auki olevan videon päälle, ja Lataa .srt tallentaa tiedoston
 
 TYYLITTELE OMAN MAKUSI MUKAAN
@@ -90,10 +90,10 @@ NÄPERTELIJÖILLE
 DevToolsin "Subtitles"-välilehti listaa kaikki sivun lataamat tekstitystiedostot ja tallentaa ne .vtt- tai .srt-muodossa.
 
 YKSITYISYYS
-Ei tilejä, ei analytiikkaa, ei seurantaa. Tekstityksen teksti lähetetään Google Kääntäjälle vain, kun tekstitystä käännetään (klikkauksestasi tai automaattisessa tilassa), ja Geminille, Claudelle, OpenAI:lle tai paikalliselle mallillesi vain, kun klikkaat Paranna. Muistetut ja tallennetut tekstitykset pysyvät selaimessasi. Jos kirjoitat minulle ponnahdusikkunan "Kirjoita minulle" -kohdasta, viestisi tulee minulle sähköpostina. Tarkemmin tietosuojakäytännössä.
+Ei tilejä, ei analytiikkaa, ei seurantaa. Tekstityksen teksti lähetetään Google Kääntäjälle vain, kun tekstitystä käännetään (klikkauksestasi tai automaattisessa tilassa), ja Geminille, Claudelle, OpenAI:lle tai paikalliselle mallillesi vain, kun klikkaat Paranna. Muistetut ja tallennetut tekstitykset pysyvät selaimessasi. Jos kirjoitat minulle ponnahdusikkunan "Kirjoita minulle" -kohdasta, viestisi tulee minulle sähköpostina. Ongelmailmoitus lähtee vain, kun painat Lähetä, ja siinä on sivuston nimi, ei koskaan sivun osoitetta. Tarkemmin tietosuojakäytännössä.
 
 ONGELMA TAI IDEA?
-Klikkaa ponnahdusikkunan alaosassa "Ongelma tai idea?" ja kirjoita minulle. Luen jokaisen viestin.
+Klikkaa ponnahdusikkunan alaosassa "Ongelma tai idea?" ja kirjoita minulle. Luen jokaisen viestin. Eivätkö tekstitykset näy jollain sivustolla? Videon "Apua"-merkki opastaa sinua, ja "Ilmoita ongelmasta" lähettää minulle sivuston nimen, jotta voin korjata sen.
 
 AVOIN LÄHDEKOODI
 Koko laajennus on avointa lähdekoodia (GPL-3.0), joten kuka tahansa voi tarkistaa, mitä se tarkalleen tekee: github.com/Cleedek/subtitle-overlay. Jos pidät siitä, tähti GitHubissa auttaa muita löytämään sen.

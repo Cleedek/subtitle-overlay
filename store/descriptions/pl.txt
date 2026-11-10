@@ -47,7 +47,7 @@ ZNAJDUJE NAPISY, KTÓRE WCZYTUJE STRONA
 KOLEJKA TŁUMACZEŃ I ZACHOWANE NAPISY
 • Wrzuć kilka plików .srt lub .vtt albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
 • Działa z Google, Gemini, Claude, OpenAI lub twoim lokalnym modelem
-• Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu
+• Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu, a także na każdej innej stronie z tymi samymi napisami, bez ponownego pytania AI
 • Odtwórz otwiera wideo z napisami, "Pokaż na…" nakłada je na wideo otwarte już w innej karcie, a Pobierz zapisuje plik .srt
 
 STYL PO TWOJEMU
@@ -90,10 +90,10 @@ DLA DOCIEKLIWYCH
 Karta "Subtitles" w DevTools pokazuje każdy plik napisów wczytany przez stronę i zapisuje go jako .vtt lub .srt.
 
 PRYWATNOŚĆ
-Bez kont, bez analityki, bez śledzenia. Tekst napisów trafia do Google Translate tylko wtedy, gdy napisy są tłumaczone (twoim kliknięciem lub w trybie automatycznym), a do Gemini, Claude, OpenAI lub twojego lokalnego modelu tylko wtedy, gdy klikniesz Ulepsz. Zapamiętane i zachowane napisy zostają w twojej przeglądarce. Jeśli napiszesz do mnie przez "Napisz do mnie" w oknie rozszerzenia, twoja wiadomość dotrze do mnie e-mailem. Szczegóły w polityce prywatności.
+Bez kont, bez analityki, bez śledzenia. Tekst napisów trafia do Google Translate tylko wtedy, gdy napisy są tłumaczone (twoim kliknięciem lub w trybie automatycznym), a do Gemini, Claude, OpenAI lub twojego lokalnego modelu tylko wtedy, gdy klikniesz Ulepsz. Zapamiętane i zachowane napisy zostają w twojej przeglądarce. Jeśli napiszesz do mnie przez "Napisz do mnie" w oknie rozszerzenia, twoja wiadomość dotrze do mnie e-mailem. Zgłoszenie problemu wysyła się tylko po naciśnięciu Wyślij i zawiera nazwę strony, nigdy adres podstrony. Szczegóły w polityce prywatności.
 
 PROBLEM CZY POMYSŁ?
-Kliknij "Problem czy pomysł?" na dole okna rozszerzenia i napisz do mnie. Czytam każdą wiadomość.
+Kliknij "Problem czy pomysł?" na dole okna rozszerzenia i napisz do mnie. Czytam każdą wiadomość. Na jakiejś stronie nie widać napisów? Etykieta "Pomoc" przy filmie przeprowadzi cię przez to, a "Zgłoś problem" wyśle mi nazwę strony, żebym mógł to naprawić.
 
 OPEN SOURCE
 Całe rozszerzenie jest open source (GPL-3.0), więc każdy może sprawdzić, co dokładnie robi: github.com/Cleedek/subtitle-overlay. Jeśli ci się podoba, gwiazdka na GitHubie pomoże innym je znaleźć.

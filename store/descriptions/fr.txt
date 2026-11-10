@@ -47,7 +47,7 @@ TROUVE LES SOUS-TITRES QU’UN SITE CHARGE
 FILE DE TRADUCTION ET SOUS-TITRES ENREGISTRÉS
 • Dépose plusieurs fichiers .srt ou .vtt, ou clique sur "Ajouter à la file" pour des sous-titres qu’un site charge. Ils sont traduits l’un après l’autre pendant que tu fais autre chose ; l’onglet de la file peut rester en arrière-plan
 • Fonctionne avec Google, Gemini, Claude, OpenAI ou ton modèle local
-• Les sous-titres améliorés restent dans l’extension aussi longtemps que tu le choisis, et reviennent quand tu retournes sur la vidéo
+• Les sous-titres améliorés restent dans l’extension aussi longtemps que tu le choisis, et reviennent quand tu retournes sur la vidéo, et sur toute autre page avec les mêmes sous-titres, sans redemander à l'IA
 • Lire ouvre la vidéo avec ses sous-titres, "Afficher sur…" les pose sur une vidéo déjà ouverte dans un autre onglet, et Télécharger enregistre le .srt
 
 DES SOUS-TITRES À TON STYLE
@@ -90,10 +90,10 @@ POUR LES BIDOUILLEURS
 Un onglet "Subtitles" dans les DevTools liste chaque fichier de sous-titres chargé par la page et l’enregistre en .vtt ou .srt.
 
 CONFIDENTIALITÉ
-Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand les sous-titres sont traduits (par ton clic ou en mode automatique), et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Les sous-titres mémorisés et enregistrés restent dans ton navigateur. Si tu m’écris avec "Écris-moi" dans la fenêtre de l’extension, ton message m’arrive par e-mail. Détails dans la politique de confidentialité.
+Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand les sous-titres sont traduits (par ton clic ou en mode automatique), et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Les sous-titres mémorisés et enregistrés restent dans ton navigateur. Si tu m’écris avec "Écris-moi" dans la fenêtre de l’extension, ton message m’arrive par e-mail. Un signalement n'est envoyé que lorsque vous appuyez sur Envoyer et contient le nom du site, jamais l'adresse de la page. Détails dans la politique de confidentialité.
 
 UN PROBLÈME OU UNE IDÉE ?
-Clique sur "Problème ou idée ?" en bas de la fenêtre de l’extension et écris-moi. Je lis chaque message.
+Clique sur "Problème ou idée ?" en bas de la fenêtre de l’extension et écris-moi. Je lis chaque message. Les sous-titres ne s'affichent pas sur un site ? L'étiquette "Aide" sur la vidéo vous guide, et "Signaler un problème" m'envoie le nom du site pour que je puisse corriger.
 
 OPEN SOURCE
 Toute l’extension est open source (GPL-3.0), donc chacun peut vérifier exactement ce qu’elle fait : github.com/Cleedek/subtitle-overlay. Si elle te plaît, une étoile sur GitHub aide d’autres personnes à la trouver.

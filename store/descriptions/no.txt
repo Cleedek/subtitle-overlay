@@ -47,7 +47,7 @@ FINNER UNDERTEKSTENE SIDEN LASTER INN
 OVERSETTELSESKØ OG LAGREDE UNDERTEKSTER
 • Slipp inn flere .srt- eller .vtt-filer, eller klikk på "Legg til i køen" på undertekster et nettsted laster inn. De oversettes én etter én mens du gjør noe annet; kø-fanen kan ligge i bakgrunnen
 • Fungerer med Google, Gemini, Claude, OpenAI eller din lokale modell
-• Forbedrede undertekster lagres i utvidelsen så lenge du ønsker, og kommer tilbake når du går tilbake til videoen
+• Forbedrede undertekster lagres i utvidelsen så lenge du ønsker, og kommer tilbake når du går tilbake til videoen, og på alle andre sider med de samme undertekstene, uten å spørre AI-en igjen
 • Spill av åpner videoen med undertekstene, "Vis på…" legger dem over en video som allerede er åpen i en annen fane, og Last ned .srt lagrer .srt-filen
 
 STIL DEM SOM DU VIL
@@ -90,10 +90,10 @@ FOR DEM SOM LIKER Å SKRU
 En "Subtitles"-fane i DevTools viser alle undertekstfilene siden har lastet inn, og lagrer dem som .vtt eller .srt.
 
 PERSONVERN
-Ingen kontoer, ingen analyse, ingen sporing. Underteksttekst sendes til Google Oversetter bare når undertekster oversettes (ved klikket ditt eller i automatisk modus), og til Gemini, Claude, OpenAI eller din lokale modell bare når du klikker på Forbedre. Husket og lagrede undertekster blir i nettleseren din. Hvis du skriver til meg med "Skriv til meg" i utvidelsens vindu, kommer meldingen din til meg på e-post. Detaljer i personvernerklæringen.
+Ingen kontoer, ingen analyse, ingen sporing. Underteksttekst sendes til Google Oversetter bare når undertekster oversettes (ved klikket ditt eller i automatisk modus), og til Gemini, Claude, OpenAI eller din lokale modell bare når du klikker på Forbedre. Husket og lagrede undertekster blir i nettleseren din. Hvis du skriver til meg med "Skriv til meg" i utvidelsens vindu, kommer meldingen din til meg på e-post. En problemrapport sendes bare når du trykker Send, og inneholder navnet på nettstedet, aldri adressen til siden. Detaljer i personvernerklæringen.
 
 PROBLEM ELLER IDÉ?
-Klikk på "Problem eller idé?" nederst i utvidelsens vindu og skriv til meg. Jeg leser hver eneste melding.
+Klikk på "Problem eller idé?" nederst i utvidelsens vindu og skriv til meg. Jeg leser hver eneste melding. Vises ingen undertekster på et nettsted? Merket "Hjelp" på videoen guider deg, og "Rapporter et problem" sender meg navnet på nettstedet så jeg kan fikse det.
 
 ÅPEN KILDEKODE
 Hele utvidelsen er åpen kildekode (GPL-3.0), så hvem som helst kan sjekke nøyaktig hva den gjør: github.com/Cleedek/subtitle-overlay. Liker du den, hjelper en stjerne på GitHub andre med å finne den.

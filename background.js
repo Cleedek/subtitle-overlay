@@ -528,6 +528,45 @@ const TRANSLATOR_URL = 'https://translate-subtitles.com/en';
 const GOOGLE_URL = 'https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=';
 const BATCH_CHARS = 4000;
 
+// ---------- shared improved subtitles ----------
+
+async function shareBase() {
+  const { shareUrl } = await chrome.storage.local.get('shareUrl');
+  return (shareUrl || SubSettings.SHARE_URL).replace(/\/$/, '');
+}
+async function shareCall(path, body) {
+  const owner = await SubSettings.shareOwner();
+  const res = await fetch((await shareBase()) + path, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Object.assign({ owner }, body)), signal: AbortSignal.timeout(15000) });
+  const data = await res.json().catch(() => ({}));
+  return res.ok ? data : Object.assign({ ok: false }, data);
+}
+// The newest shared copy of these original lines in `lang`, with its .srt, or
+// null. Only the first 5 characters of the fingerprint leave the computer:
+// the answer lists every copy starting with them, and the right one is picked here.
+async function shareFind(src, lang) {
+  const { shareFind: on } = await chrome.storage.local.get('shareFind');
+  if (!SubSettings.SHARING || on === false || !/^[0-9a-f]{64}$/.test(src || '')) return null;
+  const base = await shareBase();
+  const q = new URLSearchParams({ p: src.slice(0, 5), lang });
+  const found = await fetch(base + '/find?' + q, { signal: AbortSignal.timeout(4000) }).then((r) => (r.ok ? r.json() : null));
+  const item = found && (found.items || []).find((i) => i.src === src);
+  if (!item) return null;
+  const got = await fetch(base + '/get?id=' + item.id, { signal: AbortSignal.timeout(8000) }).then((r) => (r.ok ? r.json() : null));
+  return got && got.srt ? { item, srt: got.srt } : null;
+}
+// Your finished improvement, once you said yes to sharing.
+async function shareSend(job) {
+  const { shareMine } = await chrome.storage.local.get('shareMine');
+  if (!SubSettings.SHARING || !shareMine || !job) return { ok: false, error: 'off' };
+  const r = await shareCall('/share', { src: job.src, lang: job.lang, model: job.model, lines: job.lines, ms: job.ms, srt: job.srt });
+  if (r && r.ok) {
+    const { shareCount } = await chrome.storage.local.get('shareCount');
+    await chrome.storage.local.set({ shareCount: (shareCount || 0) + 1 });
+  }
+  return r;
+}
+
 async function translateBatch(lines, to) {
   const body = new URLSearchParams();
   for (const l of lines) body.append('q', l);
@@ -1254,6 +1293,20 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       chrome.tabs.create({ url: TRANSLATOR_URL });
       return;
 
+    // Shared improved subtitles (~/subtitle-share). Every problem is just "nothing found / not sent".
+    case 'share-find':
+      shareFind(msg.src, msg.lang).then(reply, () => reply(null));
+      return true;
+    case 'share-send':
+      shareSend(msg.job).then(reply, (e) => reply({ ok: false, error: e.message }));
+      return true;
+    case 'share-report':
+      shareCall('/report', { id: msg.id }).then(reply, () => reply({ ok: false }));
+      return true;
+    case 'share-delete':
+      shareCall('/delete', {}).then(async (r) => { if (r && r.ok) await chrome.storage.local.set({ shareCount: 0 }); reply(r); }, (e) => reply({ ok: false, error: e.message }));
+      return true;
+
     case 'add-to-queue':
       // "Add to queue" in the popup or in the card over the video.
       addToQueue(msg, tabId).then(() => reply({ ok: true }), (e) => reply({ ok: false, error: e.message }));
@@ -1270,6 +1323,11 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       }).then((r) => reply({ ok: true, texts: r.texts, detected: r.detected }), (e) => reply({ ok: false, error: e.message }));
       return true;
 
+    case 'report-problem':
+      // "Report a problem" over the video (content.js): the site's name and its checks.
+      sendProblemReport(msg.report).then(reply, () => reply({ ok: false }));
+      return true;
+
     case 'count-video':
       // A page showed a new translation (content.js).
       countVideo(msg.page, msg.lines, msg.ai);
@@ -1277,6 +1335,11 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 
     case 'support-ask':
       supportAsk(msg);
+      return;
+
+    case 'video-site':
+      // A video played on this tab (content.js): its website, for the page after removal (lib/goodbye.js).
+      if (sender.tab && !sender.tab.incognito) rememberGoodbyeSite(sender.tab.url);
       return;
 
     case 'ai-translate': {
@@ -1384,3 +1447,39 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       return;
   }
 });
+
+// ---------- problem reports ----------
+
+// Goes to the same small service as the feedback form, which counts reports per
+// site for Filip's dashboard. Only the site's name (example.com) and the checks
+// shown in the form, never the page address. One report per install, site,
+// problem and day: the key is a hash of those with a random number kept here,
+// so nothing in it points back to this computer.
+const REPORT_URL = 'https://feedback.cleedek.com/report';
+async function sendProblemReport(r) {
+  if (!r || !r.site) return { ok: false };
+  let { reportSalt } = await chrome.storage.local.get('reportSalt');
+  if (!reportSalt) {
+    reportSalt = [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, '0')).join('');
+    await chrome.storage.local.set({ reportSalt });
+  }
+  const day = new Date().toISOString().slice(0, 10);
+  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode([reportSalt, r.site, r.problem, day].join('|')));
+  const key = [...new Uint8Array(hash)].slice(0, 16).map((b) => b.toString(16).padStart(2, '0')).join('');
+  const ua = navigator.userAgentData;
+  const brands = (ua && ua.brands) || [];
+  const brand = brands.find((b) => !/not.?a.?brand|chromium/i.test(b.brand)) || brands.find((b) => /chromium/i.test(b.brand));
+  const body = {
+    ext: 'subtitle-overlay', site: String(r.site), problem: r.problem, key,
+    checks: { video: !!(r.checks && r.checks.video), siteSubs: !!(r.checks && r.checks.siteSubs) },
+    version: chrome.runtime.getManifest().version,
+    browser: brand ? brand.brand + ' ' + brand.version : '', os: (ua && ua.platform) || '',
+    lang: r.lang || '', translateTo: r.translateTo || '', note: String(r.note || '').slice(0, 1000),
+  };
+  try {
+    const res = await fetch(REPORT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    return { ok: res.ok };
+  } catch (e) {
+    return { ok: false };
+  }
+}

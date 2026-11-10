@@ -47,7 +47,7 @@ SİTENİN YÜKLEDİĞİ ALTYAZILARI BULUR
 ÇEVİRİ KUYRUĞU VE KAYDEDİLEN ALTYAZILAR
 • Birkaç .srt veya .vtt dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
 • Google, Gemini, Claude, OpenAI veya yerel modelinle çalışır
-• İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir
+• İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir, ve aynı altyazıların olduğu başka herhangi bir sayfada da, yapay zekâya yeniden sormadan
 • Oynat, videoyu altyazılarıyla açar; "Şurada göster…" onları başka bir sekmede zaten açık olan bir videonun üzerine koyar; İndir, .srt dosyasını kaydeder
 
 ALTYAZILARI KENDİ TARZINDA BİÇİMLENDİR
@@ -90,10 +90,10 @@ MERAKLISINA
 DevTools'taki "Subtitles" sekmesi, sayfanın yüklediği her altyazı dosyasını listeler ve .vtt veya .srt olarak kaydeder.
 
 GİZLİLİK
-Hesap yok, analiz yok, takip yok. Altyazı metni yalnızca altyazılar çevrildiğinde (senin tıklamanla ya da otomatik modda) Google Translate'e, yalnızca İyileştir'e tıkladığında da Gemini, Claude, OpenAI veya yerel modeline gönderilir. Hatırlanan ve kaydedilen altyazılar tarayıcında kalır. Uzantı penceresindeki "Bana yaz" ile bana yazarsan mesajın bana e-postayla ulaşır. Ayrıntılar gizlilik politikasında.
+Hesap yok, analiz yok, takip yok. Altyazı metni yalnızca altyazılar çevrildiğinde (senin tıklamanla ya da otomatik modda) Google Translate'e, yalnızca İyileştir'e tıkladığında da Gemini, Claude, OpenAI veya yerel modeline gönderilir. Hatırlanan ve kaydedilen altyazılar tarayıcında kalır. Uzantı penceresindeki "Bana yaz" ile bana yazarsan mesajın bana e-postayla ulaşır. Sorun bildirimi yalnızca Gönder'e bastığında gönderilir ve sayfa adresini değil, yalnızca sitenin adını içerir. Ayrıntılar gizlilik politikasında.
 
 SORUN MU, FİKİR Mİ?
-Uzantı penceresinin altındaki "Sorun mu, fikir mi?" bağlantısına tıkla ve bana yaz. Her mesajı okurum.
+Uzantı penceresinin altındaki "Sorun mu, fikir mi?" bağlantısına tıkla ve bana yaz. Her mesajı okurum. Bir sitede altyazı görünmüyor mu? Videodaki "Yardım" etiketi sana yol gösterir, "Sorun bildir" de düzeltebilmem için sitenin adını bana gönderir.
 
 AÇIK KAYNAK
 Uzantının tamamı açık kaynaktır (GPL-3.0), yani herkes tam olarak ne yaptığını kontrol edebilir: github.com/Cleedek/subtitle-overlay. Beğendiysen GitHub'da vereceğin bir yıldız, başkalarının da onu bulmasına yardımcı olur.

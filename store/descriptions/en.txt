@@ -47,7 +47,7 @@ FINDS THE SUBTITLES A SITE LOADS
 TRANSLATION QUEUE AND SAVED SUBTITLES
 • Drop in several .srt or .vtt files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
 • Works with Google, Gemini, Claude, OpenAI or your local model
-• Improved subtitles are kept in the extension for as long as you choose, and come back when you return to the video
+• Improved subtitles are kept in the extension for as long as you choose, and come back when you return to the video, and on any other page with the same subtitles, without asking the AI again
 • Play opens the video with its subtitles, "Show on…" puts them over a video already open in another tab, and Download saves the .srt
 
 STYLE THEM YOUR WAY
@@ -90,10 +90,10 @@ FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.
 
 PRIVACY
-No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when subtitles are translated (by your click or by automatic mode), and to Gemini, Claude, OpenAI or your local model only when you click Improve. Remembered and saved subtitles stay in your browser. If you write to me with "Write to me" in the popup, your message reaches me by email. Details in the privacy policy.
+No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when subtitles are translated (by your click or by automatic mode), and to Gemini, Claude, OpenAI or your local model only when you click Improve. Remembered and saved subtitles stay in your browser. If you write to me with "Write to me" in the popup, your message reaches me by email. A problem report is sent only when you press Send and carries the site's name, never the page address. Details in the privacy policy.
 
 PROBLEM OR IDEA?
-Click "Problem or idea?" at the bottom of the popup and write to me. I read every message.
+Click "Problem or idea?" at the bottom of the popup and write to me. I read every message. Subtitles don't show on a site? The "Help" label on the video walks you through it, and "Report a problem" sends me the site's name so I can fix it.
 
 OPEN SOURCE
 The whole extension is open source (GPL-3.0), so anyone can check exactly what it does: github.com/Cleedek/subtitle-overlay. If you like it, a star on GitHub helps other people find it.

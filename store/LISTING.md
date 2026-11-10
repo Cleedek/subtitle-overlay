@@ -4,6 +4,8 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 
 ## Postup pro 1.0.19 (co musíš udělat ty)
 
+**Stav 11. 11. 2026 (odesláno):** Do 1.0.19 jde všechna práce z 10. a 11. 11. kromě dvou věcí, které jsou v kódu vypnuté přepínačem: **sdílení vylepšených titulků s ostatními** (`SubSettings.SHARING = false`, server subs.cleedek.com neběží; Filip 11. 11.: "schovat do příště") a **poslední weby pro stránku po odinstalaci** (`RECENT_SITES = false` v content.js, čeká na test a zásady). Lokální knihovna uložených titulků (otisk) jde. Nově v popisech (32 jazyků): hlášení problému ("Pomoc" + "Nahlásit problém"), uložené titulky i na jiné stránce, věta o hlášení v odstavci Privacy. Zásady: nová odrážka o hlášení problému (feedback.cleedek.com/report, ukládá se název webu, bez IP). Data usage: navíc zaškrtnout **Web history** (název webu v hlášení; přiznat víc je bezpečnější).
+
 **Stav 10. 11. 2026:** V obchodě je 1.0.18. Commitnutá 1.0.19 (2cf1e9b) má kartu "Co je nového", "Pustit na…" ve frontě, aktualizaci upraveného vlastního stylu a jednorázovou kartu podpory nad videem. **Předpoklad těchto podkladů:** do 1.0.19 půjde i zatím necommitnutá práce z 10. 11. (titulky přímo od webu: YouTube, Netflix, HLS, a z 11. 11. i Prime Video a HBO Max/DASH; jazyk pro Netflix; průvodce Lokální AI se stažením Gemmy; přepínač Stavové zprávy; titulky webu schované jen, když běží naše). Pokud ne, z popisů vyhoď body označené (N) níže a ze zásad poslední tři nové odrážky.
 
 **Co je připravené (necommitnuté):**
@@ -40,23 +42,18 @@ Everything below in English is ready to copy into the Chrome Web Store form. The
 - **Netflix na screenshotu** vs. rozhodnutí z 1.0.18 nechat Netflix mimo texty obchodu (riziko, že to bude znít jako obcházení DRM, a ochranná známka). Rozhodl ses pro screenshot, jen ať o tom víš.
 - **Průvodce Lokální AI** je od 10. 11. přeložený do všech 30 jazyků rozhraní (překlady Claude, bez rodilých mluvčích). Stažení 8 GB přes skutečnou Ollamu v Chromu zatím nikdo nevyzkoušel.
 
-### Karta "Co je nového" pro 1.0.19 (schváleno a přeloženo 11. 11. 2026)
+### Karta "Co je nového" pro 1.0.19 (vybráno 11. 11. 2026)
 
-Teď karta říká: Netflix a .ttml · kdo je kdo · 23 dalších jazyků · spousta drobností. Neříká nic o dvou největších novinkách. Návrh (max. 4 body, tučně je popisek z rozhraní):
+Karta je karusel: 3 body na stránku (nejvýš 3 stránky), sama se přepne po 5 s, na najetí myší se zastaví a ukáže šipky u teček, jde posouvat tahem na trackpadu. Body (EN, překlady ve všech 30 jazycích v `lib/locales`):
 
-EN:
-- Added support for **Netflix**, and if a site already has subtitles in your language, you get those instead of a translation
-- Free AI translation on your own computer: **Local AI** now sets itself up in two steps
-- Before **Improve** starts, the AI notes who is who, so names and forms of address stay consistent
-- The interface now comes in **23 more languages**, plus lots of smaller improvements
+1. Subtitles straight from the site: if it has them in your language (YouTube, Netflix, Prime Video, HBO Max and more), you get those instead of a translation
+2. Free AI translation on your own computer: Local AI now sets itself up in two steps
+3. Before Improve starts, the AI notes who is who, so names and forms of address stay consistent
+4. Improved subtitles come back anywhere: the same subtitles on another page get your copy from Saved subtitles at once, without asking the AI again
+5. The interface now comes in 23 more languages
+6. Plus lots of smaller improvements and bug fixes
 
-CS:
-- Přidaná podpora **Netflixu**, a když má web titulky ve tvém jazyce, dostaneš je místo překladu
-- Bezplatný AI překlad ve tvém počítači: **Lokální AI** se teď nastaví ve dvou krocích
-- Než začne **Vylepšit**, AI si poznamená, kdo je kdo, takže jména a oslovení sedí
-- Rozhraní nově v **23 dalších jazycích** a spousta drobných vylepšení
-
-Hotovo: body jsou v `lib/whats-new.js`, překlady ve všech 30 jazycích, tři staré texty karty odebrané. Česká verze v rozšíření má drobně jiné znění než návrh výše (např. "AI překlad zdarma ve tvém počítači").
+Bod 4 stojí na necommitnuté práci z 11. 11. (otisk titulků v Uložených titulcích). Pokud do 1.0.19 nepůjde, z `lib/whats-new.js` ho vyhoď.
 
 ## Postup pro 1.0.18 (co musíš udělat ty)
 
