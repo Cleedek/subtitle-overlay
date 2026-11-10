@@ -569,9 +569,7 @@
   "Improved {ago} by user #{tag}": "Vylepšil {ago} uživatel #{tag}",
   "Back to Google": "Vrátit Google",
   "Improve myself": "Vylepšit sám",
-  "Report": "Nahlásit",
   "Thanks, reported. Back to Google’s version.": "Díky, nahlášeno. Zpátky na verzi od Googlu.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Špatné nebo urážlivé titulky: dej nám vědět a vrať se k verzi od Googlu.",
   "Thanks! Shared.": "Díky! Nasdíleno.",
   "Sharing didn’t work this time. The next ones will be shared.": "Sdílení se tentokrát nepovedlo. Další titulky se nasdílí.",
   "Done in {time}. Save it for others?": "Hotovo za {time}. Ušetříš je ostatním?",
@@ -592,5 +590,7 @@
   "Shared: {n}": "Sdíleno: {n}",
   "Delete every subtitle you shared? This can’t be undone.": "Smazat všechny titulky, které jsi nasdílel? Nejde to vrátit.",
   "The interface now comes in **23 more languages**": "Rozhraní je teď v dalších **23 jazycích**",
-  "Plus lots of smaller improvements and bug fixes": "A spousta dalších drobných vylepšení a oprav chyb"
+  "Plus lots of smaller improvements and bug fixes": "A spousta dalších drobných vylepšení a oprav chyb",
+  "These are shared subtitles from user #{tag}.": "Tohle jsou sdílené titulky od uživatele #{tag}.",
+  "Report them and go back to Google": "Nahlásit je a vrátit Google"
 }

@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Migliorato {ago} dall’utente #{tag}",
   "Back to Google": "Torna a Google",
   "Improve myself": "Migliora tu",
-  "Report": "Segnala",
   "Thanks, reported. Back to Google’s version.": "Grazie, segnalato. Si torna alla versione di Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Sottotitoli sbagliati od offensivi: diccelo e torna alla versione di Google.",
   "Thanks! Shared.": "Grazie! Condiviso.",
   "Sharing didn’t work this time. The next ones will be shared.": "Stavolta la condivisione non è riuscita. I prossimi verranno condivisi.",
   "Done in {time}. Save it for others?": "Fatto in {time}. Li risparmi agli altri?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Il pulsante CC o Sottotitoli nel player del sito. Alcuni siti inviano i sottotitoli solo allora. Va bene qualsiasi lingua.",
   "The translation appears by itself": "La traduzione appare da sola",
   "Over the video, in your language. You can change the language below.": "Sopra il video, nella tua lingua. Puoi cambiare la lingua qui sotto.",
-  "All set. It works.": "Fatto. Funziona."
+  "All set. It works.": "Fatto. Funziona.",
+  "These are shared subtitles from user #{tag}.": "Sono sottotitoli condivisi dall’utente #{tag}.",
+  "Report them and go back to Google": "Segnalali e torna a Google"
 }

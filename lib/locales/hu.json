@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Javította {ago} a(z) #{tag} felhasználó",
   "Back to Google": "Vissza a Google-hoz",
   "Improve myself": "Javítom magam",
-  "Report": "Jelentés",
   "Thanks, reported. Back to Google’s version.": "Köszi, jelentve. Vissza a Google változatához.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Hibás vagy sértő felirat: szólj, és térj vissza a Google változatához.",
   "Thanks! Shared.": "Köszi! Megosztva.",
   "Sharing didn’t work this time. The next ones will be shared.": "A megosztás most nem sikerült. A következők megosztásra kerülnek.",
   "Done in {time}. Save it for others?": "Kész {time} alatt. Megspórolod másoknak?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Az oldal lejátszójában a CC vagy Felirat gomb. Egyes oldalak csak ekkor küldenek feliratot. Bármilyen nyelv jó.",
   "The translation appears by itself": "A fordítás magától megjelenik",
   "Over the video, in your language. You can change the language below.": "A videón, a te nyelveden. A nyelvet lent módosíthatod.",
-  "All set. It works.": "Kész. Működik."
+  "All set. It works.": "Kész. Működik.",
+  "These are shared subtitles from user #{tag}.": "Ezt a feliratot a(z) #{tag} felhasználó osztotta meg.",
+  "Report them and go back to Google": "Jelentés és vissza a Google-hoz"
 }

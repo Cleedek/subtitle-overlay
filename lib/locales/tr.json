@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "{ago} #{tag} kullanıcısı iyileştirdi",
   "Back to Google": "Google’a dön",
   "Improve myself": "Kendim iyileştir",
-  "Report": "Bildir",
   "Thanks, reported. Back to Google’s version.": "Teşekkürler, bildirildi. Google sürümüne dönüldü.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Yanlış ya da rahatsız edici altyazı: bize bildir ve Google sürümüne dön.",
   "Thanks! Shared.": "Teşekkürler! Paylaşıldı.",
   "Sharing didn’t work this time. The next ones will be shared.": "Paylaşım bu sefer olmadı. Sonrakiler paylaşılacak.",
   "Done in {time}. Save it for others?": "{time} içinde bitti. Bu süreyi başkalarına kazandırır mısın?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Sitenin oynatıcısındaki CC veya Altyazı düğmesi. Bazı siteler altyazıyı ancak o zaman gönderir. Hangi dil olduğu fark etmez.",
   "The translation appears by itself": "Çeviri kendiliğinden görünür",
   "Over the video, in your language. You can change the language below.": "Videonun üzerinde, senin dilinde. Dili aşağıdan değiştirebilirsin.",
-  "All set. It works.": "Hazır. Çalışıyor."
+  "All set. It works.": "Hazır. Çalışıyor.",
+  "These are shared subtitles from user #{tag}.": "Bunlar #{tag} kullanıcısının paylaştığı altyazılar.",
+  "Report them and go back to Google": "Bildir ve Google’a dön"
 }

@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Disempurnakan {ago} oleh pengguna #{tag}",
   "Back to Google": "Kembali ke Google",
   "Improve myself": "Sempurnakan sendiri",
-  "Report": "Laporkan",
   "Thanks, reported. Back to Google’s version.": "Terima kasih, sudah dilaporkan. Kembali ke versi Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Subtitle salah atau menyinggung: beri tahu kami dan kembali ke versi Google.",
   "Thanks! Shared.": "Terima kasih! Sudah dibagikan.",
   "Sharing didn’t work this time. The next ones will be shared.": "Kali ini gagal dibagikan. Yang berikutnya akan dibagikan.",
   "Done in {time}. Save it for others?": "Selesai dalam {time}. Mau hemat waktu ini untuk orang lain?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Tombol CC atau Subtitle di pemutar situs. Beberapa situs baru mengirim subtitle saat itu. Bahasa apa pun boleh.",
   "The translation appears by itself": "Terjemahan muncul sendiri",
   "Over the video, in your language. You can change the language below.": "Di atas video, dalam bahasamu. Kamu bisa mengganti bahasanya di bawah.",
-  "All set. It works.": "Siap. Sudah berfungsi."
+  "All set. It works.": "Siap. Sudah berfungsi.",
+  "These are shared subtitles from user #{tag}.": "Ini subtitle yang dibagikan pengguna #{tag}.",
+  "Report them and go back to Google": "Laporkan dan kembali ke Google"
 }

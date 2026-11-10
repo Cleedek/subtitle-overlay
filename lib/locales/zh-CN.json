@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "用户 #{tag} {ago}改进",
   "Back to Google": "改回 Google",
   "Improve myself": "自己改进",
-  "Report": "举报",
   "Thanks, reported. Back to Google’s version.": "谢谢，已举报。已改回 Google 的版本。",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "字幕有错或令人不适：告诉我们并改回 Google 的版本。",
   "Thanks! Shared.": "谢谢！已共享。",
   "Sharing didn’t work this time. The next ones will be shared.": "这次没能共享。之后的会共享。",
   "Done in {time}. Save it for others?": "{time}完成。要帮别人省下这些时间吗？",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "网站播放器里的 CC 或字幕按钮。有些网站只有这时才发送字幕。任何语言都可以。",
   "The translation appears by itself": "译文会自动出现",
   "Over the video, in your language. You can change the language below.": "显示在视频上，用你的语言。语言可以在下面更改。",
-  "All set. It works.": "一切就绪，已经可以用了。"
+  "All set. It works.": "一切就绪，已经可以用了。",
+  "These are shared subtitles from user #{tag}.": "这是用户 #{tag} 共享的字幕。",
+  "Report them and go back to Google": "举报并改回 Google"
 }

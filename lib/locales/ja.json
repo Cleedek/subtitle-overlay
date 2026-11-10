@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "ユーザー #{tag} が{ago}に改善",
   "Back to Google": "Google に戻す",
   "Improve myself": "自分で改善",
-  "Report": "報告",
   "Thanks, reported. Back to Google’s version.": "ありがとうございます。報告しました。Google 版に戻しました。",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "字幕が間違っている・不快な場合: 報告して Google 版に戻せます。",
   "Thanks! Shared.": "ありがとう！共有しました。",
   "Sharing didn’t work this time. The next ones will be shared.": "今回は共有できませんでした。次回から共有されます。",
   "Done in {time}. Save it for others?": "{time}で完了。この時間をほかの人にも節約しますか？",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "サイトのプレーヤーの CC または字幕ボタン。サイトによってはその時点で初めて字幕を送ります。言語はどれでも大丈夫です。",
   "The translation appears by itself": "翻訳は自動で表示されます",
   "Over the video, in your language. You can change the language below.": "動画の上に、あなたの言語で。言語は下で変更できます。",
-  "All set. It works.": "準備完了。動いています。"
+  "All set. It works.": "準備完了。動いています。",
+  "These are shared subtitles from user #{tag}.": "これはユーザー #{tag} が共有した字幕です。",
+  "Report them and go back to Google": "報告して Google に戻す"
 }

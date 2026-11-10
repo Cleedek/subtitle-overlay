@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Forbedret {ago} av bruker #{tag}",
   "Back to Google": "Tilbake til Google",
   "Improve myself": "Forbedre selv",
-  "Report": "Rapporter",
   "Thanks, reported. Back to Google’s version.": "Takk, rapportert. Tilbake til Googles versjon.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Feil eller støtende undertekster: si fra og gå tilbake til Googles versjon.",
   "Thanks! Shared.": "Takk! Delt.",
   "Sharing didn’t work this time. The next ones will be shared.": "Deling fungerte ikke denne gangen. De neste blir delt.",
   "Done in {time}. Save it for others?": "Ferdig på {time}. Sparer du andre for det?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "CC- eller Undertekster-knappen i nettstedets avspiller. Noen nettsteder sender undertekster først da. Alle språk fungerer.",
   "The translation appears by itself": "Oversettelsen dukker opp av seg selv",
   "Over the video, in your language. You can change the language below.": "Over videoen, på ditt språk. Du kan bytte språk nedenfor.",
-  "All set. It works.": "Klart. Det fungerer."
+  "All set. It works.": "Klart. Det fungerer.",
+  "These are shared subtitles from user #{tag}.": "Dette er delte undertekster fra bruker #{tag}.",
+  "Report them and go back to Google": "Rapporter dem og gå tilbake til Google"
 }

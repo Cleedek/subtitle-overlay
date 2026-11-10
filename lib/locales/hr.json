@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Poboljšao {ago} korisnik #{tag}",
   "Back to Google": "Natrag na Google",
   "Improve myself": "Poboljšaj sam",
-  "Report": "Prijavi",
   "Thanks, reported. Back to Google’s version.": "Hvala, prijavljeno. Natrag na Googleovu verziju.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Pogrešni ili uvredljivi titlovi: javi nam i vrati se na Googleovu verziju.",
   "Thanks! Shared.": "Hvala! Podijeljeno.",
   "Sharing didn’t work this time. The next ones will be shared.": "Dijeljenje ovaj put nije uspjelo. Sljedeći će se podijeliti.",
   "Done in {time}. Save it for others?": "Gotovo za {time}. Uštedjet ćeš to drugima?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Gumb CC ili Titlovi u playeru stranice. Neke stranice tek tada šalju titlove. Bilo koji jezik je u redu.",
   "The translation appears by itself": "Prijevod se pojavi sam",
   "Over the video, in your language. You can change the language below.": "Preko videa, na tvom jeziku. Jezik možeš promijeniti ispod.",
-  "All set. It works.": "Gotovo. Radi."
+  "All set. It works.": "Gotovo. Radi.",
+  "These are shared subtitles from user #{tag}.": "Ovo su dijeljeni titlovi korisnika #{tag}.",
+  "Report them and go back to Google": "Prijavi ih i vrati se na Google"
 }

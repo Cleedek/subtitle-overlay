@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "{ago} उपयोगकर्ता #{tag} ने बेहतर किया",
   "Back to Google": "Google पर वापस",
   "Improve myself": "खुद बेहतर करें",
-  "Report": "रिपोर्ट करें",
   "Thanks, reported. Back to Google’s version.": "धन्यवाद, रिपोर्ट हो गया। Google वाले संस्करण पर वापस।",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "गलत या आपत्तिजनक सबटाइटल: हमें बताएं और Google वाले संस्करण पर लौटें।",
   "Thanks! Shared.": "धन्यवाद! साझा हो गया।",
   "Sharing didn’t work this time. The next ones will be shared.": "इस बार साझा नहीं हो सका। अगले साझा होंगे।",
   "Done in {time}. Save it for others?": "{time} में तैयार। क्या दूसरों का यह समय बचाएंगे?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "साइट के प्लेयर में CC या सबटाइटल बटन। कुछ साइटें सबटाइटल तभी भेजती हैं। कोई भी भाषा चलेगी।",
   "The translation appears by itself": "अनुवाद अपने आप दिखेगा",
   "Over the video, in your language. You can change the language below.": "वीडियो के ऊपर, आपकी भाषा में। भाषा नीचे बदल सकते हैं।",
-  "All set. It works.": "सब तैयार। यह काम कर रहा है।"
+  "All set. It works.": "सब तैयार। यह काम कर रहा है।",
+  "These are shared subtitles from user #{tag}.": "ये उपयोगकर्ता #{tag} के साझा किए सबटाइटल हैं।",
+  "Report them and go back to Google": "रिपोर्ट करें और Google पर लौटें"
 }

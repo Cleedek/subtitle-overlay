@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Покращив {ago} користувач #{tag}",
   "Back to Google": "Повернути Google",
   "Improve myself": "Покращити самому",
-  "Report": "Поскаржитися",
   "Thanks, reported. Back to Google’s version.": "Дякуємо, скаргу надіслано. Повертаємося до версії Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Хибні чи образливі субтитри: повідом нам і повернися до версії Google.",
   "Thanks! Shared.": "Дякуємо! Поширено.",
   "Sharing didn’t work this time. The next ones will be shared.": "Цього разу поширити не вдалося. Наступні буде поширено.",
   "Done in {time}. Save it for others?": "Готово за {time}. Заощадиш цей час іншим?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Кнопка CC або Субтитри в плеєрі сайту. Деякі сайти надсилають субтитри лише тоді. Мова неважлива.",
   "The translation appears by itself": "Переклад з’явиться сам",
   "Over the video, in your language. You can change the language below.": "Поверх відео, твоєю мовою. Мову можна змінити нижче.",
-  "All set. It works.": "Готово. Працює."
+  "All set. It works.": "Готово. Працює.",
+  "These are shared subtitles from user #{tag}.": "Це спільні субтитри від користувача #{tag}.",
+  "Report them and go back to Google": "Поскаржитися й повернути Google"
 }

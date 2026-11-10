@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Βελτιώθηκε {ago} από τον χρήστη #{tag}",
   "Back to Google": "Πίσω στο Google",
   "Improve myself": "Βελτίωση από μένα",
-  "Report": "Αναφορά",
   "Thanks, reported. Back to Google’s version.": "Ευχαριστούμε, αναφέρθηκε. Πίσω στην έκδοση του Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Λάθος ή προσβλητικοί υπότιτλοι: πες μας και γύρνα στην έκδοση του Google.",
   "Thanks! Shared.": "Ευχαριστούμε! Κοινοποιήθηκε.",
   "Sharing didn’t work this time. The next ones will be shared.": "Η κοινοποίηση δεν έγινε αυτή τη φορά. Οι επόμενοι θα κοινοποιηθούν.",
   "Done in {time}. Save it for others?": "Έτοιμο σε {time}. Τον γλιτώνεις στους άλλους;",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Το κουμπί CC ή Υπότιτλοι στο πρόγραμμα αναπαραγωγής της σελίδας. Μερικές σελίδες στέλνουν υπότιτλους μόνο τότε. Οποιαδήποτε γλώσσα κάνει.",
   "The translation appears by itself": "Η μετάφραση εμφανίζεται μόνη της",
   "Over the video, in your language. You can change the language below.": "Πάνω στο βίντεο, στη γλώσσα σου. Μπορείς να αλλάξεις τη γλώσσα παρακάτω.",
-  "All set. It works.": "Έτοιμο. Λειτουργεί."
+  "All set. It works.": "Έτοιμο. Λειτουργεί.",
+  "These are shared subtitles from user #{tag}.": "Αυτοί είναι κοινόχρηστοι υπότιτλοι από τον χρήστη #{tag}.",
+  "Report them and go back to Google": "Αναφορά και επιστροφή στο Google"
 }

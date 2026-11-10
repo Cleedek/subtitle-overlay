@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "ผู้ใช้ #{tag} ปรับปรุงเมื่อ{ago}",
   "Back to Google": "กลับไปใช้ Google",
   "Improve myself": "ปรับปรุงเอง",
-  "Report": "รายงาน",
   "Thanks, reported. Back to Google’s version.": "ขอบคุณ รายงานแล้ว กลับไปใช้ฉบับของ Google",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "คำบรรยายผิดหรือไม่เหมาะสม: แจ้งเราและกลับไปใช้ฉบับของ Google",
   "Thanks! Shared.": "ขอบคุณ! แชร์แล้ว",
   "Sharing didn’t work this time. The next ones will be shared.": "ครั้งนี้แชร์ไม่สำเร็จ ครั้งต่อไปจะแชร์",
   "Done in {time}. Save it for others?": "เสร็จใน {time} ช่วยประหยัดเวลานี้ให้คนอื่นไหม",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "ปุ่ม CC หรือคำบรรยายในเครื่องเล่นของเว็บ บางเว็บจะส่งคำบรรยายมาหลังจากนั้นเท่านั้น ภาษาอะไรก็ได้",
   "The translation appears by itself": "คำแปลจะแสดงขึ้นเอง",
   "Over the video, in your language. You can change the language below.": "บนวิดีโอ ในภาษาของคุณ เปลี่ยนภาษาได้ด้านล่าง",
-  "All set. It works.": "พร้อมแล้ว ใช้งานได้"
+  "All set. It works.": "พร้อมแล้ว ใช้งานได้",
+  "These are shared subtitles from user #{tag}.": "นี่คือคำบรรยายที่ผู้ใช้ #{tag} แชร์",
+  "Report them and go back to Google": "รายงานและกลับไปใช้ Google"
 }

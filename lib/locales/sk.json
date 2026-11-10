@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Vylepšil {ago} používateľ #{tag}",
   "Back to Google": "Vrátiť Google",
   "Improve myself": "Vylepšiť sám",
-  "Report": "Nahlásiť",
   "Thanks, reported. Back to Google’s version.": "Vďaka, nahlásené. Späť na verziu od Googlu.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Zlé alebo urážlivé titulky: daj nám vedieť a vráť sa k verzii od Googlu.",
   "Thanks! Shared.": "Vďaka! Zdieľané.",
   "Sharing didn’t work this time. The next ones will be shared.": "Zdieľanie sa tentoraz nepodarilo. Ďalšie titulky sa nazdieľajú.",
   "Done in {time}. Save it for others?": "Hotovo za {time}. Ušetríš ich ostatným?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Tlačidlo CC alebo Titulky v prehrávači webu. Niektoré weby pošlú titulky až potom. Jazyk je jedno.",
   "The translation appears by itself": "Preklad sa objaví sám",
   "Over the video, in your language. You can change the language below.": "Cez video, v tvojom jazyku. Jazyk môžeš zmeniť nižšie.",
-  "All set. It works.": "Hotovo, funguje to."
+  "All set. It works.": "Hotovo, funguje to.",
+  "These are shared subtitles from user #{tag}.": "Toto sú zdieľané titulky od používateľa #{tag}.",
+  "Report them and go back to Google": "Nahlásiť ich a vrátiť Google"
 }

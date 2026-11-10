@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Pinahusay {ago} ng user #{tag}",
   "Back to Google": "Bumalik sa Google",
   "Improve myself": "Ako na ang magpapahusay",
-  "Report": "I-report",
   "Thanks, reported. Back to Google’s version.": "Salamat, nai-report na. Balik sa bersyon ng Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Mali o nakakasakit na subtitle: sabihan kami at bumalik sa bersyon ng Google.",
   "Thanks! Shared.": "Salamat! Naibahagi na.",
   "Sharing didn’t work this time. The next ones will be shared.": "Hindi naibahagi ngayon. Ibabahagi ang mga susunod.",
   "Done in {time}. Save it for others?": "Tapos sa loob ng {time}. Ipagkakaloob mo ba ito sa iba?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Ang CC o Subtitles button sa player ng site. May mga site na saka lang nagpapadala ng subtitles. Kahit anong wika ay puwede.",
   "The translation appears by itself": "Kusang lalabas ang salin",
   "Over the video, in your language. You can change the language below.": "Sa ibabaw ng video, sa wika mo. Puwede mong palitan ang wika sa ibaba.",
-  "All set. It works.": "Ayos na. Gumagana."
+  "All set. It works.": "Ayos na. Gumagana.",
+  "These are shared subtitles from user #{tag}.": "Ito ay mga subtitle na ibinahagi ng user #{tag}.",
+  "Report them and go back to Google": "I-report at bumalik sa Google"
 }

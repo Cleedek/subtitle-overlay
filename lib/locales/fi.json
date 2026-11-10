@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Paransi {ago} käyttäjä #{tag}",
   "Back to Google": "Takaisin Googleen",
   "Improve myself": "Paranna itse",
-  "Report": "Ilmoita",
   "Thanks, reported. Back to Google’s version.": "Kiitos, ilmoitettu. Takaisin Googlen versioon.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Väärät tai loukkaavat tekstitykset: kerro meille ja palaa Googlen versioon.",
   "Thanks! Shared.": "Kiitos! Jaettu.",
   "Sharing didn’t work this time. The next ones will be shared.": "Jakaminen ei onnistunut tällä kertaa. Seuraavat jaetaan.",
   "Done in {time}. Save it for others?": "Valmis ajassa {time}. Säästätkö sen muilta?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Sivuston soittimen CC- tai Tekstitys-painike. Jotkin sivustot lähettävät tekstityksen vasta silloin. Mikä tahansa kieli käy.",
   "The translation appears by itself": "Käännös ilmestyy itsestään",
   "Over the video, in your language. You can change the language below.": "Videon päälle, omalla kielelläsi. Voit vaihtaa kielen alempana.",
-  "All set. It works.": "Valmista. Se toimii."
+  "All set. It works.": "Valmista. Se toimii.",
+  "These are shared subtitles from user #{tag}.": "Nämä ovat käyttäjän #{tag} jakamia tekstityksiä.",
+  "Report them and go back to Google": "Ilmoita ja palaa Googleen"
 }

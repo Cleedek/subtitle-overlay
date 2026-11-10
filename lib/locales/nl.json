@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "{ago} verbeterd door gebruiker #{tag}",
   "Back to Google": "Terug naar Google",
   "Improve myself": "Zelf verbeteren",
-  "Report": "Melden",
   "Thanks, reported. Back to Google’s version.": "Bedankt, gemeld. Terug naar de versie van Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Foute of beledigende ondertitels: laat het ons weten en ga terug naar de versie van Google.",
   "Thanks! Shared.": "Bedankt! Gedeeld.",
   "Sharing didn’t work this time. The next ones will be shared.": "Delen lukte deze keer niet. De volgende worden gedeeld.",
   "Done in {time}. Save it for others?": "Klaar in {time}. Bespaar je anderen die tijd?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "De CC- of Ondertitels-knop in de speler van de site. Sommige sites sturen pas dan ondertitels. Elke taal is goed.",
   "The translation appears by itself": "De vertaling verschijnt vanzelf",
   "Over the video, in your language. You can change the language below.": "Over de video, in jouw taal. Je kunt de taal hieronder wijzigen.",
-  "All set. It works.": "Klaar. Het werkt."
+  "All set. It works.": "Klaar. Het werkt.",
+  "These are shared subtitles from user #{tag}.": "Dit zijn gedeelde ondertitels van gebruiker #{tag}.",
+  "Report them and go back to Google": "Melden en terug naar Google"
 }

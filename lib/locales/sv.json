@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Förbättrad {ago} av användare #{tag}",
   "Back to Google": "Tillbaka till Google",
   "Improve myself": "Förbättra själv",
-  "Report": "Anmäl",
   "Thanks, reported. Back to Google’s version.": "Tack, anmält. Tillbaka till Googles version.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Fel eller kränkande undertexter: säg till och gå tillbaka till Googles version.",
   "Thanks! Shared.": "Tack! Delat.",
   "Sharing didn’t work this time. The next ones will be shared.": "Delningen fungerade inte den här gången. Nästa delas.",
   "Done in {time}. Save it for others?": "Klart på {time}. Sparar du andra den tiden?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "CC- eller Undertexter-knappen i sajtens spelare. Vissa sajter skickar undertexter först då. Alla språk fungerar.",
   "The translation appears by itself": "Översättningen dyker upp av sig själv",
   "Over the video, in your language. You can change the language below.": "Över videon, på ditt språk. Du kan byta språk nedan.",
-  "All set. It works.": "Klart. Det fungerar."
+  "All set. It works.": "Klart. Det fungerar.",
+  "These are shared subtitles from user #{tag}.": "Det här är delade undertexter från användare #{tag}.",
+  "Report them and go back to Google": "Anmäl dem och gå tillbaka till Google"
 }

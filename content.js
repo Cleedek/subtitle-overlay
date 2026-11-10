@@ -1531,6 +1531,7 @@
   // The copy of these original lines in `to` from Saved subtitles, as cues with
   // the original's timing (and its AI state when a model made it), or null.
   async function keptTranslation(base, to) {
+    if (!SubSettings.REUSE_SAVED) return null;
     const src = await srcKeyOf(base);
     const item = src && await SubSettings.findKept(src, to).catch(() => null);
     if (!item || !item.srt) return null;
@@ -1623,7 +1624,8 @@
     return rtf.format(0, 'second');
   }
   // "🇨🇿 gemma3:12b  SHARED", "Improved 2 days ago by user #4F2A", then Use (offer)
-  // or Back to Google (in use), Improve myself, and Report on a copy in use.
+  // or Back to Google (in use) and Improve myself. Reporting a bad copy is in
+  // "Report a problem" > "Translation is wrong" (checkFor).
   function sharedRow(lang, list, s, offer) {
     const info = s ? Object.assign({ model: s.model }, s.shared) : offer.item;
     const row = el('div', 'ai' + (s ? ' done' : ''));
@@ -1648,13 +1650,6 @@
     if (offer) act(t('Use'), 'main', () => useShared(lang, list, offer));
     else act(t('Back to Google'), '', () => backToGoogle(lang, list));
     if (aiReady()) act(t('Improve myself'), '', () => improveMyself(lang, list, offer), t('Rewrites the lines with {model}, starting where the video is now.', { model: aiModel() }));
-    if (s) {
-      act(t('Report'), 'ghost', () => {
-        send({ type: 'share-report', id: info.id });
-        backToGoogle(lang, list);
-        toast(t('Thanks, reported. Back to Google’s version.'), 3500);
-      }, t('Wrong or offensive subtitles: tell us and go back to Google’s version.'));
-    }
     row.append(foot);
     return row;
   }
@@ -2600,6 +2595,22 @@
       out.push(list);
       acts.append(report());
     } else {
+      // Shared subtitles on screen: reporting them (3 reports hide them for everyone) and Google's version back.
+      const sharedOn = problem === 'bad_translation' && [[cues, original && file.translatedTo], [secondCues(), secondLanguage()]]
+        .find(([list]) => list && aiState.get(list) && aiState.get(list).shared);
+      if (sharedOn) {
+        const [list, lang] = sharedOn;
+        const info = aiState.get(list).shared;
+        out.push(el('p', 'soft', t('These are shared subtitles from user #{tag}.', { tag: info.tag })));
+        const fix = el('div', 'acts');
+        fix.append(button('btn main', t('Report them and go back to Google'), () => {
+          send({ type: 'share-report', id: info.id });
+          backToGoogle(lang, list);
+          hideHelp();
+          toast(t('Thanks, reported. Back to Google’s version.'), 3500);
+        }));
+        out.push(fix);
+      }
       const tips = problem === 'timing'
         ? [['Shift the subtitles', 'Open the extension and use Sync to move them earlier or later.']]
         : [['Try Improve with AI', 'In the language switches over the video or in the extension. AI translation reads the whole scene, so it sounds more natural.'],

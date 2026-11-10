@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Îmbunătățit {ago} de utilizatorul #{tag}",
   "Back to Google": "Înapoi la Google",
   "Improve myself": "Îmbunătățesc eu",
-  "Report": "Raportează",
   "Thanks, reported. Back to Google’s version.": "Mulțumim, raportat. Înapoi la versiunea Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Subtitrări greșite sau jignitoare: spune-ne și revino la versiunea Google.",
   "Thanks! Shared.": "Mulțumim! Partajat.",
   "Sharing didn’t work this time. The next ones will be shared.": "Partajarea n-a mers de data asta. Următoarele vor fi partajate.",
   "Done in {time}. Save it for others?": "Gata în {time}. Le scutești pe alții de timpul ăsta?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Butonul CC sau Subtitrări din playerul site-ului. Unele site-uri trimit subtitrări abia atunci. Orice limbă merge.",
   "The translation appears by itself": "Traducerea apare singură",
   "Over the video, in your language. You can change the language below.": "Peste videoclip, în limba ta. Poți schimba limba mai jos.",
-  "All set. It works.": "Gata. Funcționează."
+  "All set. It works.": "Gata. Funcționează.",
+  "These are shared subtitles from user #{tag}.": "Acestea sunt subtitrări partajate de utilizatorul #{tag}.",
+  "Report them and go back to Google": "Raportează-le și revino la Google"
 }

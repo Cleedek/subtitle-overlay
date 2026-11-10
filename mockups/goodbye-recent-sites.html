@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Odinstalace: nabídka webu</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(oklch(0.985 0.003 290), oklch(0.185 0.008 290));
+  --panel: light-dark(oklch(0.96 0.005 290), oklch(0.225 0.010 290));
+  --panel-hover: light-dark(oklch(0.935 0.008 290), oklch(0.255 0.012 290));
+  --line: light-dark(oklch(0.90 0.008 290), oklch(0.29 0.012 290));
+  --line-strong: light-dark(oklch(0.83 0.012 290), oklch(0.36 0.014 290));
+  --text: light-dark(oklch(0.22 0.012 290), oklch(0.94 0.006 290));
+  --muted: light-dark(oklch(0.46 0.016 290), oklch(0.70 0.014 290));
+  --faint: light-dark(oklch(0.53 0.014 290), oklch(0.56 0.014 290));
+  --accent: oklch(0.54 0.23 293);
+  --accent-soft: light-dark(oklch(0.54 0.23 293 / .12), oklch(0.54 0.23 293 / .22));
+  --link: light-dark(oklch(0.50 0.20 293), oklch(0.80 0.10 293));
+  --ok: light-dark(oklch(0.55 0.13 150), oklch(0.75 0.13 150));
+  --warn: light-dark(oklch(0.58 0.15 60), oklch(0.80 0.13 70));
+  --ease: cubic-bezier(.25, 1, .5, 1);
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body { margin: 0; padding: 40px 16px 64px; color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+.intro { max-width: 1440px; margin: 0 auto 28px; }
+.intro h1 { font-size: 22px; margin: 0 0 6px; letter-spacing: -.015em; }
+.intro p { margin: 0; color: var(--muted); max-width: 780px; }
+.grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+.variant > .tag { font-size: 12px; font-weight: 650; color: var(--link); margin: 0 0 4px; }
+.variant > h2 { font-size: 16px; margin: 0 0 4px; }
+.variant > .why { color: var(--muted); margin: 0 0 14px; font-size: 13px; }
+
+.card { padding: 24px; border: 1px solid var(--line); border-radius: 16px; }
+.eyebrow { font-size: 12px; font-weight: 600; color: var(--link); margin: 0 0 6px; }
+.card h3 { font-size: 20px; font-weight: 650; letter-spacing: -.015em; margin: 0 0 4px; }
+.muted { color: var(--muted); margin: 0; }
+.hint { margin: 0; font-size: 12px; color: var(--faint); }
+header { margin-bottom: 18px; }
+
+.reasons { margin: 0 0 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); overflow: hidden; }
+.reason { display: flex; align-items: center; gap: 11px; padding: 10px 12px; color: var(--text); }
+.reason + .reason, .extra + .reason { border-top: 1px solid var(--line); }
+.dot { flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line-strong); display: grid; place-items: center; }
+.reason.on { background: var(--accent-soft); font-weight: 500; }
+.reason.on .dot { border-color: var(--accent); background: var(--accent); }
+.reason.on .dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+.extra { background: var(--accent-soft); padding: 2px 12px 12px 41px; display: flex; flex-direction: column; gap: 8px; }
+.extra .label { font-size: 13px; font-weight: 500; }
+
+/* chips */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 13px; color: var(--text); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 11px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chip small { color: var(--faint); font-size: 11px; }
+.chip[aria-pressed=true] { border-color: var(--accent); background: var(--accent); color: #fff; }
+.chip[aria-pressed=true] small { color: oklch(1 0 0 / .75); }
+.chip.ghost { border-style: dashed; color: var(--muted); }
+input[type=text], textarea { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 8px; padding: 7px 10px; width: 100%; }
+textarea { min-height: 64px; resize: vertical; background: var(--panel); border-color: var(--line); }
+.field { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; }
+.label { font-weight: 500; }
+
+/* site rows (B, C) */
+.sites { display: flex; flex-direction: column; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--bg); overflow: hidden; }
+.site { display: flex; align-items: center; gap: 10px; padding: 8px 10px; cursor: pointer; }
+.site + .site { border-top: 1px solid var(--line); }
+.site .fav { flex: none; width: 20px; height: 20px; border-radius: 5px; display: grid; place-items: center; font-size: 11px; font-weight: 700; color: #fff; }
+.site .name { font-weight: 500; }
+.site .when { margin-inline-start: auto; font-size: 12px; color: var(--faint); white-space: nowrap; }
+.site .check { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--line-strong); }
+.site.sel { background: var(--accent-soft); }
+.site.sel .check { border: 5px solid var(--accent); }
+.status { display: block; font-size: 12px; font-weight: 400; }
+.status.no { color: var(--warn); }
+.status.okk { color: var(--ok); }
+
+.symptoms { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* C toggle + preview */
+.toggle { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+.switch { flex: none; width: 32px; height: 20px; border-radius: 999px; background: var(--line-strong); position: relative; margin-top: 1px; transition: background .2s var(--ease); }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .2s var(--ease); }
+.toggle.on .switch { background: var(--accent); }
+.toggle.on .switch::after { transform: translateX(12px); }
+.preview { font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; }
+.preview.off { opacity: .4; text-decoration: line-through; }
+
+.note { margin-top: 14px; }
+.primary { margin-top: 14px; width: 100%; font: inherit; font-weight: 600; color: #fff; background: var(--accent); border: 0; border-radius: 10px; padding: 10px; cursor: pointer; }
+.link { font: inherit; font-size: 12px; color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; text-align: start; }
+
+.notes { max-width: 1440px; margin: 36px auto 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.notes section { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: var(--panel); }
+.notes h4 { margin: 0 0 6px; font-size: 14px; }
+.notes p, .notes li { color: var(--muted); font-size: 13px; margin: 0 0 4px; }
+.notes ul { margin: 0; padding-inline-start: 18px; }
+</style>
+</head>
+<body>
+<div class="intro">
+  <h1>Odinstalace Subtitle Overlay: "Titulky se nezobrazily" bez psaní</h1>
+  <p>Všechny tři varianty předpokládají, že rozšíření si během používání tiše pamatuje poslední 3 weby, kde našlo video (jen doménu, nic dalšího), a při odinstalaci je předá stránce. Na stránce se nic neodešle, dokud uživatel neklikne na Odeslat. Ukázková data: netflix.com před 4 min, youtube.com před 20 min, voyo.cz včera.</p>
+</div>
+
+<div class="grid">
+
+  <!-- A -->
+  <div class="variant">
+    <p class="tag">Varianta A</p>
+    <h2>Čipy s weby</h2>
+    <p class="why">Nejmenší změna oproti dnešku. Nejnovější web je rovnou vybraný, takže stačí kliknout na Odeslat. "Jiný web" otevře dnešní textové pole.</p>
+    <div class="card">
+      <header>
+        <p class="eyebrow">Subtitle Overlay</p>
+        <h3>Mrzí mě, že odcházíš</h3>
+        <p class="muted">Řekneš mi proč? Zabere to pět vteřin.</p>
+      </header>
+      <div class="reasons">
+        <div class="reason"><span class="dot"></span>Nefunguje to na webu, kde to potřebuju</div>
+        <div class="reason on"><span class="dot"></span>Titulky se nezobrazily nebo nesedí s videem</div>
+        <div class="extra">
+          <span class="label">Na kterém webu?</span>
+          <div class="chips" data-single>
+            <button class="chip" aria-pressed="true">netflix.com <small>před 4 min</small></button>
+            <button class="chip" aria-pressed="false">youtube.com <small>před 20 min</small></button>
+            <button class="chip" aria-pressed="false">voyo.cz <small>včera</small></button>
+            <button class="chip ghost" aria-pressed="false" data-other>Jiný web…</button>
+          </div>
+          <input type="text" placeholder="např. ivysilani.cz" hidden data-other-field>
+          <span class="hint">Weby, kde jsi naposledy pouštěl video. Vidíš je jen ty.</span>
+        </div>
+        <div class="reason"><span class="dot"></span>Překlad titulků nebyl dost dobrý</div>
+        <div class="reason"><span class="dot"></span>Titulky zakrývaly video</div>
+      </div>
+      <div class="field"><span class="label">Chceš něco dodat? (nepovinné)</span><textarea></textarea></div>
+      <p class="hint note">Odpověď mi přijde e-mailem. Nic se neodešle, dokud nestiskneš Odeslat.</p>
+      <button class="primary">Odeslat</button>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div class="variant">
+    <p class="tag">Varianta B</p>
+    <h2>Web + co se přesně stalo</h2>
+    <p class="why">Dva rychlé výběry místo psaní: web ze seznamu a jedním klikem příznak. Rozdělí to dnešní dvojitý důvod ("nezobrazily NEBO nesedí"), takže z e-mailu hned víš, o který problém jde.</p>
+    <div class="card">
+      <header>
+        <p class="eyebrow">Subtitle Overlay</p>
+        <h3>Mrzí mě, že odcházíš</h3>
+        <p class="muted">Řekneš mi proč? Zabere to pět vteřin.</p>
+      </header>
+      <div class="reasons">
+        <div class="reason"><span class="dot"></span>Nefunguje to na webu, kde to potřebuju</div>
+        <div class="reason on"><span class="dot"></span>Titulky se nezobrazily nebo nesedí s videem</div>
+        <div class="extra">
+          <span class="label">Kde to bylo?</span>
+          <div class="sites" data-single-site>
+            <div class="site sel"><span class="check"></span><span class="fav" style="background:#e50914">N</span><span class="name">netflix.com</span><span class="when">před 4 min</span></div>
+            <div class="site"><span class="check"></span><span class="fav" style="background:#f00">▶</span><span class="name">youtube.com</span><span class="when">před 20 min</span></div>
+            <div class="site"><span class="check"></span><span class="fav" style="background:#5b2be0">V</span><span class="name">voyo.cz</span><span class="when">včera</span></div>
+          </div>
+          <button class="link" data-other-link>Bylo to jinde? Napsat web</button>
+          <input type="text" placeholder="např. ivysilani.cz" hidden data-other-field>
+          <span class="label" style="margin-top:4px">Co se stalo?</span>
+          <div class="chips symptoms" data-single>
+            <button class="chip" aria-pressed="true">Vůbec se neukázaly</button>
+            <button class="chip" aria-pressed="false">Ukázaly se, ale nesedí čas</button>
+            <button class="chip" aria-pressed="false">Ukázaly se a zmizely</button>
+            <button class="chip" aria-pressed="false">Jiný jazyk</button>
+          </div>
+        </div>
+        <div class="reason"><span class="dot"></span>Překlad titulků nebyl dost dobrý</div>
+        <div class="reason"><span class="dot"></span>Titulky zakrývaly video</div>
+      </div>
+      <div class="field"><span class="label">Chceš něco dodat? (nepovinné)</span><textarea></textarea></div>
+      <p class="hint note">Odpověď mi přijde e-mailem. Nic se neodešle, dokud nestiskneš Odeslat.</p>
+      <button class="primary">Odeslat</button>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="variant">
+    <p class="tag">Varianta C</p>
+    <h2>Sdílet, co rozšíření vidělo</h2>
+    <p class="why">Nejvíc užitečné pro opravu. U každého webu je vidět, jestli rozšíření našlo titulky (to už ví, jen si to dnes nepamatuje). Uživatel jedním přepínačem sdílí přesně to, co vidí v náhledu.</p>
+    <div class="card">
+      <header>
+        <p class="eyebrow">Subtitle Overlay</p>
+        <h3>Mrzí mě, že odcházíš</h3>
+        <p class="muted">Řekneš mi proč? Zabere to pět vteřin.</p>
+      </header>
+      <div class="reasons">
+        <div class="reason"><span class="dot"></span>Nefunguje to na webu, kde to potřebuju</div>
+        <div class="reason on"><span class="dot"></span>Titulky se nezobrazily nebo nesedí s videem</div>
+        <div class="extra">
+          <span class="label">Na kterém webu?</span>
+          <div class="sites" data-single-site>
+            <div class="site sel"><span class="check"></span><span class="name">netflix.com<span class="status no">Video ano, titulky nenalezeny</span></span><span class="when">před 4 min</span></div>
+            <div class="site"><span class="check"></span><span class="name">youtube.com<span class="status okk">Titulky nalezeny a zobrazeny</span></span><span class="when">před 20 min</span></div>
+            <div class="site"><span class="check"></span><span class="name">voyo.cz<span class="status no">Video ano, titulky nenalezeny</span></span><span class="when">včera</span></div>
+          </div>
+          <button class="link" data-other-link>Bylo to jinde? Napsat web</button>
+          <input type="text" placeholder="např. ivysilani.cz" hidden data-other-field>
+          <div class="toggle on" data-toggle>
+            <span class="switch"></span>
+            <span><span class="label">Přiložit technické údaje</span><br><span class="hint">Pomůže mi to najít chybu bez dalších otázek.</span></span>
+          </div>
+          <div class="preview" data-preview>web: netflix.com
+verze: 1.0.19 · Chrome 142 · macOS
+video: nalezeno
+titulky: nenalezeny
+překlad: zapnutý (→ čeština)</div>
+        </div>
+        <div class="reason"><span class="dot"></span>Překlad titulků nebyl dost dobrý</div>
+        <div class="reason"><span class="dot"></span>Titulky zakrývaly video</div>
+      </div>
+      <div class="field"><span class="label">Chceš něco dodat? (nepovinné)</span><textarea></textarea></div>
+      <p class="hint note">Odpověď mi přijde e-mailem. Nic se neodešle, dokud nestiskneš Odeslat.</p>
+      <button class="primary">Odeslat</button>
+    </div>
+  </div>
+</div>
+
+<div class="notes">
+  <section>
+    <h4>Jak se weby dostanou na stránku</h4>
+    <p>Po odinstalaci už rozšíření nemůže nic spustit. Proto si průběžně drží seznam (max 3 weby s videem, posledních 7 dní) a aktualizuje adresu, kterou Chrome po odinstalaci otevře.</p>
+    <p>Weby by šly do části adresy za "#". Tu prohlížeč na server vůbec neposílá, takže se k mně nedostanou, dokud uživatel neklikne na Odeslat.</p>
+  </section>
+  <section>
+    <h4>Co je potřeba dořešit</h4>
+    <ul>
+      <li>Zmínka v zásadách ochrany soukromí a ve Store popisu dat.</li>
+      <li>Nepamatovat si weby z anonymního okna.</li>
+      <li>Délka adresy je omezená (asi 1 000 znaků), 3 domény se vejdou bez problému.</li>
+      <li>Texty do 31 jazyků (dnes překlady ode mě, bez rodilých mluvčích).</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+document.querySelectorAll('[data-single]').forEach((group) => {
+  group.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip'); if (!chip) return;
+    group.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', c === chip));
+    const extra = group.closest('.extra'); const field = extra.querySelector('[data-other-field]');
+    if (field && group.querySelector('[data-other]')) { field.hidden = !chip.hasAttribute('data-other'); if (!field.hidden) field.focus(); }
+  });
+});
+document.querySelectorAll('[data-single-site]').forEach((list) => {
+  list.addEventListener('click', (e) => {
+    const row = e.target.closest('.site'); if (!row) return;
+    list.querySelectorAll('.site').forEach((r) => r.classList.toggle('sel', r === row));
+    const extra = list.closest('.extra'); const field = extra.querySelector('[data-other-field]'); if (field) field.hidden = true;
+    const prev = extra.querySelector('[data-preview]');
+    if (prev) {
+      const name = row.querySelector('.name').firstChild.textContent;
+      const found = row.querySelector('.status').classList.contains('okk');
+      prev.textContent = `web: ${name}\nverze: 1.0.19 · Chrome 142 · macOS\nvideo: nalezeno\ntitulky: ${found ? 'nalezeny, zobrazeny' : 'nenalezeny'}\npřeklad: zapnutý (→ čeština)`;
+    }
+  });
+});
+document.querySelectorAll('[data-other-link]').forEach((btn) => btn.addEventListener('click', () => {
+  const extra = btn.closest('.extra');
+  extra.querySelectorAll('.site').forEach((r) => r.classList.remove('sel'));
+  const f = extra.querySelector('[data-other-field]'); f.hidden = false; f.focus();
+}));
+document.querySelectorAll('[data-toggle]').forEach((t) => t.addEventListener('click', () => {
+  t.classList.toggle('on');
+  t.closest('.extra').querySelector('[data-preview]').classList.toggle('off', !t.classList.contains('on'));
+}));
+</script>
+</body>
+</html>

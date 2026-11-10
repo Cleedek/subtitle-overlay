@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "사용자 #{tag}님이 {ago} 개선",
   "Back to Google": "Google로 돌아가기",
   "Improve myself": "직접 개선",
-  "Report": "신고",
   "Thanks, reported. Back to Google’s version.": "감사합니다. 신고했습니다. Google 버전으로 돌아갑니다.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "자막이 틀렸거나 불쾌하면 알려 주시고 Google 버전으로 돌아가세요.",
   "Thanks! Shared.": "감사합니다! 공유했습니다.",
   "Sharing didn’t work this time. The next ones will be shared.": "이번에는 공유하지 못했습니다. 다음부터는 공유됩니다.",
   "Done in {time}. Save it for others?": "{time} 만에 완료. 다른 사람의 시간도 아껴 줄까요?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "사이트 플레이어의 CC 또는 자막 버튼. 일부 사이트는 그때서야 자막을 보내요. 언어는 상관없어요.",
   "The translation appears by itself": "번역이 자동으로 나타나요",
   "Over the video, in your language. You can change the language below.": "동영상 위에, 사용하는 언어로요. 언어는 아래에서 바꿀 수 있어요.",
-  "All set. It works.": "준비 완료. 잘 작동해요."
+  "All set. It works.": "준비 완료. 잘 작동해요.",
+  "These are shared subtitles from user #{tag}.": "사용자 #{tag}님이 공유한 자막입니다.",
+  "Report them and go back to Google": "신고하고 Google로 돌아가기"
 }

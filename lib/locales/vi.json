@@ -517,9 +517,7 @@
   "Improved {ago} by user #{tag}": "Người dùng #{tag} đã cải thiện {ago}",
   "Back to Google": "Quay lại Google",
   "Improve myself": "Tự cải thiện",
-  "Report": "Báo cáo",
   "Thanks, reported. Back to Google’s version.": "Cảm ơn, đã báo cáo. Quay lại bản của Google.",
-  "Wrong or offensive subtitles: tell us and go back to Google’s version.": "Phụ đề sai hoặc xúc phạm: báo cho chúng tôi và quay lại bản của Google.",
   "Thanks! Shared.": "Cảm ơn! Đã chia sẻ.",
   "Sharing didn’t work this time. The next ones will be shared.": "Lần này chưa chia sẻ được. Những lần sau sẽ được chia sẻ.",
   "Done in {time}. Save it for others?": "Xong trong {time}. Bạn tiết kiệm thời gian đó cho người khác nhé?",
@@ -592,5 +590,7 @@
   "The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.": "Nút CC hoặc Phụ đề trong trình phát của trang. Một số trang chỉ gửi phụ đề khi đó. Ngôn ngữ nào cũng được.",
   "The translation appears by itself": "Bản dịch tự hiện ra",
   "Over the video, in your language. You can change the language below.": "Trên video, bằng ngôn ngữ của bạn. Bạn có thể đổi ngôn ngữ bên dưới.",
-  "All set. It works.": "Xong. Đã hoạt động."
+  "All set. It works.": "Xong. Đã hoạt động.",
+  "These are shared subtitles from user #{tag}.": "Đây là phụ đề được chia sẻ bởi người dùng #{tag}.",
+  "Report them and go back to Google": "Báo cáo và quay lại Google"
 }
