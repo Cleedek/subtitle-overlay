@@ -25,15 +25,16 @@
     </div>
 
     <div class="setting">
-      <div class="setting-head translator-head">
-        <span class="setting-label" id="translatorLabel">Translator</span>
-        <div class="segmented translator" role="radiogroup" aria-labelledby="translatorLabel">
-          <button data-translator="google" role="radio">Google</button>
-          <button data-translator="gemini" role="radio">Gemini</button>
-          <button data-translator="claude" role="radio">Claude</button>
-          <button data-translator="openai" role="radio">OpenAI</button>
-          <button data-translator="local" role="radio">Local</button>
-        </div>
+      <!-- Same as the popup: off = Google alone, on = one of the four models. -->
+      <div class="setting-head">
+        <span class="setting-label">Improve with AI</span>
+        <label class="toggle"><input id="aiOn" type="checkbox" role="switch" aria-label="Improve with AI"><span></span></label>
+      </div>
+      <div class="segmented translator" id="aiPicker" role="radiogroup" aria-label="AI model">
+        <button data-translator="local" role="radio">Local<span class="seg-free">Free</span></button>
+        <button data-translator="gemini" role="radio">Gemini</button>
+        <button data-translator="claude" role="radio">Claude</button>
+        <button data-translator="openai" role="radio">OpenAI</button>
       </div>
       <p class="hint" id="translatorHint"></p>
       <div class="setting-head" id="keyRow" hidden>

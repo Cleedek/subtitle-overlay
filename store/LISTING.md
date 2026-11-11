@@ -2,6 +2,15 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
+## Postup pro 1.0.20 (opravná verze, 11. 11. 2026)
+
+Jen oprava chyb, takže stačí **Package > Upload new package** se souborem `dist/subtitle-overlay-1.0.20.zip` a **Submit for review**. Popisy, screenshoty, zásady ani Privacy practices se nemění (žádná nová funkce ani oprávnění).
+
+- Opravy: tlačítka překladače ve frontě (teď přepínač "Vylepšit pomocí AI" jako v popupu), čára nad "Nahlásit problém", tlačítko celé obrazovky při načítání dalšího dílu, dlouhé názvy efektů (de, da, nl, no).
+- Zip: z commitu 578386d + jen tyhle opravy (batch.*, content.js, popup.css, lib/whats-new.js, manifest), 102 souborů jako 1.0.19. Uvítací stránka z jiné session v něm **není**. Sdílení a znovupoužití uložených titulků jsou dál vypnuté (to je 1.1.0).
+- Karta "Co je nového": 1.0.20 nemá vlastní záznam. Kdo přejde z 1.0.18, uvidí kartu 1.0.19; kdo ji už viděl v 1.0.19, neuvidí ji znovu. Odkaz v patičce dál ukazuje "Co je nového ve verzi 1.0.19".
+- Pokud je 1.0.19 ještě v kontrole, nový balíček půjde nahrát až po **Cancel review** (nebo po schválení 1.0.19).
+
 ## Postup pro 1.0.19 (co musíš udělat ty)
 
 **Stav 11. 11. 2026 (odesláno):** Do 1.0.19 jde všechna práce z 10. a 11. 11. kromě dvou věcí, které jsou v kódu vypnuté přepínačem: **sdílení vylepšených titulků s ostatními** (`SubSettings.SHARING = false`, server subs.cleedek.com neběží; Filip 11. 11.: "schovat do příště") a **poslední weby pro stránku po odinstalaci** (`RECENT_SITES = false` v content.js, čeká na test a zásady). Lokální knihovna uložených titulků (otisk) jde. Nově v popisech (32 jazyků): hlášení problému ("Pomoc" + "Nahlásit problém"), uložené titulky i na jiné stránce, věta o hlášení v odstavci Privacy. Zásady: nová odrážka o hlášení problému (feedback.cleedek.com/report, ukládá se název webu, bez IP). Data usage: navíc zaškrtnout **Web history** (název webu v hlášení; přiznat víc je bezpečnější).

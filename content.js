@@ -378,6 +378,10 @@
       /* How far the AI pass got: model and share, a bar, then the line count or what stopped it. */
       .langs .ai { display: flex; flex-direction: column; gap: 5px; padding: 6px 10px 7px; max-width: 240px; }
       .langs button + .ai { border-top: 1px solid rgba(255,255,255,.12); margin-top: 2px; padding-top: 8px; }
+      /* The report link at the bottom, set apart by a line: it isn't part of any language.
+         (Here, not in the wizard's styles, which load only once the wizard opens.) */
+      .langs .report { justify-content: center; font-size: 11.5px; font-weight: 500; opacity: .7; padding-block: 7px 5px; border-top: 1px solid rgba(255,255,255,.12); border-radius: 0 0 8px 8px; margin-top: 2px; }
+      .langs .report:hover { opacity: 1; }
       .ai-head { display: flex; align-items: baseline; gap: 12px; }
       .ai-head .pct { font-variant-numeric: tabular-nums; }
       /* The name stops at 200 px, so the share or check is pushed to the end of the bar itself. */
@@ -636,10 +640,19 @@
 
   function position(force) {
     if (!host || !video) return;
-    const small = smallPlayer(video);
+    let box = stageOf(video).getBoundingClientRect();
+    // While a site swaps in the next episode the old video can have no size
+    // for a moment (0 px at the page's left edge): the centred fullscreen
+    // button then hung half off screen. In our fullscreen the screen is the
+    // box; anywhere else nothing shows until the video has a size again.
+    if (box.width < 40 || box.height < 40) {
+      const fe = document.fullscreenElement;
+      if (ownFullscreen && fe === ownFullscreen.container) box = fe.getBoundingClientRect();
+    }
+    const small = smallPlayer(video) || box.width < 40 || box.height < 40;
     host.style.setProperty('display', small ? 'none' : 'block', 'important');
     if (small) { lastGeom = ''; fsBtn.classList.remove('on'); langsEl.classList.remove('on'); return; }
-    const s = visibleBox(stageOf(video).getBoundingClientRect());
+    const s = visibleBox(box);
     const r = pictureRect(video);
     const geom = [s.left, s.top, s.width, s.height, r.left, r.top, r.width, r.height].map(Math.round).join(',');
     if (!force && geom === lastGeom) return;
@@ -1533,7 +1546,7 @@
   async function keptTranslation(base, to) {
     if (!SubSettings.REUSE_SAVED) return null;
     const src = await srcKeyOf(base);
-    const item = src && await SubSettings.findKept(src, to).catch(() => null);
+    const item = src && (await SubSettings.findKept(src, to).catch(() => null) || await adoptOlderCopy(base, to, src).catch(() => null));
     if (!item || !item.srt) return null;
     const list = SubLib.parse(item.srt);
     if (list.length !== base.cues.length) return null;
@@ -1545,6 +1558,34 @@
         ms: item.ms || 0, kept: item.t || Date.now() });
     }
     return list;
+  }
+
+  // Copies saved before they got a fingerprint (1.0.18 and early 1.0.19) can't
+  // be found by it. Their lines still have the original's timing, though: same
+  // number of lines, each starting and ending where the original's does (give
+  // or take 150 ms, all moved by one offset if a sync shift was on). A match
+  // gets the fingerprint, so next time it's found at once like any other.
+  // Short files are skipped: a few lines' timing could match by chance.
+  const olderChecked = new WeakMap(); // base file -> Set of languages already looked for
+  async function adoptOlderCopy(base, to, src) {
+    const cues = base.cues;
+    if (cues.length < 20) return null;
+    if (!olderChecked.has(base.file)) olderChecked.set(base.file, new Set());
+    const seen = olderChecked.get(base.file);
+    if (seen.has(to)) return null;
+    seen.add(to);
+    for (const item of await SubSettings.loadSaved()) {
+      if (item.src || item.lang !== to || !item.srt) continue;
+      const list = SubLib.parse(item.srt);
+      if (list.length !== cues.length) continue;
+      const shift = list[0].start - cues[0].start;
+      const same = list.every((c, i) => Math.abs(c.start - shift - cues[i].start) <= 150 && Math.abs(c.end - shift - cues[i].end) <= 150);
+      if (!same) continue;
+      const { key, ...kept } = item;
+      await chrome.storage.local.set({ [key]: Object.assign(kept, { src }), ['src:' + src + '|' + to]: key });
+      return Object.assign({ key }, kept);
+    }
+    return null;
   }
 
   // ---------- shared improved subtitles ----------
@@ -2332,9 +2373,6 @@
     }
     .help textarea:focus { outline: 2px solid #7c3aed; outline-offset: 0; border-color: transparent; }
     .help button:focus-visible { outline: 2px solid #a78bfa; outline-offset: 2px; }
-    /* The report link at the bottom of the language switches. */
-    .langs .report { justify-content: center; font-size: 11.5px; font-weight: 500; opacity: .7; padding-block: 5px; border-top: 1px solid rgba(255,255,255,.12); border-radius: 0 0 8px 8px; margin-top: 2px; }
-    .langs .report:hover { opacity: 1; }
   `;
   const BACK_SVG = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 

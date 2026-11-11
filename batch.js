@@ -139,8 +139,10 @@
 
   function showTranslator() {
     const ai = aiOf();
+    $('aiOn').checked = !!ai;
+    $('aiPicker').hidden = !ai;
     for (const b of document.querySelectorAll('[data-translator]')) {
-      const on = b.dataset.translator === (ai ? prefs.translator : 'google');
+      const on = b.dataset.translator === prefs.translator;
       b.setAttribute('aria-checked', String(on));
       b.setAttribute('aria-selected', String(on));
     }
@@ -155,8 +157,13 @@
     else if (prefs[ai.model] && $('aiModel').value !== prefs[ai.model]) $('aiModel').value = prefs[ai.model];
   }
   for (const b of document.querySelectorAll('[data-translator]')) {
-    b.addEventListener('click', () => SubSettings.saveTranslation({ translator: b.dataset.translator }));
+    b.addEventListener('click', () => SubSettings.saveTranslation({ translator: b.dataset.translator, aiPick: b.dataset.translator }));
   }
+  // Off = Google alone. On = the model picked last time (Local at first), as in the popup.
+  $('aiOn').addEventListener('change', () => {
+    const known = prefs.aiPick === 'local' || !!SubSettings.AI[prefs.aiPick];
+    SubSettings.saveTranslation({ translator: $('aiOn').checked ? (known ? prefs.aiPick : 'local') : 'google' });
+  });
   $('aiKey').addEventListener('change', () => {
     const v = $('aiKey').value.trim();
     if (v && aiOf() && aiOf().key) SubSettings.saveTranslation({ [aiOf().key]: v });

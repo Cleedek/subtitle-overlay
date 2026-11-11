@@ -16,8 +16,6 @@ section { padding: 20px 0; }
 .setting .hint { margin: -2px 0 0; font-size: 12.5px; max-width: 60ch; }
 .setting-head { min-height: 32px; }
 select.compact { min-width: 180px; max-width: 260px; }
-.translator-head { flex-wrap: wrap; }
-.segmented.translator { width: 340px; max-width: 100%; }
 .segmented.translator button { padding-block: 5px; }
 #aiKey { width: 260px; max-width: 60%; }
 #aiMsg.error { color: var(--danger); }
@@ -118,6 +116,5 @@ a.job-name:hover { text-decoration: underline; }
 }
 @media (max-width: 520px) {
   body { padding-top: 24px; }
-  .segmented.translator { width: 100%; }
   #aiKey { max-width: none; flex: 1; }
 }
