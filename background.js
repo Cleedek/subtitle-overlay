@@ -641,6 +641,7 @@ async function aiConfig() {
   if (p.translator === 'local') {
     const cfg = { kind: 'local', base: String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '') + '/v1', model: p.localModel };
     await allowLocal(cfg.base);
+    cfg.ollama = await isOllama(cfg.base);
     return cfg;
   }
   return null;
@@ -660,6 +661,33 @@ async function allowLocal(base) {
       action: { type: 'modifyHeaders', requestHeaders: [{ header: 'origin', operation: 'remove' }] },
     }],
   }).catch(() => { /* then OLLAMA_ORIGINS is the way, as the error says */ });
+}
+
+// Ollama gives every model only 4096 tokens of room unless the request asks
+// for more, and its OpenAI-style address ignores that ask. A 30-line chunk to
+// Vietnamese, with its answer, can need more: the answer stopped mid-way and
+// the queue stopped with "did not send back the translated lines". So Ollama
+// gets its own /api/chat with a bigger room (about 0.8 GB more for gemma3:12b).
+const OLLAMA_CTX = 16384;
+const ollamaAt = new Map(); // base -> true/false, asked once per worker
+async function isOllama(base) {
+  if (!ollamaAt.has(base)) {
+    let yes = false;
+    try {
+      const r = await fetch(base.replace(/\/v1$/, '') + '/api/version', { signal: AbortSignal.timeout(3000) });
+      yes = r.ok && typeof (await r.json()).version === 'string';
+    } catch (e) { /* LM Studio or another server: the OpenAI-style address */ }
+    ollamaAt.set(base, yes);
+  }
+  return ollamaAt.get(base);
+}
+
+// The OpenAI-style request as Ollama's /api/chat wants it.
+function ollamaBody(body) {
+  const out = { model: body.model, messages: body.messages, stream: false, options: { num_ctx: OLLAMA_CTX } };
+  if (body.temperature != null) out.options.temperature = body.temperature;
+  if (body.response_format) out.format = body.response_format.json_schema.schema;
+  return out;
 }
 
 // What the server said went wrong: Google wraps it as [{ error: { message } }],
@@ -838,14 +866,17 @@ function claudeBody(body) {
   return out;
 }
 
-async function aiChat(cfg, body, signal) {
+// info.cut is set when the answer ran out of room and stopped mid-way.
+async function aiChat(cfg, body, signal, info = {}) {
   const claude = cfg.kind === 'claude';
+  const ollama = cfg.kind === 'local' && cfg.ollama;
   let loops = 0; // answers a model got stuck in (see below)
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
-      r = await fetch(cfg.base + (claude ? '/messages' : '/chat/completions'), {
-        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(claude ? claudeBody(body) : body),
+      const url = ollama ? cfg.base.replace(/\/v1$/, '') + '/api/chat' : cfg.base + (claude ? '/messages' : '/chat/completions');
+      r = await fetch(url, {
+        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(claude ? claudeBody(body) : ollama ? ollamaBody(body) : body),
         // A local model may first have to load into memory. Stopping from the
         // page closes the connection, and Ollama or LM Studio stop generating.
         signal: AbortSignal.any([signal, AbortSignal.timeout(cfg.kind === 'local' ? 240000 : 90000)]),
@@ -853,8 +884,17 @@ async function aiChat(cfg, body, signal) {
     } catch (e) { throw signal.aborted ? STOPPED : aiError(cfg, e); }
     if (r.ok) {
       const data = await r.json();
-      if (claude) return (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
-      return String((data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '');
+      if (claude) {
+        info.cut = data.stop_reason === 'max_tokens';
+        return (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
+      }
+      if (ollama) {
+        info.cut = data.done_reason === 'length';
+        return String((data.message && data.message.content) || '');
+      }
+      const choice = (data.choices && data.choices[0]) || {};
+      info.cut = choice.finish_reason === 'length';
+      return String((choice.message && choice.message.content) || '');
     }
     const said = serverSays(await r.text().catch(() => ''));
     // The free Gemini tier allows only a few requests a minute: wait and try
@@ -913,6 +953,16 @@ async function aiChat(cfg, body, signal) {
 const keyOf = (i) => 'L' + String(i + 1).padStart(2, '0');
 const noSchema = new Set(); // models whose server refused response_format
 const noTemperature = new Set(); // models that refused a temperature of their own
+// The finished lines of an answer that stopped mid-way (no closing brace, so
+// not JSON as a whole): every complete "L07": { "src": …, "tr": … }.
+function salvage(text) {
+  const out = {};
+  const re = /"(L\d+)"\s*:\s*\{\s*"src"\s*:\s*("(?:[^"\\]|\\.)*")\s*,\s*"tr"\s*:\s*("(?:[^"\\]|\\.)*")\s*\}/g;
+  for (const m of text.matchAll(re)) {
+    try { out[m[1]] = { src: JSON.parse(m[2]), tr: JSON.parse(m[3]) }; } catch (e) { /* a broken line stays missing */ }
+  }
+  return Object.keys(out).length ? out : null;
+}
 const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase();
 
 // One chunk of lines (HTML, like the Google path) -> the same number of
@@ -922,7 +972,8 @@ async function aiTranslate(lines, before, to, signal, sheet, clean) {
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
   const lang = englishName(to);
-  // One request -> the lines it got back, '' where the model left one out (null: no JSON at all).
+  // One request -> { texts, cut }: the lines it got back, '' where the model
+  // left one out (texts null: no JSON at all); cut: the answer ran out of room.
   async function ask(lines, before) {
     const keys = lines.map((l, i) => keyOf(i));
     const numbered = Object.fromEntries(keys.map((k, i) => [k, lines[i]]));
@@ -946,35 +997,46 @@ async function aiTranslate(lines, before, to, signal, sheet, clean) {
       const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
       if (effort) body.reasoning_effort = effort;
     }
-    const text = (await aiChat(cfg, body, signal)).replace(/<think>[\s\S]*?<\/think>/g, '');
+    const info = {};
+    const text = (await aiChat(cfg, body, signal, info)).replace(/<think>[\s\S]*?<\/think>/g, '');
     let out = null;
-    try { out = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (e) { return null; }
-    if (out && out.lines && typeof out.lines === 'object') out = out.lines;
-    return keys.map((k, i) => {
+    try { out = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (e) { out = salvage(text); }
+    if (!out) return { texts: null, cut: info.cut };
+    if (out.lines && typeof out.lines === 'object') out = out.lines;
+    return { cut: info.cut, texts: keys.map((k, i) => {
       const a = out && out[k];
       const s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
       return typeof s === 'string' ? SubLib.dropAlternative(s.trim()) : '';
-    });
+    }) };
   }
   // A second try of the whole chunk only when many lines are missing: the
   // whole chunk again would take a local model another half a minute.
+  // An answer that ran out of room comes back the same way again: then the
+  // lines it did finish are kept and the rest are asked for on their own.
   let best = [];
   for (let attempt = 0; attempt < 2 && best.filter(Boolean).length < lines.length * 0.8; attempt++) {
-    const texts = await ask(lines, before);
+    const { texts, cut } = await ask(lines, before);
     if (texts && texts.filter(Boolean).length > best.filter(Boolean).length) best = texts;
+    if (cut) break;
   }
-  if (!best.some(Boolean)) throw new Error(tr('The model did not send back the translated lines.'));
-  // A few lines left out: one short request for just those. A line with no
-  // words in it (♪, …) isn't worth one; whatever is still missing keeps Google's.
-  const missing = lines.map((l, i) => i).filter((i) => !best[i] && bare(lines[i]));
-  if (missing.length) {
-    const first = missing[0];
-    const again = await ask(missing.map((i) => lines[i]), lines.slice(Math.max(0, first - 4), first)).catch((e) => {
+  // Lines left out (or past where the answer stopped): short requests for just
+  // those, as long as each one brings some back. A line with no words in it
+  // (♪, …) isn't worth one; whatever is still missing keeps Google's.
+  for (let round = 0; round < 3; round++) {
+    const missing = lines.map((l, i) => i).filter((i) => !best[i] && bare(lines[i]));
+    if (!missing.length) break;
+    // Half of a long remainder at a time, so its answer fits for sure.
+    const part = missing.length > 10 ? missing.slice(0, Math.ceil(missing.length / 2)) : missing;
+    const first = part[0];
+    const again = await ask(part.map((i) => lines[i]), lines.slice(Math.max(0, first - 4), first)).catch((e) => {
       if (e === STOPPED) throw e;
       return null;
     });
-    if (again) missing.forEach((i, n) => { if (again[n]) best[i] = again[n]; });
+    const got = again && again.texts ? part.filter((i, n) => again.texts[n]) : [];
+    got.forEach((i) => { best[i] = again.texts[part.indexOf(i)]; });
+    if (!got.length) break;
   }
+  if (!best.some(Boolean)) throw new Error(tr('The model did not send back the translated lines.'));
   return { texts: best, model: cfg.model };
 }
 
@@ -991,8 +1053,11 @@ const SHEET_PROMPT = (lang) => [
   'Under PEOPLE, write only what the lines support, and "unknown" where they don\'t say. Start directly with PEOPLE, no introduction.',
 ].join('\n');
 // A local model usually can't hold a whole film at once, and would quietly lose
-// the beginning: it gets evenly spread parts instead.
-const SHEET_MAX_CHARS = { local: 12000, other: 200000 };
+// the beginning: it gets evenly spread parts instead. Ollama cuts a request
+// that doesn't fit from the front, instructions first, so it has to fit: 12000
+// characters is about 5000 tokens in a 16384 room. Another local server (LM
+// Studio) keeps its own room, often 4096 tokens: a smaller sample for it.
+const SHEET_MAX_CHARS = { local: 12000, small: 4000, other: 200000 };
 const SHEET_MAX_ANSWER = 4000;
 
 function sheetSource(lines, max) {
@@ -1022,7 +1087,7 @@ async function aiSheet(texts, to, signal) {
     temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
     messages: [
       { role: 'system', content: SHEET_PROMPT(englishName(to)) },
-      { role: 'user', content: sheetSource(lines, cfg.kind === 'local' ? SHEET_MAX_CHARS.local : SHEET_MAX_CHARS.other) },
+      { role: 'user', content: sheetSource(lines, cfg.kind !== 'local' ? SHEET_MAX_CHARS.other : cfg.ollama ? SHEET_MAX_CHARS.local : SHEET_MAX_CHARS.small) },
     ],
   };
   if (cfg.kind === 'gemini' || cfg.kind === 'openai') {
