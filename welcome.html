@@ -1,0 +1,92 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+<!-- SPDX-FileCopyrightText: 2026 Cleedek -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to Subtitle Overlay</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="welcome.css">
+  <script src="lib/theme.js"></script>
+</head>
+<body>
+  <main>
+    <header>
+      <img class="logo" src="icons/icon128.png" width="44" height="44" alt="">
+      <h1>Subtitles in your language, on any video</h1>
+      <p class="lede">It’s installed and switched on. This is what it looks like:</p>
+    </header>
+
+    <div class="grid">
+      <div class="demo">
+        <!-- A short muted loop with four lines of our own, translated for real
+             into the chosen language and drawn the way the overlay draws them. -->
+        <div class="player" id="player">
+          <video id="video" src="welcome/demo.mp4" poster="welcome/demo.jpg" muted loop playsinline preload="auto" tabindex="-1" aria-hidden="true"></video>
+          <p class="orig" id="orig" hidden><span>Original</span> <b id="origText"></b></p>
+          <div id="subs" class="subs" aria-live="off"></div>
+          <div id="subs2" class="subs" aria-live="off"></div>
+          <button id="playPause" class="play-pause" type="button" aria-label="Pause">
+            <svg class="i-pause" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11M12 2.5v11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+            <svg class="i-play" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.2v11.6L13.5 8z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="hint error" id="demoError" hidden><span>Translation didn’t work</span>. <span>Check your internet connection.</span></p>
+      </div>
+
+      <ol class="steps">
+        <li id="langStep" class="ok">
+          <span class="n" aria-hidden="true">✓</span>
+          <div>
+            <b><label for="lang">Your language</label></b>
+            <select id="lang" class="compact"></select>
+            <!-- Optional: a second set at the other edge, shown in the sample at once. -->
+            <button id="secondAdd" class="second-add" type="button"><span aria-hidden="true">+</span> <span>Add a second language</span></button>
+            <div id="secondRow" class="second-row" hidden>
+              <select id="second" class="compact" aria-label="Second language"></select>
+              <button id="secondRemove" class="icon-btn" type="button" title="Remove" aria-label="Remove"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            </div>
+            <small id="secondNote" hidden>A second set at the other edge of the video, in any language or the original. Handy when two people watch together.</small>
+            <small id="demoNote">This sample is translated for real. The language you pick here is used for all your videos.</small>
+          </div>
+        </li>
+        <li id="pinStep" class="now">
+          <span class="n" aria-hidden="true">2</span>
+          <div>
+            <b id="pinTitle" data-todo="Pin the icon" data-done="The icon is pinned">Pin the icon</b>
+            <small id="pinNote">Click the puzzle piece in the browser’s toolbar, then the pin next to Subtitle Overlay. This step ticks itself.</small>
+            <span class="pin-hint" id="pinHint" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 16 16"><path d="M6 2.5a1.5 1.5 0 0 1 3 0V4h3v3h1.5a1.5 1.5 0 0 1 0 3H12v3.5H9V12a1.5 1.5 0 0 0-3 0v1.5H2.5V10H4a1.5 1.5 0 0 0 0-3H2.5V4H6z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              <svg class="arrow" width="12" height="12" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="14" height="14" viewBox="0 0 16 16"><path d="M10 1.8l4.2 4.2-1.3 1.3-.9-.3-2.4 2.4.3 2.5-1.2 1.2-2.7-2.7L2.6 13.8l-.4-.4 3.4-3.4L2.9 7.3l1.2-1.2 2.5.3L9 4l-.3-.9z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              <img src="icons/icon32.png" width="16" height="16" alt="">
+              <i>Subtitle Overlay</i>
+            </span>
+          </div>
+        </li>
+        <li id="playStep">
+          <span class="n" aria-hidden="true">3</span>
+          <div>
+            <b>Play a video and turn on its subtitles</b>
+            <small>The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.</small>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <footer>
+      <p class="privacy"><span>Google Translate does the translating, so the subtitle text goes to Google. No account, no tracking.</span> <a id="privacyLink" href="https://cleedek.com/subtitle-overlay/privacy" target="_blank" rel="noopener">What leaves your browser</a></p>
+      <button id="done" class="primary" type="button">Done, close this page</button>
+    </footer>
+    <p class="film-credit">Video: Tears of Steel © Blender Foundation, mango.blender.org, CC BY 3.0</p>
+  </main>
+
+  <script src="lib/i18n.js"></script>
+  <script src="lib/subtitles.js"></script>
+  <script src="lib/settings.js"></script>
+  <script src="lib/render.js"></script>
+  <script src="welcome.js"></script>
+</body>
+</html>
