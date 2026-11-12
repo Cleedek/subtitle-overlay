@@ -140,6 +140,8 @@
     if (!file) return;
     const page = pageOfSubs();
     const record = Object.assign({ t: Date.now(), offset: settings.offset }, file);
+    // The video's length: on a later visit they come back by themselves only on one as long (checkRestore).
+    if (video && Number.isFinite(video.duration) && video.duration > 0) record.dur = Math.round(video.duration);
     // The second language of dual subtitles comes along once you asked the AI
     // to improve it, for a day after it was last saved (a reload carries on and
     // shouldn't redo that work).
@@ -1187,8 +1189,10 @@
   }
 
   // The last subtitles of this exact page: after a reload they come back at
-  // once; on a later visit a card offers them once you watch the video.
-  let restorePending = null; // { record, ask }
+  // once; on a later visit a card offers them once you watch the video (in
+  // automatic mode they come back by themselves: YouTube at once, other sites
+  // on a video of the same length).
+  let restorePending = null; // { record, ask: false | true | 'length', since }
   async function checkRestore() {
     try {
       const record = await memRecord();
@@ -1197,8 +1201,15 @@
       try { ask = !(await chrome.storage.session.get(pageKey()))[pageKey()]; } catch (e) { /* treat as a new visit */ }
       // In automatic mode a YouTube video's subtitles come back by themselves:
       // its address names the video (a feed's address doesn't, so there they're offered).
-      if (ask && SubSettings.youTubeId(location.href)) { await prefsReady; ask = !prefs.autoTranslate; }
-      restorePending = { record, ask };
+      // Other sites' addresses may show another episode or a trailer first, so
+      // there they come back by themselves only on a video exactly as long as
+      // the one they were on ('length': tryRestore); records saved before the
+      // length was kept are still offered.
+      if (ask) {
+        await prefsReady;
+        if (prefs.autoTranslate) ask = SubSettings.youTubeId(location.href) ? false : (record.dur > 0 ? 'length' : true);
+      }
+      restorePending = { record, ask, since: Date.now() };
       startWatch();
       tryRestore();
     } catch (e) { /* no storage access */ }
@@ -1206,6 +1217,24 @@
   function tryRestore() {
     if (!restorePending) return;
     if (cues.length) { restorePending = null; return; } // something else loaded first
+    if (restorePending.ask === 'length') {
+      const v = watched();
+      if (!v) return;
+      const { record } = restorePending;
+      // Not this video (or an ad still plays): wait, and offer them after a minute.
+      if (!(Math.abs(v.duration - record.dur) <= 3)) {
+        if (Date.now() - restorePending.since > 60000) restorePending.ask = true;
+        return;
+      }
+      restorePending = null;
+      const back = restoreRecord(record, v);
+      if (!back || !back.ok) return;
+      autoLoaded = true; // the site's own file, if it comes, may still replace them (autoShow)
+      const ai = record.ai && record.ai.model;
+      notice(t('Subtitles from last time:') + ' ' + (record.translatedTo ? SubSettings.languageName(record.translatedTo) : record.name) + (ai ? ' · ' + ai : ''), 4000);
+      if (aiReady()) showLangs();
+      return;
+    }
     if (restorePending.ask) {
       const v = watched();
       if (!v) return;
