@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "{model}가 자막을 다듬었습니다",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "다듬기를 멈췄습니다. 나머지는 YouTube가 쓴 그대로입니다",
   "Your language": "사용하는 언어",
-  "Add a second language": "두 번째 언어 추가"
+  "Add a second language": "두 번째 언어 추가",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "다른 사람의 자막: 같은 자막을 이미 누군가 AI로 개선해 두었다면 그 버전을 바로 받고, **공유됨** 표시가 붙어요. 내 자막을 공유할지는 직접 정해요",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**개선**은 이제 YouTube 자동 자막에서도 내 언어로 쓸 수 있어요: 문장 부호를 넣고 잘못 들은 단어를 고쳐요",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "자막이 없나요? 영상 위의 **도움말** 라벨이 안내해 주고, **문제 신고**를 누르면 사이트 이름이 제게 와요",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**번역 대기열** 진행 상황이 이제 영상 위 카드에도 표시되고, 완성된 파일이 Google 자막 줄을 알아서 바꿔요"
 }

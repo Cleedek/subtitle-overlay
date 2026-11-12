@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Οι υπότιτλοι διορθώθηκαν από το {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Η διόρθωση σταμάτησε, τα υπόλοιπα μένουν όπως τα έγραψε το YouTube",
   "Your language": "Η γλώσσα σου",
-  "Add a second language": "Προσθήκη δεύτερης γλώσσας"
+  "Add a second language": "Προσθήκη δεύτερης γλώσσας",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Υπότιτλοι από άλλους: αν κάποιος έχει ήδη βελτιώσει τους ίδιους υπότιτλους με AI, παίρνεις αμέσως τη δική του εκδοχή, με την ένδειξη **Κοινόχρηστοι**. Αν θα μοιραστείς και τους δικούς σου, το αποφασίζεις εσύ",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "Η **Βελτίωση** λειτουργεί πλέον και στους αυτόματους υπότιτλους του YouTube στη γλώσσα σου: προσθέτει σημεία στίξης και διορθώνει λέξεις που ακούστηκαν λάθος",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Δεν υπάρχουν υπότιτλοι; Η ετικέτα **Βοήθεια** πάνω στο βίντεο σε καθοδηγεί, και η **Αναφορά προβλήματος** μου στέλνει το όνομα του ιστότοπου",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Η **Ουρά μετάφρασης** δείχνει πλέον την πρόοδό της και στην κάρτα πάνω από το βίντεο, και το έτοιμο αρχείο αντικαθιστά μόνο του τις γραμμές της Google"
 }

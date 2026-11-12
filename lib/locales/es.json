@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Subtítulos corregidos por {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Corrección detenida, el resto queda como lo escribió YouTube",
   "Your language": "Tu idioma",
-  "Add a second language": "Añadir un segundo idioma"
+  "Add a second language": "Añadir un segundo idioma",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Subtítulos de otros: si alguien ya mejoró los mismos subtítulos con IA, recibes su versión al instante, con la etiqueta **Compartido**. Si compartes los tuyos, lo decides tú",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Mejorar** ahora también funciona con los subtítulos automáticos de YouTube en tu propio idioma: añade puntuación y corrige palabras mal entendidas",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "¿Sin subtítulos? La etiqueta **Ayuda** del vídeo te guía, y **Reportar un problema** me envía el nombre del sitio",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "El progreso de la **Cola de traducción** ahora se ve en la tarjeta sobre el vídeo, y el archivo terminado reemplaza solo las líneas de Google"
 }

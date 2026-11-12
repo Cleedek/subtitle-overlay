@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "{model} đã chỉnh sửa phụ đề",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Đã dừng chỉnh sửa, phần còn lại giữ nguyên như YouTube tạo",
   "Your language": "Ngôn ngữ của bạn",
-  "Add a second language": "Thêm ngôn ngữ thứ hai"
+  "Add a second language": "Thêm ngôn ngữ thứ hai",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Phụ đề từ người khác: nếu ai đó đã cải thiện cùng bộ phụ đề bằng AI, bạn nhận ngay bản của họ, gắn nhãn **Được chia sẻ**. Có chia sẻ bản của bạn hay không là tùy bạn",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Cải thiện** giờ cũng dùng được cho phụ đề tự động của YouTube bằng ngôn ngữ của bạn: nó thêm dấu câu và sửa các từ nghe sai",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Không có phụ đề? Nhãn **Trợ giúp** trên video sẽ hướng dẫn bạn, còn **Báo cáo sự cố** gửi cho tôi tên trang web",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Tiến độ của **Hàng đợi dịch** giờ hiện cả trong thẻ phía trên video, và tệp hoàn tất tự thay các dòng của Google"
 }

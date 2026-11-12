@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Inayos ng {model} ang captions",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Itinigil ang pag-aayos, mananatili ang natitira gaya ng isinulat ng YouTube",
   "Your language": "Ang wika mo",
-  "Add a second language": "Magdagdag ng pangalawang wika"
+  "Add a second language": "Magdagdag ng pangalawang wika",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Subtitles mula sa iba: kung may nakapagpahusay na ng parehong subtitles gamit ang AI, makukuha mo agad ang bersyon nila, na may markang **Ibinahagi**. Ikaw ang bahala kung ibabahagi mo rin ang sa iyo",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "Gumagana na ngayon ang **Pahusayin** pati sa awtomatikong captions ng YouTube sa sarili mong wika: nagdaragdag ito ng bantas at inaayos ang mga maling narinig na salita",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Walang subtitles? Gagabayan ka ng label na **Tulong** sa video, at ipinapadala sa akin ng **Mag-ulat ng problema** ang pangalan ng site",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Makikita na rin ang usad ng **Pila ng pagsasalin** sa card sa ibabaw ng video, at kusang papalitan ng natapos na file ang mga linya mula sa Google"
 }

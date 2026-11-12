@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "{model} siisti tekstitykset",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Siistiminen pysäytetty, loput jäävät sellaisiksi kuin YouTube ne kirjoitti",
   "Your language": "Oma kielesi",
-  "Add a second language": "Lisää toinen kieli"
+  "Add a second language": "Lisää toinen kieli",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Muiden tekemät tekstitykset: jos joku on jo parantanut samat tekstitykset tekoälyllä, saat hänen versionsa heti, merkittynä tunnisteella **Jaettu**. Jaatko omasi, päätät itse",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Paranna** toimii nyt myös YouTuben automaattisissa tekstityksissä omalla kielelläsi: se lisää välimerkit ja korjaa väärin kuullut sanat",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Ei tekstityksiä? Videon tunniste **Apua** opastaa sinua, ja **Ilmoita ongelmasta** lähettää minulle sivuston nimen",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Käännösjono** näyttää nyt etenemisensä myös videon päällä olevassa kortissa, ja valmis tiedosto korvaa Googlen rivit itse"
 }

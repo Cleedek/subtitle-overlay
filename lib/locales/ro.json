@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Subtitrări corectate de {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Corectare oprită, restul rămâne cum l-a scris YouTube",
   "Your language": "Limba ta",
-  "Add a second language": "Adaugă o a doua limbă"
+  "Add a second language": "Adaugă o a doua limbă",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Subtitrări de la alții: dacă cineva a îmbunătățit deja aceleași subtitrări cu AI, primești imediat versiunea lui, marcată **Partajat**. Dacă le partajezi și pe ale tale, decizi tu",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Îmbunătățește** funcționează acum și pe subtitrările automate de la YouTube în limba ta: adaugă punctuația și corectează cuvintele auzite greșit",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Fără subtitrări? Eticheta **Ajutor** de pe video te ghidează, iar **Raportează o problemă** îmi trimite numele site-ului",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Coadă de traducere** arată acum progresul și în cardul de deasupra videoului, iar fișierul gata înlocuiește singur rândurile de la Google"
 }

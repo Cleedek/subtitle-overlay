@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Teks dirapikan oleh {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Perapian dihentikan, sisanya tetap seperti tulisan YouTube",
   "Your language": "Bahasamu",
-  "Add a second language": "Tambahkan bahasa kedua"
+  "Add a second language": "Tambahkan bahasa kedua",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Subtitle dari orang lain: kalau seseorang sudah menyempurnakan subtitle yang sama dengan AI, kamu langsung mendapat versinya, ditandai **Dibagikan**. Mau membagikan punyamu atau tidak, terserah kamu",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Sempurnakan** sekarang juga bekerja pada subtitle otomatis YouTube dalam bahasamu sendiri: menambahkan tanda baca dan memperbaiki kata yang salah dengar",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Tidak ada subtitle? Label **Bantuan** di video memandumu, dan **Laporkan masalah** mengirimkan nama situsnya kepadaku",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Kemajuan **Antrean terjemahan** sekarang tampil di kartu di atas video, dan file yang sudah jadi mengganti baris dari Google dengan sendirinya"
 }

@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "{model} 已整理字幕",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "已停止整理，其餘保留 YouTube 原樣",
   "Your language": "你的語言",
-  "Add a second language": "新增第二種語言"
+  "Add a second language": "新增第二種語言",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "來自其他人的字幕：如果有人已經用 AI 改善過同樣的字幕，你會立刻拿到他的版本，並標有 **共享**。是否分享你自己的，由你決定",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**改善** 現在也能用於 YouTube 的自動字幕，支援你自己的語言：它會補上標點，並修正聽錯的詞",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "沒有字幕？影片上的 **說明** 標籤會一步步帶你操作，**回報問題** 會把網站名稱傳給我",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**翻譯佇列** 的進度現在也會顯示在影片上方的卡片裡，完成的檔案會自動取代 Google 的字幕行"
 }

@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "{model} が字幕を整えました",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "整えるのを止めました。残りは YouTube のままです",
   "Your language": "あなたの言語",
-  "Add a second language": "2 つ目の言語を追加"
+  "Add a second language": "2 つ目の言語を追加",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "他の人の字幕：同じ字幕をすでに誰かが AI で改善していれば、その版がすぐに使え、**共有** と表示されます。自分の字幕を共有するかどうかは自由です",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**改善** は YouTube の自動字幕にも、あなた自身の言語で使えるようになりました：句読点を補い、聞き間違えた単語を直します",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "字幕がない場合は、動画上の **ヘルプ** ラベルが手順を案内します。**問題を報告** を使うと、サイト名が私に届きます",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**翻訳キュー** の進行状況が動画上のカードにも表示されるようになり、完成したファイルは自動で Google の字幕行と置き換わります"
 }

@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Legendas corrigidas por {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Correção parada, o resto fica como o YouTube escreveu",
   "Your language": "Seu idioma",
-  "Add a second language": "Adicionar um segundo idioma"
+  "Add a second language": "Adicionar um segundo idioma",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Legendas de outras pessoas: se alguém já melhorou as mesmas legendas com IA, você recebe a versão dessa pessoa na hora, marcada como **Compartilhado**. Compartilhar as suas ou não é decisão sua",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Melhorar** agora também funciona nas legendas automáticas do YouTube no seu próprio idioma: adiciona pontuação e corrige palavras ouvidas errado",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Sem legendas? O rótulo **Ajuda** no vídeo orienta você, e **Relatar um problema** envia para mim o nome do site",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "O progresso da **Fila de tradução** agora aparece no cartão sobre o vídeo, e o arquivo pronto substitui sozinho as linhas do Google"
 }

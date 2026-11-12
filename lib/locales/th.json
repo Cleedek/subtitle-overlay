@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "{model} เกลาคำบรรยายแล้ว",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "หยุดเกลาแล้ว ส่วนที่เหลือคงไว้ตามที่ YouTube เขียน",
   "Your language": "ภาษาของคุณ",
-  "Add a second language": "เพิ่มภาษาที่สอง"
+  "Add a second language": "เพิ่มภาษาที่สอง",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "คำบรรยายจากคนอื่น: ถ้ามีคนใช้ AI ปรับปรุงคำบรรยายชุดเดียวกันไว้แล้ว คุณจะได้ชุดของเขาทันที พร้อมป้าย **แชร์แล้ว** ส่วนจะแชร์ของคุณหรือไม่ ก็แล้วแต่คุณ",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**ปรับปรุง** ใช้กับคำบรรยายอัตโนมัติของ YouTube ในภาษาของคุณเองได้แล้ว: เติมเครื่องหมายวรรคตอนและแก้คำที่ฟังผิด",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "ไม่มีคำบรรยาย? ป้าย **ช่วยเหลือ** บนวิดีโอจะพาคุณทำตามขั้นตอน และ **รายงานปัญหา** จะส่งชื่อเว็บไซต์มาให้ผม",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "ความคืบหน้าของ **คิวการแปล** แสดงในการ์ดเหนือวิดีโอแล้ว และไฟล์ที่เสร็จจะมาแทนบรรทัดของ Google เอง"
 }

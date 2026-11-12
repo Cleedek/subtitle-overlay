@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "نقّح {model} الترجمة",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "توقف التنقيح، ويبقى الباقي كما كتبه YouTube",
   "Your language": "لغتك",
-  "Add a second language": "إضافة لغة ثانية"
+  "Add a second language": "إضافة لغة ثانية",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "ترجمات من الآخرين: إذا حسّن أحدهم الترجمات نفسها بالذكاء الاصطناعي، تحصل على نسخته فورًا، وتحمل علامة **مشتركة**. ومشاركة نسختك قرارك",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**تحسين** يعمل الآن أيضًا مع الترجمات التلقائية في YouTube بلغتك: يضيف علامات الترقيم ويصحح الكلمات التي أُسيء سماعها",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "لا توجد ترجمات؟ سيرشدك زر **مساعدة** على الفيديو، و**الإبلاغ عن مشكلة** يرسل لي اسم الموقع",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "يظهر تقدم **قائمة انتظار الترجمة** الآن في البطاقة فوق الفيديو، ويحل الملف الجاهز محل أسطر Google تلقائيًا"
 }

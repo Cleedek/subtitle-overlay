@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Sari kata dikemas oleh {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Pengemasan dihentikan, selebihnya kekal seperti yang ditulis YouTube",
   "Your language": "Bahasa anda",
-  "Add a second language": "Tambah bahasa kedua"
+  "Add a second language": "Tambah bahasa kedua",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Sari kata daripada orang lain: jika seseorang sudah menambah baik sari kata yang sama dengan AI, anda terus mendapat versinya, bertanda **Dikongsi**. Sama ada anda mahu berkongsi sari kata anda terpulang kepada anda",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Tambah baik** kini turut berfungsi pada sari kata automatik YouTube dalam bahasa anda sendiri: ia menambah tanda baca dan membetulkan perkataan yang tersalah dengar",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Tiada sari kata? Label **Bantuan** pada video membimbing anda, dan **Laporkan masalah** menghantar nama laman itu kepada saya",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Kemajuan **Baris gilir terjemahan** kini dipaparkan pada kad di atas video, dan fail yang siap menggantikan baris daripada Google dengan sendirinya"
 }

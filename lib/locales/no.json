@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Undertekster ryddet opp av {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Opprydding stoppet, resten blir som YouTube skrev det",
   "Your language": "Ditt språk",
-  "Add a second language": "Legg til et andre språk"
+  "Add a second language": "Legg til et andre språk",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Undertekster fra andre: hvis noen allerede har forbedret de samme undertekstene med KI, får du versjonen deres med en gang, merket **Delt**. Om du deler dine egne, bestemmer du selv",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Forbedre** virker nå også på YouTubes automatiske undertekster på ditt eget språk: det legger til tegnsetting og retter feilhørte ord",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Ingen undertekster? Merkelappen **Hjelp** på videoen leder deg gjennom, og **Rapporter et problem** sender meg navnet på nettstedet",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Oversettelseskø** viser nå fremdriften i kortet over videoen, og den ferdige filen erstatter Googles linjer av seg selv"
 }

@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Ondertitels opgeschoond door {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Opschonen gestopt, de rest blijft zoals YouTube het schreef",
   "Your language": "Jouw taal",
-  "Add a second language": "Tweede taal toevoegen"
+  "Add a second language": "Tweede taal toevoegen",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Ondertitels van anderen: als iemand dezelfde ondertitels al met AI heeft verbeterd, krijg je meteen zijn versie, gemarkeerd als **Gedeeld**. Of je die van jou deelt, bepaal je zelf",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Verbeteren** werkt nu ook op de automatische ondertitels van YouTube in je eigen taal: het voegt leestekens toe en corrigeert verkeerd verstane woorden",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Geen ondertitels? Het label **Hulp** op de video loopt je erdoorheen, en **Probleem melden** stuurt mij de naam van de site",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "De **Vertaalwachtrij** toont zijn voortgang nu ook in de kaart boven de video, en het klare bestand vervangt vanzelf de regels van Google"
 }

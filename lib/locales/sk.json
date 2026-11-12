@@ -613,5 +613,9 @@
   "Captions cleaned up by {model}": "Titulky upravil {model}",
   "Stopped cleaning up, the rest stays as YouTube wrote it": "Úprava zastavená, zvyšok zostáva, ako ho napísal YouTube",
   "Your language": "Tvoj jazyk",
-  "Add a second language": "Pridať druhý jazyk"
+  "Add a second language": "Pridať druhý jazyk",
+  "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Titulky od iných: keď už niekto vylepšil rovnaké titulky pomocou AI, dostaneš jeho verziu hneď, označenú **Zdieľané**. Či budeš zdieľať aj tie svoje, rozhodneš ty",
+  "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "\"**Vylepšiť**\" teraz funguje aj na automatických titulkoch YouTube v tvojom jazyku: doplní interpunkciu a opraví zle počuté slová",
+  "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Žiadne titulky? Štítok **Pomoc** na videu ťa prevedie, a **Nahlásiť problém** mi pošle názov webu",
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Front prekladov** teraz ukazuje priebeh aj v karte nad videom a hotový súbor sám nahradí riadky od Googlu"
 }
