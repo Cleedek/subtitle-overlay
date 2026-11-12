@@ -5,8 +5,9 @@ Subtitle Overlay menampilkan subtitle di atas pemutar video situs mana pun, juga
 ★ SOROTAN UTAMA
 ★ Situs apa pun, video apa pun: subtitle di atas pemutar, dalam jendela atau layar penuh, selalu sinkron
 ★ Terjemahkan ke 31 bahasa dengan sekali klik, atau sepenuhnya otomatis begitu kamu menyalakan subtitle di pemutar situs
-★ BARU: terjemahan terdengar alami berkat AI, gratis di komputermu sendiri (Gemma) atau dengan kunci Gemini, Claude, atau OpenAI milikmu
-★ BARU: kalau situs sudah punya subtitle dalam bahasamu, kamu langsung dapat yang itu, dan terjemahan hanya dipakai kalau tidak ada
+★ BARU: subtitle yang dibagikan: kalau ada yang sudah menyempurnakan subtitle yang sama dengan AI, kamu langsung dapat versinya, dan kamu sendiri yang memutuskan apakah mau membagikan punyamu
+★ Terjemahan terdengar alami berkat AI, gratis di komputermu sendiri (Gemma) atau dengan kunci Gemini, Claude, atau OpenAI milikmu
+★ Kalau situs sudah punya subtitle dalam bahasamu, kamu langsung dapat yang itu, dan terjemahan hanya dipakai kalau tidak ada
 ★ Dua bahasa sekaligus: satu di atas, satu di bawah, untuk menonton bersama atau belajar bahasa
 ★ Menemukan subtitle yang dimuat halaman, termasuk di YouTube, jadi kamu jarang butuh file
 ★ Gayamu sendiri: 1.800+ Google Fonts, garis tepi, bayangan, kotak latar, ukuran, dan posisi
@@ -31,6 +32,14 @@ Google Terjemahan memang cepat, tetapi menerjemahkan baris demi baris, kata demi
 • Atau gunakan kunci API milikmu: Gemini (ada paket gratis), Claude, atau OpenAI (berbayar).
 • Sebelum mulai, AI membaca sekilas seluruh file dan mencatat siapa adalah siapa, jadi gender, sapaan, dan nama tetap konsisten dari baris pertama hingga terakhir.
 • Tidak pernah berjalan sendiri: tanpa klikmu, tidak ada yang berjalan dan tidak ada biaya yang keluar.
+• Juga untuk teks otomatis YouTube dalam bahasamu sendiri: Sempurnakan menambahkan tanda baca dan memperbaiki kata yang salah dengar, tanpa menerjemahkan.
+
+SUBTITLE YANG DIBAGIKAN
+• Kalau ada yang sudah menyempurnakan subtitle yang sama dengan AI dan membagikannya, kartu di atas video menawarkan versinya, bertanda "Dibagikan". Satu klik pada Pakai, tanpa menunggu dan tanpa kerja AI di komputermu
+• Pencarian aktif sejak awal dan hanya mengirim 5 karakter pertama dari sidik jari satu arah subtitle beserta bahasanya, tidak pernah halaman, video, atau judulnya. "Cari subtitle dari orang lain" mematikannya
+• "Pakai yang dibagikan secara otomatis" (nonaktif secara bawaan) mengambil versi yang dibagikan tanpa klik. Versi Google selalu hanya satu klik jauhnya
+• Membagikan punyamu sendiri tetap nonaktif sampai kamu menjawab ya di kartu setelah penyempurnaan AI. Hanya versi jadi dari model lokal 12B atau lebih, atau dari model berbayar, yang ditawarkan. "Hapus subtitle yang saya bagikan" menghapus semua yang pernah kamu bagikan dengan satu klik
+• Salinan yang buruk? "Laporkan masalah" > "Terjemahannya salah" melaporkannya, dan tiga laporan menyembunyikannya
 
 DUA BAHASA SEKALIGUS
 • Nyalakan subtitle kedua dalam bahasa apa pun: bahasa Inggris di atas untukmu, bahasa Vietnam di bawah untuk pasanganmu
@@ -47,6 +56,7 @@ MENEMUKAN SUBTITLE YANG DIMUAT SITUS
 ANTREAN TERJEMAHAN DAN SUBTITLE TERSIMPAN
 • Masukkan beberapa file .srt atau .vtt, atau klik "Tambahkan ke antrean" pada subtitle yang dimuat situs. Semuanya diterjemahkan satu per satu sementara kamu melakukan hal lain; tab antrean boleh tetap di latar belakang
 • Bisa dengan Google, Gemini, Claude, OpenAI, atau model lokalmu
+• Selama file ada di antrean, kartu di atas videonya menunjukkan sudah sejauh mana prosesnya, dan file yang selesai menggantikan baris dari Google dengan sendirinya
 • Subtitle yang disempurnakan disimpan di ekstensi selama yang kamu mau, dan muncul lagi saat kamu kembali ke video itu, dan di halaman lain mana pun dengan subtitle yang sama, tanpa bertanya lagi ke AI
 • Putar membuka video beserta subtitlenya, "Tampilkan di…" menaruhnya di atas video yang sudah terbuka di tab lain, dan Unduh .srt menyimpan file-nya
 
@@ -80,7 +90,7 @@ SITUS DEMI SITUS
 • Matikan di situs mana pun dengan satu tombol; daftar situs yang dimatikan hanya sejauh satu klik
 
 PINTASAN KEYBOARD
-Alt + [ / ] sinkronkan · Alt + Shift + [ / ] sinkronkan per 1 detik · Alt + 0 reset sinkronisasi · Alt + R ulangi baris · Alt + S tampilkan atau sembunyikan · Alt + 1 / Alt + 2 tampilkan atau sembunyikan satu bahasa saja · Alt + ↑ / ↓ pindahkan · Alt + F layar penuh dengan subtitle
+Alt + [ / ] sinkronkan · Alt + Shift + [ / ] sinkronkan per 1 detik · Alt + 0 reset sinkronisasi · Alt + R ulangi baris · Alt + S tampilkan atau sembunyikan · Alt + 1 / Alt + 2 tampilkan atau sembunyikan satu bahasa saja · Alt + ↑ / ↓ pindahkan · Alt + = / Alt + − perbesar atau perkecil · Alt + F layar penuh dengan subtitle
 Setiap pintasan bisa diubah atau dimatikan di tab Perilaku.
 
 ANTARMUKA DALAM 31 BAHASA
@@ -90,7 +100,7 @@ UNTUK YANG SUKA MENGULIK
 Tab "Subtitles" di DevTools menampilkan setiap file subtitle yang dimuat halaman dan menyimpannya sebagai .vtt atau .srt.
 
 PRIVASI
-Tanpa akun, tanpa analitik, tanpa pelacakan. Teks subtitle dikirim ke Google Terjemahan hanya saat subtitle diterjemahkan (lewat klikmu atau mode otomatis), dan ke Gemini, Claude, OpenAI, atau model lokalmu hanya saat kamu mengklik Sempurnakan. Subtitle yang diingat dan disimpan tetap berada di browser-mu. Jika kamu menulis kepadaku lewat "Tulis pesan" di jendela ekstensi, pesanmu sampai kepadaku melalui email. Laporan masalah hanya dikirim saat kamu menekan Kirim dan berisi nama situs, tidak pernah alamat halaman. Detailnya ada di kebijakan privasi.
+Tanpa akun, tanpa analitik, tanpa pelacakan. Teks subtitle dikirim ke Google Terjemahan hanya saat subtitle diterjemahkan (lewat klikmu atau mode otomatis), dan ke Gemini, Claude, OpenAI, atau model lokalmu hanya saat kamu mengklik Sempurnakan. Untuk mencari subtitle yang dibagikan, 5 karakter pertama dari sidik jari satu arah subtitle beserta bahasanya dikirim ke serverku (subs.cleedek.com); subtitle hasil penyempurnaanmu sendiri hanya dikirim ke sana kalau kamu setuju membagikannya. Selain itu, subtitle yang diingat dan disimpan tetap berada di browser-mu. Jika kamu menulis kepadaku lewat "Tulis pesan" di jendela ekstensi, pesanmu sampai kepadaku melalui email. Laporan masalah hanya dikirim saat kamu menekan Kirim dan berisi nama situs, tidak pernah alamat halaman. Detailnya ada di kebijakan privasi.
 
 MASALAH ATAU IDE?
 Klik "Masalah atau ide?" di bagian bawah jendela ekstensi dan tulis pesan untukku. Aku membaca setiap pesan. Subtitle tidak muncul di sebuah situs? Label "Bantuan" di video memandumu, dan "Laporkan masalah" mengirimkan nama situs kepadaku supaya bisa kuperbaiki.

@@ -5,8 +5,9 @@ Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit
 ★ ANG MGA TAMPOK
 ★ Kahit anong site, kahit anong video: subtitles sa ibabaw ng player, sa window man o fullscreen, laging naka-sync
 ★ Isalin sa 31 wika sa isang click, o kusang-kusa agad pagka-on mo ng subtitles sa player ng site
-★ BAGO: gawing natural ang salin gamit ang AI, libre sa sarili mong computer (Gemma) o gamit ang sarili mong Gemini, Claude o OpenAI key
-★ BAGO: kung may subtitles na ang site sa wika mo, iyon ang makukuha mo, at magsasalin lang kapag wala
+★ BAGO: ibinahaging subtitles: kung may nakapagpahusay na ng parehong subtitles gamit ang AI, makukuha mo agad ang bersyon niya, at ikaw ang magpapasya kung ibabahagi mo ang sa iyo
+★ Gawing natural ang salin gamit ang AI, libre sa sarili mong computer (Gemma) o gamit ang sarili mong Gemini, Claude o OpenAI key
+★ Kung may subtitles na ang site sa wika mo, iyon ang makukuha mo, at magsasalin lang kapag wala
 ★ Dalawang wika nang sabay: isa sa itaas, isa sa ibaba, para sa sabayang panonood o pag-aaral ng wika
 ★ Hinahanap ang subtitles na nilo-load ng page, kasama ang YouTube, kaya bihira kang mangailangan ng file
 ★ Ang istilo mo: 1,800+ Google Fonts, outline, anino, background box, laki at posisyon
@@ -31,6 +32,14 @@ Mabilis ang Google Translate, pero linya kada linya at salita kada salita ito ku
 • O gamitin ang sarili mong API key: Gemini (may libreng tier), Claude o OpenAI (may bayad).
 • Bago magsimula, mabilis nitong binabasa ang buong file at itinatala kung sino ang sino, kaya pareho ang kasarian, paraan ng pagtawag at mga pangalan mula unang linya hanggang huli.
 • Hindi ito kailanman kusang nagsisimula: walang tumatakbo at walang nagagastos hangga't hindi ka nagki-click.
+• Para rin sa awtomatikong captions ng YouTube sa sarili mong wika: nagdaragdag ang Pahusayin ng bantas at inaayos ang mga maling narinig na salita, nang hindi nagsasalin.
+
+IBINAHAGING SUBTITLES
+• Kung may nakapagpahusay na ng parehong subtitles gamit ang AI at ibinahagi ito, iaalok ng card sa ibabaw ng video ang bersyon niya, na may markang "Ibinahagi". Isang click sa Gamitin, at walang paghihintay at walang trabaho ng AI sa computer mo
+• Naka-on na ang paghahanap mula sa simula at ang unang 5 character lang ng isang one-way na fingerprint ng subtitles pati ang wika ang ipinapadala, hindi kailanman ang page, ang video o ang pamagat nito. Pinapatay ito ng "Maghanap ng subtitle mula sa iba"
+• Ang "Awtomatikong gamitin ang ibinahagi" (naka-off bilang default) ay kumukuha ng ibinahaging bersyon nang walang click. Laging isang click lang ang layo ng bersyon ng Google
+• Nananatiling naka-off ang pagbabahagi ng sarili mo hanggang sa mag-yes ka sa isang card pagkatapos ng pagpapahusay gamit ang AI. Mga tapos na bersyon lang mula sa local model na may 12B o higit pa, o mula sa may bayad, ang iniaalok. Binubura ng "Burahin ang mga ibinahagi kong subtitle" ang lahat ng ibinahagi mo sa isang click
+• Pangit ang kopya? Iuulat ito ng "Mag-ulat ng problema" > "Mali ang pagsasalin", at itinatago ito pagkatapos ng tatlong ulat
 
 DALAWANG WIKA NANG SABAY
 • I-on ang pangalawang subtitles sa kahit anong wika: Ingles sa itaas para sa iyo, Vietnamese sa ibaba para sa partner mo
@@ -47,6 +56,7 @@ HINAHANAP ANG SUBTITLES NA NILO-LOAD NG SITE
 PILA NG PAGSASALIN AT NAKA-SAVE NA SUBTITLES
 • Maglagay ng ilang .srt o .vtt file, o i-click ang "Idagdag sa pila" sa subtitles na nilo-load ng site. Isa-isa itong isasalin habang may ginagawa kang iba; puwedeng manatili sa background ang tab ng pila
 • Gumagana sa Google, Gemini, Claude, OpenAI o sa local model mo
+• Habang nasa pila ang isang file, ipinapakita ng card sa ibabaw ng video nito kung hanggang saan na ito, at kusang pinapalitan ng tapos na file ang mga linya ng Google
 • Itinatabi ang pinahusay na subtitles sa extension hangga't gusto mo, at bumabalik ang mga ito kapag binalikan mo ang video, at sa anumang ibang page na may parehong subtitle, nang hindi na muling nagtatanong sa AI
 • Binubuksan ng "I-play" ang video kasama ang subtitles nito, inilalagay ng "Ipakita sa…" ang mga ito sa video na bukas na sa ibang tab, at sine-save naman ng "I-download ang .srt" ang file
 
@@ -80,7 +90,7 @@ BAWAT SITE
 • I-off ito sa kahit anong site gamit ang isang switch; isang click lang ang layo ng listahan ng mga naka-off na site
 
 KEYBOARD SHORTCUTS
-Alt + [ / ] sync · Alt + Shift + [ / ] sync nang tig-1 s · Alt + 0 i-reset ang sync · Alt + R ulitin ang linya · Alt + S ipakita o itago · Alt + 1 / Alt + 2 ipakita o itago ang isang wika lang · Alt + ↑ / ↓ ilipat · Alt + F fullscreen na may subtitles
+Alt + [ / ] sync · Alt + Shift + [ / ] sync nang tig-1 s · Alt + 0 i-reset ang sync · Alt + R ulitin ang linya · Alt + S ipakita o itago · Alt + 1 / Alt + 2 ipakita o itago ang isang wika lang · Alt + ↑ / ↓ ilipat · Alt + = / Alt + − palakihin o paliitin · Alt + F fullscreen na may subtitles
 Puwedeng baguhin o i-off ang bawat shortcut sa tab na Gawi.
 
 INTERFACE SA 31 WIKA
@@ -90,7 +100,7 @@ PARA SA MGA MAHILIG MAGKALIKOT
 Isang tab na "Subtitles" sa DevTools ang naglilista ng bawat subtitle file na na-load ng page at sine-save ito bilang .vtt o .srt.
 
 PRIVACY
-Walang account, walang analytics, walang tracking. Ipinapadala lang ang teksto ng subtitles sa Google Translate kapag isinasalin ang subtitles (sa click mo o sa awtomatikong mode), at sa Gemini, Claude, OpenAI o sa local model mo kapag nag-click ka lang ng Pahusayin. Nananatili sa browser mo ang mga naaalala at naka-save na subtitles. Kung susulatan mo ako gamit ang "Sumulat sa akin" sa popup, darating sa akin ang mensahe mo sa email. Ipinapadala lang ang ulat ng problema kapag pinindot mo ang Ipadala, at pangalan lang ng site ang laman nito, hindi kailanman ang address ng page. Mga detalye sa privacy policy.
+Walang account, walang analytics, walang tracking. Ipinapadala lang ang teksto ng subtitles sa Google Translate kapag isinasalin ang subtitles (sa click mo o sa awtomatikong mode), at sa Gemini, Claude, OpenAI o sa local model mo kapag nag-click ka lang ng Pahusayin. Para makahanap ng ibinahaging subtitles, ang unang 5 character ng isang one-way na fingerprint ng subtitles at ang wika ay ipinapadala sa server ko (subs.cleedek.com); napupunta lang doon ang sarili mong pinahusay na subtitles kung papayag kang ibahagi ang mga ito. Kung hindi, nananatili sa browser mo ang mga naaalala at naka-save na subtitles. Kung susulatan mo ako gamit ang "Sumulat sa akin" sa popup, darating sa akin ang mensahe mo sa email. Ipinapadala lang ang ulat ng problema kapag pinindot mo ang Ipadala, at pangalan lang ng site ang laman nito, hindi kailanman ang address ng page. Mga detalye sa privacy policy.
 
 PROBLEMA O IDEYA?
 I-click ang "Problema o ideya?" sa ibaba ng popup at sumulat sa akin. Binabasa ko ang bawat mensahe. Hindi lumalabas ang subtitle sa isang site? Gagabayan ka ng label na "Tulong" sa video, at ipapadala sa akin ng "Mag-ulat ng problema" ang pangalan ng site para maayos ko ito.

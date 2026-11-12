@@ -5,8 +5,9 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 ★ DAS WICHTIGSTE
 ★ Jede Seite, jedes Video: Untertitel über dem Player, im Fenster oder im Vollbild, immer synchron
 ★ Übersetzung in 31 Sprachen mit einem Klick, oder ganz automatisch, sobald du die Untertitel im Player der Seite einschaltest
-★ NEU: KI lässt die Übersetzung natürlich klingen, gratis auf deinem eigenen Rechner (Gemma) oder mit deinem eigenen Schlüssel für Gemini, Claude oder OpenAI
-★ NEU: Hat die Seite schon Untertitel in deiner Sprache, bekommst du diese, und übersetzt wird nur, wenn es keine gibt
+★ NEU: Geteilte Untertitel: Hat jemand dieselben Untertitel schon mit KI verbessert, bekommst du sofort seine Version, und ob du deine teilst, entscheidest du
+★ KI lässt die Übersetzung natürlich klingen, gratis auf deinem eigenen Rechner (Gemma) oder mit deinem eigenen Schlüssel für Gemini, Claude oder OpenAI
+★ Hat die Seite schon Untertitel in deiner Sprache, bekommst du diese, und übersetzt wird nur, wenn es keine gibt
 ★ Zwei Sprachen gleichzeitig: eine oben, eine unten, zum gemeinsamen Schauen oder zum Sprachenlernen
 ★ Findet die Untertitel, die die Seite lädt, auch auf YouTube, sodass du meist gar keine Datei brauchst
 ★ Dein Stil: über 1.800 Google Fonts, Kontur, Schatten, Hintergrundbox, Größe und Position
@@ -31,6 +32,14 @@ Google Translate ist schnell, geht aber Zeile für Zeile vor, Wort für Wort. Kl
 • Oder nutze deinen eigenen API-Schlüssel: Gemini (mit kostenlosem Kontingent), Claude oder OpenAI (kostenpflichtig).
 • Bevor es losgeht, überfliegt es die ganze Datei und notiert, wer wer ist, damit Geschlecht, Anrede und Namen von der ersten bis zur letzten Zeile gleich bleiben.
 • Es startet nie von selbst: Ohne deinen Klick läuft nichts und es entstehen keine Kosten.
+• Auch für die automatischen Untertitel von YouTube in deiner Sprache: Verbessern setzt die Zeichensetzung und korrigiert falsch verstandene Wörter, ohne zu übersetzen.
+
+GETEILTE UNTERTITEL
+• Hat jemand dieselben Untertitel schon mit KI verbessert und geteilt, bietet dir die Karte über dem Video seine Version an, markiert mit "Geteilt". Ein Klick auf Verwenden, und du musst nicht warten und es läuft keine KI-Arbeit auf deinem Rechner
+• Die Suche ist von Anfang an eingeschaltet und sendet nur die ersten 5 Zeichen eines Einweg-Fingerabdrucks der Untertitel plus die Sprache, nie die Seite, das Video oder seinen Titel. "Untertitel von anderen suchen" schaltet sie aus
+• "Geteilte automatisch verwenden" (standardmäßig aus) nimmt eine geteilte Version ohne den Klick. Googles Version ist immer einen Klick entfernt
+• Deine eigenen zu teilen bleibt aus, bis du nach einer KI-Verbesserung auf einer Karte Ja sagst. Angeboten werden nur fertige Versionen von einem lokalen Modell mit 12B oder mehr oder von einem kostenpflichtigen. "Meine geteilten Untertitel löschen" entfernt alles, was du geteilt hast, mit einem Klick
+• Eine schlechte Kopie? "Problem melden" > "Übersetzung ist falsch" meldet sie, und nach drei Meldungen wird sie ausgeblendet
 
 ZWEI SPRACHEN GLEICHZEITIG
 • Schalte zweite Untertitel in einer beliebigen Sprache ein: Englisch oben für dich, Vietnamesisch unten für deine Partnerin oder deinen Partner
@@ -47,6 +56,7 @@ FINDET DIE UNTERTITEL, DIE EINE SEITE LÄDT
 ÜBERSETZUNGSWARTESCHLANGE UND GESPEICHERTE UNTERTITEL
 • Zieh mehrere .srt- oder .vtt-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
 • Funktioniert mit Google, Gemini, Claude, OpenAI oder deinem lokalen Modell
+• Solange eine Datei in der Warteschlange ist, zeigt die Karte über ihrem Video, wie weit sie ist, und die fertige Datei ersetzt von selbst die Zeilen von Google
 • Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst, und auch auf jeder anderen Seite mit denselben Untertiteln, ohne die KI erneut zu fragen
 • Abspielen öffnet das Video mit seinen Untertiteln, "Zeigen auf…" legt sie über ein Video, das in einem anderen Tab schon offen ist, und Herunterladen speichert die .srt
 
@@ -80,7 +90,7 @@ SEITE FÜR SEITE
 • Schalte es auf jeder Seite mit einem Schalter aus; die Liste der deaktivierten Seiten ist nur einen Klick entfernt
 
 TASTENKÜRZEL
-Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt + 0 Sync zurücksetzen · Alt + R Zeile wiederholen · Alt + S ein- oder ausblenden · Alt + 1 / Alt + 2 nur eine Sprache ein- oder ausblenden · Alt + ↑ / ↓ verschieben · Alt + F Vollbild mit Untertiteln
+Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt + 0 Sync zurücksetzen · Alt + R Zeile wiederholen · Alt + S ein- oder ausblenden · Alt + 1 / Alt + 2 nur eine Sprache ein- oder ausblenden · Alt + ↑ / ↓ verschieben · Alt + = / Alt + − größer oder kleiner · Alt + F Vollbild mit Untertiteln
 Jedes Tastenkürzel lässt sich im Tab Verhalten ändern oder abschalten.
 
 OBERFLÄCHE IN 31 SPRACHEN
@@ -90,7 +100,7 @@ FÜR TÜFTLER
 Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Seite geladen hat, und speichert sie als .vtt oder .srt.
 
 DATENSCHUTZ
-Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn Untertitel übersetzt werden (per Klick oder im automatischen Modus), und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Gemerkte und gespeicherte Untertitel bleiben in deinem Browser. Wenn du mir über "Schreib mir" im Popup schreibst, kommt deine Nachricht per E-Mail bei mir an. Eine Problemmeldung wird nur gesendet, wenn du auf Senden drückst, und enthält den Namen der Seite, nie die Adresse der Seite. Details in der Datenschutzerklärung.
+Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn Untertitel übersetzt werden (per Klick oder im automatischen Modus), und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Um geteilte Untertitel zu finden, werden die ersten 5 Zeichen eines Einweg-Fingerabdrucks der Untertitel und die Sprache an meinen Server (subs.cleedek.com) gesendet; deine eigenen verbesserten Untertitel gehen nur dorthin, wenn du dem Teilen zustimmst. Gemerkte und gespeicherte Untertitel bleiben sonst in deinem Browser. Wenn du mir über "Schreib mir" im Popup schreibst, kommt deine Nachricht per E-Mail bei mir an. Eine Problemmeldung wird nur gesendet, wenn du auf Senden drückst, und enthält den Namen der Seite, nie die Adresse der Seite. Details in der Datenschutzerklärung.
 
 PROBLEM ODER IDEE?
 Klicke unten im Popup auf "Problem oder Idee?" und schreib mir. Ich lese jede Nachricht. Auf einer Seite erscheinen keine Untertitel? Das Label "Hilfe" am Video führt dich durch, und "Problem melden" schickt mir den Namen der Seite, damit ich es beheben kann.

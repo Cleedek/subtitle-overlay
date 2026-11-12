@@ -5,8 +5,9 @@ Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của b�
 ★ ĐIỂM NỔI BẬT
 ★ Mọi trang web, mọi video: phụ đề hiện trên trình phát, trong cửa sổ hay toàn màn hình, luôn khớp thời gian
 ★ Dịch sang 31 ngôn ngữ chỉ với một cú nhấp, hoặc hoàn toàn tự động ngay khi bạn bật phụ đề trong trình phát của trang
-★ MỚI: dùng AI để bản dịch nghe tự nhiên hơn, miễn phí ngay trên máy tính của bạn (Gemma) hoặc bằng khóa Gemini, Claude hay OpenAI của riêng bạn
-★ MỚI: nếu trang đã có phụ đề bằng ngôn ngữ của bạn, bạn sẽ nhận ngay bộ đó, và chỉ dịch khi không có
+★ MỚI: phụ đề chia sẻ: nếu đã có người cải thiện cùng bộ phụ đề đó bằng AI, bạn nhận ngay bản của họ, còn có chia sẻ bản của bạn hay không là do bạn quyết định
+★ Dùng AI để bản dịch nghe tự nhiên hơn, miễn phí ngay trên máy tính của bạn (Gemma) hoặc bằng khóa Gemini, Claude hay OpenAI của riêng bạn
+★ Nếu trang đã có phụ đề bằng ngôn ngữ của bạn, bạn sẽ nhận ngay bộ đó, và chỉ dịch khi không có
 ★ Hai ngôn ngữ cùng lúc: một ở trên, một ở dưới, để cùng nhau xem phim hoặc để học ngoại ngữ
 ★ Tự tìm phụ đề mà trang tải về, kể cả trên YouTube, nên bạn hầu như chẳng cần đến tệp phụ đề nào
 ★ Phong cách của riêng bạn: hơn 1.800 phông Google Fonts, viền chữ, đổ bóng, nền chữ, cỡ chữ và vị trí
@@ -31,6 +32,14 @@ Google Translate dịch nhanh, nhưng dịch từng dòng, từng chữ. Bấm C
 • Hoặc dùng khóa API của riêng bạn: Gemini (có gói miễn phí), Claude hoặc OpenAI (trả phí).
 • Trước khi bắt đầu, nó đọc lướt cả tệp và ghi chú ai là ai, để giới tính, cách xưng hô và tên riêng thống nhất từ dòng đầu tới dòng cuối.
 • Không bao giờ tự chạy: nếu bạn không bấm thì không có gì chạy và không tốn đồng nào.
+• Cũng dùng được cho phụ đề tự động của YouTube bằng ngôn ngữ của bạn: Cải thiện thêm dấu câu và sửa những từ nghe nhầm, không dịch.
+
+PHỤ ĐỀ ĐƯỢC CHIA SẺ
+• Nếu đã có người cải thiện cùng bộ phụ đề đó bằng AI và chia sẻ, thẻ trên video sẽ đề xuất bản của họ, kèm nhãn "Được chia sẻ". Bấm Dùng một lần là xong, không phải chờ và máy của bạn không phải chạy AI
+• Việc tìm kiếm được bật sẵn và chỉ gửi 5 ký tự đầu của dấu vân tay một chiều của phụ đề cùng ngôn ngữ, không bao giờ gửi trang, video hay tiêu đề video. "Tìm phụ đề từ người khác" sẽ tắt nó
+• "Tự động dùng bản được chia sẻ" (mặc định tắt) lấy bản được chia sẻ mà không cần bấm. Bản của Google luôn cách bạn một lần bấm
+• Việc chia sẻ phụ đề của chính bạn luôn tắt cho đến khi bạn đồng ý trên một thẻ sau khi cải thiện bằng AI. Chỉ những bản đã hoàn chỉnh từ mô hình cục bộ cỡ 12B trở lên, hoặc từ mô hình trả phí, mới được đề xuất. "Xóa phụ đề tôi đã chia sẻ" gỡ mọi thứ bạn đã chia sẻ chỉ bằng một lần bấm
+• Bản kém chất lượng? "Báo cáo sự cố" > "Bản dịch sai" sẽ báo cáo nó, và đủ ba lượt báo cáo thì nó bị ẩn
 
 HAI NGÔN NGỮ CÙNG LÚC
 • Bật phụ đề thứ hai bằng bất kỳ ngôn ngữ nào: tiếng Anh ở trên cho bạn, tiếng Việt ở dưới cho nửa kia của bạn
@@ -47,6 +56,7 @@ TỰ TÌM PHỤ ĐỀ MÀ TRANG WEB TẢI
 HÀNG ĐỢI DỊCH VÀ PHỤ ĐỀ ĐÃ LƯU
 • Thả vào vài tệp .srt hoặc .vtt, hoặc bấm "Thêm vào hàng đợi" với phụ đề mà trang tải. Các tệp sẽ được dịch lần lượt trong khi bạn làm việc khác; tab hàng đợi có thể để chạy nền
 • Dùng được với Google, Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn
+• Khi một tệp đang nằm trong hàng đợi, thẻ trên video của nó cho biết đã xong đến đâu, và tệp hoàn tất tự thay các dòng của Google
 • Phụ đề đã cải thiện được giữ trong tiện ích bao lâu tùy bạn chọn, và tự hiện lại khi bạn quay lại video, và cả trên bất kỳ trang nào khác có cùng phụ đề, không cần hỏi lại AI
 • Nút Phát mở video kèm phụ đề, "Hiện trên…" đặt phụ đề lên một video đang mở ở thẻ khác, và nút Tải xuống lưu tệp .srt
 
@@ -80,7 +90,7 @@ THEO TỪNG TRANG WEB
 • Tắt tiện ích trên bất kỳ trang nào chỉ bằng một công tắc; danh sách các trang đã tắt chỉ cách một cú nhấp
 
 PHÍM TẮT
-Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 giây · Alt + 0 đặt lại đồng bộ · Alt + R phát lại câu · Alt + S hiện hoặc ẩn · Alt + 1 / Alt + 2 hiện hoặc ẩn riêng một ngôn ngữ · Alt + ↑ / ↓ di chuyển · Alt + F toàn màn hình kèm phụ đề
+Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 giây · Alt + 0 đặt lại đồng bộ · Alt + R phát lại câu · Alt + S hiện hoặc ẩn · Alt + 1 / Alt + 2 hiện hoặc ẩn riêng một ngôn ngữ · Alt + ↑ / ↓ di chuyển · Alt + = / Alt + − phóng to hoặc thu nhỏ · Alt + F toàn màn hình kèm phụ đề
 Mọi phím tắt đều có thể đổi hoặc tắt trong tab Hành vi.
 
 GIAO DIỆN 31 NGÔN NGỮ
@@ -90,7 +100,7 @@ DÀNH CHO NGƯỜI THÍCH VỌC VẠCH
 Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã tải và lưu thành .vtt hoặc .srt.
 
 QUYỀN RIÊNG TƯ
-Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi phụ đề được dịch (do bạn bấm hoặc ở chế độ tự động), và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Nếu bạn viết cho tôi qua "Viết cho tôi" trong cửa sổ tiện ích, tin nhắn sẽ tới tôi qua email. Báo cáo sự cố chỉ được gửi khi bạn bấm Gửi và chỉ có tên trang web, không bao giờ có địa chỉ trang. Chi tiết có trong chính sách quyền riêng tư.
+Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi phụ đề được dịch (do bạn bấm hoặc ở chế độ tự động), và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Để tìm phụ đề được chia sẻ, 5 ký tự đầu của dấu vân tay một chiều của phụ đề và ngôn ngữ được gửi tới máy chủ của tôi (subs.cleedek.com); phụ đề đã cải thiện của chính bạn chỉ được gửi tới đó nếu bạn đồng ý chia sẻ. Ngoài ra, phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Nếu bạn viết cho tôi qua "Viết cho tôi" trong cửa sổ tiện ích, tin nhắn sẽ tới tôi qua email. Báo cáo sự cố chỉ được gửi khi bạn bấm Gửi và chỉ có tên trang web, không bao giờ có địa chỉ trang. Chi tiết có trong chính sách quyền riêng tư.
 
 GẶP LỖI HAY CÓ Ý TƯỞNG?
 Bấm "Sự cố hay ý tưởng?" ở cuối cửa sổ tiện ích và viết cho tôi. Tôi đọc mọi tin nhắn. Phụ đề không hiện trên một trang web? Nhãn "Trợ giúp" trên video sẽ hướng dẫn bạn, và "Báo cáo sự cố" gửi cho tôi tên trang web để tôi sửa.

@@ -5,8 +5,9 @@ Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’imp
 ★ L’ESSENTIEL
 ★ N’importe quel site, n’importe quelle vidéo : des sous-titres sur le lecteur, en fenêtre ou en plein écran, toujours synchronisés
 ★ Traduction en 31 langues en un clic, ou entièrement automatique dès que tu actives les sous-titres dans le lecteur du site
-★ NOUVEAU : l’IA rend la traduction naturelle, gratuitement sur ton ordinateur (Gemma) ou avec ta propre clé Gemini, Claude ou OpenAI
-★ NOUVEAU : si le site a déjà des sous-titres dans ta langue, tu les obtiens, et la traduction n’intervient que s’il n’y en a pas
+★ NOUVEAU : sous-titres partagés : si quelqu’un a déjà amélioré les mêmes sous-titres avec l’IA, tu obtiens sa version tout de suite, et partager les tiens, c’est toi qui décides
+★ L’IA rend la traduction naturelle, gratuitement sur ton ordinateur (Gemma) ou avec ta propre clé Gemini, Claude ou OpenAI
+★ Si le site a déjà des sous-titres dans ta langue, tu les obtiens, et la traduction n’intervient que s’il n’y en a pas
 ★ Deux langues à la fois : une en haut, une en bas, pour regarder à deux ou apprendre une langue
 ★ Trouve les sous-titres que la page charge, YouTube compris, donc tu as rarement besoin d’un fichier
 ★ Ton style : plus de 1 800 polices Google Fonts, contour, ombre, fond, taille et position
@@ -31,6 +32,14 @@ Google Translate est rapide, mais il traduit ligne par ligne, mot à mot. Clique
 • Ou utilise ta propre clé API : Gemini (avec une offre gratuite), Claude ou OpenAI (payants).
 • Avant de commencer, il parcourt tout le fichier et note qui est qui, pour que le genre, le tutoiement ou le vouvoiement et les noms restent les mêmes de la première à la dernière ligne.
 • Rien ne démarre tout seul : rien ne tourne et rien n’est dépensé sans ton clic.
+• Aussi pour les sous-titres automatiques de YouTube dans ta langue : Améliorer ajoute la ponctuation et corrige les mots mal entendus, sans traduire.
+
+SOUS-TITRES PARTAGÉS
+• Si quelqu’un a déjà amélioré les mêmes sous-titres avec l’IA et les a partagés, la carte au-dessus de la vidéo te propose sa version, marquée "Partagé". Un clic sur Utiliser, sans attente et sans travail d’IA sur ton ordinateur
+• La recherche est activée dès le départ et n’envoie que les 5 premiers caractères d’une empreinte à sens unique des sous-titres, plus la langue, jamais la page, la vidéo ni son titre. "Chercher des sous-titres partagés" la désactive
+• "Utiliser les partagés automatiquement" (désactivé par défaut) prend une version partagée sans le clic. La version de Google est toujours à un clic
+• Le partage des tiens reste désactivé jusqu’à ce que tu dises oui sur une carte après une amélioration par IA. Seules les versions terminées issues d’un modèle local de 12B ou plus, ou d’un modèle payant, sont proposées. "Supprimer mes sous-titres partagés" retire tout ce que tu as partagé en un clic
+• Une mauvaise copie ? "Signaler un problème" > "La traduction est fausse" la signale, et après trois signalements elle est masquée
 
 DEUX LANGUES À LA FOIS
 • Active des seconds sous-titres dans n’importe quelle langue : l’anglais en haut pour toi, le vietnamien en bas pour ton ou ta partenaire
@@ -47,6 +56,7 @@ TROUVE LES SOUS-TITRES QU’UN SITE CHARGE
 FILE DE TRADUCTION ET SOUS-TITRES ENREGISTRÉS
 • Dépose plusieurs fichiers .srt ou .vtt, ou clique sur "Ajouter à la file" pour des sous-titres qu’un site charge. Ils sont traduits l’un après l’autre pendant que tu fais autre chose ; l’onglet de la file peut rester en arrière-plan
 • Fonctionne avec Google, Gemini, Claude, OpenAI ou ton modèle local
+• Tant qu’un fichier est dans la file, la carte au-dessus de sa vidéo montre où il en est, et le fichier terminé remplace tout seul les lignes de Google
 • Les sous-titres améliorés restent dans l’extension aussi longtemps que tu le choisis, et reviennent quand tu retournes sur la vidéo, et sur toute autre page avec les mêmes sous-titres, sans redemander à l'IA
 • Lire ouvre la vidéo avec ses sous-titres, "Afficher sur…" les pose sur une vidéo déjà ouverte dans un autre onglet, et Télécharger enregistre le .srt
 
@@ -80,7 +90,7 @@ SITE PAR SITE
 • Désactive l’extension sur n’importe quel site avec un seul interrupteur ; la liste des sites désactivés est à un clic
 
 RACCOURCIS CLAVIER
-Alt + [ / ] synchro · Alt + Shift + [ / ] synchro par pas de 1 s · Alt + 0 réinitialiser la synchro · Alt + R rejouer la ligne · Alt + S afficher ou masquer · Alt + 1 / Alt + 2 afficher ou masquer une seule langue · Alt + ↑ / ↓ déplacer · Alt + F plein écran avec sous-titres
+Alt + [ / ] synchro · Alt + Shift + [ / ] synchro par pas de 1 s · Alt + 0 réinitialiser la synchro · Alt + R rejouer la ligne · Alt + S afficher ou masquer · Alt + 1 / Alt + 2 afficher ou masquer une seule langue · Alt + ↑ / ↓ déplacer · Alt + = / Alt + − plus grand ou plus petit · Alt + F plein écran avec sous-titres
 Chaque raccourci peut être modifié ou désactivé dans l’onglet Comportement.
 
 INTERFACE EN 31 LANGUES
@@ -90,7 +100,7 @@ POUR LES BIDOUILLEURS
 Un onglet "Subtitles" dans les DevTools liste chaque fichier de sous-titres chargé par la page et l’enregistre en .vtt ou .srt.
 
 CONFIDENTIALITÉ
-Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand les sous-titres sont traduits (par ton clic ou en mode automatique), et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Les sous-titres mémorisés et enregistrés restent dans ton navigateur. Si tu m’écris avec "Écris-moi" dans la fenêtre de l’extension, ton message m’arrive par e-mail. Un signalement n'est envoyé que lorsque vous appuyez sur Envoyer et contient le nom du site, jamais l'adresse de la page. Détails dans la politique de confidentialité.
+Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand les sous-titres sont traduits (par ton clic ou en mode automatique), et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Pour trouver des sous-titres partagés, les 5 premiers caractères d’une empreinte à sens unique des sous-titres et la langue sont envoyés à mon serveur (subs.cleedek.com) ; tes propres sous-titres améliorés n’y vont que si tu acceptes de les partager. Sinon, les sous-titres mémorisés et enregistrés restent dans ton navigateur. Si tu m’écris avec "Écris-moi" dans la fenêtre de l’extension, ton message m’arrive par e-mail. Un signalement n'est envoyé que lorsque vous appuyez sur Envoyer et contient le nom du site, jamais l'adresse de la page. Détails dans la politique de confidentialité.
 
 UN PROBLÈME OU UNE IDÉE ?
 Clique sur "Problème ou idée ?" en bas de la fenêtre de l’extension et écris-moi. Je lis chaque message. Les sous-titres ne s'affichent pas sur un site ? L'étiquette "Aide" sur la vidéo vous guide, et "Signaler un problème" m'envoie le nom du site pour que je puisse corriger.

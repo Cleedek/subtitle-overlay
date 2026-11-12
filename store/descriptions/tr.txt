@@ -5,8 +5,9 @@ Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, t
 ★ ÖNE ÇIKANLAR
 ★ Her site, her video: oynatıcının üzerinde altyazı, pencerede veya tam ekranda, her zaman senkronize
 ★ Tek tıkla 31 dile çeviri ya da sitenin oynatıcısında altyazıyı açtığın anda tamamen otomatik
-★ YENİ: yapay zekâ ile çeviri doğal dursun, kendi bilgisayarında ücretsiz (Gemma) ya da kendi Gemini, Claude veya OpenAI anahtarınla
-★ YENİ: sitede zaten senin dilinde altyazı varsa onu alırsın, çeviri yalnızca hiç yoksa devreye girer
+★ YENİ: paylaşılan altyazılar: aynı altyazıları biri yapay zekâ ile zaten iyileştirdiyse onun sürümünü hemen alırsın, kendi altyazılarını paylaşıp paylaşmamak da sana kalmış
+★ Yapay zekâ ile çeviri doğal dursun, kendi bilgisayarında ücretsiz (Gemma) ya da kendi Gemini, Claude veya OpenAI anahtarınla
+★ Sitede zaten senin dilinde altyazı varsa onu alırsın, çeviri yalnızca hiç yoksa devreye girer
 ★ Aynı anda iki dil: biri üstte, biri altta; birlikte izlemek ya da dil öğrenmek için
 ★ Sayfanın yüklediği altyazıları bulur, YouTube dahil; yani çoğu zaman dosyaya hiç gerek kalmaz
 ★ Senin tarzın: 1.800+ Google Fonts yazı tipi, kontur, gölge, arka plan kutusu, boyut ve konum
@@ -31,6 +32,14 @@ Google Translate hızlıdır ama satır satır, kelime kelime çevirir. İyileş
 • Ya da kendi API anahtarını kullan: Gemini (ücretsiz katmanı var), Claude veya OpenAI (ücretli).
 • Başlamadan önce tüm dosyaya göz atar ve kimin kim olduğunu not eder; böylece cinsiyet, hitap şekli ve isimler ilk satırdan son satıra kadar tutarlı kalır.
 • Asla kendiliğinden başlamaz: sen tıklamadan hiçbir şey çalışmaz, hiçbir ücret harcanmaz.
+• Kendi dilindeki YouTube otomatik altyazıları için de: İyileştir noktalama ekler ve yanlış duyulan kelimeleri düzeltir, çeviri yapmaz.
+
+PAYLAŞILAN ALTYAZILAR
+• Aynı altyazıları biri yapay zekâ ile iyileştirip paylaştıysa, videonun üstündeki kart onun sürümünü "Paylaşılan" işaretiyle sunar. Kullan'a tek tık, bekleme yok ve bilgisayarında yapay zekâ işi yok
+• Arama baştan açıktır ve altyazıların tek yönlü parmak izinin yalnızca ilk 5 karakterini ve dili gönderir; sayfayı, videoyu ya da başlığını asla göndermez. "Başkalarının altyazılarını ara" onu kapatır
+• "Paylaşılanları otomatik kullan" (varsayılan olarak kapalı) paylaşılan sürümü tıklamadan alır. Google'ın sürümü her zaman bir tık uzakta
+• Kendi altyazılarını paylaşmak, yapay zekâ ile iyileştirmeden sonra bir kartta evet diyene kadar kapalı kalır. Yalnızca 12B veya daha büyük bir yerel modelden ya da ücretli bir modelden çıkan bitmiş sürümler sunulur. "Paylaştığım altyazıları sil" paylaştığın her şeyi tek tıkla kaldırır
+• Kötü bir kopya mı? "Sorun bildir" > "Çeviri yanlış" ile bildirirsin, üç bildirimden sonra gizlenir
 
 AYNI ANDA İKİ DİL
 • Herhangi bir dilde ikinci altyazıyı aç: üstte senin için İngilizce, altta partnerin için Türkçe
@@ -47,6 +56,7 @@ SİTENİN YÜKLEDİĞİ ALTYAZILARI BULUR
 ÇEVİRİ KUYRUĞU VE KAYDEDİLEN ALTYAZILAR
 • Birkaç .srt veya .vtt dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
 • Google, Gemini, Claude, OpenAI veya yerel modelinle çalışır
+• Bir dosya kuyruktayken videosunun üstündeki kart ne kadarının bittiğini gösterir ve biten dosya Google'ın satırlarının yerini kendiliğinden alır
 • İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir, ve aynı altyazıların olduğu başka herhangi bir sayfada da, yapay zekâya yeniden sormadan
 • Oynat, videoyu altyazılarıyla açar; "Şurada göster…" onları başka bir sekmede zaten açık olan bir videonun üzerine koyar; İndir, .srt dosyasını kaydeder
 
@@ -80,7 +90,7 @@ SİTE SİTE
 • Tek bir anahtarla herhangi bir sitede kapat; kapatılan sitelerin listesi bir tık uzağında
 
 KLAVYE KISAYOLLARI
-Alt + [ / ] senkron · Alt + Shift + [ / ] 1 sn senkron · Alt + 0 senkronu sıfırla · Alt + R satırı tekrarla · Alt + S göster veya gizle · Alt + 1 / Alt + 2 yalnızca bir dili göster veya gizle · Alt + ↑ / ↓ taşı · Alt + F altyazılı tam ekran
+Alt + [ / ] senkron · Alt + Shift + [ / ] 1 sn senkron · Alt + 0 senkronu sıfırla · Alt + R satırı tekrarla · Alt + S göster veya gizle · Alt + 1 / Alt + 2 yalnızca bir dili göster veya gizle · Alt + ↑ / ↓ taşı · Alt + = / Alt + − büyüt veya küçült · Alt + F altyazılı tam ekran
 Her kısayol Davranış sekmesinde değiştirilebilir veya kapatılabilir.
 
 31 DİLDE ARAYÜZ
@@ -90,7 +100,7 @@ MERAKLISINA
 DevTools'taki "Subtitles" sekmesi, sayfanın yüklediği her altyazı dosyasını listeler ve .vtt veya .srt olarak kaydeder.
 
 GİZLİLİK
-Hesap yok, analiz yok, takip yok. Altyazı metni yalnızca altyazılar çevrildiğinde (senin tıklamanla ya da otomatik modda) Google Translate'e, yalnızca İyileştir'e tıkladığında da Gemini, Claude, OpenAI veya yerel modeline gönderilir. Hatırlanan ve kaydedilen altyazılar tarayıcında kalır. Uzantı penceresindeki "Bana yaz" ile bana yazarsan mesajın bana e-postayla ulaşır. Sorun bildirimi yalnızca Gönder'e bastığında gönderilir ve sayfa adresini değil, yalnızca sitenin adını içerir. Ayrıntılar gizlilik politikasında.
+Hesap yok, analiz yok, takip yok. Altyazı metni yalnızca altyazılar çevrildiğinde (senin tıklamanla ya da otomatik modda) Google Translate'e, yalnızca İyileştir'e tıkladığında da Gemini, Claude, OpenAI veya yerel modeline gönderilir. Paylaşılan altyazıları bulmak için altyazıların tek yönlü parmak izinin ilk 5 karakteri ve dil sunucuma (subs.cleedek.com) gönderilir; iyileştirilmiş kendi altyazıların oraya yalnızca paylaşmayı kabul edersen gider. Bunun dışında hatırlanan ve kaydedilen altyazılar tarayıcında kalır. Uzantı penceresindeki "Bana yaz" ile bana yazarsan mesajın bana e-postayla ulaşır. Sorun bildirimi yalnızca Gönder'e bastığında gönderilir ve sayfa adresini değil, yalnızca sitenin adını içerir. Ayrıntılar gizlilik politikasında.
 
 SORUN MU, FİKİR Mİ?
 Uzantı penceresinin altındaki "Sorun mu, fikir mi?" bağlantısına tıkla ve bana yaz. Her mesajı okurum. Bir sitede altyazı görünmüyor mu? Videodaki "Yardım" etiketi sana yol gösterir, "Sorun bildir" de düzeltebilmem için sitenin adını bana gönderir.

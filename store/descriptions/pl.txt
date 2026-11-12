@@ -5,8 +5,9 @@ Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, t
 ★ NAJWAŻNIEJSZE
 ★ Dowolna strona, dowolne wideo: napisy nad odtwarzaczem, w oknie i na pełnym ekranie, zawsze zsynchronizowane
 ★ Tłumaczenie na 31 języków jednym kliknięciem albo w pełni automatycznie, gdy tylko włączysz napisy w odtwarzaczu strony
-★ NOWOŚĆ: AI sprawia, że tłumaczenie brzmi naturalnie, za darmo na twoim komputerze (Gemma) albo z własnym kluczem Gemini, Claude lub OpenAI
-★ NOWOŚĆ: jeśli strona ma już napisy w twoim języku, dostajesz właśnie je, a tłumaczenie wkracza tylko wtedy, gdy ich brak
+★ NOWOŚĆ: udostępnione napisy: jeśli ktoś już ulepszył te same napisy za pomocą AI, od razu dostajesz jego wersję, a to, czy udostępnisz swoje, zależy od ciebie
+★ AI sprawia, że tłumaczenie brzmi naturalnie, za darmo na twoim komputerze (Gemma) albo z własnym kluczem Gemini, Claude lub OpenAI
+★ Jeśli strona ma już napisy w twoim języku, dostajesz właśnie je, a tłumaczenie wkracza tylko wtedy, gdy ich brak
 ★ Dwa języki naraz: jeden u góry, drugi na dole, do wspólnego oglądania albo nauki języka
 ★ Znajduje napisy, które wczytuje strona, także na YouTube, więc plik rzadko jest w ogóle potrzebny
 ★ Twój styl: ponad 1800 czcionek Google Fonts, obrys, cień, tło, rozmiar i położenie
@@ -31,6 +32,14 @@ Google Translate jest szybki, ale tłumaczy linijka po linijce, słowo w słowo.
 • Albo użyj własnego klucza API: Gemini (ma darmowy pakiet), Claude lub OpenAI (płatne).
 • Zanim zacznie, przegląda cały plik i notuje, kto jest kim, więc rodzaj gramatyczny, formy zwracania się i imiona zgadzają się od pierwszej do ostatniej linijki.
 • Nigdy nie startuje sam: bez twojego kliknięcia nic nie działa i nic nie wydajesz.
+• Także dla automatycznych napisów YouTube w twoim własnym języku: Ulepsz dodaje interpunkcję i poprawia źle usłyszane słowa, bez tłumaczenia.
+
+UDOSTĘPNIONE NAPISY
+• Jeśli ktoś już ulepszył te same napisy za pomocą AI i je udostępnił, karta nad filmem proponuje jego wersję z oznaczeniem "Udostępnione". Jedno kliknięcie Użyj, bez czekania i bez pracy AI na twoim komputerze
+• Wyszukiwanie jest włączone od początku i wysyła tylko pierwsze 5 znaków jednokierunkowego odcisku napisów oraz język, nigdy strony, wideo ani jego tytułu. "Szukaj napisów od innych" je wyłącza
+• "Używaj udostępnionych automatycznie" (domyślnie wyłączone) bierze udostępnioną wersję bez kliknięcia. Wersja od Google jest zawsze o jedno kliknięcie dalej
+• Udostępnianie własnych napisów jest wyłączone, dopóki nie powiesz tak na karcie po ulepszeniu z AI. Proponowane są tylko gotowe wersje z lokalnego modelu od 12B wzwyż albo z płatnego. "Usuń moje udostępnione napisy" usuwa jednym kliknięciem wszystkie twoje udostępnione napisy
+• Zła kopia? "Zgłoś problem" > "Tłumaczenie jest złe" ją zgłosi, a po trzech zgłoszeniach znika
 
 DWA JĘZYKI NARAZ
 • Włącz drugie napisy w dowolnym języku: angielski u góry dla ciebie, wietnamski na dole dla partnera lub partnerki
@@ -47,6 +56,7 @@ ZNAJDUJE NAPISY, KTÓRE WCZYTUJE STRONA
 KOLEJKA TŁUMACZEŃ I ZACHOWANE NAPISY
 • Wrzuć kilka plików .srt lub .vtt albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
 • Działa z Google, Gemini, Claude, OpenAI lub twoim lokalnym modelem
+• Gdy plik jest w kolejce, karta nad jego wideo pokazuje, jak daleko zaszedł, a gotowy plik sam zastępuje linijki od Google
 • Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu, a także na każdej innej stronie z tymi samymi napisami, bez ponownego pytania AI
 • Odtwórz otwiera wideo z napisami, "Pokaż na…" nakłada je na wideo otwarte już w innej karcie, a Pobierz zapisuje plik .srt
 
@@ -80,7 +90,7 @@ STRONA PO STRONIE
 • Wyłącz rozszerzenie na dowolnej stronie jednym przełącznikiem; lista wyłączonych stron jest o jedno kliknięcie dalej
 
 SKRÓTY KLAWISZOWE
-Alt + [ / ] synchronizacja · Alt + Shift + [ / ] synchronizacja o 1 s · Alt + 0 reset synchronizacji · Alt + R powtórz kwestię · Alt + S pokaż lub ukryj · Alt + 1 / Alt + 2 pokaż lub ukryj tylko jeden język · Alt + ↑ / ↓ przesuń · Alt + F pełny ekran z napisami
+Alt + [ / ] synchronizacja · Alt + Shift + [ / ] synchronizacja o 1 s · Alt + 0 reset synchronizacji · Alt + R powtórz kwestię · Alt + S pokaż lub ukryj · Alt + 1 / Alt + 2 pokaż lub ukryj tylko jeden język · Alt + ↑ / ↓ przesuń · Alt + = / Alt + − większe lub mniejsze · Alt + F pełny ekran z napisami
 Każdy skrót możesz zmienić lub wyłączyć na karcie Zachowanie.
 
 INTERFEJS W 31 JĘZYKACH
@@ -90,7 +100,7 @@ DLA DOCIEKLIWYCH
 Karta "Subtitles" w DevTools pokazuje każdy plik napisów wczytany przez stronę i zapisuje go jako .vtt lub .srt.
 
 PRYWATNOŚĆ
-Bez kont, bez analityki, bez śledzenia. Tekst napisów trafia do Google Translate tylko wtedy, gdy napisy są tłumaczone (twoim kliknięciem lub w trybie automatycznym), a do Gemini, Claude, OpenAI lub twojego lokalnego modelu tylko wtedy, gdy klikniesz Ulepsz. Zapamiętane i zachowane napisy zostają w twojej przeglądarce. Jeśli napiszesz do mnie przez "Napisz do mnie" w oknie rozszerzenia, twoja wiadomość dotrze do mnie e-mailem. Zgłoszenie problemu wysyła się tylko po naciśnięciu Wyślij i zawiera nazwę strony, nigdy adres podstrony. Szczegóły w polityce prywatności.
+Bez kont, bez analityki, bez śledzenia. Tekst napisów trafia do Google Translate tylko wtedy, gdy napisy są tłumaczone (twoim kliknięciem lub w trybie automatycznym), a do Gemini, Claude, OpenAI lub twojego lokalnego modelu tylko wtedy, gdy klikniesz Ulepsz. Aby znaleźć udostępnione napisy, pierwsze 5 znaków jednokierunkowego odcisku napisów i język są wysyłane na mój serwer (subs.cleedek.com); twoje własne ulepszone napisy trafiają tam tylko wtedy, gdy zgodzisz się je udostępnić. Poza tym zapamiętane i zachowane napisy zostają w twojej przeglądarce. Jeśli napiszesz do mnie przez "Napisz do mnie" w oknie rozszerzenia, twoja wiadomość dotrze do mnie e-mailem. Zgłoszenie problemu wysyła się tylko po naciśnięciu Wyślij i zawiera nazwę strony, nigdy adres podstrony. Szczegóły w polityce prywatności.
 
 PROBLEM CZY POMYSŁ?
 Kliknij "Problem czy pomysł?" na dole okna rozszerzenia i napisz do mnie. Czytam każdą wiadomość. Na jakiejś stronie nie widać napisów? Etykieta "Pomoc" przy filmie przeprowadzi cię przez to, a "Zgłoś problem" wyśle mi nazwę strony, żebym mógł to naprawić.

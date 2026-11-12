@@ -5,8 +5,9 @@ Subtitle Overlay muestra subtítulos sobre el reproductor de vídeo de cualquier
 ★ LO MÁS DESTACADO
 ★ Cualquier web, cualquier vídeo: subtítulos sobre el reproductor, en ventana o en pantalla completa, siempre sincronizados
 ★ Traduce a 31 idiomas con un clic, o de forma totalmente automática en cuanto activas los subtítulos en el reproductor de la web
-★ NUEVO: con IA la traducción suena natural, gratis en tu ordenador (Gemma) o con tu propia clave de Gemini, Claude u OpenAI
-★ NUEVO: si la web ya tiene subtítulos en tu idioma, te llegan esos, y solo se traduce cuando no los hay
+★ NUEVO: subtítulos compartidos: si alguien ya mejoró los mismos subtítulos con IA, recibes su versión al instante, y compartir los tuyos es decisión tuya
+★ Con IA la traducción suena natural, gratis en tu ordenador (Gemma) o con tu propia clave de Gemini, Claude u OpenAI
+★ Si la web ya tiene subtítulos en tu idioma, te llegan esos, y solo se traduce cuando no los hay
 ★ Dos idiomas a la vez: uno arriba y otro abajo, para ver algo juntos o aprender un idioma
 ★ Encuentra los subtítulos que carga la página, también en YouTube, así que casi nunca necesitas un archivo
 ★ Tu estilo: más de 1800 fuentes de Google Fonts, contorno, sombra, fondo, tamaño y posición
@@ -31,6 +32,14 @@ Google Translate es rápido, pero va línea a línea, palabra por palabra. Pulsa
 • O usa tu propia clave API: Gemini (tiene un nivel gratuito), Claude u OpenAI (de pago).
 • Antes de empezar, repasa el archivo entero y anota quién es quién, para que el género, el trato y los nombres se mantengan de la primera línea a la última.
 • Nunca se inicia sola: nada se ejecuta y no gastas nada sin tu clic.
+• También para los subtítulos automáticos de YouTube en tu idioma: Mejorar añade la puntuación y corrige las palabras mal entendidas, sin traducir.
+
+SUBTÍTULOS COMPARTIDOS
+• Si alguien ya mejoró los mismos subtítulos con IA y los compartió, la tarjeta sobre el vídeo te ofrece su versión, marcada como "Compartido". Un clic en Usar, y no hay espera ni trabajo de IA en tu ordenador
+• La búsqueda está activada desde el principio y envía solo los 5 primeros caracteres de una huella digital irreversible de los subtítulos más el idioma, nunca la página, el vídeo ni su título. "Buscar subtítulos de otros" la desactiva
+• "Usar compartidos automáticamente" (desactivado por defecto) toma una versión compartida sin el clic. La versión de Google siempre está a un clic
+• Compartir los tuyos sigue desactivado hasta que digas que sí en una tarjeta tras una mejora con IA. Solo se ofrecen versiones terminadas de un modelo local con 12B o más, o de uno de pago. "Borrar mis subtítulos compartidos" elimina todo lo que compartiste con un clic
+• ¿Una mala copia? "Reportar un problema" > "La traducción está mal" la reporta, y con tres reportes se oculta
 
 DOS IDIOMAS A LA VEZ
 • Activa unos segundos subtítulos en cualquier idioma: inglés arriba para ti, vietnamita abajo para tu pareja
@@ -47,6 +56,7 @@ ENCUENTRA LOS SUBTÍTULOS QUE CARGA UNA WEB
 COLA DE TRADUCCIÓN Y SUBTÍTULOS GUARDADOS
 • Arrastra varios archivos .srt o .vtt, o pulsa "Añadir a la cola" en los subtítulos que carga una web. Se traducen uno tras otro mientras haces otra cosa; la pestaña de la cola puede quedarse en segundo plano
 • Funciona con Google, Gemini, Claude, OpenAI o tu modelo local
+• Mientras un archivo está en la cola, la tarjeta sobre su vídeo muestra cuánto lleva, y el archivo terminado sustituye por sí solo las líneas de Google
 • Los subtítulos mejorados se guardan en la extensión el tiempo que tú elijas, y vuelven cuando regresas al vídeo, y en cualquier otra página con los mismos subtítulos, sin volver a preguntar a la IA
 • Reproducir abre el vídeo con sus subtítulos, "Mostrar en…" los pone sobre un vídeo que ya tienes abierto en otra pestaña, y Descargar guarda el .srt
 
@@ -80,7 +90,7 @@ WEB POR WEB
 • Desactívala en cualquier web con un interruptor; la lista de webs desactivadas está a un clic
 
 ATAJOS DE TECLADO
-Alt + [ / ] sincronía · Alt + Shift + [ / ] sincronía de 1 s · Alt + 0 restablecer sincronía · Alt + R repetir la línea · Alt + S mostrar u ocultar · Alt + 1 / Alt + 2 mostrar u ocultar solo un idioma · Alt + ↑ / ↓ mover · Alt + F pantalla completa con subtítulos
+Alt + [ / ] sincronía · Alt + Shift + [ / ] sincronía de 1 s · Alt + 0 restablecer sincronía · Alt + R repetir la línea · Alt + S mostrar u ocultar · Alt + 1 / Alt + 2 mostrar u ocultar solo un idioma · Alt + ↑ / ↓ mover · Alt + = / Alt + − más grande o más pequeño · Alt + F pantalla completa con subtítulos
 Todos los atajos se pueden cambiar o desactivar en la pestaña Comportamiento.
 
 INTERFAZ EN 31 IDIOMAS
@@ -90,7 +100,7 @@ PARA CURIOSOS
 Una pestaña "Subtitles" en DevTools muestra todos los archivos de subtítulos que cargó la página y los guarda como .vtt o .srt.
 
 PRIVACIDAD
-Sin cuentas, sin analíticas, sin rastreo. El texto de los subtítulos se envía a Google Translate solo cuando se traducen los subtítulos (con tu clic o en modo automático), y a Gemini, Claude, OpenAI o tu modelo local solo cuando pulsas Mejorar. Los subtítulos recordados y guardados se quedan en tu navegador. Si me escribes con "Escríbeme" en la ventana de la extensión, tu mensaje me llega por correo electrónico. Un reporte de problema solo se envía cuando pulsas Enviar y lleva el nombre del sitio, nunca la dirección de la página. Más detalles en la política de privacidad.
+Sin cuentas, sin analíticas, sin rastreo. El texto de los subtítulos se envía a Google Translate solo cuando se traducen los subtítulos (con tu clic o en modo automático), y a Gemini, Claude, OpenAI o tu modelo local solo cuando pulsas Mejorar. Para buscar subtítulos compartidos, los 5 primeros caracteres de una huella digital irreversible de los subtítulos y el idioma se envían a mi servidor (subs.cleedek.com); tus propios subtítulos mejorados solo van allí si aceptas compartirlos. Por lo demás, los subtítulos recordados y guardados se quedan en tu navegador. Si me escribes con "Escríbeme" en la ventana de la extensión, tu mensaje me llega por correo electrónico. Un reporte de problema solo se envía cuando pulsas Enviar y lleva el nombre del sitio, nunca la dirección de la página. Más detalles en la política de privacidad.
 
 ¿UN PROBLEMA O UNA IDEA?
 Pulsa "¿Problema o idea?" en la parte inferior de la ventana de la extensión y escríbeme. Leo todos los mensajes. ¿No aparecen subtítulos en un sitio? La etiqueta "Ayuda" sobre el vídeo te guía, y "Reportar un problema" me envía el nombre del sitio para que pueda arreglarlo.

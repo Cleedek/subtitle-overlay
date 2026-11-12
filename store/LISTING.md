@@ -11,7 +11,7 @@ Hlavní věc: **sdílené titulky** (`SHARING = true`) + **znovupoužití vlastn
 ### Co musíš rozhodnout ty
 
 1. **Stav 1.0.20:** je odeslaná / schválená? 1.1.0 jde nahrát až po ní (nebo po Cancel review).
-2. **Co dalšího jde do 1.1.0** (všechno necommitnuté v ~/subtitle-overlay):
+2. **Co dalšího jde do 1.1.0** (stav 12. 11. 08:00: všechno už je commitnuté a pushnuté v 15170dc, b64a76d, 49b8885; navíc i **průběh fronty překladů v kartě nad videem**):
    - uvítací stránka po instalaci (welcome.*, welcome/demo.mp4; jen nové instalace)
    - **Vylepšit** i pro automatické titulky YouTube ve tvém jazyce (interpunkce, přeslechnutá slova)
    - zkratky Alt + = / Alt + − (větší / menší titulky), popisky kláves podle skutečné klávesnice
@@ -73,8 +73,10 @@ Potřeba změnit, **ano**: dnes první věta říká, že rozšíření "nic neu
 
 ### Privacy practices v Dashboardu
 
-- **storage:** doplnit náhodný kód instalace pro sdílení, počet sdílených, odpověď na kartu souhlasu, rozložení klávesnice pro popisky zkratek.
-- **Host permission:** doplnit větu: "To find subtitles other users improved, the first 5 characters of a one-way fingerprint of the original subtitles and the target language are sent to subs.cleedek.com; improved subtitles are uploaded there only after the user agrees to share them."
+Hotové texty pro 1.1.0 (nahradí stávající; počet znaků: storage 920, Host 933, limit 1 000):
+
+- **storage (1.1.0):** Saves, on the device only: style settings and presets, timing offset, languages, translator choice (with the user's own Gemini, Claude or OpenAI key or local model address, if entered), light or dark look, sites where the extension is off, and the keyboard layout for shortcut labels; subtitles loaded on a page (last 30 pages); queued subtitle files and the improved subtitles the user keeps; counters for the rating, support and "What's new" cards; an unsent "Write to me" draft; hint and report codes; up to three recent video site names for the uninstall page; for shared subtitles, a random install code, the share count and the answer to the sharing card; and, in session storage, the AI's who-is-who notes, a streaming tab's subtitle languages and local model download progress. Data leaves the device only as the privacy policy describes: Send in a form, a shared-subtitles lookup, or a share the user agreed to.
+- **Host permission (1.1.0):** Videos with subtitles can be on any website, so the overlay must run on any page, hide the site's own subtitles while showing its own, and read subtitle files the page loaded from their original address. Before translating, it checks whether the site offers subtitles in the user's language and downloads that file instead: YouTube's caption address with only the language changed, the subtitle list Netflix's or Prime Video's player receives, or the HLS/DASH manifest the page loaded. On netflix.com it adds the user's language to the player's subtitle list request (preferredTextLocale); nothing else is changed and video data is never read. Subtitle text goes only to the translator the user picked. To find subtitles others improved, the first 5 characters of a one-way fingerprint of the subtitles and the language go to subs.cleedek.com (the developer's server); improved subtitles go there only after the user agrees to share.
 - **Data usage:** Website content už je zaškrtnuté a pokrývá to. Nic nového zaškrtávat nevidím, ale nejsem si jistý (viz rizika).
 - **Oprávnění v manifestu se nemění** (manifest má v gitu jen změnu verze), takže uživatelům se po aktualizaci neukáže žádný dialog s novými oprávněními.
 - Single purpose a Remote code beze změny.

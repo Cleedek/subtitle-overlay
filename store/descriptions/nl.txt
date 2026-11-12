@@ -5,8 +5,9 @@ Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op 
 ★ DE HOOGTEPUNTEN
 ★ Elke site, elke video: ondertitels over de speler, in een venster of op volledig scherm, altijd synchroon
 ★ Vertaal met één klik naar 31 talen, of helemaal automatisch zodra je de ondertitels aanzet in de speler van de site
-★ NIEUW: laat de vertaling natuurlijk klinken met AI, gratis op je eigen computer (Gemma) of met je eigen sleutel voor Gemini, Claude of OpenAI
-★ NIEUW: heeft de site al ondertitels in jouw taal, dan krijg je die, en er wordt alleen vertaald als die er niet zijn
+★ NIEUW: gedeelde ondertitels: heeft iemand dezelfde ondertitels al met AI verbeterd, dan krijg je meteen die versie, en of je de jouwe deelt, bepaal je zelf
+★ Laat de vertaling natuurlijk klinken met AI, gratis op je eigen computer (Gemma) of met je eigen sleutel voor Gemini, Claude of OpenAI
+★ Heeft de site al ondertitels in jouw taal, dan krijg je die, en er wordt alleen vertaald als die er niet zijn
 ★ Twee talen tegelijk: één bovenaan, één onderaan, om samen te kijken of een taal te leren
 ★ Vindt de ondertitels die de pagina laadt, ook op YouTube, dus een bestand heb je zelden nodig
 ★ Jouw stijl: ruim 1.800 Google Fonts, omlijning, schaduw, achtergrondvak, grootte en positie
@@ -31,6 +32,14 @@ Google Translate is snel, maar werkt regel voor regel, woord voor woord. Klik op
 • Of gebruik je eigen API-sleutel: Gemini (heeft een gratis versie), Claude of OpenAI (betaald).
 • Voordat het begint, leest het het hele bestand door en noteert het wie wie is, zodat geslacht, aanspreekvormen en namen gelijk blijven van de eerste tot de laatste regel.
 • Het start nooit vanzelf: zonder jouw klik draait er niets en betaal je niets.
+• Ook voor de automatische ondertitels van YouTube in je eigen taal: Verbeteren voegt de leestekens toe en herstelt verkeerd verstane woorden, zonder te vertalen.
+
+GEDEELDE ONDERTITELS
+• Heeft iemand dezelfde ondertitels al met AI verbeterd en gedeeld, dan biedt de kaart over de video die versie aan, gemarkeerd met "Gedeeld". Eén klik op Gebruiken, en je hoeft niet te wachten en er draait geen AI op je computer
+• Zoeken staat vanaf het begin aan en stuurt alleen de eerste 5 tekens van een eenrichtingsvingerafdruk van de ondertitels plus de taal, nooit de pagina, de video of de titel. "Ondertitels van anderen zoeken" zet het uit
+• "Gedeelde automatisch gebruiken" (standaard uit) neemt een gedeelde versie zonder de klik. De versie van Google is altijd één klik weg
+• Je eigen ondertitels delen blijft uit tot je op een kaart ja zegt na een verbetering met AI. Alleen afgemaakte versies van een lokaal model met 12B of meer, of van een betaald model, worden aangeboden. "Mijn gedeelde ondertitels verwijderen" haalt alles wat je deelde met één klik weg
+• Een slechte kopie? "Probleem melden" > "Vertaling klopt niet" meldt die, en na drie meldingen wordt hij verborgen
 
 TWEE TALEN TEGELIJK
 • Zet tweede ondertitels aan in elke taal: Engels bovenaan voor jou, Vietnamees onderaan voor je partner
@@ -47,6 +56,7 @@ VINDT DE ONDERTITELS DIE EEN SITE LAADT
 VERTAALWACHTRIJ EN BEWAARDE ONDERTITELS
 • Sleep er meerdere .srt- of .vtt-bestanden in, of klik op "Aan wachtrij toevoegen" bij ondertitels die een site laadt. Ze worden na elkaar vertaald terwijl jij iets anders doet; het tabblad met de wachtrij mag op de achtergrond blijven
 • Werkt met Google, Gemini, Claude, OpenAI of je lokale model
+• Zolang een bestand in de wachtrij staat, laat de kaart over de video zien hoe ver het is, en het klare bestand vervangt vanzelf de regels van Google
 • Verbeterde ondertitels blijven in de extensie zo lang als jij kiest, en komen terug als je naar de video terugkeert, en op elke andere pagina met dezelfde ondertitels, zonder de AI opnieuw te vragen
 • Afspelen opent de video met de ondertitels, "Tonen op…" zet ze op een video die al open is in een ander tabblad, en .srt downloaden slaat het .srt-bestand op
 
@@ -80,7 +90,7 @@ SITE PER SITE
 • Zet het uit op elke site met één schakelaar; de lijst met uitgeschakelde sites is één klik verwijderd
 
 SNELTOETSEN
-Alt + [ / ] synchroniseren · Alt + Shift + [ / ] synchroniseren per 1 s · Alt + 0 synchronisatie herstellen · Alt + R zin herhalen · Alt + S tonen of verbergen · Alt + 1 / Alt + 2 één taal tonen of verbergen · Alt + ↑ / ↓ verplaatsen · Alt + F volledig scherm met ondertitels
+Alt + [ / ] synchroniseren · Alt + Shift + [ / ] synchroniseren per 1 s · Alt + 0 synchronisatie herstellen · Alt + R zin herhalen · Alt + S tonen of verbergen · Alt + 1 / Alt + 2 één taal tonen of verbergen · Alt + ↑ / ↓ verplaatsen · Alt + = / Alt + − groter of kleiner · Alt + F volledig scherm met ondertitels
 Elke sneltoets kun je wijzigen of uitzetten op het tabblad Gedrag.
 
 INTERFACE IN 31 TALEN
@@ -90,7 +100,7 @@ VOOR KNUTSELAARS
 Een tabblad "Subtitles" in DevTools toont elk ondertitelbestand dat de pagina heeft geladen en slaat het op als .vtt of .srt.
 
 PRIVACY
-Geen accounts, geen analytics, geen tracking. Ondertiteltekst gaat alleen naar Google Translate als ondertitels worden vertaald (door jouw klik of door de automatische modus), en alleen naar Gemini, Claude, OpenAI of je lokale model als je op Verbeteren klikt. Onthouden en bewaarde ondertitels blijven in je browser. Als je me schrijft via "Schrijf me" in de pop-up, komt je bericht per e-mail bij mij aan. Een probleemmelding wordt alleen verstuurd als je op Versturen drukt en bevat de naam van de site, nooit het adres van de pagina. Details in het privacybeleid.
+Geen accounts, geen analytics, geen tracking. Ondertiteltekst gaat alleen naar Google Translate als ondertitels worden vertaald (door jouw klik of door de automatische modus), en alleen naar Gemini, Claude, OpenAI of je lokale model als je op Verbeteren klikt. Om gedeelde ondertitels te vinden, worden de eerste 5 tekens van een eenrichtingsvingerafdruk van de ondertitels en de taal naar mijn server (subs.cleedek.com) gestuurd; je eigen verbeterde ondertitels gaan daarheen alleen als je akkoord gaat met delen. Verder blijven onthouden en bewaarde ondertitels in je browser. Als je me schrijft via "Schrijf me" in de pop-up, komt je bericht per e-mail bij mij aan. Een probleemmelding wordt alleen verstuurd als je op Versturen drukt en bevat de naam van de site, nooit het adres van de pagina. Details in het privacybeleid.
 
 PROBLEEM OF IDEE?
 Klik onderaan de pop-up op "Probleem of idee?" en schrijf me. Ik lees elk bericht. Verschijnen er op een site geen ondertitels? Het label "Hulp" bij de video helpt je verder, en "Probleem melden" stuurt mij de naam van de site zodat ik het kan oplossen.

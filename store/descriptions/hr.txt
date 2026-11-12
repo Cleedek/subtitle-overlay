@@ -5,8 +5,9 @@ Subtitle Overlay prikazuje titlove preko video playera na bilo kojoj web-stranic
 ★ NAJVAŽNIJE
 ★ Bilo koja stranica, bilo koji video: titlovi preko playera, u prozoru ili na cijelom zaslonu, uvijek usklađeni
 ★ Prijevod na 31 jezik jednim klikom ili potpuno automatski, čim uključiš titlove u playeru stranice
-★ NOVO: uz AI prijevod zvuči prirodno, besplatno na tvom računalu (Gemma) ili s tvojim vlastitim ključem za Gemini, Claude ili OpenAI
-★ NOVO: ako stranica već ima titlove na tvom jeziku, dobivaš njih, a prijevod uskače samo kad ih nema
+★ NOVO: dijeljeni titlovi: ako je netko već poboljšao iste titlove pomoću AI-ja, odmah dobivaš njegovu verziju, a hoćeš li dijeliti svoje, odlučuješ ti
+★ Uz AI prijevod zvuči prirodno, besplatno na tvom računalu (Gemma) ili s tvojim vlastitim ključem za Gemini, Claude ili OpenAI
+★ Ako stranica već ima titlove na tvom jeziku, dobivaš njih, a prijevod uskače samo kad ih nema
 ★ Dva jezika odjednom: jedan gore, drugi dolje, za zajedničko gledanje ili učenje jezika
 ★ Pronalazi titlove koje stranica učita, i na YouTubeu, pa datoteka rijetko kad uopće treba
 ★ Tvoj stil: više od 1.800 fontova iz Google Fonts, obrub, sjena, pozadinski okvir, veličina i položaj
@@ -31,6 +32,14 @@ Google Prevoditelj je brz, ali prevodi redak po redak, riječ po riječ. Klikni 
 • Ili koristi vlastiti API ključ: Gemini (ima besplatnu razinu), Claude ili OpenAI (plaćeno).
 • Prije nego što počne, prođe cijelu datoteku i zabilježi tko je tko, pa rod, oblici obraćanja i imena ostaju isti od prvog do zadnjeg retka.
 • Nikad ne počinje sam: bez tvog klika ništa se ne pokreće i ništa se ne troši.
+• I za automatske titlove s YouTubea na tvom jeziku: Poboljšaj dodaje interpunkciju i ispravlja pogrešno shvaćene riječi, bez prevođenja.
+
+DIJELJENI TITLOVI
+• Ako je netko već poboljšao iste titlove pomoću AI-ja i podijelio ih, kartica nad videom nudi njegovu verziju, označenu s "Dijeljeno". Jedan klik na Koristi, bez čekanja i bez AI posla na tvom računalu
+• Traženje je uključeno od početka i šalje samo prvih 5 znakova jednosmjernog otiska titlova plus jezik, nikad stranicu, video ni njegov naslov. "Traži titlove od drugih" ga isključuje
+• "Automatski koristi dijeljene" (prema zadanim postavkama isključeno) uzima dijeljenu verziju bez klika. Googleova verzija uvijek je na jedan klik
+• Dijeljenje tvojih vlastitih ostaje isključeno dok na kartici nakon AI poboljšanja ne kažeš da. Nude se samo gotove verzije iz lokalnog modela s 12B ili više ili iz plaćenog. "Izbriši moje dijeljene titlove" jednim klikom uklanja sve što si podijelio
+• Loša kopija? "Prijavi problem" > "Prijevod je pogrešan" je prijavljuje, a nakon tri prijave skriva se
 
 DVA JEZIKA ODJEDNOM
 • Uključi druge titlove na bilo kojem jeziku: engleski gore za tebe, vijetnamski dolje za tvog partnera
@@ -47,6 +56,7 @@ PRONALAZI TITLOVE KOJE STRANICA UČITA
 RED PRIJEVODA I SPREMLJENI TITLOVI
 • Ubaci nekoliko .srt ili .vtt datoteka ili klikni "Dodaj u red čekanja" kod titlova koje stranica učita. Prevode se jedni za drugima dok radiš nešto drugo; kartica s redom može ostati u pozadini
 • Radi s Googleom, Geminijem, Claudeom, OpenAI-jem ili tvojim lokalnim modelom
+• Dok je datoteka u redu čekanja, kartica nad njezinim videom pokazuje dokle je stigla, a gotova datoteka sama zamjenjuje Googleove retke
 • Poboljšani titlovi čuvaju se u proširenju koliko god ti odabereš i vraćaju se kad se vratiš na video, i na bilo kojoj drugoj stranici s istim titlovima, bez ponovnog pitanja AI-ju
 • Reproduciraj otvara video s njegovim titlovima, "Prikaži na…" stavlja ih na video koji je već otvoren u drugoj kartici, a Preuzmi sprema .srt
 
@@ -80,7 +90,7 @@ STRANICU PO STRANICU
 • Isključi ga na bilo kojoj stranici jednim prekidačem; popis isključenih stranica udaljen je samo jedan klik
 
 PREČACI NA TIPKOVNICI
-Alt + [ / ] usklađivanje · Alt + Shift + [ / ] usklađivanje za 1 s · Alt + 0 poništi usklađivanje · Alt + R ponovi redak · Alt + S prikaži ili sakrij · Alt + 1 / Alt + 2 prikaži ili sakrij samo jedan jezik · Alt + ↑ / ↓ pomakni · Alt + F cijeli zaslon s titlovima
+Alt + [ / ] usklađivanje · Alt + Shift + [ / ] usklađivanje za 1 s · Alt + 0 poništi usklađivanje · Alt + R ponovi redak · Alt + S prikaži ili sakrij · Alt + 1 / Alt + 2 prikaži ili sakrij samo jedan jezik · Alt + ↑ / ↓ pomakni · Alt + = / Alt + − veće ili manje · Alt + F cijeli zaslon s titlovima
 Svaki prečac možeš promijeniti ili isključiti na kartici Ponašanje.
 
 SUČELJE NA 31 JEZIKU
@@ -90,7 +100,7 @@ ZA ZNATIŽELJNE
 Kartica "Subtitles" u DevToolsu prikazuje svaku datoteku titlova koju je stranica učitala i sprema je kao .vtt ili .srt.
 
 PRIVATNOST
-Bez računa, bez analitike, bez praćenja. Tekst titlova šalje se Google Prevoditelju samo kad se titlovi prevode (tvojim klikom ili u automatskom načinu), a Geminiju, Claudeu, OpenAI-ju ili tvom lokalnom modelu samo kad klikneš Poboljšaj. Zapamćeni i spremljeni titlovi ostaju u tvom pregledniku. Ako mi pišeš preko "Piši mi" u prozoru proširenja, tvoja poruka stiže mi e-poštom. Prijava problema šalje se samo kad pritisneš Pošalji i sadrži naziv stranice, nikad adresu podstranice. Pojedinosti su u pravilima o privatnosti.
+Bez računa, bez analitike, bez praćenja. Tekst titlova šalje se Google Prevoditelju samo kad se titlovi prevode (tvojim klikom ili u automatskom načinu), a Geminiju, Claudeu, OpenAI-ju ili tvom lokalnom modelu samo kad klikneš Poboljšaj. Za traženje dijeljenih titlova, prvih 5 znakova jednosmjernog otiska titlova i jezik šalju se na moj poslužitelj (subs.cleedek.com); tvoji vlastiti poboljšani titlovi idu tamo samo ako pristaneš na dijeljenje. Inače zapamćeni i spremljeni titlovi ostaju u tvom pregledniku. Ako mi pišeš preko "Piši mi" u prozoru proširenja, tvoja poruka stiže mi e-poštom. Prijava problema šalje se samo kad pritisneš Pošalji i sadrži naziv stranice, nikad adresu podstranice. Pojedinosti su u pravilima o privatnosti.
 
 PROBLEM ILI IDEJA?
 Klikni "Problem ili ideja?" na dnu prozora proširenja i piši mi. Čitam svaku poruku. Na nekoj stranici se ne prikazuju titlovi? Oznaka "Pomoć" na videu vodi te kroz to, a "Prijavi problem" šalje mi naziv stranice da to mogu popraviti.

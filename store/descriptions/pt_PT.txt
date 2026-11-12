@@ -5,8 +5,9 @@ O Subtitle Overlay mostra legendas por cima do leitor de vídeo de qualquer site
 ★ O ESSENCIAL
 ★ Qualquer site, qualquer vídeo: legendas por cima do leitor, em janela ou em ecrã inteiro, sempre sincronizadas
 ★ Tradução para 31 línguas com um clique, ou totalmente automática assim que ativas as legendas no leitor do site
-★ NOVIDADE: torna a tradução natural com IA, grátis no teu próprio computador (Gemma) ou com a tua própria chave do Gemini, Claude ou OpenAI
-★ NOVIDADE: se o site já tem legendas na tua língua, recebes essas, e só se traduz quando não há
+★ NOVIDADE: legendas partilhadas: se alguém já melhorou as mesmas legendas com IA, recebes a versão dessa pessoa logo, e partilhar as tuas é decisão tua
+★ Torna a tradução natural com IA, grátis no teu próprio computador (Gemma) ou com a tua própria chave do Gemini, Claude ou OpenAI
+★ Se o site já tem legendas na tua língua, recebes essas, e só se traduz quando não há
 ★ Duas línguas ao mesmo tempo: uma em cima, outra em baixo, para verem juntos ou para aprenderes uma língua
 ★ Encontra as legendas que a página carrega, incluindo no YouTube, por isso raramente precisas de um ficheiro
 ★ O teu estilo: mais de 1800 tipos de letra do Google Fonts, contorno, sombra, caixa de fundo, tamanho e posição
@@ -31,6 +32,14 @@ O Google Tradutor é rápido, mas traduz linha a linha, palavra a palavra. Clica
 • Ou usa a tua própria chave de API: Gemini (tem um nível gratuito), Claude ou OpenAI (pagos).
 • Antes de começar, percorre o ficheiro inteiro e toma nota de quem é quem, para que o género, as formas de tratamento e os nomes se mantenham iguais da primeira à última linha.
 • Nunca começa sozinho: nada corre e nada é gasto sem o teu clique.
+• Também para as legendas automáticas do YouTube na tua língua: Melhorar acrescenta a pontuação e corrige as palavras mal ouvidas, sem traduzir.
+
+LEGENDAS PARTILHADAS
+• Se alguém já melhorou as mesmas legendas com IA e as partilhou, o cartão por cima do vídeo oferece a versão dessa pessoa, marcada "Compartilhado". Um clique em Usar, e não há espera nem trabalho de IA no teu computador
+• A procura vem ativada desde o início e envia apenas os primeiros 5 caracteres de uma impressão digital unidirecional das legendas e a língua, nunca a página, o vídeo nem o seu título. "Procurar legendas de outras pessoas" desativa-a
+• "Usar compartilhadas automaticamente" (desativado por defeito) aceita uma versão partilhada sem o clique. A versão do Google está sempre a um clique
+• Partilhar as tuas próprias legendas fica desativado até dizeres que sim num cartão depois de uma melhoria com IA. Só são oferecidas versões terminadas de um modelo local com 12B ou mais, ou de um modelo pago. "Apagar minhas legendas compartilhadas" remove tudo o que partilhaste com um clique
+• Uma cópia má? "Relatar um problema" > "A tradução está errada" denuncia-a, e com três denúncias fica oculta
 
 DUAS LÍNGUAS AO MESMO TEMPO
 • Ativa umas segundas legendas em qualquer língua: inglês em cima para ti, vietnamita em baixo para o teu parceiro ou parceira
@@ -47,6 +56,7 @@ ENCONTRA AS LEGENDAS QUE O SITE CARREGA
 FILA DE TRADUÇÃO E LEGENDAS GUARDADAS
 • Larga vários ficheiros .srt ou .vtt, ou clica em "Adicionar à fila" nas legendas que um site carrega. São traduzidos uns atrás dos outros enquanto fazes outra coisa; o separador da fila pode ficar em segundo plano
 • Funciona com o Google, Gemini, Claude, OpenAI ou o teu modelo local
+• Enquanto um ficheiro está na fila, o cartão por cima do seu vídeo mostra quanto já está feito, e o ficheiro terminado substitui por si só as linhas do Google
 • As legendas melhoradas ficam guardadas na extensão durante o tempo que escolheres, e voltam quando regressas ao vídeo, e em qualquer outra página com as mesmas legendas, sem voltar a perguntar à IA
 • Reproduzir abre o vídeo com as legendas, "Mostrar em…" coloca-as sobre um vídeo já aberto noutro separador, e Baixar guarda o .srt
 
@@ -80,7 +90,7 @@ SITE A SITE
 • Desativa a extensão em qualquer site com um interruptor; a lista de sites desativados está a um clique
 
 ATALHOS DE TECLADO
-Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 repor sincronização · Alt + R repetir a fala · Alt + S mostrar ou ocultar · Alt + 1 / Alt + 2 mostrar ou ocultar só uma língua · Alt + ↑ / ↓ mover · Alt + F ecrã inteiro com legendas
+Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 repor sincronização · Alt + R repetir a fala · Alt + S mostrar ou ocultar · Alt + 1 / Alt + 2 mostrar ou ocultar só uma língua · Alt + ↑ / ↓ mover · Alt + = / Alt + − maior ou menor · Alt + F ecrã inteiro com legendas
 Todos os atalhos podem ser alterados ou desativados no separador Comportamento.
 
 INTERFACE EM 31 LÍNGUAS
@@ -90,7 +100,7 @@ PARA OS CURIOSOS
 Um separador "Subtitles" nas DevTools lista todos os ficheiros de legendas que a página carregou e guarda-os como .vtt ou .srt.
 
 PRIVACIDADE
-Sem contas, sem estatísticas, sem rastreio. O texto das legendas só é enviado para o Google Tradutor quando as legendas são traduzidas (com o teu clique ou pelo modo automático), e para o Gemini, Claude, OpenAI ou o teu modelo local só quando clicas em Melhorar. As legendas memorizadas e guardadas ficam no teu navegador. Se me escreveres através de "Escreva para mim" na janela da extensão, a tua mensagem chega-me por e-mail. Um relato de problema só é enviado quando carregas em Enviar e leva o nome do site, nunca o endereço da página. Detalhes na política de privacidade.
+Sem contas, sem estatísticas, sem rastreio. O texto das legendas só é enviado para o Google Tradutor quando as legendas são traduzidas (com o teu clique ou pelo modo automático), e para o Gemini, Claude, OpenAI ou o teu modelo local só quando clicas em Melhorar. Para encontrar legendas partilhadas, os primeiros 5 caracteres de uma impressão digital unidirecional das legendas e a língua são enviados para o meu servidor (subs.cleedek.com); as tuas legendas melhoradas só vão para lá se concordares em partilhá-las. Caso contrário, as legendas memorizadas e guardadas ficam no teu navegador. Se me escreveres através de "Escreva para mim" na janela da extensão, a tua mensagem chega-me por e-mail. Um relato de problema só é enviado quando carregas em Enviar e leva o nome do site, nunca o endereço da página. Detalhes na política de privacidade.
 
 PROBLEMA OU IDEIA?
 Clica em "Problema ou ideia?" na parte de baixo da janela da extensão e escreve-me. Leio todas as mensagens. As legendas não aparecem num site? A etiqueta "Ajuda" no vídeo guia-te, e "Relatar um problema" envia-me o nome do site para eu poder corrigir.

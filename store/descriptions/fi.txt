@@ -5,8 +5,9 @@ Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen 
 ★ TÄRKEIMMÄT
 ★ Mikä tahansa sivusto, mikä tahansa video: tekstitys soittimen päällä, ikkunassa tai koko näytöllä, aina tahdissa
 ★ Käännös 31 kielelle yhdellä klikkauksella tai täysin automaattisesti heti, kun laitat tekstityksen päälle sivuston soittimessa
-★ UUTTA: tekoäly tekee käännöksestä luontevan, ilmaiseksi omalla tietokoneellasi (Gemma) tai omalla Gemini-, Claude- tai OpenAI-avaimellasi
-★ UUTTA: jos sivustolla on jo tekstitys kielelläsi, saat sen, ja käännös tehdään vain, kun sellaista ei ole
+★ UUTTA: jaetut tekstitykset: jos joku on jo parantanut samat tekstitykset tekoälyllä, saat hänen versionsa heti, ja omiesi jakamisesta päätät itse
+★ Tekoäly tekee käännöksestä luontevan, ilmaiseksi omalla tietokoneellasi (Gemma) tai omalla Gemini-, Claude- tai OpenAI-avaimellasi
+★ Jos sivustolla on jo tekstitys kielelläsi, saat sen, ja käännös tehdään vain, kun sellaista ei ole
 ★ Kaksi kieltä kerralla: yksi ylhäällä, toinen alhaalla, yhteiseen katseluun tai kielen opiskeluun
 ★ Löytää sivun lataamat tekstitykset, myös YouTubessa, joten tiedostoa tarvitset harvoin
 ★ Oma tyylisi: yli 1 800 Google Fonts -fonttia, ääriviiva, varjo, taustalaatikko, koko ja sijainti
@@ -31,6 +32,14 @@ Google Kääntäjä on nopea, mutta se etenee rivi riviltä, sana sanalta. Klikk
 • Tai käytä omaa API-avaintasi: Gemini (ilmainen taso saatavilla), Claude tai OpenAI (maksullisia).
 • Ennen aloittamista se silmäilee koko tiedoston ja merkitsee muistiin, kuka on kuka, joten sukupuoli, puhuttelumuodot ja nimet pysyvät samoina ensimmäisestä rivistä viimeiseen.
 • Se ei koskaan käynnisty itsestään: ilman klikkaustasi mikään ei käynnisty eikä rahaa kulu.
+• Myös YouTuben automaattisille tekstityksille omalla kielelläsi: Paranna lisää välimerkit ja korjaa väärin kuullut sanat kääntämättä.
+
+JAETUT TEKSTITYKSET
+• Jos joku on jo parantanut samat tekstitykset tekoälyllä ja jakanut ne, videon päällä oleva kortti tarjoaa hänen versionsa merkittynä sanalla "Jaettu". Yksi napsautus kohtaan Käytä, eikä tarvitse odottaa eikä tietokoneesi tarvitse tehdä tekoälytyötä
+• Haku on päällä alusta asti ja lähettää vain tekstitysten yksisuuntaisen sormenjäljen 5 ensimmäistä merkkiä sekä kielen, ei koskaan sivua, videota tai sen nimeä. "Etsi muiden tekstityksiä" kytkee sen pois
+• "Käytä jaettuja automaattisesti" (oletuksena pois päältä) ottaa jaetun version ilman napsautusta. Googlen versio on aina yhden napsautuksen päässä
+• Omien jakaminen pysyy pois päältä, kunnes sanot kyllä kortissa tekoälyparannuksen jälkeen. Tarjolle tulevat vain valmiit versiot paikalliselta mallilta, jossa on vähintään 12B, tai maksulliselta mallilta. "Poista jakamani tekstitykset" poistaa kaiken jakamasi yhdellä napsautuksella
+• Huono kopio? "Ilmoita ongelmasta" > "Käännös on väärin" ilmoittaa siitä, ja kolmen ilmoituksen jälkeen se piilotetaan
 
 KAKSI KIELTÄ KERRALLA
 • Laita toinen tekstitys päälle millä tahansa kielellä: englanti ylhäällä sinulle, vietnam alhaalla kumppanillesi
@@ -47,6 +56,7 @@ LÖYTÄÄ SIVUSTON LATAAMAT TEKSTITYKSET
 KÄÄNNÖSJONO JA TALLENNETUT TEKSTITYKSET
 • Pudota useita .srt- tai .vtt-tiedostoja tai klikkaa "Lisää jonoon" sivuston lataaman tekstityksen kohdalla. Ne käännetään yksi kerrallaan sillä aikaa, kun teet muuta; jonon välilehti voi jäädä taustalle
 • Toimii Googlen, Geminin, Clauden, OpenAI:n tai paikallisen mallisi kanssa
+• Kun tiedosto on jonossa, sen videon päällä oleva kortti näyttää, kuinka pitkällä se on, ja valmis tiedosto korvaa Googlen rivit itsestään
 • Parannetut tekstitykset säilyvät laajennuksessa niin kauan kuin haluat ja palaavat, kun palaat videon pariin, ja millä tahansa muulla sivulla, jossa on samat tekstitykset, kysymättä tekoälyltä uudelleen
 • Toista avaa videon tekstityksineen, "Näytä kohteessa…" tuo ne toisessa välilehdessä jo auki olevan videon päälle, ja Lataa .srt tallentaa tiedoston
 
@@ -80,7 +90,7 @@ SIVUSTO KERRALLAAN
 • Poista laajennus käytöstä millä tahansa sivustolla yhdellä kytkimellä; luettelo käytöstä poistetuista sivustoista on yhden klikkauksen päässä
 
 PIKANÄPPÄIMET
-Alt + [ / ] ajoitus · Alt + Shift + [ / ] ajoitus 1 s:n askelin · Alt + 0 nollaa ajoitus · Alt + R toista repliikki · Alt + S näytä tai piilota · Alt + 1 / Alt + 2 näytä tai piilota vain yksi kieli · Alt + ↑ / ↓ siirrä · Alt + F koko näyttö tekstityksellä
+Alt + [ / ] ajoitus · Alt + Shift + [ / ] ajoitus 1 s:n askelin · Alt + 0 nollaa ajoitus · Alt + R toista repliikki · Alt + S näytä tai piilota · Alt + 1 / Alt + 2 näytä tai piilota vain yksi kieli · Alt + ↑ / ↓ siirrä · Alt + = / Alt + − suurempi tai pienempi · Alt + F koko näyttö tekstityksellä
 Jokaisen pikanäppäimen voi vaihtaa tai poistaa käytöstä Toiminta-välilehdellä.
 
 KÄYTTÖLIITTYMÄ 31 KIELELLÄ
@@ -90,7 +100,7 @@ NÄPERTELIJÖILLE
 DevToolsin "Subtitles"-välilehti listaa kaikki sivun lataamat tekstitystiedostot ja tallentaa ne .vtt- tai .srt-muodossa.
 
 YKSITYISYYS
-Ei tilejä, ei analytiikkaa, ei seurantaa. Tekstityksen teksti lähetetään Google Kääntäjälle vain, kun tekstitystä käännetään (klikkauksestasi tai automaattisessa tilassa), ja Geminille, Claudelle, OpenAI:lle tai paikalliselle mallillesi vain, kun klikkaat Paranna. Muistetut ja tallennetut tekstitykset pysyvät selaimessasi. Jos kirjoitat minulle ponnahdusikkunan "Kirjoita minulle" -kohdasta, viestisi tulee minulle sähköpostina. Ongelmailmoitus lähtee vain, kun painat Lähetä, ja siinä on sivuston nimi, ei koskaan sivun osoitetta. Tarkemmin tietosuojakäytännössä.
+Ei tilejä, ei analytiikkaa, ei seurantaa. Tekstityksen teksti lähetetään Google Kääntäjälle vain, kun tekstitystä käännetään (klikkauksestasi tai automaattisessa tilassa), ja Geminille, Claudelle, OpenAI:lle tai paikalliselle mallillesi vain, kun klikkaat Paranna. Jaettujen tekstitysten etsimiseksi tekstitysten yksisuuntaisen sormenjäljen 5 ensimmäistä merkkiä ja kieli lähetetään palvelimelleni (subs.cleedek.com); omat parantamasi tekstitykset menevät sinne vain, jos suostut jakamaan ne. Muuten muistetut ja tallennetut tekstitykset pysyvät selaimessasi. Jos kirjoitat minulle ponnahdusikkunan "Kirjoita minulle" -kohdasta, viestisi tulee minulle sähköpostina. Ongelmailmoitus lähtee vain, kun painat Lähetä, ja siinä on sivuston nimi, ei koskaan sivun osoitetta. Tarkemmin tietosuojakäytännössä.
 
 ONGELMA TAI IDEA?
 Klikkaa ponnahdusikkunan alaosassa "Ongelma tai idea?" ja kirjoita minulle. Luen jokaisen viestin. Eivätkö tekstitykset näy jollain sivustolla? Videon "Apua"-merkki opastaa sinua, ja "Ilmoita ongelmasta" lähettää minulle sivuston nimen, jotta voin korjata sen.

@@ -5,8 +5,9 @@ Subtitle Overlay zobrazí titulky cez prehrávač na akomkoľvek webe, aj na cel
 ★ TO HLAVNÉ
 ★ Akýkoľvek web, akékoľvek video: titulky cez prehrávač, v okne aj na celej obrazovke, vždy synchrónne
 ★ Preklad do 31 jazykov jedným klikom, alebo úplne automaticky, hneď ako zapneš titulky v prehrávači webu
-★ NOVINKA: s AI znie preklad prirodzene, zadarmo priamo v tvojom počítači (Gemma) alebo s vlastným kľúčom Gemini, Claude či OpenAI
-★ NOVINKA: keď má web titulky v tvojom jazyku, dostaneš rovno tie a prekladá sa len tam, kde chýbajú
+★ NOVINKA: zdieľané titulky: keď rovnaké titulky už niekto vylepšil pomocou AI, dostaneš jeho verziu hneď, a či budeš zdieľať tie svoje, rozhodneš sám
+★ S AI znie preklad prirodzene, zadarmo priamo v tvojom počítači (Gemma) alebo s vlastným kľúčom Gemini, Claude či OpenAI
+★ Keď má web titulky v tvojom jazyku, dostaneš rovno tie a prekladá sa len tam, kde chýbajú
 ★ Dva jazyky naraz: jeden hore, druhý dole, na spoločné pozeranie aj učenie jazykov
 ★ Nájde titulky, ktoré stránka načíta, aj na YouTube, takže súbor väčšinou vôbec nepotrebuješ
 ★ Tvoj štýl: viac ako 1 800 písiem Google Fonts, obrys, tieň, podklad, veľkosť aj pozícia
@@ -31,6 +32,14 @@ Google Translate je rýchly, ale prekladá riadok po riadku, slovo po slove. Kli
 • Alebo vlastný API kľúč: Gemini (má bezplatnú úroveň), Claude alebo OpenAI (platené).
 • Skôr než začne, prejde celý súbor a poznačí si, kto je kto, takže rod, oslovenie aj mená sedia od prvej vety po poslednú.
 • Nikdy sa nespustí sám: bez tvojho kliknutia nič nebeží a nič neminieš.
+• Aj pre automatické titulky YouTube vo tvojom jazyku: Vylepšiť doplní interpunkciu a opraví zle počuté slová, bez prekladania.
+
+ZDIEĽANÉ TITULKY
+• Keď rovnaké titulky už niekto vylepšil pomocou AI a zdieľal ich, karta nad videom ti ponúkne jeho verziu s označením "Zdieľané". Jedno kliknutie na Použiť, žiadne čakanie a žiadna práca AI v tvojom počítači
+• Hľadanie je zapnuté od začiatku a posiela len prvých 5 znakov jednosmerného odtlačku titulkov a jazyk, nikdy stránku, video ani jeho názov. Vypneš ho prepínačom "Hľadať titulky od ostatných"
+• "Používať zdieľané automaticky" (vypnuté) vezme zdieľanú verziu bez kliknutia. Verzia od Googlu je vždy na jedno kliknutie
+• Zdieľanie tvojich vlastných zostane vypnuté, kým po vylepšení pomocou AI nepovieš áno na karte. Ponúknu sa len hotové verzie z lokálneho modelu s 12B a viac alebo z plateného. "Zmazať moje zdieľané titulky" jedným kliknutím odstráni všetko, čo si zdieľal
+• Zlá kópia? Nahlásiš ju cez "Nahlásiť problém" > "Preklad je zlý" a po troch nahláseniach zmizne
 
 DVA JAZYKY NARAZ
 • Zapni druhé titulky v akomkoľvek jazyku: hore angličtina pre teba, dole slovenčina pre partnera
@@ -47,6 +56,7 @@ NÁJDE TITULKY, KTORÉ WEB NAČÍTA
 FRONT PREKLADOV A ULOŽENÉ TITULKY
 • Pridaj niekoľko súborov .srt alebo .vtt, alebo klikni na "Pridať do frontu" pri titulkoch, ktoré web načíta. Preložia sa jeden po druhom, kým robíš niečo iné; karta s frontom môže zostať na pozadí
 • Funguje s Googlom, Gemini, Claude, OpenAI aj s tvojím lokálnym modelom
+• Kým je súbor vo fronte, karta nad jeho videom ukazuje, koľko je hotové, a hotový súbor sám nahradí riadky od Googlu
 • Vylepšené titulky zostanú v rozšírení tak dlho, ako si vyberieš, a vrátia sa, keď sa k videu vrátiš, a aj na akejkoľvek inej stránke s rovnakými titulkami, bez toho, aby sa znova pýtali AI
 • Prehrať otvorí video aj s titulkami, "Pustiť na…" ich dá na video, ktoré máš otvorené v inej karte, a Stiahnuť uloží .srt
 
@@ -80,7 +90,7 @@ WEB PO WEBE
 • Na ktoromkoľvek webe rozšírenie vypneš jedným prepínačom; zoznam vypnutých webov máš na jeden klik
 
 KLÁVESOVÉ SKRATKY
-Alt + [ / ] načasovanie · Alt + Shift + [ / ] načasovanie po 1 s · Alt + 0 vynulovať načasovanie · Alt + R zopakovať vetu · Alt + S zobraziť/skryť · Alt + 1 / Alt + 2 zobraziť/skryť len jeden jazyk · Alt + ↑ / ↓ posun · Alt + F celá obrazovka s titulkami
+Alt + [ / ] načasovanie · Alt + Shift + [ / ] načasovanie po 1 s · Alt + 0 vynulovať načasovanie · Alt + R zopakovať vetu · Alt + S zobraziť/skryť · Alt + 1 / Alt + 2 zobraziť/skryť len jeden jazyk · Alt + ↑ / ↓ posun · Alt + = / Alt + − väčšie alebo menšie · Alt + F celá obrazovka s titulkami
 Každú skratku si na karte Správanie zmeníš alebo vypneš.
 
 ROZHRANIE V 31 JAZYKOCH
@@ -90,7 +100,7 @@ PRE ZVEDAVCOV
 Karta "Subtitles" v DevTools ukáže všetky súbory titulkov, ktoré stránka načítala, a uloží ich ako .vtt alebo .srt.
 
 SÚKROMIE
-Žiadne účty, žiadna analytika, žiadne sledovanie. Text titulkov ide do Google Translate len vtedy, keď sa titulky prekladajú (tvojím kliknutím alebo automatickým režimom), a do Gemini, Claude, OpenAI alebo tvojho lokálneho modelu len vtedy, keď klikneš na Vylepšiť. Zapamätané aj uložené titulky zostávajú v tvojom prehliadači. Keď mi napíšeš cez "Napíš mi" v okne rozšírenia, správa mi príde e-mailom. Hlásenie problému sa odošle, len keď stlačíš Odoslať, a obsahuje názov webu, nikdy adresu stránky. Podrobnosti nájdeš v zásadách ochrany súkromia.
+Žiadne účty, žiadna analytika, žiadne sledovanie. Text titulkov ide do Google Translate len vtedy, keď sa titulky prekladajú (tvojím kliknutím alebo automatickým režimom), a do Gemini, Claude, OpenAI alebo tvojho lokálneho modelu len vtedy, keď klikneš na Vylepšiť. Kvôli hľadaniu zdieľaných titulkov sa na môj server (subs.cleedek.com) posiela prvých 5 znakov jednosmerného odtlačku titulkov a jazyk; tvoje vylepšené titulky tam idú, len keď súhlasíš so zdieľaním. Inak zapamätané aj uložené titulky zostávajú v tvojom prehliadači. Keď mi napíšeš cez "Napíš mi" v okne rozšírenia, správa mi príde e-mailom. Hlásenie problému sa odošle, len keď stlačíš Odoslať, a obsahuje názov webu, nikdy adresu stránky. Podrobnosti nájdeš v zásadách ochrany súkromia.
 
 PROBLÉM ALEBO NÁPAD?
 Klikni dole v okne rozšírenia na "Problém alebo nápad?" a napíš mi. Čítam každú správu. Na nejakom webe sa titulky nezobrazujú? Štítok "Pomoc" pri videu ťa prevedie a "Nahlásiť problém" mi pošle názov webu, aby som to mohol opraviť.

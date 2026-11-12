@@ -5,8 +5,9 @@ Subtitle Overlay memaparkan sari kata di atas pemain video mana-mana laman web, 
 ★ SOROTAN UTAMA
 ★ Mana-mana laman, mana-mana video: sari kata di atas pemain, dalam tetingkap atau skrin penuh, sentiasa selari
 ★ Terjemah ke 31 bahasa dengan satu klik, atau sepenuhnya automatik sebaik sahaja anda hidupkan sari kata dalam pemain laman itu
-★ BAHARU: jadikan terjemahan lebih semula jadi dengan AI, percuma di komputer anda sendiri (Gemma) atau dengan kunci Gemini, Claude atau OpenAI anda sendiri
-★ BAHARU: jika laman itu sudah ada sari kata dalam bahasa anda, anda terus dapat sari kata itu, dan terjemahan hanya digunakan jika tiada
+★ BAHARU: sari kata yang dikongsi: jika seseorang sudah menambah baik sari kata yang sama dengan AI, anda terus dapat versinya, dan anda sendiri yang memutuskan sama ada mahu berkongsi sari kata anda
+★ Jadikan terjemahan lebih semula jadi dengan AI, percuma di komputer anda sendiri (Gemma) atau dengan kunci Gemini, Claude atau OpenAI anda sendiri
+★ Jika laman itu sudah ada sari kata dalam bahasa anda, anda terus dapat sari kata itu, dan terjemahan hanya digunakan jika tiada
 ★ Dua bahasa serentak: satu di atas, satu di bawah, untuk menonton bersama atau belajar bahasa
 ★ Mengesan sari kata yang dimuatkan oleh halaman, termasuk YouTube, jadi anda jarang perlukan fail langsung
 ★ Gaya anda sendiri: 1,800+ Google Fonts, garis luar, bayang, kotak latar, saiz dan kedudukan
@@ -31,6 +32,14 @@ Google Terjemah memang pantas, tetapi ia menterjemah baris demi baris, perkataan
 • Atau gunakan kunci API anda sendiri: Gemini (ada peringkat percuma), Claude atau OpenAI (berbayar).
 • Sebelum bermula, ia meneliti keseluruhan fail dan mencatat siapa ialah siapa, supaya jantina, cara panggilan dan nama kekal sama dari baris pertama hingga terakhir.
 • Ia tidak pernah bermula dengan sendirinya: tiada apa yang berjalan dan tiada belanja tanpa klik anda.
+• Juga untuk kapsyen automatik YouTube dalam bahasa anda sendiri: Tambah baik menambah tanda baca dan membetulkan perkataan yang tersalah dengar, tanpa menterjemah.
+
+SARI KATA YANG DIKONGSI
+• Jika seseorang sudah menambah baik sari kata yang sama dengan AI dan berkongsinya, kad di atas video menawarkan versinya, bertanda "Dikongsi". Satu klik pada Guna, tanpa menunggu dan tanpa kerja AI di komputer anda
+• Pencarian dihidupkan sejak awal dan hanya menghantar 5 aksara pertama cap jari sehala sari kata serta bahasanya, tidak pernah halaman, video atau tajuknya. "Cari sari kata daripada orang lain" mematikannya
+• "Guna yang dikongsi secara automatik" (mati secara lalai) mengambil versi yang dikongsi tanpa klik. Versi Google sentiasa hanya satu klik jauhnya
+• Perkongsian sari kata anda sendiri kekal mati sehingga anda berkata ya pada kad selepas penambahbaikan AI. Hanya versi siap daripada model tempatan 12B atau lebih, atau daripada model berbayar, yang ditawarkan. "Padam sari kata yang saya kongsi" membuang semua yang anda kongsi dengan satu klik
+• Salinan yang buruk? "Laporkan masalah" > "Terjemahan salah" melaporkannya, dan tiga laporan menyembunyikannya
 
 DUA BAHASA SERENTAK
 • Hidupkan sari kata kedua dalam mana-mana bahasa: bahasa Inggeris di atas untuk anda, bahasa Vietnam di bawah untuk pasangan anda
@@ -47,6 +56,7 @@ MENGESAN SARI KATA YANG DIMUATKAN LAMAN
 BARIS GILIR TERJEMAHAN DAN SARI KATA TERSIMPAN
 • Masukkan beberapa fail .srt atau .vtt, atau klik "Tambah ke baris gilir" pada sari kata yang dimuatkan laman. Ia diterjemah satu demi satu sementara anda membuat kerja lain; tab baris gilir boleh dibiarkan di latar belakang
 • Berfungsi dengan Google, Gemini, Claude, OpenAI atau model tempatan anda
+• Selagi fail berada dalam baris gilir, kad di atas videonya menunjukkan setakat mana kemajuannya, dan fail yang siap menggantikan baris daripada Google dengan sendirinya
 • Sari kata yang ditambah baik disimpan dalam sambungan selama mana yang anda pilih, dan muncul semula apabila anda kembali ke video itu, dan di mana-mana halaman lain dengan sari kata yang sama, tanpa bertanya kepada AI lagi
 • Main membuka video berserta sari katanya, "Papar di…" meletakkannya pada video yang sudah dibuka dalam tab lain, dan Muat turun .srt menyimpan fail .srt
 
@@ -80,7 +90,7 @@ LAMAN DEMI LAMAN
 • Matikannya di mana-mana laman dengan satu suis; senarai laman yang dimatikan hanya satu klik jauhnya
 
 PINTASAN PAPAN KEKUNCI
-Alt + [ / ] selaraskan · Alt + Shift + [ / ] selaraskan 1 s · Alt + 0 set semula penyelarasan · Alt + R ulang baris · Alt + S papar atau sembunyi · Alt + 1 / Alt + 2 papar atau sembunyi satu bahasa sahaja · Alt + ↑ / ↓ alih · Alt + F skrin penuh dengan sari kata
+Alt + [ / ] selaraskan · Alt + Shift + [ / ] selaraskan 1 s · Alt + 0 set semula penyelarasan · Alt + R ulang baris · Alt + S papar atau sembunyi · Alt + 1 / Alt + 2 papar atau sembunyi satu bahasa sahaja · Alt + ↑ / ↓ alih · Alt + = / Alt + − lebih besar atau lebih kecil · Alt + F skrin penuh dengan sari kata
 Setiap pintasan boleh ditukar atau dimatikan dalam tab Tingkah laku.
 
 ANTARA MUKA DALAM 31 BAHASA
@@ -90,7 +100,7 @@ UNTUK YANG SUKA MENGODEK
 Tab "Subtitles" dalam DevTools menyenaraikan setiap fail sari kata yang dimuatkan halaman dan menyimpannya sebagai .vtt atau .srt.
 
 PRIVASI
-Tiada akaun, tiada analitik, tiada penjejakan. Teks sari kata dihantar ke Google Terjemah hanya apabila sari kata diterjemah (dengan klik anda atau oleh mod automatik), dan ke Gemini, Claude, OpenAI atau model tempatan anda hanya apabila anda klik Tambah baik. Sari kata yang diingati dan disimpan kekal dalam pelayar anda. Jika anda menghubungi saya melalui "Tulis kepada saya" dalam tetingkap sambungan, mesej anda sampai kepada saya melalui e-mel. Laporan masalah hanya dihantar apabila anda menekan Hantar dan mengandungi nama laman, bukan alamat halaman. Butiran dalam dasar privasi.
+Tiada akaun, tiada analitik, tiada penjejakan. Teks sari kata dihantar ke Google Terjemah hanya apabila sari kata diterjemah (dengan klik anda atau oleh mod automatik), dan ke Gemini, Claude, OpenAI atau model tempatan anda hanya apabila anda klik Tambah baik. Untuk mencari sari kata yang dikongsi, 5 aksara pertama cap jari sehala sari kata dan bahasanya dihantar ke pelayan saya (subs.cleedek.com); sari kata anda yang telah ditambah baik hanya dihantar ke sana jika anda bersetuju untuk berkongsinya. Selain itu, sari kata yang diingati dan disimpan kekal dalam pelayar anda. Jika anda menghubungi saya melalui "Tulis kepada saya" dalam tetingkap sambungan, mesej anda sampai kepada saya melalui e-mel. Laporan masalah hanya dihantar apabila anda menekan Hantar dan mengandungi nama laman, bukan alamat halaman. Butiran dalam dasar privasi.
 
 MASALAH ATAU IDEA?
 Klik "Masalah atau idea?" di bahagian bawah tetingkap sambungan dan tulis kepada saya. Saya baca setiap mesej. Sari kata tidak muncul di sesebuah laman? Label "Bantuan" pada video membimbing anda, dan "Laporkan masalah" menghantar nama laman kepada saya supaya saya boleh membaikinya.

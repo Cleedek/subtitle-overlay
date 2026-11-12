@@ -5,8 +5,9 @@ A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a fe
 ★ A LEGFONTOSABBAK
 ★ Bármilyen oldal, bármilyen videó: feliratok a lejátszó fölött, ablakban vagy teljes képernyőn, mindig szinkronban
 ★ Fordítás 31 nyelvre egy kattintással, vagy teljesen automatikusan, amint bekapcsolod a feliratot az oldal lejátszójában
-★ ÚJ: MI-vel természetes hangzású fordítás, ingyen a saját gépeden (Gemma), vagy a saját Gemini, Claude vagy OpenAI kulcsoddal
-★ ÚJ: ha az oldalon már van felirat a nyelveden, azt kapod, és fordítás csak akkor készül, ha nincs
+★ ÚJ: megosztott feliratok: ha ugyanazt a feliratot már valaki javította MI-vel, rögtön az ő változatát kapod, és hogy a sajátodat megosztod-e, te döntöd el
+★ MI-vel természetes hangzású fordítás, ingyen a saját gépeden (Gemma), vagy a saját Gemini, Claude vagy OpenAI kulcsoddal
+★ Ha az oldalon már van felirat a nyelveden, azt kapod, és fordítás csak akkor készül, ha nincs
 ★ Két nyelv egyszerre: az egyik felül, a másik alul, közös nézéshez vagy nyelvtanuláshoz
 ★ Megtalálja az oldal által betöltött feliratokat, a YouTube-on is, így ritkán van szükséged fájlra
 ★ A te stílusod: több mint 1800 Google Fonts betűtípus, körvonal, árnyék, háttérdoboz, méret és pozíció
@@ -31,6 +32,14 @@ A Google Fordító gyors, de sorról sorra, szóról szóra halad. Kattints a Ja
 • Vagy használd a saját API-kulcsodat: Gemini (van ingyenes szintje), Claude vagy OpenAI (fizetős).
 • Mielőtt nekilát, átfutja az egész fájlt, és feljegyzi, ki kicsoda, így a nemek, a megszólítások és a nevek az első sortól az utolsóig egységesek maradnak.
 • Magától sosem indul el: a kattintásod nélkül semmi sem fut, és semmibe sem kerül.
+• A YouTube automatikus feliratainál is, a saját nyelveden: a Javítás pótolja az írásjeleket és kijavítja a rosszul hallott szavakat, fordítás nélkül.
+
+MEGOSZTOTT FELIRATOK
+• Ha ugyanazt a feliratot már valaki javította MI-vel és megosztotta, a videó fölötti kártya felajánlja az ő változatát "Megosztott" jelöléssel. Egy kattintás a Használat gombra, és nincs várakozás, nincs MI-munka a gépeden
+• A keresés az elejétől be van kapcsolva, és csak a feliratok egyirányú ujjlenyomatának első 5 karakterét küldi el a nyelvvel együtt, soha az oldalt, a videót vagy a címét. A "Mások feliratainak keresése" kapcsolja ki
+• A "Megosztottak automatikus használata" (alapból kikapcsolva) kattintás nélkül átveszi a megosztott változatot. A Google változata mindig egy kattintásnyira van
+• A saját feliratod megosztása addig kikapcsolt, amíg egy MI-s javítás után a kártyán igent nem mondasz. Csak kész változatokat kínál fel, 12B-s vagy nagyobb helyi modelltől, illetve fizetős modelltől. A "Megosztott feliratom törlése" egy kattintással eltávolít mindent, amit megosztottál
+• Rossz másolat? A "Probléma bejelentése" > "Rossz a fordítás" jelzi, és három bejelentés után eltűnik
 
 KÉT NYELV EGYSZERRE
 • Kapcsolj be egy második feliratot bármilyen nyelven: felül angolul neked, alul vietnámiul a párodnak
@@ -47,6 +56,7 @@ MEGTALÁLJA AZ OLDAL FELIRATAIT
 FORDÍTÁSI VÁRÓLISTA ÉS MENTETT FELIRATOK
 • Húzz be több .srt vagy .vtt fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
 • Működik a Google, a Gemini, a Claude, az OpenAI vagy a saját helyi modelled segítségével
+• Amíg egy fájl a várólistán van, a videója fölötti kártya mutatja, meddig jutott, és a kész fájl magától leváltja a Google sorait
 • A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót, és bármely más oldalon is, ahol ugyanaz a felirat, anélkül hogy újra megkérdeznéd az MI-t
 • A Lejátszás gomb megnyitja a videót a feliratokkal, a "Megjelenítés itt…" egy másik lapon már megnyitott videóra teszi őket, az ".srt letöltése" gomb pedig elmenti a fájlt
 
@@ -80,7 +90,7 @@ OLDALANKÉNT
 • Egyetlen kapcsolóval kikapcsolhatod bármelyik oldalon; a kikapcsolt oldalak listája egy kattintásnyira van
 
 BILLENTYŰPARANCSOK
-Alt + [ / ] szinkron · Alt + Shift + [ / ] szinkron 1 mp-cel · Alt + 0 szinkron visszaállítása · Alt + R a sor ismétlése · Alt + S megjelenítés vagy elrejtés · Alt + 1 / Alt + 2 csak az egyik nyelv megjelenítése vagy elrejtése · Alt + ↑ / ↓ mozgatás · Alt + F teljes képernyő feliratokkal
+Alt + [ / ] szinkron · Alt + Shift + [ / ] szinkron 1 mp-cel · Alt + 0 szinkron visszaállítása · Alt + R a sor ismétlése · Alt + S megjelenítés vagy elrejtés · Alt + 1 / Alt + 2 csak az egyik nyelv megjelenítése vagy elrejtése · Alt + ↑ / ↓ mozgatás · Alt + = / Alt + − nagyobb vagy kisebb · Alt + F teljes képernyő feliratokkal
 Minden billentyűparancs módosítható vagy kikapcsolható a Viselkedés lapon.
 
 FELÜLET 31 NYELVEN
@@ -90,7 +100,7 @@ BÜTYKÖLŐKNEK
 A DevTools "Subtitles" lapja felsorolja az oldal által betöltött összes feliratfájlt, és .vtt vagy .srt formátumban menti őket.
 
 ADATVÉDELEM
-Nincs fiók, nincs analitika, nincs követés. A feliratok szövege csak akkor kerül a Google Fordítóhoz, amikor a feliratok fordítása történik (a kattintásodra vagy automatikus módban), a Gemini, Claude, OpenAI szolgáltatáshoz vagy a helyi modelledhez pedig csak akkor, ha a Javítás gombra kattintasz. A megjegyzett és mentett feliratok a böngésződben maradnak. Ha a felugró ablakban az "Írj nekem" lehetőséggel írsz nekem, az üzeneted e-mailben jut el hozzám. A problémabejelentés csak akkor megy el, ha megnyomod a Küldés gombot, és az oldal nevét tartalmazza, soha nem az oldal címét. Részletek az adatvédelmi irányelvekben.
+Nincs fiók, nincs analitika, nincs követés. A feliratok szövege csak akkor kerül a Google Fordítóhoz, amikor a feliratok fordítása történik (a kattintásodra vagy automatikus módban), a Gemini, Claude, OpenAI szolgáltatáshoz vagy a helyi modelledhez pedig csak akkor, ha a Javítás gombra kattintasz. A megosztott feliratok kereséséhez a feliratok egyirányú ujjlenyomatának első 5 karaktere és a nyelv a szerveremre (subs.cleedek.com) kerül; a saját javított feliratod csak akkor kerül oda, ha beleegyezel a megosztásba. Egyébként a megjegyzett és mentett feliratok a böngésződben maradnak. Ha a felugró ablakban az "Írj nekem" lehetőséggel írsz nekem, az üzeneted e-mailben jut el hozzám. A problémabejelentés csak akkor megy el, ha megnyomod a Küldés gombot, és az oldal nevét tartalmazza, soha nem az oldal címét. Részletek az adatvédelmi irányelvekben.
 
 HIBA VAGY ÖTLET?
 Kattints a "Hiba vagy ötlet?" lehetőségre a felugró ablak alján, és írj nekem. Minden üzenetet elolvasok. Egy oldalon nem jelenik meg a felirat? A videón lévő "Súgó" címke végigvezet, a "Probléma bejelentése" pedig elküldi nekem az oldal nevét, hogy kijavíthassam.

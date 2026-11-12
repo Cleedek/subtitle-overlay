@@ -5,8 +5,9 @@ Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, i
 ★ PE SCURT
 ★ Orice site, orice videoclip: subtitrări peste player, în fereastră sau pe ecran complet, mereu sincronizate
 ★ Traducere în 31 de limbi dintr-un clic, sau complet automat, imediat ce pornești subtitrările în playerul site-ului
-★ NOU: traducerea sună natural cu AI, gratuit pe propriul calculator (Gemma) sau cu propria cheie Gemini, Claude ori OpenAI
-★ NOU: dacă site-ul are deja subtitrări în limba ta, le primești pe acelea, iar traducerea intervine doar când nu există
+★ NOU: subtitrări partajate: dacă cineva a îmbunătățit deja aceleași subtitrări cu AI, primești imediat versiunea lui, iar dacă le partajezi pe ale tale decizi tu
+★ Traducerea sună natural cu AI, gratuit pe propriul calculator (Gemma) sau cu propria cheie Gemini, Claude ori OpenAI
+★ Dacă site-ul are deja subtitrări în limba ta, le primești pe acelea, iar traducerea intervine doar când nu există
 ★ Două limbi deodată: una sus, una jos, pentru vizionat împreună sau pentru învățat o limbă
 ★ Găsește subtitrările pe care le încarcă pagina, inclusiv pe YouTube, așa că rareori ai nevoie de un fișier
 ★ Stilul tău: peste 1.800 de fonturi Google Fonts, contur, umbră, fundal, mărime și poziție
@@ -31,6 +32,14 @@ Google Traducere e rapid, dar traduce rând cu rând, cuvânt cu cuvânt. Dă cl
 • Sau folosește propria cheie API: Gemini (are un nivel gratuit), Claude sau OpenAI (cu plată).
 • Înainte să înceapă, parcurge tot fișierul și notează cine este cine, astfel încât genul, formele de adresare și numele rămân aceleași de la primul rând până la ultimul.
 • Nu pornește niciodată singur: nimic nu rulează și nu se cheltuiește nimic fără clicul tău.
+• Și pentru subtitrările automate de pe YouTube în limba ta: Îmbunătățește adaugă punctuația și corectează cuvintele auzite greșit, fără să traducă.
+
+SUBTITRĂRI PARTAJATE
+• Dacă cineva a îmbunătățit deja aceleași subtitrări cu AI și le-a partajat, cardul de peste video îți oferă versiunea lui, marcată "Partajat". Un clic pe Folosește, fără așteptare și fără muncă pentru AI pe calculatorul tău
+• Căutarea este pornită de la început și trimite doar primele 5 caractere ale unei amprente unidirecționale a subtitrărilor și limba, niciodată pagina, videoclipul sau titlul lui. "Caută subtitrări de la alții" o oprește
+• "Folosește automat cele partajate" (oprit implicit) ia o versiune partajată fără clic. Versiunea de la Google e mereu la un clic distanță
+• Partajarea subtitrărilor tale rămâne oprită până spui da pe un card, după o îmbunătățire cu AI. Se oferă doar versiuni terminate de la un model local cu 12B sau mai mare ori de la unul plătit. "Șterge subtitrările mele partajate" elimină dintr-un clic tot ce ai partajat
+• O copie proastă? O raportezi prin "Raportează o problemă" > "Traducerea e greșită", iar după trei raportări dispare
 
 DOUĂ LIMBI DEODATĂ
 • Pornește a doua subtitrare în orice limbă: engleză sus pentru tine, vietnameză jos pentru partenerul sau partenera ta
@@ -47,6 +56,7 @@ GĂSEȘTE SUBTITRĂRILE PE CARE LE ÎNCARCĂ UN SITE
 COADĂ DE TRADUCERE ȘI SUBTITRĂRI SALVATE
 • Adaugă mai multe fișiere .srt sau .vtt, sau dă clic pe "Adaugă în coadă" la subtitrările pe care le încarcă un site. Sunt traduse unul după altul în timp ce faci altceva; fila cu coada poate rămâne în fundal
 • Funcționează cu Google, Gemini, Claude, OpenAI sau modelul tău local
+• Cât timp un fișier e în coadă, cardul de peste videoclipul lui arată cât s-a făcut, iar fișierul terminat înlocuiește singur rândurile de la Google
 • Subtitrările îmbunătățite sunt păstrate în extensie cât timp alegi tu și revin când te întorci la videoclip, și pe orice altă pagină cu aceleași subtitrări, fără să mai întrebi AI-ul
 • Redă deschide videoclipul cu subtitrările lui, "Arată pe…" le pune peste un videoclip deja deschis în altă filă, iar Descarcă salvează fișierul .srt
 
@@ -80,7 +90,7 @@ SITE CU SITE
 • Oprește extensia pe orice site cu un singur comutator; lista site-urilor oprite e la un clic distanță
 
 COMENZI RAPIDE DE LA TASTATURĂ
-Alt + [ / ] sincronizare · Alt + Shift + [ / ] sincronizare cu 1 s · Alt + 0 resetează sincronizarea · Alt + R repetă replica · Alt + S afișează sau ascunde · Alt + 1 / Alt + 2 afișează sau ascunde doar o limbă · Alt + ↑ / ↓ mută · Alt + F ecran complet cu subtitrări
+Alt + [ / ] sincronizare · Alt + Shift + [ / ] sincronizare cu 1 s · Alt + 0 resetează sincronizarea · Alt + R repetă replica · Alt + S afișează sau ascunde · Alt + 1 / Alt + 2 afișează sau ascunde doar o limbă · Alt + ↑ / ↓ mută · Alt + = / Alt + − mai mare sau mai mic · Alt + F ecran complet cu subtitrări
 Fiecare comandă rapidă poate fi schimbată sau dezactivată în fila Comportament.
 
 INTERFAȚĂ ÎN 31 DE LIMBI
@@ -90,7 +100,7 @@ PENTRU CURIOȘI
 O filă "Subtitles" în DevTools listează fiecare fișier de subtitrare încărcat de pagină și îl salvează ca .vtt sau .srt.
 
 CONFIDENȚIALITATE
-Fără conturi, fără analize, fără urmărire. Textul subtitrărilor este trimis la Google Traducere doar când subtitrările sunt traduse (prin clicul tău sau de modul automat) și la Gemini, Claude, OpenAI sau modelul tău local doar când dai clic pe Îmbunătățește. Subtitrările reținute și salvate rămân în browserul tău. Dacă îmi scrii prin "Scrie-mi" din fereastra extensiei, mesajul tău ajunge la mine pe e-mail. Un raport de problemă se trimite doar când apeși Trimite și conține numele site-ului, niciodată adresa paginii. Detalii în politica de confidențialitate.
+Fără conturi, fără analize, fără urmărire. Textul subtitrărilor este trimis la Google Traducere doar când subtitrările sunt traduse (prin clicul tău sau de modul automat) și la Gemini, Claude, OpenAI sau modelul tău local doar când dai clic pe Îmbunătățește. Pentru a găsi subtitrări partajate, primele 5 caractere ale unei amprente unidirecționale a subtitrărilor și limba sunt trimise pe serverul meu (subs.cleedek.com); subtitrările tale îmbunătățite ajung acolo doar dacă ești de acord să le partajezi. În rest, subtitrările reținute și salvate rămân în browserul tău. Dacă îmi scrii prin "Scrie-mi" din fereastra extensiei, mesajul tău ajunge la mine pe e-mail. Un raport de problemă se trimite doar când apeși Trimite și conține numele site-ului, niciodată adresa paginii. Detalii în politica de confidențialitate.
 
 PROBLEMĂ SAU IDEE?
 Dă clic pe "Problemă sau idee?" în partea de jos a ferestrei extensiei și scrie-mi. Citesc fiecare mesaj. Subtitrările nu apar pe un site? Eticheta "Ajutor" de pe video te ghidează, iar "Raportează o problemă" îmi trimite numele site-ului ca să pot repara.
