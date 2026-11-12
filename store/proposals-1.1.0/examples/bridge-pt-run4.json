@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:57:22.339Z",
+ "target": "pt",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Você é um idiota, Thom.",
+   "gemma": "Você é um idiota, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Olha Célia, temos que seguir nossas paixões;",
+   "gemma": "Olha, Celia, nós temos que seguir nossas paixões;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "você tem sua robótica e eu só quero ser incrível no espaço.",
+   "gemma": "você tem a sua robótica, e eu só quero ser incrível no espaço."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Por que você simplesmente não admite que está assustado com a minha mão robótica?",
+   "gemma": "Por que você não admite que está assustada com a minha mão robótica?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Eu não estou assustado com... está tudo bem! Multar!",
+   "gemma": "Eu não estou assustada com– é... tudo bem! Tudo bem mesmo!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "Estou assustado! Tenho pesadelos em que estou sendo perseguido...",
+   "gemma": "Eu estou assustada! Tenho pesadelos que estou sendo perseguida..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...por essas gigantescas garras robóticas da morte...",
+   "gemma": "...por estas garras robóticas gigantes da morte..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Tanto faz, Thom. Terminamos.",
+   "gemma": "Que seja, Thom. Acabou."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=pt",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"As legendas aparecem aqui.\",\"en\"],[\"Traduzido para o seu idioma.\",\"en\"],[\"Em qualquer vídeo, em qualquer site.\",\"en\"],[\"Não espere. Experimente agora.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=pt",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Você é um idiota, Thom.\",\"en\"],[\"Olha Célia, temos que seguir nossas paixões;\",\"en\"],[\"você tem sua robótica e eu só quero ser incrível no espaço.\",\"en\"],[\"Por que você simplesmente não admite que está assustado com a minha mão robótica?\",\"en\"],[\"Eu não estou assustado com... está tudo bem! Multar!\",\"en\"],[\"Estou assustado! Tenho pesadelos em que estou sendo perseguido...\",\"en\"],[\"...por essas gigantescas garras robóticas da morte...\",\"en\"],[\"Tanto faz, Thom. Terminamos.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Portuguese in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Portuguese words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Portuguese speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Portuguese has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:57:05.852657Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\n*   **Thom addressing Celia:** Initially, \\\"Celia\\\" (informal, affectionate). If their relationship deteriorates, he might switch to a more distant \\\"Celina\\\" (slightly more formal, indicating coolness/disagreement).\\n*   **Thom referring to himself when speaking to Celia:** \\\"Eu\\\" (standard first-person pronoun).\\n*   **Celia addressing Thom:** Initially, \\\"Thom\\\" (informal, familiar). If their relationship deteriorates, she might switch to \\\"Tom\\\" (slightly more formal, indicating distance/disagreement).\\n*   **Celia referring to herself when speaking to Thom:** \\\"Eu\\\" (standard first-person pronoun).\\n\\nNAMES:\\n\\n*   Thom\\n*   Celia\\n*   Robot hand (must remain \\\"robot hand\\\" - \\\"mão robótica\\\" is acceptable as a descriptive phrase, but the term \\\"robot hand\\\" itself should be preserved)\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":11519630250,\"load_duration\":2065417,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":348,\"prompt_eval_duration\":218981000,\"eval_count\":254,\"eval_duration\":11120468000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Portuguese.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\n*   **Thom addressing Celia:** Initially, \"Celia\" (informal, affectionate). If their relationship deteriorates, he might switch to a more distant \"Celina\" (slightly more formal, indicating coolness/disagreement).\n*   **Thom referring to himself when speaking to Celia:** \"Eu\" (standard first-person pronoun).\n*   **Celia addressing Thom:** Initially, \"Thom\" (informal, familiar). If their relationship deteriorates, she might switch to \"Tom\" (slightly more formal, indicating distance/disagreement).\n*   **Celia referring to herself when speaking to Thom:** \"Eu\" (standard first-person pronoun).\n\nNAMES:\n\n*   Thom\n*   Celia\n*   Robot hand (must remain \"robot hand\" - \"mão robótica\" is acceptable as a descriptive phrase, but the term \"robot hand\" itself should be preserved)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Portuguese that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:57:22.104077Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Você é um idiota, Thom.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Olha, Celia, nós temos que seguir nossas paixões;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"você tem a sua robótica, e eu só quero ser incrível no espaço.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Por que você não admite que está assustada com a minha mão robótica?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Eu não estou assustada com– é... tudo bem! Tudo bem mesmo!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Eu estou assustada! Tenho pesadelos que estou sendo perseguida...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...por estas garras robóticas gigantes da morte...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"Que seja, Thom. Acabou.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":16235280959,\"load_duration\":810959,\"prompt_eval_count\":673,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2910969000,\"eval_count\":308,\"eval_duration\":13235132000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nVocê é um idiota, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nOlha, Celia, nós temos que seguir nossas paixões;\n\n3\n00:00:04,100 --> 00:00:05,750\nvocê tem a sua robótica, e eu só quero ser incrível no espaço.\n\n4\n00:00:05,850 --> 00:00:07,500\nPor que você não admite que está assustada com a minha mão robótica?\n\n5\n00:00:07,600 --> 00:00:09,250\nEu não estou assustada com– é... tudo bem! Tudo bem mesmo!\n\n6\n00:00:09,350 --> 00:00:11,000\nEu estou assustada! Tenho pesadelos que estou sendo perseguida...\n\n7\n00:00:11,100 --> 00:00:12,750\n...por estas garras robóticas gigantes da morte...\n\n8\n00:00:12,850 --> 00:00:14,500\nQue seja, Thom. Acabou.\n"
+ }
+}

@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:42:55.852Z",
+ "target": "zh-TW",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "你是個混蛋，湯姆。",
+   "gemma": "你真是個笨蛋，湯姆。"
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "看看西莉亞，我們必須追隨我們的熱情；",
+   "gemma": "西莉亞，聽著，我們必須追隨自己的熱情；"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "你有你的機器人技術，而我只想在太空中表現出色。",
+   "gemma": "你有你的機器人，我只是想在太空發光。"
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "為什麼不承認你被我的機器人嚇壞了呢？",
+   "gemma": "你幹嘛不承認你對我的機器人手感到害怕？"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "我並沒有被嚇壞──這……好吧！美好的！",
+   "gemma": "我沒有害怕——這...好吧！好吧！"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "我嚇壞了！我常做惡夢，夢見自己被追趕…",
+   "gemma": "我害怕！我做惡夢，夢到我被追..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "....這些巨大的機器人死亡之爪...",
+   "gemma": "...被這些巨大的機器人死亡爪子追..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "不管怎樣，湯姆。我們完成了。",
+   "gemma": "隨便你啦，湯姆。我們結束了。"
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=zh-TW",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"字幕就顯示在這裡。\",\"en\"],[\"翻譯成您的語言。\",\"en\"],[\"在任何影片、任何網站上。\",\"en\"],[\"別等了。現在就試試看。\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=zh-TW",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"你是個混蛋，湯姆。\",\"en\"],[\"看看西莉亞，我們必須追隨我們的熱情；\",\"en\"],[\"你有你的機器人技術，而我只想在太空中表現出色。\",\"en\"],[\"為什麼不承認你被我的機器人嚇壞了呢？\",\"en\"],[\"我並沒有被嚇壞──這……好吧！美好的！\",\"en\"],[\"我嚇壞了！我常做惡夢，夢見自己被追趕…\",\"en\"],[\"....這些巨大的機器人死亡之爪...\",\"en\"],[\"不管怎樣，湯姆。我們完成了。\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Chinese (Taiwan) in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Chinese (Taiwan) words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Chinese (Taiwan) speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Chinese (Taiwan) has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:41:30.905642Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, protagonist. Seems to be Celia's friend/romantic interest.\\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/romantic interest.\\n\\nADDRESS:\\n\\nThom addresses Celia as “Celia” (西莉亞 – Xīlìyà). When speaking to her, Thom refers to himself as “我” (wǒ – I/me).\\nCelia addresses Thom as “Thom” (湯姆 – Tāngmǔ). When speaking to him, Celia refers to herself as “我” (wǒ – I/me).\\n\\n*Relationship Change Note:* The lines suggest a potential romantic relationship between Thom and Celia, but it's strained. If the relationship were to become more formal/respectful, Thom might switch to using “你” (nǐ – you) instead of Celia’s name, and Celia might use “你” (nǐ – you) when addressing Thom. Conversely, if the relationship becomes more casual/friendly, they might use nicknames. The lines don't provide enough information to determine if this would occur.\\n\\nNAMES:\\n\\nThom (湯姆 – Tāngmǔ)\\nCelia (西莉亞 – Xīlìyà)\\nRobot (機器人 – Jīqìrén) - This is a general term, but if a specific robot has a name, that name should be retained.\\n\\n\\n\\n\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":75330170042,\"load_duration\":3779417,\"prompt_eval_count\":365,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1648589000,\"eval_count\":308,\"eval_duration\":12753958000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Chinese (Taiwan).\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, protagonist. Seems to be Celia's friend/romantic interest.\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/romantic interest.\n\nADDRESS:\n\nThom addresses Celia as “Celia” (西莉亞 – Xīlìyà). When speaking to her, Thom refers to himself as “我” (wǒ – I/me).\nCelia addresses Thom as “Thom” (湯姆 – Tāngmǔ). When speaking to him, Celia refers to herself as “我” (wǒ – I/me).\n\n*Relationship Change Note:* The lines suggest a potential romantic relationship between Thom and Celia, but it's strained. If the relationship were to become more formal/respectful, Thom might switch to using “你” (nǐ – you) instead of Celia’s name, and Celia might use “你” (nǐ – you) when addressing Thom. Conversely, if the relationship becomes more casual/friendly, they might use nicknames. The lines don't provide enough information to determine if this would occur.\n\nNAMES:\n\nThom (湯姆 – Tāngmǔ)\nCelia (西莉亞 – Xīlìyà)\nRobot (機器人 – Jīqìrén) - This is a general term, but if a specific robot has a name, that name should be retained.\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Chinese (Taiwan) that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:42:55.694402Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"你真是個笨蛋，湯姆。\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"西莉亞，聽著，我們必須追隨自己的熱情；\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"你有你的機器人，我只是想在太空發光。\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"你幹嘛不承認你對我的機器人手感到害怕？\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"我沒有害怕——這...好吧！好吧！\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"我害怕！我做惡夢，夢到我被追...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...被這些巨大的機器人死亡爪子追...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"隨便你啦，湯姆。我們結束了。\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":84672823792,\"load_duration\":920292,\"prompt_eval_count\":731,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":3207015000,\"eval_count\":298,\"eval_duration\":12656345000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\n你真是個笨蛋，湯姆。\n\n2\n00:00:02,350 --> 00:00:04,000\n西莉亞，聽著，我們必須追隨自己的熱情；\n\n3\n00:00:04,100 --> 00:00:05,750\n你有你的機器人，我只是想在太空發光。\n\n4\n00:00:05,850 --> 00:00:07,500\n你幹嘛不承認你對我的機器人手感到害怕？\n\n5\n00:00:07,600 --> 00:00:09,250\n我沒有害怕——這...好吧！好吧！\n\n6\n00:00:09,350 --> 00:00:11,000\n我害怕！我做惡夢，夢到我被追...\n\n7\n00:00:11,100 --> 00:00:12,750\n...被這些巨大的機器人死亡爪子追...\n\n8\n00:00:12,850 --> 00:00:14,500\n隨便你啦，湯姆。我們結束了。\n"
+ }
+}

@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:14:04.199Z",
+ "target": "nl",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Je bent een eikel, Thom.",
+   "gemma": "Je bent gemeen, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Kijk Celia, we moeten onze passies volgen;",
+   "gemma": "Kijk Celia, we moeten ons passies volgen;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "jij hebt je robotica, en ik wil gewoon geweldig zijn in de ruimte.",
+   "gemma": "jij hebt je robotica, en ik wil gewoon geweldig zijn in de ruimte."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Waarom geef je niet gewoon toe dat je in paniek raakt door mijn robothand?",
+   "gemma": "Waarom geef je niet gewoon toe dat je het koud krijgt van mijn robot hand?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Ik ben niet in paniek door... het is... oké! Prima!",
+   "gemma": "Ik krijg geen kou ervan - het is... oké! Goed!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "Ik ben in paniek! Ik heb nachtmerries dat ik achtervolgd word...",
+   "gemma": "Ik heb het koud! Ik heb nachtmerries dat ik achterna wordt gezeten..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...door deze gigantische robotachtige klauwen van de dood...",
+   "gemma": "...door deze gigantische robot klauwen van de dood..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Wat dan ook, Thom. We zijn klaar.",
+   "gemma": "Wat je ook zegt, Thom. Het is klaar."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=nl",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"Ondertitels verschijnen hier.\",\"en\"],[\"Vertaald in uw taal.\",\"en\"],[\"Op elke video, op elke website.\",\"en\"],[\"Wacht niet. Probeer het nu.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=nl",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Je bent een eikel, Thom.\",\"en\"],[\"Kijk Celia, we moeten onze passies volgen;\",\"en\"],[\"jij hebt je robotica, en ik wil gewoon geweldig zijn in de ruimte.\",\"en\"],[\"Waarom geef je niet gewoon toe dat je in paniek raakt door mijn robothand?\",\"en\"],[\"Ik ben niet in paniek door... het is... oké! Prima!\",\"en\"],[\"Ik ben in paniek! Ik heb nachtmerries dat ik achtervolgd word...\",\"en\"],[\"...door deze gigantische robotachtige klauwen van de dood...\",\"en\"],[\"Wat dan ook, Thom. We zijn klaar.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Dutch in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Dutch words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Dutch speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Dutch has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:12:38.447765Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possible romantic interest. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/possible romantic interest. Seems more grounded and practical than Thom.\\n\\nADDRESS:\\n\\n*   **Thom addressing Celia:** He calls her \\\"Celia\\\" throughout. When speaking to her, he refers to himself as \\\"ik\\\" (I).\\n*   **Celia addressing Thom:** She calls him \\\"Thom\\\" throughout. When speaking to him, she refers to herself as \\\"ik\\\" (I).\\n\\n    *Initially, their relationship is casual friends. If their relationship develops romantically, Celia might start using \\\"jij\\\" (you, informal) more frequently when addressing Thom, and Thom might reciprocate. This would indicate a closer, more intimate connection. The shift would be subtle, but noticeable in the nuances of their dialogue.*\\n\\nNAMES:\\n\\n*   Thom\\n*   Celia\\n*   robot hand (must remain \\\"robot hand\\\" - \\\"robot hand\\\" in Dutch)\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":66568150875,\"load_duration\":23808917,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1392157000,\"eval_count\":236,\"eval_duration\":9470761000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Dutch.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possible romantic interest. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/possible romantic interest. Seems more grounded and practical than Thom.\n\nADDRESS:\n\n*   **Thom addressing Celia:** He calls her \"Celia\" throughout. When speaking to her, he refers to himself as \"ik\" (I).\n*   **Celia addressing Thom:** She calls him \"Thom\" throughout. When speaking to him, she refers to herself as \"ik\" (I).\n\n    *Initially, their relationship is casual friends. If their relationship develops romantically, Celia might start using \"jij\" (you, informal) more frequently when addressing Thom, and Thom might reciprocate. This would indicate a closer, more intimate connection. The shift would be subtle, but noticeable in the nuances of their dialogue.*\n\nNAMES:\n\n*   Thom\n*   Celia\n*   robot hand (must remain \"robot hand\" - \"robot hand\" in Dutch)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Dutch that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:14:03.646298Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Je bent gemeen, Thom.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Kijk Celia, we moeten ons passies volgen;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"jij hebt je robotica, en ik wil gewoon geweldig zijn in de ruimte.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Waarom geef je niet gewoon toe dat je het koud krijgt van mijn robot hand?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Ik krijg geen kou ervan - het is... oké! Goed!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Ik heb het koud! Ik heb nachtmerries dat ik achterna wordt gezeten...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...door deze gigantische robot klauwen van de dood...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"Wat je ook zegt, Thom. Het is klaar.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":85019666250,\"load_duration\":10678250,\"prompt_eval_count\":655,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2644705000,\"eval_count\":312,\"eval_duration\":12601702000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nJe bent gemeen, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nKijk Celia, we moeten ons passies volgen;\n\n3\n00:00:04,100 --> 00:00:05,750\njij hebt je robotica, en ik wil gewoon geweldig zijn in de ruimte.\n\n4\n00:00:05,850 --> 00:00:07,500\nWaarom geef je niet gewoon toe dat je het koud krijgt van mijn robot hand?\n\n5\n00:00:07,600 --> 00:00:09,250\nIk krijg geen kou ervan - het is... oké! Goed!\n\n6\n00:00:09,350 --> 00:00:11,000\nIk heb het koud! Ik heb nachtmerries dat ik achterna wordt gezeten...\n\n7\n00:00:11,100 --> 00:00:12,750\n...door deze gigantische robot klauwen van de dood...\n\n8\n00:00:12,850 --> 00:00:14,500\nWat je ook zegt, Thom. Het is klaar.\n"
+ }
+}

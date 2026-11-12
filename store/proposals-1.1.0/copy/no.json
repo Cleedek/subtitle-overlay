@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Har noen allerede forbedret dem? <span>Du får dem med en gang.</span>",
+    "sharedAi": "Delt, forbedret med Gemma"
+  },
+  "d": {
+    "target": "no",
+    "line": 5,
+    "googleNote": "\"Fin!\" er feil form her, man sier \"Fint!\".",
+    "aiNote": "\"Fint!\": slik man faktisk sier det.",
+    "unedited": "Uredigert resultat"
+  }
+}

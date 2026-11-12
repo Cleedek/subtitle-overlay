@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Har någon redan förbättrat dem? <span>Du får dem direkt.</span>",
+    "sharedAi": "Delad, förbättrad med Gemma"
+  },
+  "d": {
+    "target": "sv",
+    "line": 6,
+    "googleNote": "\"Förbannad\" betyder arg, inte rädd.",
+    "aiNote": "\"Rädd\": det han faktiskt menar.",
+    "unedited": "Oredigerat resultat"
+  }
+}

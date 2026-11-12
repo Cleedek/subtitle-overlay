@@ -1,0 +1,14 @@
+{
+  "shared": {
+    "co": "Alguém já as melhorou? <span>Ficam tuas de imediato.</span>",
+    "sharedAi": "Compartilhado, melhorado com Gemma"
+  },
+  "d": {
+    "target": "pt",
+    "line": 3,
+    "googleNote": "\"Você tem sua\" soa a português do Brasil.",
+    "aiNote": "\"Tu tens a tua\": como se fala em Portugal.",
+    "unedited": "Resultado sem edição",
+    "file": "bridge-pt-run1.json"
+  }
+}

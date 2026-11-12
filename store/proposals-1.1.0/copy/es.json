@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "¿Alguien ya los mejoró? <span>Los tienes al instante.</span>",
+    "sharedAi": "Compartido, mejorado con Gemma"
+  },
+  "d": {
+    "target": "es",
+    "line": 6,
+    "googleNote": "Dice \"asustada\" (femenino), pero habla Thom.",
+    "aiNote": "\"Asustado\": la forma correcta para Thom.",
+    "unedited": "Resultado sin editar"
+  }
+}

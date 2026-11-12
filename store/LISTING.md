@@ -2,7 +2,17 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
-## Postup pro 1.1.0 (příprava 12. 11. 2026, NIC z toho ještě není provedené)
+## Postup pro 1.1.0 (příprava 12. 11. 2026)
+
+**Stav 12. 11. 2026 dopoledne (Claude):**
+- Hotovo: `SHARING` + `REUSE_SAVED` zapnuté, verze 1.1.0, karta Co je nového (9 bodů, 30 jazyků), server subs.cleedek.com nasazený (D1 77c1b422…, oprava nahlášení nasazená), testy v Chromu 7/7, 32 popisů, zásady EN+CS (repo + web), changelog EN+CS (web), zdůvodnění storage + Host.
+- Dashboard (koncept, NEodesláno): balíček z e79981a (ověřeno podle velikosti content.js v konceptu), 32 popisů (přečteno zpátky cs/ja/ar), Privacy texty storage + Host, Data usage beze změny, Save draft.
+- Screenshot 2: nová verze D (sdílené titulky, každý jazyk ve svém jazyce, EN = španělské titulky), schválená Filipem; zdroje ve `store/proposals-1.1.0/`.
+
+**Zbývá (Filip):**
+1. Říct "ano" k pushi: cleedek-portfolio (zásady + changelog, nasadí se samo) a GitHub subtitle-overlay. Web musí být online dřív, než odešleš.
+2. V Dashboardu zkontrolovat a kliknout **Submit for review**.
+
 
 Hlavní věc: **sdílené titulky** (`SHARING = true`) + **znovupoužití vlastních uložených titulků** (`REUSE_SAVED = true`). Obojí je v kódu hotové a otestované ve dvou Chromech, jen vypnuté.
 

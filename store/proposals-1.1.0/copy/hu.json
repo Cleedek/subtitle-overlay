@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Valaki már feljavította? <span>Azonnal a tiéd.</span>",
+    "sharedAi": "Megosztott, Gemmával javítva"
+  },
+  "d": {
+    "target": "hu",
+    "line": 5,
+    "googleNote": "A \"finom\" itt ízletest jelent.",
+    "aiNote": "\"Jó!\": egyszerű egyetértés.",
+    "unedited": "Szerkesztetlen kimenet"
+  }
+}

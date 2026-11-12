@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:19:42.047Z",
+ "target": "pl",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Jesteś kretynem, Thom.",
+   "gemma": "Jesteś wredny, Tomeczku."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Słuchaj, Celio, musimy podążać za naszymi pasjami;",
+   "gemma": "Posłuchaj, Celiu, musimy podążać za naszymi pasjami;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "ty masz robotykę, a ja chcę po prostu być świetny w kosmosie.",
+   "gemma": "Ty masz swoją robotykę, a ja po prostu chcę być zajebisty w kosmosie."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Dlaczego po prostu nie przyznasz, że przeraża cię moja ręka robota?",
+   "gemma": "Dlaczego po prostu nie przyznasz, że boisz się mojej robot hand?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Nie jestem przerażona - jest... w porządku! Cienki!",
+   "gemma": "Ja się nie boję – to... w porządku! No dobrze!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "Jestem przerażony! Śni mi się koszmar, że mnie gonią...",
+   "gemma": "Ja się boję! Mam koszmary, że mnie gonią..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...przez te gigantyczne, robotyczne szpony śmierci...",
+   "gemma": "...te gigantyczne robot handy śmierci..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Nieważne, Thom. Skończyliśmy.",
+   "gemma": "No i co, Tomeczku. Koniec."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=pl",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"Napisy pojawiają się tutaj.\",\"en\"],[\"Przetłumaczone na Twój język.\",\"en\"],[\"Na dowolnym filmie, na dowolnej stronie internetowej.\",\"en\"],[\"Nie czekaj. Spróbuj teraz.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=pl",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Jesteś kretynem, Thom.\",\"en\"],[\"Słuchaj, Celio, musimy podążać za naszymi pasjami;\",\"en\"],[\"ty masz robotykę, a ja chcę po prostu być świetny w kosmosie.\",\"en\"],[\"Dlaczego po prostu nie przyznasz, że przeraża cię moja ręka robota?\",\"en\"],[\"Nie jestem przerażona - jest... w porządku! Cienki!\",\"en\"],[\"Jestem przerażony! Śni mi się koszmar, że mnie gonią...\",\"en\"],[\"...przez te gigantyczne, robotyczne szpony śmierci...\",\"en\"],[\"Nieważne, Thom. Skończyliśmy.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Polish in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Polish words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Polish speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Polish has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:18:26.126121Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\nThom addresses Celia as \\\"Celiu\\\" (informal, familiar, used by a male to a female romantic partner). When speaking, Thom refers to himself as \\\"Ja\\\" (I).\\n\\nCelia addresses Thom as \\\"Tomeczku\\\" (informal, familiar, used by a female to a male romantic partner). When speaking, Celia refers to herself as \\\"Ja\\\" (I).\\n\\n*Relationship Change:* If their relationship deteriorates significantly (as suggested by the final line), Celia might switch to addressing Thom as \\\"Pan\\\" (formal, sir) and referring to herself as \\\"Ja\\\" (I), creating distance. Thom might respond in kind, using \\\"Pani\\\" (formal, madam) for Celia. This would signify a complete breakdown in intimacy.\\n\\n\\n\\nNAMES:\\n\\nThom\\nCelia\\nRobot hand (must remain \\\"robot hand\\\" - \\\"robotyczna ręka\\\" is acceptable as a descriptive phrase, but the term itself should not be translated)\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":69516405333,\"load_duration\":10935375,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1489979000,\"eval_count\":265,\"eval_duration\":11211027000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Polish.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\nThom addresses Celia as \"Celiu\" (informal, familiar, used by a male to a female romantic partner). When speaking, Thom refers to himself as \"Ja\" (I).\n\nCelia addresses Thom as \"Tomeczku\" (informal, familiar, used by a female to a male romantic partner). When speaking, Celia refers to herself as \"Ja\" (I).\n\n*Relationship Change:* If their relationship deteriorates significantly (as suggested by the final line), Celia might switch to addressing Thom as \"Pan\" (formal, sir) and referring to herself as \"Ja\" (I), creating distance. Thom might respond in kind, using \"Pani\" (formal, madam) for Celia. This would signify a complete breakdown in intimacy.\n\n\n\nNAMES:\n\nThom\nCelia\nRobot hand (must remain \"robot hand\" - \"robotyczna ręka\" is acceptable as a descriptive phrase, but the term itself should not be translated)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Polish that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:19:41.754164Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Jesteś wredny, Tomeczku.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Posłuchaj, Celiu, musimy podążać za naszymi pasjami;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"Ty masz swoją robotykę, a ja po prostu chcę być zajebisty w kosmosie.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Dlaczego po prostu nie przyznasz, że boisz się mojej robot hand?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Ja się nie boję – to... w porządku! No dobrze!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Ja się boję! Mam koszmary, że mnie gonią...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...te gigantyczne robot handy śmierci...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"No i co, Tomeczku. Koniec.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":75537009792,\"load_duration\":795500,\"prompt_eval_count\":684,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2932911000,\"eval_count\":323,\"eval_duration\":13810277000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nJesteś wredny, Tomeczku.\n\n2\n00:00:02,350 --> 00:00:04,000\nPosłuchaj, Celiu, musimy podążać za naszymi pasjami;\n\n3\n00:00:04,100 --> 00:00:05,750\nTy masz swoją robotykę, a ja po prostu chcę być zajebisty w kosmosie.\n\n4\n00:00:05,850 --> 00:00:07,500\nDlaczego po prostu nie przyznasz, że boisz się mojej robot hand?\n\n5\n00:00:07,600 --> 00:00:09,250\nJa się nie boję – to... w porządku! No dobrze!\n\n6\n00:00:09,350 --> 00:00:11,000\nJa się boję! Mam koszmary, że mnie gonią...\n\n7\n00:00:11,100 --> 00:00:12,750\n...te gigantyczne robot handy śmierci...\n\n8\n00:00:12,850 --> 00:00:14,500\nNo i co, Tomeczku. Koniec.\n"
+ }
+}

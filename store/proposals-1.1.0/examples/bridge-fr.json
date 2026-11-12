@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T01:53:44.831Z",
+ "target": "fr",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "4d3c90a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Tu es un con, Thom.",
+   "gemma": "T'es vraiment un crétin, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Ecoute Célia, nous devons suivre nos passions ;",
+   "gemma": "Écoute, Celia, il faut suivre nos passions ;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "vous avez votre robotique, et je veux juste être génial dans l'espace.",
+   "gemma": "toi, t'as ta robotique, et moi, je veux juste assurer dans l'espace."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Pourquoi n'admets-tu pas que ma main de robot te fait flipper ?",
+   "gemma": "Pourquoi tu n'avoues pas que ça te fait flipper, ma main robotique ?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "gemma": "Mais non, ça ne me fait pas flipper... C'est... bon ! D'accord !",
+   "google": "Je ne suis pas paniqué par- c'est... d'accord ! Bien!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "gemma": "Je suis flippé(e) ! J'ai des cauchemars où je suis poursuivi(e) ...",
+   "google": "Je suis paniqué ! Je fais des cauchemars où je suis poursuivi..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "gemma": "...par ces énormes serres robotiques de la mort...",
+   "google": "...par ces griffes robotiques géantes de la mort..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "gemma": "Voilà, Thom. C'est fini.",
+   "google": "Peu importe, Thom. Nous avons terminé."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=fr",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Tu es un con, Thom.\",\"en\"],[\"Ecoute Célia, nous devons suivre nos passions ;\",\"en\"],[\"vous avez votre robotique, et je veux juste être génial dans l&#39;espace.\",\"en\"],[\"Pourquoi n&#39;admets-tu pas que ma main de robot te fait flipper ?\",\"en\"],[\"Je ne suis pas paniqué par- c&#39;est... d&#39;accord ! Bien!\",\"en\"],[\"Je suis paniqué ! Je fais des cauchemars où je suis poursuivi...\",\"en\"],[\"...par ces griffes robotiques géantes de la mort...\",\"en\"],[\"Peu importe, Thom. Nous avons terminé.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=fr",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"Les sous-titres apparaissent ici.\",\"en\"],[\"Traduit dans votre langue.\",\"en\"],[\"Sur n’importe quelle vidéo, sur n’importe quel site Web.\",\"en\"],[\"N&#39;attendez pas. Essayez-le maintenant.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into French in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact French words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as French speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if French has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:52:26.573769Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\n*   **Thom addressing Celia:** He initially uses \\\"Celia,\\\" a neutral and familiar form. As the argument escalates and she ends the relationship, he continues to use \\\"Celia,\\\" maintaining the same level of familiarity, but with a sharper, more dismissive tone.\\n*   **Celia addressing Thom:** She uses \\\"Thom,\\\" a familiar form. If their relationship were to mend, she might shift to a slightly more affectionate diminutive like \\\"Thommy,\\\" but the provided lines don't indicate this.\\n\\nNAMES:\\n\\n*   Thom\\n*   Celia\\n*   Robot (generic term, no specific name)\\n\\n\\n\\n\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":65748653667,\"load_duration\":17409750,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1477915000,\"eval_count\":196,\"eval_duration\":8290892000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into French.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\n*   **Thom addressing Celia:** He initially uses \"Celia,\" a neutral and familiar form. As the argument escalates and she ends the relationship, he continues to use \"Celia,\" maintaining the same level of familiarity, but with a sharper, more dismissive tone.\n*   **Celia addressing Thom:** She uses \"Thom,\" a familiar form. If their relationship were to mend, she might shift to a slightly more affectionate diminutive like \"Thommy,\" but the provided lines don't indicate this.\n\nNAMES:\n\n*   Thom\n*   Celia\n*   Robot (generic term, no specific name)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken French that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:53:44.250846Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"T'es vraiment un crétin, Thom.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Écoute, Celia, il faut suivre nos passions ;\\\\n\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"toi, t'as ta robotique, et moi, je veux juste assurer dans l'espace.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Pourquoi tu n'avoues pas que ça te fait flipper, ma main robotique ?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Mais non, ça ne me fait pas flipper... C'est... bon ! D'accord !\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Je suis flippé(e) ! J'ai des cauchemars où je suis poursuivi(e) ...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...par ces énormes serres robotiques de la mort...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"Voilà, Thom. C'est fini.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":77568505917,\"load_duration\":913209,\"prompt_eval_count\":614,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2490654000,\"eval_count\":333,\"eval_duration\":13126630000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nT'es vraiment un crétin, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nÉcoute, Celia, il faut suivre nos passions ;\n\n3\n00:00:04,100 --> 00:00:05,750\ntoi, t'as ta robotique, et moi, je veux juste assurer dans l'espace.\n\n4\n00:00:05,850 --> 00:00:07,500\nPourquoi tu n'avoues pas que ça te fait flipper, ma main robotique ?\n\n5\n00:00:07,600 --> 00:00:09,250\nMais non, ça ne me fait pas flipper... C'est... bon ! D'accord !\n\n6\n00:00:09,350 --> 00:00:11,000\nJe suis flippé(e) ! J'ai des cauchemars où je suis poursuivi(e) ...\n\n7\n00:00:11,100 --> 00:00:12,750\n...par ces énormes serres robotiques de la mort...\n\n8\n00:00:12,850 --> 00:00:14,500\nVoilà, Thom. C'est fini.\n"
+ }
+}

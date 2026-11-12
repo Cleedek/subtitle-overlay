@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="hr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>Store screenshot 2, proposal D</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block">
+<link rel="stylesheet" href="../../promo-video/screens/screens.css">
+<style>
+  body { font-family: "Inter", sans-serif; }
+  
+  
+  
+  h1, .body { text-wrap: balance; }
+  /* Shared by all three: the comparison card and the window, as in promo-video/screens/screenshot-2.html. */
+  .cmp { background: rgba(33, 28, 46, .85); border: 1px solid rgba(255, 255, 255, .08); border-radius: 14px; padding: 18px 20px 16px; margin-bottom: 22px; }
+  .cmp .who { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #a59fb5; margin-bottom: 14px; }
+  .row { display: grid; gap: 5px; padding: 0 0 0 14px; border-left: 3px solid #5d5869; margin: 0 0 14px; }
+  .row.ai { border-left-color: #8b6bff; margin-bottom: 0; }
+  .row .lbl { font-size: 13px; color: #9d96ad; font-weight: 600; }
+  .row.ai .lbl { color: #b9a6ff; }
+  .row .line { font-family: "Inter", sans-serif; font-size: 19px; line-height: 1.3; color: #e7e3f0; font-weight: 550; letter-spacing: -.005em; }
+  .row.ai .line { color: #fff; }
+  .row .why { font-size: 13px; color: #9d96ad; }
+  .cmp .foot { font-size: 12.5px; color: #8a8496; margin-top: 14px; }
+  .film { position: relative; overflow: hidden; }
+  .film > img { display: block; width: 100%; height: 100%; }
+  
+  .top { position: absolute; left: 30px; right: 30px; top: 44px; text-align: center; }
+  .top h1 { white-space: nowrap; font-size: 46px; line-height: 1.12; }
+  .top h1.co { margin-top: 4px; color: #fff; }
+  .top h1.co span { color: #86efac; }
+  .win { top: 210px; width: 560px; }
+  .w1 { left: 64px; } .w2 { left: 656px; }
+  .film { width: 560px; height: 315px; }
+  .ring { position: absolute; border-radius: 12px; box-shadow: 0 0 0 2px #86efac, 0 0 22px rgba(134, 239, 172, .3); }
+  .use { position: absolute; left: 640px; top: 445px; transform: translate(-50%, -50%); z-index: 2;
+    display: flex; align-items: center; gap: 8px; padding: 9px 18px 9px 16px; border-radius: 999px; background: #7a41e4; color: #fff;
+    font: 650 16px/1 system-ui, -apple-system, "Segoe UI", sans-serif; white-space: nowrap;
+    box-shadow: 0 0 0 6px #0e0d12, 0 10px 30px rgba(0, 0, 0, .5); }
+  .use svg { width: 16px; height: 16px; }
+  /* One grid for both captions: label, line and note share their rows, so they sit on the same baselines. */
+  .caps { position: absolute; left: 64px; top: 587px; width: 1152px; display: grid; grid-template-columns: 560px 560px;
+    column-gap: 32px; grid-template-rows: auto auto auto; grid-auto-flow: column; }
+  .caps > * { padding-inline-start: 17px; border-inline-start: 3px solid #5d5869; }
+  .caps .lbl { font-size: 13px; color: #9d96ad; font-weight: 600; padding-bottom: 5px; }
+  .caps .line { font-size: 21px; line-height: 1.3; color: #e7e3f0; font-weight: 550; letter-spacing: -.005em; }
+  .caps .note { font-size: 13px; color: #9d96ad; padding-top: 5px; }
+  .caps .s { border-inline-start-color: #86efac; }
+  .caps .lbl.s { color: #86efac; }
+  .caps .line.s { color: #fff; }
+  .prov { position: absolute; left: 64px; bottom: 30px; display: flex; gap: 36px; }
+  .prov > div { display: block; }
+  .prov b { display: block; margin-bottom: 9px; }
+  .prov span { display: inline-block; margin-right: 7px; white-space: nowrap; }
+  .credit { bottom: 14px; }
+  /* Right to left: the story reads from the right (Google first), the arrow points left, chips and credit swap sides. */
+  [dir=rtl] .w1 { left: 656px; } [dir=rtl] .w2 { left: 64px; }
+  [dir=rtl] .use svg { transform: scaleX(-1); }
+  [dir=rtl] .prov { left: auto; right: 64px; }
+  [dir=rtl] .prov span { margin-right: 0; margin-left: 7px; }
+  [dir=rtl] .credit { right: auto; left: 22px; }
+</style>
+</head>
+<body>
+
+  <div class="top">
+    <div class="eyebrow">Neka zvuči prirodno</div>
+    <h1 data-lines="1" data-min="30">Titlovi koji zvuče <span>kao živi govor.</span></h1>
+    <h1 class="co" data-lines="1" data-min="30">Netko ih je već poboljšao? <span>Odmah su tvoji.</span></h1>
+  </div>
+  <div class="win w1"><div class="bar"><i></i><i></i><i></i><div class="url">video-site.example/watch/tears-of-steel</div><img class="ext" src="../../icons/icon128.png" alt=""></div>
+    <div class="film"><img src="img/hr/d/card-shared-offer.png" alt=""><div class="ring" style="left:370px;top:41px;width:183px;height:124px"></div></div>
+  </div>
+  <div class="win w2"><div class="bar"><i></i><i></i><i></i><div class="url">video-site.example/watch/tears-of-steel</div><img class="ext" src="../../icons/icon128.png" alt=""></div>
+    <div class="film"><img src="img/hr/d/card-shared-used.png" alt=""><div class="ring" style="left:370px;top:41px;width:183px;height:131px"></div></div>
+  </div>
+  <div class="use">Koristi<svg viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="caps">
+    <div class="lbl">Google Prevoditelj</div>
+    <div class="line" lang="hr" dir="ltr"><span data-lines="1" data-min="17" data-same="cap" style="display:block">Gledaj Celia, moramo slijediti svoje strasti;</span></div>
+    <div class="note">Bez vokativa: "Celia", a ne "Celijo".</div>
+    <div class="lbl s">Dijeljeno, poboljšano pomoću Gemme</div>
+    <div class="line s" lang="hr" dir="ltr"><span data-lines="1" data-min="17" data-same="cap" style="display:block">Slušaj, Celijo, moramo slijediti svoje strasti;</span></div>
+    <div class="note s">Vokativ "Celijo" i prirodno "Slušaj".</div>
+  </div>
+  
+    <div class="prov">
+      <div><b>Besplatan lokalni AI na tvom računalu</b><span class="b-gemma">Gemma</span><span class="b-ollama">Ollama</span><span class="b-lms">LM Studio</span></div>
+      <div><b>Ili tvoj vlastiti API ključ</b><span class="b-gemini">Gemini</span><span class="b-claude">Claude</span><span class="b-openai">OpenAI</span></div>
+    </div>
+  <div class="credit"><span dir="auto">Neuređeni izlaz</span> · <span dir="ltr">Film: Tears of Steel © Blender Foundation · mango.blender.org · CC BY 3.0</span></div>
+<script>
+  // Shrink a text block until it fits: data-lines = how many lines it may take (as in l10n/build.mjs).
+  window.fit = () => {
+    for (const el of document.querySelectorAll('[data-lines]')) {
+      const lines = +el.dataset.lines;
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      const min = +(el.dataset.min || size * 0.7);
+      const tooBig = () => { const lh = parseFloat(getComputedStyle(el).lineHeight) || size * 1.1; return el.scrollWidth > el.clientWidth + 1 || el.getBoundingClientRect().height > lines * lh + 2; };
+      while (tooBig() && size > min) { size -= 1; el.style.fontSize = size + 'px'; }
+      el.dataset.fitted = size;
+    }
+    // data-same="group": every block in the group takes the smallest fitted size (both caption lines alike).
+    const groups = {};
+    for (const el of document.querySelectorAll('[data-same]')) (groups[el.dataset.same] = groups[el.dataset.same] || []).push(el);
+    for (const els of Object.values(groups)) {
+      const min = Math.min(...els.map((e) => parseFloat(getComputedStyle(e).fontSize)));
+      els.forEach((e) => { e.style.fontSize = min + 'px'; e.dataset.fitted = min; });
+    }
+  };
+</script>
+</body>
+</html>

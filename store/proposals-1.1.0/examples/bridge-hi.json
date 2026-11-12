@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T01:56:25.277Z",
+ "target": "hi",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "4d3c90a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "तुम एक बेवकूफ हो, थॉम।",
+   "gemma": "तुम बिल्कुल सनकी हो, थॉम।"
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "देखो सेलिया, हमें अपने जुनून का पालन करना होगा;",
+   "gemma": "सुनो, Celia, हमें अपनी इच्छाओं का पालन करना होगा;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "आपके पास अपना रोबोटिक्स है, और मैं बस अंतरिक्ष में अद्भुत होना चाहता हूं।",
+   "gemma": "तुम्हारे पास तुम्हारा रोबोटिक्स है, और मैं बस अंतरिक्ष में शानदार बनना चाहता हूँ।"
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "आप यह स्वीकार क्यों नहीं कर लेते कि आप मेरे रोबोट के हाथ से घबरा गए हैं?",
+   "gemma": "तुम बस यह स्वीकार क्यों नहीं करते कि तुम्हें मेरे रोबोट हाथ से डर लग रहा है?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "gemma": "मुझे डर नहीं लग रहा है - यह... ठीक है! ठीक है!",
+   "google": "मैं इससे घबराया नहीं हूं- यह... ठीक है! अच्छा!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "gemma": "मुझे डर लग रहा है! मुझे बुरे सपने आते हैं कि मैं भाग रहा हूँ...",
+   "google": "मैं घबरा गया हूँ! मुझे बुरे सपने आते हैं कि मेरा पीछा किया जा रहा है..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "gemma": "...इन विशाल रोबोटिक पंजे से...",
+   "google": "...मृत्यु के इन विशाल रोबोटिक पंजों द्वारा..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "gemma": "जो भी हो, थॉम। हम खत्म हैं।",
+   "google": "जो भी हो, थॉम। किए गए।"
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=hi",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"तुम एक बेवकूफ हो, थॉम।\",\"en\"],[\"देखो सेलिया, हमें अपने जुनून का पालन करना होगा;\",\"en\"],[\"आपके पास अपना रोबोटिक्स है, और मैं बस अंतरिक्ष में अद्भुत होना चाहता हूं।\",\"en\"],[\"आप यह स्वीकार क्यों नहीं कर लेते कि आप मेरे रोबोट के हाथ से घबरा गए हैं?\",\"en\"],[\"मैं इससे घबराया नहीं हूं- यह... ठीक है! अच्छा!\",\"en\"],[\"मैं घबरा गया हूँ! मुझे बुरे सपने आते हैं कि मेरा पीछा किया जा रहा है...\",\"en\"],[\"...मृत्यु के इन विशाल रोबोटिक पंजों द्वारा...\",\"en\"],[\"जो भी हो, थॉम। किए गए।\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=hi",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"उपशीर्षक यहीं दिखाई देते हैं.\",\"en\"],[\"आपकी भाषा में अनुवादित.\",\"en\"],[\"किसी भी वीडियो पर, किसी भी वेबसाइट पर.\",\"en\"],[\"इंतज़ार मत करो. अब इसे आजमाओ।\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Hindi in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Hindi words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Hindi speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Hindi has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:55:01.368234Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\n*   **Thom addressing Celia:** He will call her \\\"Celia\\\" initially, a relatively neutral term. When frustrated, he might switch to \\\"Sunhari\\\" (golden one), a slightly patronizing term of endearment. When truly angry, he might use \\\"Tum\\\" (informal \\\"you\\\"). Celia will refer to Thom as \\\"Thom\\\" throughout, using a casual, friendly tone. If their relationship deteriorates, she will switch to \\\"Aap\\\" (formal \\\"you\\\") to create distance.\\n\\n*   **Celia addressing Thom:** She will consistently use \\\"Thom.\\\" He will refer to himself as \\\"Main Hoon\\\" (I am) when expressing his ambitions. If their relationship sours, she will switch to \\\"Aap\\\" (formal \\\"you\\\") to create distance.\\n\\nNAMES:\\n\\n*   Thom\\n*   Celia\\n*   Robot (रोबोट - Robot) - Should remain as \\\"Robot\\\" in Hindi.\\n\\n\\n\\n\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":70972480083,\"load_duration\":13424542,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1567969000,\"eval_count\":262,\"eval_duration\":11379581000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Hindi.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\n*   **Thom addressing Celia:** He will call her \"Celia\" initially, a relatively neutral term. When frustrated, he might switch to \"Sunhari\" (golden one), a slightly patronizing term of endearment. When truly angry, he might use \"Tum\" (informal \"you\"). Celia will refer to Thom as \"Thom\" throughout, using a casual, friendly tone. If their relationship deteriorates, she will switch to \"Aap\" (formal \"you\") to create distance.\n\n*   **Celia addressing Thom:** She will consistently use \"Thom.\" He will refer to himself as \"Main Hoon\" (I am) when expressing his ambitions. If their relationship sours, she will switch to \"Aap\" (formal \"you\") to create distance.\n\nNAMES:\n\n*   Thom\n*   Celia\n*   Robot (रोबोट - Robot) - Should remain as \"Robot\" in Hindi.\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Hindi that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:56:24.715434Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"तुम बिल्कुल सनकी हो, थॉम।\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"सुनो, Celia, हमें अपनी इच्छाओं का पालन करना होगा;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"तुम्हारे पास तुम्हारा रोबोटिक्स है, और मैं बस अंतरिक्ष में शानदार बनना चाहता हूँ।\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"तुम बस यह स्वीकार क्यों नहीं करते कि तुम्हें मेरे रोबोट हाथ से डर लग रहा है?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"मुझे डर नहीं लग रहा है - यह... ठीक है! ठीक है!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"मुझे डर लग रहा है! मुझे बुरे सपने आते हैं कि मैं भाग रहा हूँ...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...इन विशाल रोबोटिक पंजे से...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"जो भी हो, थॉम। हम खत्म हैं।\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":83249290167,\"load_duration\":1121500,\"prompt_eval_count\":680,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2923429000,\"eval_count\":318,\"eval_duration\":13790473000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nतुम बिल्कुल सनकी हो, थॉम।\n\n2\n00:00:02,350 --> 00:00:04,000\nसुनो, Celia, हमें अपनी इच्छाओं का पालन करना होगा;\n\n3\n00:00:04,100 --> 00:00:05,750\nतुम्हारे पास तुम्हारा रोबोटिक्स है, और मैं बस अंतरिक्ष में शानदार बनना चाहता हूँ।\n\n4\n00:00:05,850 --> 00:00:07,500\nतुम बस यह स्वीकार क्यों नहीं करते कि तुम्हें मेरे रोबोट हाथ से डर लग रहा है?\n\n5\n00:00:07,600 --> 00:00:09,250\nमुझे डर नहीं लग रहा है - यह... ठीक है! ठीक है!\n\n6\n00:00:09,350 --> 00:00:11,000\nमुझे डर लग रहा है! मुझे बुरे सपने आते हैं कि मैं भाग रहा हूँ...\n\n7\n00:00:11,100 --> 00:00:12,750\n...इन विशाल रोबोटिक पंजे से...\n\n8\n00:00:12,850 --> 00:00:14,500\nजो भी हो, थॉम। हम खत्म हैं।\n"
+ }
+}

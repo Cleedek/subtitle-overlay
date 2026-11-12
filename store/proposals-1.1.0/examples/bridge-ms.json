@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:11:26.174Z",
+ "target": "ms",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Awak memang bodoh, Thom.",
+   "gemma": "Kau memang menjengkelkan, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Tengok Celia, kita kena ikut nafsu kita;",
+   "gemma": "Dengar, Celia, kita kena ikut apa yang kita minat;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "anda mempunyai robotik anda, dan saya hanya mahu menjadi hebat di angkasa.",
+   "gemma": "Kau ada robotik kau, aku cuma nak jadi hebat kat angkasa lepas."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Mengapa anda tidak mengaku bahawa anda takut dengan tangan robot saya?",
+   "gemma": "Kenapa kau tak mengaku je yang kau takut dengan tangan robot aku ni?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Saya tidak gentar dengan- itu... baiklah! baiklah!",
+   "gemma": "Aku tak takut - eh... boleh la! Setuju!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "Saya geram! Saya mempunyai mimpi buruk yang saya dikejar...",
+   "gemma": "Aku dah takut! Aku mimpi buruk yang aku diburu..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "... oleh cakar robot gergasi kematian ini...",
+   "gemma": "...dengan cakar robot gergasi pembunuh tu..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Apa pun, Thom. Kami sudah selesai.",
+   "gemma": "Takpe la, Thom. Kita selesai."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=ms",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Awak memang bodoh, Thom.\",\"en\"],[\"Tengok Celia, kita kena ikut nafsu kita;\",\"en\"],[\"anda mempunyai robotik anda, dan saya hanya mahu menjadi hebat di angkasa.\",\"en\"],[\"Mengapa anda tidak mengaku bahawa anda takut dengan tangan robot saya?\",\"en\"],[\"Saya tidak gentar dengan- itu... baiklah! baiklah!\",\"en\"],[\"Saya geram! Saya mempunyai mimpi buruk yang saya dikejar...\",\"en\"],[\"... oleh cakar robot gergasi kematian ini...\",\"en\"],[\"Apa pun, Thom. Kami sudah selesai.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=ms",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"Sari kata muncul di sini.\",\"en\"],[\"Diterjemah ke dalam bahasa anda.\",\"en\"],[\"Pada mana-mana video, pada mana-mana laman web.\",\"en\"],[\"Jangan tunggu. Cuba sekarang.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Malay in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Malay words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Malay speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Malay has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:10:24.299096Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possibly more. Seems impulsive and a bit insensitive.\\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/possibly more. Appears more grounded and thoughtful.\\n\\n\\n\\nADDRESS:\\n\\nInitially, Thom calls Celia \\\"Celia\\\" and refers to himself as \\\"Aku\\\" (I - informal, common between friends). Celia calls Thom \\\"Thom\\\" and refers to herself as \\\"Saya\\\" (I - slightly more polite, but still acceptable between friends). This reflects a casual, friendly relationship.\\n\\nIf their relationship sours (as indicated by \\\"We're done\\\"), Thom might switch to using \\\"Kau\\\" (you - more dismissive, informal) when addressing Celia, and refer to himself as \\\"Aku\\\" still. Celia, in response, might use \\\"Awak\\\" (you - a more polite, slightly distancing form) and \\\"Saya\\\" to maintain a degree of formality and distance. The shift would signal a breakdown in their easy camaraderie.\\n\\n\\n\\nNAMES:\\n\\nThom\\nCelia\\nRobot (generic term, no specific name given)\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":54064956250,\"load_duration\":3037125,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1393065000,\"eval_count\":240,\"eval_duration\":9480399000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Malay.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possibly more. Seems impulsive and a bit insensitive.\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/possibly more. Appears more grounded and thoughtful.\n\n\n\nADDRESS:\n\nInitially, Thom calls Celia \"Celia\" and refers to himself as \"Aku\" (I - informal, common between friends). Celia calls Thom \"Thom\" and refers to herself as \"Saya\" (I - slightly more polite, but still acceptable between friends). This reflects a casual, friendly relationship.\n\nIf their relationship sours (as indicated by \"We're done\"), Thom might switch to using \"Kau\" (you - more dismissive, informal) when addressing Celia, and refer to himself as \"Aku\" still. Celia, in response, might use \"Awak\" (you - a more polite, slightly distancing form) and \"Saya\" to maintain a degree of formality and distance. The shift would signal a breakdown in their easy camaraderie.\n\n\n\nNAMES:\n\nThom\nCelia\nRobot (generic term, no specific name given)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Malay that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:11:25.516634Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Kau memang menjengkelkan, Thom.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Dengar, Celia, kita kena ikut apa yang kita minat;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"Kau ada robotik kau, aku cuma nak jadi hebat kat angkasa lepas.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Kenapa kau tak mengaku je yang kau takut dengan tangan robot aku ni?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Aku tak takut - eh... boleh la! Setuju!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Aku dah takut! Aku mimpi buruk yang aku diburu...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...dengan cakar robot gergasi pembunuh tu...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"Takpe la, Thom. Kita selesai.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":61139801334,\"load_duration\":873292,\"prompt_eval_count\":659,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2560221000,\"eval_count\":297,\"eval_duration\":12359816000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nKau memang menjengkelkan, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nDengar, Celia, kita kena ikut apa yang kita minat;\n\n3\n00:00:04,100 --> 00:00:05,750\nKau ada robotik kau, aku cuma nak jadi hebat kat angkasa lepas.\n\n4\n00:00:05,850 --> 00:00:07,500\nKenapa kau tak mengaku je yang kau takut dengan tangan robot aku ni?\n\n5\n00:00:07,600 --> 00:00:09,250\nAku tak takut - eh... boleh la! Setuju!\n\n6\n00:00:09,350 --> 00:00:11,000\nAku dah takut! Aku mimpi buruk yang aku diburu...\n\n7\n00:00:11,100 --> 00:00:12,750\n...dengan cakar robot gergasi pembunuh tu...\n\n8\n00:00:12,850 --> 00:00:14,500\nTakpe la, Thom. Kita selesai.\n"
+ }
+}

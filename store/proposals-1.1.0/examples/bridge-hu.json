@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:00:55.734Z",
+ "target": "hu",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "4d3c90a + uncommitted changes",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Te egy bunkó vagy, Thom.",
+   "gemma": "Te vagy egy béna, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Nézd Celia, követnünk kell szenvedélyeinket;",
+   "gemma": "Nézd, Celia, követnünk kell a szenvedélyeinket;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "neked megvan a robotod, én pedig egyszerűen fantasztikus akarok lenni az űrben.",
+   "gemma": "neked meg a robotikád van, és én csak szeretnék a világ legjobb űrhajós lenni."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Miért nem ismered be, hogy megijedtél a robotkezemtől?",
+   "gemma": "Miért nem vallod be, hogy ijedtségben vagy a robot kézem miatt?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Nem ijedek meg tőle – ez... rendben! Finom!",
+   "gemma": "Nem vagyok ijedt – az… oké! Jó!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "ki vagyok akadva! Rémálmaim vannak, hogy üldöznek...",
+   "gemma": "Ijedt vagyok! Alvás közben is álmodom, hogy üldöznek…"
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...a halál óriási robotkarmai által...",
+   "gemma": "…óriási, robotos karmok vadásznak…"
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Mindegy, Thom. végeztünk.",
+   "gemma": "Felejtsd el, Thom. Végetnék."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=hu",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"A feliratok itt jelennek meg.\",\"en\"],[\"Lefordítva az Ön nyelvére.\",\"en\"],[\"Bármilyen videón, bármely weboldalon.\",\"en\"],[\"Ne várj. Próbálja ki most.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=hu",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Te egy bunkó vagy, Thom.\",\"en\"],[\"Nézd Celia, követnünk kell szenvedélyeinket;\",\"en\"],[\"neked megvan a robotod, én pedig egyszerűen fantasztikus akarok lenni az űrben.\",\"en\"],[\"Miért nem ismered be, hogy megijedtél a robotkezemtől?\",\"en\"],[\"Nem ijedek meg tőle – ez... rendben! Finom!\",\"en\"],[\"ki vagyok akadva! Rémálmaim vannak, hogy üldöznek...\",\"en\"],[\"...a halál óriási robotkarmai által...\",\"en\"],[\"Mindegy, Thom. végeztünk.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Hungarian in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Hungarian words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Hungarian speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Hungarian has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:59:26.035377Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\nInitially, Thom calls Celia \\\"Celia\\\" (informal, familiar - *Celia*). He refers to himself as \\\"Thom\\\" (*Thom*). Celia calls Thom \\\"Thom\\\" (*Thom*), and refers to herself as \\\"I\\\" (*én*). This suggests a close, comfortable relationship.\\n\\nIf their relationship deteriorates (as indicated by the line \\\"Whatever, Thom. We're done.\\\"), Celia might switch to a slightly more distant form of address, perhaps using \\\"Thomás\\\" (*Thomás*), which is a slightly more formal version of the name. Thom might respond in kind, or continue using the informal \\\"Celia\\\" to express frustration or a desire to maintain the connection. The shift would be subtle, but noticeable to a Hungarian speaker.\\n\\nNAMES:\\n\\nThom\\nCelia\\nrobot hand (must remain \\\"robot hand\\\" - *robot kéz*)\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":80657271500,\"load_duration\":8642084,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1506561000,\"eval_count\":247,\"eval_duration\":10724525000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Hungarian.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\nInitially, Thom calls Celia \"Celia\" (informal, familiar - *Celia*). He refers to himself as \"Thom\" (*Thom*). Celia calls Thom \"Thom\" (*Thom*), and refers to herself as \"I\" (*én*). This suggests a close, comfortable relationship.\n\nIf their relationship deteriorates (as indicated by the line \"Whatever, Thom. We're done.\"), Celia might switch to a slightly more distant form of address, perhaps using \"Thomás\" (*Thomás*), which is a slightly more formal version of the name. Thom might respond in kind, or continue using the informal \"Celia\" to express frustration or a desire to maintain the connection. The shift would be subtle, but noticeable to a Hungarian speaker.\n\nNAMES:\n\nThom\nCelia\nrobot hand (must remain \"robot hand\" - *robot kéz*)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Hungarian that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:00:55.143333Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Te vagy egy béna, Thom.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Nézd, Celia, követnünk kell a szenvedélyeinket;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"neked meg a robotikád van, és én csak szeretnék a világ legjobb űrhajós lenni.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Miért nem vallod be, hogy ijedtségben vagy a robot kézem miatt?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Nem vagyok ijedt – az… oké! Jó!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Ijedt vagyok! Alvás közben is álmodom, hogy üldöznek…\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"…óriási, robotos karmok vadásznak…\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"Felejtsd el, Thom. Végetnék.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":88951931375,\"load_duration\":880250,\"prompt_eval_count\":666,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2796324000,\"eval_count\":328,\"eval_duration\":13466583000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nTe vagy egy béna, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nNézd, Celia, követnünk kell a szenvedélyeinket;\n\n3\n00:00:04,100 --> 00:00:05,750\nneked meg a robotikád van, és én csak szeretnék a világ legjobb űrhajós lenni.\n\n4\n00:00:05,850 --> 00:00:07,500\nMiért nem vallod be, hogy ijedtségben vagy a robot kézem miatt?\n\n5\n00:00:07,600 --> 00:00:09,250\nNem vagyok ijedt – az… oké! Jó!\n\n6\n00:00:09,350 --> 00:00:11,000\nIjedt vagyok! Alvás közben is álmodom, hogy üldöznek…\n\n7\n00:00:11,100 --> 00:00:12,750\n…óriási, robotos karmok vadásznak…\n\n8\n00:00:12,850 --> 00:00:14,500\nFelejtsd el, Thom. Végetnék.\n"
+ }
+}

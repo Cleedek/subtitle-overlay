@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Sudah disempurnakan orang lain? <span>Langsung jadi milikmu.</span>",
+    "sharedAi": "Dibagikan, disempurnakan dengan Gemma"
+  },
+  "d": {
+    "target": "id",
+    "line": 6,
+    "googleNote": "Mencampur \"saya\" dan \"aku\" dalam satu kalimat.",
+    "aiNote": "Konsisten dan santai, seperti obrolan.",
+    "unedited": "Hasil tanpa suntingan"
+  }
+}

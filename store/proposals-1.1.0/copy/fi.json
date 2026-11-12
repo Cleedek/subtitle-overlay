@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Joku jo paransi ne? <span>Saat ne heti.</span>",
+    "sharedAi": "Jaettu, parannettu Gemmalla"
+  },
+  "d": {
+    "target": "fi",
+    "line": 6,
+    "googleNote": "\"Sekaisin\" on sekava, ei peloissaan.",
+    "aiNote": "\"Peloissaan\": juuri sitä hän tarkoittaa.",
+    "unedited": "Muokkaamaton tulos"
+  }
+}

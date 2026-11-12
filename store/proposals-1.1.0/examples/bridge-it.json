@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:04:47.539Z",
+ "target": "it",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Sei un idiota, Thom.",
+   "gemma": "Sei un idiota, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Guarda Celia, dobbiamo seguire le nostre passioni;",
+   "gemma": "Guarda, Celia, dobbiamo seguire le nostre passioni;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "tu hai la tua robotica e io voglio solo essere fantastico nello spazio.",
+   "gemma": "tu hai la tua robotica, e io voglio solo essere fantastico nello spazio."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Perché non ammetti che sei spaventato dalla mia mano robotica?",
+   "gemma": "Perché non ammetti che ti fa paura la mia mano robotica?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Non sono spaventato da... va bene! Bene!",
+   "gemma": "Non ho paura, cioè... va bene! D'accordo!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "Sono fuori di testa! Ho gli incubi in cui mi inseguono...",
+   "gemma": "Ho paura! Ho degli incubi in cui vengo inseguito..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...da questi giganteschi artigli robotici della morte...",
+   "gemma": "...da queste gigantesche chele robotiche della morte..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Qualunque cosa, Thom. Abbiamo finito.",
+   "gemma": "E va bene, Thom. È finita."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=it",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"I sottotitoli vengono visualizzati proprio qui.\",\"en\"],[\"Tradotto nella tua lingua.\",\"en\"],[\"Su qualsiasi video, su qualsiasi sito web.\",\"en\"],[\"Non aspettare. Provalo adesso.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=it",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Sei un idiota, Thom.\",\"en\"],[\"Guarda Celia, dobbiamo seguire le nostre passioni;\",\"en\"],[\"tu hai la tua robotica e io voglio solo essere fantastico nello spazio.\",\"en\"],[\"Perché non ammetti che sei spaventato dalla mia mano robotica?\",\"en\"],[\"Non sono spaventato da... va bene! Bene!\",\"en\"],[\"Sono fuori di testa! Ho gli incubi in cui mi inseguono...\",\"en\"],[\"...da questi giganteschi artigli robotici della morte...\",\"en\"],[\"Qualunque cosa, Thom. Abbiamo finito.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Italian in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Italian words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Italian speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Italian has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:03:27.698466Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\nInitially, Thom calls Celia \\\"Celia\\\" and refers to himself as \\\"io\\\" (I). Celia calls Thom \\\"Thom\\\" and refers to herself as \\\"ti\\\" (you). This suggests a casual, informal relationship.\\n\\nIf their relationship deteriorates (as indicated by \\\"Whatever, Thom. We're done.\\\"), Thom might start using a slightly more distant form of address, perhaps \\\"Lei\\\" (formal you) for Celia, though this is less likely given their age and initial informality. Celia might respond in kind, or simply stop engaging altogether. The shift would be subtle, reflecting increasing emotional distance rather than a sudden, formal change. \\\"Io\\\" and \\\"ti\\\" would likely remain, but with a colder tone.\\n\\n\\n\\nNAMES:\\n\\nThom\\nCelia\\nrobot (robot) - must remain \\\"robot\\\" in Italian.\\n\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":65016433125,\"load_duration\":17213416,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1420649000,\"eval_count\":237,\"eval_duration\":9290253000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Italian.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\nInitially, Thom calls Celia \"Celia\" and refers to himself as \"io\" (I). Celia calls Thom \"Thom\" and refers to herself as \"ti\" (you). This suggests a casual, informal relationship.\n\nIf their relationship deteriorates (as indicated by \"Whatever, Thom. We're done.\"), Thom might start using a slightly more distant form of address, perhaps \"Lei\" (formal you) for Celia, though this is less likely given their age and initial informality. Celia might respond in kind, or simply stop engaging altogether. The shift would be subtle, reflecting increasing emotional distance rather than a sudden, formal change. \"Io\" and \"ti\" would likely remain, but with a colder tone.\n\n\n\nNAMES:\n\nThom\nCelia\nrobot (robot) - must remain \"robot\" in Italian.\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Italian that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:04:47.070041Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Sei un idiota, Thom.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Guarda, Celia, dobbiamo seguire le nostre passioni;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"tu hai la tua robotica, e io voglio solo essere fantastico nello spazio.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Perché non ammetti che ti fa paura la mia mano robotica?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Non ho paura, cioè... va bene! D'accordo!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Ho paura! Ho degli incubi in cui vengo inseguito...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...da queste gigantesche chele robotiche della morte...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"E va bene, Thom. È finita.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":79327866625,\"load_duration\":1069750,\"prompt_eval_count\":655,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2780228000,\"eval_count\":300,\"eval_duration\":12799068000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nSei un idiota, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nGuarda, Celia, dobbiamo seguire le nostre passioni;\n\n3\n00:00:04,100 --> 00:00:05,750\ntu hai la tua robotica, e io voglio solo essere fantastico nello spazio.\n\n4\n00:00:05,850 --> 00:00:07,500\nPerché non ammetti che ti fa paura la mia mano robotica?\n\n5\n00:00:07,600 --> 00:00:09,250\nNon ho paura, cioè... va bene! D'accordo!\n\n6\n00:00:09,350 --> 00:00:11,000\nHo paura! Ho degli incubi in cui vengo inseguito...\n\n7\n00:00:11,100 --> 00:00:12,750\n...da queste gigantesche chele robotiche della morte...\n\n8\n00:00:12,850 --> 00:00:14,500\nE va bene, Thom. È finita.\n"
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "누군가 이미 개선했다면? <span>바로 받아 보세요.</span>",
+    "sharedAi": "공유됨, Gemma로 개선"
+  },
+  "d": {
+    "target": "ko",
+    "line": 2,
+    "googleNote": "\"Celia를 보세요\": 셀리아를 쳐다보라는 뜻이 됨.",
+    "aiNote": "셀리아를 부르는 말, 반말로 자연스럽게.",
+    "unedited": "수정하지 않은 출력"
+  }
+}

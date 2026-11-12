@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Už ich niekto vylepšil? <span>Máš ich hneď.</span>",
+    "sharedAi": "Zdieľané, vylepšené modelom Gemma"
+  },
+  "d": {
+    "target": "sk",
+    "line": 6,
+    "googleNote": "Ženský rod \"vydesená\", ale hovorí Thom.",
+    "aiNote": "Prirodzene a bez chyby v rode.",
+    "unedited": "Výstup bez úprav"
+  }
+}

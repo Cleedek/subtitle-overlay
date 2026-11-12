@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Biri zaten iyileştirdi mi? <span>Hemen senin.</span>",
+    "sharedAi": "Paylaşılan, Gemma ile iyileştirildi"
+  },
+  "d": {
+    "target": "tr",
+    "line": 6,
+    "googleNote": "\"Çıldırdım\" delirdim demek, korktum değil.",
+    "aiNote": "\"Korkuyorum\": tam da kastettiği.",
+    "unedited": "Düzenlenmemiş çıktı"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Schon von jemandem verbessert? <span>Du hast sie sofort.</span>",
+    "sharedAi": "Geteilt, verbessert mit Gemma"
+  },
+  "d": {
+    "target": "de",
+    "line": 3,
+    "googleNote": "Korrekt, aber steif und wörtlich.",
+    "aiNote": "Klingt, wie man wirklich redet.",
+    "unedited": "Unbearbeitete Ausgabe"
+  }
+}

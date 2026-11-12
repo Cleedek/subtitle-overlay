@@ -1,0 +1,31 @@
+{
+  "s2": {
+    "eyebrow": "Ať to zní přirozeně",
+    "h1": "Ne slovo od slova. <span>Jak se opravdu mluví.</span>",
+    "body": "Google přeloží za vteřinu, slovo od slova.<br>Klikni na Vylepšit a AI titulky přepíše v souvislostech.",
+    "who": "Jedna věta, dva překlady",
+    "google": "Google Překladač",
+    "why": "",
+    "ai": "Vylepšeno Gemmou",
+    "foot": "Tears of Steel, české titulky. Výstup bez úprav.",
+    "local": "Lokální AI zdarma na tvém počítači",
+    "key": "Nebo vlastní API klíč"
+  },
+  "example": {
+    "lang": "cs",
+    "google": "Nejsem vyděšený - to je... v pořádku! Dobře!",
+    "gemma": "Já se nebojím – to je… jo, v pohodě! Fajn!"
+  },
+  "shared": {
+    "callout": "Někdo už tyhle titulky vylepšil? <b>Máš je hned.</b>",
+    "co": "Už je někdo vylepšil? <span>Máš je hned.</span>",
+    "sharedAi": "Sdílené, vylepšeno Gemmou"
+  },
+  "d": {
+    "target": "cs",
+    "line": 6,
+    "googleNote": "Ženský a mužský rod v jedné větě. Mluví Thom.",
+    "aiNote": "Přirozeně a bez chyby v rodě.",
+    "unedited": "Výstup bez úprav"
+  }
+}

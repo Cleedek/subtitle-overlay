@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "May nagpahusay na? <span>Sa iyo agad.</span>",
+    "sharedAi": "Ibinahagi, pinahusay gamit ang Gemma"
+  },
+  "d": {
+    "target": "tl",
+    "line": 6,
+    "googleNote": "Ang \"nababaliw\" ay nasisiraan ng bait, hindi takot.",
+    "aiNote": "\"Natatakot\": iyon talaga ang ibig sabihin.",
+    "unedited": "Hindi inedit na output"
+  }
+}

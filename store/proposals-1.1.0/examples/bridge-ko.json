@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T02:09:25.292Z",
+ "target": "ko",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "e79981a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "넌 바보야, 톰.",
+   "gemma": "너 진짜 짜증나, 톰."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Celia를 보세요. 우리는 열정을 따라야 합니다.",
+   "gemma": "저, 셀리아, 우리는 각자의 열정을 따라야 해;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "당신은 로봇 공학을 가지고 있고 나는 단지 우주에서 멋진 사람이 되고 싶을 뿐입니다.",
+   "gemma": "너는 로봇 공학에 집중하고, 나는 우주에서 멋지게 되고 싶을 뿐이야."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "내 로봇 손 때문에 놀랐다는 걸 인정하는 게 어때요?",
+   "gemma": "내 로봇 손 때문에 겁먹었다고 솔직히 말해 봐, 왜 안 돼?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "난 겁먹지 않았어- 그건... 알았어! 괜찮은!",
+   "gemma": "내가 안 겁먹었어 - 그냥... 괜찮아! 좋아! 그래!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "정말 놀랐어요! 쫓기는 악몽을 꾼다..",
+   "gemma": "겁먹었어! 내가 쫓기고 있다는 악몽을 꿔."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...이 거대한 로봇 죽음의 발톱에 의해...",
+   "gemma": "...거대한 로봇 발톱에 쫓기고 있어..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "어쨌든, 톰. 이제 끝났습니다.",
+   "gemma": "됐어, 톰. 끝이야."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=ko",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"자막이 바로 여기에 표시됩니다.\",\"en\"],[\"귀하의 언어로 번역되었습니다.\",\"en\"],[\"모든 비디오, 모든 웹사이트에서.\",\"en\"],[\"기다리지 마세요. 지금 사용해 보세요.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=ko",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"넌 바보야, 톰.\",\"en\"],[\"Celia를 보세요. 우리는 열정을 따라야 합니다.\",\"en\"],[\"당신은 로봇 공학을 가지고 있고 나는 단지 우주에서 멋진 사람이 되고 싶을 뿐입니다.\",\"en\"],[\"내 로봇 손 때문에 놀랐다는 걸 인정하는 게 어때요?\",\"en\"],[\"난 겁먹지 않았어- 그건... 알았어! 괜찮은!\",\"en\"],[\"정말 놀랐어요! 쫓기는 악몽을 꾼다..\",\"en\"],[\"...이 거대한 로봇 죽음의 발톱에 의해...\",\"en\"],[\"어쨌든, 톰. 이제 끝났습니다.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Korean in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Korean words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Korean speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Korean has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:08:17.373774Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possible romantic interest. Seems impulsive and a bit insensitive.\\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/possible romantic interest. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\nThom addresses Celia as \\\"언니\\\" (eonni - older sister/female friend, used by a male). When Thom speaks, he refers to himself as \\\"나\\\" (na - I/me, informal).\\nCelia addresses Thom as \\\"오빠\\\" (oppa - older brother/male friend, used by a female). When Celia speaks, she refers to herself as \\\"저\\\" (jeo - I/me, polite/formal).\\n\\n*Relationship Change:* The lines suggest a potential romantic tension. If their relationship develops into a romantic one, Celia might shift to using a more informal \\\"너\\\" (neo - you, informal) and Thom might use \\\"야\\\" (ya - informal address, often used between close friends). However, the \\\"We're done\\\" line suggests a breakdown in the relationship, potentially reverting to more distant, polite forms.\\n\\nNAMES:\\n\\nThom\\nCelia\\nrobotics\\nspace\\nrobot hand\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":62360582000,\"load_duration\":25617542,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1401435000,\"eval_count\":266,\"eval_duration\":10491128000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Korean.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possible romantic interest. Seems impulsive and a bit insensitive.\nCelia: Female, early 20s, robotics enthusiast, Thom’s friend/possible romantic interest. Appears more grounded and practical than Thom.\n\nADDRESS:\n\nThom addresses Celia as \"언니\" (eonni - older sister/female friend, used by a male). When Thom speaks, he refers to himself as \"나\" (na - I/me, informal).\nCelia addresses Thom as \"오빠\" (oppa - older brother/male friend, used by a female). When Celia speaks, she refers to herself as \"저\" (jeo - I/me, polite/formal).\n\n*Relationship Change:* The lines suggest a potential romantic tension. If their relationship develops into a romantic one, Celia might shift to using a more informal \"너\" (neo - you, informal) and Thom might use \"야\" (ya - informal address, often used between close friends). However, the \"We're done\" line suggests a breakdown in the relationship, potentially reverting to more distant, polite forms.\n\nNAMES:\n\nThom\nCelia\nrobotics\nspace\nrobot hand\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Korean that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T02:09:24.783546Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"너 진짜 짜증나, 톰.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"저, 셀리아, 우리는 각자의 열정을 따라야 해;\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"너는 로봇 공학에 집중하고, 나는 우주에서 멋지게 되고 싶을 뿐이야.\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"내 로봇 손 때문에 겁먹었다고 솔직히 말해 봐, 왜 안 돼?\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"내가 안 겁먹었어 - 그냥... 괜찮아! 좋아! 그래!\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"겁먹었어! 내가 쫓기고 있다는 악몽을 꿔.\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...거대한 로봇 발톱에 쫓기고 있어...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"됐어, 톰. 끝이야.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":67380471084,\"load_duration\":699500,\"prompt_eval_count\":685,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2731151000,\"eval_count\":317,\"eval_duration\":12633234000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\n너 진짜 짜증나, 톰.\n\n2\n00:00:02,350 --> 00:00:04,000\n저, 셀리아, 우리는 각자의 열정을 따라야 해;\n\n3\n00:00:04,100 --> 00:00:05,750\n너는 로봇 공학에 집중하고, 나는 우주에서 멋지게 되고 싶을 뿐이야.\n\n4\n00:00:05,850 --> 00:00:07,500\n내 로봇 손 때문에 겁먹었다고 솔직히 말해 봐, 왜 안 돼?\n\n5\n00:00:07,600 --> 00:00:09,250\n내가 안 겁먹었어 - 그냥... 괜찮아! 좋아! 그래!\n\n6\n00:00:09,350 --> 00:00:11,000\n겁먹었어! 내가 쫓기고 있다는 악몽을 꿔.\n\n7\n00:00:11,100 --> 00:00:12,750\n...거대한 로봇 발톱에 쫓기고 있어...\n\n8\n00:00:12,850 --> 00:00:14,500\n됐어, 톰. 끝이야.\n"
+ }
+}

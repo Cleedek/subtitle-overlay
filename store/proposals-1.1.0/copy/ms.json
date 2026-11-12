@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Sudah ditambah baik orang lain? <span>Terus jadi milik anda.</span>",
+    "sharedAi": "Dikongsi, ditambah baik dengan Gemma"
+  },
+  "d": {
+    "target": "ms",
+    "line": 2,
+    "googleNote": "\"Nafsu\" bermaksud hawa nafsu, bukan minat.",
+    "aiNote": "\"Apa yang kita minat\": maksud sebenar.",
+    "unedited": "Output tanpa suntingan"
+  }
+}

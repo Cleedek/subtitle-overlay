@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Le-a îmbunătățit deja cineva? <span>Le ai imediat.</span>",
+    "sharedAi": "Partajat, îmbunătățit cu Gemma"
+  },
+  "d": {
+    "target": "ro",
+    "line": 5,
+    "googleNote": "\"Amenda\" înseamnă o sancțiune în bani.",
+    "aiNote": "\"Bine!\": exact ce vrea să spună.",
+    "unedited": "Rezultat needitat"
+  }
+}

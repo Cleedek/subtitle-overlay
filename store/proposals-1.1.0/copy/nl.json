@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Al verbeterd door iemand? <span>Meteen van jou.</span>",
+    "sharedAi": "Gedeeld, verbeterd met Gemma"
+  },
+  "d": {
+    "target": "nl",
+    "line": 8,
+    "googleNote": "\"Wat dan ook\": letterlijk vertaald.",
+    "aiNote": "\"Wat je ook zegt\": natuurlijker.",
+    "unedited": "Onbewerkte uitvoer"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Ktoś już je ulepszył? <span>Masz je od razu.</span>",
+    "sharedAi": "Udostępnione, ulepszone modelem Gemma"
+  },
+  "d": {
+    "target": "pl",
+    "line": 5,
+    "googleNote": "\"Cienki!\" znaczy chudy. Do tego forma żeńska.",
+    "aiNote": "\"No dobrze!\": tak się naprawdę mówi.",
+    "unedited": "Wynik bez poprawek"
+  }
+}

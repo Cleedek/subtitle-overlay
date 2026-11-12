@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "已經有人改善過？<span>馬上就能用。</span>",
+    "sharedAi": "共享，用 Gemma 改善"
+  },
+  "d": {
+    "target": "zh-TW",
+    "line": 2,
+    "googleNote": "「看看西莉亞」變成了叫人去看她。",
+    "aiNote": "「西莉亞，聽著」：是在叫她。",
+    "unedited": "未經編輯的輸出"
+  }
+}

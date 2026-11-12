@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Déjà améliorés par quelqu'un ? <span>Ils sont à toi tout de suite.</span>",
+    "sharedAi": "Partagé, amélioré avec Gemma"
+  },
+  "d": {
+    "target": "fr",
+    "line": 3,
+    "googleNote": "Passe au \"vous\" alors qu'ils se tutoient.",
+    "aiNote": "Tutoiement, et ça sonne comme à l'oral.",
+    "unedited": "Sortie non retouchée"
+  }
+}

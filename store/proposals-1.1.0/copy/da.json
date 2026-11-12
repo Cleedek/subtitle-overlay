@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Har nogen allerede forbedret dem? <span>Du får dem straks.</span>",
+    "sharedAi": "Delt, forbedret med Gemma"
+  },
+  "d": {
+    "target": "da",
+    "line": 5,
+    "googleNote": "\"Bøde\" betyder en straf i penge.",
+    "aiNote": "\"Fint!\": det, der faktisk menes.",
+    "unedited": "Uredigeret output"
+  }
+}

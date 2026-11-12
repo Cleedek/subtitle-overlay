@@ -1,0 +1,274 @@
+{
+ "es": {
+  "target": "es",
+  "line": 6,
+  "co": "¿Alguien ya los mejoró? <span>Los tienes al instante.</span>",
+  "sharedAi": "Compartido, mejorado con Gemma",
+  "googleNote": "Dice \"asustada\" (femenino), pero habla Thom.",
+  "aiNote": "\"Asustado\": la forma correcta para Thom.",
+  "unedited": "Resultado sin editar"
+ },
+ "ar": {
+  "target": "ar",
+  "line": 5,
+  "co": "حسّنها أحدهم من قبل؟ <span>تحصل عليها فورًا.</span>",
+  "sharedAi": "مشتركة، محسّنة باستخدام Gemma",
+  "googleNote": "\"بخير\" تعني بصحة جيدة، لا موافق.",
+  "aiNote": "\"ماشي\": موافق، كما يقولها الناس فعلًا.",
+  "unedited": "مخرجات بلا تعديل"
+ },
+ "da": {
+  "target": "da",
+  "line": 5,
+  "co": "Har nogen allerede forbedret dem? <span>Du får dem straks.</span>",
+  "sharedAi": "Delt, forbedret med Gemma",
+  "googleNote": "\"Bøde\" betyder en straf i penge.",
+  "aiNote": "\"Fint!\": det, der faktisk menes.",
+  "unedited": "Uredigeret output"
+ },
+ "de": {
+  "target": "de",
+  "line": 3,
+  "co": "Schon von jemandem verbessert? <span>Du hast sie sofort.</span>",
+  "sharedAi": "Geteilt, verbessert mit Gemma",
+  "googleNote": "Korrekt, aber steif und wörtlich.",
+  "aiNote": "Klingt, wie man wirklich redet.",
+  "unedited": "Unbearbeitete Ausgabe"
+ },
+ "el": {
+  "target": "el",
+  "line": 5,
+  "co": "Τους βελτίωσε ήδη κάποιος; <span>Τους έχεις αμέσως.</span>",
+  "sharedAi": "Κοινόχρηστοι, βελτιωμένοι με Gemma",
+  "googleNote": "\"Πρόστιμο\" σημαίνει χρηματική ποινή.",
+  "aiNote": "\"Εντάξει!\": αυτό που εννοεί.",
+  "unedited": "Χωρίς επεξεργασία"
+ },
+ "fi": {
+  "target": "fi",
+  "line": 6,
+  "co": "Joku jo paransi ne? <span>Saat ne heti.</span>",
+  "sharedAi": "Jaettu, parannettu Gemmalla",
+  "googleNote": "\"Sekaisin\" on sekava, ei peloissaan.",
+  "aiNote": "\"Peloissaan\": juuri sitä hän tarkoittaa.",
+  "unedited": "Muokkaamaton tulos"
+ },
+ "fil": {
+  "target": "tl",
+  "line": 6,
+  "co": "May nagpahusay na? <span>Sa iyo agad.</span>",
+  "sharedAi": "Ibinahagi, pinahusay gamit ang Gemma",
+  "googleNote": "Ang \"nababaliw\" ay nasisiraan ng bait, hindi takot.",
+  "aiNote": "\"Natatakot\": iyon talaga ang ibig sabihin.",
+  "unedited": "Hindi inedit na output"
+ },
+ "fr": {
+  "target": "fr",
+  "line": 3,
+  "co": "Déjà améliorés par quelqu'un ? <span>Ils sont à toi tout de suite.</span>",
+  "sharedAi": "Partagé, amélioré avec Gemma",
+  "googleNote": "Passe au \"vous\" alors qu'ils se tutoient.",
+  "aiNote": "Tutoiement, et ça sonne comme à l'oral.",
+  "unedited": "Sortie non retouchée"
+ },
+ "hr": {
+  "target": "hr",
+  "line": 2,
+  "co": "Netko ih je već poboljšao? <span>Odmah su tvoji.</span>",
+  "sharedAi": "Dijeljeno, poboljšano pomoću Gemme",
+  "googleNote": "Bez vokativa: \"Celia\", a ne \"Celijo\".",
+  "aiNote": "Vokativ \"Celijo\" i prirodno \"Slušaj\".",
+  "unedited": "Neuređeni izlaz"
+ },
+ "hu": {
+  "target": "hu",
+  "line": 5,
+  "co": "Valaki már feljavította? <span>Azonnal a tiéd.</span>",
+  "sharedAi": "Megosztott, Gemmával javítva",
+  "googleNote": "A \"finom\" itt ízletest jelent.",
+  "aiNote": "\"Jó!\": egyszerű egyetértés.",
+  "unedited": "Szerkesztetlen kimenet"
+ },
+ "id": {
+  "target": "id",
+  "line": 6,
+  "co": "Sudah disempurnakan orang lain? <span>Langsung jadi milikmu.</span>",
+  "sharedAi": "Dibagikan, disempurnakan dengan Gemma",
+  "googleNote": "Mencampur \"saya\" dan \"aku\" dalam satu kalimat.",
+  "aiNote": "Konsisten dan santai, seperti obrolan.",
+  "unedited": "Hasil tanpa suntingan"
+ },
+ "it": {
+  "target": "it",
+  "line": 6,
+  "co": "Qualcuno li ha già migliorati? <span>Li hai subito.</span>",
+  "sharedAi": "Condiviso, migliorato con Gemma",
+  "googleNote": "\"Fuori di testa\" vuol dire impazzito, non spaventato.",
+  "aiNote": "\"Ho paura\": proprio quello che intende.",
+  "unedited": "Output non modificato"
+ },
+ "ja": {
+  "target": "ja",
+  "line": 3,
+  "co": "誰かが改善済み？<span>すぐに使えます。</span>",
+  "sharedAi": "共有、Gemma で改善",
+  "googleNote": "「ロボット工学」が「ロボット」になり、口調も硬い。",
+  "aiNote": "「ロボット工学」に直り、自然な話し言葉。",
+  "unedited": "無編集の出力"
+ },
+ "ko": {
+  "target": "ko",
+  "line": 2,
+  "co": "누군가 이미 개선했다면? <span>바로 받아 보세요.</span>",
+  "sharedAi": "공유됨, Gemma로 개선",
+  "googleNote": "\"Celia를 보세요\": 셀리아를 쳐다보라는 뜻이 됨.",
+  "aiNote": "셀리아를 부르는 말, 반말로 자연스럽게.",
+  "unedited": "수정하지 않은 출력"
+ },
+ "hi": {
+  "target": "hi",
+  "line": 3,
+  "co": "किसी ने पहले ही बेहतर कर दिया? <span>तुरंत आपके लिए।</span>",
+  "sharedAi": "साझा, Gemma से बेहतर बनाया गया",
+  "googleNote": "अचानक \"आप\", जबकि बाकी बातचीत \"तुम\" में है।",
+  "aiNote": "\"तुम\" ही रहता है, जैसे सच में बोलते हैं।",
+  "unedited": "बिना बदलाव का आउटपुट"
+ },
+ "ms": {
+  "target": "ms",
+  "line": 2,
+  "co": "Sudah ditambah baik orang lain? <span>Terus jadi milik anda.</span>",
+  "sharedAi": "Dikongsi, ditambah baik dengan Gemma",
+  "googleNote": "\"Nafsu\" bermaksud hawa nafsu, bukan minat.",
+  "aiNote": "\"Apa yang kita minat\": maksud sebenar.",
+  "unedited": "Output tanpa suntingan"
+ },
+ "nl": {
+  "target": "nl",
+  "line": 8,
+  "co": "Al verbeterd door iemand? <span>Meteen van jou.</span>",
+  "sharedAi": "Gedeeld, verbeterd met Gemma",
+  "googleNote": "\"Wat dan ook\": letterlijk vertaald.",
+  "aiNote": "\"Wat je ook zegt\": natuurlijker.",
+  "unedited": "Onbewerkte uitvoer"
+ },
+ "no": {
+  "target": "no",
+  "line": 5,
+  "co": "Har noen allerede forbedret dem? <span>Du får dem med en gang.</span>",
+  "sharedAi": "Delt, forbedret med Gemma",
+  "googleNote": "\"Fin!\" er feil form her, man sier \"Fint!\".",
+  "aiNote": "\"Fint!\": slik man faktisk sier det.",
+  "unedited": "Uredigert resultat"
+ },
+ "pl": {
+  "target": "pl",
+  "line": 5,
+  "co": "Ktoś już je ulepszył? <span>Masz je od razu.</span>",
+  "sharedAi": "Udostępnione, ulepszone modelem Gemma",
+  "googleNote": "\"Cienki!\" znaczy chudy. Do tego forma żeńska.",
+  "aiNote": "\"No dobrze!\": tak się naprawdę mówi.",
+  "unedited": "Wynik bez poprawek"
+ },
+ "ro": {
+  "target": "ro",
+  "line": 5,
+  "co": "Le-a îmbunătățit deja cineva? <span>Le ai imediat.</span>",
+  "sharedAi": "Partajat, îmbunătățit cu Gemma",
+  "googleNote": "\"Amenda\" înseamnă o sancțiune în bani.",
+  "aiNote": "\"Bine!\": exact ce vrea să spună.",
+  "unedited": "Rezultat needitat"
+ },
+ "pt_PT": {
+  "target": "pt",
+  "line": 3,
+  "co": "Alguém já as melhorou? <span>Ficam tuas de imediato.</span>",
+  "sharedAi": "Compartilhado, melhorado com Gemma",
+  "googleNote": "\"Você tem sua\" soa a português do Brasil.",
+  "aiNote": "\"Tu tens a tua\": como se fala em Portugal.",
+  "unedited": "Resultado sem edição",
+  "file": "bridge-pt-run1.json"
+ },
+ "sk": {
+  "target": "sk",
+  "line": 6,
+  "co": "Už ich niekto vylepšil? <span>Máš ich hneď.</span>",
+  "sharedAi": "Zdieľané, vylepšené modelom Gemma",
+  "googleNote": "Ženský rod \"vydesená\", ale hovorí Thom.",
+  "aiNote": "Prirodzene a bez chyby v rode.",
+  "unedited": "Výstup bez úprav"
+ },
+ "sv": {
+  "target": "sv",
+  "line": 6,
+  "co": "Har någon redan förbättrat dem? <span>Du får dem direkt.</span>",
+  "sharedAi": "Delad, förbättrad med Gemma",
+  "googleNote": "\"Förbannad\" betyder arg, inte rädd.",
+  "aiNote": "\"Rädd\": det han faktiskt menar.",
+  "unedited": "Oredigerat resultat"
+ },
+ "th": {
+  "target": "th",
+  "line": 8,
+  "co": "มีคนปรับปรุงไว้แล้ว? <span>ใช้ได้ทันที</span>",
+  "sharedAi": "แชร์แล้ว, ปรับปรุงด้วย Gemma",
+  "googleNote": "\"เราทำเสร็จแล้ว\" แปลว่าทำงานเสร็จ ไม่ใช่เลิกกัน",
+  "aiNote": "\"ทุกอย่างจบแล้ว\": ความหมายที่ตั้งใจจริง",
+  "unedited": "ผลลัพธ์ที่ไม่ได้แก้ไข"
+ },
+ "tr": {
+  "target": "tr",
+  "line": 6,
+  "co": "Biri zaten iyileştirdi mi? <span>Hemen senin.</span>",
+  "sharedAi": "Paylaşılan, Gemma ile iyileştirildi",
+  "googleNote": "\"Çıldırdım\" delirdim demek, korktum değil.",
+  "aiNote": "\"Korkuyorum\": tam da kastettiği.",
+  "unedited": "Düzenlenmemiş çıktı"
+ },
+ "uk": {
+  "target": "uk",
+  "line": 3,
+  "co": "Хтось уже покращив? <span>Вони одразу твої.</span>",
+  "sharedAi": "Спільні, покращено з Gemma",
+  "googleNote": "Раптом на \"ви\", хоча вони на \"ти\".",
+  "aiNote": "\"В тебе твоя\": на \"ти\", як у розмові.",
+  "unedited": "Вихід без редагування"
+ },
+ "vi": {
+  "target": "vi",
+  "line": 8,
+  "co": "Đã có người cải thiện? <span>Bạn dùng được ngay.</span>",
+  "sharedAi": "Được chia sẻ, cải thiện bằng Gemma",
+  "googleNote": "Tên Thom bị dịch thành chữ \"thơm\".",
+  "aiNote": "Giữ đúng tên Thom, câu tự nhiên hơn.",
+  "unedited": "Kết quả chưa chỉnh sửa"
+ },
+ "zh_CN": {
+  "target": "zh-CN",
+  "line": 2,
+  "co": "已经有人改进过？<span>马上就能用。</span>",
+  "sharedAi": "共享，用 Gemma 改进",
+  "googleNote": "\"看看西莉亚\"变成了叫人去看她。",
+  "aiNote": "\"听着，西莉亚\"：是在叫她。",
+  "unedited": "未经编辑的输出"
+ },
+ "zh_TW": {
+  "target": "zh-TW",
+  "line": 2,
+  "co": "已經有人改善過？<span>馬上就能用。</span>",
+  "sharedAi": "共享，用 Gemma 改善",
+  "googleNote": "「看看西莉亞」變成了叫人去看她。",
+  "aiNote": "「西莉亞，聽著」：是在叫她。",
+  "unedited": "未經編輯的輸出"
+ },
+ "pt_BR": {
+  "target": "pt",
+  "line": 3,
+  "co": "Alguém já melhorou? <span>São suas na hora.</span>",
+  "sharedAi": "Compartilhado, melhorado com Gemma",
+  "googleNote": "Correto, mas soa formal e literal.",
+  "aiNote": "\"Ser demais\": como se fala de verdade.",
+  "unedited": "Resultado sem edição",
+  "file": "bridge-pt-run3.json"
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Qualcuno li ha già migliorati? <span>Li hai subito.</span>",
+    "sharedAi": "Condiviso, migliorato con Gemma"
+  },
+  "d": {
+    "target": "it",
+    "line": 6,
+    "googleNote": "\"Fuori di testa\" vuol dire impazzito, non spaventato.",
+    "aiNote": "\"Ho paura\": proprio quello che intende.",
+    "unedited": "Output non modificato"
+  }
+}

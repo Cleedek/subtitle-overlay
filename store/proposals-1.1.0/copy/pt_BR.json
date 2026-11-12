@@ -1,0 +1,14 @@
+{
+  "shared": {
+    "co": "Alguém já melhorou? <span>São suas na hora.</span>",
+    "sharedAi": "Compartilhado, melhorado com Gemma"
+  },
+  "d": {
+    "target": "pt",
+    "line": 3,
+    "file": "bridge-pt-run3.json",
+    "googleNote": "Correto, mas soa formal e literal.",
+    "aiNote": "\"Ser demais\": como se fala de verdade.",
+    "unedited": "Resultado sem edição"
+  }
+}

@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T01:48:50.024Z",
+ "target": "de",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "4d3c90a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "Du bist ein Idiot, Thom.",
+   "gemma": "Du bist ein Idiot, Thom."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "Schauen Sie, Celia, wir müssen unseren Leidenschaften folgen;",
+   "gemma": "Schau mal, Liebling, wir müssen unseren Leidenschaften folgen;"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "Du hast deine Robotik und ich möchte einfach großartig im Weltraum sein.",
+   "gemma": "du hast deine Robotik, und ich will einfach im Weltraum der Hammer sein."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "Warum gibst du nicht einfach zu, dass dir meine Roboterhand Angst macht?",
+   "gemma": "Warum gibst du nicht einfach zu, dass du meine Roboterhand gruselig findest?"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "Es macht mir keine Angst – es ist... in Ordnung! Bußgeld!",
+   "gemma": "Ich bin nicht gruselig berührt von – es ist... okay! Gut!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "Ich bin ausgeflippt! Ich habe Albträume, dass ich verfolgt werde ...",
+   "gemma": "Ich bin gruselig berührt! Ich habe Albträume, dass ich gejagt werde..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "...durch diese riesigen Roboterklauen des Todes...",
+   "gemma": "...von diesen riesigen, toten Roboterklauen..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "Wie auch immer, Thom. Wir sind fertig.",
+   "gemma": "Egal, Thom. Wir sind fertig."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=de",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"Untertitel werden hier angezeigt.\",\"en\"],[\"In Ihre Sprache übersetzt.\",\"en\"],[\"Auf jedem Video, auf jeder Website.\",\"en\"],[\"Warten Sie nicht. Probieren Sie es jetzt aus.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=de",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"Du bist ein Idiot, Thom.\",\"en\"],[\"Schauen Sie, Celia, wir müssen unseren Leidenschaften folgen;\",\"en\"],[\"Du hast deine Robotik und ich möchte einfach großartig im Weltraum sein.\",\"en\"],[\"Warum gibst du nicht einfach zu, dass dir meine Roboterhand Angst macht?\",\"en\"],[\"Es macht mir keine Angst – es ist... in Ordnung! Bußgeld!\",\"en\"],[\"Ich bin ausgeflippt! Ich habe Albträume, dass ich verfolgt werde ...\",\"en\"],[\"...durch diese riesigen Roboterklauen des Todes...\",\"en\"],[\"Wie auch immer, Thom. Wir sind fertig.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into German in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact German words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as German speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if German has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:48:31.484564Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\\n\\nADDRESS:\\n\\nInitially, Thom calls Celia \\\"Liebling\\\" (darling) and refers to himself as \\\"Ich\\\" (I) when speaking to her. Celia calls Thom \\\"Schatz\\\" (treasure/sweetheart) and refers to herself as \\\"Du\\\" (you) when speaking to him. This indicates a close, informal, and affectionate relationship.\\n\\nAs the argument progresses and Celia declares they are \\\"done,\\\" the dynamic shifts. Thom stops using \\\"Liebling\\\" and defaults to \\\"Du\\\" (you) when addressing her, showing a distancing. Celia stops using \\\"Schatz\\\" and also uses \\\"Du\\\" – a sign of the breakdown in intimacy. The shift to \\\"Du\\\" for both signifies a move towards a more neutral, less affectionate address, reflecting the end of the romantic relationship.\\n\\nNAMES:\\n\\nThom\\nCelia\\nrobot hand (must remain \\\"robot hand\\\" - \\\"Roboterhand\\\" would be a translation, not the name)\\n\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":52287084084,\"load_duration\":39557708375,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1439344000,\"eval_count\":260,\"eval_duration\":11279345000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into German.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s romantic partner. Seems impulsive and perhaps a little insensitive.\nCelia: Female, early 20s, robotics engineer, Thom’s romantic partner. Appears more grounded and practical than Thom.\n\nADDRESS:\n\nInitially, Thom calls Celia \"Liebling\" (darling) and refers to himself as \"Ich\" (I) when speaking to her. Celia calls Thom \"Schatz\" (treasure/sweetheart) and refers to herself as \"Du\" (you) when speaking to him. This indicates a close, informal, and affectionate relationship.\n\nAs the argument progresses and Celia declares they are \"done,\" the dynamic shifts. Thom stops using \"Liebling\" and defaults to \"Du\" (you) when addressing her, showing a distancing. Celia stops using \"Schatz\" and also uses \"Du\" – a sign of the breakdown in intimacy. The shift to \"Du\" for both signifies a move towards a more neutral, less affectionate address, reflecting the end of the romantic relationship.\n\nNAMES:\n\nThom\nCelia\nrobot hand (must remain \"robot hand\" - \"Roboterhand\" would be a translation, not the name)\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken German that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:48:49.530752Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"Du bist ein Idiot, Thom. \\u003cbr\\u003e\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"Schau mal, Liebling, wir müssen unseren Leidenschaften folgen; \\u003cbr\\u003e\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"du hast deine Robotik, und ich will einfach im Weltraum der Hammer sein. \\u003cbr\\u003e\\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"Warum gibst du nicht einfach zu, dass du meine Roboterhand gruselig findest? \\u003cbr\\u003e\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"Ich bin nicht gruselig berührt von – es ist... okay! Gut! \\u003cbr\\u003e\\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"Ich bin gruselig berührt! Ich habe Albträume, dass ich gejagt werde... \\u003cbr\\u003e\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...von diesen riesigen, toten Roboterklauen... \\u003cbr\\u003e\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"Egal, Thom. Wir sind fertig.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":17829441666,\"load_duration\":20018250,\"prompt_eval_count\":678,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2733300000,\"eval_count\":339,\"eval_duration\":15022573000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nDu bist ein Idiot, Thom.\n\n2\n00:00:02,350 --> 00:00:04,000\nSchau mal, Liebling, wir müssen unseren Leidenschaften folgen;\n\n3\n00:00:04,100 --> 00:00:05,750\ndu hast deine Robotik, und ich will einfach im Weltraum der Hammer sein.\n\n4\n00:00:05,850 --> 00:00:07,500\nWarum gibst du nicht einfach zu, dass du meine Roboterhand gruselig findest?\n\n5\n00:00:07,600 --> 00:00:09,250\nIch bin nicht gruselig berührt von – es ist... okay! Gut!\n\n6\n00:00:09,350 --> 00:00:11,000\nIch bin gruselig berührt! Ich habe Albträume, dass ich gejagt werde...\n\n7\n00:00:11,100 --> 00:00:12,750\n...von diesen riesigen, toten Roboterklauen...\n\n8\n00:00:12,850 --> 00:00:14,500\nEgal, Thom. Wir sind fertig.\n"
+ }
+}

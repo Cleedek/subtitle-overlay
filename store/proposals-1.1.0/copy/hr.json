@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Netko ih je već poboljšao? <span>Odmah su tvoji.</span>",
+    "sharedAi": "Dijeljeno, poboljšano pomoću Gemme"
+  },
+  "d": {
+    "target": "hr",
+    "line": 2,
+    "googleNote": "Bez vokativa: \"Celia\", a ne \"Celijo\".",
+    "aiNote": "Vokativ \"Celijo\" i prirodno \"Slušaj\".",
+    "unedited": "Neuređeni izlaz"
+  }
+}

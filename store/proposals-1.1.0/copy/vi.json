@@ -1,0 +1,13 @@
+{
+  "shared": {
+    "co": "Đã có người cải thiện? <span>Bạn dùng được ngay.</span>",
+    "sharedAi": "Được chia sẻ, cải thiện bằng Gemma"
+  },
+  "d": {
+    "target": "vi",
+    "line": 8,
+    "googleNote": "Tên Thom bị dịch thành chữ \"thơm\".",
+    "aiNote": "Giữ đúng tên Thom, câu tự nhiên hơn.",
+    "unedited": "Kết quả chưa chỉnh sửa"
+  }
+}

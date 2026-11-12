@@ -1,0 +1,26 @@
+{
+  "s2": {
+    "eyebrow": "Make it sound natural",
+    "h1": "Subtitles that sound <span>like people talk.</span>",
+    "body": "Google translates in a second, word for word.<br>Click Improve and AI rewrites the subtitles with the whole scene in mind.",
+    "who": "One line, two translations",
+    "google": "Google Translate",
+    "why": "The name Thom turned into the Vietnamese word \"thơm\".",
+    "ai": "Improved with Gemma",
+    "foot": "Tears of Steel, Vietnamese subtitles. Unedited output.",
+    "local": "Free local AI on your computer",
+    "key": "Or your own API key"
+  },
+  "shared": {
+    "callout": "Someone already improved these subtitles? <b>You get them at once.</b>",
+    "co": "Already improved by someone? <span>Yours at once.</span>",
+    "sharedAi": "Shared, improved with Gemma"
+  },
+  "d": {
+    "target": "es",
+    "line": 6,
+    "googleNote": "Says \"asustada\" (female), but Thom is speaking.",
+    "aiNote": "\"Asustado\": the right form for Thom.",
+    "unedited": "Unedited output"
+  }
+}

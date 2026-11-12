@@ -1,0 +1,258 @@
+{
+ "made": "2026-11-12T01:46:34.451Z",
+ "target": "ar",
+ "model": "gemma3:12b (Ollama, local)",
+ "extension": "4d3c90a",
+ "how": "gen-example.mjs: the real extension in headless Chrome, Translate (Google) then Improve (gemma3:12b), unedited.",
+ "rows": [
+  {
+   "en": "You're a jerk, Thom.",
+   "google": "أنت أحمق، توم.",
+   "gemma": "أنت مزعج يا ثُم."
+  },
+  {
+   "en": "Look Celia, we have to follow our passions;",
+   "google": "انظري سيليا، علينا أن نتبع عواطفنا؛",
+   "gemma": "اسمعي يا سِيلَا، لازم نتبع شغفنا؛"
+  },
+  {
+   "en": "you have your robotics, and I just want to be awesome in space.",
+   "google": "لديك الروبوتات الخاصة بك، وأريد فقط أن أكون رائعًا في الفضاء.",
+   "gemma": "عندك الروبوت، وأنا بس بدي أصير أسطورة في الفضاء."
+  },
+  {
+   "en": "Why don't you just admit that you're freaked out by my robot hand?",
+   "google": "لماذا لا تعترف فقط أنك مرعوب من يدي الروبوتية؟",
+   "gemma": "ليش ما تعترف إنك خايف من إيدي الروبوت؟"
+  },
+  {
+   "en": "I'm not freaked out by- it's... alright! Fine!",
+   "google": "أنا لا أشعر بالفزع من - إنه... حسنًا! بخير!",
+   "gemma": "أنا مو خايف - هي... تمام! ماشي!"
+  },
+  {
+   "en": "I'm freaked out! I have nightmares that I'm being chased...",
+   "google": "أنا مرعوب! تراودني كوابيس بأنني مطارد..",
+   "gemma": "أنا خايف! بحلم بشيء بملاحقني..."
+  },
+  {
+   "en": "...by these giant robotic claws of death...",
+   "google": "بواسطة مخالب الموت الآلية العملاقة هذه...",
+   "gemma": "...بمخالب روبوت ضخمة ومميتة..."
+  },
+  {
+   "en": "Whatever, Thom. We're done.",
+   "google": "مهما كان، توم. لقد انتهينا.",
+   "gemma": "على كيفك يا ثُم. خلصنا."
+  }
+ ],
+ "raw": {
+  "google": [
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=ar",
+    "request": "q=Subtitles+show+up+right+here.&q=Translated+into+your+language.&q=On+any+video%2C+on+any+website.&q=Don%E2%80%99t+wait.+Try+it+now.",
+    "status": 200,
+    "response": "[[\"تظهر الترجمات هنا.\",\"en\"],[\"ترجمت إلى لغتك.\",\"en\"],[\"على أي فيديو وعلى أي موقع.\",\"en\"],[\"لا تنتظر. جربه الآن.\",\"en\"]]"
+   },
+   {
+    "url": "https://translate.googleapis.com/translate_a/t?client=gtx&sl=auto&format=html&tl=ar",
+    "request": "q=You%27re+a+jerk%2C+Thom.&q=Look+Celia%2C+we+have+to+follow+our+passions%3B&q=you+have+your+robotics%2C+and+I+just+want+to+be+awesome+in+space.&q=Why+don%27t+you+just+admit+that+you%27re+freaked+out+by+my+robot+hand%3F&q=I%27m+not+freaked+out+by-+it%27s...+alright%21+Fine%21&q=I%27m+freaked+out%21+I+have+nightmares+that+I%27m+being+chased...&q=...by+these+giant+robotic+claws+of+death...&q=Whatever%2C+Thom.+We%27re+done.",
+    "status": 200,
+    "response": "[[\"أنت أحمق، توم.\",\"en\"],[\"انظري سيليا، علينا أن نتبع عواطفنا؛\",\"en\"],[\"لديك الروبوتات الخاصة بك، وأريد فقط أن أكون رائعًا في الفضاء.\",\"en\"],[\"لماذا لا تعترف فقط أنك مرعوب من يدي الروبوتية؟\",\"en\"],[\"أنا لا أشعر بالفزع من - إنه... حسنًا! بخير!\",\"en\"],[\"أنا مرعوب! تراودني كوابيس بأنني مطارد..\",\"en\"],[\"بواسطة مخالب الموت الآلية العملاقة هذه...\",\"en\"],[\"مهما كان، توم. لقد انتهينا.\",\"en\"]]"
+   }
+  ],
+  "ollama": [
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "Below are all the subtitle lines of a film or TV episode, in order. They will be translated into Arabic in small chunks, by someone who sees only these notes and the chunk.\nWrite the notes, in English, plain text, at most 300 words:\nPEOPLE: each named character: gender, rough age, role, relationship to the others.\nADDRESS: for each pair who talk to each other, the exact Arabic words: what A calls B, and what A calls themself when talking to B, then the same for B. The lines are in another language and won't show these words: choose them yourself from the two people's ages and relationship, as Arabic speakers normally would. Not just \"formal\" or \"informal\". Add what changes if their relationship changes during the story. Skip this only if Arabic has no such distinctions.\nNAMES: names of people, places and things that must stay spelled the same.\nUnder PEOPLE, write only what the lines support, and \"unknown\" where they don't say. Start directly with PEOPLE, no introduction."
+      },
+      {
+       "role": "user",
+       "content": "You're a jerk, Thom.\nLook Celia, we have to follow our passions;\nyou have your robotics, and I just want to be awesome in space.\nWhy don't you just admit that you're freaked out by my robot hand?\nI'm not freaked out by- it's... alright! Fine!\nI'm freaked out! I have nightmares that I'm being chased...\n...by these giant robotic claws of death...\nWhatever, Thom. We're done."
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:44:12.915986Z\",\"message\":{\"role\":\"assistant\",\"content\":\"PEOPLE:\\n\\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possible romantic interest. Seems somewhat impulsive and dismissive.\\nCelia: Female, early 20s, robotics engineer, Thom’s friend/possible romantic interest. Appears more grounded and thoughtful.\\n\\nADDRESS:\\n\\n*   **Thom addressing Celia:** He will call her \\\"Silya\\\" (سِيلَا) - a slightly shortened, familiar version of her name, indicating a close, comfortable relationship. When speaking to her, he refers to himself as \\\"Ana\\\" (أنا) - a standard, neutral \\\"I\\\".\\n*   **Celia addressing Thom:** She will call him \\\"Thum\\\" (ثُم) - a direct transliteration of his name, showing a level of casual familiarity. When speaking to him, she refers to herself as \\\"Ana\\\" (أنا).\\n\\n*Relationship Change:* If their relationship becomes more formal or strained, Celia might switch to using \\\"Ustath Thum\\\" (أستاذ ثم) – “Mr. Thom” – and Thom might use \\\"Anta\\\" (أنت) – a more formal \\\"you\\\" – though this is less likely given the initial tone.\\n\\nNAMES:\\n\\n*   Thom\\n*   Celia\\n*   Robot (الروبوت - *ar-rubut*) - This word should be consistent.\\n*   Space (الفضاء - *al-fada’*) - This word should be consistent.\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":29611019916,\"load_duration\":24164333,\"prompt_eval_count\":353,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":1437751000,\"eval_count\":312,\"eval_duration\":13100610000}"
+   },
+   {
+    "url": "/api/chat",
+    "request": {
+     "model": "gemma3:12b",
+     "messages": [
+      {
+       "role": "system",
+       "content": "You translate film and TV subtitles into Arabic.\nNotes on who is who, made earlier from the whole subtitle file (they can be incomplete, and the lines themselves win if they disagree):\n\"\"\"\nPEOPLE:\n\nThom: Male, early 20s, aspiring astronaut, Celia’s friend/possible romantic interest. Seems somewhat impulsive and dismissive.\nCelia: Female, early 20s, robotics engineer, Thom’s friend/possible romantic interest. Appears more grounded and thoughtful.\n\nADDRESS:\n\n*   **Thom addressing Celia:** He will call her \"Silya\" (سِيلَا) - a slightly shortened, familiar version of her name, indicating a close, comfortable relationship. When speaking to her, he refers to himself as \"Ana\" (أنا) - a standard, neutral \"I\".\n*   **Celia addressing Thom:** She will call him \"Thum\" (ثُم) - a direct transliteration of his name, showing a level of casual familiarity. When speaking to him, she refers to herself as \"Ana\" (أنا).\n\n*Relationship Change:* If their relationship becomes more formal or strained, Celia might switch to using \"Ustath Thum\" (أستاذ ثم) – “Mr. Thom” – and Thom might use \"Anta\" (أنت) – a more formal \"you\" – though this is less likely given the initial tone.\n\nNAMES:\n\n*   Thom\n*   Celia\n*   Robot (الروبوت - *ar-rubut*) - This word should be consistent.\n*   Space (الفضاء - *al-fada’*) - This word should be consistent.\n\"\"\"\nUse the notes to work out who is probably speaking to whom, then pick gender, forms of address and name spellings that fit, the same way throughout.\nYou get JSON: \"lines\", numbered subtitle lines to translate, and sometimes \"before\", the lines just before them, for context only.\nAnswer with JSON only: the same numbers, each with \"src\", that line copied exactly, and \"tr\", the translation of that one line.\nA line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.\nKeep <i>, <b>, <u> tags and <br> line breaks where they belong.\nGive exactly one translation for each line: never a second version, no \"(or: ...)\", no notes or explanations.\nWrite natural, spoken Arabic that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context."
+      },
+      {
+       "role": "user",
+       "content": "{\"lines\":{\"L01\":\"You're a jerk, Thom.\",\"L02\":\"Look Celia, we have to follow our passions;\",\"L03\":\"you have your robotics, and I just want to be awesome in space.\",\"L04\":\"Why don't you just admit that you're freaked out by my robot hand?\",\"L05\":\"I'm not freaked out by- it's... alright! Fine!\",\"L06\":\"I'm freaked out! I have nightmares that I'm being chased...\",\"L07\":\"...by these giant robotic claws of death...\",\"L08\":\"Whatever, Thom. We're done.\"}}"
+      }
+     ],
+     "stream": false,
+     "options": {
+      "num_ctx": 16384,
+      "temperature": 0.2
+     },
+     "format": {
+      "type": "object",
+      "required": [
+       "L01",
+       "L02",
+       "L03",
+       "L04",
+       "L05",
+       "L06",
+       "L07",
+       "L08"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "L01": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L02": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L03": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L04": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L05": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L06": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L07": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       },
+       "L08": {
+        "type": "object",
+        "properties": {
+         "src": {
+          "type": "string"
+         },
+         "tr": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "src",
+         "tr"
+        ],
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "status": 200,
+    "response": "{\"model\":\"gemma3:12b\",\"created_at\":\"2026-11-12T01:46:34.0393Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"L01\\\":{\\\"src\\\":\\\"You're a jerk, Thom.\\\",\\\"tr\\\":\\\"أنت مزعج يا ثُم.\\\"},\\n\\\"L02\\\":{\\\"src\\\":\\\"Look Celia, we have to follow our passions;\\\",\\\"tr\\\":\\\"اسمعي يا سِيلَا، لازم نتبع شغفنا؛\\\"},\\n\\\"L03\\\":{\\\"src\\\":\\\"you have your robotics, and I just want to be awesome in space.\\\",\\\"tr\\\":\\\"عندك الروبوت، وأنا بس بدي أصير أسطورة في الفضاء. \\\"},\\n\\\"L04\\\":{\\\"src\\\":\\\"Why don't you just admit that you're freaked out by my robot hand?\\\",\\\"tr\\\":\\\"ليش ما تعترف إنك خايف من إيدي الروبوت؟\\\"},\\n\\\"L05\\\":{\\\"src\\\":\\\"I'm not freaked out by- it's... alright! Fine!\\\",\\\"tr\\\":\\\"أنا مو خايف - هي... تمام! ماشي! \\\"},\\n\\\"L06\\\":{\\\"src\\\":\\\"I'm freaked out! I have nightmares that I'm being chased...\\\",\\\"tr\\\":\\\"أنا خايف! بحلم بشيء بملاحقني...\\\"},\\n\\\"L07\\\":{\\\"src\\\":\\\"...by these giant robotic claws of death...\\\",\\\"tr\\\":\\\"...بمخالب روبوت ضخمة ومميتة...\\\"},\\n\\\"L08\\\":{\\\"src\\\":\\\"Whatever, Thom. We're done.\\\",\\\"tr\\\":\\\"على كيفك يا ثُم. خلصنا.\\\"}}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":141035789041,\"load_duration\":125552797791,\"prompt_eval_count\":731,\"prompt_eval_cached_count\":0,\"prompt_eval_duration\":2793120000,\"eval_count\":315,\"eval_duration\":12674878000}"
+   }
+  ],
+  "savedSrt": "1\n00:00:00,600 --> 00:00:02,250\nأنت مزعج يا ثُم.\n\n2\n00:00:02,350 --> 00:00:04,000\nاسمعي يا سِيلَا، لازم نتبع شغفنا؛\n\n3\n00:00:04,100 --> 00:00:05,750\nعندك الروبوت، وأنا بس بدي أصير أسطورة في الفضاء.\n\n4\n00:00:05,850 --> 00:00:07,500\nليش ما تعترف إنك خايف من إيدي الروبوت؟\n\n5\n00:00:07,600 --> 00:00:09,250\nأنا مو خايف - هي... تمام! ماشي!\n\n6\n00:00:09,350 --> 00:00:11,000\nأنا خايف! بحلم بشيء بملاحقني...\n\n7\n00:00:11,100 --> 00:00:12,750\n...بمخالب روبوت ضخمة ومميتة...\n\n8\n00:00:12,850 --> 00:00:14,500\nعلى كيفك يا ثُم. خلصنا.\n"
+ }
+}
