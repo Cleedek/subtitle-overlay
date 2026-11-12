@@ -275,14 +275,14 @@
 
   // ---------- loading into the page ----------
 
-  async function loadIntoPage(name, b64) {
+  async function loadIntoPage(name, b64, asr) {
     const target = targetVideo();
     if (!target) return { ok: false, error: t('No video found on this page.') };
     const lf = loadedFrame();
     if (lf && lf.frameId !== target.frameId) {
       await chrome.tabs.sendMessage(tab.id, { type: 'clear' }, { frameId: lf.frameId }).catch(() => {});
     }
-    const res = await chrome.tabs.sendMessage(tab.id, { type: 'load', name, b64, encoding: 'auto', videoIndex: target.index }, { frameId: target.frameId })
+    const res = await chrome.tabs.sendMessage(tab.id, { type: 'load', name, b64, encoding: 'auto', videoIndex: target.index, asr: !!asr }, { frameId: target.frameId })
       .catch((e) => ({ ok: false, error: t('The page didn’t answer. Reload the page and try again.') }));
     await scan();
     return res;
@@ -1032,13 +1032,13 @@
 
     row.append(
       run(t('Use as overlay'), async (file) => {
-        const res = await loadIntoPage(file.name, file.b64);
+        const res = await loadIntoPage(file.name, file.b64, file.asr);
         if (!res.ok) throw new Error(res.error);
       }),
       run(t('Download .vtt'), async (file) => { await download(file, 'vtt'); c.append(translateNote()); }),
       run(t('Download .srt'), async (file) => { await download(file, 'srt'); c.append(translateNote()); }),
       run(t('Translate to {lang}', { lang: SubSettings.languageName(lang) }), async (file) => {
-        const res = await loadIntoPage(file.name, file.b64);
+        const res = await loadIntoPage(file.name, file.b64, file.asr);
         if (!res.ok) throw new Error(res.error);
         const lf = loadedFrame();
         const tr = lf ? await translateLoaded(lf.frameId) : { ok: false, error: t('The subtitles didn’t reach the video.') };

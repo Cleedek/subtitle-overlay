@@ -764,6 +764,14 @@ body.prefs #prefsView { display: block !important; }
 .foot-links { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 18px; row-gap: 4px; margin-top: 10px; }
 .foot-links .star-link { margin-top: 0; padding-top: 0; border-top: 0; }
 .foot-list + p { margin-top: 14px; }
+/* A long label that wraps (e.g. Indonesian): icon, value and chevron stay on the first line. */
+.foot-row { align-items: flex-start; line-height: 18px; }
+.foot-row > svg:first-child { margin-top: 1.5px; }
+.foot-row .chev { margin-top: 3px; }
+.foot-now { line-height: 18px; }
+/* Room between the credit line and GitHub / What's new, with a short hairline. */
+.foot-links { position: relative; margin-top: 16px; padding-top: 16px; }
+.foot-links::before { content: ""; position: absolute; top: 0; left: 50%; width: 32px; margin-left: -16px; border-top: 1px solid var(--line); }
 
 /* ---------- Style tab, folded (2026-11 UX audit) ---------- */
 

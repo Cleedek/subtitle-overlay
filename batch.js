@@ -325,9 +325,9 @@
       job.status = 'done';
       if (prefs.aiSaveFile) download(job);
       // With the original's fingerprint: the same subtitles on a video get this copy instead of a new translation.
-      const src = await SubSettings.sourceKey(job.lines).catch(() => '');
+      const srcKey = await SubSettings.sourceKey(job.lines).catch(() => '');
       await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job),
-        page: job.page, title: job.title, src }, prefs.keepFor);
+        page: job.page, title: job.title, src: srcKey }, prefs.keepFor);
     } catch (e) {
       job.status = 'error';
       job.error = e.message;

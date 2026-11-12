@@ -15,7 +15,13 @@ chrome.runtime.onInstalled.addListener(rememberUpdate);
 // A new install starts in automatic mode, translating into the browser's language.
 // An update changes nothing: people who already use it keep what they have.
 chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') chrome.storage.local.set({ autoTranslate: true, translateTo: SubI18n.resolve('auto') });
+  if (reason === 'install') {
+    // The welcome page reads the language, so it opens once that is saved.
+    chrome.storage.local.set({ autoTranslate: true, translateTo: SubI18n.resolve('auto') })
+      .catch(() => {})
+      .then(() => chrome.tabs.create({ url: chrome.runtime.getURL('welcome.html') }))
+      .catch(() => {});
+  }
   // When it started being used, for the support card's 3 weeks. Someone who
   // already had it before this was counted starts from the update.
   chrome.storage.local.get('installedAt').then(({ installedAt }) => {
@@ -797,6 +803,20 @@ const AI_PROMPT = (lang, sheet) => [
   'Write natural, spoken ' + lang + ' that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context.',
 ].join('\n');
 
+// Automatic captions (YouTube's speech recognition) in the language you read:
+// nothing to translate, but they have no punctuation, cut sentences anywhere
+// and mishear words. The model fixes that in the same language.
+const CLEAN_PROMPT = (lang) => [
+  'You fix automatic captions of a video: ' + lang + ' made by speech recognition, so they have little or no punctuation, wrong capital letters and some misheard words.',
+  'You get JSON: "lines", numbered caption lines to fix, and sometimes "before", the lines just before them, for context only.',
+  'Answer with JSON only: the same numbers, each with "src", that line copied exactly, and "tr", the fixed line, in ' + lang + '.',
+  'Change as little as possible: add missing punctuation and capital letters, correct spelling, and replace a word only where it was clearly misheard (it makes no sense there and a word that sounds alike does).',
+  'Everything else stays as it was said: every word, its form and the word order, also informal or ungrammatical spoken language, names and slang. Only a word said twice by stammering ("but but") becomes one.',
+  'Keep numbers as digits, and keep markers such as &gt;&gt; or [laughter] as they are.',
+  'Never translate, summarise, shorten or add anything. A line is often only part of a sentence that goes on in the next line: fix it as that part, and never move words to another number.',
+  'Give exactly one version for each line: no "(or: ...)", no notes or explanations.',
+].join('\n');
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // The chunk each page is waiting for, so the page can stop it ("Stop" over the
 // video, or its subtitles switched off): "tab:frame:language" -> AbortController.
@@ -897,7 +917,7 @@ const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replac
 
 // One chunk of lines (HTML, like the Google path) -> the same number of
 // translated lines; one the model left out comes back '' (Google's stays).
-async function aiTranslate(lines, before, to, signal, sheet) {
+async function aiTranslate(lines, before, to, signal, sheet, clean) {
   const cfg = await aiConfig();
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
@@ -910,7 +930,7 @@ async function aiTranslate(lines, before, to, signal, sheet) {
       model: cfg.model,
       temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
       messages: [
-        { role: 'system', content: AI_PROMPT(lang, sheet) },
+        { role: 'system', content: clean ? CLEAN_PROMPT(lang) : AI_PROMPT(lang, sheet) },
         { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
       ],
     };
@@ -1270,7 +1290,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
             item.details = Object.assign({}, item.details, { count: cues.length, preview: SubLib.preview(cues) });
             saveTab(tabId);
           }
-          reply({ ok: true, b64: SubLib.bytesToBase64(bytes), name: fileName(item), count: cues.length });
+          reply({ ok: true, b64: SubLib.bytesToBase64(bytes), name: fileName(item), count: cues.length, asr: !!item.asr });
         } catch (e) {
           reply({ ok: false, error: e.message });
         }
@@ -1347,7 +1367,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       const run = new AbortController();
       if (aiRuns.has(key)) aiRuns.get(key).abort();
       aiRuns.set(key, run);
-      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal, msg.sheet || '')
+      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal, msg.sheet || '', !!msg.clean)
         .then((r) => reply(Object.assign({ ok: true }, r)),
           (e) => (e === STOPPED ? reply({ ok: false, stopped: true }) : aiFailure(e).then(reply)))
         .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });
