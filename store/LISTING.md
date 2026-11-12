@@ -2,6 +2,97 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
+## Postup pro 1.1.0 (příprava 12. 11. 2026, NIC z toho ještě není provedené)
+
+Hlavní věc: **sdílené titulky** (`SHARING = true`) + **znovupoužití vlastních uložených titulků** (`REUSE_SAVED = true`). Obojí je v kódu hotové a otestované ve dvou Chromech, jen vypnuté.
+
+**Pozor, už dnes:** popis v obchodě (od 1.0.19) i karta "Co je nového" 1.0.19 slibují, že vylepšené titulky "se vrátí na jakékoli jiné stránce se stejnými titulky". Od d4fb8e7 je to vypnuté (`REUSE_SAVED = false`), takže obchod teď slibuje něco, co nefunguje. 1.1.0 to srovná.
+
+### Co musíš rozhodnout ty
+
+1. **Stav 1.0.20:** je odeslaná / schválená? 1.1.0 jde nahrát až po ní (nebo po Cancel review).
+2. **Co dalšího jde do 1.1.0** (všechno necommitnuté v ~/subtitle-overlay):
+   - uvítací stránka po instalaci (welcome.*, welcome/demo.mp4; jen nové instalace)
+   - **Vylepšit** i pro automatické titulky YouTube ve tvém jazyce (interpunkce, přeslechnutá slova)
+   - zkratky Alt + = / Alt + − (větší / menší titulky), popisky kláves podle skutečné klávesnice
+   - opravy tlačítka CC na YouTube (vypnutí poslední řeči, CC vypnuté během načítání)
+   - **poslední weby na stránce po odinstalaci** (`RECENT_SITES = true` od 12. 11.): otestováno v Chromu (video se pamatuje i při automatickém přehrání, malé náhledy ne, skutečné odebrání otevře stránku s weby), server nasazený 12. 11. Při vydání: nahrát nové zásady (store/privacy-policy.html + web cleedek.com, obojí s datem 12. 11.); v Privacy practices se nic nemění (Web history už je zaškrtnuté od 1.0.19).
+3. **Spuštění serveru subs.cleedek.com** (`~/subtitle-share/DEPLOY.md`, 4 příkazy). Bez tvého "ano" nenasazuju. Musí běžet dřív, než 1.1.0 projde kontrolou.
+4. **Karta "Co je nového"** (níže): vyber body.
+
+### Karta "Co je nového" pro 1.1.0 (návrh k odsouhlasení)
+
+Jak to funguje dnes: karta ukáže všechny záznamy novější než verze, ze které člověk přišel. Kdo má 1.0.19/1.0.20, viděl by jen body 1.1.0. Proto návrh: **jeden záznam 1.1.0**, nahoře novinky, pod nimi zopakované hlavní věci z 1.0.17 až 1.0.19 (vyšly 4., 9. a 11. 11., hodně lidí si jich nevšimlo). Starý záznam 1.0.19 smazat, jinak by lidé z 1.0.18 viděli body dvakrát. Nadpis = stávající "v posledních verzích" (už přeložený ve 30 jazycích). 9 bodů = přesně 3 stránky karuselu.
+
+Nové v 1.1.0:
+1. CS: **Sdílené titulky**: když stejné titulky už někdo vylepšil pomocí AI, dostaneš jeho verzi hned, bez čekání. Jestli budeš sdílet i ty svoje, rozhodneš sám
+   EN: **Shared subtitles**: if someone already improved the same subtitles with AI, you get their version right away. Whether you share yours is up to you
+2. CS: Vylepšené titulky se vrátí kdekoli: na jiné stránce se stejnými titulky se hned použije tvoje kopie z **Uložených titulků**, AI nemusí pracovat znovu
+   EN: Improved subtitles come back anywhere: the same subtitles on another page get your copy from **Saved subtitles** at once, without asking the AI again
+3. CS: **Vylepšit** teď umí i automatické titulky YouTube ve tvém jazyce: doplní interpunkci a opraví přeslechnutá slova
+   EN: **Improve** now also works on YouTube's automatic captions in your own language: it adds punctuation and fixes misheard words
+
+Z posledních verzí:
+4. CS: Titulky přímo od webu: když je má ve tvém jazyce (YouTube, **Netflix**, **Prime Video**, HBO Max a další), dostaneš ty místo překladu
+   EN: (stávající text z 1.0.19)
+5. CS: Překlad pomocí AI zdarma na tvém počítači: **Lokální AI** se nastaví ve dvou krocích (stávající)
+6. CS: Než **Vylepšit** začne, AI si zapíše, kdo je kdo, takže jména a oslovení sedí (stávající)
+7. CS: Titulky se neukazují? Štítek **Pomoc** na videu tě provede a **Nahlásit problém** mi pošle název webu
+   EN: Subtitles don't show? The **Help** label on the video walks you through it, and **Report a problem** sends me the site's name
+8. CS: Větší a menší titulky klávesami **Alt + =** a **Alt + −** (jen pokud zkratky jdou do 1.1.0; jinak sem "Rozhraní ve 23 dalších jazycích")
+9. Spousta menších vylepšení a oprav (stávající)
+
+Bod 2 byl už v kartě 1.0.19 (tehdy nefungoval). Nové texty (1, 3, 7, 8) přeložím do 30 jazyků až po tvém výběru.
+
+### Obchod: popis (všech 32 jazyků naráz, jinak "Mismatching metadata")
+
+Potřeba změnit, ano:
+- **★ Highlights:** řádek "NEW: make the translation sound natural with AI…" nechat (bez NEW), nový řádek "NEW: shared subtitles: if someone already improved these subtitles with AI, you get them at once; sharing yours is your choice".
+- **Nová sekce "SHARED SUBTITLES"** (za MAKE IT SOUND NATURAL): hledání je zapnuté, posílá jen začátek otisku titulků, nikdy adresu ani název; "Používat sdílené automaticky" je vypnuté; sdílení vlastních až po kartě se souhlasem, jedním kliknutím smažeš vše sdílené; nahlášení špatné kopie.
+- **YOUR OWN FILE / Translation:** bod o Vylepšit pro automatické titulky YouTube.
+- **KEYBOARD SHORTCUTS:** + "Alt + = / − bigger or smaller" (pokud jde do verze).
+- **PRIVACY odstavec:** věta o sdílení (co se posílá při hledání a co jen se souhlasem).
+- Bod o Uložených titulcích "on any other page with the same subtitles" už tam je; s 1.1.0 začne platit.
+
+### Obchod: screenshoty
+
+- **Nutné: žádné.** Žádný současný screenshot neukazuje nic, co by v 1.1.0 přestalo platit.
+- **Doporučené (volitelné):** screenshot 2 ("Subtitles that sound like people talk") má vpravo nahoře kartu "gemma3:12b 46 % Improving". Výměna za řádek se sdílenou verzí ("♻ SHARED · improved 2 days ago by #4F2A · Use") by novinku ukázala bez nového obrázku. Obchod dovolí max 5 screenshotů, takže jen výměna, ne přidání. Znamená to přerenderovat 32 jazyků.
+- Screenshot 4 (fronta) ukazuje starší vzhled fronty bez přepínače "Vylepšit pomocí AI"; nevadí, přepínač na obrázku není vidět.
+
+### Zásady ochrany soukromí (store/privacy-policy.html + cleedek-portfolio privacy.astro, EN + CS)
+
+Potřeba změnit, **ano**: dnes první věta říká, že rozšíření "nic neukládá na server". Se sdílením to už neplatí. Nové odrážky:
+- **Hledání sdílených titulků** (zapnuté od začátku): z časování a textu původních titulků se v prohlížeči spočítá jednosměrný otisk; na subs.cleedek.com jde jen jeho prvních 5 znaků a cílový jazyk. Server vrátí všechny kopie s tímhle začátkem, správná se vybere v prohlížeči. Žádná adresa stránky, název videa ani účet. Vypíná se "Hledat titulky od ostatních".
+- **Sdílení vlastních** (jen po souhlasu, vypnuté od začátku): celý otisk, jazyk, název modelu, počet řádků, jak dlouho AI pracovala, vylepšené titulky (.srt) a náhodný kód instalace (zobrazí se ostatním jako krátká značka typu #4F2A). Kdo má stejné původní titulky, může si je stáhnout. "Smazat moje sdílené" smaže vše z této instalace.
+- **Nahlášení sdílené kopie:** číslo kopie + náhodný kód; 3 nahlášení od různých lidí kopii schovají.
+- **IP adresa:** server běží na Cloudflare, který IP použije jen k omezení příliš mnoha požadavků, k titulkům se neukládá (ověřeno 12. 11. v kódu: tabulky `subs` a `reports` sloupec s IP nemají, IP jde jen do limitu `env.LIMIT`).
+- **Kontakt pro stažení obsahu** (autorská práva): e-mail, kam napsat. Viz rizika.
+- Úložiště: náhodný kód instalace, počet sdílených, odpověď na kartu souhlasu, rozložení klávesnice.
+- Datum zásad + changelog na webu (skill project-changelog) až při odeslání, jako u 1.0.19.
+
+### Privacy practices v Dashboardu
+
+- **storage:** doplnit náhodný kód instalace pro sdílení, počet sdílených, odpověď na kartu souhlasu, rozložení klávesnice pro popisky zkratek.
+- **Host permission:** doplnit větu: "To find subtitles other users improved, the first 5 characters of a one-way fingerprint of the original subtitles and the target language are sent to subs.cleedek.com; improved subtitles are uploaded there only after the user agrees to share them."
+- **Data usage:** Website content už je zaškrtnuté a pokrývá to. Nic nového zaškrtávat nevidím, ale nejsem si jistý (viz rizika).
+- **Oprávnění v manifestu se nemění** (manifest má v gitu jen změnu verze), takže uživatelům se po aktualizaci neukáže žádný dialog s novými oprávněními.
+- Single purpose a Remote code beze změny.
+
+### Rizika
+
+- **Hledání zapnuté od začátku:** obchod chce u odesílání dat, která nejsou nutná pro hlavní funkci, jasné upozornění a někdy souhlas. Posílá se jen 5 znaků otisku a jazyk, což podle mě nejsou osobní data, ale jistý si nejsem. Bezpečnější varianta: hledání zapnout až po kliknutí na kartu (stejně jako sdílení).
+- **Autorská práva:** veřejně sdílené překlady titulků filmů a seriálů jsou odvozené dílo. Server je zná jen podle otisku (bez názvu), ale držitel práv může poslat žádost o stažení. Doporučuju kontakt pro stažení v zásadách a v adminu možnost kopii smazat. Nejsem právník.
+- Překlady nových textů psal Claude, rodilí mluvčí nekontrolovali.
+
+### Pořadí při vydání
+
+1. Rozhodnutí výše → commit, `SHARING` + `REUSE_SAVED` na true, verze 1.1.0, nová karta + 30 jazyků.
+2. Nasadit subs.cleedek.com, ověřit `curl` z DEPLOY.md a jeden test se dvěma profily proti ostrému serveru.
+3. Zip přes `git archive` (pokud jde uvítací stránka, přidat `welcome.*` a `welcome/`).
+4. Zásady + changelog na webu push ve chvíli odeslání ke kontrole.
+5. Dashboard: balíček, 32 popisů (`fill.py`), případně screenshot 2, Privacy practices, Submit for review (ty).
+
 ## Postup pro 1.0.20 (opravná verze, 11. 11. 2026)
 
 Jen oprava chyb, takže stačí **Package > Upload new package** se souborem `dist/subtitle-overlay-1.0.20.zip` a **Submit for review**. Popisy, screenshoty, zásady ani Privacy practices se nemění (žádná nová funkce ani oprávnění).

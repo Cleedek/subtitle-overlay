@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>První spuštění a jednodušší popup: návrhy k odsouhlasení</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg: oklch(0.185 0.008 290);
+  --panel: oklch(0.225 0.010 290);
+  --panel-hover: oklch(0.255 0.012 290);
+  --line: oklch(0.29 0.012 290);
+  --line-strong: oklch(0.36 0.014 290);
+  --text: oklch(0.94 0.006 290);
+  --muted: oklch(0.70 0.014 290);
+  --faint: oklch(0.64 0.014 290);
+  --accent: oklch(0.54 0.23 293);
+  --accent-tint: oklch(0.33 0.09 293);
+  --accent-line: oklch(0.45 0.13 293);
+  --accent-text: oklch(0.88 0.06 293);
+  --success: oklch(0.86 0.13 150);
+  --danger: oklch(0.72 0.16 22);
+  --star: oklch(0.84 0.16 84);
+  --thumb: oklch(0.97 0.004 290);
+  --page: oklch(0.13 0.006 290);
+  --note: oklch(0.84 0.13 84);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text); font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+.doc { max-width: 1280px; margin: 0 auto; padding: 40px 24px 96px; }
+.doc > h1 { font-size: 26px; margin: 0 0 6px; }
+.lead { color: var(--muted); max-width: 72ch; margin: 0 0 14px; font-size: 14px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 48px; }
+.toc a { color: var(--accent-text); background: var(--accent-tint); border: 1px solid var(--accent-line); border-radius: 99px; padding: 5px 12px; text-decoration: none; font-weight: 600; font-size: 12.5px; }
+.part { margin: 0 0 72px; scroll-margin-top: 20px; }
+.part > h2 { font-size: 20px; margin: 0 0 6px; }
+.part > p { color: var(--muted); max-width: 74ch; margin: 0 0 22px; font-size: 14px; }
+.part > p b, .why b, .why strong { color: var(--text); font-weight: 600; }
+.row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.tag b { color: var(--text); }
+.tag .rec { color: var(--success); }
+.why { max-width: 380px; color: var(--muted); font-size: 12.5px; margin: 0; }
+.why li { margin: 0 0 5px; }
+ul.why { padding-left: 18px; }
+.pro { color: oklch(0.82 0.12 150); } .con { color: oklch(0.78 0.12 30); }
+.ask { border: 1px dashed var(--note); border-radius: 12px; padding: 14px 16px; max-width: 760px; }
+.ask h3 { margin: 0 0 8px; font-size: 13px; color: var(--note); text-transform: none; letter-spacing: 0; }
+.ask ol { margin: 0; padding-left: 20px; color: var(--muted); font-size: 13.5px; }
+.ask li { margin: 0 0 6px; } .ask b { color: var(--text); }
+h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 10px; }
+
+/* ---------- browser tab frame for the welcome page ---------- */
+.tab { width: min(100%, 860px); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); }
+.tabbar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: oklch(0.16 0.006 290); border-bottom: 1px solid var(--line); }
+.dots { display: flex; gap: 5px; } .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line-strong); }
+.url { flex: 1; background: var(--panel); border-radius: 99px; padding: 4px 12px; color: var(--faint); font-size: 11.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tools { display: flex; gap: 8px; align-items: center; color: var(--muted); }
+.tools .ext { width: 20px; height: 20px; border-radius: 5px; background: var(--accent); display: grid; place-items: center; font-size: 10px; font-weight: 800; color: #fff; }
+.tools .ext.ghost { background: transparent; border: 1.5px dashed var(--note); color: var(--note); }
+.puzzle { width: 18px; height: 18px; }
+.welcome { padding: 34px 40px 30px; }
+.welcome h1 { font-size: 28px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -.01em; }
+.welcome .sub { color: var(--muted); font-size: 15px; margin: 0 0 22px; max-width: 54ch; }
+.wgrid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 760px) { .wgrid { grid-template-columns: 1fr; } .welcome { padding: 24px 18px; } }
+.player { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; border: 1px solid var(--line);
+  background: radial-gradient(120% 90% at 30% 20%, oklch(0.42 0.06 250), oklch(0.2 0.03 280) 60%, oklch(0.13 0.01 290)); }
+.player .play { position: absolute; left: 12px; bottom: 10px; right: 12px; display: flex; align-items: center; gap: 8px; color: #fff; font-size: 11px; opacity: .85; }
+.player .bar { flex: 1; height: 3px; border-radius: 9px; background: oklch(1 0 0 / .25); position: relative; }
+.player .bar::after { content: ""; position: absolute; inset: 0 62% 0 0; background: #fff; border-radius: 9px; }
+.cc { border: 1.5px solid #fff; border-radius: 3px; padding: 0 3px; font-weight: 700; font-size: 9.5px; }
+.subs { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; padding: 0 16px; }
+.subs span { display: inline-block; font-size: 17px; font-weight: 600; color: #fff; text-shadow: 0 0 3px #000, 0 1px 3px #000, 0 0 8px #000; }
+.subs small { display: block; font-size: 11.5px; color: oklch(1 0 0 / .7); text-shadow: 0 0 3px #000; margin-bottom: 2px; font-weight: 500; }
+.demo-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+.sel { min-width: 150px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 5px 30px 5px 9px; position: relative; color: var(--text); }
+.sel::after { content: ""; position: absolute; right: 10px; top: 50%; width: 6px; height: 6px; border: solid var(--muted); border-width: 0 1.5px 1.5px 0; transform: translateY(-70%) rotate(45deg); }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.steps li { display: flex; gap: 11px; align-items: flex-start; }
+.steps .n { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; background: var(--panel); border: 1px solid var(--line-strong); color: var(--muted); }
+.steps li.ok .n { background: var(--success); border-color: var(--success); color: oklch(0.2 0.03 150); }
+.steps li.now .n { background: var(--accent); border-color: var(--accent); color: #fff; }
+.steps b { display: block; font-size: 14px; }
+.steps small { color: var(--muted); font-size: 12.5px; display: block; margin-top: 1px; }
+.steps li.ok b { color: var(--muted); font-weight: 500; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; color: var(--text); font-weight: 500; }
+.btn.primary { background: var(--accent); border-color: var(--accent); font-weight: 600; }
+.btn.big { padding: 10px 16px; font-size: 14px; border-radius: 10px; }
+.btn.full { width: 100%; }
+.btn.ghost { background: transparent; }
+.wfoot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+.wfoot p { margin: 0; color: var(--faint); font-size: 12px; flex: 1; min-width: 220px; }
+.pinhint { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; font-size: 12px; color: var(--muted); }
+.pinhint svg { width: 14px; height: 14px; }
+
+/* ---------- timeline ---------- */
+.time { display: grid; grid-template-columns: repeat(6, minmax(150px, 1fr)); gap: 0; overflow-x: auto; padding-bottom: 8px; max-width: 100%; }
+.moment { position: relative; padding: 26px 14px 0 0; min-width: 150px; }
+.moment::before { content: ""; position: absolute; top: 8px; left: 0; right: 0; height: 2px; background: var(--line-strong); }
+.moment::after { content: ""; position: absolute; top: 3px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--muted); }
+.moment.new::after { border-color: var(--note); background: var(--note); }
+.moment.have::after { border-color: var(--success); background: var(--success); }
+.moment .when { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.moment b { display: block; font-size: 13.5px; margin: 3px 0 4px; }
+.moment p { margin: 0; color: var(--muted); font-size: 12px; }
+.moment .where { display: inline-block; margin-top: 7px; font-size: 10.5px; font-weight: 700; border-radius: 99px; padding: 1px 8px; border: 1px solid var(--line-strong); color: var(--muted); }
+.legend { display: flex; gap: 18px; font-size: 12px; color: var(--muted); margin: 0 0 14px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+
+/* on-video card */
+.stage { width: 430px; max-width: 100%; }
+.vcard { position: absolute; right: 12px; top: 12px; width: 232px; background: oklch(0.16 0.008 290 / .92); border: 1px solid oklch(1 0 0 / .14); border-radius: 12px; padding: 11px 12px; backdrop-filter: blur(8px); }
+.vcard strong { display: flex; align-items: center; gap: 7px; font-size: 13px; }
+.vcard .tick { width: 16px; height: 16px; border-radius: 50%; background: var(--success); color: oklch(0.2 0.03 150); display: grid; place-items: center; font-size: 10px; font-weight: 800; flex: none; }
+.vcard p { margin: 4px 0 9px; color: oklch(1 0 0 / .72); font-size: 11.5px; }
+.vcard .acts { display: flex; gap: 6px; flex-wrap: wrap; }
+.vcard .chip { border: 1px solid oklch(1 0 0 / .2); border-radius: 99px; padding: 3px 9px; font-size: 11.5px; font-weight: 600; }
+.vcard .chip.main { background: #fff; color: #111; border-color: #fff; }
+
+/* ---------- priority ladder ---------- */
+.ladder { list-style: none; margin: 0; padding: 0; width: 380px; max-width: 100%; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; counter-reset: p; }
+.ladder li { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 9px 12px; counter-increment: p; }
+.ladder li + li { border-top: 1px solid var(--line); }
+.ladder li::before { content: counter(p); width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--panel); border: 1px solid var(--line-strong); font-weight: 700; font-size: 11.5px; color: var(--muted); }
+.ladder b { display: block; font-size: 13px; } .ladder small { color: var(--muted); font-size: 11.5px; }
+.ladder .kind { font-size: 10.5px; font-weight: 700; border-radius: 99px; padding: 1px 8px; white-space: nowrap; }
+.kind.fix { background: oklch(0.72 0.16 22 / .18); color: var(--danger); }
+.kind.help { background: var(--accent-tint); color: var(--accent-text); }
+.kind.ask { background: oklch(0.84 0.16 84 / .16); color: var(--star); }
+
+/* ---------- popup frames ---------- */
+.pop { width: 380px; max-width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 0 16px 14px; overflow: hidden; }
+.pop section { border-top: 1px solid var(--line); padding: 14px 0; }
+.pop section.first { border-top: 0; }
+.pop .title { font-size: 15px; font-weight: 700; margin: 16px 0 10px; display: flex; justify-content: space-between; align-items: center; }
+.site { font-size: 11.5px; color: var(--muted); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 99px; }
+.seg span { text-align: center; padding: 5px 6px; border-radius: 99px; color: var(--muted); font-size: 12.5px; }
+.seg span.on { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; }
+.sh { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 30px; }
+.sh + .sh { margin-top: 8px; }
+.lbl { font-size: 13px; }
+.hint { font-size: 11.5px; color: var(--faint); margin: 4px 0 0; }
+.sw { width: 36px; height: 22px; border-radius: 99px; background: var(--line-strong); position: relative; flex: none; }
+.sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--thumb); }
+.sw.on { background: var(--accent); } .sw.on::after { left: 16px; }
+.slot { border: 1px solid var(--accent-line); background: oklch(0.22 0.05 293); border-radius: 10px; padding: 10px 12px; margin: 0 0 12px; position: relative; }
+.slot b { font-size: 13px; display: block; } .slot small { color: var(--muted); font-size: 11.5px; }
+.slot .x { position: absolute; right: 10px; top: 8px; color: var(--muted); }
+.mark { outline: 2px dashed var(--note); outline-offset: 4px; border-radius: 10px; }
+.now { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+.now .state { display: flex; align-items: center; gap: 9px; }
+.now .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--success); flex: none; box-shadow: 0 0 0 4px oklch(0.86 0.13 150 / .16); }
+.now .dot.idle { background: var(--faint); box-shadow: none; }
+.now b { font-size: 14px; } .now small { display: block; color: var(--muted); font-size: 11.5px; }
+.now .acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 11px; }
+.list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.list > div { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.list > div + div { border-top: 1px solid var(--line); }
+.list .ico { width: 16px; height: 16px; color: var(--muted); flex: none; }
+.list .end { margin-left: auto; color: var(--faint); font-size: 12px; display: inline-flex; gap: 7px; align-items: center; white-space: nowrap; }
+.chev { color: var(--faint); }
+.newdot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.oldblock { border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; color: var(--muted); font-size: 12px; background: var(--panel); }
+.oldgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.oldgrid span { border: 1px solid var(--line); border-radius: 6px; text-align: center; padding: 4px 0; font-size: 11px; color: var(--muted); background: var(--panel); }
+.count { display: inline-flex; align-items: baseline; gap: 6px; font-size: 12.5px; color: var(--muted); }
+.count b { font-size: 22px; color: var(--text); font-variant-numeric: tabular-nums; }
+.back { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; margin: 16px 0 12px; }
+.cut { text-align: center; color: var(--faint); font-size: 11px; padding: 8px 0 0; }
+.map { border-collapse: collapse; font-size: 12.5px; width: 100%; max-width: 760px; }
+.map th { text-align: left; color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line-strong); }
+.map td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--muted); }
+.map td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+.scroll { overflow-x: auto; max-width: 100%; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>První spuštění a jednodušší popup</h1>
+  <p class="lead">Návrhy k bodům 4, 5 a 8 z product auditu (11. 11. 2026). Nic z toho není v kódu. Texty jsou pracovní, v češtině rozšíření (tykání). Žlutá přerušovaná čára značí nové věci.</p>
+  <p class="lead">Hlavní myšlenka: nováček má do minuty vidět přeložené titulky a do té doby nemá vidět nic jiného. Všechno ostatní (AI, fronta, druhé titulky, hodnocení, podpora) přijde později a vždy jen jedna věc najednou.</p>
+  <nav class="toc">
+    <a href="#a">A. Uvítací stránka (bod 4)</a>
+    <a href="#b">B. První týden: co následuje (bod 5)</a>
+    <a href="#c">C. Jedno místo, jedna karta (bod 5)</a>
+    <a href="#d">D. Jednodušší záložka Titulky (bod 8)</a>
+    <a href="#e">E. Co potřebuju rozhodnout</a>
+  </nav>
+
+  <!-- ============ A ============ -->
+  <div class="part" id="a">
+    <h2>A. Uvítací stránka po instalaci</h2>
+    <p>Dnes se po instalaci neotevře nic a průvodce "Jak začít" je schovaný v popupu, jehož ikonu Chrome schová pod dílek skládačky. Návrh: po instalaci (jen nové, ne po aktualizaci) otevřít jednu vlastní stránku rozšíření. Dělá tři věci: <b>ukáže výsledek hned</b> na ukázkovém videu, <b>potvrdí jazyk</b> a <b>nechá připnout ikonu</b>.</p>
+    <div class="row">
+      <div class="col" style="flex: 1 1 560px;">
+        <span class="tag"><b>Varianta A1</b> · <span class="rec">doporučuji</span> · ukázka na stránce</span>
+        <div class="tab">
+          <div class="tabbar">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">Subtitle Overlay · Vítej</span>
+            <span class="tools">
+              <span class="ext ghost" title="sem se ikona připne">S</span>
+              <svg class="puzzle" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.5a1.5 1.5 0 0 1 3 0V4h3v3h1.5a1.5 1.5 0 0 1 0 3H12v3.5H9V12a1.5 1.5 0 0 0-3 0v1.5H2.5V10H4a1.5 1.5 0 0 0 0-3H2.5V4H6z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <div class="welcome">
+            <h1>Titulky ve tvém jazyce.<br>Na jakémkoli videu.</h1>
+            <p class="sub">Je to nainstalované a zapnuté. Takhle to bude vypadat:</p>
+            <div class="wgrid">
+              <div>
+                <div class="player mark">
+                  <div class="subs"><small>I've been waiting for you all night.</small><span>Čekala jsem na tebe celou noc.</span></div>
+                  <div class="play"><span>▶</span><span class="bar"></span><span class="cc">CC</span></div>
+                </div>
+                <div class="demo-row">
+                  <span class="lbl">Překládat do</span>
+                  <span class="sel">Čeština</span>
+                </div>
+                <p class="hint">Ukázka běží sama a přeloží se doopravdy. Změna jazyka ji přeloží znovu a zároveň se uloží jako tvůj jazyk.</p>
+              </div>
+              <ol class="steps">
+                <li class="ok"><span class="n">✓</span><div><b>Nainstalováno</b></div></li>
+                <li class="now"><span class="n">2</span><div><b>Připni si ikonu</b><small>Klikni na dílek skládačky vpravo nahoře a pak na špendlík u Subtitle Overlay. Odškrtne se to samo.</small>
+                  <span class="pinhint"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 2.5a1.5 1.5 0 0 1 3 0V4h3v3h1.5a1.5 1.5 0 0 1 0 3H12v3.5H9V12a1.5 1.5 0 0 0-3 0v1.5H2.5V10H4a1.5 1.5 0 0 0 0-3H2.5V4H6z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg> → 📌 Subtitle Overlay</span></div></li>
+                <li><span class="n">3</span><div><b>Pusť si video a zapni v něm titulky</b><small>Tlačítko CC nebo Titulky v přehrávači webu, v jakémkoli jazyce. Překlad se objeví sám.</small></div></li>
+              </ol>
+            </div>
+            <div class="wfoot">
+              <p>Překládá Google Translate, text titulků se posílá jen jemu. Žádný účet, žádné sledování. <u>Co přesně odchází</u></p>
+              <span class="btn primary big">Hotovo, jdu na video</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <span class="tag">Proč takhle</span>
+        <ul class="why">
+          <li><strong>Výsledek dřív než návod.</strong> Člověk vidí přeložený titulek za pár sekund, bez hledání videa. Ukázkové video už v repu je (<code>samples/</code>, necelý 1 MB).</li>
+          <li><strong>Jediné rozhodnutí: jazyk.</strong> Dnes se nastaví potichu podle prohlížeče. Tady ho člověk vidí a může změnit.</li>
+          <li><strong>Krok 2 se odškrtne sám.</strong> Chrome umí rozšíření říct, jestli je ikona připnutá (ověřit při stavbě, viz E).</li>
+          <li><strong>Nic navíc.</strong> Žádná AI, vzhled, podpora ani hodnocení. To má svůj čas v části B.</li>
+          <li class="con">Cena: nová stránka (30 jazyků, zhruba 10 nových textů) a ukázka musí vykreslit titulky sama, protože na stránkách rozšíření běžný skript neběží.</li>
+        </ul>
+        <span class="tag" style="margin-top: 14px;"><b>Varianta A2</b> · bez ukázky</span>
+        <ul class="why">
+          <li>Stejná stránka, místo videa obrázek. Levnější, ale bez "aha" momentu a bez ověření, že překlad u člověka opravdu funguje.</li>
+        </ul>
+        <span class="tag" style="margin-top: 14px;"><b>Varianta A3</b> · žádná stránka</span>
+        <ul class="why">
+          <li>Jen vylepšit první kartu nad videem (část B, krok 2). Nejmenší práce, ale neřeší schovanou ikonu.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ B ============ -->
+  <div class="part" id="b">
+    <h2>B. První týden: co následuje hned potom</h2>
+    <p>Po uvítací stránce má každý další krok přijít ve chvíli, kdy dává smysl, a nikdy dva naráz. Čtyři z šesti momentů už existují, jen nejsou seřazené. Nové jsou dva: <b>potvrzení prvního úspěchu</b> a <b>tip na AI</b>.</p>
+    <div class="legend"><span><i style="background: var(--success)"></i>už existuje</span><span><i style="background: var(--note)"></i>nové</span></div>
+    <div class="time">
+      <div class="moment new"><span class="when">Instalace</span><b>Uvítací stránka</b><p>Ukázka, jazyk, připnutí ikony.</p><span class="where">nová karta</span></div>
+      <div class="moment have"><span class="when">1. video bez titulků</span><b>"Zapni titulky v přehrávači"</b><p>Karta nad videem, jednou na web. Beze změny.</p><span class="where">nad videem</span></div>
+      <div class="moment new"><span class="when">1. přeložené video</span><b>"Funguje to"</b><p>Jednou za život. Ukáže, kde se mění jazyk a vzhled.</p><span class="where">nad videem</span></div>
+      <div class="moment new"><span class="when">3. video</span><b>Tip: Vylepšit pomocí AI</b><p>Tečka u řádku v popupu a jedna věta u přepínače jazyků. Žádné okno.</p><span class="where">popup + nad videem</span></div>
+      <div class="moment have"><span class="when">10. video</span><b>Hodnocení</b><p>Dnešní karta s hvězdami. Beze změny.</p><span class="where">popup</span></div>
+      <div class="moment have"><span class="when">100 videí a 21 dní</span><b>Podpora</b><p>Dnešní jednorázová karta. Beze změny.</p><span class="where">nad videem</span></div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+      <div class="col">
+        <span class="tag"><b>Nové</b> · první přeložené video</span>
+        <div class="stage">
+          <div class="player">
+            <div class="vcard mark">
+              <strong><span class="tick">✓</span>Funguje to. Přeloženo: čeština</strong>
+              <p>Odteď se titulky přeloží samy na každém videu, kde je zapneš.</p>
+              <div class="acts"><span class="chip main">Rozumím</span><span class="chip">Jiný jazyk</span><span class="chip">Vzhled</span></div>
+            </div>
+            <div class="subs"><span>Čekala jsem na tebe celou noc.</span></div>
+            <div class="play"><span>▶</span><span class="bar"></span><span class="cc">CC</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <span class="tag">Proč</span>
+        <ul class="why">
+          <li><strong>Dnes úspěch nikdo neoznámí.</strong> Titulky se prostě objeví a krátká zpráva "Přeloženo" zmizí. Nováček neví, že to bylo rozšíření, ani že to tak bude všude.</li>
+          <li><strong>Dvě nejčastější první úpravy</strong> (jazyk, vzhled) jsou na jedno kliknutí. Obě otevřou to, co už existuje.</li>
+          <li><strong>Zmizí sama</strong> po 8 sekundách nebo kliknutí a už se nikdy neukáže. V popupu zároveň průvodce "Jak začít" skončí odškrtnutý.</li>
+          <li><strong>Tip na AI až u 3. videa:</strong> do té doby člověk neví, jestli mu Google překlad stačí. Dřív je to jen šum.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ C ============ -->
+  <div class="part" id="c">
+    <h2>C. Jedno místo, jedna karta</h2>
+    <p>Dnes se v popupu můžou sejít "Co je nového", hodnocení i upozornění na poruchu, každá na jiném místě. Návrh: nad záložkami je <b>jedno místo</b> a ukáže se v něm vždy jen karta s nejvyšší prioritou. Totéž platí nad videem. Karty, které o něco prosí, mají navíc odstup.</p>
+    <div class="row">
+      <div class="col">
+        <span class="tag">Pořadí v popupu</span>
+        <ol class="ladder">
+          <li><div><b>Porucha</b><small>Rozšíření se zastavilo, AI nejede</small></div><span class="kind fix">oprava</span></li>
+          <li><div><b>Jak začít</b><small>Jen dokud nic nepřeložil</small></div><span class="kind help">pomoc</span></li>
+          <li><div><b>Co je nového</b><small>Po aktualizaci, do zavření</small></div><span class="kind help">pomoc</span></li>
+          <li><div><b>Tip na funkci</b><small>AI od 3. videa, jednou</small></div><span class="kind help">pomoc</span></li>
+          <li><div><b>Hodnocení</b><small>Od 10. videa</small></div><span class="kind ask">prosba</span></li>
+          <li><div><b>Snap Translate</b><small>Až bude v obchodě</small></div><span class="kind ask">prosba</span></li>
+        </ol>
+      </div>
+      <div class="col">
+        <span class="tag">Jak to vypadá</span>
+        <div class="pop">
+          <div class="title"><span>Subtitle Overlay</span><span class="site">youtube.com <span class="sw on"></span></span></div>
+          <div class="slot mark"><span class="x">✕</span><b>Co je nového</b><small>Titulky přímo od webu: Netflix, Prime Video, HBO Max…</small></div>
+          <div class="seg"><span class="on">Titulky</span><span>Vzhled</span><span>Chování</span></div>
+          <div class="cut">hodnocení čeká, ukáže se až příště po zavření této karty</div>
+        </div>
+      </div>
+      <div class="col">
+        <span class="tag">Pravidla</span>
+        <ul class="why">
+          <li><strong>Vždy jen jedna.</strong> Další v pořadí se ukáže až při příštím otevření popupu, ne hned po zavření té první.</li>
+          <li><strong>Prosby mají odstup.</strong> Po zavření hodnocení nebo podpory žádná další prosba 7 dní a 5 videí, ať je to kde chce (popup i nad videem).</li>
+          <li><strong>Prosba nikdy v den poruchy.</strong> Když ten den selhal překlad nebo AI, hodnocení ani podpora se neukážou.</li>
+          <li><strong>Nad videem stejně:</strong> porucha, pak "Zapni titulky", pak "Funguje to", pak sdílení a podpora. Nejvýš jedna karta na video.</li>
+          <li class="pro">V kódu je to jedna malá funkce, která rozhodne, co ukázat. Dnešní karty se nemění, jen se ptají jí.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ D ============ -->
+  <div class="part" id="d">
+    <h2>D. Jednodušší záložka Titulky</h2>
+    <p>Záložka Titulky dnes ukazuje všechno najednou: stav videa, kódování, soubor, synchronizaci, nalezené titulky, jazyk, automatiku, AI se čtyřmi poskytovateli, druhé titulky, frontu a uložené. Když titulky běží, je to <b>kolem 20 ovládacích prvků</b> na jedné obrazovce (můj počet z popup.html). Nováček potřebuje dva: jazyk a vypínač.</p>
+    <p>Návrh: nahoře <b>"Teď"</b> (co se děje s tímhle videem), pod tím dvě základní nastavení a zbytek jako <b>řádky se šipkou</b>, které otevřou vlastní obrazovku. Stejný vzor už používá "Jazyk a vzhled" a "Podpořit". Nic se nemaže, jen se to přestěhuje o jedno kliknutí dál.</p>
+    <div class="row">
+      <div class="col">
+        <span class="tag">Dnes (schematicky)</span>
+        <div class="pop">
+          <div class="title"><span>Subtitle Overlay</span></div>
+          <div class="seg"><span class="on">Titulky</span><span>Vzhled</span><span>Chování</span></div>
+          <section class="first" style="display: grid; gap: 6px;">
+            <span class="oldblock">Název titulků · 842 řádků</span>
+            <span class="oldblock">Ukázat / schovat titulky</span>
+            <span class="oldblock">Kódování ▾</span>
+            <span class="oldblock">Zobrazeno: čeština · Ukázat originál · Stáhnout .srt</span>
+            <span class="oldblock">Vylepšit pomocí Gemma 3</span>
+            <span class="oldblock">Načíst soubor .srt / .vtt / .ttml</span>
+          </section>
+          <section><h3>Synchronizace</h3><div class="oldgrid"><span>−1 s</span><span>−0.1</span><span>0</span><span>ms</span><span>+0.1</span><span>+1 s</span><span>↺</span></div></section>
+          <section><h3>Nalezeno na stránce</h3><span class="oldblock" style="display: block;">3 karty, každá s 3 až 4 tlačítky</span></section>
+          <section style="display: grid; gap: 6px;"><h3 style="margin: 0;">Překlad</h3>
+            <span class="oldblock">Přeložit do ▾</span>
+            <span class="oldblock">Překládat automaticky ◉ + nápověda</span>
+            <span class="oldblock">Vylepšit pomocí AI ◉ · Local / Gemini / Claude / OpenAI + průvodce + nastavení</span>
+            <span class="oldblock">Druhé titulky ◉ + nápověda</span>
+            <span class="oldblock">Druhý jazyk ▾</span>
+          </section>
+          <section style="display: grid; gap: 6px;"><span class="oldblock">Překládat soubory na pozadí…</span><span class="oldblock">Uložené titulky</span></section>
+        </div>
+        <span class="count"><b>~20</b> ovládacích prvků, 5 sekcí, posouvání</span>
+      </div>
+
+      <div class="col">
+        <span class="tag"><b>Návrh</b> · titulky běží</span>
+        <div class="pop">
+          <div class="title"><span>Subtitle Overlay</span><span class="site">youtube.com <span class="sw on"></span></span></div>
+          <div class="seg"><span class="on">Titulky</span><span>Vzhled</span><span>Chování</span></div>
+          <section class="first">
+            <div class="now mark">
+              <div class="state"><span class="dot"></span><div><b>Přeloženo: čeština</b><small>Titulky z YouTube · 842 řádků</small></div></div>
+              <div class="acts"><span class="btn">Ukázat originál</span><span class="btn">Schovat</span></div>
+            </div>
+          </section>
+          <section>
+            <div class="sh"><span class="lbl">Přeložit do</span><span class="sel">Čeština</span></div>
+            <div class="sh"><span class="lbl">Překládat automaticky</span><span class="sw on"></span></div>
+          </section>
+          <section>
+            <div class="list mark">
+              <div><span class="lbl">Časování</span><span class="end">0,0 s <span class="chev">›</span></span></div>
+              <div><span class="lbl">Vylepšit pomocí AI</span><span class="end"><span class="newdot"></span> Vypnuto <span class="chev">›</span></span></div>
+              <div><span class="lbl">Druhé titulky</span><span class="end">Vypnuto <span class="chev">›</span></span></div>
+              <div><span class="lbl">Vlastní soubor a stažení</span><span class="end"><span class="chev">›</span></span></div>
+              <div><span class="lbl">Fronta a uložené titulky</span><span class="end">2 <span class="chev">›</span></span></div>
+            </div>
+          </section>
+        </div>
+        <span class="count"><b>9</b> prvků, bez posouvání</span>
+      </div>
+
+      <div class="col">
+        <span class="tag"><b>Návrh</b> · nováček, žádné titulky</span>
+        <div class="pop">
+          <div class="title"><span>Subtitle Overlay</span><span class="site">ceskatelevize.cz <span class="sw on"></span></span></div>
+          <div class="seg"><span class="on">Titulky</span><span>Vzhled</span><span>Chování</span></div>
+          <section class="first">
+            <div class="now mark">
+              <div class="state"><span class="dot idle"></span><div><b>Čekám na titulky</b><small>Zapni je v přehrávači (tlačítko CC). Přeložím je do češtiny.</small></div></div>
+              <div class="acts"><span class="btn">Načíst soubor</span><span class="btn">Nejde to?</span></div>
+            </div>
+          </section>
+          <section>
+            <div class="sh"><span class="lbl">Přeložit do</span><span class="sel">Čeština</span></div>
+            <div class="sh"><span class="lbl">Překládat automaticky</span><span class="sw on"></span></div>
+          </section>
+          <section>
+            <div class="list">
+              <div><span class="lbl">Vylepšit pomocí AI</span><span class="end">Vypnuto <span class="chev">›</span></span></div>
+              <div><span class="lbl">Druhé titulky</span><span class="end">Vypnuto <span class="chev">›</span></span></div>
+              <div><span class="lbl">Fronta a uložené titulky</span><span class="end"><span class="chev">›</span></span></div>
+            </div>
+          </section>
+        </div>
+        <ul class="why">
+          <li><strong>Karta "Teď" nahrazuje průvodce "Jak začít".</strong> Říká totéž (co udělat dál), jen pořád a ne jako jednorázová karta. Tím ubude jedna karta z části C.</li>
+          <li><strong>Řádky podle stavu.</strong> Časování a "Vlastní soubor a stažení" se ukážou, až když titulky běží.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 34px;">
+      <div class="col">
+        <span class="tag">Obrazovka po kliknutí · Vylepšit pomocí AI</span>
+        <div class="pop">
+          <div class="back"><span class="chev">‹</span> Vylepšit pomocí AI</div>
+          <div class="sh"><span class="lbl">Zapnuto</span><span class="sw on"></span></div>
+          <p class="hint" style="margin-bottom: 12px;">Google přeloží hned. Po kliknutí na Vylepšit to AI přepíše s ohledem na celou scénu.</p>
+          <div class="seg"><span class="on">Local</span><span>Gemini</span><span>Claude</span><span>OpenAI</span></div>
+          <div class="cut">sem se přestěhuje dnešní průvodce Local AI, klíče, model, ukládání</div>
+        </div>
+      </div>
+      <div class="col" style="flex: 1 1 420px;">
+        <span class="tag">Kam se co přestěhuje</span>
+        <div class="scroll">
+        <table class="map">
+          <tr><th>Dnes na hlavní obrazovce</th><th>Nově</th><th>Proč</th></tr>
+          <tr><td>Stav, originál, schovat</td><td>Karta "Teď"</td><td>Jediné, co se týká právě tohohle videa.</td></tr>
+          <tr><td>Jazyk, automatika</td><td>Zůstává</td><td>Jediná dvě nastavení, která mění skoro každý.</td></tr>
+          <tr><td>Synchronizace</td><td>Řádek "Časování"</td><td>Potřeba jen u vlastního souboru. Klávesové zkratky zůstávají.</td></tr>
+          <tr><td>AI: 4 poskytovatelé, průvodce, klíče</td><td>Vlastní obrazovka</td><td>Největší kus obrazovky, který nováček nepoužije. Řádek ukazuje stav (Vypnuto / Gemma 3).</td></tr>
+          <tr><td>Druhé titulky, druhý jazyk</td><td>Vlastní obrazovka</td><td>Okrajová funkce, dva prvky se spojí do jednoho řádku.</td></tr>
+          <tr><td>Kódování, načíst soubor, stáhnout .srt, nalezené titulky</td><td>"Vlastní soubor a stažení"</td><td>Kódování se pozná samo, ruční volba je záchrana. Nalezené titulky jsou pro pokročilé, automatika je vybere sama.</td></tr>
+          <tr><td>Fronta, Uložené titulky</td><td>Jeden řádek s počtem</td><td>Dvě tlačítka se spojí, číslo ukáže, že tam něco je.</td></tr>
+        </table>
+        </div>
+        <ul class="why" style="max-width: 640px; margin-top: 12px;">
+          <li class="con"><strong>Riziko:</strong> kdo dnes často ladí časování nebo přepíná AI, má o jedno kliknutí víc. Zmírnění: popup si pamatuje naposledy otevřenou obrazovku 10 minut a zkratky pro časování fungují dál.</li>
+          <li class="con"><strong>Riziko:</strong> "Nalezeno na stránce" je dnes vidět hned a pomáhá, když automatika vybere špatnou stopu. Když je stop víc než jedna, ukázal bych v kartě "Teď" odkaz "Jiné titulky (3)".</li>
+          <li><strong>Záložky Vzhled a Chování</strong> neměním, ty prošly auditem 10. 11.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ E ============ -->
+  <div class="part" id="e">
+    <h2>E. Co potřebuju rozhodnout</h2>
+    <div class="ask">
+      <h3>Čtyři rozhodnutí</h3>
+      <ol>
+        <li><b>Uvítací stránka:</b> A1 s živou ukázkou, A2 s obrázkem, nebo A3 bez stránky?</li>
+        <li><b>Karta "Funguje to"</b> nad prvním přeloženým videem: ano, nebo ne? (Je to další věc nad videem, i když jen jednou.)</li>
+        <li><b>Odstup proseb</b> 7 dní a 5 videí: sedí, nebo jinak?</li>
+        <li><b>Záložka Titulky:</b> jít do řádků se šipkou, i když to pokročilým přidá kliknutí? A má karta "Teď" nahradit průvodce "Jak začít"?</li>
+      </ol>
+    </div>
+    <p style="margin-top: 18px;">Co je potřeba ověřit při stavbě: že Chrome spolehlivě hlásí připnutou ikonu (funkce <code>chrome.action.getUserSettings</code>), a že otevření stránky po instalaci nevadí pravidlům Chrome Web Store (běžná praxe, ale stránka nesmí o nic prosit).</p>
+  </div>
+</div>
+</body>
+</html>

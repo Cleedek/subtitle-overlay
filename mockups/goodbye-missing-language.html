@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chybějící jazyk</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(oklch(0.985 0.003 290), oklch(0.185 0.008 290));
+  --page: light-dark(oklch(0.95 0.004 290), oklch(0.14 0.006 290));
+  --panel: light-dark(oklch(0.96 0.005 290), oklch(0.225 0.010 290));
+  --panel-hover: light-dark(oklch(0.935 0.008 290), oklch(0.255 0.012 290));
+  --line: light-dark(oklch(0.90 0.008 290), oklch(0.29 0.012 290));
+  --line-strong: light-dark(oklch(0.83 0.012 290), oklch(0.36 0.014 290));
+  --text: light-dark(oklch(0.22 0.012 290), oklch(0.94 0.006 290));
+  --muted: light-dark(oklch(0.46 0.016 290), oklch(0.70 0.014 290));
+  --faint: light-dark(oklch(0.53 0.014 290), oklch(0.56 0.014 290));
+  --accent: oklch(0.54 0.23 293);
+  --accent-hover: light-dark(oklch(0.49 0.23 293), oklch(0.60 0.21 293));
+  --accent-soft: light-dark(oklch(0.54 0.23 293 / .12), oklch(0.54 0.23 293 / .22));
+  --link: light-dark(oklch(0.50 0.20 293), oklch(0.80 0.10 293));
+  --ok: light-dark(oklch(0.52 0.13 150), oklch(0.78 0.13 150));
+  --ease: cubic-bezier(.25, 1, .5, 1);
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--page); }
+body { margin: 0; padding: 40px 16px 80px; background: var(--page); color: var(--text); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+
+/* Mockup frame */
+.intro { max-width: 760px; margin: 0 auto 36px; }
+.intro h1 { font-size: 24px; letter-spacing: -.02em; margin: 0 0 8px; }
+.intro p { margin: 0 0 6px; color: var(--muted); max-width: 640px; }
+.step { max-width: 760px; margin: 0 auto 56px; }
+.step > h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--link); margin: 0 0 6px; }
+.step > p.why { margin: 0 0 18px; color: var(--muted); max-width: 640px; }
+.sim { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 auto 14px; max-width: 460px; font-size: 12px; color: var(--faint); }
+.sim select { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 6px; padding: 3px 6px; }
+.notes { max-width: 460px; margin: 14px auto 0; padding: 0 0 0 18px; color: var(--muted); font-size: 13px; }
+.notes li { margin-bottom: 4px; }
+
+/* Goodbye page (copied from src/bye.js) */
+.card { max-width: 460px; margin: 0 auto; padding: 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--bg); }
+header { margin-bottom: 18px; }
+header p { margin: 0; }
+.eyebrow { font-size: 12px; font-weight: 600; color: var(--link); margin-bottom: 6px !important; }
+.card h1 { font-size: 20px; font-weight: 650; letter-spacing: -.015em; line-height: 1.25; margin: 0 0 4px; }
+.muted { color: var(--muted); }
+.hint { margin: 0; font-size: 12px; color: var(--faint); }
+.label { color: var(--text); font-weight: 500; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.reasons { margin: 0 0 4px; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); overflow: hidden; }
+.reason { display: flex; align-items: center; gap: 11px; padding: 10px 12px; cursor: pointer; transition: background-color .15s var(--ease); }
+.reason + .reason, .reason-extra + .reason { border-top: 1px solid var(--line); }
+.reason:hover { background: var(--panel-hover); }
+.reason input { position: absolute; opacity: 0; pointer-events: none; }
+.dot { flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--line-strong); display: grid; place-items: center; transition: border-color .15s var(--ease), background-color .15s var(--ease); }
+.dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: oklch(0.99 0.003 290); transform: scale(0); transition: transform .2s var(--ease); }
+.reason:has(input:checked) { background: var(--accent-soft); }
+.reason:has(input:checked) .dot { border-color: var(--accent); background: var(--accent); }
+.reason:has(input:checked) .dot::after { transform: scale(1); }
+.reason:has(input:checked) span:last-child { font-weight: 500; }
+.reason .new { margin-inline-start: auto; font-size: 11px; font-weight: 600; color: var(--link); background: var(--accent-soft); border-radius: 999px; padding: 1px 7px; }
+.reason-extra { display: grid; grid-template-rows: 0fr; background: var(--accent-soft); transition: grid-template-rows .3s var(--ease); }
+.reason-extra.open { grid-template-rows: 1fr; }
+.reason-extra-inner { overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding-inline: 41px 12px; }
+.reason-extra.open .reason-extra-inner { padding-block: 2px 12px; }
+.reason-extra .label { font-size: 13px; margin: 0; }
+.reason-extra input[type=text] { font: inherit; color: var(--text); background-color: var(--bg); border: 1px solid var(--line-strong); border-radius: 8px; padding: 7px 10px; width: 100%; }
+.reason-extra input[type=text]:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 13px; color: var(--text); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 999px; padding: 5px 11px; cursor: pointer; transition: background-color .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease); }
+.chip:hover { border-color: var(--accent); }
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip:has(input:checked) { background: var(--accent); border-color: var(--accent); color: oklch(0.99 0.003 290); }
+.chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip.other { border-style: dashed; }
+.details { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .3s var(--ease), opacity .2s var(--ease); }
+.details.open { grid-template-rows: 1fr; opacity: 1; }
+.details-inner { overflow: hidden; }
+.field { display: flex; flex-direction: column; gap: 6px; padding-top: 14px; }
+textarea, input[type=email] { font: inherit; color: var(--text); background-color: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%; }
+textarea { display: block; resize: vertical; min-height: 64px; }
+textarea:focus-visible, input[type=email]:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.note { margin: 16px 0 14px; }
+button { font: inherit; width: 100%; padding: 10px 12px; border-radius: 9px; cursor: pointer; border: 1px solid var(--accent); }
+button.primary { background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
+button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+button:disabled { opacity: .45; cursor: default; pointer-events: none; }
+
+/* The promise, only for the language reason */
+.promise { display: flex; gap: 12px; margin-top: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.promise .ico { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--link); }
+.promise p { margin: 0; }
+.promise .title { font-weight: 600; margin-bottom: 2px; }
+.promise .body { color: var(--muted); font-size: 13px; }
+.promise .field { padding-top: 10px; }
+.promise input[type=email] { background: var(--bg); }
+
+.state { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 20px 8px 8px; }
+.state p { margin: 0; max-width: 320px; }
+.badge { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--link); margin-bottom: 4px; }
+.again { width: auto; padding: 6px 12px; margin-top: 10px; background: transparent; color: var(--link); border-color: var(--line-strong); font-size: 13px; }
+
+/* Admin (look of src/admin.js) */
+.admin { max-width: 760px; margin: 0 auto; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); overflow: hidden; }
+.admin-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.admin-top b { font-size: 15px; }
+.tabs { display: flex; gap: 4px; }
+.tabs span { font-size: 13px; padding: 4px 10px; border-radius: 7px; color: var(--muted); }
+.tabs span.on { background: var(--accent-soft); color: var(--link); font-weight: 600; }
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 600px; }
+th, td { text-align: start; padding: 10px 16px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 12px; font-weight: 500; color: var(--faint); }
+td.num { font-variant-numeric: tabular-nums; }
+td .native { color: var(--faint); margin-left: 8px; display: inline-block; }
+tr.done td { color: var(--faint); }
+.pill { display: inline-block; font-size: 11.5px; padding: 1px 8px; border-radius: 999px; background: var(--panel); color: var(--muted); }
+.pill.ok { color: var(--ok); background: color-mix(in oklch, var(--ok) 14%, transparent); }
+.small { width: auto; padding: 5px 11px; font-size: 13px; border-radius: 8px; }
+.small.ghost { background: var(--panel); border-color: var(--line); color: var(--text); }
+.confirm { padding: 16px; border-top: 1px solid var(--line); background: var(--panel); display: grid; gap: 12px; }
+.confirm h3 { margin: 0; font-size: 15px; }
+.confirm .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.confirm input { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line-strong); border-radius: 8px; padding: 6px 10px; width: 110px; }
+
+/* Email preview */
+.mail { max-width: 560px; margin: 0 auto; border: 1px solid var(--line); border-radius: 14px; background: var(--bg); overflow: hidden; }
+.mail-head { padding: 12px 18px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); display: grid; gap: 2px; }
+.mail-head b { color: var(--text); font-weight: 600; }
+.mail-body { padding: 20px 18px 22px; }
+.mail-body p { margin: 0 0 12px; }
+.mail-body .cta { display: inline-block; text-decoration: none; background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; padding: 9px 16px; border-radius: 9px; margin: 4px 0 14px; }
+.mail-body .foot { font-size: 12px; color: var(--faint); margin: 0; }
+
+@media (max-width: 480px) { body { padding: 24px 16px 60px; } .card { padding: 20px 16px; } .reason-extra-inner { padding-inline: 12px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Chybějící jazyk na stránce při odinstalaci</h1>
+  <p>Mockup pro Subtitle Overlay. Tři části: co uvidí člověk, který odchází, co uvidíš ty v administraci a e-mail, který mu přijde, až jazyk vydáš.</p>
+  <p>Všechno je klikací. Nic se nikam neodesílá.</p>
+</div>
+
+<!-- 1. Goodbye page -->
+<section class="step">
+  <h2>1 · Stránka při odinstalaci</h2>
+  <p class="why">Nový důvod "Chyběl mi můj jazyk". Jazyk prohlížeče je rovnou předvybraný, pokud ho ještě nemáme. Slib "napíšu ti, až to bude hotové" je jen u tohohle důvodu.</p>
+
+  <div class="sim">
+    Simulace, jazyk prohlížeče:
+    <select id="browserLang">
+      <option value="fa" selected>perština (fa)</option>
+      <option value="bn">bengálština (bn)</option>
+      <option value="sq">albánština (sq), není ve štítcích</option>
+      <option value="cs">čeština (cs), už ji máme</option>
+    </select>
+  </div>
+
+  <main class="card">
+    <section id="ask">
+      <header>
+        <p class="eyebrow">Subtitle Overlay</p>
+        <h1>Mrzí mě, že odcházíš</h1>
+        <p class="muted">Řekneš mi proč? Zabere to pět vteřin.</p>
+      </header>
+      <form id="form" novalidate>
+        <fieldset class="reasons">
+          <label class="reason"><input type="radio" name="reason" value="site"><span class="dot"></span><span>Nefunguje to na webu, kde to potřebuju</span></label>
+          <label class="reason"><input type="radio" name="reason" value="subtitlesSync"><span class="dot"></span><span>Titulky se nezobrazovaly nebo nesedí s videem</span></label>
+          <label class="reason"><input type="radio" name="reason" value="subtitleTranslation"><span class="dot"></span><span>Překlad titulků nebyl dost dobrý</span></label>
+          <label class="reason"><input type="radio" name="reason" value="language"><span class="dot"></span><span>Chyběl mi můj jazyk</span><span class="new">nové</span></label>
+          <div id="langExtra" class="reason-extra" inert>
+            <div class="reason-extra-inner">
+              <p id="langLabel" class="label">Který jazyk?</p>
+              <div class="chips" id="chips" role="radiogroup" aria-labelledby="langLabel"></div>
+              <div id="otherBox" hidden>
+                <input id="otherLang" type="text" dir="auto" maxlength="60" placeholder="Napiš jazyk" autocomplete="off">
+              </div>
+            </div>
+          </div>
+          <label class="reason"><input type="radio" name="reason" value="covers"><span class="dot"></span><span>Titulky zakrývaly video nebo překážely</span></label>
+          <label class="reason"><input type="radio" name="reason" value="slowVideo"><span class="dot"></span><span>Zpomaluje to prohlížeč nebo video</span></label>
+          <label class="reason"><input type="radio" name="reason" value="bug"><span class="dot"></span><span>Objevila se chyba nebo to přestalo fungovat</span></label>
+          <label class="reason"><input type="radio" name="reason" value="alternative"><span class="dot"></span><span>Používám jiný nástroj</span></label>
+          <label class="reason"><input type="radio" name="reason" value="other"><span class="dot"></span><span>Jiný důvod</span></label>
+        </fieldset>
+
+        <div id="details" class="details" inert>
+          <div class="details-inner">
+            <!-- Language reason: the promise with the email inside -->
+            <div id="promise" class="promise" hidden>
+              <span class="ico" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+              </span>
+              <div style="flex:1;min-width:0">
+                <p class="title">Napíšu ti, až bude <span id="promiseLang">tvůj jazyk</span> hotov<span id="promiseEnd">ý</span></p>
+                <p class="body">Na rozšíření pracuju každý týden a nové verze teď vycházejí zhruba jednou týdně. Nech mi e-mail a dám ti vědět jednou, až to vydám. Nic jiného ti posílat nebudu a e-mail pak smažu.</p>
+                <div class="field">
+                  <label for="emailLang" class="label">Tvůj e-mail (nepovinné)</label>
+                  <input id="emailLang" type="email" dir="ltr" autocomplete="email" inputmode="email" placeholder="jmeno@example.com">
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="message" class="label">Chceš něco doplnit? (nepovinné)</label>
+              <textarea id="message" dir="auto" rows="2" maxlength="2000"></textarea>
+            </div>
+
+            <!-- Other reasons: the email stays as it is today -->
+            <div id="plainEmail" class="field">
+              <label for="email" class="label">Tvůj e-mail (nepovinné)</label>
+              <input id="email" type="email" dir="ltr" autocomplete="email" inputmode="email">
+              <p class="hint">Jen pokud chceš, abych ti dal vědět, až to opravím.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="hint note">Odpověď mi přijde e-mailem a použiju ji jen ke zlepšení extension. Dokud nestiskneš Odeslat, nic se neposílá.</p>
+        <button id="send" class="primary" type="submit" disabled>Odeslat</button>
+      </form>
+    </section>
+
+    <section id="thanks" class="state" hidden>
+      <span class="badge" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <h1 style="font-size:20px;margin:0">Díky za odpověď</h1>
+      <p class="muted" id="thanksText"></p>
+      <button class="again" type="button" id="again">Zkusit znovu (jen v mockupu)</button>
+    </section>
+  </main>
+
+  <ul class="notes">
+    <li>Štítky jsou v jazyce samotném, aby je člověk poznal i bez znalosti češtiny nebo angličtiny.</li>
+    <li>Pořadí podle počtu mluvčích (Ethnologue 2026). Jazyk prohlížeče, pokud mezi nimi je, jde na první místo.</li>
+    <li>Jazyk prohlížeče, který ve štítcích není (zkus albánštinu), se předvyplní do "Jiný jazyk".</li>
+  </ul>
+</section>
+
+<!-- 2. Admin -->
+<section class="step">
+  <h2>2 · Administrace: nová záložka Jazyky</h2>
+  <p class="why">Vedle hlášení problémů s weby. Řádek = jeden jazyk, kolik lidí o něj stálo a kolik z nich čeká na e-mail. Až jazyk vydáš, klikneš "Vydáno, upozornit" a zadáš verzi.</p>
+
+  <div class="admin">
+    <div class="admin-top">
+      <b>Feedback</b>
+      <div class="tabs"><span>Problems</span><span class="on">Languages</span><span>Uninstalls</span></div>
+      <span style="margin-inline-start:auto;font-size:13px;color:var(--faint)">Subtitle Overlay</span>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Language</th><th>Asked</th><th>Waiting for email</th><th>Last asked</th><th></th></tr></thead>
+        <tbody id="adminRows"></tbody>
+      </table>
+    </div>
+    <div id="confirm" class="confirm" hidden>
+      <h3 id="confirmTitle"></h3>
+      <div class="row">
+        <label for="ver" style="color:var(--muted)">Released in version</label>
+        <input id="ver" value="1.0.21">
+        <span style="color:var(--faint);font-size:13px">Email goes out once, then the addresses are deleted.</span>
+      </div>
+      <div class="row">
+        <button class="primary small" id="doSend" type="button"></button>
+        <button class="small ghost" id="cancel" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <ul class="notes" style="max-width:760px">
+    <li>Administrace už v ~/extension-feedback existuje (hlášení problémů, "Mark fixed" ve verzi), jen zatím není nasazená. Tohle by byla druhá záložka se stejnou logikou.</li>
+    <li>"Asked" počítá všechny, i bez e-mailu. Ukazuje, který jazyk přidat dřív.</li>
+  </ul>
+</section>
+
+<!-- 3. Email -->
+<section class="step">
+  <h2>3 · E-mail, který přijde</h2>
+  <p class="why">Jeden krátký e-mail, v jazyce, ve kterém člověk stránku viděl. Perština zatím nemá rozhraní, takže by ji viděl anglicky. Druhý odstavec může být už přímo v nově přidaném jazyce.</p>
+
+  <div class="mail">
+    <div class="mail-head">
+      <span>From: <b>Filip · Subtitle Overlay</b></span>
+      <span>Subject: <b id="mailSubject">Subtitle Overlay now speaks Persian</b></span>
+    </div>
+    <div class="mail-body">
+      <p>Hi,</p>
+      <p>when you removed Subtitle Overlay, you told me <span id="mailLang1">Persian</span> was missing. It's in version <span id="mailVer">1.0.21</span>, both the subtitle translation and the extension itself.</p>
+      <p dir="rtl" lang="fa" id="mailNative" style="color:var(--muted)">[یک جمله به زبان فارسی، ترجمه‌شده هنگام افزودن زبان]</p>
+      <a class="cta" href="#" onclick="return false">Install it again</a>
+      <p>Thanks for telling me. It's the reason it's there.<br>Filip</p>
+      <p class="foot">You get this once because you asked for it. I've deleted your email address.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+// Ethnologue 2026 order, without languages the extension has, without Hebrew,
+// without Arabic and Chinese varieties (covered by Arabic and Chinese) and Nigerian Pidgin.
+const LANGS = [
+  ['bn', 'বাংলা', 'bengálštinu', 'Bengali', 'bengálština'],
+  ['ur', 'اردو', 'urdštinu', 'Urdu', 'urdština'],
+  ['ru', 'Русский', 'ruštinu', 'Russian', 'ruština'],
+  ['mr', 'मराठी', 'maráthštinu', 'Marathi', 'maráthština'],
+  ['te', 'తెలుగు', 'telugštinu', 'Telugu', 'telugština'],
+  ['sw', 'Kiswahili', 'svahilštinu', 'Swahili', 'svahilština'],
+  ['ha', 'Hausa', 'hauštinu', 'Hausa', 'hauština'],
+  ['pa', 'ਪੰਜਾਬੀ', 'paňdžábštinu', 'Punjabi', 'paňdžábština'],
+  ['ta', 'தமிழ்', 'tamilštinu', 'Tamil', 'tamilština'],
+  ['fa', 'فارسی', 'perštinu', 'Persian', 'perština'],
+  ['am', 'አማርኛ', 'amharštinu', 'Amharic', 'amharština'],
+  ['jv', 'Basa Jawa', 'javánštinu', 'Javanese', 'javánština'],
+  ['gu', 'ગુજરાતી', 'gudžarátštinu', 'Gujarati', 'gudžarátština'],
+  ['kn', 'ಕನ್ನಡ', 'kannadštinu', 'Kannada', 'kannadština'],
+  ['yo', 'Yorùbá', 'jorubštinu', 'Yoruba', 'jorubština'],
+];
+const SUPPORTED = new Set(['cs', 'en', 'de', 'vi']); // just for the simulation
+const $ = (id) => document.getElementById(id);
+const form = $('form');
+const send = $('send');
+
+function buildChips() {
+  const browser = $('browserLang').value;
+  const order = [...LANGS];
+  const i = order.findIndex((l) => l[0] === browser);
+  if (i > 0) order.unshift(order.splice(i, 1)[0]);
+  $('chips').innerHTML = order.map(([code, native, , en]) =>
+    `<label class="chip" title="${en}"><input type="radio" name="lang" value="${code}"><span dir="auto">${native}</span></label>`
+  ).join('') + `<label class="chip other"><input type="radio" name="lang" value="other"><span>Jiný jazyk</span></label>`;
+  $('otherLang').value = '';
+  $('otherBox').hidden = true;
+  if (SUPPORTED.has(browser)) return;          // already have it, nothing preselected
+  const hit = $('chips').querySelector(`input[value="${browser}"]`);
+  if (hit) hit.checked = true;
+  else {
+    $('chips').querySelector('input[value="other"]').checked = true;
+    $('otherBox').hidden = false;
+    $('otherLang').value = new Intl.DisplayNames(['cs'], { type: 'language' }).of(browser);
+  }
+}
+
+function chosenLang() {
+  const v = form.lang?.value;
+  if (!v) return null;
+  if (v === 'other') { const t = $('otherLang').value.trim(); return t ? { acc: t, nom: t, en: t } : null; }
+  const l = LANGS.find((x) => x[0] === v);
+  return { acc: l[2], nom: l[4], en: l[3], code: v };
+}
+
+function update() {
+  const reason = form.reason.value;
+  const isLang = reason === 'language';
+  const extra = $('langExtra');
+  extra.classList.toggle('open', isLang); extra.inert = !isLang;
+  $('details').classList.toggle('open', !!reason); $('details').inert = !reason;
+  $('promise').hidden = !isLang;
+  $('plainEmail').hidden = isLang;
+  $('otherBox').hidden = form.lang?.value !== 'other';
+  const lang = chosenLang();
+  // "až bude perština hotová" (feminine noun) / "až bude tvůj jazyk hotový"
+  $('promiseLang').textContent = lang ? lang.nom : 'tvůj jazyk';
+  $('promiseEnd').textContent = lang && lang.nom.endsWith('a') ? 'á' : 'ý';
+  send.disabled = !reason || (isLang && !lang);
+}
+
+form.addEventListener('change', update);
+form.addEventListener('input', update);
+$('browserLang').addEventListener('change', () => { buildChips(); update(); });
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const isLang = form.reason.value === 'language';
+  const lang = chosenLang();
+  const mail = (isLang ? $('emailLang') : $('email')).value.trim();
+  $('thanksText').textContent = isLang
+    ? (mail ? `Až bude ${lang.nom} hotová, napíšu ti na ${mail}. Jednou, nic víc.` : `Zapsal jsem si ${lang.acc}. Čím víc lidí o jazyk stojí, tím dřív ho přidám.`)
+    : 'Přečtu si to.';
+  $('ask').hidden = true; $('thanks').hidden = false;
+});
+$('again').addEventListener('click', () => { form.reset(); buildChips(); update(); $('ask').hidden = false; $('thanks').hidden = true; });
+
+// Admin
+const ROWS = [
+  ['fa', 'Persian', 'فارسی', 9, 7, 'yesterday'],
+  ['ru', 'Russian', 'Русский', 6, 2, '3 days ago'],
+  ['bn', 'Bengali', 'বাংলা', 3, 1, 'last week'],
+  ['other', '"Albanian" (typed)', '', 2, 1, '2 weeks ago'],
+  ['sw', 'Swahili', 'Kiswahili', 1, 0, '3 weeks ago'],
+];
+let pending = null;
+function renderAdmin() {
+  $('adminRows').innerHTML = ROWS.map((r, i) => {
+    const done = r[6];
+    return `<tr class="${done ? 'done' : ''}"><td>${r[1]}${r[2] ? `<span class="native" dir="auto">${r[2]}</span>` : ''}</td>
+      <td class="num">${r[3]}</td><td class="num">${done ? `<span class="pill ok">Sent in ${done}</span>` : r[4] ? `${r[4]} people` : '<span class="pill">nobody</span>'}</td>
+      <td style="color:var(--faint)">${r[5]}</td>
+      <td style="text-align:end">${done ? '' : `<button class="small ${r[4] ? 'primary' : 'ghost'}" data-i="${i}" type="button">${r[4] ? 'Released, notify' : 'Released'}</button>`}</td></tr>`;
+  }).join('');
+}
+$('adminRows').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  pending = +b.dataset.i; const r = ROWS[pending];
+  $('confirmTitle').textContent = `${r[1]} is released`;
+  $('doSend').textContent = r[4] ? `Send email to ${r[4]} people` : 'Mark released';
+  $('confirm').hidden = false;
+  // Email preview follows the row
+  if (r[0] !== 'other') { $('mailSubject').textContent = `Subtitle Overlay now speaks ${r[1]}`; $('mailLang1').textContent = r[1]; }
+});
+$('ver').addEventListener('input', () => { $('mailVer').textContent = $('ver').value; });
+$('doSend').addEventListener('click', () => { ROWS[pending][6] = $('ver').value; $('confirm').hidden = true; renderAdmin(); });
+$('cancel').addEventListener('click', () => { $('confirm').hidden = true; });
+
+buildChips(); update(); renderAdmin();
+</script>
+</body>
+</html>
