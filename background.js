@@ -271,7 +271,7 @@ async function addToQueue({ lines, lang, title, fileName }, tabId) {
     || String(fileName || 'subtitles').replace(SubLib.SUB_FILE, '')) + '.srt';
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   await chrome.storage.local.set({ ['queue:' + id]: { id, name, source: fileName || '', lang, lines, out: [], chunks: [],
-    status: 'waiting', error: '', model: '', page: tab.url, title } });
+    status: 'waiting', error: '', model: '', added: Date.now(), page: tab.url, title } });
   if (!(await queueTab())) await chrome.tabs.create({ url: chrome.runtime.getURL('batch.html'), active: false });
 }
 

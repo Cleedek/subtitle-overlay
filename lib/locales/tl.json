@@ -626,5 +626,11 @@
   "Finding": "Naghahanap",
   "automatic": "awtomatiko",
   "sharing mine": "ibinabahagi ang akin",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Malapit na:** subtitle para sa mga video na wala nito. Isusulat ito ng isang libreng model sa computer mo mula sa tunog sa background, saka isasalin sa pila"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Malapit na:** subtitle para sa mga video na wala nito. Isusulat ito ng isang libreng model sa computer mo mula sa tunog sa background, saka isasalin sa pila",
+  "Sort": "Ayusin",
+  "Sort the waiting files": "Ayusin ang mga file na naghihintay",
+  "By name": "Ayon sa pangalan",
+  "Episode 2 before episode 10": "Episode 2 bago ang episode 10",
+  "Oldest added first": "Unang idinagdag, una",
+  "Newest added first": "Huling idinagdag, una"
 }

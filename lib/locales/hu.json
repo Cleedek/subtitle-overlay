@@ -626,5 +626,11 @@
   "Finding": "Keresés",
   "automatic": "automatikus",
   "sharing mine": "megosztom a sajátom",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Hamarosan:** felirat a felirat nélküli videókhoz is. Egy ingyenes modell a gépeden a háttérben leírja a hangból, aztán a várólistában lefordítjuk"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Hamarosan:** felirat a felirat nélküli videókhoz is. Egy ingyenes modell a gépeden a háttérben leírja a hangból, aztán a várólistában lefordítjuk",
+  "Sort": "Rendezés",
+  "Sort the waiting files": "A várakozó fájlok rendezése",
+  "By name": "Név szerint",
+  "Episode 2 before episode 10": "A 2. rész a 10. előtt",
+  "Oldest added first": "Legrégebben hozzáadott elöl",
+  "Newest added first": "Legutóbb hozzáadott elöl"
 }

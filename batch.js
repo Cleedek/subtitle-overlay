@@ -199,12 +199,46 @@
   async function takeInbox(keys) {
     const got = keys ? await chrome.storage.local.get(keys)
       : Object.fromEntries(Object.entries(await chrome.storage.local.get(null)).filter(([k]) => k.startsWith(INBOX)));
-    const list = Object.values(got).filter((j) => j && Array.isArray(j.lines) && j.lines.length);
+    const list = Object.values(got).filter((j) => j && Array.isArray(j.lines) && j.lines.length)
+      .sort((a, b) => (a.added || 0) - (b.added || 0) || (a.seq || 0) - (b.seq || 0));
     await chrome.storage.local.remove(Object.keys(got));
     if (!list.length) return;
-    jobs.push(...list.filter((j) => !jobs.some((x) => x.id === j.id)));
+    for (const j of list) if (!jobs.some((x) => x.id === j.id)) place(j);
+    if (live.length) sortAhead();
     await save();
     render();
+  }
+
+  // A transcript from the audio goes before the files that aren't: you've
+  // already waited for it to be written down. The file being translated now
+  // lets it go after its current chunk (see overtaken), and carries on later.
+  function place(job) {
+    const at = job.audio ? jobs.findIndex((j) => active(j) && !j.audio) : -1;
+    if (at >= 0) jobs.splice(at, 0, job);
+    else jobs.push(job);
+  }
+
+  // ---------- sorting ----------
+
+  // Natural order: "Episode 2" before "Episode 10", case and accents aside.
+  const byName = new Intl.Collator(SubI18n.lang, { numeric: true, sensitivity: 'base' });
+  const nameOf = (j) => j.title || j.name;
+  // Jobs from before "added" was kept stay where they were (their place in the list).
+  const addedOf = (j) => j.added || 0;
+  const SORTS = {
+    name: (a, b) => byName.compare(nameOf(a), nameOf(b)),
+    oldest: (a, b) => addedOf(a) - addedOf(b),
+    newest: (a, b) => addedOf(b) - addedOf(a),
+  };
+  // Reorders the waiting files in the places they hold; the one being translated,
+  // finished and failed files stay put. Transcripts from the audio stay first.
+  function sortWaiting(how) {
+    const waiting = jobs.filter((j) => j.status === 'waiting');
+    const sorted = waiting.map((j, i) => [j, i])
+      .sort(([a, i], [b, k]) => (b.audio ? 1 : 0) - (a.audio ? 1 : 0) || SORTS[how](a, b) || i - k)
+      .map(([j]) => j);
+    jobs = jobs.map((j) => (j.status === 'waiting' ? sorted.shift() : j));
+    if (live.length) sortAhead();
   }
 
   // ---------- adding files ----------
@@ -222,6 +256,9 @@
     }
     say(skipped.length ? t('Not subtitles, left out: {names}', { names: skipped.join(', ') }) : '', skipped.length > 0);
     if (!added.length) return;
+    // Files added together line up by name (episode 11, 12, 13 … whatever order the system gave them).
+    const now = Date.now();
+    added.sort((a, b) => byName.compare(a.name, b.name)).forEach((j, i) => { j.added = now; j.seq = i; });
     // The same way in as the popup's files, so a copy that doesn't run the
     // queue can't overwrite the list of the one that does.
     await chrome.storage.local.set(Object.fromEntries(added.map((j) => [INBOX + j.id, j])));
@@ -400,7 +437,9 @@
   // A pass let go on says it's running half a second later: nothing starts in that gap.
   let letGoUntil = 0;
   const giveWay = (job) => !job.ahead && (live.some((l) => !l.paused) || (live.length > 0 && Date.now() < letGoUntil));
-  const halted = (job) => paused || !jobs.includes(job) || giveWay(job);
+  // A transcript from the audio waits above this file (placed there when it came in).
+  const overtaken = (job) => !job.audio && jobs.slice(0, jobs.indexOf(job)).some((j) => j.audio && j.status === 'waiting');
+  const halted = (job) => paused || !jobs.includes(job) || giveWay(job) || overtaken(job);
   const queueFirst = () => !paused && live.length > 0 && jobs.some((j) => j.ahead && active(j));
   let wakeUp = () => {};
   const nap = (ms) => new Promise((r) => { const id = setTimeout(r, ms); wakeUp = () => { clearTimeout(id); r(); }; });
@@ -463,9 +502,12 @@
       return chrome.storage.local.set({ [EDIT]: Object.assign({ t: Date.now() }, change) });
     }
     const job = jobs.find((j) => j.id === change.id);
-    if (!job && !change.live) return;
-    const tops = change.move && new Map([...$('jobs').children].map((li) => [li.dataset.id, li.getBoundingClientRect().top]));
-    if (change.live) {
+    if (!job && !change.live && !change.sort) return;
+    const tops = (change.move || change.sort) && new Map([...$('jobs').children].map((li) => [li.dataset.id, li.getBoundingClientRect().top]));
+    if (change.sort) {
+      if (!SORTS[change.sort]) return;
+      sortWaiting(change.sort);
+    } else if (change.live) {
       // The file just above the passes (even one being translated) goes below them, or the one below above them.
       const other = change.move < 0 ? jobs.filter((j) => j.ahead && active(j)).pop() : jobs.find((j) => !j.ahead && j.status === 'waiting');
       if (!other) return;
@@ -489,8 +531,37 @@
     if (current && giveWay(current)) stopCurrent();
     await save();
     render();
-    if (tops) slide(tops, change.live ? live[0] && live[0].key : job.id);
+    if (tops) slide(tops, change.sort ? '' : change.live ? live[0] && live[0].key : job.id);
   }
+
+  // "Sort": a small menu under the button, as "Show on…" has.
+  const sortMenu = el('div', 'tab-menu sort-menu');
+  sortMenu.popover = 'auto';
+  sortMenu.setAttribute('role', 'menu');
+  sortMenu.append(el('div', 'tab-menu-title', t('Sort the waiting files')), ...[
+    ['name', t('By name'), t('Episode 2 before episode 10')],
+    ['oldest', t('Oldest added first'), ''],
+    ['newest', t('Newest added first'), ''],
+  ].map(([how, label, sub]) => {
+    const b = el('button', 'sort-row');
+    b.setAttribute('role', 'menuitem');
+    b.append(el('span', '', label), ...(sub ? [el('span', 'sort-sub', sub)] : []));
+    b.addEventListener('click', () => { sortMenu.hidePopover(); edit({ sort: how }); });
+    return b;
+  }));
+  document.body.append(sortMenu);
+  $('sort').popoverTargetElement = sortMenu;
+  $('sort').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (sortMenu.matches(':popover-open')) return sortMenu.hidePopover();
+    sortMenu.showPopover();
+    const r = $('sort').getBoundingClientRect();
+    sortMenu.style.top = (r.bottom + scrollY + 6) + 'px';
+    sortMenu.style.left = Math.max(12 + scrollX, r.right + scrollX - sortMenu.offsetWidth) + 'px';
+    $('sort').setAttribute('aria-expanded', 'true');
+    sortMenu.querySelector('.sort-row').focus();
+  });
+  sortMenu.addEventListener('toggle', (e) => { if (e.newState === 'closed') $('sort').setAttribute('aria-expanded', 'false'); });
 
   // After a move the cards glide to their new places, so the eye can follow
   // the file; the one that was moved passes over the other.
@@ -701,6 +772,7 @@
     const done = jobs.some((j) => j.status === 'done');
     $('empty').hidden = jobs.length > 0 || live.length > 0;
     $('pause').hidden = !waiting && !paused;
+    $('sort').hidden = jobs.filter((j) => j.status === 'waiting').length < 2;
     $('pause').textContent = t(paused ? 'Resume' : 'Pause');
     $('saveAll').hidden = !done;
     $('clearDone').hidden = !done;

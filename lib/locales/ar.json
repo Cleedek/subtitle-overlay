@@ -626,5 +626,11 @@
   "Finding": "البحث",
   "automatic": "تلقائي",
   "sharing mine": "أشارك ترجماتي",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**قريبًا:** ترجمات للفيديوهات التي لا ترجمة لها. نموذج مجاني على جهازك يكتبها من الصوت في الخلفية، ثم تُترجم في قائمة الانتظار"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**قريبًا:** ترجمات للفيديوهات التي لا ترجمة لها. نموذج مجاني على جهازك يكتبها من الصوت في الخلفية، ثم تُترجم في قائمة الانتظار",
+  "Sort": "ترتيب",
+  "Sort the waiting files": "ترتيب الملفات المنتظرة",
+  "By name": "حسب الاسم",
+  "Episode 2 before episode 10": "الحلقة 2 قبل الحلقة 10",
+  "Oldest added first": "الأقدم إضافة أولًا",
+  "Newest added first": "الأحدث إضافة أولًا"
 }

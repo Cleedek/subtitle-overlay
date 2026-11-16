@@ -626,5 +626,11 @@
   "Finding": "Mencari",
   "automatic": "otomatis",
   "sharing mine": "membagikan milik saya",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Segera hadir:** subtitle untuk video yang tidak punya subtitle. Model gratis di komputermu menuliskannya dari suara di latar belakang, lalu diterjemahkan di antrean"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Segera hadir:** subtitle untuk video yang tidak punya subtitle. Model gratis di komputermu menuliskannya dari suara di latar belakang, lalu diterjemahkan di antrean",
+  "Sort": "Urutkan",
+  "Sort the waiting files": "Urutkan file yang menunggu",
+  "By name": "Menurut nama",
+  "Episode 2 before episode 10": "Episode 2 sebelum episode 10",
+  "Oldest added first": "Yang lebih dulu ditambahkan dulu",
+  "Newest added first": "Yang terakhir ditambahkan dulu"
 }

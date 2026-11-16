@@ -626,5 +626,11 @@
   "Finding": "Пошук",
   "automatic": "автоматично",
   "sharing mine": "ділюся своїми",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Незабаром:** субтитри й для відео без субтитрів. Безкоштовна модель на вашому комп'ютері запише їх зі звуку у фоні, а потім їх буде перекладено в черзі"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Незабаром:** субтитри й для відео без субтитрів. Безкоштовна модель на вашому комп'ютері запише їх зі звуку у фоні, а потім їх буде перекладено в черзі",
+  "Sort": "Сортувати",
+  "Sort the waiting files": "Сортувати файли в черзі",
+  "By name": "За назвою",
+  "Episode 2 before episode 10": "Серія 2 перед серією 10",
+  "Oldest added first": "Спершу додані раніше",
+  "Newest added first": "Спершу додані останніми"
 }

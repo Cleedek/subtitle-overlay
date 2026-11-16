@@ -626,5 +626,11 @@
   "Finding": "Arama",
   "automatic": "otomatik",
   "sharing mine": "benimkileri paylaşıyorum",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Yakında:** altyazısı olmayan videolar için de altyazı. Bilgisayarındaki ücretsiz bir model arka planda sesi yazıya döker, sonra kuyrukta çevrilir"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Yakında:** altyazısı olmayan videolar için de altyazı. Bilgisayarındaki ücretsiz bir model arka planda sesi yazıya döker, sonra kuyrukta çevrilir",
+  "Sort": "Sırala",
+  "Sort the waiting files": "Bekleyen dosyaları sırala",
+  "By name": "Ada göre",
+  "Episode 2 before episode 10": "2. bölüm 10. bölümden önce",
+  "Oldest added first": "İlk eklenen önce",
+  "Newest added first": "Son eklenen önce"
 }

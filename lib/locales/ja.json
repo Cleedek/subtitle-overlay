@@ -626,5 +626,11 @@
   "Finding": "検索",
   "automatic": "自動",
   "sharing mine": "自分の字幕を共有",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**近日公開:** 字幕のない動画にも字幕を。パソコン上の無料モデルがバックグラウンドで音声から書き起こし、その後キューで翻訳します"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**近日公開:** 字幕のない動画にも字幕を。パソコン上の無料モデルがバックグラウンドで音声から書き起こし、その後キューで翻訳します",
+  "Sort": "並べ替え",
+  "Sort the waiting files": "待機中のファイルを並べ替え",
+  "By name": "名前順",
+  "Episode 2 before episode 10": "第2話を第10話より前に",
+  "Oldest added first": "追加が古い順",
+  "Newest added first": "追加が新しい順"
 }

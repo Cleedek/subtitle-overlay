@@ -626,5 +626,11 @@
   "Finding": "Szukanie",
   "automatic": "automatycznie",
   "sharing mine": "udostępniam swoje",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Wkrótce:** napisy także do filmów, które ich nie mają. Darmowy model na twoim komputerze zapisze je w tle z dźwięku, a potem zostaną przetłumaczone w kolejce"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Wkrótce:** napisy także do filmów, które ich nie mają. Darmowy model na twoim komputerze zapisze je w tle z dźwięku, a potem zostaną przetłumaczone w kolejce",
+  "Sort": "Sortuj",
+  "Sort the waiting files": "Sortuj oczekujące pliki",
+  "By name": "Według nazwy",
+  "Episode 2 before episode 10": "Odcinek 2 przed odcinkiem 10",
+  "Oldest added first": "Najdawniej dodane najpierw",
+  "Newest added first": "Ostatnio dodane najpierw"
 }

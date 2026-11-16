@@ -107,6 +107,13 @@ a.job-name:hover { text-decoration: underline; }
 .tab-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
 .tab-site { grid-column: 2; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--muted); }
 .tab-tag { grid-row: 1 / span 2; grid-column: 3; font-size: 10.5px; font-weight: 600; color: var(--accent-text); background: var(--accent-tint); border-radius: 5px; padding: 1px 6px; white-space: nowrap; }
+.sort-menu { width: min(260px, calc(100vw - 24px)); }
+.sort-row {
+  width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; text-align: left;
+  padding: 7px 8px; border: 0; border-radius: 8px; background: transparent; font-size: 13px; font-weight: 500;
+}
+.sort-row:hover, .sort-row:focus-visible { background: var(--panel-hover); }
+.sort-sub { font-size: 11.5px; font-weight: 400; color: var(--muted); }
 .tab-empty { padding: 10px 8px 8px; font-size: 12.5px; color: var(--muted); }
 .tab-empty strong { display: block; color: var(--text); font-weight: 600; margin-bottom: 2px; }
 .tab-foot { margin: 4px 2px 0; padding: 8px 6px 4px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--faint); }

@@ -626,5 +626,11 @@
   "Finding": "尋找",
   "automatic": "自動",
   "sharing mine": "共享我的",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即將推出:** 為沒有字幕的影片產生字幕。你電腦上的免費模型會在背景根據聲音寫出字幕,然後在佇列中翻譯"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即將推出:** 為沒有字幕的影片產生字幕。你電腦上的免費模型會在背景根據聲音寫出字幕,然後在佇列中翻譯",
+  "Sort": "排序",
+  "Sort the waiting files": "為等待中的檔案排序",
+  "By name": "依名稱",
+  "Episode 2 before episode 10": "第 2 集排在第 10 集前面",
+  "Oldest added first": "最早加入的在前",
+  "Newest added first": "最近加入的在前"
 }

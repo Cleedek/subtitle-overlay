@@ -626,5 +626,11 @@
   "Finding": "खोज",
   "automatic": "स्वचालित",
   "sharing mine": "मेरे साझा",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**जल्द आ रहा है:** बिना सबटाइटल वाले वीडियो के लिए भी सबटाइटल। आपके कंप्यूटर पर एक मुफ़्त मॉडल बैकग्राउंड में आवाज़ से उन्हें लिखेगा, फिर कतार में उनका अनुवाद होगा"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**जल्द आ रहा है:** बिना सबटाइटल वाले वीडियो के लिए भी सबटाइटल। आपके कंप्यूटर पर एक मुफ़्त मॉडल बैकग्राउंड में आवाज़ से उन्हें लिखेगा, फिर कतार में उनका अनुवाद होगा",
+  "Sort": "क्रम बदलें",
+  "Sort the waiting files": "प्रतीक्षा में फ़ाइलों को क्रम से लगाएँ",
+  "By name": "नाम के अनुसार",
+  "Episode 2 before episode 10": "एपिसोड 2, एपिसोड 10 से पहले",
+  "Oldest added first": "पहले जोड़ी गई पहले",
+  "Newest added first": "बाद में जोड़ी गई पहले"
 }

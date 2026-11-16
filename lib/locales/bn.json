@@ -626,5 +626,11 @@
   "Finding": "খোঁজা",
   "automatic": "স্বয়ংক্রিয়",
   "sharing mine": "আমারগুলো শেয়ার",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**শিগগিরই আসছে:** যেসব ভিডিওর সাবটাইটেল নেই, সেগুলোর জন্যও সাবটাইটেল। আপনার কম্পিউটারে একটি ফ্রি মডেল পেছনে চলতে চলতে শব্দ থেকে লিখে নেবে, তারপর সারিতে অনুবাদ হবে"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**শিগগিরই আসছে:** যেসব ভিডিওর সাবটাইটেল নেই, সেগুলোর জন্যও সাবটাইটেল। আপনার কম্পিউটারে একটি ফ্রি মডেল পেছনে চলতে চলতে শব্দ থেকে লিখে নেবে, তারপর সারিতে অনুবাদ হবে",
+  "Sort": "সাজান",
+  "Sort the waiting files": "অপেক্ষমাণ ফাইলগুলো সাজান",
+  "By name": "নাম অনুযায়ী",
+  "Episode 2 before episode 10": "পর্ব 2, পর্ব 10-এর আগে",
+  "Oldest added first": "আগে যোগ করা আগে",
+  "Newest added first": "পরে যোগ করা আগে"
 }

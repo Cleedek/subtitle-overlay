@@ -626,5 +626,11 @@
   "Finding": "查找",
   "automatic": "自动",
   "sharing mine": "共享我的",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即将推出:** 为没有字幕的视频生成字幕。你电脑上的免费模型会在后台根据声音写出字幕,然后在队列中翻译"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即将推出:** 为没有字幕的视频生成字幕。你电脑上的免费模型会在后台根据声音写出字幕,然后在队列中翻译",
+  "Sort": "排序",
+  "Sort the waiting files": "为等待中的文件排序",
+  "By name": "按名称",
+  "Episode 2 before episode 10": "第 2 集排在第 10 集前面",
+  "Oldest added first": "最早添加的在前",
+  "Newest added first": "最近添加的在前"
 }
