@@ -1,6 +1,6 @@
 Tonton mana-mana video web dengan sari kata dalam bahasa anda.
 
-Subtitle Overlay memaparkan sari kata di atas pemain video mana-mana laman web, termasuk dalam skrin penuh, dan memastikannya sentiasa selari dengan video: jeda, lompat dan kelajuan main balik semuanya berfungsi seperti biasa. Gunakan sari kata yang sudah ada di laman itu, diterjemah ke bahasa anda, atau bawa fail .srt atau .vtt anda sendiri.
+Subtitle Overlay memaparkan sari kata di atas pemain video mana-mana laman web, termasuk dalam skrin penuh, dan memastikannya sentiasa selari dengan video: jeda, lompat dan kelajuan main balik semuanya berfungsi seperti biasa. Gunakan sari kata yang sudah ada di laman itu, diterjemah ke bahasa anda, atau bawa fail .srt, .vtt, .ass, .ssa atau .ttml anda sendiri.
 
 ★ SOROTAN UTAMA
 ★ Mana-mana laman, mana-mana video: sari kata di atas pemain, dalam tetingkap atau skrin penuh, sentiasa selari
@@ -54,7 +54,7 @@ MENGESAN SARI KATA YANG DIMUATKAN LAMAN
 • Beberapa video pada satu halaman? Pilih video mana yang memiliki sari kata itu
 
 BARIS GILIR TERJEMAHAN DAN SARI KATA TERSIMPAN
-• Masukkan beberapa fail .srt atau .vtt, atau klik "Tambah ke baris gilir" pada sari kata yang dimuatkan laman. Ia diterjemah satu demi satu sementara anda membuat kerja lain; tab baris gilir boleh dibiarkan di latar belakang
+• Masukkan beberapa fail .srt, .vtt, .ass, .ssa atau .ttml, atau klik "Tambah ke baris gilir" pada sari kata yang dimuatkan laman. Ia diterjemah satu demi satu sementara anda membuat kerja lain; tab baris gilir boleh dibiarkan di latar belakang
 • Berfungsi dengan Google, Gemini, Claude, OpenAI atau model tempatan anda
 • Selagi fail berada dalam baris gilir, kad di atas videonya menunjukkan setakat mana kemajuannya, dan fail yang siap menggantikan baris daripada Google dengan sendirinya
 • Sari kata yang ditambah baik disimpan dalam sambungan selama mana yang anda pilih, dan muncul semula apabila anda kembali ke video itu, dan di mana-mana halaman lain dengan sari kata yang sama, tanpa bertanya kepada AI lagi
@@ -78,7 +78,7 @@ DIBINA UNTUK BELAJAR
 • Klik mana-mana baris untuk menyalinnya, untuk kamus atau nota anda
 
 FAIL ANDA SENDIRI
-• Pilih fail .srt atau .vtt, atau seret terus ke atas video
+• Pilih fail .srt, .vtt, .ass, .ssa atau .ttml, atau seret terus ke atas video
 • Huruf rosak? Pengesanan pengekodan teks automatik (termasuk fail Jepun, Cina dan Korea) dengan pilihan manual
 • Sari kata anda kembali apabila anda memuat semula halaman atau kembali kepadanya kemudian
 

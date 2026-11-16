@@ -27,6 +27,7 @@ select.compact { min-width: 180px; max-width: 260px; }
   color: var(--muted); text-align: center; transition: border-color .15s var(--ease), background-color .15s var(--ease);
 }
 .drop p { margin: 0; }
+.drop .formats { margin-top: -6px; font-size: 12px; letter-spacing: .02em; color: var(--faint); }
 .drop button { padding: 8px 18px; }
 .drop.over { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
 #msg { margin-top: 10px; }

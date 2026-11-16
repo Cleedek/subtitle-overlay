@@ -207,7 +207,7 @@ Subtitles on any web video, in sync and in 31 languages. AI makes the translatio
 
 Watch any web video with subtitles in your language.
 
-Subtitle Overlay draws subtitles over the video player of any website, also in fullscreen, and keeps them in sync with the video: pause, seek and playback speed just work. Use the subtitles the site already has, translated into your language, or bring your own .srt or .vtt file.
+Subtitle Overlay draws subtitles over the video player of any website, also in fullscreen, and keeps them in sync with the video: pause, seek and playback speed just work. Use the subtitles the site already has, translated into your language, or bring your own .srt, .vtt, .ass, .ssa or .ttml file.
 
 ★ THE HIGHLIGHTS
 ★ Any site, any video: subtitles over the player, in a window or fullscreen, always in sync
@@ -252,7 +252,7 @@ FINDS THE SUBTITLES A SITE LOADS
 • Several videos on one page? Pick which one the subtitles belong to
 
 TRANSLATION QUEUE AND SAVED SUBTITLES
-• Drop in several .srt or .vtt files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
+• Drop in several .srt, .vtt, .ass, .ssa or .ttml files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
 • Works with Google, Gemini, Claude, OpenAI or your local model
 • Improved subtitles are kept in the extension for as long as you choose, and come back when you return to the video
 • Play opens the video with its subtitles, "Show on…" puts them over a video already open in another tab, and Download saves the .srt
@@ -275,7 +275,7 @@ MADE FOR LEARNING
 • Click any line to copy it, for a dictionary or your notes
 
 YOUR OWN FILE
-• Pick an .srt or .vtt file, or drag it straight onto the video
+• Pick an .srt, .vtt, .ass, .ssa or .ttml file, or drag it straight onto the video
 • Broken letters? Automatic text encoding detection (also Japanese, Chinese and Korean files) with a manual override
 • Your subtitles come back when you reload the page or return to it later
 
@@ -324,7 +324,7 @@ Screenshots show frames from Tears of Steel, © Blender Foundation, mango.blende
 
 Sleduj jakékoli video na webu s titulky ve svém jazyce.
 
-Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na celé obrazovce, a drží je v synchronizaci s videem: pauza, přetáčení i rychlost přehrávání prostě fungují. Použij titulky, které už web má, přeložené do svého jazyka, nebo nahraj vlastní soubor .srt či .vtt.
+Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na celé obrazovce, a drží je v synchronizaci s videem: pauza, přetáčení i rychlost přehrávání prostě fungují. Použij titulky, které už web má, přeložené do svého jazyka, nebo nahraj vlastní soubor .srt, .vtt, .ass, .ssa či .ttml.
 
 ★ TO HLAVNÍ
 ★ Jakýkoli web, jakékoli video: titulky přes přehrávač, v okně i na celé obrazovce, vždy v synchronizaci
@@ -369,7 +369,7 @@ NAJDE TITULKY, KTERÉ WEB NAČTE
 • Víc videí na stránce? Vybereš, ke kterému titulky patří
 
 FRONTA PŘEKLADŮ A ULOŽENÉ TITULKY
-• Přidej několik souborů .srt nebo .vtt, nebo klikni na "Přidat do fronty" u titulků, které web načte. Přeloží se jeden po druhém, zatímco děláš něco jiného; záložka s frontou může zůstat na pozadí
+• Přidej několik souborů .srt, .vtt, .ass, .ssa nebo .ttml, nebo klikni na "Přidat do fronty" u titulků, které web načte. Přeloží se jeden po druhém, zatímco děláš něco jiného; záložka s frontou může zůstat na pozadí
 • Funguje s Googlem, Gemini, Claude, OpenAI i s tvým lokálním modelem
 • Vylepšené titulky zůstanou v rozšíření tak dlouho, jak si vybereš, a vrátí se, když se k videu vrátíš
 • Přehrát otevře video i s titulky, "Pustit na…" je dá na video, které máš otevřené v jiné záložce, a Stáhnout uloží .srt
@@ -392,7 +392,7 @@ PRO VÝUKU JAZYKŮ
 • Klikni na řádek titulků a zkopíruješ ho, třeba do slovníku
 
 VLASTNÍ SOUBOR
-• Vyber soubor .srt nebo .vtt, nebo ho přetáhni rovnou na video
+• Vyber soubor .srt, .vtt, .ass, .ssa nebo .ttml, nebo ho přetáhni rovnou na video
 • Rozsypané znaky? Automatické rozpoznání kódování (i japonské, čínské a korejské soubory) s ručním výběrem
 • Titulky se vrátí, když stránku znovu načteš nebo se na ni později vrátíš
 

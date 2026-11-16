@@ -238,7 +238,7 @@
     $('clear').hidden = !lf;
     $('syncSection').hidden = !lf; // nothing on the video, nothing to sync
     renderRate(lf && lf.report.loaded);
-    $('pick').textContent = t(lf ? 'Load a different file' : 'Load .srt / .vtt / .ttml file');
+    $('pick').textContent = t(lf ? 'Load a different file' : 'Load subtitle file');
     if (lf) {
       const l = lf.report.loaded;
       $('loadedName').textContent = l.name;

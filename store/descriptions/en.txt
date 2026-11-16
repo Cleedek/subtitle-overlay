@@ -1,6 +1,6 @@
 Watch any web video with subtitles in your language.
 
-Subtitle Overlay draws subtitles over the video player of any website, also in fullscreen, and keeps them in sync with the video: pause, seek and playback speed just work. Use the subtitles the site already has, translated into your language, or bring your own .srt or .vtt file.
+Subtitle Overlay draws subtitles over the video player of any website, also in fullscreen, and keeps them in sync with the video: pause, seek and playback speed just work. Use the subtitles the site already has, translated into your language, or bring your own .srt, .vtt, .ass, .ssa or .ttml file.
 
 ★ THE HIGHLIGHTS
 ★ Any site, any video: subtitles over the player, in a window or fullscreen, always in sync
@@ -54,7 +54,7 @@ FINDS THE SUBTITLES A SITE LOADS
 • Several videos on one page? Pick which one the subtitles belong to
 
 TRANSLATION QUEUE AND SAVED SUBTITLES
-• Drop in several .srt or .vtt files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
+• Drop in several .srt, .vtt, .ass, .ssa or .ttml files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
 • Works with Google, Gemini, Claude, OpenAI or your local model
 • While a file is in the queue, the card over its video shows how far it got, and the finished file replaces Google's lines on its own
 • Improved subtitles are kept in the extension for as long as you choose, and come back when you return to the video, and on any other page with the same subtitles, without asking the AI again
@@ -78,7 +78,7 @@ MADE FOR LEARNING
 • Click any line to copy it, for a dictionary or your notes
 
 YOUR OWN FILE
-• Pick an .srt or .vtt file, or drag it straight onto the video
+• Pick an .srt, .vtt, .ass, .ssa or .ttml file, or drag it straight onto the video
 • Broken letters? Automatic text encoding detection (also Japanese, Chinese and Korean files) with a manual override
 • Your subtitles come back when you reload the page or return to it later
 

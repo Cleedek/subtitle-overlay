@@ -1,6 +1,6 @@
 Oglądaj dowolne wideo w sieci z napisami w swoim języku.
 
-Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, także na pełnym ekranie, i utrzymuje je w synchronizacji z filmem: pauza, przewijanie i prędkość odtwarzania po prostu działają. Korzystaj z napisów, które strona już ma, przetłumaczonych na swój język, albo wczytaj własny plik .srt lub .vtt.
+Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, także na pełnym ekranie, i utrzymuje je w synchronizacji z filmem: pauza, przewijanie i prędkość odtwarzania po prostu działają. Korzystaj z napisów, które strona już ma, przetłumaczonych na swój język, albo wczytaj własny plik .srt, .vtt, .ass, .ssa lub .ttml.
 
 ★ NAJWAŻNIEJSZE
 ★ Dowolna strona, dowolne wideo: napisy nad odtwarzaczem, w oknie i na pełnym ekranie, zawsze zsynchronizowane
@@ -54,7 +54,7 @@ ZNAJDUJE NAPISY, KTÓRE WCZYTUJE STRONA
 • Kilka filmów na jednej stronie? Wybierz, do którego należą napisy
 
 KOLEJKA TŁUMACZEŃ I ZACHOWANE NAPISY
-• Wrzuć kilka plików .srt lub .vtt albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
+• Wrzuć kilka plików .srt, .vtt, .ass, .ssa lub .ttml albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
 • Działa z Google, Gemini, Claude, OpenAI lub twoim lokalnym modelem
 • Gdy plik jest w kolejce, karta nad jego wideo pokazuje, jak daleko zaszedł, a gotowy plik sam zastępuje linijki od Google
 • Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu, a także na każdej innej stronie z tymi samymi napisami, bez ponownego pytania AI
@@ -78,7 +78,7 @@ STWORZONE DO NAUKI
 • Kliknij dowolny wiersz, by go skopiować, na przykład do słownika albo notatek
 
 TWÓJ WŁASNY PLIK
-• Wybierz plik .srt lub .vtt albo przeciągnij go prosto na wideo
+• Wybierz plik .srt, .vtt, .ass, .ssa lub .ttml albo przeciągnij go prosto na wideo
 • Krzaczki zamiast liter? Automatyczne wykrywanie kodowania (także pliki japońskie, chińskie i koreańskie) z możliwością ręcznego wyboru
 • Twoje napisy wracają, gdy odświeżysz stronę lub wrócisz na nią później
 

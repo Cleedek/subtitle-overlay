@@ -1,6 +1,6 @@
 Schau jedes Web-Video mit Untertiteln in deiner Sprache.
 
-Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch im Vollbild, und hält sie synchron zum Video: Pause, Spulen und Wiedergabegeschwindigkeit funktionieren einfach. Nutze die Untertitel, die die Seite schon hat, übersetzt in deine Sprache, oder bring deine eigene .srt- oder .vtt-Datei mit.
+Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch im Vollbild, und hält sie synchron zum Video: Pause, Spulen und Wiedergabegeschwindigkeit funktionieren einfach. Nutze die Untertitel, die die Seite schon hat, übersetzt in deine Sprache, oder bring deine eigene .srt-, .vtt-, .ass-, .ssa- oder .ttml-Datei mit.
 
 ★ DAS WICHTIGSTE
 ★ Jede Seite, jedes Video: Untertitel über dem Player, im Fenster oder im Vollbild, immer synchron
@@ -54,7 +54,7 @@ FINDET DIE UNTERTITEL, DIE EINE SEITE LÄDT
 • Mehrere Videos auf einer Seite? Wähle aus, zu welchem die Untertitel gehören
 
 ÜBERSETZUNGSWARTESCHLANGE UND GESPEICHERTE UNTERTITEL
-• Zieh mehrere .srt- oder .vtt-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
+• Zieh mehrere .srt-, .vtt-, .ass-, .ssa- oder .ttml-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
 • Funktioniert mit Google, Gemini, Claude, OpenAI oder deinem lokalen Modell
 • Solange eine Datei in der Warteschlange ist, zeigt die Karte über ihrem Video, wie weit sie ist, und die fertige Datei ersetzt von selbst die Zeilen von Google
 • Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst, und auch auf jeder anderen Seite mit denselben Untertiteln, ohne die KI erneut zu fragen
@@ -78,7 +78,7 @@ GEMACHT ZUM LERNEN
 • Klicke auf eine Zeile, um sie zu kopieren, für ein Wörterbuch oder deine Notizen
 
 DEINE EIGENE DATEI
-• Wähle eine .srt- oder .vtt-Datei aus, oder zieh sie direkt auf das Video
+• Wähle eine .srt-, .vtt-, .ass-, .ssa- oder .ttml-Datei aus, oder zieh sie direkt auf das Video
 • Kaputte Buchstaben? Automatische Erkennung der Textkodierung (auch für japanische, chinesische und koreanische Dateien) mit manueller Auswahl
 • Deine Untertitel kommen zurück, wenn du die Seite neu lädst oder später wieder aufrufst
 

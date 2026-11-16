@@ -95,6 +95,8 @@ header { padding-bottom: 12px; }
 .panel > section:first-child { border-top: 0; }
 .muted { color: var(--muted); }
 .small { font-size: 11.5px; margin: 8px 0 0; color: var(--faint); }
+.formats { letter-spacing: .02em; }
+.formats + .small { margin-top: 2px; }
 .label { display: block; color: var(--muted); margin: 10px 0 4px; }
 
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

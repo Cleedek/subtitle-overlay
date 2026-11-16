@@ -1,6 +1,6 @@
 Nézz bármilyen webes videót feliratokkal, a saját nyelveden.
 
-A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a feliratokat, teljes képernyőn is, és szinkronban tartja őket a videóval: a szünet, a tekerés és a lejátszási sebesség gond nélkül működik. Használd az oldal saját feliratait a nyelvedre fordítva, vagy hozd a saját .srt vagy .vtt fájlodat.
+A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a feliratokat, teljes képernyőn is, és szinkronban tartja őket a videóval: a szünet, a tekerés és a lejátszási sebesség gond nélkül működik. Használd az oldal saját feliratait a nyelvedre fordítva, vagy hozd a saját .srt, .vtt, .ass, .ssa vagy .ttml fájlodat.
 
 ★ A LEGFONTOSABBAK
 ★ Bármilyen oldal, bármilyen videó: feliratok a lejátszó fölött, ablakban vagy teljes képernyőn, mindig szinkronban
@@ -54,7 +54,7 @@ MEGTALÁLJA AZ OLDAL FELIRATAIT
 • Több videó egy oldalon? Kiválaszthatod, melyikhez tartoznak a feliratok
 
 FORDÍTÁSI VÁRÓLISTA ÉS MENTETT FELIRATOK
-• Húzz be több .srt vagy .vtt fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
+• Húzz be több .srt, .vtt, .ass, .ssa vagy .ttml fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
 • Működik a Google, a Gemini, a Claude, az OpenAI vagy a saját helyi modelled segítségével
 • Amíg egy fájl a várólistán van, a videója fölötti kártya mutatja, meddig jutott, és a kész fájl magától leváltja a Google sorait
 • A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót, és bármely más oldalon is, ahol ugyanaz a felirat, anélkül hogy újra megkérdeznéd az MI-t
@@ -78,7 +78,7 @@ NYELVTANULÁSHOZ
 • Kattints bármelyik sorra a másoláshoz, szótárhoz vagy a jegyzeteidhez
 
 SAJÁT FÁJL
-• Válassz egy .srt vagy .vtt fájlt, vagy húzd közvetlenül a videóra
+• Válassz egy .srt, .vtt, .ass, .ssa vagy .ttml fájlt, vagy húzd közvetlenül a videóra
 • Olvashatatlan karakterek? Automatikus karakterkódolás-felismerés (japán, kínai és koreai fájlokhoz is), kézi felülbírálási lehetőséggel
 • A feliratok visszatérnek, ha újratöltöd az oldalt, vagy később visszatérsz rá
 

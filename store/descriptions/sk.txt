@@ -1,6 +1,6 @@
 Pozeraj akékoľvek video na webe s titulkami vo svojom jazyku.
 
-Subtitle Overlay zobrazí titulky cez prehrávač na akomkoľvek webe, aj na celej obrazovke, a drží ich synchrónne s videom: pauza, pretáčanie aj rýchlosť prehrávania jednoducho fungujú. Použi titulky, ktoré už web má, preložené do svojho jazyka, alebo nahraj vlastný súbor .srt či .vtt.
+Subtitle Overlay zobrazí titulky cez prehrávač na akomkoľvek webe, aj na celej obrazovke, a drží ich synchrónne s videom: pauza, pretáčanie aj rýchlosť prehrávania jednoducho fungujú. Použi titulky, ktoré už web má, preložené do svojho jazyka, alebo nahraj vlastný súbor .srt, .vtt, .ass, .ssa či .ttml.
 
 ★ TO HLAVNÉ
 ★ Akýkoľvek web, akékoľvek video: titulky cez prehrávač, v okne aj na celej obrazovke, vždy synchrónne
@@ -54,7 +54,7 @@ NÁJDE TITULKY, KTORÉ WEB NAČÍTA
 • Viac videí na jednej stránke? Vyberieš, ku ktorému titulky patria
 
 FRONT PREKLADOV A ULOŽENÉ TITULKY
-• Pridaj niekoľko súborov .srt alebo .vtt, alebo klikni na "Pridať do frontu" pri titulkoch, ktoré web načíta. Preložia sa jeden po druhom, kým robíš niečo iné; karta s frontom môže zostať na pozadí
+• Pridaj niekoľko súborov .srt, .vtt, .ass, .ssa alebo .ttml, alebo klikni na "Pridať do frontu" pri titulkoch, ktoré web načíta. Preložia sa jeden po druhom, kým robíš niečo iné; karta s frontom môže zostať na pozadí
 • Funguje s Googlom, Gemini, Claude, OpenAI aj s tvojím lokálnym modelom
 • Kým je súbor vo fronte, karta nad jeho videom ukazuje, koľko je hotové, a hotový súbor sám nahradí riadky od Googlu
 • Vylepšené titulky zostanú v rozšírení tak dlho, ako si vyberieš, a vrátia sa, keď sa k videu vrátiš, a aj na akejkoľvek inej stránke s rovnakými titulkami, bez toho, aby sa znova pýtali AI
@@ -78,7 +78,7 @@ NA UČENIE JAZYKOV
 • Klikni na ktorýkoľvek riadok a skopíruješ ho, do slovníka alebo do poznámok
 
 VLASTNÝ SÚBOR
-• Vyber súbor .srt alebo .vtt, alebo ho pretiahni rovno na video
+• Vyber súbor .srt, .vtt, .ass, .ssa alebo .ttml, alebo ho pretiahni rovno na video
 • Rozsypané znaky? Automatické rozpoznanie kódovania (aj japonské, čínske a kórejské súbory) s ručným výberom
 • Titulky sa vrátia, keď stránku znova načítaš alebo sa na ňu neskôr vrátiš
 

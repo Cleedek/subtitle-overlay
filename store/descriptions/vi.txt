@@ -1,6 +1,6 @@
 Xem mọi video trên web với phụ đề bằng ngôn ngữ của bạn.
 
-Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của bất kỳ trang web nào, kể cả khi xem toàn màn hình, và luôn khớp với video: tạm dừng, tua hay đổi tốc độ phát đều chạy mượt. Bạn có thể dùng phụ đề sẵn có của trang, được dịch sang ngôn ngữ của bạn, hoặc tự mở tệp .srt hay .vtt của mình.
+Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của bất kỳ trang web nào, kể cả khi xem toàn màn hình, và luôn khớp với video: tạm dừng, tua hay đổi tốc độ phát đều chạy mượt. Bạn có thể dùng phụ đề sẵn có của trang, được dịch sang ngôn ngữ của bạn, hoặc tự mở tệp .srt, .vtt, .ass, .ssa hay .ttml của mình.
 
 ★ ĐIỂM NỔI BẬT
 ★ Mọi trang web, mọi video: phụ đề hiện trên trình phát, trong cửa sổ hay toàn màn hình, luôn khớp thời gian
@@ -54,7 +54,7 @@ TỰ TÌM PHỤ ĐỀ MÀ TRANG WEB TẢI
 • Trang có nhiều video? Bạn chọn video nào là của bộ phụ đề đó
 
 HÀNG ĐỢI DỊCH VÀ PHỤ ĐỀ ĐÃ LƯU
-• Thả vào vài tệp .srt hoặc .vtt, hoặc bấm "Thêm vào hàng đợi" với phụ đề mà trang tải. Các tệp sẽ được dịch lần lượt trong khi bạn làm việc khác; tab hàng đợi có thể để chạy nền
+• Thả vào vài tệp .srt, .vtt, .ass, .ssa hoặc .ttml, hoặc bấm "Thêm vào hàng đợi" với phụ đề mà trang tải. Các tệp sẽ được dịch lần lượt trong khi bạn làm việc khác; tab hàng đợi có thể để chạy nền
 • Dùng được với Google, Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn
 • Khi một tệp đang nằm trong hàng đợi, thẻ trên video của nó cho biết đã xong đến đâu, và tệp hoàn tất tự thay các dòng của Google
 • Phụ đề đã cải thiện được giữ trong tiện ích bao lâu tùy bạn chọn, và tự hiện lại khi bạn quay lại video, và cả trên bất kỳ trang nào khác có cùng phụ đề, không cần hỏi lại AI
@@ -78,7 +78,7 @@ DÀNH CHO NGƯỜI HỌC NGOẠI NGỮ
 • Nhấp vào bất kỳ dòng nào để sao chép, dùng để tra từ điển hoặc ghi chép
 
 TỆP CỦA RIÊNG BẠN
-• Chọn tệp .srt hoặc .vtt, hoặc kéo thả thẳng vào video
+• Chọn tệp .srt, .vtt, .ass, .ssa hoặc .ttml, hoặc kéo thả thẳng vào video
 • Chữ bị lỗi font? Tự động nhận diện bảng mã (cả tệp tiếng Nhật, tiếng Trung và tiếng Hàn), có thể chọn thủ công
 • Phụ đề của bạn vẫn còn khi bạn tải lại trang hoặc quay lại trang đó sau này
 

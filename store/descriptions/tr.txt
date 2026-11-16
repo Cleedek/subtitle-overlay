@@ -1,6 +1,6 @@
 Herhangi bir web videosunu kendi dilinde altyazıyla izle.
 
-Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, tam ekranda bile gösterir ve videoyla senkronize tutar: duraklatma, ileri geri sarma ve oynatma hızı sorunsuz çalışır. Sitenin zaten sunduğu altyazıları kendi diline çevrilmiş olarak kullan ya da kendi .srt veya .vtt dosyanı getir.
+Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, tam ekranda bile gösterir ve videoyla senkronize tutar: duraklatma, ileri geri sarma ve oynatma hızı sorunsuz çalışır. Sitenin zaten sunduğu altyazıları kendi diline çevrilmiş olarak kullan ya da kendi .srt, .vtt, .ass, .ssa veya .ttml dosyanı getir.
 
 ★ ÖNE ÇIKANLAR
 ★ Her site, her video: oynatıcının üzerinde altyazı, pencerede veya tam ekranda, her zaman senkronize
@@ -54,7 +54,7 @@ SİTENİN YÜKLEDİĞİ ALTYAZILARI BULUR
 • Bir sayfada birden fazla video mu var? Altyazıların hangisine ait olduğunu seç
 
 ÇEVİRİ KUYRUĞU VE KAYDEDİLEN ALTYAZILAR
-• Birkaç .srt veya .vtt dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
+• Birkaç .srt, .vtt, .ass, .ssa veya .ttml dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
 • Google, Gemini, Claude, OpenAI veya yerel modelinle çalışır
 • Bir dosya kuyruktayken videosunun üstündeki kart ne kadarının bittiğini gösterir ve biten dosya Google'ın satırlarının yerini kendiliğinden alır
 • İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir, ve aynı altyazıların olduğu başka herhangi bir sayfada da, yapay zekâya yeniden sormadan
@@ -78,7 +78,7 @@ DİL ÖĞRENMEK İÇİN TASARLANDI
 • Herhangi bir satırı kopyalamak için üzerine tıkla; sözlük ya da notların için
 
 KENDİ DOSYAN
-• Bir .srt veya .vtt dosyası seç ya da doğrudan videonun üzerine sürükle
+• Bir .srt, .vtt, .ass, .ssa veya .ttml dosyası seç ya da doğrudan videonun üzerine sürükle
 • Harfler bozuk mu? Otomatik metin kodlaması algılama (Japonca, Çince ve Korece dosyalar dahil), elle seçme imkânıyla
 • Sayfayı yenilediğinde ya da daha sonra geri döndüğünde altyazıların geri gelir
 

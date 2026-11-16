@@ -1,6 +1,6 @@
 Se hvilken som helst nettvideo med undertekster på ditt språk.
 
-Subtitle Overlay viser undertekster over videospilleren på alle nettsteder, også i fullskjerm, og holder dem synkronisert med videoen: pause, spoling og avspillingshastighet fungerer helt som vanlig. Bruk undertekstene nettstedet allerede har, oversatt til ditt språk, eller ta med din egen .srt- eller .vtt-fil.
+Subtitle Overlay viser undertekster over videospilleren på alle nettsteder, også i fullskjerm, og holder dem synkronisert med videoen: pause, spoling og avspillingshastighet fungerer helt som vanlig. Bruk undertekstene nettstedet allerede har, oversatt til ditt språk, eller ta med din egen .srt-, .vtt-, .ass-, .ssa- eller .ttml-fil.
 
 ★ HØYDEPUNKTENE
 ★ Alle nettsteder, alle videoer: undertekster over spilleren, i vindu eller fullskjerm, alltid synkronisert
@@ -54,7 +54,7 @@ FINNER UNDERTEKSTENE SIDEN LASTER INN
 • Flere videoer på én side? Velg hvilken undertekstene hører til
 
 OVERSETTELSESKØ OG LAGREDE UNDERTEKSTER
-• Slipp inn flere .srt- eller .vtt-filer, eller klikk på "Legg til i køen" på undertekster et nettsted laster inn. De oversettes én etter én mens du gjør noe annet; kø-fanen kan ligge i bakgrunnen
+• Slipp inn flere .srt-, .vtt-, .ass-, .ssa- eller .ttml-filer, eller klikk på "Legg til i køen" på undertekster et nettsted laster inn. De oversettes én etter én mens du gjør noe annet; kø-fanen kan ligge i bakgrunnen
 • Fungerer med Google, Gemini, Claude, OpenAI eller din lokale modell
 • Mens en fil ligger i køen, viser kortet over videoen hvor langt den har kommet, og den ferdige filen erstatter Googles linjer av seg selv
 • Forbedrede undertekster lagres i utvidelsen så lenge du ønsker, og kommer tilbake når du går tilbake til videoen, og på alle andre sider med de samme undertekstene, uten å spørre AI-en igjen
@@ -78,7 +78,7 @@ LAGET FOR LÆRING
 • Klikk på en linje for å kopiere den, til en ordbok eller notatene dine
 
 DIN EGEN FIL
-• Velg en .srt- eller .vtt-fil, eller dra den rett inn på videoen
+• Velg en .srt-, .vtt-, .ass-, .ssa- eller .ttml-fil, eller dra den rett inn på videoen
 • Ødelagte bokstaver? Automatisk gjenkjenning av tekstkoding (også japanske, kinesiske og koreanske filer) med manuell overstyring
 • Undertekstene dine kommer tilbake når du laster inn siden på nytt eller vender tilbake senere
 

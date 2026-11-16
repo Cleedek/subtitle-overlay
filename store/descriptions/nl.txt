@@ -1,6 +1,6 @@
 Bekijk elke webvideo met ondertitels in jouw taal.
 
-Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op volledig scherm, en houdt ze synchroon met de video: pauzeren, spoelen en afspeelsnelheid werken gewoon. Gebruik de ondertitels die de site al heeft, vertaald naar jouw taal, of neem je eigen .srt- of .vtt-bestand mee.
+Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op volledig scherm, en houdt ze synchroon met de video: pauzeren, spoelen en afspeelsnelheid werken gewoon. Gebruik de ondertitels die de site al heeft, vertaald naar jouw taal, of neem je eigen .srt-, .vtt-, .ass-, .ssa- of .ttml-bestand mee.
 
 ★ DE HOOGTEPUNTEN
 ★ Elke site, elke video: ondertitels over de speler, in een venster of op volledig scherm, altijd synchroon
@@ -54,7 +54,7 @@ VINDT DE ONDERTITELS DIE EEN SITE LAADT
 • Meerdere video's op één pagina? Kies bij welke video de ondertitels horen
 
 VERTAALWACHTRIJ EN BEWAARDE ONDERTITELS
-• Sleep er meerdere .srt- of .vtt-bestanden in, of klik op "Aan wachtrij toevoegen" bij ondertitels die een site laadt. Ze worden na elkaar vertaald terwijl jij iets anders doet; het tabblad met de wachtrij mag op de achtergrond blijven
+• Sleep er meerdere .srt-, .vtt-, .ass-, .ssa- of .ttml-bestanden in, of klik op "Aan wachtrij toevoegen" bij ondertitels die een site laadt. Ze worden na elkaar vertaald terwijl jij iets anders doet; het tabblad met de wachtrij mag op de achtergrond blijven
 • Werkt met Google, Gemini, Claude, OpenAI of je lokale model
 • Zolang een bestand in de wachtrij staat, laat de kaart over de video zien hoe ver het is, en het klare bestand vervangt vanzelf de regels van Google
 • Verbeterde ondertitels blijven in de extensie zo lang als jij kiest, en komen terug als je naar de video terugkeert, en op elke andere pagina met dezelfde ondertitels, zonder de AI opnieuw te vragen
@@ -78,7 +78,7 @@ GEMAAKT OM TE LEREN
 • Klik op een regel om hem te kopiëren, voor een woordenboek of je aantekeningen
 
 JE EIGEN BESTAND
-• Kies een .srt- of .vtt-bestand, of sleep het direct op de video
+• Kies een .srt-, .vtt-, .ass-, .ssa- of .ttml-bestand, of sleep het direct op de video
 • Rare tekens? Automatische herkenning van de tekencodering (ook Japanse, Chinese en Koreaanse bestanden) met handmatige keuze
 • Je ondertitels komen terug als je de pagina herlaadt of er later naar terugkeert
 

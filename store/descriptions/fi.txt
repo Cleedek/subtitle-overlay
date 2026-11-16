@@ -1,6 +1,6 @@
 Katso mitä tahansa verkkovideota tekstityksellä omalla kielelläsi.
 
-Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen päällä, myös koko näytön tilassa, ja pitää sen tahdissa videon kanssa: tauko, kelaus ja toistonopeus toimivat ilman muuta. Käytä sivuston omaa tekstitystä omalle kielellesi käännettynä tai tuo oma .srt- tai .vtt-tiedostosi.
+Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen päällä, myös koko näytön tilassa, ja pitää sen tahdissa videon kanssa: tauko, kelaus ja toistonopeus toimivat ilman muuta. Käytä sivuston omaa tekstitystä omalle kielellesi käännettynä tai tuo oma .srt-, .vtt-, .ass-, .ssa- tai .ttml-tiedostosi.
 
 ★ TÄRKEIMMÄT
 ★ Mikä tahansa sivusto, mikä tahansa video: tekstitys soittimen päällä, ikkunassa tai koko näytöllä, aina tahdissa
@@ -54,7 +54,7 @@ LÖYTÄÄ SIVUSTON LATAAMAT TEKSTITYKSET
 • Useita videoita samalla sivulla? Valitse, mihin niistä tekstitys kuuluu
 
 KÄÄNNÖSJONO JA TALLENNETUT TEKSTITYKSET
-• Pudota useita .srt- tai .vtt-tiedostoja tai klikkaa "Lisää jonoon" sivuston lataaman tekstityksen kohdalla. Ne käännetään yksi kerrallaan sillä aikaa, kun teet muuta; jonon välilehti voi jäädä taustalle
+• Pudota useita .srt-, .vtt-, .ass-, .ssa- tai .ttml-tiedostoja tai klikkaa "Lisää jonoon" sivuston lataaman tekstityksen kohdalla. Ne käännetään yksi kerrallaan sillä aikaa, kun teet muuta; jonon välilehti voi jäädä taustalle
 • Toimii Googlen, Geminin, Clauden, OpenAI:n tai paikallisen mallisi kanssa
 • Kun tiedosto on jonossa, sen videon päällä oleva kortti näyttää, kuinka pitkällä se on, ja valmis tiedosto korvaa Googlen rivit itsestään
 • Parannetut tekstitykset säilyvät laajennuksessa niin kauan kuin haluat ja palaavat, kun palaat videon pariin, ja millä tahansa muulla sivulla, jossa on samat tekstitykset, kysymättä tekoälyltä uudelleen
@@ -78,7 +78,7 @@ TEHTY OPPIMISEEN
 • Klikkaa mitä tahansa riviä kopioidaksesi sen sanakirjaan tai muistiinpanoihisi
 
 OMA TIEDOSTO
-• Valitse .srt- tai .vtt-tiedosto tai vedä se suoraan videon päälle
+• Valitse .srt-, .vtt-, .ass-, .ssa- tai .ttml-tiedosto tai vedä se suoraan videon päälle
 • Rikkinäisiä merkkejä? Merkistökoodauksen automaattinen tunnistus (myös japanilaiset, kiinalaiset ja korealaiset tiedostot) ja mahdollisuus valita käsin
 • Tekstityksesi palaa, kun lataat sivun uudelleen tai palaat sille myöhemmin
 

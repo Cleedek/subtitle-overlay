@@ -1,6 +1,6 @@
 Assista a qualquer vídeo da internet com legendas no seu idioma.
 
-O Subtitle Overlay exibe legendas sobre o player de vídeo de qualquer site, também em tela cheia, e as mantém sincronizadas com o vídeo: pausar, avançar, voltar e mudar a velocidade simplesmente funcionam. Use as legendas que o site já tem, traduzidas para o seu idioma, ou carregue seu próprio arquivo .srt ou .vtt.
+O Subtitle Overlay exibe legendas sobre o player de vídeo de qualquer site, também em tela cheia, e as mantém sincronizadas com o vídeo: pausar, avançar, voltar e mudar a velocidade simplesmente funcionam. Use as legendas que o site já tem, traduzidas para o seu idioma, ou carregue seu próprio arquivo .srt, .vtt, .ass, .ssa ou .ttml.
 
 ★ OS DESTAQUES
 ★ Qualquer site, qualquer vídeo: legendas sobre o player, em janela ou em tela cheia, sempre sincronizadas
@@ -54,7 +54,7 @@ ENCONTRA AS LEGENDAS QUE O SITE CARREGA
 • Vários vídeos na mesma página? Escolha a qual deles as legendas pertencem
 
 FILA DE TRADUÇÃO E LEGENDAS SALVAS
-• Solte vários arquivos .srt ou .vtt, ou clique em "Adicionar à fila" nas legendas que um site carrega. Eles são traduzidos um após o outro enquanto você faz outra coisa; a aba da fila pode ficar em segundo plano
+• Solte vários arquivos .srt, .vtt, .ass, .ssa ou .ttml, ou clique em "Adicionar à fila" nas legendas que um site carrega. Eles são traduzidos um após o outro enquanto você faz outra coisa; a aba da fila pode ficar em segundo plano
 • Funciona com Google, Gemini, Claude, OpenAI ou seu modelo local
 • Enquanto um arquivo está na fila, o cartão sobre o vídeo dele mostra até onde chegou, e o arquivo pronto substitui sozinho as linhas do Google
 • As legendas melhoradas ficam guardadas na extensão pelo tempo que você escolher, e voltam quando você volta ao vídeo, e em qualquer outra página com as mesmas legendas, sem perguntar de novo à IA
@@ -78,7 +78,7 @@ FEITO PARA APRENDER
 • Clique em qualquer linha para copiá-la, para um dicionário ou suas anotações
 
 SEU PRÓPRIO ARQUIVO
-• Escolha um arquivo .srt ou .vtt, ou arraste direto para o vídeo
+• Escolha um arquivo .srt, .vtt, .ass, .ssa ou .ttml, ou arraste direto para o vídeo
 • Letras estranhas? Detecção automática da codificação do texto (inclusive arquivos em japonês, chinês e coreano) com opção de escolha manual
 • Suas legendas voltam quando você recarrega a página ou volta a ela depois
 

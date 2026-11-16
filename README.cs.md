@@ -2,7 +2,7 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/cleedek)
 
-Rozšíření pro Chrome a Arc: zobrazí tvoje vlastní titulky (SRT nebo VTT) přes jakékoli video na webu, i ve fullscreenu, a umí najít VTT titulky, které si stránka sama stahuje (třeba Prima+).
+Rozšíření pro Chrome a Arc: zobrazí tvoje vlastní titulky (SRT, VTT, ASS/SSA nebo TTML) přes jakékoli video na webu, i ve fullscreenu, a umí najít VTT titulky, které si stránka sama stahuje (třeba Prima+).
 
 **[➜ Přidat do Chromu zdarma z Internetového obchodu Chrome](https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo)** (funguje i v Edgi, Brave, Arcu a dalších prohlížečích na Chromiu). Tohle je nejjednodušší cesta, rozšíření se pak aktualizuje samo.
 
@@ -25,7 +25,7 @@ Když se změní soubory ve složce, otevři znovu `arc://extensions` (nebo `chr
 
 ## Jak se to používá
 
-**Vlastní soubor:** klikni na ikonu rozšíření, **Load .srt / .vtt file**, vyber soubor. Nebo soubor rovnou přetáhni myší na video.
+**Vlastní soubor:** klikni na ikonu rozšíření, **Load subtitle file**, vyber soubor (.srt, .vtt, .ass, .ssa, .ttml, .dfxp). U ASS/SSA se zachová text, časování a tučné či kurzíva, ne barvy, písmo a umístění. Nebo soubor rovnou přetáhni myší na video.
 
 **Titulky ze stránky (Prima+ a podobné):**
 1. Pusť video a v přehrávači stránky zapni titulky (tlačítko CC / Titulky). Teprve tehdy si stránka titulky stáhne.
@@ -79,7 +79,7 @@ Když se změní soubory ve složce, otevři znovu `arc://extensions` (nebo `chr
 
 **Titulky z minula:** rozšíření si u každé stránky pamatuje poslední titulky i jejich posun (jen v tomhle počítači, posledních 30 stránek). Po obnovení stránky se vrátí samy. Když na stránku přijdeš později (po zavření prohlížeče), nahoře na videu se po spuštění ukáže **Subtitles from last time: … Show**; jedním kliknutím se vrátí i s posunem. **Remove** v rozšíření je zapomene.
 
-**Fronta překladů a uložené titulky:** **Add to queue** (v kartě nad videem nebo v rozšíření) pošle titulky do fronty překladů, do které můžeš přetáhnout i víc souborů .srt / .vtt naráz. Fronta je vlastní stránka rozšíření (`batch.html`) a překládá soubory jeden po druhém zvoleným překladačem, ale jen dokud je její záložka otevřená (může být na pozadí). **Improve** kliknuté nad videem má přednost: fronta počká (rozpracovanou část přeloží později) a tenhle překlad po dobu běhu ukazuje ve svém seznamu, kde jde šipkami dát některý soubor před něj. **Add to queue** řadí vždy na konec. **Play** otevře stránku, ze které soubor přišel, i s titulky přes video; **Download .srt** ho uloží. Vylepšené titulky se ukládají do **Saved subtitles** tak dlouho, jak nastavíš v **Keep improved subtitles** (Don't keep, 1 den až Forever; výchozí Forever), a vrátí se, když se k videu vrátíš. Každý soubor ve frontě i v uložených smaže ×. Kvůli celým souborům v úložišti má rozšíření oprávnění `unlimitedStorage`, jinak by ho zastavil limit 10 MB.
+**Fronta překladů a uložené titulky:** **Add to queue** (v kartě nad videem nebo v rozšíření) pošle titulky do fronty překladů, do které můžeš přetáhnout i víc souborů s titulky naráz. Fronta je vlastní stránka rozšíření (`batch.html`) a překládá soubory jeden po druhém zvoleným překladačem, ale jen dokud je její záložka otevřená (může být na pozadí). **Improve** kliknuté nad videem má přednost: fronta počká (rozpracovanou část přeloží později) a tenhle překlad po dobu běhu ukazuje ve svém seznamu, kde jde šipkami dát některý soubor před něj. **Add to queue** řadí vždy na konec. **Play** otevře stránku, ze které soubor přišel, i s titulky přes video; **Download .srt** ho uloží. Vylepšené titulky se ukládají do **Saved subtitles** tak dlouho, jak nastavíš v **Keep improved subtitles** (Don't keep, 1 den až Forever; výchozí Forever), a vrátí se, když se k videu vrátíš. Každý soubor ve frontě i v uložených smaže ×. Kvůli celým souborům v úložišti má rozšíření oprávnění `unlimitedStorage`, jinak by ho zastavil limit 10 MB.
 
 **Druhé titulky (dva jazyky naráz):** v sekci Translation zapni **Second subtitles** a vyber **Second language**: originál nebo jakýkoli z 33 jazyků. Druhé titulky jsou u opačného okraje než hlavní (hlavní dole = druhé nahoře a naopak), odstup nastavíš posuvníkem **Second subtitles: distance from top/bottom**. Příklad: francouzský film, hlavní titulky přeložené do vietnamštiny (Translate to), druhé do češtiny; obojí se překládá z francouzského originálu. Druhý jazyk znamená jeden požadavek na Google navíc na soubor. Vzhled mají oboje stejný.
 
@@ -124,7 +124,8 @@ Klávesy jsou podle fyzické polohy (na české klávesnici jsou [ a ] klávesy 
 
 ## Co to (zatím) neumí
 
-- Titulky v jiných formátech než VTT/SRT (TTML, ASS, SMI, vlastní JSON) a šifrované titulky.
+- Titulky ve formátech SMI, SUB/IDX (obrázkové), vlastní JSON a šifrované titulky.
+- Vzhled z ASS/SSA (barvy, písmo, umístění): bere se jen text, časování a tučné či kurzíva.
 - Panel v DevTools je jen anglicky.
 - Streamované titulky rozsekané v .m3u8 umí složit dohromady, ale jen když jsou kousky obyčejný text VTT.
 

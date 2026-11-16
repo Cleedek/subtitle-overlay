@@ -1,6 +1,6 @@
 Manood ng kahit anong video sa web na may subtitles sa sarili mong wika.
 
-Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit anong website, pati sa fullscreen, at pinapanatili itong naka-sync sa video: gumagana lang nang maayos ang pause, pag-seek at playback speed. Gamitin ang subtitles na mayroon na ang site, isinalin sa wika mo, o gamitin ang sarili mong .srt o .vtt file.
+Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit anong website, pati sa fullscreen, at pinapanatili itong naka-sync sa video: gumagana lang nang maayos ang pause, pag-seek at playback speed. Gamitin ang subtitles na mayroon na ang site, isinalin sa wika mo, o gamitin ang sarili mong .srt, .vtt, .ass, .ssa o .ttml file.
 
 ★ ANG MGA TAMPOK
 ★ Kahit anong site, kahit anong video: subtitles sa ibabaw ng player, sa window man o fullscreen, laging naka-sync
@@ -54,7 +54,7 @@ HINAHANAP ANG SUBTITLES NA NILO-LOAD NG SITE
 • Maraming video sa isang page? Piliin kung saang video kabilang ang subtitles
 
 PILA NG PAGSASALIN AT NAKA-SAVE NA SUBTITLES
-• Maglagay ng ilang .srt o .vtt file, o i-click ang "Idagdag sa pila" sa subtitles na nilo-load ng site. Isa-isa itong isasalin habang may ginagawa kang iba; puwedeng manatili sa background ang tab ng pila
+• Maglagay ng ilang .srt, .vtt, .ass, .ssa o .ttml file, o i-click ang "Idagdag sa pila" sa subtitles na nilo-load ng site. Isa-isa itong isasalin habang may ginagawa kang iba; puwedeng manatili sa background ang tab ng pila
 • Gumagana sa Google, Gemini, Claude, OpenAI o sa local model mo
 • Habang nasa pila ang isang file, ipinapakita ng card sa ibabaw ng video nito kung hanggang saan na ito, at kusang pinapalitan ng tapos na file ang mga linya ng Google
 • Itinatabi ang pinahusay na subtitles sa extension hangga't gusto mo, at bumabalik ang mga ito kapag binalikan mo ang video, at sa anumang ibang page na may parehong subtitle, nang hindi na muling nagtatanong sa AI
@@ -78,7 +78,7 @@ GINAWA PARA SA PAG-AARAL
 • I-click ang kahit anong linya para kopyahin ito, para sa diksyunaryo o sa notes mo
 
 SARILI MONG FILE
-• Pumili ng .srt o .vtt file, o i-drag ito diretso sa video
+• Pumili ng .srt, .vtt, .ass, .ssa o .ttml file, o i-drag ito diretso sa video
 • Sirang mga letra? Awtomatikong pag-detect ng text encoding (pati Japanese, Chinese at Korean na file) na may manual na pagpili
 • Bumabalik ang subtitles mo kapag ni-reload mo ang page o binalikan mo ito mamaya
 

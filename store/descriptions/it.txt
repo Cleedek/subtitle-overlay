@@ -1,6 +1,6 @@
 Guarda qualsiasi video sul web con i sottotitoli nella tua lingua.
 
-Subtitle Overlay mostra i sottotitoli sopra il player video di qualsiasi sito, anche a schermo intero, e li mantiene sincronizzati con il video: pausa, salti avanti e indietro e velocità di riproduzione funzionano senza pensieri. Usa i sottotitoli che il sito ha già, tradotti nella tua lingua, oppure porta il tuo file .srt o .vtt.
+Subtitle Overlay mostra i sottotitoli sopra il player video di qualsiasi sito, anche a schermo intero, e li mantiene sincronizzati con il video: pausa, salti avanti e indietro e velocità di riproduzione funzionano senza pensieri. Usa i sottotitoli che il sito ha già, tradotti nella tua lingua, oppure porta il tuo file .srt, .vtt, .ass, .ssa o .ttml.
 
 ★ IN EVIDENZA
 ★ Qualsiasi sito, qualsiasi video: sottotitoli sopra il player, in finestra o a schermo intero, sempre sincronizzati
@@ -54,7 +54,7 @@ TROVA I SOTTOTITOLI CHE UN SITO CARICA
 • Più video nella stessa pagina? Scegli a quale appartengono i sottotitoli
 
 CODA DI TRADUZIONE E SOTTOTITOLI SALVATI
-• Trascina più file .srt o .vtt, oppure clicca "Aggiungi alla coda" sui sottotitoli caricati da un sito. Vengono tradotti uno dopo l’altro mentre fai altro; la scheda della coda può restare in background
+• Trascina più file .srt, .vtt, .ass, .ssa o .ttml, oppure clicca "Aggiungi alla coda" sui sottotitoli caricati da un sito. Vengono tradotti uno dopo l’altro mentre fai altro; la scheda della coda può restare in background
 • Funziona con Google, Gemini, Claude, OpenAI o il tuo modello locale
 • Finché un file è in coda, la scheda sopra il suo video mostra a che punto è, e il file finito sostituisce da solo le righe di Google
 • I sottotitoli migliorati restano nell’estensione per tutto il tempo che scegli, e ricompaiono quando torni al video, e su qualsiasi altra pagina con gli stessi sottotitoli, senza chiedere di nuovo all'IA
@@ -78,7 +78,7 @@ PENSATO PER IMPARARE
 • Clicca una riga qualsiasi per copiarla, per un dizionario o per i tuoi appunti
 
 IL TUO FILE
-• Scegli un file .srt o .vtt, o trascinalo direttamente sul video
+• Scegli un file .srt, .vtt, .ass, .ssa o .ttml, o trascinalo direttamente sul video
 • Caratteri strani? Rilevamento automatico della codifica del testo (anche per file giapponesi, cinesi e coreani) con scelta manuale
 • I tuoi sottotitoli ricompaiono quando ricarichi la pagina o ci torni più tardi
 

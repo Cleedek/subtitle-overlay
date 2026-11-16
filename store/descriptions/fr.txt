@@ -1,6 +1,6 @@
 Regarde n’importe quelle vidéo web avec des sous-titres dans ta langue.
 
-Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’importe quel site, aussi en plein écran, et les garde synchronisés avec la vidéo : pause, avance, retour et vitesse de lecture fonctionnent tout simplement. Utilise les sous-titres que le site propose déjà, traduits dans ta langue, ou apporte ton propre fichier .srt ou .vtt.
+Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’importe quel site, aussi en plein écran, et les garde synchronisés avec la vidéo : pause, avance, retour et vitesse de lecture fonctionnent tout simplement. Utilise les sous-titres que le site propose déjà, traduits dans ta langue, ou apporte ton propre fichier .srt, .vtt, .ass, .ssa ou .ttml.
 
 ★ L’ESSENTIEL
 ★ N’importe quel site, n’importe quelle vidéo : des sous-titres sur le lecteur, en fenêtre ou en plein écran, toujours synchronisés
@@ -54,7 +54,7 @@ TROUVE LES SOUS-TITRES QU’UN SITE CHARGE
 • Plusieurs vidéos sur une page ? Choisis celle à laquelle appartiennent les sous-titres
 
 FILE DE TRADUCTION ET SOUS-TITRES ENREGISTRÉS
-• Dépose plusieurs fichiers .srt ou .vtt, ou clique sur "Ajouter à la file" pour des sous-titres qu’un site charge. Ils sont traduits l’un après l’autre pendant que tu fais autre chose ; l’onglet de la file peut rester en arrière-plan
+• Dépose plusieurs fichiers .srt, .vtt, .ass, .ssa ou .ttml, ou clique sur "Ajouter à la file" pour des sous-titres qu’un site charge. Ils sont traduits l’un après l’autre pendant que tu fais autre chose ; l’onglet de la file peut rester en arrière-plan
 • Fonctionne avec Google, Gemini, Claude, OpenAI ou ton modèle local
 • Tant qu’un fichier est dans la file, la carte au-dessus de sa vidéo montre où il en est, et le fichier terminé remplace tout seul les lignes de Google
 • Les sous-titres améliorés restent dans l’extension aussi longtemps que tu le choisis, et reviennent quand tu retournes sur la vidéo, et sur toute autre page avec les mêmes sous-titres, sans redemander à l'IA
@@ -78,7 +78,7 @@ FAIT POUR APPRENDRE
 • Clique sur une ligne pour la copier, pour un dictionnaire ou tes notes
 
 TON PROPRE FICHIER
-• Choisis un fichier .srt ou .vtt, ou fais-le glisser directement sur la vidéo
+• Choisis un fichier .srt, .vtt, .ass, .ssa ou .ttml, ou fais-le glisser directement sur la vidéo
 • Des lettres illisibles ? Détection automatique de l’encodage du texte (aussi pour les fichiers japonais, chinois et coréens) avec un réglage manuel
 • Tes sous-titres reviennent quand tu recharges la page ou que tu y reviens plus tard
 

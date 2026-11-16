@@ -337,8 +337,9 @@
       .hint.on ~ .fs { display: none; } /* the "New video" hint uses the same spot */
       .drop {
         position: absolute; inset: 8px; border: 3px dashed rgba(255,255,255,.9); border-radius: 12px;
-        background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; font-size: 20px;
+        background: rgba(0,0,0,.45); display: none; flex-direction: column; gap: 6px; align-items: center; justify-content: center; font-size: 20px;
       }
+      .drop small { font-size: 13px; font-weight: 500; opacity: .8; }
       .drop.on { display: flex; }
       .found {
         position: absolute; top: 12px; right: 12px; display: none; flex-direction: column; gap: 6px;
@@ -522,7 +523,8 @@
     fsGo.addEventListener('click', (e) => { e.stopPropagation(); toggleFullscreen(); });
     fsBtn.append(fsGo);
     setFsMode(false);
-    dropEl = el('div', 'drop', t('Drop .srt, .vtt or .ttml subtitles here'));
+    dropEl = el('div', 'drop');
+    dropEl.append(el('span', '', t('Drop subtitles here')), el('small', '', SubLib.SUB_FORMATS));
     foundEl = el('div', 'found');
     siteNoteEl = el('div', 'site-note');
     const noteText = el('span', '');
@@ -3429,7 +3431,7 @@
     e.preventDefault();
     e.stopPropagation();
     const f = e.dataTransfer.files[0];
-    if (!f || !SubLib.SUB_FILE.test(f.name)) return toast(t('Drop an .srt, .vtt or .ttml file'));
+    if (!f || !SubLib.SUB_FILE.test(f.name)) return toast(t('Subtitle files only: {formats}', { formats: SubLib.SUB_FORMATS }));
     const bytes = new Uint8Array(await f.arrayBuffer());
     pinned = v;
     const res = loadBytes(f.name, SubLib.bytesToBase64(bytes), 'auto', v);

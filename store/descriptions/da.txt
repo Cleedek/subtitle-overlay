@@ -1,6 +1,6 @@
 Se enhver video på nettet med undertekster på dit eget sprog.
 
-Subtitle Overlay viser undertekster oven på videoafspilleren på enhver hjemmeside, også i fuld skærm, og holder dem synkroniseret med videoen: pause, spoling og afspilningshastighed virker bare. Brug de undertekster, siden allerede har, oversat til dit sprog, eller tag din egen .srt- eller .vtt-fil med.
+Subtitle Overlay viser undertekster oven på videoafspilleren på enhver hjemmeside, også i fuld skærm, og holder dem synkroniseret med videoen: pause, spoling og afspilningshastighed virker bare. Brug de undertekster, siden allerede har, oversat til dit sprog, eller tag din egen .srt-, .vtt-, .ass-, .ssa- eller .ttml-fil med.
 
 ★ HØJDEPUNKTERNE
 ★ Enhver side, enhver video: undertekster over afspilleren, i et vindue eller i fuld skærm, altid synkroniseret
@@ -54,7 +54,7 @@ FINDER DE UNDERTEKSTER, SIDEN INDLÆSER
 • Flere videoer på én side? Vælg, hvilken underteksterne hører til
 
 OVERSÆTTELSESKØ OG GEMTE UNDERTEKSTER
-• Træk flere .srt- eller .vtt-filer ind, eller klik på "Føj til køen" ved undertekster, som en side indlæser. De oversættes én efter én, mens du laver noget andet; kø-fanen kan blive i baggrunden
+• Træk flere .srt-, .vtt-, .ass-, .ssa- eller .ttml-filer ind, eller klik på "Føj til køen" ved undertekster, som en side indlæser. De oversættes én efter én, mens du laver noget andet; kø-fanen kan blive i baggrunden
 • Virker med Google, Gemini, Claude, OpenAI eller din lokale model
 • Mens en fil står i køen, viser kortet over dens video, hvor langt den er nået, og den færdige fil erstatter af sig selv Googles linjer
 • Forbedrede undertekster gemmes i udvidelsen, så længe du vælger, og kommer tilbage, når du vender tilbage til videoen, og på enhver anden side med de samme undertekster, uden at spørge AI'en igen
@@ -78,7 +78,7 @@ LAVET TIL SPROGLÆRING
 • Klik på en hvilken som helst linje for at kopiere den, til en ordbog eller dine noter
 
 DIN EGEN FIL
-• Vælg en .srt- eller .vtt-fil, eller træk den direkte ind på videoen
+• Vælg en .srt-, .vtt-, .ass-, .ssa- eller .ttml-fil, eller træk den direkte ind på videoen
 • Mærkelige tegn? Automatisk registrering af tegnkodning (også japanske, kinesiske og koreanske filer) med mulighed for manuelt valg
 • Dine undertekster kommer tilbage, når du genindlæser siden eller vender tilbage til den senere
 

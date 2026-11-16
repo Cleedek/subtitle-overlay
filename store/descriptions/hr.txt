@@ -1,6 +1,6 @@
 Gledaj bilo koji video na webu s titlovima na svom jeziku.
 
-Subtitle Overlay prikazuje titlove preko video playera na bilo kojoj web-stranici, i na cijelom zaslonu, i drži ih usklađenima s videom: pauza, premotavanje i brzina reprodukcije jednostavno rade. Koristi titlove koje stranica već ima, prevedene na svoj jezik, ili donesi vlastitu .srt ili .vtt datoteku.
+Subtitle Overlay prikazuje titlove preko video playera na bilo kojoj web-stranici, i na cijelom zaslonu, i drži ih usklađenima s videom: pauza, premotavanje i brzina reprodukcije jednostavno rade. Koristi titlove koje stranica već ima, prevedene na svoj jezik, ili donesi vlastitu .srt, .vtt, .ass, .ssa ili .ttml datoteku.
 
 ★ NAJVAŽNIJE
 ★ Bilo koja stranica, bilo koji video: titlovi preko playera, u prozoru ili na cijelom zaslonu, uvijek usklađeni
@@ -54,7 +54,7 @@ PRONALAZI TITLOVE KOJE STRANICA UČITA
 • Više videa na jednoj stranici? Odaberi kojem titlovi pripadaju
 
 RED PRIJEVODA I SPREMLJENI TITLOVI
-• Ubaci nekoliko .srt ili .vtt datoteka ili klikni "Dodaj u red čekanja" kod titlova koje stranica učita. Prevode se jedni za drugima dok radiš nešto drugo; kartica s redom može ostati u pozadini
+• Ubaci nekoliko .srt, .vtt, .ass, .ssa ili .ttml datoteka ili klikni "Dodaj u red čekanja" kod titlova koje stranica učita. Prevode se jedni za drugima dok radiš nešto drugo; kartica s redom može ostati u pozadini
 • Radi s Googleom, Geminijem, Claudeom, OpenAI-jem ili tvojim lokalnim modelom
 • Dok je datoteka u redu čekanja, kartica nad njezinim videom pokazuje dokle je stigla, a gotova datoteka sama zamjenjuje Googleove retke
 • Poboljšani titlovi čuvaju se u proširenju koliko god ti odabereš i vraćaju se kad se vratiš na video, i na bilo kojoj drugoj stranici s istim titlovima, bez ponovnog pitanja AI-ju
@@ -78,7 +78,7 @@ STVORENO ZA UČENJE
 • Klikni bilo koji redak da ga kopiraš, za rječnik ili bilješke
 
 TVOJA VLASTITA DATOTEKA
-• Odaberi .srt ili .vtt datoteku ili je povuci izravno na video
+• Odaberi .srt, .vtt, .ass, .ssa ili .ttml datoteku ili je povuci izravno na video
 • Čudni znakovi? Automatsko prepoznavanje kodiranja teksta (i za japanske, kineske i korejske datoteke) uz ručni odabir
 • Tvoji titlovi vraćaju se kad ponovno učitaš stranicu ili joj se kasnije vratiš
 

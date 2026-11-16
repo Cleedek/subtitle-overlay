@@ -1,6 +1,6 @@
 Mira cualquier vídeo de la web con subtítulos en tu idioma.
 
-Subtitle Overlay muestra subtítulos sobre el reproductor de vídeo de cualquier web, también en pantalla completa, y los mantiene sincronizados con el vídeo: pausar, avanzar o retroceder y cambiar la velocidad funcionan sin más. Usa los subtítulos que la web ya tiene, traducidos a tu idioma, o carga tu propio archivo .srt o .vtt.
+Subtitle Overlay muestra subtítulos sobre el reproductor de vídeo de cualquier web, también en pantalla completa, y los mantiene sincronizados con el vídeo: pausar, avanzar o retroceder y cambiar la velocidad funcionan sin más. Usa los subtítulos que la web ya tiene, traducidos a tu idioma, o carga tu propio archivo .srt, .vtt, .ass, .ssa o .ttml.
 
 ★ LO MÁS DESTACADO
 ★ Cualquier web, cualquier vídeo: subtítulos sobre el reproductor, en ventana o en pantalla completa, siempre sincronizados
@@ -54,7 +54,7 @@ ENCUENTRA LOS SUBTÍTULOS QUE CARGA UNA WEB
 • ¿Varios vídeos en una misma página? Elige a cuál pertenecen los subtítulos
 
 COLA DE TRADUCCIÓN Y SUBTÍTULOS GUARDADOS
-• Arrastra varios archivos .srt o .vtt, o pulsa "Añadir a la cola" en los subtítulos que carga una web. Se traducen uno tras otro mientras haces otra cosa; la pestaña de la cola puede quedarse en segundo plano
+• Arrastra varios archivos .srt, .vtt, .ass, .ssa o .ttml, o pulsa "Añadir a la cola" en los subtítulos que carga una web. Se traducen uno tras otro mientras haces otra cosa; la pestaña de la cola puede quedarse en segundo plano
 • Funciona con Google, Gemini, Claude, OpenAI o tu modelo local
 • Mientras un archivo está en la cola, la tarjeta sobre su vídeo muestra cuánto lleva, y el archivo terminado sustituye por sí solo las líneas de Google
 • Los subtítulos mejorados se guardan en la extensión el tiempo que tú elijas, y vuelven cuando regresas al vídeo, y en cualquier otra página con los mismos subtítulos, sin volver a preguntar a la IA
@@ -78,7 +78,7 @@ PENSADO PARA APRENDER
 • Haz clic en cualquier línea para copiarla, para un diccionario o tus notas
 
 TU PROPIO ARCHIVO
-• Elige un archivo .srt o .vtt, o arrástralo directamente sobre el vídeo
+• Elige un archivo .srt, .vtt, .ass, .ssa o .ttml, o arrástralo directamente sobre el vídeo
 • ¿Letras rotas? Detección automática de la codificación del texto (también archivos en japonés, chino y coreano), con opción de elegirla a mano
 • Tus subtítulos vuelven cuando recargas la página o regresas a ella más tarde
 

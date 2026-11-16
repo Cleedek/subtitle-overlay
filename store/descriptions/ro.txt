@@ -1,6 +1,6 @@
 Urmărește orice videoclip de pe internet cu subtitrări în limba ta.
 
-Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, inclusiv pe ecran complet, și le păstrează sincronizate cu videoclipul: pauza, derularea și viteza de redare funcționează pur și simplu. Folosește subtitrările pe care site-ul le are deja, traduse în limba ta, sau încarcă propriul fișier .srt sau .vtt.
+Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, inclusiv pe ecran complet, și le păstrează sincronizate cu videoclipul: pauza, derularea și viteza de redare funcționează pur și simplu. Folosește subtitrările pe care site-ul le are deja, traduse în limba ta, sau încarcă propriul fișier .srt, .vtt, .ass, .ssa sau .ttml.
 
 ★ PE SCURT
 ★ Orice site, orice videoclip: subtitrări peste player, în fereastră sau pe ecran complet, mereu sincronizate
@@ -54,7 +54,7 @@ GĂSEȘTE SUBTITRĂRILE PE CARE LE ÎNCARCĂ UN SITE
 • Mai multe videoclipuri pe aceeași pagină? Alege căruia îi aparțin subtitrările
 
 COADĂ DE TRADUCERE ȘI SUBTITRĂRI SALVATE
-• Adaugă mai multe fișiere .srt sau .vtt, sau dă clic pe "Adaugă în coadă" la subtitrările pe care le încarcă un site. Sunt traduse unul după altul în timp ce faci altceva; fila cu coada poate rămâne în fundal
+• Adaugă mai multe fișiere .srt, .vtt, .ass, .ssa sau .ttml, sau dă clic pe "Adaugă în coadă" la subtitrările pe care le încarcă un site. Sunt traduse unul după altul în timp ce faci altceva; fila cu coada poate rămâne în fundal
 • Funcționează cu Google, Gemini, Claude, OpenAI sau modelul tău local
 • Cât timp un fișier e în coadă, cardul de peste videoclipul lui arată cât s-a făcut, iar fișierul terminat înlocuiește singur rândurile de la Google
 • Subtitrările îmbunătățite sunt păstrate în extensie cât timp alegi tu și revin când te întorci la videoclip, și pe orice altă pagină cu aceleași subtitrări, fără să mai întrebi AI-ul
@@ -78,7 +78,7 @@ GÂNDIT PENTRU ÎNVĂȚAT
 • Dă clic pe orice rând ca să-l copiezi, pentru un dicționar sau pentru notițele tale
 
 PROPRIUL TĂU FIȘIER
-• Alege un fișier .srt sau .vtt, sau trage-l direct pe videoclip
+• Alege un fișier .srt, .vtt, .ass, .ssa sau .ttml, sau trage-l direct pe videoclip
 • Litere stricate? Detectare automată a codificării textului (și pentru fișiere în japoneză, chineză și coreeană), cu posibilitate de alegere manuală
 • Subtitrările tale revin când reîncarci pagina sau te întorci la ea mai târziu
 

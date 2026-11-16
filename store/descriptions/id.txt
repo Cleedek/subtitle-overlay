@@ -1,6 +1,6 @@
 Tonton video apa pun di web dengan subtitle dalam bahasamu.
 
-Subtitle Overlay menampilkan subtitle di atas pemutar video situs mana pun, juga dalam layar penuh, dan menjaganya tetap sinkron dengan video: jeda, lompat, dan kecepatan putar langsung berfungsi. Gunakan subtitle yang sudah ada di situs, diterjemahkan ke bahasamu, atau pakai file .srt atau .vtt milikmu sendiri.
+Subtitle Overlay menampilkan subtitle di atas pemutar video situs mana pun, juga dalam layar penuh, dan menjaganya tetap sinkron dengan video: jeda, lompat, dan kecepatan putar langsung berfungsi. Gunakan subtitle yang sudah ada di situs, diterjemahkan ke bahasamu, atau pakai file .srt, .vtt, .ass, .ssa atau .ttml milikmu sendiri.
 
 ★ SOROTAN UTAMA
 ★ Situs apa pun, video apa pun: subtitle di atas pemutar, dalam jendela atau layar penuh, selalu sinkron
@@ -54,7 +54,7 @@ MENEMUKAN SUBTITLE YANG DIMUAT SITUS
 • Ada beberapa video di satu halaman? Pilih video mana yang memiliki subtitle tersebut
 
 ANTREAN TERJEMAHAN DAN SUBTITLE TERSIMPAN
-• Masukkan beberapa file .srt atau .vtt, atau klik "Tambahkan ke antrean" pada subtitle yang dimuat situs. Semuanya diterjemahkan satu per satu sementara kamu melakukan hal lain; tab antrean boleh tetap di latar belakang
+• Masukkan beberapa file .srt, .vtt, .ass, .ssa atau .ttml, atau klik "Tambahkan ke antrean" pada subtitle yang dimuat situs. Semuanya diterjemahkan satu per satu sementara kamu melakukan hal lain; tab antrean boleh tetap di latar belakang
 • Bisa dengan Google, Gemini, Claude, OpenAI, atau model lokalmu
 • Selama file ada di antrean, kartu di atas videonya menunjukkan sudah sejauh mana prosesnya, dan file yang selesai menggantikan baris dari Google dengan sendirinya
 • Subtitle yang disempurnakan disimpan di ekstensi selama yang kamu mau, dan muncul lagi saat kamu kembali ke video itu, dan di halaman lain mana pun dengan subtitle yang sama, tanpa bertanya lagi ke AI
@@ -78,7 +78,7 @@ DIBUAT UNTUK BELAJAR
 • Klik baris mana pun untuk menyalinnya, untuk kamus atau catatanmu
 
 FILE MILIKMU SENDIRI
-• Pilih file .srt atau .vtt, atau seret langsung ke video
+• Pilih file .srt, .vtt, .ass, .ssa atau .ttml, atau seret langsung ke video
 • Huruf berantakan? Deteksi encoding teks otomatis (juga untuk file Jepang, Tionghoa, dan Korea) dengan pilihan manual
 • Subtitle-mu kembali saat kamu memuat ulang halaman atau membukanya lagi nanti
 
