@@ -262,7 +262,7 @@ async function queueTab() {
 // remembers the page: its Play button brings you back there with the
 // translation on the video. The queue tab opens behind this one if needed.
 // source: the file's own name; YouTube's ("youtube-…") keep the CC button working after Play.
-async function addToQueue({ lines, lang, title, fileName }, tabId) {
+async function addToQueue({ lines, lang, title, fileName, notify, spoken, audio, page }, tabId) {
   if (!Array.isArray(lines) || !lines.length) throw new Error(tr('No subtitle lines found.'));
   const tab = await chrome.tabs.get(tabId);
   title = title || tab.title || '';
@@ -271,7 +271,7 @@ async function addToQueue({ lines, lang, title, fileName }, tabId) {
     || String(fileName || 'subtitles').replace(SubLib.SUB_FILE, '')) + '.srt';
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   await chrome.storage.local.set({ ['queue:' + id]: { id, name, source: fileName || '', lang, lines, out: [], chunks: [],
-    status: 'waiting', error: '', model: '', added: Date.now(), page: tab.url, title } });
+    status: 'waiting', error: '', model: '', added: Date.now(), page: page || tab.url, title, ...(notify ? { notify: true } : {}), ...(spoken ? { spoken } : {}), ...(audio ? { audio: true } : {}) } });
   if (!(await queueTab())) await chrome.tabs.create({ url: chrome.runtime.getURL('batch.html'), active: false });
 }
 
@@ -289,6 +289,11 @@ const SRT_URL = /\.srt$/i;
 const ASS_URL = /\.(ass|ssa)$/i; // Bilibili and anime sites
 const M3U8_URL = /\.m3u8$/i;
 const MPD_URL = /\.mpd$/i;
+// Seek-bar preview pictures come as WebVTT too (Mux "storyboard.vtt", JW Player "thumbnails.vtt").
+const PICTURES_URL = /(storyboard|thumbnails?|thumbs)[^/]*\.(web)?vtt$/i;
+// So do chapter titles ("chapters.vtt", "chapters-en.vtt"). Only a file name that
+// starts with "chapters" counts, so "chapter-3.en.vtt" or "Book chapters.vtt" stay subtitles.
+const CHAPTERS_URL = /\/chapters([-_.][^/]*)?\.(web)?vtt$/i;
 
 // Sites the user turned the extension off on: nothing is collected there.
 let offSites = [];
@@ -309,6 +314,8 @@ chrome.webRequest.onCompleted.addListener((d) => {
   const ctype = header ? String(header.value).toLowerCase() : '';
   if (YT_CAPTIONS.test(d.url)) {
     // Handled by youtube-hook.js: a second download of these comes back empty.
+  } else if (PICTURES_URL.test(path) || CHAPTERS_URL.test(path)) {
+    // Not subtitles: see PICTURES_URL and CHAPTERS_URL.
   } else if (VTT_URL.test(path) || ctype.includes('text/vtt') || SRT_URL.test(path) || ctype.includes('x-subrip') || ASS_URL.test(path) || /x-(ssa|ass)\b/.test(ctype)) {
     addItem(d.tabId, { kind: 'file', url: d.url, frameId: d.frameId, lang: guessLanguage(d.url) });
   } else if (M3U8_URL.test(path) || ctype.includes('mpegurl')) {
@@ -577,7 +584,10 @@ async function shareSend(job) {
 async function translateBatch(lines, to) {
   const body = new URLSearchParams();
   for (const l of lines) body.append('q', l);
-  const r = await fetch(GOOGLE_URL + encodeURIComponent(to), { method: 'POST', body });
+  let r;
+  // A request that never answers would leave the translation waiting forever.
+  try { r = await fetch(GOOGLE_URL + encodeURIComponent(to), { method: 'POST', body, signal: AbortSignal.timeout(30000) }); }
+  catch (e) { throw new Error(tr('Can’t reach Google Translate. Check your internet connection.')); }
   if (r.status === 429) throw new Error(tr('Google Translate says "too many requests". Wait a few minutes and try again.'));
   if (!r.ok) throw new Error(tr('Google Translate answered HTTP {status}.', { status: r.status }));
   const data = await r.json();
@@ -685,7 +695,7 @@ async function isOllama(base) {
 
 // The OpenAI-style request as Ollama's /api/chat wants it.
 function ollamaBody(body) {
-  const out = { model: body.model, messages: body.messages, stream: false, options: { num_ctx: OLLAMA_CTX } };
+  const out = { model: body.model, messages: body.messages, stream: true, options: { num_ctx: OLLAMA_CTX } };
   if (body.temperature != null) out.options.temperature = body.temperature;
   if (body.response_format) out.format = body.response_format.json_schema.schema;
   return out;
@@ -836,8 +846,13 @@ const AI_PROMPT = (lang, sheet) => [
 // Automatic captions (YouTube's speech recognition) in the language you read:
 // nothing to translate, but they have no punctuation, cut sentences anywhere
 // and mishear words. The model fixes that in the same language.
-const CLEAN_PROMPT = (lang) => [
+const CLEAN_PROMPT = (lang, audio) => [
   'You fix automatic captions of a video: ' + lang + ' made by speech recognition, so they have little or no punctuation, wrong capital letters and some misheard words.',
+  ...(audio ? [
+    'These were written down from the sound alone, so some lines may not be speech at all: over music, noise or silence speech recognition makes up lines such as "Thanks for watching", "Subtitles by ...", a word repeated many times, or words that make no sense there.',
+    'For a line that is clearly made up like that, answer "tr": "' + NOT_SAID + '". When unsure, keep the line and fix it as usual.',
+    'Sometimes you also get "doubtful": numbers of lines that were heard alone over a long stretch with almost no other words, typically music, an intro or an ending jingle. Such a line is made up when it is only a title, the name of the show, a name, "The End", "Ending" or a word that does not fit the lines around it: answer "' + NOT_SAID + '" for it. Keep it only when it is clearly something a person says there.',
+  ] : []),
   'You get JSON: "lines", numbered caption lines to fix, and sometimes "before", the lines just before them, for context only.',
   'Answer with JSON only: the same numbers, each with "src", that line copied exactly, and "tr", the fixed line, in ' + lang + '.',
   'Change as little as possible: add missing punctuation and capital letters, correct spelling, and replace a word only where it was clearly misheard (it makes no sense there and a word that sounds alike does).',
@@ -846,6 +861,9 @@ const CLEAN_PROMPT = (lang) => [
   'Never translate, summarise, shorten or add anything. A line is often only part of a sentence that goes on in the next line: fix it as that part, and never move words to another number.',
   'Give exactly one version for each line: no "(or: ...)", no notes or explanations.',
 ].join('\n');
+
+// What the model answers for a transcript line that wasn't really said (batch.js drops it).
+const NOT_SAID = '###';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 // The chunk each page is waiting for, so the page can stop it ("Stop" over the
@@ -868,31 +886,84 @@ function claudeBody(body) {
   return out;
 }
 
+// A local model's answer, read as it is written, so what it wrote before going
+// wrong is not lost. A small model now and then gets stuck: gemma3 forgets to
+// close a line that ends in a quotation mark and fills the answer with spaces
+// (Ollama then cuts it off: "token repeat limit reached"), or it writes on and
+// on. The same lines fail the same way again, so asking again is no use: the
+// answer is closed there, the finished lines are kept (info.cut, info.loop)
+// and the caller asks for the rest. Closing the connection stops the model.
+// sse: the OpenAI-style "data: {…}" rows (LM Studio), else Ollama's own rows.
+// info.max: the longest answer (in characters) that still makes sense.
+async function readPieces(r, sse, info, signal, cfg) {
+  let text = '';
+  let buf = '';
+  try {
+    const reader = r.body.pipeThrough(new TextDecoderStream()).getReader();
+    for (let over = false; !over;) {
+      const { value, done } = await reader.read();
+      buf += done ? '\n' : value;
+      const rows = buf.split('\n');
+      buf = rows.pop();
+      for (let row of rows) {
+        if (sse) row = row.startsWith('data:') ? row.slice(5) : '';
+        row = row.trim();
+        if (!row || row === '[DONE]') continue;
+        let j;
+        try { j = JSON.parse(row); } catch (e) { continue; }
+        if (j.error) {
+          // Whatever the server calls it: with part of an answer written, that part counts.
+          if (!text.trim()) throw new Error(tr('The model server answered HTTP {status}.', { status: 500 }) + ' ' + String(j.error.message || j.error).slice(0, 200));
+          info.cut = info.loop = over = true;
+          break;
+        }
+        if (sse) {
+          const c = (j.choices && j.choices[0]) || {};
+          text += (c.delta && c.delta.content) || '';
+          if (c.finish_reason) info.cut = c.finish_reason === 'length';
+        } else {
+          text += (j.message && j.message.content) || '';
+          if (j.done) info.cut = j.done_reason === 'length';
+        }
+      }
+      if (!over && !done && ((info.max && text.length > info.max) || /\s{40}$/.test(text))) {
+        info.cut = info.loop = over = true;
+        reader.cancel().catch(() => {});
+      }
+      if (done) over = true;
+    }
+  } catch (e) {
+    if (signal.aborted) throw STOPPED;
+    throw e instanceof TypeError ? aiError(cfg, e) : e;
+  }
+  return text;
+}
+
 // info.cut is set when the answer ran out of room and stopped mid-way.
 async function aiChat(cfg, body, signal, info = {}) {
   const claude = cfg.kind === 'claude';
   const ollama = cfg.kind === 'local' && cfg.ollama;
-  let loops = 0; // answers a model got stuck in (see below)
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
       const url = ollama ? cfg.base.replace(/\/v1$/, '') + '/api/chat' : cfg.base + (claude ? '/messages' : '/chat/completions');
       r = await fetch(url, {
-        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(claude ? claudeBody(body) : ollama ? ollamaBody(body) : body),
+        method: 'POST', headers: aiHeaders(cfg), body: JSON.stringify(claude ? claudeBody(body) : ollama ? ollamaBody(body) : cfg.kind === 'local' ? Object.assign({}, body, { stream: true }) : body),
         // A local model may first have to load into memory. Stopping from the
         // page closes the connection, and Ollama or LM Studio stop generating.
         signal: AbortSignal.any([signal, AbortSignal.timeout(cfg.kind === 'local' ? 240000 : 90000)]),
       });
     } catch (e) { throw signal.aborted ? STOPPED : aiError(cfg, e); }
+    // Local servers answer piece by piece (see readPieces). One that sends the
+    // whole answer at once anyway is read the usual way below.
+    if (r.ok && (ollama || (cfg.kind === 'local' && /event-stream/.test(r.headers.get('content-type') || '')))) {
+      return readPieces(r, !ollama, info, signal, cfg);
+    }
     if (r.ok) {
       const data = await r.json();
       if (claude) {
         info.cut = data.stop_reason === 'max_tokens';
         return (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
-      }
-      if (ollama) {
-        info.cut = data.done_reason === 'length';
-        return String((data.message && data.message.content) || '');
       }
       const choice = (data.choices && data.choices[0]) || {};
       info.cut = choice.finish_reason === 'length';
@@ -906,16 +977,6 @@ async function aiChat(cfg, body, signal, info = {}) {
     if ((r.status === 429 || r.status === 529) && attempt < 4 && !/limit: 0\b/.test(said) && !(cfg.kind === 'openai' && /billing/i.test(said))) {
       const wait = Number(r.headers.get('retry-after')) || 20;
       await sleep(Math.min(wait, 60) * 1000);
-      if (signal.aborted) throw STOPPED;
-      continue;
-    }
-    // Ollama cuts off a model that writes the same word over and over ("token
-    // repeat limit reached", HTTP 500). A small local model does that now and
-    // then on lines like "hahaha"; asked again, a little less strictly, it
-    // usually gets through, so it's tried twice more before the pass stops.
-    if (r.status === 500 && /repeat limit/i.test(said) && loops < 2) {
-      loops++;
-      if (body.temperature != null) body.temperature = 0.2 + 0.2 * loops;
       if (signal.aborted) throw STOPPED;
       continue;
     }
@@ -965,26 +1026,44 @@ function salvage(text) {
   }
   return Object.keys(out).length ? out : null;
 }
+// A straight quotation mark has to be written as \" inside the JSON answer, and
+// a small local model loses count there: after a line ending in one, gemma3:12b
+// never closed the line and filled the answer with spaces (8 of 8 tries; 6 of
+// 8 with « » in its place; 0 of 8 with the mark at the ends left out). So a
+// line goes out without the marks at its ends and with « » inside, which need
+// nothing, and its answer gets the straight ones back in the same places.
+const QUOTES = /[«»“”"]/g;
+const curlQuotes = (html) => { let open = false; return String(html).replace(/^"+|"+$/g, '').replace(/<[^>]*>|"/g, (m) => (m === '"' ? ((open = !open) ? '«' : '»') : m)); };
+function straightQuotes(answer, line) {
+  if (!line.includes('"')) return answer;
+  let s = answer.replace(QUOTES, '"');
+  if (line.startsWith('"') && !s.startsWith('"')) s = '"' + s;
+  if (line.endsWith('"') && !s.endsWith('"')) s += '"';
+  return s;
+}
 const bare = (html) => String(html || '').replace(/<[^>]*>|&#?\w+;/g, '').replace(/[^\p{L}\p{N}]+/gu, '').toLowerCase();
 
 // One chunk of lines (HTML, like the Google path) -> the same number of
 // translated lines; one the model left out comes back '' (Google's stays).
-async function aiTranslate(lines, before, to, signal, sheet, clean) {
+async function aiTranslate(lines, before, to, signal, sheet, clean, doubt) {
   const cfg = await aiConfig();
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
   const lang = englishName(to);
   // One request -> { texts, cut }: the lines it got back, '' where the model
   // left one out (texts null: no JSON at all); cut: the answer ran out of room.
-  async function ask(lines, before) {
+  async function ask(lines, before, flags) {
     const keys = lines.map((l, i) => keyOf(i));
-    const numbered = Object.fromEntries(keys.map((k, i) => [k, lines[i]]));
+    const numbered = Object.fromEntries(keys.map((k, i) => [k, curlQuotes(lines[i])]));
+    before = before.map(curlQuotes);
     const body = {
       model: cfg.model,
       temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
       messages: [
-        { role: 'system', content: clean ? CLEAN_PROMPT(lang) : AI_PROMPT(lang, sheet) },
-        { role: 'user', content: JSON.stringify(before.length ? { before, lines: numbered } : { lines: numbered }) },
+        { role: 'system', content: clean ? CLEAN_PROMPT(lang, clean === 'audio') : AI_PROMPT(lang, sheet) },
+        { role: 'user', content: JSON.stringify(Object.assign(before.length ? { before, lines: numbered } : { lines: numbered },
+          // Transcripts: lines heard over a long stretch with almost no words (music, a jingle).
+          flags && flags.some(Boolean) ? { doubtful: keys.filter((k, i) => flags[i]) } : {})) },
       ],
     };
     // Claude holds the format from the prompt; the copied "src" still catches drift.
@@ -999,15 +1078,19 @@ async function aiTranslate(lines, before, to, signal, sheet, clean) {
       const effort = effortOf.has(cfg.model) ? effortOf.get(cfg.model) : EFFORTS[0];
       if (effort) body.reasoning_effort = effort;
     }
-    const info = {};
+    // Each line comes back twice (copy and translation) plus the JSON around it.
+    const info = { max: 4 * lines.join('').length + 120 * lines.length + 1000 };
     const text = (await aiChat(cfg, body, signal, info)).replace(/<think>[\s\S]*?<\/think>/g, '');
     let out = null;
     try { out = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1)); } catch (e) { out = salvage(text); }
-    if (!out) return { texts: null, cut: info.cut };
+    if (!out) return { texts: null, cut: info.cut, loop: info.loop };
     if (out.lines && typeof out.lines === 'object') out = out.lines;
-    return { cut: info.cut, texts: keys.map((k, i) => {
+    return { cut: info.cut, loop: info.loop, texts: keys.map((k, i) => {
       const a = out && out[k];
-      const s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
+      let s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
+      // The model lost its place in the JSON and wrote on inside this line: asked for again below.
+      if (typeof s === 'string' && /<(start|end)_of_|["»”]\s*\}\s*,/.test(s)) s = '';
+      if (typeof s === 'string' && s.trim()) s = straightQuotes(s.trim(), lines[i]);
       return typeof s === 'string' ? SubLib.dropTransliteration(SubLib.dropAlternative(s.trim()), lines[i]) : '';
     }) };
   }
@@ -1016,28 +1099,40 @@ async function aiTranslate(lines, before, to, signal, sheet, clean) {
   // An answer that ran out of room comes back the same way again: then the
   // lines it did finish are kept and the rest are asked for on their own.
   let best = [];
+  let looped = false; // the model got stuck somewhere in this chunk (see readPieces)
   for (let attempt = 0; attempt < 2 && best.filter(Boolean).length < lines.length * 0.8; attempt++) {
-    const { texts, cut } = await ask(lines, before);
+    const { texts, cut, loop } = await ask(lines, before, doubt);
+    looped = looped || !!loop;
     if (texts && texts.filter(Boolean).length > best.filter(Boolean).length) best = texts;
     if (cut) break;
   }
   // Lines left out (or past where the answer stopped): short requests for just
   // those, as long as each one brings some back. A line with no words in it
   // (♪, …) isn't worth one; whatever is still missing keeps Google's.
-  for (let round = 0; round < 3; round++) {
-    const missing = lines.map((l, i) => i).filter((i) => !best[i] && bare(lines[i]));
+  // A line the model got stuck on right away (see aiChat) is left out of the
+  // next request, so the lines after it still get their turn.
+  const stuck = new Set();
+  for (let round = 0; round < 6; round++) {
+    const missing = lines.map((l, i) => i).filter((i) => !best[i] && !stuck.has(i) && bare(lines[i]));
     if (!missing.length) break;
     // Half of a long remainder at a time, so its answer fits for sure.
     const part = missing.length > 10 ? missing.slice(0, Math.ceil(missing.length / 2)) : missing;
     const first = part[0];
-    const again = await ask(part.map((i) => lines[i]), lines.slice(Math.max(0, first - 4), first)).catch((e) => {
+    const again = await ask(part.map((i) => lines[i]), lines.slice(Math.max(0, first - 4), first), doubt && part.map((i) => doubt[i])).catch((e) => {
       if (e === STOPPED) throw e;
       return null;
     });
     const got = again && again.texts ? part.filter((i, n) => again.texts[n]) : [];
     got.forEach((i) => { best[i] = again.texts[part.indexOf(i)]; });
-    if (!got.length) break;
+    if (!got.length) {
+      if (!again || !again.loop) break;
+      looped = true;
+      stuck.add(first);
+    }
   }
+  // Stuck on every try: these lines keep Google's (or their own) words and the
+  // file goes on, since the next chunk has other lines and usually works.
+  if (!best.some(Boolean) && looped) return { texts: lines.map(() => ''), model: cfg.model };
   if (!best.some(Boolean)) throw new Error(tr('The model did not send back the translated lines.'));
   return { texts: best, model: cfg.model };
 }
@@ -1192,15 +1287,36 @@ function countVideo(page, lines, ai) {
   }).catch(() => {});
 }
 
-// The support card over the video: the pages it showed on, and done for good
-// after any click on it (or once it showed on its last page).
-function supportAsk(msg) {
+// A transcript from the audio went to the queue: counted for the support card
+// after subtitles from the audio, once per page, if 2 minutes or more were said.
+function countAudio(page, lines) {
+  const ms = lines.length ? Math.max(...lines.map((l) => l.end || 0)) - Math.min(...lines.map((l) => l.start || 0)) : 0;
+  if (!page || ms < SubSettings.SUPPORT_ASK_AUDIO.minMs) return;
   statsWrite = statsWrite.then(async () => {
-    const { supportAsk: a = { pages: [] } } = await chrome.storage.local.get('supportAsk');
+    const { stats = { videos: 0, lines: 0, pages: [] } } = await chrome.storage.local.get('stats');
+    const id = SubSettings.fingerprint(String(page));
+    const seen = stats.audioPages || [];
+    if (seen.includes(id)) return;
+    stats.audioPages = seen.concat(id).slice(-STATS_PAGES);
+    stats.audioVideos = (stats.audioVideos || 0) + 1;
+    stats.audioMs = (stats.audioMs || 0) + ms;
+    stats.audioLines = (stats.audioLines || 0) + lines.length;
+    await chrome.storage.local.set({ stats });
+  }).catch(() => {});
+}
+
+// A support card over the video (supportAsk, or supportAskAudio after subtitles
+// from the audio): the pages it showed on, and done for good after any click
+// on it (or once it showed on its last page), with what ended it and when.
+function supportAsk(msg) {
+  const key = msg.key === 'supportAskAudio' ? 'supportAskAudio' : 'supportAsk';
+  statsWrite = statsWrite.then(async () => {
+    const { [key]: a = { pages: [] } } = await chrome.storage.local.get(key);
     if (a.done) return;
-    if (msg.done) a.done = true;
+    a.pages = a.pages || [];
+    if (msg.done) Object.assign(a, { done: true, via: String(msg.via || 'close'), doneAt: Date.now() });
     else if (msg.page && !a.pages.includes(msg.page)) a.pages = a.pages.concat(msg.page);
-    await chrome.storage.local.set({ supportAsk: a });
+    await chrome.storage.local.set({ [key]: a });
   }).catch(() => {});
 }
 
@@ -1223,6 +1339,201 @@ function dropFrames(tabId) {
   chrome.storage.session.remove('frames:' + tabId).catch(() => {});
 }
 
+// ---------- Live subtitles (beta): from what the tab says ----------
+
+// The popup's Live button hands over a stream ID for the tab's sound.
+// offscreen.js listens and writes the speech down with Whisper on this
+// computer (free, open source); each line it heard comes here, is translated
+// with the translator chosen in the popup (Google, or the AI: also a local
+// model) and goes to the video (content.js, 'live-line'). One tab at a time.
+// mode 'live': translated lines while you watch, the sound plays on.
+// mode 'transcribe': you don't hear the tab; Whisper's lines in the spoken
+// language are kept, and when the video ends the whole transcript goes to the
+// translation queue (Improve with the AI), with a notification once it's done.
+let live = null; // { tabId, mode, to, cfg (null: Google), lang, arrived, next, done: Map(index -> lines), before: [] }
+
+async function liveTranslator() {
+  const p = await SubSettings.loadTranslation();
+  const cfg = p.translator === 'google' ? null : await aiConfig();
+  if (cfg && !cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
+  return { cfg, to: p.translateTo };
+}
+
+const liveRun = (tabId, mode, cfg, to) => ({ tabId, mode, cfg, to, lang: '', arrived: 0, next: 0, done: new Map(), before: [] });
+
+async function liveStart(tabId, streamId, mode) {
+  await liveStop();
+  mode = mode === 'transcribe' ? 'transcribe' : 'live';
+  // Transcribing translates only at the end, in the queue: the model is checked there.
+  const prefs = await SubSettings.loadTranslation();
+  const { cfg, to } = mode === 'live' ? await liveTranslator() : { cfg: null, to: prefs.translateTo };
+  const model = SubSettings.AUDIO_MODELS[prefs.audioModel] || SubSettings.AUDIO_MODELS[SubSettings.TRANSLATION.audioModel];
+  if (!(await chrome.offscreen.hasDocument())) {
+    await chrome.offscreen.createDocument({ url: 'offscreen.html', reasons: ['USER_MEDIA'], justification: 'Live subtitles: listen to the tab the user picked and write down the speech.' });
+  }
+  const r = await chrome.runtime.sendMessage({ target: 'offscreen', type: 'live-capture-start', tabId, streamId, silent: mode === 'transcribe', model });
+  if (!r || !r.ok) throw new Error((r && r.error) || 'Could not listen to this tab.');
+  live = liveRun(tabId, mode, cfg, to);
+  // The episode's own address and name, now: when the video ends, many sites
+  // have already gone back to the series page (and the player may sit in a frame).
+  const tab = await chrome.tabs.get(tabId).catch(() => null);
+  if (tab) Object.assign(live, { page: tab.url, title: tab.title });
+  await chrome.storage.session.set({ live: { tabId, mode, page: live.page, title: live.title } });
+  // A long film: the Mac shouldn't fall asleep halfway (the screen may).
+  if (mode === 'transcribe') chrome.power.requestKeepAwake('system');
+  chrome.tabs.sendMessage(tabId, { type: 'live-on', to, mode }).catch(() => {});
+}
+
+async function liveStop(error) {
+  const was = live;
+  live = null;
+  const kept = await chrome.storage.session.get('live').catch(() => ({}));
+  const tabId = was ? was.tabId : kept.live && kept.live.tabId;
+  await chrome.storage.session.remove('live').catch(() => {});
+  chrome.power.releaseKeepAwake();
+  if (await chrome.offscreen.hasDocument().catch(() => false)) {
+    await chrome.runtime.sendMessage({ target: 'offscreen', type: 'live-capture-stop' }).catch(() => {});
+  }
+  if (tabId != null) {
+    if (error) await chrome.storage.session.set({ liveError: { tabId, error } });
+    chrome.tabs.sendMessage(tabId, { type: 'live-off', error: error || '' }).catch(() => {});
+  }
+}
+
+// What Whisper heard in one piece of sound: parts [{ text, from, to }] (ms
+// from saidAt, by Whisper's own timestamps). Live: translated side by side
+// with the next pieces. Sent on in the order they were said.
+async function liveHeard(msg) {
+  if (!live) {
+    // This worker restarted while listening: carry on from here.
+    const s = await chrome.storage.session.get('live').catch(() => ({}));
+    if (!s.live || s.live.tabId !== msg.tabId) return;
+    const mode = s.live.mode || 'live';
+    const { cfg, to } = mode === 'live' ? await liveTranslator().catch(() => ({})) : { cfg: null, to: (await SubSettings.loadTranslation()).translateTo };
+    if (!to) return liveStop();
+    if (!live) live = Object.assign(liveRun(msg.tabId, mode, cfg, to), { page: s.live.page, title: s.live.title });
+  }
+  const run = live;
+  if (run.tabId !== msg.tabId) return;
+  const index = run.arrived++;
+  let parts = (msg.parts && msg.parts.length) ? msg.parts : (msg.text ? [{ text: msg.text, from: 0, to: msg.ms }] : []);
+  if (parts.length && run.mode === 'live') {
+    const before = run.before.slice();
+    run.before.push(parts.map((p) => p.text).join(' '));
+    if (run.before.length > 4) run.before.shift();
+    try {
+      const texts = await liveTranslate(run, parts.map((p) => p.text), before);
+      parts = parts.map((p, i) => Object.assign({}, p, { text: texts[i] || p.text, orig: p.text }));
+    } catch (e) {
+      if (/API key|not accepted|Choose a model|Can’t reach|refused/i.test(e.message)) { if (live === run) liveStop(e.message); return; }
+      console.warn('Live subtitles:', e.message); // the original then: better than nothing
+    }
+  }
+  run.done.set(index, { parts, saidAt: msg.saidAt, ms: msg.ms });
+  while (run.done.has(run.next)) {
+    const got = run.done.get(run.next);
+    run.done.delete(run.next);
+    run.next++;
+    if (got.parts.length && live === run) chrome.tabs.sendMessage(run.tabId, Object.assign({ type: 'live-line', mode: run.mode }, got)).catch(() => {});
+  }
+}
+
+// Transcribing: the video ended (or Stop was pressed). The last words are
+// written down, the page hands over every line, and they go to the queue.
+let finishing = null;
+function liveFinish(tabId) {
+  if (!live || live.tabId !== tabId || live.mode !== 'transcribe') return Promise.resolve({ ok: false });
+  if (finishing) return finishing;
+  const run = live;
+  finishing = (async () => {
+    await chrome.runtime.sendMessage({ target: 'offscreen', type: 'live-flush' }).catch(() => {});
+    for (let i = 0; i < 50 && run.next < run.arrived; i++) await sleep(100);
+    const got = await chrome.tabs.sendMessage(tabId, { type: 'live-collect' }).catch(() => null);
+    const lines = (got && got.lines) || [];
+    if (!lines.length) { await liveStop(tr('Nothing was said that could be written down.')); return { ok: false }; }
+    const tab = await chrome.tabs.get(tabId).catch(() => null);
+    // The language set now: it may have changed while the video played.
+    const to = (await SubSettings.loadTranslation()).translateTo || run.to;
+    await addToQueue({ lines, lang: to, title: run.title || (got && got.title) || (tab && tab.title) || '', fileName: run.lang ? 'whisper.' + run.lang + '.srt' : 'whisper.srt', notify: true, spoken: run.lang, audio: true, page: run.page || (got && got.page) }, tabId);
+    countAudio(run.page || (got && got.page), lines);
+    await liveStop();
+    chrome.tabs.sendMessage(tabId, { type: 'live-queued', lines: lines.length }).catch(() => {});
+    return { ok: true, lines: lines.length };
+  })().finally(() => { finishing = null; });
+  return finishing;
+}
+
+// Another language or translator chosen while listening (popup, or the card
+// over the video): live lines from now on are in it, and the page asks for
+// the ones already shown again ('live-retranslate'). No reload needed.
+chrome.storage.onChanged.addListener(async (changes, area) => {
+  if (area !== 'local' || !live || live.mode !== 'live') return;
+  if (!['translateTo', 'translator', 'geminiModel', 'claudeModel', 'openaiModel', 'localModel', 'localUrl'].some((k) => changes[k])) return;
+  const run = live;
+  try {
+    const { cfg, to } = await liveTranslator();
+    if (live !== run) return;
+    const langChanged = to !== run.to;
+    run.cfg = cfg;
+    run.to = to;
+    if (langChanged) chrome.tabs.sendMessage(run.tabId, { type: 'live-lang', to }).catch(() => {});
+  } catch (e) { /* e.g. no model chosen yet: keep translating as before */ }
+});
+
+// ---------- notifications (only once allowed in the popup) ----------
+
+async function notify(id, title, message) {
+  // "Notify me when ready" in the popup (Subtitles from audio).
+  if ((await chrome.storage.local.get('audioNotify')).audioNotify === false) return;
+  if (!chrome.notifications || !(await chrome.permissions.contains({ permissions: ['notifications'] }).catch(() => false))) return;
+  chrome.notifications.create(id, { type: 'basic', iconUrl: 'icons/icon128.png', title, message, priority: 1 });
+}
+if (chrome.notifications) chrome.notifications.onClicked.addListener((id) => {
+  if (id.startsWith('queue-done:')) openQueue().catch(() => {});
+  else if (id.startsWith('live-paused:')) chrome.tabs.update(Number(id.split(':')[1]), { active: true }).catch(() => {});
+  chrome.notifications.clear(id);
+});
+// A transcript from the background mode finished in the queue: say so.
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area !== 'local' || !changes.batchQueue) return;
+  const was = new Map(((changes.batchQueue.oldValue || {}).jobs || []).map((j) => [j.id, j.status]));
+  for (const job of (changes.batchQueue.newValue || {}).jobs || []) {
+    if (!job.notify || job.status === was.get(job.id)) continue;
+    if (job.status === 'done') notify('queue-done:' + job.id, tr('Subtitles from the audio are ready'),
+      [job.title || job.name, SubSettings.languageName(job.lang), job.model ? tr('improved with {model}', { model: job.model }) : 'Google'].join(' · '));
+    else if (job.status === 'error') notify('queue-done:' + job.id, tr('Translation stopped'), (job.title || job.name) + ': ' + job.error);
+  }
+});
+
+async function liveTranslate(run, texts, before) {
+  if (!run.cfg) {
+    // Google's address takes HTML.
+    const html = texts.map((t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+    const got = (await translateTexts(html, run.to)).texts;
+    return got.map((g) => String(g || '').replace(/<[^>]*>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&amp;/g, '&').trim());
+  }
+  const lang = englishName(run.to);
+  const out = [];
+  for (const text of texts) {
+    const said = await aiChat(run.cfg, {
+      model: run.cfg.model,
+      temperature: noTemperature.has(run.cfg.model) ? undefined : 0.2,
+      messages: [
+        { role: 'system', content: 'You translate live subtitles of a video into ' + lang + '. Reply with the translation of the line only, nothing else (if it is already ' + lang + ', repeat it).' +
+          (before.length ? '\nEarlier lines, for context only:\n' + before.map((l) => '- ' + l).join('\n') : '') },
+        { role: 'user', content: text },
+      ],
+    }, AbortSignal.timeout(run.cfg.kind === 'local' ? 120000 : 30000));
+    out.push(said.trim());
+    before = before.concat(text).slice(-4);
+  }
+  return out;
+}
+
+chrome.tabs.onRemoved.addListener((tabId) => {
+  if (live && live.tabId === tabId) liveStop();
+});
+
 // Snap Translate, the creator's other extension, asks whether Subtitle Overlay is
 // installed, so it doesn't suggest it. That is the only thing answered to other extensions.
 chrome.runtime.onMessageExternal.addListener((msg, sender, reply) => {
@@ -1235,6 +1546,62 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     case 'ping':
       // The popup checks that this worker is alive (see deadCard in popup.js).
       reply({ ok: true });
+      return;
+
+    case 'live-start':
+      // The popup's Live button: msg.streamId from chrome.tabCapture for msg.tabId.
+      liveStart(msg.tabId, msg.streamId, msg.mode).then(() => reply({ ok: true }), (e) => { liveStop(); reply({ ok: false, error: e.message }); });
+      return true;
+
+    case 'live-stop':
+      // Transcribing: Stop sends what is written down so far to the queue.
+      (live && live.mode === 'transcribe' && live.tabId === tabId ? liveFinish(tabId) : liveStop()).then(() => reply({ ok: true }));
+      return true;
+
+    case 'live-retranslate':
+      // The lines already shown, into the language just chosen (content.js).
+      if (!live || live.tabId !== tabId || live.mode !== 'live') return reply({ ok: false });
+      liveTranslate(live, msg.texts, []).then((texts) => reply({ ok: true, to: live && live.to, texts }), (e) => reply({ ok: false, error: e.message }));
+      return true;
+
+    case 'live-finish':
+      // The video ended (content.js).
+      liveFinish(tabId);
+      return;
+
+    case 'live-paused':
+      // Transcribing, and the video stopped playing for a while (content.js).
+      if (live && live.tabId === tabId) notify('live-paused:' + tabId, tr('Transcribing waits'), tr('The video stopped playing at {time}. Transcription continues when it plays again.', { time: msg.time }));
+      return;
+
+    case 'live-state':
+      chrome.storage.session.get(['live', 'liveError']).then((s) => {
+        const err = s.liveError && s.liveError.tabId === msg.tabId ? s.liveError.error : '';
+        if (err) chrome.storage.session.remove('liveError');
+        reply({ on: !!(live && live.tabId === msg.tabId), mode: live && live.tabId === msg.tabId ? live.mode : '', error: err });
+      });
+      return true;
+
+    case 'live-heard':
+      if (sender.url && sender.url.endsWith('/offscreen.html')) liveHeard(msg);
+      return;
+
+    case 'live-progress':
+      // Whisper's first download, then "ready": shown over the video.
+      if (live && live.tabId === msg.tabId) {
+        if (msg.language) live.lang = msg.language;
+        chrome.tabs.sendMessage(msg.tabId, Object.assign({}, msg, { type: 'live-progress' })).catch(() => {});
+      }
+      return;
+
+    case 'live-failed':
+      // A big speech model that won't start (too little graphics memory, say): say what to do about it.
+      if (msg.big) console.warn(msg.error);
+      if (live && live.tabId === msg.tabId) liveStop(msg.big ? tr('The chosen speech model could not start on this computer. Pick a smaller one under Subtitles from audio.') : msg.error);
+      return;
+
+    case 'live-ended':
+      if (live && live.tabId === msg.tabId) liveStop();
       return;
 
     case 'ui-strings':
@@ -1434,7 +1801,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       const run = new AbortController();
       if (aiRuns.has(key)) aiRuns.get(key).abort();
       aiRuns.set(key, run);
-      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal, msg.sheet || '', !!msg.clean)
+      aiTranslate(msg.texts, msg.before || [], msg.to, run.signal, msg.sheet || '', msg.clean === 'audio' ? 'audio' : !!msg.clean, Array.isArray(msg.doubt) ? msg.doubt : null)
         .then((r) => reply(Object.assign({ ok: true }, r)),
           (e) => (e === STOPPED ? reply({ ok: false, stopped: true }) : aiFailure(e).then(reply)))
         .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });

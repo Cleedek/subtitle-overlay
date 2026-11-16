@@ -262,6 +262,36 @@
     </div>
     <p class="small formats">SRT, VTT, ASS, SSA, TTML</p>
     <p class="muted small">Tip: you can also drag a subtitle file straight onto the video.</p>
+    <!-- Transcribe (beta): subtitles for a video that has none, written down from
+         its sound by Whisper on this computer, then translated in the queue (popup.js, background.js). -->
+    <div class="transcribe">
+      <button id="transcribeBtn" class="wide transcribe-btn">
+        <svg class="transcribe-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span id="transcribeLabel">Make subtitles from the audio</span>
+        <span class="beta-chip">Beta</span>
+      </button>
+      <p id="transcribeHint" class="small transcribe-hint">For videos without subtitles. Keep this tab open until the end.</p>
+      <!-- Folded like AI settings: what's on shows on the fold. -->
+      <details class="ai-details" id="audioDetails">
+        <summary><span>Subtitles from audio</span><span id="audioSummary" class="ai-summary"></span></summary>
+        <div class="ai-body">
+          <p class="hint audio-how">The video plays from the start to the end in this tab, muted for you. Close this window and use other tabs meanwhile. Then the subtitles go to the translation queue.</p>
+          <!-- Which Whisper writes the speech down: bigger hears better (SubSettings.AUDIO_MODELS). -->
+          <div class="setting-head"><label for="audioModel" class="setting-label">Speech model</label><select id="audioModel" class="compact"></select></div>
+          <p id="audioModelHint" class="hint"></p>
+          <!-- The two languages of subtitles made from audio, each with its own AI switch. -->
+          <p class="audio-group" id="audioMainLabel">Vietnamese subtitles</p>
+          <div class="setting-head audio-sub"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="audioImproveMain" type="checkbox" role="switch" aria-label="Improve the translation with AI"><span></span></label></div>
+          <p class="audio-group">What was said, in the video’s language</p>
+          <div class="setting-head audio-sub"><span class="setting-label">Show as a second line</span><label class="toggle"><input id="audioSecond" type="checkbox" role="switch" aria-label="Show what was said as a second line"><span></span></label></div>
+          <div class="setting-head audio-sub"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="audioImproveOrig" type="checkbox" role="switch" aria-label="Improve what was said with AI"><span></span></label></div>
+          <p id="audioImproveHint" class="hint">Fixes punctuation, misheard words and lines nobody said. The translation gets better too.</p>
+          <div class="setting-head"><span class="setting-label">Notify me when ready</span><label class="toggle"><input id="audioNotify" type="checkbox" role="switch" aria-label="Notify me when ready"><span></span></label></div>
+          <p class="hint">A system notification when the subtitles are translated and improved, so you don’t have to check this tab.</p>
+        </div>
+      </details>
+      <p id="liveMsg" class="small" hidden></p>
+    </div>
     <div id="videoPicker" hidden>
       <label for="videoSelect" class="label">Video</label>
       <select id="videoSelect"></select>

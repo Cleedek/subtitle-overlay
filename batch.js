@@ -13,6 +13,8 @@
   SubI18n.translatePage(document.body);
 
   const CHUNK = 30; // as in content.js
+  // The model's mark for a transcript line that was never said ("###", sometimes as "tr: ###").
+  const NOT_SAID = /^[^\p{L}\p{N}]*(tr\b[^\p{L}\p{N}]*)?#{3,}[^\p{L}\p{N}]*$/iu;
   const KEY = 'batchQueue';
   // Lines travel as HTML so <i>/<b> and line breaks survive the round trip (as in content.js).
   const toHtml = (raw) => SubLib.cleanText(raw).replace(/\n/g, '<br>');
@@ -321,11 +323,42 @@
     job.error = '';
     current = job;
     render();
-    const src = job.lines.map((c) => toHtml(c.text));
     try {
-      if (isAi()) {
+      // Made from a video's sound: the model first fixes what Whisper heard, in
+      // the language that was spoken (punctuation, misheard words, made-up
+      // lines), and those fixed lines become the original that gets translated.
+      const improve = job.audio ? prefs.audioImprove || 'both' : 'translation';
+      if (job.audio && job.spoken && !job.cleaned && !job.chunks.length && isAi() && (improve === 'both' || improve === 'transcript')) {
+        job.cleanChunks = job.cleanChunks || [];
+        for (let i = 0; i < job.lines.length; i += CHUNK) {
+          if (job.cleanChunks.includes(i)) continue;
+          if (halted(job)) { job.status = 'waiting'; return; }
+          if (!isAi()) break;
+          job.model = modelName();
+          const res = await request(job, { type: 'ai-translate', to: job.spoken, clean: 'audio',
+            texts: job.lines.slice(i, i + CHUNK).map((c) => toHtml(c.text)),
+            doubt: job.lines.slice(i, i + CHUNK).map((c) => !!c.doubt),
+            before: job.lines.slice(Math.max(0, i - 4), i).map((c) => toHtml(c.text)) });
+          if (res && res.stopped) { job.status = 'waiting'; return; }
+          // A failed chunk keeps Whisper's words; the translation still runs.
+          // "###": the model says the line was never said (made up over music or noise).
+          if (res && res.ok) res.texts.forEach((text, k) => { const fixed = fromHtml(text).trim(); if (fixed) job.lines[i + k].text = NOT_SAID.test(fixed) ? '' : fixed; });
+          job.cleanChunks.push(i);
+          await save();
+          render();
+        }
+        if (job.cleanChunks.length >= Math.ceil(job.lines.length / CHUNK)) {
+          job.cleaned = true;
+          job.lines = job.lines.filter((l) => l.text);
+          await save();
+        }
+      }
+      const src = job.lines.map((c) => toHtml(c.text));
+      // Spoken in the language it's wanted in: the (fixed) transcript is the result.
+      if (job.audio && job.spoken === job.lang.split('-')[0]) src.forEach((s, i) => { job.out[i] = job.out[i] || job.lines[i].text; });
+      if (isAi() && (improve === 'both' || improve === 'translation')) {
         // Who is who, from the whole file, kept with the job so a restart doesn't ask again.
-        if (job.sheet === undefined) {
+        if (job.sheet === undefined && src.some((s, i) => !job.out[i])) {
           const res = await ask({ type: 'ai-sheet', to: job.lang, texts: src });
           if (res && res.stopped) { job.status = 'waiting'; return; }
           job.sheet = (res && res.sheet) || '';
@@ -338,6 +371,7 @@
           // model picks up from the next chunk, and the file names the last one.
           if (!isAi()) break;
           job.model = modelName();
+          if (!src.slice(i, i + CHUNK).some((x, k) => !job.out[i + k])) { job.chunks.push(i); continue; }
           const res = await request(job, { type: 'ai-translate', to: job.lang,
             texts: src.slice(i, i + CHUNK), before: src.slice(Math.max(0, i - 4), i), sheet: job.sheet });
           // Paused, removed or overtaken while the model worked on it: this chunk is asked again later.
@@ -363,7 +397,7 @@
       if (prefs.aiSaveFile) download(job);
       // With the original's fingerprint: the same subtitles on a video get this copy instead of a new translation.
       const srcKey = await SubSettings.sourceKey(job.lines).catch(() => '');
-      await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job),
+      await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job), ...(job.audio ? { audio: true } : {}),
         page: job.page, title: job.title, src: srcKey }, prefs.keepFor);
     } catch (e) {
       job.status = 'error';
@@ -795,6 +829,16 @@
     }
   }
 
+  // Subtitles written down from the video's sound (the popup's "Make subtitles
+  // from the audio"): marked, so no one expects the care of subtitles a person made.
+  function audioChip() {
+    const c = el('span', 'audio-chip');
+    c.innerHTML = '<svg width="11" height="11" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    c.append(t('From audio'));
+    c.title = t('Written down from the video’s sound by a speech model, so it can have mistakes that subtitles made by a person wouldn’t.');
+    return c;
+  }
+
   function jobRow(job) {
     const li = el('li', 'job ' + job.status);
     li.dataset.id = job.id;
@@ -806,7 +850,7 @@
     x.title = t('Remove from the queue');
     x.setAttribute('aria-label', t('Remove from the queue'));
     x.addEventListener('click', () => edit({ id: job.id }));
-    head.append(name, el('span', 'job-lang', (SubSettings.flag(job.lang) + ' ' + SubSettings.languageName(job.lang)).trim()), x);
+    head.append(name, ...(job.audio ? [audioChip()] : []), el('span', 'job-lang', (SubSettings.flag(job.lang) + ' ' + SubSettings.languageName(job.lang)).trim()), x);
 
     const total = job.lines.length;
     const n = job.status === 'done' ? total : linesDone(job);
@@ -824,7 +868,7 @@
     foot.append(job.status === 'done' ? shownNote(job.id, el('span', 'job-note', note)) : el('span', 'job-note', note));
     if (job.status === 'done') {
       if (job.page) foot.append(playButton(() => playJob(job)));
-      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job), made: { lang: job.lang, model: job.model || 'Google', from: 'queue' } }), !job.page));
+      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job), made: { lang: job.lang, model: job.model || 'Google', from: 'queue', audio: !!job.audio } }), !job.page));
       const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => download(job));
       foot.append(b);
@@ -919,7 +963,7 @@
       x.title = t('Delete');
       x.setAttribute('aria-label', t('Delete'));
       x.addEventListener('click', () => SubSettings.forgetSaved(item.key));
-      head.append(el('span', 'job-check', '✓'), name, el('span', 'job-lang', (SubSettings.flag(item.lang) + ' ' + SubSettings.languageName(item.lang)).trim()), x);
+      head.append(el('span', 'job-check', '✓'), name, ...(item.audio ? [audioChip()] : []), el('span', 'job-lang', (SubSettings.flag(item.lang) + ' ' + SubSettings.languageName(item.lang)).trim()), x);
       const meta = el('div', 'saved-meta');
       const day = new Intl.DateTimeFormat(SubI18n.lang, { dateStyle: 'medium' });
       const life = item.until ? t('Deleted on {date}', { date: day.format(item.until) }) : t('Kept forever');
@@ -928,7 +972,7 @@
       file.title = item.name;
       const foot = el('div', 'job-foot');
       foot.append(shownNote('saved:' + item.key, el('span', 'job-note', '')));
-      const made = { lang: item.lang, model: item.model || 'Google', from: 'saved' };
+      const made = { lang: item.lang, model: item.model || 'Google', from: 'saved', audio: !!item.audio };
       if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8', made })));
       foot.append(showOnButton('saved:' + item.key, () => ({ name: item.name, text: item.srt, made }), !item.page));
       const b = el('button', '', t('Download .srt'));

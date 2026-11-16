@@ -15,6 +15,9 @@
   let cues = [];          // loaded subtitle lines, sorted by start (ms)
   let file = null;        // { name, b64, encoding, usedEncoding } of the loaded file
   let loadedOn = '';      // the page address the file was loaded on (Prima+ changes it without reloading)
+  // Subtitles written down from the video's sound (Make subtitles from the audio):
+  // never shared, and what was said can show as a second line.
+  const fromAudio = (base) => !!(base && base.file && ((base.file.made && base.file.made.audio) || base.file.audio || base.file.live || /^whisper(\.|$)/.test(base.file.name || '')));
   let stashed = null;     // previous subtitles after a video swap, for "Restore"
   let original = null;    // { file, cues } of the untranslated subtitles while a translation shows
   const translations = new Map(); // language -> translated cues, so switching back is instant
@@ -64,7 +67,7 @@
       for (const k of Object.keys(SubSettings.TRANSLATION)) {
         if (changes[k]) prefs[k] = changes[k].newValue != null ? changes[k].newValue : SubSettings.TRANSLATION[k];
       }
-      if (changes.secondLang && cues.length) { wantSecond(); ensureSecond(); lastKey = ''; position(true); render(true); refreshLangs(); }
+      if ((changes.secondLang || changes.audioSecond) && cues.length) { wantSecond(); ensureSecond(); lastKey = ''; position(true); render(true); refreshLangs(); }
       if (['translator', 'geminiKey', 'geminiModel', 'claudeKey', 'claudeModel', 'openaiKey', 'openaiModel', 'localUrl', 'localModel'].some((k) => changes[k])) aiChanged();
     }
     if (area !== 'local' || !changes.settings) return;
@@ -290,6 +293,8 @@
         opacity: 0; transition: opacity .2s; white-space: nowrap; pointer-events: none;
       }
       .toast.on { opacity: 1; }
+      /* A longer message: two or three short lines instead of one across the video. */
+      .toast.long { white-space: pre-line; width: max-content; max-width: min(36em, 86%); text-align: center; border-radius: 14px; padding: 8px 14px; }
       .toast.low { top: auto; bottom: max(10%, 52px); }
       .toast.mid { top: 30%; }
       .hint {
@@ -437,8 +442,20 @@
       .ask .hello span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
       .ask .intro { margin: 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.12); font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
       .ask .tile { display: flex; flex-direction: column; gap: 10px; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
-      .ask .who { display: flex; align-items: center; gap: 10px; }
-      .ask .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(255,255,255,.14); }
+      .ask .who { display: flex; align-items: flex-start; gap: 10px; }
+      .ask .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+      /* A thank-you instead (the other card ended in a tip): goes away when its bar runs out, waits under the mouse. */
+      .ask.thanks { flex-direction: row; align-items: flex-start; gap: 10px; width: 278px; padding-block: 10px; padding-inline: 10px 36px; overflow: hidden; }
+      .ask.thanks > img { flex: none; margin-top: 1px; width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+      .ask.thanks > div { display: flex; flex-direction: column; gap: 1px; }
+      .ask.thanks strong { font-size: 13px; font-weight: 700; }
+      .ask.thanks span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.4; }
+      .ask.thanks .again { align-self: flex-start; margin-top: 3px; color: rgba(255,255,255,.75); font-size: 11.5px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
+      .ask.thanks .again:hover { color: #fff; text-decoration-color: currentColor; }
+      .ask.thanks .timer { position: absolute; inset-inline-start: 0; bottom: 0; height: 2px; width: 100%; background: rgba(255,255,255,.35); transform-origin: left; animation: ask-timer 12s linear both; }
+      :host([data-rtl]) .ask.thanks .timer { transform-origin: right; }
+      .ask.thanks:hover .timer { animation-play-state: paused; }
+      @keyframes ask-timer { to { transform: scaleX(0); } }
       .ask .who div { display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
       .ask .who strong { font-weight: 650; font-size: 13.5px; }
       .ask .who span { font-size: 11.5px; color: rgba(255,255,255,.65); }
@@ -598,6 +615,7 @@
   function toast(text, ms) {
     ensureHost();
     toastEl.textContent = text;
+    toastEl.classList.toggle('long', text.length > 70 || text.includes('\n'));
     // Out of the subtitles' way: low when they sit at the top, mid-height when both edges are taken.
     toastEl.classList.toggle('low', settings.place === 'top' && !dualOn());
     toastEl.classList.toggle('mid', dualOn());
@@ -1125,7 +1143,7 @@
     cues = parsed;
     file = { name, b64, encoding: encoding || 'auto', usedEncoding: used };
     if (asr) file.asr = true;
-    if (made && made.model && made.lang) file.made = { lang: made.lang, model: made.model, from: made.from === 'saved' ? 'saved' : 'queue' };
+    if (made && made.model && made.lang) file.made = { lang: made.lang, model: made.model, from: made.from === 'saved' ? 'saved' : 'queue', audio: !!made.audio };
     loadedOn = location.href;
     autoLoaded = false;
     siteFile = false;
@@ -1147,6 +1165,239 @@
     notice(t('Loaded {n} lines', { n: parsed.length }) + (settings.offset ? ' · ' + t('Sync: {offset}', { offset: fmtOffset(settings.offset) }) : ''));
     if (file.made) showLangs(6000);
     return { ok: true, count: parsed.length, encoding: used };
+  }
+
+  // ---------- Live subtitles (beta) ----------
+  // Lines heard from the tab's sound (background.js) go in as ordinary
+  // subtitles at the moment they arrive, so pausing or going back shows them
+  // again, and they can be downloaded afterwards. A line stays until the next
+  // one comes, or a few seconds.
+  let liveOn = false;
+  // 'live': translated lines while you watch. 'transcribe': in the background,
+  // you don't hear the tab; the lines in the spoken language are kept (liveCues,
+  // also if the page drops its subtitles) and go to the queue when the video ends.
+  let liveMode = 'live';
+  let liveCues = [];
+  // The episode's address and name when listening started: when the video ends,
+  // many sites already went back to the series page, and Play must open this one.
+  let liveFrom = { page: '', title: '' };
+  // Transcribing: the video element listened to, and when the site moved on to
+  // another episode (0 = not yet). Anything heard after that isn't this episode.
+  let heardVideo = null, liveSwitchAt = 0;
+  // Where the video was at each moment (every 250 ms while listening): a line
+  // arrives seconds after it was said, and goes where it was said, also after
+  // a pause or a jump in between.
+  let liveTimes = [], liveTimer = 0, livePausedAt = 0, livePauseSent = false, liveShownAt = 0;
+  const clock = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); const h = Math.floor(s / 3600); const m = Math.floor(s / 60) % 60;
+    return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s % 60).padStart(2, '0'); };
+  function liveBegin(mode) {
+    // The video in front now (a site may have swapped the element since).
+    const v = pickVideo() || (video && video.isConnected && video);
+    if (!v) return false;
+    restorePending = null;
+    clearSubs();
+    liveOn = true;
+    liveMode = mode === 'transcribe' ? 'transcribe' : 'live';
+    liveCues = [];
+    liveFrom = { page: location.href, title: document.title };
+    heardVideo = v;
+    liveSwitchAt = 0;
+    file = { name: 'Live.vtt', b64: '', encoding: 'utf-8', usedEncoding: 'utf-8', live: true };
+    loadedOn = location.href;
+    attach(v);
+    visible = true;
+    startWatch();
+    if (liveMode === 'transcribe') {
+      // Only the extension hears the tab now: a muted video would give it silence.
+      if (v.muted) v.muted = false;
+      if (v.volume < 0.5) v.volume = 1;
+      // The whole video, from its first moment, wherever it was (not a live
+      // stream, which has no start to go back to). Only once it plays: some
+      // players (Prima+'s THEOplayer) load nothing for a jump made while paused
+      // and stay stuck; a second jump gets such a stuck one going.
+      if (Number.isFinite(v.duration) && v.currentTime > 0.5) {
+        const toStart = () => {
+          if (!liveOn || video !== v) return;
+          try { v.currentTime = 0; } catch (e) { return; } // the player doesn't allow it: from here, then
+          setTimeout(() => { if (v.seeking && !v.paused) try { v.currentTime = 0.05; } catch (e) { /* ignore */ } }, 2000);
+        };
+        if (!v.paused) toStart();
+        else v.addEventListener('playing', toStart, { once: true });
+      }
+      v.addEventListener('ended', liveEnded);
+      // The browser may refuse to start it without a click on the page (or the
+      // site's player stops it): then it says so, and listening goes on as soon
+      // as you press Play yourself.
+      const nudge = () => {
+        if (liveOn && liveMode === 'transcribe' && video === v && v.paused && !v.ended) {
+          notice(t('Press Play on the video: the subtitles are made while it plays to the end.'), 15000);
+        }
+      };
+      if (v.paused && !v.ended) v.play().then(() => setTimeout(nudge, 1500), (e) => { console.warn('Subtitle Overlay: the video didn’t start:', e && e.name); nudge(); });
+    }
+    liveTimes = [];
+    livePausedAt = 0;
+    livePauseSent = false;
+    liveShownAt = Date.now();
+    clearInterval(liveTimer);
+    const note = () => {
+      if (!video) return;
+      liveTimes.push({ at: Date.now(), t: video.currentTime * 1000, rate: video.paused || video.seeking ? 0 : video.playbackRate });
+      if (liveTimes.length > 720) liveTimes.splice(0, 120); // three minutes
+      if (liveMode !== 'transcribe') return;
+      // Streaming sites go on to the next episode by themselves, often during
+      // the end credits, so the video never "ends": the page's address changing
+      // (or the player being replaced) ends this one, and it goes to the queue.
+      if (!liveSwitchAt && (SubSettings.pageOf(location.href) !== SubSettings.pageOf(liveFrom.page) || !heardVideo.isConnected)) {
+        liveSwitchAt = Date.now();
+        notice(t('The site went on to another video, so it was stopped. The subtitles made so far go to the translation queue.'), 8000);
+        send({ type: 'live-finish' });
+        holdStill();
+        return;
+      }
+      if (liveSwitchAt) return;
+      // Stopped for a minute (not at the end): say so, once per stop.
+      if (video.paused && !video.ended) {
+        if (!livePausedAt) livePausedAt = Date.now();
+        if (!livePauseSent && Date.now() - livePausedAt > 60000) {
+          livePauseSent = true;
+          send({ type: 'live-paused', time: clock(video.currentTime * 1000) });
+        }
+      } else { livePausedAt = 0; livePauseSent = false; }
+      if (Date.now() - liveShownAt > 20000) {
+        liveShownAt = Date.now();
+        const total = Number.isFinite(video.duration) ? ' / ' + clock(video.duration * 1000) : '';
+        if (video.paused && !video.ended) notice(t('Press Play on the video: the subtitles are made while it plays to the end.'), 15000);
+        else notice(t('Transcribing in the background: {time} · {n} lines', { time: clock(video.currentTime * 1000) + total, n: liveCues.length }), 6000);
+      }
+    };
+    note();
+    liveTimer = setInterval(note, 250);
+    return true;
+  }
+  // The next episode isn't wanted: it stays paused (it would play on for
+  // nothing, and be heard again once the extension stops listening). The site
+  // may start it a moment later, so it's paused again for a few seconds.
+  function holdStill() {
+    const until = Date.now() + 6000;
+    const stop = () => {
+      for (const v of findVideos()) if (!v.paused) v.pause();
+      if (Date.now() < until) setTimeout(stop, 400);
+    };
+    stop();
+  }
+  function liveEnded() {
+    if (liveOn && liveMode === 'transcribe') { send({ type: 'live-finish' }); holdStill(); }
+  }
+  function liveEnd() {
+    liveOn = false;
+    clearInterval(liveTimer);
+    liveTimer = 0;
+    if (video) video.removeEventListener('ended', liveEnded);
+  }
+  // The video's time (ms) at a moment of this computer's clock.
+  function videoTimeAt(at) {
+    let s = liveTimes[0];
+    for (const x of liveTimes) { if (x.at > at) break; s = x; }
+    if (!s) return video.currentTime * 1000;
+    return s.t + Math.max(0, at - s.at) * s.rate;
+  }
+  // A sentence too long for a subtitle (two lines of about 42 characters) is
+  // cut at a sentence end, else a comma, else a space near the middle; each
+  // piece gets a share of the time by its length.
+  const LINE_MAX = 84;
+  function splitLong(text, start, end) {
+    const pieces = [];
+    const cutOne = (s) => {
+      if (s.length <= LINE_MAX) return pieces.push(s);
+      const mid = s.length / 2;
+      let best = -1;
+      for (const re of [/[.!?…]["»”]?\s/g, /[,;:–]\s/g, /\s/g]) {
+        for (const m of s.matchAll(re)) {
+          const at = m.index + m[0].length;
+          if (at > 10 && at < s.length - 10 && (best < 0 || Math.abs(at - mid) < Math.abs(best - mid))) best = at;
+        }
+        if (best > 0) break;
+      }
+      if (best < 0) return pieces.push(s);
+      cutOne(s.slice(0, best).trim());
+      cutOne(s.slice(best).trim());
+    };
+    cutOne(text.trim());
+    const chars = pieces.reduce((n, p) => n + p.length, 0) || 1;
+    let at = start;
+    return pieces.map((p) => {
+      const from = at;
+      at += ((end - start) * p.length) / chars;
+      return { start: Math.round(from), end: Math.round(at), text: p };
+    });
+  }
+  // One piece of sound, as background.js sends it: parts [{ text, from, to }]
+  // in ms after saidAt (this computer's clock) by Whisper's own timestamps.
+  let livePid = 0; // each part from background.js; its cues share it, for a new language
+  function liveLine(msg) {
+    // After the site moved on, nothing starts over: lines said before the switch
+    // still arrive (Whisper is a little behind) and are kept for the queue,
+    // without showing them over the next episode, which may have its own subtitles.
+    if (!liveSwitchAt && (!liveOn || !file || !file.live) && !liveBegin(msg.mode)) return;
+    if (!liveOn || !video) return;
+    const now = video.currentTime * 1000 - settings.offset;
+    const parts = msg.parts || [];
+    // Whisper heard almost nothing over a long loud stretch (people talk two or
+    // three words a second): music or a jingle, where it tends to make up a
+    // title or "The End". Marked, so the AI fix can drop it.
+    const words = parts.reduce((n, p) => n + p.text.split(/\s+/).filter(Boolean).length, 0);
+    const doubt = msg.ms >= 4000 && words / (msg.ms / 1000) < 0.5;
+    let list = liveCues.slice();
+    parts.forEach((p, i) => {
+      if (liveSwitchAt && msg.saidAt + p.from >= liveSwitchAt) return; // said in the next episode
+      const a = Math.max(0, videoTimeAt(msg.saidAt + p.from) - settings.offset);
+      let b = Math.max(a + 1000, videoTimeAt(msg.saidAt + p.to) - settings.offset); // at least a second on screen
+      // Live: the last line arrived after it was said, so it also shows for a moment now.
+      if (liveMode === 'live' && i === parts.length - 1 && now >= a && now < a + 60000) b = Math.max(b, now + 2500);
+      const pid = ++livePid;
+      for (const c of splitLong(p.text, a, b).map((x) => Object.assign(x, { pid, orig: p.orig || p.text }, doubt ? { doubt: true } : {}))) {
+        // Heard again after going back: the new line replaces what was there.
+        list = list.filter((x) => x.start < c.start || x.start >= c.end)
+          .map((x) => (x.start < c.start && x.end > c.start ? Object.assign({}, x, { end: c.start }) : x));
+        list.push(c);
+        list.sort((x, y) => x.start - y.start);
+      }
+    });
+    if (liveSwitchAt) liveCues = list;
+    else liveShow(list);
+  }
+  function liveShow(list) {
+    liveCues = list;
+    cues = list.slice();
+    file.b64 = SubLib.bytesToBase64(new TextEncoder().encode(SubLib.toVTT(cues)));
+    lastKey = '';
+    position(true);
+    render(true);
+    kick();
+    send({ type: 'subs-state', has: true });
+  }
+  // Another language chosen while live: the lines already shown come again in
+  // it (new ones already arrive in it). Each part keeps its time on the video.
+  async function liveRelanguage(to) {
+    const groups = new Map(); // pid -> { orig, start, end }
+    for (const c of liveCues) {
+      const g = groups.get(c.pid);
+      if (g) { g.start = Math.min(g.start, c.start); g.end = Math.max(g.end, c.end); }
+      else groups.set(c.pid, { orig: c.orig || c.text, start: c.start, end: c.end });
+    }
+    if (!groups.size) return;
+    notice(t('Translating the lines so far: {lang}', { lang: SubSettings.languageName(to) }), 4000);
+    const ids = [...groups.keys()];
+    const res = await chrome.runtime.sendMessage({ type: 'live-retranslate', texts: ids.map((id) => groups.get(id).orig) }).catch(() => null);
+    if (!res || !res.ok || res.to !== to || !liveOn) return;
+    let list = liveCues;
+    ids.forEach((id, i) => {
+      const g = groups.get(id);
+      if (!res.texts[i] || !list.some((c) => c.pid === id)) return;
+      list = list.filter((c) => c.pid !== id).concat(splitLong(res.texts[i], g.start, g.end).map((x) => Object.assign(x, { pid: id, orig: g.orig })));
+    });
+    liveShow(list.sort((x, y) => x.start - y.start));
   }
 
   // Hiding everything at once (Alt + S, YouTube's CC button) remembers which
@@ -1247,7 +1498,7 @@
   }
   function tryRestore() {
     if (!restorePending) return;
-    if (cues.length) { restorePending = null; return; } // something else loaded first
+    if (cues.length || liveOn) { restorePending = null; return; } // something else loaded first
     // The site went to another page before its video came (Prima+ opens an
     // episode from the series page without loading a new page): those were the
     // other page's subtitles. This page's own are looked up instead. Only the
@@ -1781,6 +2032,9 @@
     try {
       // Shared copies are looked up only when translating: a cleaned-up copy would never be found.
       if (cleaned.has(list)) return;
+      // Made from a video's sound: never shared (each transcript differs, so no one
+      // could find it by its fingerprint anyway, and it isn't the site's own subtitles).
+      if (fromAudio(base)) return;
       if (!SubSettings.SHARING || !SubSettings.shareable(prefs.translator, state.model)) return;
       const src = await srcKeyOf(base);
       if (!src) return;
@@ -2051,6 +2305,12 @@
   // in the card over the video (background.js reports after each batch).
   let translating = null;
   async function translate(to) {
+    // Live lines: translating them is the listening's job. The new language is
+    // saved; background.js and liveRelanguage take it from there.
+    if (file && file.live) {
+      await SubSettings.saveTranslation({ translateTo: to });
+      return { ok: true, count: liveCues.length };
+    }
     if (!cues.length) return { ok: false, error: t('Nothing loaded.') };
     const mine = translating = { to, done: 0, total: baseOf().cues.length };
     refreshLangs();
@@ -2077,11 +2337,23 @@
     const lang = prefs.secondLang || 'orig';
     return lang !== 'orig' && origLang && sameLanguage(lang, origLang) ? 'orig' : lang;
   }
+  // Two sets that read the same (a Czech video "translated" into Czech): one is enough.
+  function sameLines(a, b) {
+    const n = Math.min(a.length, b.length, 40);
+    if (!n) return false;
+    let same = 0;
+    for (let i = 0; i < n; i++) if (SubLib.cleanText(a[i].text).trim() === SubLib.cleanText(b[i].text).trim()) same++;
+    return same >= n * 0.9;
+  }
   function secondLanguage() {
-    if (!settings.dual || !cues.length) return '';
+    if (!cues.length) return '';
+    // Made from the video's sound: what was said comes as a second line under the
+    // translation (popup: Subtitles from audio), whatever Second subtitles is set to.
+    if (original && fromAudio(original) && prefs.audioSecond !== false) return sameLines(original.cues, cues) ? '' : 'orig';
+    if (!settings.dual) return '';
     const lang = secondWanted();
     // The main subtitles already are the original, or its cleaned-up copy in the same language.
-    if (lang === 'orig') return original && !cleaned.has(cues) ? lang : '';
+    if (lang === 'orig') return original && !cleaned.has(cues) && !sameLines(original.cues, cues) ? lang : '';
     return lang === (original ? file.translatedTo : '') ? '' : lang;
   }
   function secondCues() {
@@ -2230,33 +2502,47 @@
     github: '<svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>',
     close: '<svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
   };
-  let askData = null; // { stats, installedAt, supportAsk } from storage
-  chrome.storage.local.get(['stats', 'installedAt', 'supportAsk']).then((v) => { askData = v; }).catch(() => {});
+  // The cards are two, each shown once (SubSettings.supportAskPick picks): after
+  // translations (supportAsk) and after subtitles from the audio (supportAskAudio).
+  // Each comes as 'full' (the other one never ended), 'short' (it ended without
+  // a tip: only the tip part) or 'thanks' (it ended in a tip: a thank-you that
+  // goes away by itself, with a quiet link to tip again).
+  const ASK_KEYS = ['stats', 'installedAt', 'supportAsk', 'supportAskAudio'];
+  let askData = null; // those keys from storage
+  let askNow = null;  // { key, look } the card is filled for
+  let askHold = false; // a thank-you on screen: the language switches stay until its bar runs out
+  chrome.storage.local.get(ASK_KEYS).then((v) => { askData = v; }).catch(() => {});
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area !== 'local' || !askData) return;
-    for (const k of ['stats', 'installedAt', 'supportAsk']) if (changes[k]) askData[k] = changes[k].newValue;
-    if (changes.supportAsk && askData.supportAsk && askData.supportAsk.done && askEl) askEl.classList.remove('on');
+    for (const k of ASK_KEYS) if (changes[k]) askData[k] = changes[k].newValue;
+    // Ended in another frame or tab: gone here too.
+    if (askNow && changes[askNow.key] && (askData[askNow.key] || {}).done && askEl) { askHold = false; askEl.classList.remove('on'); }
   });
 
-  // Due, over a translation, on a video tall enough (a small one waits for a
-  // bigger one), and on one of its 3 pages. A 4th page ends it for good.
+  // Due, over subtitles it's about, on a video tall enough (a small one waits
+  // for a bigger one), and on one of its 3 pages. A 4th page ends it for good.
   function askWanted() {
-    if (!askData || !original || !cues.length || !video) return false;
-    const a = askData.supportAsk || {};
-    if (a.done || !SubSettings.supportAskDue(askData.stats, askData.installedAt)) return false;
-    if (stageOf(video).getBoundingClientRect().height < 300) return false;
+    if (!askData || !cues.length || !video) return null;
+    if (stageOf(video).getBoundingClientRect().height < 300) return null;
+    const pick = SubSettings.supportAskPick(askData, { main: !!original, audio: fromAudio(original) || fromAudio({ file }) });
+    if (!pick) return null;
+    const a = askData[pick.key] || {};
     const pages = a.pages || [];
     const id = SubSettings.fingerprint(String(pageOfSubs()));
-    if (pages.includes(id)) return true;
-    if (pages.length >= SubSettings.SUPPORT_ASK.pages) { endAsk(); return false; }
-    askData.supportAsk = Object.assign({}, a, { pages: pages.concat(id) });
-    send({ type: 'support-ask', page: id });
-    return true;
+    if (!pages.includes(id)) {
+      if (pages.length >= SubSettings.SUPPORT_ASK.pages) { endAsk('auto', pick.key); return null; }
+      askData[pick.key] = Object.assign({}, a, { pages: pages.concat(id) });
+      send({ type: 'support-ask', key: pick.key, page: id });
+    }
+    return pick;
   }
 
-  function endAsk() {
-    if (askData) askData.supportAsk = Object.assign({}, askData.supportAsk, { done: true });
-    send({ type: 'support-ask', done: true });
+  // via: what ended it ('support', 'share', 'review', 'github', 'close', 'auto').
+  function endAsk(via, key) {
+    key = key || (askNow && askNow.key) || 'supportAsk';
+    if (askData) askData[key] = Object.assign({}, askData[key], { done: true, via, doneAt: Date.now() });
+    send({ type: 'support-ask', key, done: true, via });
+    askHold = false;
     if (askEl) askEl.classList.remove('on');
   }
 
@@ -2268,30 +2554,43 @@
     if (shareOn && !shareEl.firstChild) fillShareAsk();
     shareEl.classList.toggle('on', shareOn);
     if (shareOn) shareEl.style.top = (langsEl.offsetTop + langsEl.offsetHeight + 8) + 'px';
-    const on = langsEl.classList.contains('on') && !shareOn && askWanted();
-    if (on && !askEl.firstChild) fillAsk();
-    askEl.classList.toggle('on', on);
-    if (!on) return;
+    const pick = langsEl.classList.contains('on') && !shareOn ? askWanted() : null;
+    if (pick && (!askNow || askNow.key !== pick.key || askNow.look !== pick.look || !askEl.firstChild)) fillAsk(pick);
+    askEl.classList.toggle('on', !!pick);
+    if (!pick) return;
     // The switches step down below the fullscreen button at times: right under wherever they are.
     askEl.style.top = (langsEl.offsetTop + langsEl.offsetHeight + 8) + 'px';
-    askEl.classList.toggle('compact', stageOf(video).getBoundingClientRect().height < 500);
+    askEl.classList.toggle('compact', pick.look !== 'thanks' && stageOf(video).getBoundingClientRect().height < 500);
+    if (pick.look === 'thanks') askHold = true;
   }
 
-  function fillAsk() {
+  // "14 hours", "45 minutes" in the interface language.
+  function audioTime(ms) {
+    const [v, unit] = ms < 36e5 ? [Math.max(1, Math.round(ms / 6e4)), 'minute'] : [Math.round(ms / 36e5), 'hour'];
+    try { return new Intl.NumberFormat(SubI18n.lang, { style: 'unit', unit, unitDisplay: 'long' }).format(v); }
+    catch (e) { return v + (unit === 'hour' ? ' h' : ' min'); }
+  }
+
+  function fillAsk(pick) {
+    askNow = pick;
+    askEl.replaceChildren();
+    askEl.className = 'ask' + (pick.look === 'thanks' ? ' thanks' : '');
+    const audio = pick.key === 'supportAskAudio';
     const stats = (askData && askData.stats) || {};
-    const n = stats.videos || 0;
-    const link = (cls, href) => {
+    const n = (audio ? stats.audioVideos : stats.videos) || 0;
+    const title = audio ? t('{n} videos transcribed from the audio', { n }) : t('{n} videos translated', { n });
+    const link = (cls, href, via) => {
       const a = el('a', cls);
       a.href = href;
       a.target = '_blank';
       a.rel = 'noopener';
-      a.addEventListener('click', endAsk);
+      a.addEventListener('click', () => endAsk(via));
       return a;
     };
     const share = (cls) => {
       const b = el('button', cls);
       b.addEventListener('click', async () => {
-        endAsk();
+        endAsk('share');
         try { await navigator.clipboard.writeText(STORE); toast(t('The link is copied. Send it to someone who’d like it.'), 3500); }
         catch (e) { toast(STORE, 6000); }
       });
@@ -2314,13 +2613,33 @@
     const close = el('button', 'x');
     close.innerHTML = ICON.close;
     close.title = close.ariaLabel = t('Close (it won’t come back)');
-    close.addEventListener('click', endAsk);
+    close.addEventListener('click', () => endAsk('close'));
+    askEl.setAttribute('aria-label', t('Support the creator'));
+
+    // C: thanks, and a quiet link to tip again. Its bar runs out in 12 s (it waits under the mouse).
+    if (pick.look === 'thanks') {
+      const text = el('div');
+      const again = link('again', KOFI, 'support');
+      again.textContent = audio ? t('Support the new feature too') : t('Support again');
+      text.append(el('strong', '', title), el('span', '', t('Thanks for your support, it helped make this happen. ♥').replace(/\s+♥$/, '\u00a0♥')) /* the heart never on a line of its own */, again);
+      const bar = el('span', 'timer');
+      bar.addEventListener('animationend', () => endAsk('auto'));
+      askEl.append(close, photo(34), text, bar);
+      return;
+    }
 
     const hello = el('div', 'hello');
-    hello.append(el('strong', '', t('{n} videos translated', { n })));
-    if (stats.lines) hello.append(el('span', '', t('That’s {count} translated lines. Nice!', { n: stats.lines, count: stats.lines.toLocaleString(SubI18n.lang) })));
+    hello.append(el('strong', '', title));
+    if (audio && stats.audioLines) {
+      hello.append(el('span', '', t('That’s {time} of audio and {count} lines. Nice!', { n: stats.audioLines, time: audioTime(stats.audioMs || 0), count: stats.audioLines.toLocaleString(SubI18n.lang) })));
+    } else if (!audio && stats.lines) {
+      hello.append(el('span', '', t('That’s {count} translated lines. Nice!', { n: stats.lines, count: stats.lines.toLocaleString(SubI18n.lang) })));
+    }
     // The why, under a thin line, apart from the numbers.
-    const intro = el('p', 'intro', t('I make Subtitle Overlay on my own, for free. Any support helps me keep giving it the care it deserves.'));
+    const why = pick.look === 'short'
+      ? (audio ? 'It runs on your computer and costs you nothing. If it saved you time, a tip would make my day.' : 'I make Subtitle Overlay on my own, for free. If it helps you, a tip would make my day.')
+      : (audio ? 'I make Subtitle Overlay on my own, for free. It writes the subtitles down right on your computer, and if that saved you time, any support helps.' : 'I make Subtitle Overlay on my own, for free. Any support helps me keep giving it the care it deserves.');
+    const intro = el('p', 'intro', t(why));
 
     const tile = el('div', 'tile');
     const who = el('div', 'who');
@@ -2329,42 +2648,47 @@
     logos.src = chrome.runtime.getURL('icons/support/pay-logos-dark.svg');
     logos.alt = 'Google Pay, Apple Pay, PayPal, Visa, Mastercard';
     logos.addEventListener('error', () => logos.remove());
-    const main = link('main', KOFI);
+    const main = link('main', KOFI, 'support');
     main.innerHTML = ICON.heart;
     main.append(t('Support the creator'));
     tile.append(who, logos, main, el('span', 'more', t('More ways to pay in the extension popup')));
 
-    const minor = el('div', 'minor');
-    const shareBtn = share('');
-    shareBtn.innerHTML = ICON.share;
-    shareBtn.append(two(t('Share with a friend'), t('Copies the link')));
-    const review = link('', STORE + '/reviews');
-    review.innerHTML = ICON.star;
-    review.append(two(t('Write a review'), t('In the Chrome Web Store')));
-    minor.append(shareBtn, review);
-
-    const gh = link('gh', GITHUB);
-    gh.innerHTML = ICON.github;
-    gh.append(t('Or give it a star on GitHub'));
-
     // The smaller video's version.
     const compact = el('div', 'compact');
     const cWho = el('div', 'who');
-    cWho.append(photo(34), two(t('{n} videos translated', { n }), t('I make it on my own, for free. Will you support me?'), 'strong', 'span'));
-    const cMain = link('main', KOFI);
+    cWho.append(photo(34), two(title, t('I make it on my own, for free. Will you support me?'), 'strong', 'span'));
+    const cMain = link('main', KOFI, 'support');
     cMain.innerHTML = ICON.heart;
     cMain.append(t('Support the creator'));
     const links = el('div', 'links');
     const cShare = share('');
     cShare.textContent = t('Share with a friend');
-    const cReview = link('', STORE + '/reviews');
+    const cReview = link('', STORE + '/reviews', 'review');
     cReview.textContent = t('Write a review');
-    const cGh = link('', GITHUB);
+    const cGh = link('', GITHUB, 'github');
     cGh.textContent = 'GitHub ★';
     links.append(cShare, '·', cReview, '·', cGh);
     compact.append(cWho, cMain, links);
 
-    askEl.setAttribute('aria-label', t('Support the creator'));
+    // B: only the tip part (sharing and the review were offered on the first card).
+    if (pick.look === 'short') {
+      askEl.append(close, hello, intro, tile, el('p', 'once', t('You’ll only see this once.')), compact);
+      return;
+    }
+
+    const minor = el('div', 'minor');
+    const shareBtn = share('');
+    shareBtn.innerHTML = ICON.share;
+    shareBtn.append(two(t('Share with a friend'), t('Copies the link')));
+    const review = link('', STORE + '/reviews', 'review');
+    review.innerHTML = ICON.star;
+    review.append(two(t('Write a review'), t('In the Chrome Web Store')));
+    minor.append(shareBtn, review);
+
+    const gh = link('gh', GITHUB, 'github');
+    gh.innerHTML = ICON.github;
+    gh.append(t('Or give it a star on GitHub'));
+
     askEl.append(close, hello, intro, tile, minor, gh, el('p', 'once', t('You’ll only see this once.')), compact);
   }
 
@@ -2898,7 +3222,7 @@
     bar.append(fill);
     const lines = t('{n} lines', { n: cues.length });
     const foot = el('div', 'ai-foot');
-    foot.append(el('div', 'ai-note', (m.from === 'saved' ? t('Saved subtitles') : t('Done')) + ' · ' + lines));
+    foot.append(el('div', 'ai-note', (m.from === 'saved' ? t('Saved subtitles') : t('Done')) + ' · ' + lines + (m.audio ? ' · ' + t('From audio') : '')));
     row.append(head, bar, foot);
     return row;
   }
@@ -3221,7 +3545,7 @@
   function keepLangs(ms) {
     clearTimeout(langsTimer);
     const hideLater = (wait) => {
-      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') || shareEl.matches(':hover') ? hideLater(2500) : langsEl.classList.remove('on')), wait);
+      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') || shareEl.matches(':hover') || (askHold && askEl.classList.contains('on')) ? hideLater(askHold ? 500 : 2500) : langsEl.classList.remove('on')), wait);
     };
     hideLater(ms || 2500);
   }
@@ -3637,7 +3961,15 @@
     if (!(v instanceof HTMLVideoElement) || Date.now() - siteToldAt < 60000) return;
     if (!RECENT_SITES || v.paused || v.duration < 30 || area(v) < 200 * 120) return;
     siteToldAt = Date.now();
-    chrome.runtime.sendMessage({ type: 'video-site' }).catch(() => {});
+    // After the extension is reloaded or updated, this old copy of the script keeps running on
+    // the open page, and sendMessage then throws right away (not a rejected promise, so .catch
+    // can't see it). Stop listening for good in that case.
+    try {
+      chrome.runtime.sendMessage({ type: 'video-site' }).catch(() => {});
+    } catch (e) {
+      document.removeEventListener('playing', onSitePlay, true);
+      document.removeEventListener('timeupdate', onSitePlay, true);
+    }
   };
   document.addEventListener('playing', onSitePlay, true);
   document.addEventListener('timeupdate', onSitePlay, true);
@@ -3870,6 +4202,40 @@
         return;
       case 'tab-subs':
         tabHasSubs = msg.has;
+        return;
+      case 'live-on':
+        if (!off && liveBegin(msg.mode)) {
+          notice(liveMode === 'transcribe' ? t('Making subtitles from the audio.\nYou won’t hear this tab. Use other tabs freely, just keep this one open.') : t('Live subtitles: listening…'), 10000);
+        }
+        return;
+      case 'live-line':
+        if (!off) liveLine(msg);
+        return;
+      case 'live-collect':
+        // Transcribing is done: every line, for the queue.
+        if (liveOn && liveMode === 'transcribe' && liveCues.length) {
+          reply({ lines: liveCues.map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href });
+        }
+        return;
+      case 'live-lang':
+        if (!off && liveOn && liveMode === 'live') liveRelanguage(msg.to);
+        return;
+      case 'live-queued':
+        notice(t('Done listening: {n} lines went to the translation queue.', { n: msg.lines }), 8000);
+        return;
+      case 'live-progress':
+        if (off || !liveOn) return;
+        if (msg.language) {
+          notice(t('Live subtitles hear: {lang}', { lang: SubSettings.languageName(msg.language) }), 4000);
+        } else if (msg.ready && liveMode === 'transcribe' && video && video.paused && !video.ended) {
+          notice(t('Press Play on the video: the subtitles are made while it plays to the end.'), 15000);
+        } else if (msg.ready) notice(t('Speech model ready. Lines come a few seconds after they are said.'), 5000);
+        else notice(t('Downloading the speech model (once): {pct}% of {mb} MB', { pct: msg.pct, mb: msg.mb }), 60000);
+        return;
+      case 'live-off':
+        if (!liveOn) return;
+        liveEnd();
+        notice(msg.error || t('Live subtitles stopped'), msg.error ? 8000 : 3000);
         return;
       case 'fetch-url':
         // Fallback download from inside the page, with the page's own cookies.

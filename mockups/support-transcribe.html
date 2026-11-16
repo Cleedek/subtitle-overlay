@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Support after transcription</title>
+  <style>
+    /* ---------- the mockup page (not for the extension) ---------- */
+    :root { color-scheme: dark; --page: oklch(0.13 0.008 290); --text: oklch(0.94 0.006 290); --muted: oklch(0.70 0.014 290); --line: oklch(0.29 0.012 290); }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px 24px 48px; background: var(--page); color: var(--text); font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .page-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 8px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 720px; }
+    .page-head button { font: inherit; color: var(--text); background: oklch(0.225 0.010 290); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+    .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 30px 0 4px; }
+    .sub { margin: 0 0 10px; color: var(--muted); max-width: 760px; }
+    .sub b { color: var(--text); font-weight: 600; }
+    .rules { margin-top: 32px; padding: 18px 20px; border-radius: 12px; background: oklch(0.185 0.008 290); box-shadow: 0 0 0 1px oklch(1 0 0 / .07); }
+    .rules h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 12px; }
+    .rules h2:not(:first-child) { margin-top: 22px; }
+    .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
+    .rules strong { color: var(--text); font-weight: 600; }
+    .rules .q { color: oklch(0.84 0.16 84); }
+    .rules table { width: 100%; border-collapse: collapse; color: var(--muted); }
+    .rules th, .rules td { text-align: left; vertical-align: top; padding: 7px 10px 7px 0; border-top: 1px solid var(--line); }
+    .rules th { color: var(--text); font-weight: 600; }
+    .rules code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); }
+    .toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; z-index: 50; padding: 8px 14px; border-radius: 999px; background: var(--text); color: var(--page); font-size: 12.5px; font-weight: 500; transition: opacity .2s, transform .2s; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+    /* A stand-in for the video. */
+    .video {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+      background:
+        radial-gradient(60% 70% at 28% 60%, oklch(0.42 0.06 60 / .75), transparent 70%),
+        radial-gradient(50% 60% at 78% 30%, oklch(0.35 0.08 230 / .7), transparent 70%),
+        linear-gradient(180deg, oklch(0.2 0.02 250), oklch(0.12 0.01 260));
+    }
+    .video.small { width: 640px; max-width: 100%; }
+    .video::after { content: ""; position: absolute; inset: auto 0 0; height: 70px; background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+    .player-bar { position: absolute; inset: auto 14px 12px; z-index: 1; display: flex; align-items: center; gap: 10px; color: #fff; font-size: 12px; }
+    .player-bar .track { flex: 1; height: 4px; border-radius: 4px; background: rgba(255,255,255,.3); }
+    .player-bar .track span { display: block; width: 38%; height: 100%; border-radius: inherit; background: #f00; }
+    .subline { position: absolute; left: 50%; bottom: 54px; transform: translateX(-50%); z-index: 1; padding: 3px 10px; background: rgba(0,0,0,.72); color: #fff; font: 500 22px/1.3 system-ui, sans-serif; border-radius: 4px; white-space: nowrap; }
+    .video.small .subline { font-size: 17px; bottom: 46px; }
+    .corner { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .langs { display: flex; flex-direction: column; gap: 2px; padding: 4px; background: rgba(20,20,20,.92); border-radius: 12px; color: #fff; font: 600 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .langs button { display: flex; align-items: center; gap: 8px; font: inherit; color: inherit; background: transparent; border: 0; border-radius: 8px; padding: 6px 8px 6px 10px; cursor: pointer; text-align: start; }
+    .langs .name { flex: 1; white-space: nowrap; }
+    .langs button[aria-checked=false] .name { opacity: .55; }
+    .langs .sw { position: relative; flex: none; width: 28px; height: 16px; border-radius: 999px; background: rgba(255,255,255,.28); }
+    .langs .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+    .langs button[aria-checked=true] .sw { background: #7a41e4; }
+    .langs button[aria-checked=true] .sw::after { transform: translateX(12px); }
+    .gone { padding: 7px 10px; border-radius: 10px; background: rgba(20,20,20,.92); color: rgba(255,255,255,.75); font: 500 12px/1.3 system-ui, sans-serif; display: flex; gap: 8px; align-items: center; }
+    .gone button { font: inherit; color: #fff; background: rgba(255,255,255,.14); border: 0; border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+
+    /* =====================================================================
+       The card: copied from content.js as it is live today, nothing new
+       except .thanks at the end.
+       ===================================================================== */
+    .ask {
+      position: relative; display: flex; flex-direction: column; gap: 10px; width: 300px;
+      background: rgba(20,20,20,.92); padding: 14px 12px 10px; border-radius: 12px;
+      font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
+    }
+    .ask a, .ask button { font: inherit; color: #fff; text-decoration: none; cursor: pointer; }
+    .ask svg { flex: none; }
+    .ask .x { position: absolute; top: 8px; inset-inline-end: 8px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 7px; background: transparent; color: rgba(255,255,255,.6); }
+    .ask .x:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .ask .hello { display: flex; flex-direction: column; gap: 3px; padding-inline-end: 24px; }
+    .ask .hello strong { font-size: 14.5px; font-weight: 700; }
+    .ask .hello span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+    .ask .intro { margin: 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.12); font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+    .ask .tile { display: flex; flex-direction: column; gap: 10px; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
+    .ask .who { display: flex; align-items: flex-start; gap: 10px; }
+    .ask .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .ask .who div { display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
+    .ask .who strong { font-weight: 650; font-size: 13.5px; }
+    .ask .who span { font-size: 11.5px; color: rgba(255,255,255,.65); }
+    .ask .logos { display: block; width: 200px; height: auto; max-width: 100%; }
+    .ask .main { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 12px; border: 0; border-radius: 8px; background: #7c3aed; font-weight: 650; font-size: 13.5px; }
+    .ask .main:hover { background: #8b5cf6; }
+    .ask .main:active { transform: scale(.985); }
+    .ask .more { font-size: 11px; color: rgba(255,255,255,.6); }
+    .ask .minor { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .ask .minor > * { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border: 0; border-radius: 9px; background: rgba(255,255,255,.1); text-align: start; }
+    .ask .minor > *:hover { background: rgba(255,255,255,.18); }
+    .ask .minor svg { color: rgba(255,255,255,.7); }
+    .ask .minor div { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+    .ask .minor b { font-weight: 600; font-size: 12.5px; }
+    .ask .minor small { font-size: 10.5px; color: rgba(255,255,255,.55); }
+    .ask .gh { display: inline-flex; align-items: center; justify-content: center; gap: 6px; align-self: center; padding: 2px 8px; border: 0; background: none; color: rgba(255,255,255,.65); font-size: 11.5px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
+    .ask .gh:hover { color: #fff; text-decoration-color: currentColor; }
+    .ask .once { margin: -2px 0 0; text-align: center; font-size: 10.5px; color: rgba(255,255,255,.5); }
+    .ask .compact { display: none; }
+    .ask.compact { width: 280px; padding: 10px; gap: 8px; }
+    .ask.compact > :not(.compact, .x) { display: none; }
+    .ask.compact .compact { display: flex; flex-direction: column; gap: 8px; }
+    .ask.compact .who { padding-inline-end: 22px; gap: 9px; }
+    .ask.compact .who img { width: 34px; height: 34px; }
+    .ask.compact .who strong { font-weight: 700; font-size: 13px; }
+    .ask.compact .main { padding: 7px 10px; font-size: 13px; }
+    .ask .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px 4px; font-size: 11.5px; color: rgba(255,255,255,.4); }
+    .ask .links > * { border: 0; background: none; padding: 1px 4px; border-radius: 5px; color: rgba(255,255,255,.75); font-size: 11.5px; }
+    .ask .links > :first-child { color: #fff; font-weight: 600; }
+    .ask .links > *:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+    /* New: only a thank-you, for someone who already clicked "Support". Goes away by itself. */
+    .ask.thanks { flex-direction: row; align-items: flex-start; gap: 10px; padding: 10px 36px 10px 10px; overflow: hidden; }
+    .ask.thanks img { margin-top: 1px; flex: none; width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+    .ask.thanks div { display: flex; flex-direction: column; gap: 1px; }
+    .ask.thanks strong { font-size: 13px; font-weight: 700; }
+    .ask.thanks span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.4; }
+    .ask.thanks .again { align-self: flex-start; margin-top: 3px; padding: 0; border: 0; background: none; color: rgba(255,255,255,.75); font-size: 11.5px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
+    .ask.thanks .again:hover { color: #fff; text-decoration-color: currentColor; }
+    .ask.thanks .timer { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: rgba(255,255,255,.35); transform-origin: left; animation: timer 12s linear both; }
+    .ask.thanks:hover .timer { animation-play-state: paused; }
+    @keyframes timer { to { transform: scaleX(0); } }
+    @media (prefers-reduced-motion: reduce) { .ask.thanks .timer { animation: none; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <h1>Podpora po přepisu ze zvuku</h1>
+        <p>Stejná karta jako dnes, jen jiné texty. Rozdíl je jen v tom, kolik toho člověk uvidí, podle toho, jak reagoval na první kartu. Klikací, čísla jsou ukázková.</p>
+      </div>
+      <button id="replay">Přehrát znovu</button>
+    </div>
+
+    <div class="label">A · Plná karta</div>
+    <p class="sub"><b>Kdo ji dostane:</b> kdo zatím žádnou kartu podpory neviděl. Vzhledem i obsahem je to dnešní karta, mění se jen nadpis, řádek s čísly a jedna věta v odstavci.</p>
+    <div class="video" data-variant="full"></div>
+
+    <div class="label">B · Kratší karta, víc tlačí na příspěvek</div>
+    <p class="sub"><b>Kdo ji dostane:</b> kdo už první kartu viděl a zavřel ji, nebo ji nechal sama zmizet. Sdílení, recenzi a GitHub už jednou viděl, takže zůstává jen to hlavní: čísla, fotka, platební loga a tlačítko.</p>
+    <div class="video" data-variant="short"></div>
+
+    <div class="label">C · Jen poděkování</div>
+    <p class="sub"><b>Kdo ho dostane:</b> kdo na první kartě klikl na "Podpořit autora". Hlavní je poděkování, pod ním jen malý odkaz "Podpořit i novinku" (žádné fialové tlačítko). Za 12 sekund samo zmizí, s myší nad ním čeká.</p>
+    <div class="video" data-variant="thanks"></div>
+
+    <div class="label">Menší video (A i B)</div>
+    <p class="sub">Pod 500 px výšky videa dostanou A i B stejnou kompaktní verzi, jakou má dnešní karta.</p>
+    <div class="video small" data-variant="full" data-compact></div>
+
+    <div class="rules">
+      <h2>Kdo dostane kterou verzi</h2>
+      <table>
+        <tr><th>Co se stalo s první kartou (po překladech)</th><th>Karta po přepisu</th></tr>
+        <tr><td>Neukázala se ještě vůbec</td><td>A, plná</td></tr>
+        <tr><td>Zavřel ji křížkem, nebo sama zmizela po 3 videích</td><td>B, kratší</td></tr>
+        <tr><td>Klikl na Sdílet, Recenzi nebo GitHub</td><td>B, kratší (pomohl jinak, ale nepřispěl)</td></tr>
+        <tr><td>Klikl na "Podpořit autora"</td><td>C, poděkování s malým odkazem "Podpořit i novinku"</td></tr>
+        <tr><td>Uživatel ze starší verze: karta je "hotová", ale nevíme, na co klikl</td><td>B, kratší. Poděkovat nemůžeme, když nevíme, jestli přispěl.</td></tr>
+      </table>
+
+      <h2>Kdy se ukáže</h2>
+      <ul>
+        <li><strong>Po 12 videích přepsaných ze zvuku</strong> <span class="q">(návrh)</span>. Každá stránka se počítá jednou, stejně jako u překladů. Videa kratší než 2 minuty se nepočítají, ať se do toho nepletou upoutávky.</li>
+        <li><strong>Až člověk přepsané video sleduje</strong>, ne během přepisu. Ukazuje se spolu s přepínačem jazyků, když pohne myší, stejně jako dnes.</li>
+        <li><strong>Aspoň 30 dní od první karty</strong> <span class="q">(návrh)</span>. Když jsou splněné obě podmínky ve stejnou dobu, jde první karta po přepisu (má lepší čísla) a ta po překladech počká 30 dní.</li>
+        <li><strong>Jednou, nejvýš na 3 videích.</strong> Jakékoli kliknutí ji ukončí navždy, stejně jako dnes.</li>
+        <li><strong>Přednost mají</strong> karta sdílení titulků, chybové hlášky a karta "Found on this page". Tahle počká.</li>
+        <li><strong>Na hodně malém videu</strong> (pod 300 px) počká na větší, stejně jako dnes.</li>
+      </ul>
+
+      <h2>Na co si dát pozor (vyřešeno takhle)</h2>
+      <ul>
+        <li><strong>Dvojí počítání:</strong> přepsané video se samostatně počítá do přepisu. Když ho pak člověk ještě přeloží, započítá se i do překladů. To je v pořádku, protože každá karta ukazuje jen svá čísla. Pravidlo 30 dní zajistí, že se obě neukážou těsně po sobě.</li>
+        <li><strong>Pamatovat si, na co se kliklo:</strong> dnes se ukládá jen "hotovo". Nově i <em>čím</em> to skončilo (podpora, sdílení, recenze, GitHub, křížek, samo) a <em>kdy</em>. Nic z toho neopouští počítač.</li>
+        <li><strong>Platí i naopak:</strong> kdo klikne na "Podpořit" na kartě po přepisu, dostane později po překladech taky jen poděkování.</li>
+        <li><strong>Hodiny zvuku</strong> se sčítají z délky přepsaných videí. Zobrazení: pod 1 hodinu v minutách ("45 minut zvuku"), jinak zaokrouhleno na celé hodiny.</li>
+      </ul>
+
+      <h2>Co se nově ukládá v prohlížeči</h2>
+      <ul>
+        <li><code>stats.audioVideos</code>, <code>stats.audioSeconds</code>, <code>stats.audioLines</code> a seznam už započítaných stránek (jen krátké otisky, ne adresy), stejně jako dnes u překladů.</li>
+        <li><code>supportAsk.via</code> a <code>supportAsk.doneAt</code> u dnešní karty, a stejný záznam <code>supportAskAudio</code> pro tu novou.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script>
+    const PHOTO = '../icons/support/filip.jpg';
+    const LOGOS = '../icons/support/pay-logos-dark.svg';
+    const I = {
+      heart: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor"/></svg>',
+      share: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3.5 8v5.5h9V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      star: '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+      github: '<svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>',
+      close: '<svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    };
+
+    // Texts. Lines marked NEW differ from today's card; the rest is today's Czech, word for word.
+    const T = {
+      title: '12 videí přepsaných ze zvuku',                                   // NEW
+      numbers: 'To je 14 hodin zvuku a 9 380 řádků. Paráda!',                   // NEW
+      intro: 'Subtitle Overlay dělám sám a zdarma. Přepis běží přímo u tebe v počítači, a jestli ti ušetřil čas, pomůže mi jakákoli podpora.', // NEW (second sentence)
+      tip: 'Pošli mi libovolný příspěvek', noAccount: 'Účet nepotřebuješ',
+      support: 'Podpořit autora', more: 'Další způsoby platby najdeš v okně rozšíření',
+      share: 'Sdílet s kamarádem', copies: 'Zkopíruje odkaz', review: 'Napsat recenzi', inStore: 'V Chrome Web Store',
+      gh: 'Nebo dej hvězdičku na GitHubu', once: 'Tohle uvidíš jen jednou.',
+      shortIntro: 'Přepis běží u tebe a nic tě nestojí. Jestli ti ušetřil čas, budu rád za příspěvek.', // NEW, card B
+      compactLine: 'Dělám to sám a zdarma. Podpoříš mě?',
+      thanks: 'Díky za tvou podporu, i díky ní tohle vzniklo. ♥',              // NEW, card C
+      again: 'Podpořit i novinku',                                              // NEW, card C
+    };
+
+    const tile = () => `
+      <div class="tile">
+        <div class="who"><img src="${PHOTO}" alt=""><div><strong>${T.tip}</strong><span>${T.noAccount}</span></div></div>
+        <img class="logos" src="${LOGOS}" alt="Google Pay, Apple Pay, PayPal, Visa, Mastercard">
+        <button class="main" data-act="donate">${I.heart}${T.support}</button>
+        <span class="more">${T.more}</span>
+      </div>`;
+    const compact = () => `
+      <div class="compact">
+        <div class="who"><img src="${PHOTO}" alt=""><div><strong>${T.title}</strong><span>${T.compactLine}</span></div></div>
+        <button class="main" data-act="donate">${I.heart}${T.support}</button>
+        <div class="links"><button data-act="share">${T.share}</button>·<button data-act="review">${T.review}</button>·<button data-act="github">GitHub ★</button></div>
+      </div>`;
+    const x = `<button class="x" data-act="close" title="Zavřít (už se nevrátí)" aria-label="Zavřít">${I.close}</button>`;
+
+    const CARDS = {
+      full: () => `<div class="ask" role="dialog" aria-label="${T.support}">${x}
+        <div class="hello"><strong>${T.title}</strong><span>${T.numbers}</span></div>
+        <p class="intro">${T.intro}</p>
+        ${tile()}
+        <div class="minor">
+          <button data-act="share">${I.share}<div><b>${T.share}</b><small>${T.copies}</small></div></button>
+          <button data-act="review">${I.star}<div><b>${T.review}</b><small>${T.inStore}</small></div></button>
+        </div>
+        <button class="gh" data-act="github">${I.github}${T.gh}</button>
+        <p class="once">${T.once}</p>
+        ${compact()}
+      </div>`,
+      short: () => `<div class="ask" role="dialog" aria-label="${T.support}">${x}
+        <div class="hello"><strong>${T.title}</strong><span>${T.numbers}</span></div>
+        <p class="intro">${T.shortIntro}</p>
+        ${tile()}
+        <p class="once">${T.once}</p>
+        ${compact()}
+      </div>`,
+      thanks: () => `<div class="ask thanks" role="status">${x}
+        <img src="${PHOTO}" alt=""><div><strong>${T.title}</strong><span>${T.thanks}</span><button class="again" data-act="donate">${T.again}</button></div>
+        <span class="timer"></span>
+      </div>`,
+    };
+
+    const toastEl = document.getElementById('toast');
+    let timer;
+    function toast(text) { toastEl.textContent = text; toastEl.classList.add('on'); clearTimeout(timer); timer = setTimeout(() => toastEl.classList.remove('on'), 2600); }
+    const msgs = {
+      donate: 'Otevře se ko-fi.com/cleedek. Uloží se "přispěl", příště už jen poděkování.',
+      share: 'Odkaz do Chrome Web Store je zkopírovaný. Karta se už neukáže.',
+      review: 'Otevře se hodnocení v Chrome Web Store. Karta se už neukáže.',
+      github: 'Otevře se GitHub. Karta se už neukáže.',
+    };
+
+    function build(frame) {
+      frame.innerHTML = `
+        <div class="player-bar"><span>▶</span><span>12:41 / 33:20</span><span class="track"><span></span></span><span>⚙</span><span>⛶</span></div>
+        <div class="subline">Musíme se vrátit, než se setmí.</div>
+        <div class="corner">
+          <div class="langs">
+            <button role="switch" aria-checked="true"><span class="name">🇨🇿 Čeština</span><span class="sw"></span></button>
+            <button role="switch" aria-checked="false"><span class="name">🇬🇧 Angličtina</span><span class="sw"></span></button>
+          </div>
+          ${CARDS[frame.dataset.variant]()}
+        </div>`;
+      const ask = frame.querySelector('.ask');
+      if (frame.hasAttribute('data-compact')) ask.classList.add('compact');
+      for (const img of ask.querySelectorAll('img')) img.addEventListener('error', () => img.remove());
+      const end = (act) => {
+        if (!ask.isConnected) return;
+        if (act && msgs[act]) toast(msgs[act]);
+        const note = document.createElement('div');
+        note.className = 'gone';
+        note.innerHTML = '<span>Mockup: karta je pryč.</span>';
+        const again = Object.assign(document.createElement('button'), { textContent: 'Znovu' });
+        again.addEventListener('click', () => build(frame));
+        note.append(again);
+        ask.replaceWith(note);
+      };
+      ask.addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (b) end(b.dataset.act); });
+      // Card C: gone after 12 s of not being pointed at (the bar at the bottom shows it, and stops under the mouse).
+      if (frame.dataset.variant === 'thanks') ask.querySelector('.timer').addEventListener('animationend', () => end());
+    }
+    const frames = document.querySelectorAll('[data-variant]');
+    frames.forEach(build);
+    document.getElementById('replay').addEventListener('click', () => frames.forEach(build));
+  </script>
+</body>
+</html>

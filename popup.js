@@ -640,7 +640,49 @@
     renderImprove();
   }
 
+  // The "Subtitles from audio" fold: the translation and what was said (as a
+  // second line), each improved by the AI model or not (only with Improve with
+  // AI on: Google alone can't fix a transcript), and the note when it's ready.
+  const IMPROVE = { both: [true, true], translation: [true, false], transcript: [false, true], none: [false, false] };
+  const audioModelNames = { best: t('Most accurate'), balanced: t('Balanced'), small: t('Smallest') };
+  // "1.6 GB" kept in one piece in Arabic/Persian (otherwise it shows as "GB 1.6"
+  // or breaks across lines).
+  const ltr = (s) => '\u2068' + s.replace(' ', '\u00a0') + '\u2069';
+  $('audioModel').replaceChildren(...Object.keys(SubSettings.AUDIO_MODELS).map((v) => {
+    const o = document.createElement('option');
+    o.value = v;
+    o.textContent = audioModelNames[v] + ' · ' + ltr(SubSettings.AUDIO_MODELS[v].size);
+    return o;
+  }));
+  function showAudioModel() {
+    const m = SubSettings.AUDIO_MODELS[prefs.audioModel] || SubSettings.AUDIO_MODELS[SubSettings.TRANSLATION.audioModel];
+    $('audioModel').value = SubSettings.AUDIO_MODELS[prefs.audioModel] ? prefs.audioModel : SubSettings.TRANSLATION.audioModel;
+    $('audioModelHint').textContent = t('Free Whisper model, runs on this computer. Downloads once ({size}). On clear Czech speech it got about {n} of 100 words right; expect less with music or noise.', { size: ltr(m.size), n: m.right });
+  }
+  showAudioModel();
+  $('audioModel').addEventListener('change', () => {
+    prefs.audioModel = $('audioModel').value;
+    SubSettings.saveTranslation({ audioModel: prefs.audioModel });
+    showAudioModel();
+  });
+  function showAudioImprove() {
+    if (!$('audioSummary')) return;
+    const ai = translator !== 'google';
+    const [main, orig] = IMPROVE[prefs.audioImprove] || IMPROVE.both;
+    const lang = SubSettings.languageName(($('lang') && $('lang').value) || prefs.translateTo);
+    $('audioMainLabel').textContent = t('{lang} subtitles', { lang });
+    $('audioImproveMain').checked = ai && main;
+    $('audioImproveOrig').checked = ai && orig;
+    $('audioImproveMain').disabled = $('audioImproveOrig').disabled = !ai;
+    $('audioSecond').checked = prefs.audioSecond !== false;
+    $('audioImproveHint').textContent = ai ? t('Fixes punctuation, misheard words and lines nobody said. The translation gets better too.')
+      : t('Turn on Improve with AI below to improve them with a model.');
+    const shown = prefs.audioSecond !== false ? t('{lang} + what was said', { lang }) : lang;
+    const better = !ai ? t('Google only') : main && orig ? t('AI: both') : main ? t('AI: translation') : orig ? t('AI: what was said') : t('no AI');
+    $('audioSummary').textContent = [shown, better, $('audioNotify').checked && t('notification')].filter(Boolean).join(' · ');
+  }
   function renderTranslator() {
+    showAudioImprove();
     $('aiOn').checked = translator !== 'google';
     $('aiPicker').hidden = translator === 'google';
     for (const b of document.querySelectorAll('[data-translator]')) {
@@ -735,6 +777,7 @@
   }
 
   $('lang').addEventListener('change', async () => {
+    showAudioImprove();
     lang = $('lang').value;
     await SubSettings.saveTranslation({ translateTo: lang });
     translateMsg('');
@@ -744,6 +787,86 @@
     renderLangChip();
     if (googleFonts.length) renderFonts();
     renderPreview(true);
+  });
+
+  // ---------- live subtitles (beta) ----------
+  // Chrome lets the extension hear this tab only right after you opened the
+  // popup on it, so the stream ID is asked for here and handed on.
+  // Transcribe (beta): you don't hear the tab; when the video ends, the whole
+  // transcript goes to the translation queue (with the AI model chosen below,
+  // if any: Improve) and a notification says when it's done.
+  let transcribing = false;
+  function translatorName() {
+    if (translator === 'google') return 'Google';
+    return $('aiModel').value || { local: t('your local model'), gemini: 'Gemini', claude: 'Claude', openai: 'OpenAI' }[translator] || 'AI';
+  }
+  // What the AI model improves in a transcript (only with Improve with AI on):
+  // the words heard in their own language, the translation, or both.
+  const saveImprove = () => {
+    const main = $('audioImproveMain').checked, orig = $('audioImproveOrig').checked;
+    prefs.audioImprove = main && orig ? 'both' : main ? 'translation' : orig ? 'transcript' : 'none';
+    SubSettings.saveTranslation({ audioImprove: prefs.audioImprove });
+    showAudioImprove();
+  };
+  $('audioImproveMain').addEventListener('change', saveImprove);
+  $('audioImproveOrig').addEventListener('change', saveImprove);
+  $('audioSecond').addEventListener('change', () => {
+    prefs.audioSecond = $('audioSecond').checked;
+    SubSettings.saveTranslation({ audioSecond: prefs.audioSecond });
+    showAudioImprove();
+  });
+  // On only with Chrome's permission for notifications, asked for right here.
+  chrome.permissions.contains({ permissions: ['notifications'] }).then((has) => {
+    $('audioNotify').checked = prefs.audioNotify && has;
+    showAudioImprove();
+  }, () => {});
+  $('audioNotify').addEventListener('change', async () => {
+    let on = $('audioNotify').checked;
+    if (on) on = await chrome.permissions.request({ permissions: ['notifications'] }).catch(() => false);
+    $('audioNotify').checked = on;
+    prefs.audioNotify = on;
+    SubSettings.saveTranslation({ audioNotify: on });
+    showAudioImprove();
+  });
+  function renderLive(error) {
+    $('transcribeLabel').textContent = transcribing ? t('Stop and translate what’s done') : t('Make subtitles from the audio');
+    $('transcribeBtn').classList.toggle('primary', transcribing);
+    $('transcribeHint').hidden = transcribing || !!error;
+    const msg = error || (transcribing ? t('Listening, muted for you. Keep this tab open; you can close this window. Then it’s translated into {lang} with {model}.', { lang: SubSettings.languageName(prefs.translateTo), model: translatorName() })
+      + ($('audioNotify').checked ? ' ' + t('You’ll get a notification.') : '') : '');
+    $('liveMsg').textContent = msg;
+    $('liveMsg').classList.toggle('error', !!error);
+    $('liveMsg').hidden = !msg;
+  }
+  chrome.runtime.sendMessage({ type: 'live-state', tabId: tab.id }).then((s) => {
+    transcribing = !!(s && s.on);
+    renderLive(s && s.error);
+  }, () => {});
+  $('transcribeBtn').addEventListener('click', async () => {
+    const b = $('transcribeBtn');
+    // Asked first, while the click still counts: a note when the translation is done.
+    // Asked once: a no turns "Notify me when ready" off instead of asking again next time.
+    const asking = !transcribing && prefs.audioNotify && chrome.permissions ? chrome.permissions.request({ permissions: ['notifications'] }).then((ok) => {
+      if (!ok) { prefs.audioNotify = false; $('audioNotify').checked = false; SubSettings.saveTranslation({ audioNotify: false }); showAudioImprove(); }
+      return ok;
+    }, () => false) : null;
+    b.disabled = true;
+    try {
+      if (transcribing) {
+        await chrome.runtime.sendMessage({ type: 'live-stop', tabId: tab.id });
+        transcribing = false;
+        renderLive();
+        return;
+      }
+      await asking;
+      const streamId = await chrome.tabCapture.getMediaStreamId({ targetTabId: tab.id });
+      const res = await chrome.runtime.sendMessage({ type: 'live-start', tabId: tab.id, streamId, mode: 'transcribe' });
+      transcribing = !!(res && res.ok);
+      renderLive(transcribing ? '' : (res && res.error) || t('Could not listen to this tab.'));
+    } catch (e) {
+      transcribing = false;
+      renderLive(e.message || String(e));
+    } finally { b.disabled = false; }
   });
 
   $('translateBtn').addEventListener('click', async () => {

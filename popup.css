@@ -841,4 +841,27 @@ details.font-fold[open] > summary { margin-bottom: 10px; }
 .guide-steps small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
 .guide-card.done > strong { color: var(--success); }
 
+
+/* Transcribe (beta), under the file buttons: listening icon, label, a small Beta chip. */
+.transcribe { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.transcribe-btn { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.transcribe-icon { flex: none; }
+.transcribe-btn.primary .transcribe-icon path { animation: listen 1.1s var(--ease) infinite alternate; transform-origin: center; transform-box: fill-box; }
+@keyframes listen { from { transform: scaleY(.55); } to { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .transcribe-btn.primary .transcribe-icon path { animation: none; } }
+.beta-chip {
+  padding: 2px 6px; border-radius: 999px; font-size: 9px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--link); background: color-mix(in oklch, var(--link) 14%, transparent);
+}
+.transcribe-btn.primary .beta-chip { color: inherit; background: color-mix(in oklch, currentColor 18%, transparent); }
+.transcribe .small { margin: 0; }
+.transcribe .small.error { color: var(--danger); }
 .share-body .setting-head + .hint { margin-top: -4px; }
+/* "Subtitles from audio" fold: hints as in the settings, close under their row. */
+#audioDetails { margin-top: 2px; }
+#audioDetails .hint { margin: -6px 0 0; font-size: 11.5px; color: var(--faint); }
+#audioDetails select:disabled { opacity: .5; }
+#audioDetails .hint.audio-how { margin: 0; }
+#audioDetails .audio-group { margin: 4px 0 -4px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
+#audioDetails .audio-sub .setting-label { font-weight: 400; }
+#audioDetails input:disabled + span { opacity: .45; }
