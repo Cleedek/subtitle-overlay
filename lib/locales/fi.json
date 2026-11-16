@@ -625,5 +625,6 @@
   "Sharing subtitles": "Tekstitysten jakaminen",
   "Finding": "Haku",
   "automatic": "automaattinen",
-  "sharing mine": "jaan omani"
+  "sharing mine": "jaan omani",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Tulossa:** tekstitykset videoihin, joissa niitä ei ole. Ilmainen malli tietokoneellasi kirjoittaa ne taustalla äänestä, ja sitten ne käännetään jonossa"
 }

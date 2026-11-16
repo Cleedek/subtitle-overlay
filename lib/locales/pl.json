@@ -625,5 +625,6 @@
   "Sharing subtitles": "Udostępnianie napisów",
   "Finding": "Szukanie",
   "automatic": "automatycznie",
-  "sharing mine": "udostępniam swoje"
+  "sharing mine": "udostępniam swoje",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Wkrótce:** napisy także do filmów, które ich nie mają. Darmowy model na twoim komputerze zapisze je w tle z dźwięku, a potem zostaną przetłumaczone w kolejce"
 }

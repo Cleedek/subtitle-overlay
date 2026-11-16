@@ -625,5 +625,6 @@
   "Sharing subtitles": "字幕の共有",
   "Finding": "検索",
   "automatic": "自動",
-  "sharing mine": "自分の字幕を共有"
+  "sharing mine": "自分の字幕を共有",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**近日公開:** 字幕のない動画にも字幕を。パソコン上の無料モデルがバックグラウンドで音声から書き起こし、その後キューで翻訳します"
 }

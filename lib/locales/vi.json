@@ -625,5 +625,6 @@
   "Sharing subtitles": "Chia sẻ phụ đề",
   "Finding": "Đang tìm",
   "automatic": "tự động",
-  "sharing mine": "chia sẻ của tôi"
+  "sharing mine": "chia sẻ của tôi",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Sắp ra mắt:** phụ đề cho cả video không có phụ đề. Một mô hình miễn phí trên máy tính của bạn sẽ chép lại từ âm thanh ở chế độ nền, rồi dịch trong hàng đợi"
 }

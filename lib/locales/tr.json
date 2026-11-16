@@ -625,5 +625,6 @@
   "Sharing subtitles": "Altyazı paylaşımı",
   "Finding": "Arama",
   "automatic": "otomatik",
-  "sharing mine": "benimkileri paylaşıyorum"
+  "sharing mine": "benimkileri paylaşıyorum",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Yakında:** altyazısı olmayan videolar için de altyazı. Bilgisayarındaki ücretsiz bir model arka planda sesi yazıya döker, sonra kuyrukta çevrilir"
 }

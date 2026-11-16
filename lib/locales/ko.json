@@ -625,5 +625,6 @@
   "Sharing subtitles": "자막 공유",
   "Finding": "찾기",
   "automatic": "자동",
-  "sharing mine": "내 자막 공유"
+  "sharing mine": "내 자막 공유",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**곧 출시:** 자막이 없는 동영상에도 자막을. 컴퓨터의 무료 모델이 백그라운드에서 소리를 듣고 받아 적은 뒤 대기열에서 번역합니다"
 }

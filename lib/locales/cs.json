@@ -625,5 +625,6 @@
   "Sharing subtitles": "Sdílení titulků",
   "Finding": "Hledání",
   "automatic": "automaticky",
-  "sharing mine": "sdílím svoje"
+  "sharing mine": "sdílím svoje",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Připravuju:** titulky i pro videa bez titulků. Bezplatný model ve tvém počítači je na pozadí zapíše ze zvuku a pak se přeloží ve frontě"
 }

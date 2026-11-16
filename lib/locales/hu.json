@@ -625,5 +625,6 @@
   "Sharing subtitles": "Feliratok megosztása",
   "Finding": "Keresés",
   "automatic": "automatikus",
-  "sharing mine": "megosztom a sajátom"
+  "sharing mine": "megosztom a sajátom",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Hamarosan:** felirat a felirat nélküli videókhoz is. Egy ingyenes modell a gépeden a háttérben leírja a hangból, aztán a várólistában lefordítjuk"
 }

@@ -625,5 +625,6 @@
   "Sharing subtitles": "字幕共享",
   "Finding": "查找",
   "automatic": "自动",
-  "sharing mine": "共享我的"
+  "sharing mine": "共享我的",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即将推出:** 为没有字幕的视频生成字幕。你电脑上的免费模型会在后台根据声音写出字幕,然后在队列中翻译"
 }

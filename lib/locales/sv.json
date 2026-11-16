@@ -625,5 +625,6 @@
   "Sharing subtitles": "Delning av undertexter",
   "Finding": "Söker",
   "automatic": "automatiskt",
-  "sharing mine": "delar mina"
+  "sharing mine": "delar mina",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Snart:** undertexter för videor som saknar dem. En gratis modell på din dator skriver ner dem från ljudet i bakgrunden, sedan översätts de i kön"
 }

@@ -625,5 +625,6 @@
   "Sharing subtitles": "Untertitel teilen",
   "Finding": "Suche",
   "automatic": "automatisch",
-  "sharing mine": "teile meine"
+  "sharing mine": "teile meine",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Demnächst:** Untertitel für Videos ohne Untertitel. Ein kostenloses Modell auf deinem Computer schreibt sie im Hintergrund aus dem Ton mit, danach werden sie in der Warteschlange übersetzt"
 }

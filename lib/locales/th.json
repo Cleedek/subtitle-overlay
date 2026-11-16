@@ -625,5 +625,6 @@
   "Sharing subtitles": "การแชร์คำบรรยาย",
   "Finding": "ค้นหา",
   "automatic": "อัตโนมัติ",
-  "sharing mine": "แชร์ของฉัน"
+  "sharing mine": "แชร์ของฉัน",
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**เร็ว ๆ นี้:** คำบรรยายสำหรับวิดีโอที่ไม่มีคำบรรยาย โมเดลฟรีในคอมพิวเตอร์ของคุณจะถอดจากเสียงอยู่เบื้องหลัง แล้วแปลต่อในคิว"
 }
