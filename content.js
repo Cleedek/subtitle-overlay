@@ -716,9 +716,11 @@
   // The player's own control bar while it shows, or null. Netflix fades its
   // controls out (or takes them away) when the mouse rests.
   var onNetflix = location.hostname === 'www.netflix.com'; // var: position() may run before this line
+  var onBilibili = /(^|\.)bilibili\.tv$/.test(location.hostname);
   function controlBar() {
     const player = video && video.closest && video.closest('.html5-video-player');
     if (player) return !player.classList.contains('ytp-autohide') && player.querySelector('.ytp-chrome-bottom');
+    if (onBilibili) return bilibiliBar();
     if (!onNetflix) return null;
     const bar = document.querySelector('.watch-video--bottom-controls-container');
     if (!bar) return null;
@@ -727,6 +729,22 @@
       if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) return null;
     }
     return bar;
+  }
+
+  // Bilibili.tv slides its bar (progress line and buttons) down out of the picture when the
+  // mouse rests, marking the display with .player-mobile-control-bar-hide. The bar's top is
+  // the progress line. It's measured where the bar ends up, not where the slide has it now,
+  // so the subtitles rise together with the bar instead of after it.
+  function bilibiliBar() {
+    const display = video && video.closest && video.closest('.player-mobile-box')?.querySelector('.player-mobile-display');
+    if (!display || display.classList.contains('player-mobile-control-bar-hide')) return null;
+    const bar = display.querySelector('.player-mobile-control-bar');
+    const line = display.querySelector('.player-mobile-control-bar-middle');
+    if (!bar || !line) return null;
+    const tf = getComputedStyle(bar).transform;
+    const slide = tf && tf !== 'none' ? new DOMMatrixReadOnly(tf).m42 : 0;
+    const r = line.getBoundingClientRect(), b = bar.getBoundingClientRect();
+    return { getBoundingClientRect: () => ({ top: r.top - slide, bottom: b.bottom - slide, height: b.bottom - r.top }) };
   }
 
   function refreshStyle() {
@@ -1092,7 +1110,10 @@
   }
 
   // asr: YouTube's automatic captions, which the AI can clean up in their own language.
-  function loadBytes(name, b64, encoding, targetVideo, asr) {
+  // made: { lang, model, from: 'queue' | 'saved' } for a file that is already a
+  // finished translation (the queue's Show on… or Play of Saved subtitles), so the
+  // card over the video says so.
+  function loadBytes(name, b64, encoding, targetVideo, asr, made) {
     const bytes = SubLib.base64ToBytes(b64);
     const { text, encoding: used } = SubLib.decode(bytes, encoding || 'auto');
     const parsed = SubLib.parse(text);
@@ -1102,6 +1123,7 @@
     cues = parsed;
     file = { name, b64, encoding: encoding || 'auto', usedEncoding: used };
     if (asr) file.asr = true;
+    if (made && made.model && made.lang) file.made = { lang: made.lang, model: made.model, from: made.from === 'saved' ? 'saved' : 'queue' };
     loadedOn = location.href;
     autoLoaded = false;
     siteFile = false;
@@ -1121,6 +1143,7 @@
     afterLoad();
     rememberFile();
     notice(t('Loaded {n} lines', { n: parsed.length }) + (settings.offset ? ' · ' + t('Sync: {offset}', { offset: fmtOffset(settings.offset) }) : ''));
+    if (file.made) showLangs(6000);
     return { ok: true, count: parsed.length, encoding: used };
   }
 
@@ -1232,7 +1255,7 @@
       autoLoaded = true; // the site's own file, if it comes, may still replace them (autoShow)
       const ai = record.ai && record.ai.model;
       notice(t('Subtitles from last time:') + ' ' + (record.translatedTo ? SubSettings.languageName(record.translatedTo) : record.name) + (ai ? ' · ' + ai : ''), 4000);
-      if (aiReady()) showLangs();
+      if (aiReady() || ai || record.made) showLangs();
       return;
     }
     if (restorePending.ask) {
@@ -1259,7 +1282,7 @@
     }
     offAfterLoad = f.off || null;
     if (!f.original) {
-      const r = loadBytes(f.name, f.b64, f.encoding, v, f.asr);
+      const r = loadBytes(f.name, f.b64, f.encoding, v, f.asr, f.made);
       offAfterLoad = null;
       siteFile = r.ok;
       if (r.ok && restoreSecond(f)) resumeShown();
@@ -2336,6 +2359,10 @@
   // check that fixes the common cases and ends in a problem report, which
   // sends only the site's name and the checks shown (background.js).
   const HELP_AFTER_MS = 10000;
+  // The "No subtitles? Help" label: a short nudge, not a fixture. It shows for
+  // a moment (moving the mouse doesn't keep it up), then rests for a minute,
+  // and stops for that video after a few tries.
+  const PILL_SHOW_MS = 2500, PILL_REST_MS = 60000, PILL_MAX = 3;
   const PROBLEMS = {
     no_subs: 'Subtitles don’t show',
     bad_translation: 'Translation is wrong',
@@ -2348,6 +2375,7 @@
   let helpArmed = false;  // played long enough: the label may show
   let helpMode = '';      // '' | 'hint' | 'pill' | 'wizard'
   let helpTimer = 0, pillTimer = 0, helpMouseQueued = false;
+  let pillShown = 0, pillRestUntil = 0; // per video
   let wiz = null;         // { step, problem, note, sending }
   const hasSubs = () => !!(offered || cues.length);
 
@@ -2428,7 +2456,7 @@
     for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick', 'keydown', 'keyup', 'keypress', 'wheel']) {
       helpEl.addEventListener(type, (e) => e.stopPropagation());
     }
-    helpEl.addEventListener('mouseleave', () => { if (helpMode === 'pill') hidePillSoon(1200); });
+    helpEl.addEventListener('mouseleave', () => { if (helpMode === 'pill') hidePillSoon(800); });
     shadow.append(style, helpEl);
   }
 
@@ -2440,7 +2468,7 @@
     if (v === helpVideo && helpTimer) return;
     if (v !== helpVideo) {
       if (helpVideo && helpVideo.isConnected && isPlaying(helpVideo) && area(helpVideo) >= area(v)) return; // a preview next to the main one
-      helpVideo = v; helpPlayed = 0; helpArmed = false;
+      helpVideo = v; helpPlayed = 0; helpArmed = false; pillShown = 0; pillRestUntil = 0;
     }
     if (!helpTimer && isPlaying(v)) helpTimer = setInterval(helpWatch, 1000);
   }
@@ -2491,7 +2519,8 @@
     document[on ? 'addEventListener' : 'removeEventListener']('mousemove', onHelpMouse, { passive: true, capture: true });
   }
   function onHelpMouse(e) {
-    if (helpMouseQueued || !helpArmed || helpMode === 'hint' || helpMode === 'wizard' || hasSubs() || !helpVideo || off) return;
+    if (helpMouseQueued || !helpArmed || helpMode || hasSubs() || !helpVideo || off) return;
+    if (pillShown >= PILL_MAX || Date.now() < pillRestUntil) return;
     helpMouseQueued = true;
     requestAnimationFrame(() => {
       helpMouseQueued = false;
@@ -2554,18 +2583,19 @@
 
   // The small label while the mouse moves over a video without subtitles.
   function showPill() {
-    if (helpMode !== 'pill') {
-      const pill = button('pill', '', () => openWizard('no_subs'));
-      pill.append(el('i', '', '?'), t('No subtitles?'), ' ', el('u', '', t('Help')));
-      setHelp('pill', [pill]);
-    }
-    hidePillSoon(2500);
+    if (helpMode) return;
+    const pill = button('pill', '', () => openWizard('no_subs'));
+    pill.append(el('i', '', '?'), t('No subtitles?'), ' ', el('u', '', t('Help')));
+    setHelp('pill', [pill]);
+    pillShown += 1;
+    hidePillSoon(PILL_SHOW_MS);
   }
   function hidePillSoon(ms) {
     clearTimeout(pillTimer);
     pillTimer = setTimeout(() => {
       if (helpMode !== 'pill') return;
-      if (helpEl.matches(':hover')) return hidePillSoon(1200);
+      if (helpEl.matches(':hover')) return hidePillSoon(800);
+      pillRestUntil = Date.now() + PILL_REST_MS;
       hideHelp();
     }, ms);
   }
@@ -2828,12 +2858,31 @@
     const progress = rows.filter((row) => row.list && row.lang && row.lang !== 'orig' && !nativeSite.has(row.list) && (aiState.has(row.list) || aiReady() || sharedOffer.has(row.list) || queueJobFor(row.lang)))
       .map((row) => aiRow(row.lang, row.list));
     if (cleanable() && aiReady()) progress.push(cleanRow());
+    if (!original && file && file.made) progress.push(madeRow(file.made));
     // While Google translates: its bar, in place of the switch the new language gets when it's done.
     if (translating) progress.unshift(translatingRow(translating));
     const report = el('button', 'report', t('Report a problem'));
     report.addEventListener('click', () => { langsEl.classList.remove('on'); openWizard(''); });
     langsEl.replaceChildren(...switches, ...progress, report);
     return switches.length + progress.length > 0;
+  }
+
+  // Loaded already translated (the queue's Show on…, Play of Saved subtitles):
+  // "🇻🇳 gemma3:12b ✓", a full green bar, "Done · 640 lines".
+  // Nothing left to start, so no buttons.
+  function madeRow(m) {
+    const row = el('div', 'ai done');
+    const head = el('div', 'ai-head');
+    head.append(el('span', 'name', (SubSettings.flag(m.lang) + ' ' + m.model).trim()), el('span', 'ai-check', '✓'));
+    const bar = el('div', 'ai-bar');
+    const fill = el('span');
+    fill.style.width = '100%';
+    bar.append(fill);
+    const lines = t('{n} lines', { n: cues.length });
+    const foot = el('div', 'ai-foot');
+    foot.append(el('div', 'ai-note', (m.from === 'saved' ? t('Saved subtitles') : t('Done')) + ' · ' + lines));
+    row.append(head, bar, foot);
+    return row;
   }
 
   // YouTube's automatic captions on screen as they came, in the language you read:
@@ -2929,7 +2978,9 @@
     const fill = el('span');
     fill.style.width = share * 100 + '%';
     bar.append(fill);
+    const fromQueue = finished && q && q.status === 'done' && queueApplied.has(q.id);
     const note = s.error ? t('Stopped') + ': ' + s.error
+      : fromQueue ? t('Done') + ' · ' + t('{n} lines', { n: s.total })
       : finished && s.kept ? t('Improved on this computer · {date}', { date: new Intl.DateTimeFormat(SubI18n.lang, { day: 'numeric', month: 'numeric' }).format(s.kept) })
       : t(s.running ? (s.paused ? 'Paused' : 'Improving') : aiFinished(s) ? 'Improved' : 'Stopped') + ' · ' + done + ' / ' + t('{n} lines', { n: s.total });
     const foot = el('div', 'ai-foot');
@@ -3120,7 +3171,7 @@
         : j.status === 'running' && !queuePaused ? t('Translating') + ' · ' + lines
           : (queuePaused ? t('Paused') : t('Waiting')) + (n ? ' · ' + lines : '');
     const foot = el('div', 'ai-foot');
-    foot.append(el('div', 'ai-note', t('Translation queue') + ' · ' + note));
+    foot.append(el('div', 'ai-note', note));
     const acts = el('div', 'ai-acts');
     if (done && !queueApplied.has(j.id)) {
       const show = el('button', 'ai-act', t('Show'));
@@ -3721,7 +3772,7 @@
       case 'load': {
         const v = msg.videoIndex != null ? findVideos()[msg.videoIndex] : null;
         if (v) pinned = v;
-        reply(loadBytes(msg.name, msg.b64, msg.encoding, v, msg.asr));
+        reply(loadBytes(msg.name, msg.b64, msg.encoding, v, msg.asr, msg.made));
         return;
       }
       case 'set-encoding': {
@@ -3936,6 +3987,21 @@
       }
       syncCcButton();
       if (ccBefore !== null) keepCcMemory();
+    }, 1000);
+  }
+
+  // Bilibili.tv: the bar shows and hides by a class on the player's display (see bilibiliBar).
+  if (onBilibili) {
+    let display = null;
+    const barWatch = new MutationObserver(liftForControls);
+    setInterval(() => {
+      const d = video && video.closest && video.closest('.player-mobile-box')?.querySelector('.player-mobile-display');
+      if (d && d !== display) {
+        barWatch.disconnect();
+        display = d;
+        barWatch.observe(d, { attributes: true, attributeFilter: ['class'] });
+        liftForControls();
+      }
     }, 1000);
   }
 

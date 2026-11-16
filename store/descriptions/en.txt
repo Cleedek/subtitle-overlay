@@ -4,7 +4,7 @@ Subtitle Overlay draws subtitles over the video player of any website, also in f
 
 ★ THE HIGHLIGHTS
 ★ Any site, any video: subtitles over the player, in a window or fullscreen, always in sync
-★ Translate into 31 languages in one click, or fully automatically as soon as you turn on subtitles in the site's player
+★ Translate into 33 languages in one click, or fully automatically as soon as you turn on subtitles in the site's player
 ★ NEW: shared subtitles: if someone already improved the same subtitles with AI, you get their version at once, and sharing yours is your choice
 ★ Make the translation sound natural with AI, free on your own computer (Gemma) or with your own Gemini, Claude or OpenAI key
 ★ If the site already has subtitles in your language, you get those, and translation steps in only when it doesn't
@@ -15,7 +15,7 @@ Subtitle Overlay draws subtitles over the video player of any website, also in f
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRANSLATE INTO 31 LANGUAGES
+TRANSLATE INTO 33 LANGUAGES
 • One click translates the loaded subtitles with Google Translate, right in the extension
 • Optional: click Improve and AI (Gemma on your computer, or Gemini, Claude or OpenAI) rewrites Google's quick version so it sounds natural (more below). Move the mouse over the video to see how far it got
 • Pick your language once; it stays your favourite for every Translate button
@@ -23,7 +23,7 @@ TRANSLATE INTO 31 LANGUAGES
 • If the site has subtitles in your language (YouTube and streaming sites), those come first; Google or AI only translate when there are none
 • The site's own subtitles are hidden while ours are on and come back as soon as you turn ours off
 • Switch back to the original any time, or save the translation as an .srt file
-• Languages: Vietnamese, Czech, English, Slovak, German, French, Spanish, Italian, Portuguese, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Chinese (Simplified and Traditional), Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Arabic
+• Languages: Vietnamese, Czech, English, Slovak, German, French, Spanish, Italian, Portuguese, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Chinese (Simplified and Traditional), Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabic, Persian
 
 MAKE IT SOUND NATURAL (OPTIONAL)
 Google Translate is quick, but it goes line by line, word for word. Click Improve and an AI model rewrites the subtitles with the whole scene in mind, starting where you are watching.
@@ -93,8 +93,8 @@ KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + = / Alt + − bigger or smaller · Alt + F fullscreen with subtitles
 Every shortcut can be changed or switched off in the Behaviour tab.
 
-INTERFACE IN 31 LANGUAGES
-English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, and Arabic (right to left). It follows your browser, or pick one at the bottom of the popup.
+INTERFACE IN 33 LANGUAGES
+English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabic, and Persian (right to left). It follows your browser, or pick one at the bottom of the popup.
 
 FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.

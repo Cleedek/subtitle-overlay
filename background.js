@@ -286,6 +286,7 @@ async function openQueue() {
 
 const VTT_URL = /\.(web)?vtt$/i;
 const SRT_URL = /\.srt$/i;
+const ASS_URL = /\.(ass|ssa)$/i; // Bilibili and anime sites
 const M3U8_URL = /\.m3u8$/i;
 const MPD_URL = /\.mpd$/i;
 
@@ -308,7 +309,7 @@ chrome.webRequest.onCompleted.addListener((d) => {
   const ctype = header ? String(header.value).toLowerCase() : '';
   if (YT_CAPTIONS.test(d.url)) {
     // Handled by youtube-hook.js: a second download of these comes back empty.
-  } else if (VTT_URL.test(path) || ctype.includes('text/vtt') || SRT_URL.test(path) || ctype.includes('x-subrip')) {
+  } else if (VTT_URL.test(path) || ctype.includes('text/vtt') || SRT_URL.test(path) || ctype.includes('x-subrip') || ASS_URL.test(path) || /x-(ssa|ass)\b/.test(ctype)) {
     addItem(d.tabId, { kind: 'file', url: d.url, frameId: d.frameId, lang: guessLanguage(d.url) });
   } else if (M3U8_URL.test(path) || ctype.includes('mpegurl')) {
     inspectPlaylist(d.tabId, d.frameId, d.url);
@@ -828,6 +829,7 @@ const AI_PROMPT = (lang, sheet) => [
   'A line is often only part of a sentence that goes on in the next line: translate it as that part, so the lines read naturally one after another, and never move words to another number.',
   'Keep <i>, <b>, <u> tags and <br> line breaks where they belong.',
   'Give exactly one translation for each line: never a second version, no "(or: ...)", no notes or explanations.',
+  'Write only in the usual script of ' + lang + ': never add a pronunciation or transliteration in Latin letters.',
   'Write natural, spoken ' + lang + ' that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context.',
 ].join('\n');
 
@@ -1006,7 +1008,7 @@ async function aiTranslate(lines, before, to, signal, sheet, clean) {
     return { cut: info.cut, texts: keys.map((k, i) => {
       const a = out && out[k];
       const s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
-      return typeof s === 'string' ? SubLib.dropAlternative(s.trim()) : '';
+      return typeof s === 'string' ? SubLib.dropTransliteration(SubLib.dropAlternative(s.trim()), lines[i]) : '';
     }) };
   }
   // A second try of the whole chunk only when many lines are missing: the

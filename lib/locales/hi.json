@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "दूसरों से मिले सबटाइटल: अगर किसी ने वही सबटाइटल पहले ही AI से बेहतर बना दिए हैं, तो आपको उनका वर्ज़न तुरंत मिल जाता है, जिस पर **साझा** लिखा होता है। अपने सबटाइटल साझा करना है या नहीं, यह आप तय करते हैं",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**बेहतर बनाएं** अब YouTube के ऑटोमैटिक कैप्शन पर भी आपकी अपनी भाषा में काम करता है: यह विराम चिह्न जोड़ता है और गलत सुने गए शब्द ठीक करता है",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "सबटाइटल नहीं हैं? वीडियो पर **मदद** लेबल आपको रास्ता दिखाता है, और **समस्या रिपोर्ट करें** मुझे साइट का नाम भेज देता है",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**अनुवाद कतार** की प्रगति अब वीडियो के ऊपर वाले कार्ड में भी दिखती है, और तैयार फाइल अपने आप Google की पंक्तियों की जगह ले लेती है"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**अनुवाद कतार** की प्रगति अब वीडियो के ऊपर वाले कार्ड में भी दिखती है, और तैयार फाइल अपने आप Google की पंक्तियों की जगह ले लेती है",
+  "Can’t reach Google Translate. Check your internet connection.": "Google Translate तक नहीं पहुँच पा रहे। अपना इंटरनेट कनेक्शन जांचें।",
+  "The interface and translation now come in **Persian** and **Bengali**": "इंटरफ़ेस और अनुवाद अब **फ़ारसी** और **बांग्ला** में भी",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**बेहतर बनाएं** अब फ़ारसी पंक्तियों के बाद लैटिन अक्षरों में उच्चारण नहीं जोड़ता",
+  "Sharing subtitles": "सबटाइटल साझा करना",
+  "Finding": "खोज",
+  "automatic": "स्वचालित",
+  "sharing mine": "मेरे साझा"
 }

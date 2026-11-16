@@ -361,6 +361,8 @@
     const { shareCount } = await chrome.storage.local.get('shareCount');
     $('shareCountRow').hidden = !shareCount;
     if (shareCount) $('shareCountText').textContent = t('Shared: {n}', { n: shareCount });
+    const on = [$('shareFind').checked && t('Finding'), $('shareFind').checked && $('shareAuto').checked && t('automatic'), $('shareMine').checked && t('sharing mine')].filter(Boolean);
+    $('shareSummary').textContent = on.length ? on.join(' · ') : t('Off');
   }
   showShare();
   $('shareDelete').addEventListener('click', async () => {

@@ -4,7 +4,7 @@ Subtitle Overlay menampilkan subtitle di atas pemutar video situs mana pun, juga
 
 ★ SOROTAN UTAMA
 ★ Situs apa pun, video apa pun: subtitle di atas pemutar, dalam jendela atau layar penuh, selalu sinkron
-★ Terjemahkan ke 31 bahasa dengan sekali klik, atau sepenuhnya otomatis begitu kamu menyalakan subtitle di pemutar situs
+★ Terjemahkan ke 33 bahasa dengan sekali klik, atau sepenuhnya otomatis begitu kamu menyalakan subtitle di pemutar situs
 ★ BARU: subtitle yang dibagikan: kalau ada yang sudah menyempurnakan subtitle yang sama dengan AI, kamu langsung dapat versinya, dan kamu sendiri yang memutuskan apakah mau membagikan punyamu
 ★ Terjemahan terdengar alami berkat AI, gratis di komputermu sendiri (Gemma) atau dengan kunci Gemini, Claude, atau OpenAI milikmu
 ★ Kalau situs sudah punya subtitle dalam bahasamu, kamu langsung dapat yang itu, dan terjemahan hanya dipakai kalau tidak ada
@@ -15,7 +15,7 @@ Subtitle Overlay menampilkan subtitle di atas pemutar video situs mana pun, juga
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TERJEMAHKAN KE 31 BAHASA
+TERJEMAHKAN KE 33 BAHASA
 • Sekali klik menerjemahkan subtitle yang dimuat dengan Google Terjemahan, langsung di ekstensi
 • Opsional: klik Sempurnakan dan AI (Gemma di komputermu, atau Gemini, Claude, atau OpenAI) menulis ulang versi cepat dari Google agar terdengar alami (selengkapnya di bawah). Arahkan mouse ke video untuk melihat sejauh mana prosesnya
 • Pilih bahasamu sekali saja; bahasa itu jadi favoritmu untuk setiap tombol Terjemahkan
@@ -23,7 +23,7 @@ TERJEMAHKAN KE 31 BAHASA
 • Kalau situs punya subtitle dalam bahasamu (YouTube dan layanan streaming), itu yang didahulukan; Google atau AI hanya menerjemahkan kalau tidak ada
 • Subtitle bawaan situs disembunyikan selama subtitle kami menyala, dan kembali begitu kamu mematikan subtitle kami
 • Kembali ke versi asli kapan saja, atau simpan terjemahannya sebagai file .srt
-• Bahasa: Vietnam, Ceko, Inggris, Slowakia, Jerman, Prancis, Spanyol, Italia, Portugis, Polandia, Hongaria, Ukraina, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Tionghoa (Sederhana dan Tradisional), Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Arab
+• Bahasa: Vietnam, Ceko, Inggris, Slowakia, Jerman, Prancis, Spanyol, Italia, Portugis, Polandia, Hongaria, Ukraina, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Tionghoa (Sederhana dan Tradisional), Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Bengali, Arab, Persia
 
 BUAT TERDENGAR ALAMI (OPSIONAL)
 Google Terjemahan memang cepat, tetapi menerjemahkan baris demi baris, kata demi kata. Klik Sempurnakan dan model AI menulis ulang subtitle dengan memperhatikan seluruh adegan, mulai dari bagian yang sedang kamu tonton.
@@ -93,8 +93,8 @@ PINTASAN KEYBOARD
 Alt + [ / ] sinkronkan · Alt + Shift + [ / ] sinkronkan per 1 detik · Alt + 0 reset sinkronisasi · Alt + R ulangi baris · Alt + S tampilkan atau sembunyikan · Alt + 1 / Alt + 2 tampilkan atau sembunyikan satu bahasa saja · Alt + ↑ / ↓ pindahkan · Alt + = / Alt + − perbesar atau perkecil · Alt + F layar penuh dengan subtitle
 Setiap pintasan bisa diubah atau dimatikan di tab Perilaku.
 
-ANTARMUKA DALAM 31 BAHASA
-Inggris, Ceko, Slowakia, Jerman, Prancis, Spanyol, Vietnam, Tionghoa Sederhana, Tionghoa Tradisional, Italia, Portugis, Polandia, Ukraina, Hongaria, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, dan Arab (kanan ke kiri). Mengikuti bahasa browser-mu, atau pilih sendiri di bagian bawah jendela ekstensi.
+ANTARMUKA DALAM 33 BAHASA
+Inggris, Ceko, Slowakia, Jerman, Prancis, Spanyol, Vietnam, Tionghoa Sederhana, Tionghoa Tradisional, Italia, Portugis, Polandia, Ukraina, Hongaria, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Bengali, Arab, dan Persia (kanan ke kiri). Mengikuti bahasa browser-mu, atau pilih sendiri di bagian bawah jendela ekstensi.
 
 UNTUK YANG SUKA MENGULIK
 Tab "Subtitles" di DevTools menampilkan setiap file subtitle yang dimuat halaman dan menyimpannya sebagai .vtt atau .srt.

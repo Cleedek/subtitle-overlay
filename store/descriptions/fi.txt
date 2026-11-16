@@ -4,7 +4,7 @@ Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen 
 
 ★ TÄRKEIMMÄT
 ★ Mikä tahansa sivusto, mikä tahansa video: tekstitys soittimen päällä, ikkunassa tai koko näytöllä, aina tahdissa
-★ Käännös 31 kielelle yhdellä klikkauksella tai täysin automaattisesti heti, kun laitat tekstityksen päälle sivuston soittimessa
+★ Käännös 33 kielelle yhdellä klikkauksella tai täysin automaattisesti heti, kun laitat tekstityksen päälle sivuston soittimessa
 ★ UUTTA: jaetut tekstitykset: jos joku on jo parantanut samat tekstitykset tekoälyllä, saat hänen versionsa heti, ja omiesi jakamisesta päätät itse
 ★ Tekoäly tekee käännöksestä luontevan, ilmaiseksi omalla tietokoneellasi (Gemma) tai omalla Gemini-, Claude- tai OpenAI-avaimellasi
 ★ Jos sivustolla on jo tekstitys kielelläsi, saat sen, ja käännös tehdään vain, kun sellaista ei ole
@@ -15,7 +15,7 @@ Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen 
 
 ━━━━━━━━━━━━━━━━━━━━
 
-KÄÄNNÖS 31 KIELELLE
+KÄÄNNÖS 33 KIELELLE
 • Yksi klikkaus kääntää ladatun tekstityksen Google Kääntäjällä suoraan laajennuksessa
 • Valinnainen: klikkaa Paranna, niin tekoäly (Gemma tietokoneellasi tai Gemini, Claude tai OpenAI) kirjoittaa Googlen nopean version uudelleen luontevaksi (lisää alempana). Vie hiiri videon päälle, niin näet, kuinka pitkällä se on
 • Valitse kielesi kerran; se pysyy suosikkinasi jokaisessa Käännä-painikkeessa
@@ -23,7 +23,7 @@ KÄÄNNÖS 31 KIELELLE
 • Jos sivustolla on tekstitys kielelläsi (YouTube ja suoratoistopalvelut), se tulee ensin; Google tai tekoäly kääntää vain, kun sellaista ei ole
 • Sivuston oma tekstitys piilotetaan, kun meidän tekstityksemme on päällä, ja se palaa heti, kun suljet meidän tekstityksemme
 • Palaa alkuperäiseen milloin tahansa tai tallenna käännös .srt-tiedostona
-• Kielet: vietnam, tšekki, englanti, slovakki, saksa, ranska, espanja, italia, portugali, puola, unkari, ukraina, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, kiina (yksinkertaistettu ja perinteinen), japani, korea, thai, indonesia, malaiji, filipino, hindi, arabia
+• Kielet: vietnam, tšekki, englanti, slovakki, saksa, ranska, espanja, italia, portugali, puola, unkari, ukraina, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, kiina (yksinkertaistettu ja perinteinen), japani, korea, thai, indonesia, malaiji, filipino, hindi, bengali, arabia, persia
 
 LUONTEVA KÄÄNNÖS TEKOÄLYLLÄ (VALINNAINEN)
 Google Kääntäjä on nopea, mutta se etenee rivi riviltä, sana sanalta. Klikkaa Paranna, niin tekoälymalli kirjoittaa tekstityksen uudelleen koko kohtauksen huomioiden, alkaen siitä kohdasta, jota katsot.
@@ -93,8 +93,8 @@ PIKANÄPPÄIMET
 Alt + [ / ] ajoitus · Alt + Shift + [ / ] ajoitus 1 s:n askelin · Alt + 0 nollaa ajoitus · Alt + R toista repliikki · Alt + S näytä tai piilota · Alt + 1 / Alt + 2 näytä tai piilota vain yksi kieli · Alt + ↑ / ↓ siirrä · Alt + = / Alt + − suurempi tai pienempi · Alt + F koko näyttö tekstityksellä
 Jokaisen pikanäppäimen voi vaihtaa tai poistaa käytöstä Toiminta-välilehdellä.
 
-KÄYTTÖLIITTYMÄ 31 KIELELLÄ
-Englanti, tšekki, slovakki, saksa, ranska, espanja, vietnam, yksinkertaistettu kiina, perinteinen kiina, italia, portugali, puola, ukraina, unkari, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, japani, korea, thai, indonesia, malaiji, filipino, hindi ja arabia (oikealta vasemmalle). Kieli seuraa selaintasi, tai voit valita sen ponnahdusikkunan alaosasta.
+KÄYTTÖLIITTYMÄ 33 KIELELLÄ
+Englanti, tšekki, slovakki, saksa, ranska, espanja, vietnam, yksinkertaistettu kiina, perinteinen kiina, italia, portugali, puola, ukraina, unkari, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, japani, korea, thai, indonesia, malaiji, filipino, hindi, bengali, arabia ja persia (oikealta vasemmalle). Kieli seuraa selaintasi, tai voit valita sen ponnahdusikkunan alaosasta.
 
 NÄPERTELIJÖILLE
 DevToolsin "Subtitles"-välilehti listaa kaikki sivun lataamat tekstitystiedostot ja tallentaa ne .vtt- tai .srt-muodossa.

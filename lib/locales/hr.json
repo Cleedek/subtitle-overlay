@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Titlovi od drugih: ako je netko već poboljšao iste titlove pomoću AI-ja, odmah dobivaš njegovu verziju, označenu s **Dijeljeno**. Hoćeš li dijeliti i svoje, odlučuješ ti",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "\"**Poboljšaj**\" sada radi i na YouTubeovim automatskim titlovima na tvom jeziku: dodaje interpunkciju i ispravlja krivo shvaćene riječi",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Nema titlova? Oznaka **Pomoć** na videu vodi te kroz to, a **Prijavi problem** meni šalje naziv stranice",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Red prijevoda** sada prikazuje napredak i u kartici iznad videa, a gotova datoteka sama zamjenjuje Googleove retke"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Red prijevoda** sada prikazuje napredak i u kartici iznad videa, a gotova datoteka sama zamjenjuje Googleove retke",
+  "Can’t reach Google Translate. Check your internet connection.": "Google Prevoditelj nije dostupan. Provjeri internetsku vezu.",
+  "The interface and translation now come in **Persian** and **Bengali**": "Sučelje i prijevod sada su i na **perzijskom** i **bengalskom**",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Poboljšaj** više ne dodaje izgovor latinicom iza perzijskih redaka",
+  "Sharing subtitles": "Dijeljenje titlova",
+  "Finding": "Traženje",
+  "automatic": "automatski",
+  "sharing mine": "dijelim svoje"
 }

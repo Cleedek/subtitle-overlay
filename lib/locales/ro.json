@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Subtitrări de la alții: dacă cineva a îmbunătățit deja aceleași subtitrări cu AI, primești imediat versiunea lui, marcată **Partajat**. Dacă le partajezi și pe ale tale, decizi tu",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Îmbunătățește** funcționează acum și pe subtitrările automate de la YouTube în limba ta: adaugă punctuația și corectează cuvintele auzite greșit",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Fără subtitrări? Eticheta **Ajutor** de pe video te ghidează, iar **Raportează o problemă** îmi trimite numele site-ului",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Coadă de traducere** arată acum progresul și în cardul de deasupra videoului, iar fișierul gata înlocuiește singur rândurile de la Google"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Coadă de traducere** arată acum progresul și în cardul de deasupra videoului, iar fișierul gata înlocuiește singur rândurile de la Google",
+  "Can’t reach Google Translate. Check your internet connection.": "Google Traducere nu poate fi accesat. Verifică conexiunea la internet.",
+  "The interface and translation now come in **Persian** and **Bengali**": "Interfața și traducerea sunt acum și în **persană** și **bengaleză**",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Îmbunătățește** nu mai adaugă pronunția cu litere latine după rândurile în persană",
+  "Sharing subtitles": "Partajarea subtitrărilor",
+  "Finding": "Căutare",
+  "automatic": "automat",
+  "sharing mine": "le partajez pe ale mele"
 }

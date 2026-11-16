@@ -831,3 +831,4 @@ details.font-fold[open] > summary { margin-bottom: 10px; }
 .guide-steps small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--muted); line-height: 1.45; }
 .guide-card.done > strong { color: var(--success); }
 
+.share-body .setting-head + .hint { margin-top: -4px; }

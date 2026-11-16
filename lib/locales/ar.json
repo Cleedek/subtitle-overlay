@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "ترجمات من الآخرين: إذا حسّن أحدهم الترجمات نفسها بالذكاء الاصطناعي، تحصل على نسخته فورًا، وتحمل علامة **مشتركة**. ومشاركة نسختك قرارك",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**تحسين** يعمل الآن أيضًا مع الترجمات التلقائية في YouTube بلغتك: يضيف علامات الترقيم ويصحح الكلمات التي أُسيء سماعها",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "لا توجد ترجمات؟ سيرشدك زر **مساعدة** على الفيديو، و**الإبلاغ عن مشكلة** يرسل لي اسم الموقع",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "يظهر تقدم **قائمة انتظار الترجمة** الآن في البطاقة فوق الفيديو، ويحل الملف الجاهز محل أسطر Google تلقائيًا"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "يظهر تقدم **قائمة انتظار الترجمة** الآن في البطاقة فوق الفيديو، ويحل الملف الجاهز محل أسطر Google تلقائيًا",
+  "Can’t reach Google Translate. Check your internet connection.": "تعذّر الوصول إلى ترجمة Google. تحقق من اتصالك بالإنترنت.",
+  "The interface and translation now come in **Persian** and **Bengali**": "الواجهة والترجمة متاحتان الآن بـ**الفارسية** و**البنغالية**",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "لم يعد **تحسين** يضيف النطق بالحروف اللاتينية بعد السطور الفارسية",
+  "Sharing subtitles": "مشاركة الترجمات",
+  "Finding": "البحث",
+  "automatic": "تلقائي",
+  "sharing mine": "أشارك ترجماتي"
 }

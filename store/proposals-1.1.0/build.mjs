@@ -33,11 +33,11 @@ const BAR = '<div class="bar"><i></i><i></i><i></i><div class="url">video-site.e
 const LANGS = JSON.parse(readFileSync(path.join(repo, 'promo-video/screens/l10n/langs.json'), 'utf8'));
 const lang = (code) => LANGS[code] || { ui: code, target: code, html: code, rtl: false };
 const FONTS = {
-  th: 'Noto+Sans+Thai:wght@400;500;600;700', hi: 'Noto+Sans+Devanagari:wght@400;500;600;700', ar: 'Noto+Sans+Arabic:wght@400;500;600;700',
+  th: 'Noto+Sans+Thai:wght@400;500;600;700', hi: 'Noto+Sans+Devanagari:wght@400;500;600;700', ar: 'Noto+Sans+Arabic:wght@400;500;600;700', fa: 'Vazirmatn:wght@400;500;600;700', bn: 'Noto+Sans+Bengali:wght@400;500;600;700',
   ja: 'Noto+Sans+JP:wght@400;500;600;700', ko: 'Noto+Sans+KR:wght@400;500;600;700', zh_CN: 'Noto+Sans+SC:wght@400;500;600;700',
   zh_TW: 'Noto+Sans+TC:wght@400;500;600;700', el: 'Noto+Sans:wght@400;500;600;700', uk: 'Noto+Sans:wght@400;500;600;700',
 };
-const FAMILY = { th: 'Noto Sans Thai', hi: 'Noto Sans Devanagari', ar: 'Noto Sans Arabic', ja: 'Noto Sans JP', ko: 'Noto Sans KR', zh_CN: 'Noto Sans SC', zh_TW: 'Noto Sans TC' };
+const FAMILY = { th: 'Noto Sans Thai', hi: 'Noto Sans Devanagari', ar: 'Noto Sans Arabic', fa: 'Vazirmatn', bn: 'Noto Sans Bengali', ja: 'Noto Sans JP', ko: 'Noto Sans KR', zh_CN: 'Noto Sans SC', zh_TW: 'Noto Sans TC' };
 
 function page(code, title, css, body) {
   const L = lang(code);

@@ -603,7 +603,7 @@
     const v = targetOf(found);
     const lf = found.frames.find((f) => f.report.loaded);
     if (lf && lf.frameId !== v.frameId) await chrome.tabs.sendMessage(found.tab.id, { type: 'clear' }, { frameId: lf.frameId }).catch(() => {});
-    const res = await chrome.tabs.sendMessage(found.tab.id, { type: 'load', name: file.name, b64: b64(file.text), encoding: 'utf-8', videoIndex: v.index }, { frameId: v.frameId })
+    const res = await chrome.tabs.sendMessage(found.tab.id, { type: 'load', name: file.name, b64: b64(file.text), encoding: 'utf-8', videoIndex: v.index, made: file.made }, { frameId: v.frameId })
       .catch(() => null);
     const ok = res && res.ok;
     shownOn.set(id, ok ? { text: t('Showing on {site}', { site: siteName(found.tab.url) }) }
@@ -752,7 +752,7 @@
     foot.append(job.status === 'done' ? shownNote(job.id, el('span', 'job-note', note)) : el('span', 'job-note', note));
     if (job.status === 'done') {
       if (job.page) foot.append(playButton(() => playJob(job)));
-      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job) }), !job.page));
+      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job), made: { lang: job.lang, model: job.model || 'Google', from: 'queue' } }), !job.page));
       const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => download(job));
       foot.append(b);
@@ -856,8 +856,9 @@
       file.title = item.name;
       const foot = el('div', 'job-foot');
       foot.append(shownNote('saved:' + item.key, el('span', 'job-note', '')));
-      if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8' })));
-      foot.append(showOnButton('saved:' + item.key, () => ({ name: item.name, text: item.srt }), !item.page));
+      const made = { lang: item.lang, model: item.model || 'Google', from: 'saved' };
+      if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8', made })));
+      foot.append(showOnButton('saved:' + item.key, () => ({ name: item.name, text: item.srt, made }), !item.page));
       const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => SubLib.saveText(item.srt, item.name));
       foot.append(b);

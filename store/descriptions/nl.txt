@@ -4,7 +4,7 @@ Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op 
 
 ★ DE HOOGTEPUNTEN
 ★ Elke site, elke video: ondertitels over de speler, in een venster of op volledig scherm, altijd synchroon
-★ Vertaal met één klik naar 31 talen, of helemaal automatisch zodra je de ondertitels aanzet in de speler van de site
+★ Vertaal met één klik naar 33 talen, of helemaal automatisch zodra je de ondertitels aanzet in de speler van de site
 ★ NIEUW: gedeelde ondertitels: heeft iemand dezelfde ondertitels al met AI verbeterd, dan krijg je meteen die versie, en of je de jouwe deelt, bepaal je zelf
 ★ Laat de vertaling natuurlijk klinken met AI, gratis op je eigen computer (Gemma) of met je eigen sleutel voor Gemini, Claude of OpenAI
 ★ Heeft de site al ondertitels in jouw taal, dan krijg je die, en er wordt alleen vertaald als die er niet zijn
@@ -15,7 +15,7 @@ Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op 
 
 ━━━━━━━━━━━━━━━━━━━━
 
-VERTAAL NAAR 31 TALEN
+VERTAAL NAAR 33 TALEN
 • Eén klik vertaalt de geladen ondertitels met Google Translate, direct in de extensie
 • Optioneel: klik op Verbeteren en AI (Gemma op je computer, of Gemini, Claude of OpenAI) herschrijft de snelle versie van Google zodat die natuurlijk klinkt (meer hieronder). Beweeg de muis over de video om te zien hoe ver het al is
 • Kies je taal één keer; die blijft je favoriet voor elke knop Vertalen
@@ -23,7 +23,7 @@ VERTAAL NAAR 31 TALEN
 • Heeft de site ondertitels in jouw taal (YouTube en streamingdiensten), dan komen die eerst; Google of AI vertaalt alleen als die er niet zijn
 • De eigen ondertitels van de site worden verborgen zolang de onze aan staan, en komen terug zodra je de onze uitzet
 • Schakel op elk moment terug naar het origineel, of sla de vertaling op als .srt-bestand
-• Talen: Vietnamees, Tsjechisch, Engels, Slowaaks, Duits, Frans, Spaans, Italiaans, Portugees, Pools, Hongaars, Oekraïens, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Chinees (vereenvoudigd en traditioneel), Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi, Arabisch
+• Talen: Vietnamees, Tsjechisch, Engels, Slowaaks, Duits, Frans, Spaans, Italiaans, Portugees, Pools, Hongaars, Oekraïens, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Chinees (vereenvoudigd en traditioneel), Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi, Bengaals, Arabisch, Perzisch
 
 NATUURLIJKE VERTALING MET AI (OPTIONEEL)
 Google Translate is snel, maar werkt regel voor regel, woord voor woord. Klik op Verbeteren en een AI-model herschrijft de ondertitels met de hele scène in gedachten, vanaf het punt waar je kijkt.
@@ -93,8 +93,8 @@ SNELTOETSEN
 Alt + [ / ] synchroniseren · Alt + Shift + [ / ] synchroniseren per 1 s · Alt + 0 synchronisatie herstellen · Alt + R zin herhalen · Alt + S tonen of verbergen · Alt + 1 / Alt + 2 één taal tonen of verbergen · Alt + ↑ / ↓ verplaatsen · Alt + = / Alt + − groter of kleiner · Alt + F volledig scherm met ondertitels
 Elke sneltoets kun je wijzigen of uitzetten op het tabblad Gedrag.
 
-INTERFACE IN 31 TALEN
-Engels, Tsjechisch, Slowaaks, Duits, Frans, Spaans, Vietnamees, Vereenvoudigd Chinees, Traditioneel Chinees, Italiaans, Portugees, Pools, Oekraïens, Hongaars, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi en Arabisch (van rechts naar links). De taal volgt je browser, of kies er zelf een onderaan de pop-up.
+INTERFACE IN 33 TALEN
+Engels, Tsjechisch, Slowaaks, Duits, Frans, Spaans, Vietnamees, Vereenvoudigd Chinees, Traditioneel Chinees, Italiaans, Portugees, Pools, Oekraïens, Hongaars, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi, Bengaals, Arabisch en Perzisch (van rechts naar links). De taal volgt je browser, of kies er zelf een onderaan de pop-up.
 
 VOOR KNUTSELAARS
 Een tabblad "Subtitles" in DevTools toont elk ondertitelbestand dat de pagina heeft geladen en slaat het op als .vtt of .srt.

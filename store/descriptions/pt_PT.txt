@@ -4,7 +4,7 @@ O Subtitle Overlay mostra legendas por cima do leitor de vídeo de qualquer site
 
 ★ O ESSENCIAL
 ★ Qualquer site, qualquer vídeo: legendas por cima do leitor, em janela ou em ecrã inteiro, sempre sincronizadas
-★ Tradução para 31 línguas com um clique, ou totalmente automática assim que ativas as legendas no leitor do site
+★ Tradução para 33 línguas com um clique, ou totalmente automática assim que ativas as legendas no leitor do site
 ★ NOVIDADE: legendas partilhadas: se alguém já melhorou as mesmas legendas com IA, recebes a versão dessa pessoa logo, e partilhar as tuas é decisão tua
 ★ Torna a tradução natural com IA, grátis no teu próprio computador (Gemma) ou com a tua própria chave do Gemini, Claude ou OpenAI
 ★ Se o site já tem legendas na tua língua, recebes essas, e só se traduz quando não há
@@ -15,7 +15,7 @@ O Subtitle Overlay mostra legendas por cima do leitor de vídeo de qualquer site
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUZ PARA 31 LÍNGUAS
+TRADUZ PARA 33 LÍNGUAS
 • Um clique traduz as legendas carregadas com o Google Tradutor, diretamente na extensão
 • Opcional: clica em Melhorar e a IA (Gemma no teu computador, ou Gemini, Claude ou OpenAI) reescreve a versão rápida do Google para soar natural (mais abaixo). Passa o rato por cima do vídeo para veres quanto já está feito
 • Escolhes a tua língua uma vez; fica como favorita em todos os botões Traduzir
@@ -23,7 +23,7 @@ TRADUZ PARA 31 LÍNGUAS
 • Se o site tem legendas na tua língua (YouTube e serviços de streaming), essas vêm primeiro; o Google ou a IA só traduzem quando não há
 • As legendas do próprio site ficam ocultas enquanto as nossas estão ligadas e voltam assim que desligas as nossas
 • Volta ao original quando quiseres, ou guarda a tradução como ficheiro .srt
-• Línguas: vietnamita, checo, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polaco, húngaro, ucraniano, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, árabe
+• Línguas: vietnamita, checo, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polaco, húngaro, ucraniano, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe, persa
 
 TRADUÇÃO NATURAL COM IA (OPCIONAL)
 O Google Tradutor é rápido, mas traduz linha a linha, palavra a palavra. Clica em Melhorar e um modelo de IA reescreve as legendas tendo em conta a cena inteira, a começar onde estás a ver.
@@ -93,8 +93,8 @@ ATALHOS DE TECLADO
 Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 repor sincronização · Alt + R repetir a fala · Alt + S mostrar ou ocultar · Alt + 1 / Alt + 2 mostrar ou ocultar só uma língua · Alt + ↑ / ↓ mover · Alt + = / Alt + − maior ou menor · Alt + F ecrã inteiro com legendas
 Todos os atalhos podem ser alterados ou desativados no separador Comportamento.
 
-INTERFACE EM 31 LÍNGUAS
-Inglês, checo, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polaco, ucraniano, húngaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi e árabe (da direita para a esquerda). Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
+INTERFACE EM 33 LÍNGUAS
+Inglês, checo, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polaco, ucraniano, húngaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe e persa (da direita para a esquerda). Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
 
 PARA OS CURIOSOS
 Um separador "Subtitles" nas DevTools lista todos os ficheiros de legendas que a página carregou e guarda-os como .vtt ou .srt.

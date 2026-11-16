@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Mások feliratai: ha valaki már megjavította ugyanazt a feliratot MI-vel, azonnal megkapod az ő változatát, **Megosztott** jelöléssel. Hogy a sajátodat megosztod-e, rajtad múlik",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "A **Javítás** mostantól a YouTube automatikus feliratain is működik a saját nyelveden: pótolja az írásjeleket, és kijavítja a rosszul hallott szavakat",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Nincs felirat? A videón lévő **Súgó** címke végigvezet rajta, a **Probléma bejelentése** pedig elküldi nekem az oldal nevét",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "A **Fordítási várólista** haladása mostantól a videó feletti kártyán is látszik, a kész fájl pedig magától lecseréli a Google sorait"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "A **Fordítási várólista** haladása mostantól a videó feletti kártyán is látszik, a kész fájl pedig magától lecseréli a Google sorait",
+  "Can’t reach Google Translate. Check your internet connection.": "A Google Fordító nem érhető el. Ellenőrizd az internetkapcsolatot.",
+  "The interface and translation now come in **Persian** and **Bengali**": "A felület és a fordítás mostantól **perzsául** és **bengáliul** is elérhető",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "A **Javítás** már nem ír latin betűs kiejtést a perzsa sorok mögé",
+  "Sharing subtitles": "Feliratok megosztása",
+  "Finding": "Keresés",
+  "automatic": "automatikus",
+  "sharing mine": "megosztom a sajátom"
 }

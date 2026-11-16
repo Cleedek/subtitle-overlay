@@ -258,7 +258,7 @@
     <div class="row">
       <button id="pick">Load .srt / .vtt / .ttml file</button>
       <button id="clear" hidden>Remove</button>
-      <input id="file" type="file" accept=".srt,.vtt,.ttml,.ttml2,.dfxp,.xml" hidden>
+      <input id="file" type="file" accept=".srt,.vtt,.ttml,.ttml2,.dfxp,.xml,.ass,.ssa" hidden>
     </div>
     <p class="muted small">Tip: you can also drag a subtitle file straight onto the video.</p>
     <div id="videoPicker" hidden>
@@ -401,6 +401,10 @@
         </details>
       </div>
       <div class="setting" id="shareSetting">
+        <!-- Folded like AI settings: what's on shows on the fold. -->
+        <details class="ai-details" id="shareDetails">
+        <summary><span>Sharing subtitles</span><span id="shareSummary" class="ai-summary"></span></summary>
+        <div class="ai-body share-body">
         <div class="setting-head"><span class="setting-label">Find subtitles from others</span><label class="toggle"><input id="shareFind" type="checkbox" role="switch" aria-label="Find subtitles from others"><span></span></label></div>
         <p class="hint">Looks for a version someone already improved and shared. Only the start of the subtitles’ fingerprint is sent, never the page or the video.</p>
         <div id="shareAutoRow" class="share-sub">
@@ -410,6 +414,8 @@
         <div class="setting-head"><span class="setting-label">Share my improved subtitles</span><label class="toggle"><input id="shareMine" type="checkbox" role="switch" aria-label="Share my improved subtitles"><span></span></label></div>
         <p class="hint">Only finished versions from a local model with 12B or more, or from a paid one.</p>
         <p class="hint share-count" id="shareCountRow" hidden><span id="shareCountText"></span> <button type="button" class="ls-link" id="shareDelete">Delete my shared subtitles</button></p>
+        </div>
+        </details>
       </div>
       <div class="setting">
         <div class="setting-head"><span class="setting-label">Second subtitles</span><label class="toggle"><input type="checkbox" role="switch" data-key="dual" aria-label="Second subtitles"><span></span></label></div>

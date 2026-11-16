@@ -4,7 +4,7 @@ Subtitle Overlay muestra subtítulos sobre el reproductor de vídeo de cualquier
 
 ★ LO MÁS DESTACADO
 ★ Cualquier web, cualquier vídeo: subtítulos sobre el reproductor, en ventana o en pantalla completa, siempre sincronizados
-★ Traduce a 31 idiomas con un clic, o de forma totalmente automática en cuanto activas los subtítulos en el reproductor de la web
+★ Traduce a 33 idiomas con un clic, o de forma totalmente automática en cuanto activas los subtítulos en el reproductor de la web
 ★ NUEVO: subtítulos compartidos: si alguien ya mejoró los mismos subtítulos con IA, recibes su versión al instante, y compartir los tuyos es decisión tuya
 ★ Con IA la traducción suena natural, gratis en tu ordenador (Gemma) o con tu propia clave de Gemini, Claude u OpenAI
 ★ Si la web ya tiene subtítulos en tu idioma, te llegan esos, y solo se traduce cuando no los hay
@@ -15,7 +15,7 @@ Subtitle Overlay muestra subtítulos sobre el reproductor de vídeo de cualquier
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUCE A 31 IDIOMAS
+TRADUCE A 33 IDIOMAS
 • Con un clic traduces los subtítulos cargados con Google Translate, directamente en la extensión
 • Opcional: pulsa Mejorar y la IA (Gemma en tu ordenador, o Gemini, Claude u OpenAI) reescribe la versión rápida de Google para que suene natural (más abajo te lo contamos). Pasa el ratón por encima del vídeo para ver cuánto lleva
 • Elige tu idioma una vez; se queda como favorito en todos los botones Traducir
@@ -23,7 +23,7 @@ TRADUCE A 31 IDIOMAS
 • Si la web tiene subtítulos en tu idioma (YouTube y plataformas de streaming), van primero; Google o la IA solo traducen cuando no los hay
 • Los subtítulos propios de la web se ocultan mientras los nuestros están activos y vuelven en cuanto apagas los nuestros
 • Vuelve al original cuando quieras, o guarda la traducción como archivo .srt
-• Idiomas: vietnamita, checo, inglés, eslovaco, alemán, francés, español, italiano, portugués, polaco, húngaro, ucraniano, neerlandés, sueco, danés, noruego, finlandés, griego, turco, rumano, croata, chino (simplificado y tradicional), japonés, coreano, tailandés, indonesio, malayo, filipino, hindi, árabe
+• Idiomas: vietnamita, checo, inglés, eslovaco, alemán, francés, español, italiano, portugués, polaco, húngaro, ucraniano, neerlandés, sueco, danés, noruego, finlandés, griego, turco, rumano, croata, chino (simplificado y tradicional), japonés, coreano, tailandés, indonesio, malayo, filipino, hindi, bengalí, árabe, persa
 
 QUE SUENE NATURAL (OPCIONAL)
 Google Translate es rápido, pero va línea a línea, palabra por palabra. Pulsa Mejorar y un modelo de IA reescribe los subtítulos teniendo en cuenta toda la escena, empezando por donde lo estás viendo.
@@ -93,8 +93,8 @@ ATAJOS DE TECLADO
 Alt + [ / ] sincronía · Alt + Shift + [ / ] sincronía de 1 s · Alt + 0 restablecer sincronía · Alt + R repetir la línea · Alt + S mostrar u ocultar · Alt + 1 / Alt + 2 mostrar u ocultar solo un idioma · Alt + ↑ / ↓ mover · Alt + = / Alt + − más grande o más pequeño · Alt + F pantalla completa con subtítulos
 Todos los atajos se pueden cambiar o desactivar en la pestaña Comportamiento.
 
-INTERFAZ EN 31 IDIOMAS
-Inglés, checo, eslovaco, alemán, francés, español, vietnamita, chino simplificado, chino tradicional, italiano, portugués, polaco, ucraniano, húngaro, neerlandés, sueco, danés, noruego, finés, griego, turco, rumano, croata, japonés, coreano, tailandés, indonesio, malayo, filipino, hindi y árabe (de derecha a izquierda). Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
+INTERFAZ EN 33 IDIOMAS
+Inglés, checo, eslovaco, alemán, francés, español, vietnamita, chino simplificado, chino tradicional, italiano, portugués, polaco, ucraniano, húngaro, neerlandés, sueco, danés, noruego, finés, griego, turco, rumano, croata, japonés, coreano, tailandés, indonesio, malayo, filipino, hindi, bengalí, árabe y persa (de derecha a izquierda). Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
 
 PARA CURIOSOS
 Una pestaña "Subtitles" en DevTools muestra todos los archivos de subtítulos que cargó la página y los guarda como .vtt o .srt.

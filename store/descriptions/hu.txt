@@ -4,7 +4,7 @@ A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a fe
 
 ★ A LEGFONTOSABBAK
 ★ Bármilyen oldal, bármilyen videó: feliratok a lejátszó fölött, ablakban vagy teljes képernyőn, mindig szinkronban
-★ Fordítás 31 nyelvre egy kattintással, vagy teljesen automatikusan, amint bekapcsolod a feliratot az oldal lejátszójában
+★ Fordítás 33 nyelvre egy kattintással, vagy teljesen automatikusan, amint bekapcsolod a feliratot az oldal lejátszójában
 ★ ÚJ: megosztott feliratok: ha ugyanazt a feliratot már valaki javította MI-vel, rögtön az ő változatát kapod, és hogy a sajátodat megosztod-e, te döntöd el
 ★ MI-vel természetes hangzású fordítás, ingyen a saját gépeden (Gemma), vagy a saját Gemini, Claude vagy OpenAI kulcsoddal
 ★ Ha az oldalon már van felirat a nyelveden, azt kapod, és fordítás csak akkor készül, ha nincs
@@ -15,7 +15,7 @@ A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a fe
 
 ━━━━━━━━━━━━━━━━━━━━
 
-FORDÍTÁS 31 NYELVRE
+FORDÍTÁS 33 NYELVRE
 • Egy kattintással lefordítod a betöltött feliratokat a Google Fordítóval, közvetlenül a bővítményben
 • Opcionálisan: kattints a Javítás gombra, és az MI (a gépeden futó Gemma, vagy Gemini, Claude vagy OpenAI) átírja a Google gyors fordítását, hogy természetesen hangozzon (erről lejjebb). Vidd az egeret a videó fölé, és látod, hol tart
 • Egyszer választod ki a nyelvet, és onnantól ez lesz a kedvenced minden Fordítás gombnál
@@ -23,7 +23,7 @@ FORDÍTÁS 31 NYELVRE
 • Ha az oldalon van felirat a nyelveden (YouTube és streamingszolgáltatások), az az első; a Google vagy az MI csak akkor fordít, ha nincs
 • Az oldal saját feliratai rejtve maradnak, amíg a miénk be van kapcsolva, és visszajönnek, amint kikapcsolod a miénket
 • Bármikor visszaválthatsz az eredetire, vagy elmentheted a fordítást .srt fájlként
-• Nyelvek: vietnámi, cseh, angol, szlovák, német, francia, spanyol, olasz, portugál, lengyel, magyar, ukrán, holland, svéd, dán, norvég, finn, görög, török, román, horvát, kínai (egyszerűsített és hagyományos), japán, koreai, thai, indonéz, maláj, filippínó, hindi, arab
+• Nyelvek: vietnámi, cseh, angol, szlovák, német, francia, spanyol, olasz, portugál, lengyel, magyar, ukrán, holland, svéd, dán, norvég, finn, görög, török, román, horvát, kínai (egyszerűsített és hagyományos), japán, koreai, thai, indonéz, maláj, filippínó, hindi, bengáli, arab, perzsa
 
 TERMÉSZETES FORDÍTÁS (OPCIONÁLIS)
 A Google Fordító gyors, de sorról sorra, szóról szóra halad. Kattints a Javítás gombra, és egy MI-modell az egész jelenetet figyelembe véve írja át a feliratokat, onnan kezdve, ahol éppen tartasz.
@@ -93,8 +93,8 @@ BILLENTYŰPARANCSOK
 Alt + [ / ] szinkron · Alt + Shift + [ / ] szinkron 1 mp-cel · Alt + 0 szinkron visszaállítása · Alt + R a sor ismétlése · Alt + S megjelenítés vagy elrejtés · Alt + 1 / Alt + 2 csak az egyik nyelv megjelenítése vagy elrejtése · Alt + ↑ / ↓ mozgatás · Alt + = / Alt + − nagyobb vagy kisebb · Alt + F teljes képernyő feliratokkal
 Minden billentyűparancs módosítható vagy kikapcsolható a Viselkedés lapon.
 
-FELÜLET 31 NYELVEN
-Angol, cseh, szlovák, német, francia, spanyol, vietnámi, egyszerűsített kínai, hagyományos kínai, olasz, portugál, lengyel, ukrán, magyar, holland, svéd, dán, norvég, finn, görög, török, román, horvát, japán, koreai, thai, indonéz, maláj, filippínó, hindi és arab (jobbról balra). A böngésződ nyelvét követi, vagy választhatsz egyet a felugró ablak alján.
+FELÜLET 33 NYELVEN
+Angol, cseh, szlovák, német, francia, spanyol, vietnámi, egyszerűsített kínai, hagyományos kínai, olasz, portugál, lengyel, ukrán, magyar, holland, svéd, dán, norvég, finn, görög, török, román, horvát, japán, koreai, thai, indonéz, maláj, filippínó, hindi, bengáli, arab és perzsa (jobbról balra). A böngésződ nyelvét követi, vagy választhatsz egyet a felugró ablak alján.
 
 BÜTYKÖLŐKNEK
 A DevTools "Subtitles" lapja felsorolja az oldal által betöltött összes feliratfájlt, és .vtt vagy .srt formátumban menti őket.

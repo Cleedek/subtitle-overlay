@@ -4,7 +4,7 @@ Subtitle Overlay viser undertekster oven på videoafspilleren på enhver hjemmes
 
 ★ HØJDEPUNKTERNE
 ★ Enhver side, enhver video: undertekster over afspilleren, i et vindue eller i fuld skærm, altid synkroniseret
-★ Oversæt til 31 sprog med ét klik, eller helt automatisk, så snart du slår undertekster til i sidens afspiller
+★ Oversæt til 33 sprog med ét klik, eller helt automatisk, så snart du slår undertekster til i sidens afspiller
 ★ NYHED: delte undertekster: hvis nogen allerede har forbedret de samme undertekster med AI, får du deres version med det samme, og om du deler dine, bestemmer du selv
 ★ Få oversættelsen til at lyde naturlig med AI, gratis på din egen computer (Gemma) eller med din egen Gemini-, Claude- eller OpenAI-nøgle
 ★ Har siden allerede undertekster på dit sprog, får du dem, og der oversættes kun, når der ingen er
@@ -15,7 +15,7 @@ Subtitle Overlay viser undertekster oven på videoafspilleren på enhver hjemmes
 
 ━━━━━━━━━━━━━━━━━━━━
 
-OVERSÆT TIL 31 SPROG
+OVERSÆT TIL 33 SPROG
 • Ét klik oversætter de indlæste undertekster med Google Oversæt, direkte i udvidelsen
 • Valgfrit: klik på Forbedr, så omskriver AI (Gemma på din computer, eller Gemini, Claude eller OpenAI) Googles hurtige version, så den lyder naturlig (mere nedenfor). Før musen hen over videoen for at se, hvor langt den er nået
 • Vælg dit sprog én gang; det forbliver din favorit på alle Oversæt-knapper
@@ -23,7 +23,7 @@ OVERSÆT TIL 31 SPROG
 • Har siden undertekster på dit sprog (YouTube og streamingtjenester), kommer de først; Google eller AI oversætter kun, når der ingen er
 • Sidens egne undertekster skjules, mens vores er tændt, og kommer tilbage, så snart du slukker vores
 • Skift tilbage til originalen når som helst, eller gem oversættelsen som en .srt-fil
-• Sprog: vietnamesisk, tjekkisk, engelsk, slovakisk, tysk, fransk, spansk, italiensk, portugisisk, polsk, ungarsk, ukrainsk, nederlandsk, svensk, dansk, norsk, finsk, græsk, tyrkisk, rumænsk, kroatisk, kinesisk (forenklet og traditionelt), japansk, koreansk, thai, indonesisk, malajisk, filippinsk, hindi, arabisk
+• Sprog: vietnamesisk, tjekkisk, engelsk, slovakisk, tysk, fransk, spansk, italiensk, portugisisk, polsk, ungarsk, ukrainsk, nederlandsk, svensk, dansk, norsk, finsk, græsk, tyrkisk, rumænsk, kroatisk, kinesisk (forenklet og traditionelt), japansk, koreansk, thai, indonesisk, malajisk, filippinsk, hindi, bengali, arabisk, persisk
 
 FÅ DET TIL AT LYDE NATURLIGT (VALGFRIT)
 Google Oversæt er hurtigt, men det går linje for linje, ord for ord. Klik på Forbedr, og en AI-model omskriver underteksterne med hele scenen for øje, startende fra der, hvor du ser.
@@ -93,8 +93,8 @@ TASTATURGENVEJE
 Alt + [ / ] synkronisering · Alt + Shift + [ / ] synkronisering i trin på 1 s · Alt + 0 nulstil synkronisering · Alt + R gentag replikken · Alt + S vis eller skjul · Alt + 1 / Alt + 2 vis eller skjul kun ét sprog · Alt + ↑ / ↓ flyt · Alt + = / Alt + − større eller mindre · Alt + F fuld skærm med undertekster
 Alle genveje kan ændres eller slås fra under fanen Adfærd.
 
-BRUGERFLADE PÅ 31 SPROG
-Engelsk, tjekkisk, slovakisk, tysk, fransk, spansk, vietnamesisk, forenklet kinesisk, traditionelt kinesisk, italiensk, portugisisk, polsk, ukrainsk, ungarsk, nederlandsk, svensk, dansk, norsk, finsk, græsk, tyrkisk, rumænsk, kroatisk, japansk, koreansk, thai, indonesisk, malajisk, filippinsk, hindi og arabisk (fra højre mod venstre). Den følger din browser, eller du kan vælge et sprog nederst i pop op-vinduet.
+BRUGERFLADE PÅ 33 SPROG
+Engelsk, tjekkisk, slovakisk, tysk, fransk, spansk, vietnamesisk, forenklet kinesisk, traditionelt kinesisk, italiensk, portugisisk, polsk, ukrainsk, ungarsk, nederlandsk, svensk, dansk, norsk, finsk, græsk, tyrkisk, rumænsk, kroatisk, japansk, koreansk, thai, indonesisk, malajisk, filippinsk, hindi, bengali, arabisk og persisk (fra højre mod venstre). Den følger din browser, eller du kan vælge et sprog nederst i pop op-vinduet.
 
 TIL DE NYSGERRIGE
 En "Subtitles"-fane i DevTools viser alle de undertekstfiler, siden har indlæst, og gemmer dem som .vtt eller .srt.

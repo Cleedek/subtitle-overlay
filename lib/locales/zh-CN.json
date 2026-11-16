@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "来自其他人的字幕：如果有人已经用 AI 改进过同样的字幕，你会立刻拿到他的版本，并标有 **共享**。是否分享你自己的，由你决定",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**改进** 现在也能用于 YouTube 的自动字幕，支持你自己的语言：它会补上标点，并纠正听错的词",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "没有字幕？视频上的 **帮助** 标签会一步步带你操作，**报告问题** 会把网站名称发给我",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**翻译队列** 的进度现在也会显示在视频上方的卡片里，完成的文件会自动替换 Google 的字幕行"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**翻译队列** 的进度现在也会显示在视频上方的卡片里，完成的文件会自动替换 Google 的字幕行",
+  "Can’t reach Google Translate. Check your internet connection.": "无法连接 Google 翻译。检查你的网络连接。",
+  "The interface and translation now come in **Persian** and **Bengali**": "界面和翻译现已支持**波斯语**和**孟加拉语**",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**改进** 不再在波斯语字幕后附加拉丁字母注音",
+  "Sharing subtitles": "字幕共享",
+  "Finding": "查找",
+  "automatic": "自动",
+  "sharing mine": "共享我的"
 }

@@ -617,5 +617,12 @@
   "Subtitles from others: if someone already improved the same subtitles with AI, you get their version right away, marked **Shared**. Whether you share yours is up to you": "Undertekster fra andre: hvis noen allerede har forbedret de samme undertekstene med KI, får du versjonen deres med en gang, merket **Delt**. Om du deler dine egne, bestemmer du selv",
   "**Improve** now also works on YouTube’s automatic captions in your own language: it adds punctuation and fixes misheard words": "**Forbedre** virker nå også på YouTubes automatiske undertekster på ditt eget språk: det legger til tegnsetting og retter feilhørte ord",
   "No subtitles? The **Help** label on the video walks you through it, and **Report a problem** sends me the site’s name": "Ingen undertekster? Merkelappen **Hjelp** på videoen leder deg gjennom, og **Rapporter et problem** sender meg navnet på nettstedet",
-  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Oversettelseskø** viser nå fremdriften i kortet over videoen, og den ferdige filen erstatter Googles linjer av seg selv"
+  "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Oversettelseskø** viser nå fremdriften i kortet over videoen, og den ferdige filen erstatter Googles linjer av seg selv",
+  "Can’t reach Google Translate. Check your internet connection.": "Får ikke kontakt med Google Oversetter. Sjekk internettforbindelsen.",
+  "The interface and translation now come in **Persian** and **Bengali**": "Grensesnittet og oversettelsen finnes nå også på **persisk** og **bengali**",
+  "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Forbedre** legger ikke lenger til uttale med latinske bokstaver etter persiske linjer",
+  "Sharing subtitles": "Deling av undertekster",
+  "Finding": "Søker",
+  "automatic": "automatisk",
+  "sharing mine": "deler mine"
 }

@@ -468,3 +468,23 @@ Display subtitles as a styled, synchronized overlay on top of web videos, from a
 Poznámka k Data usage (nejsem si jistý): API klíč, který si uživatel zadá pro Gemini, Claude nebo OpenAI, se posílá jen té službě, aby se u ní přihlásil. Ty ho nikdy nedostaneš, ale obchod by ho mohl brát jako **Authentication information**. Doporučuju to zaškrtnout taky (můj odhad, ne ověřené pravidlo): přiznat víc je bezpečnější než vynechat něco, co obchod za data považuje. Na stránce v obchodě pak bude u rozšíření vidět, že pracuje s přihlašovacími údaji.
 
 **Privacy policy URL:** https://cleedek.com/subtitle-overlay/privacy
+
+## Perština (fa) a bengálština (bn), připraveno 16. 11. 2026
+
+Důvod: na stránce po odinstalaci chyběla 2x perština a 1x bengálština (verze 1.1.0, nikdo nenechal e-mail, takže není komu psát).
+
+Hotovo (necommitnuto). Verze 1.1.1 v manifestu, karta Co je nového 1.1.1 (schváleno Filipem 16. 11., 3 body ve všech 33 jazycích, ověřeno v popupu en/fa/bn):
+- Rozhraní: `lib/locales/fa.json`, `lib/locales/bn.json` (všech 619 textů), `_locales/fa`, `_locales/bn` (název + krátký popis), menu jazyků, perština zprava doleva, 11 fontů Google s bengálským písmem označeno v `lib/google-fonts.json`, vlajky IR/BD, kódy titulků per/fas/prs/ben.
+- Překlad titulků: fa a bn jsou cíle překladu (Google i AI).
+- Oprava AI: Gemma u perštiny přidávala za řádek výslovnost latinkou v závorce. Nové pravidlo v promptu (`AI_PROMPT`) + pojistka `SubLib.dropTransliteration`. Ověřeno na skutečné Gemmě 3 12B: po opravě 0 takových řádků.
+- Popis v obchodě: `store/descriptions/fa.txt`, `bn.txt`; ve všech 32 ostatních "31" -> "33" (s gramatikou: pl, hr, uk) a v seznamech jazyků přidaná bengálština a perština.
+- Screenshoty: `store/images/fa/`, `store/images/bn/` (5 + 5, ze skutečného rozšíření). Screenshoty 1 a 3 přerenderované ve všech jazycích kvůli "33" (+ EN a CS screenshot 1; EN a CS screenshot 3 nemají HTML zdroj, tak je v nich přepsaný jen odstavec s číslem, stejným písmem, zbytek obrázku je pixel po pixelu původní). Promo banner `marquee-promo-1400x560.png` (globální, `store/` i `cs/`) měl v nadpisu "31 languages / 31 jazyků": přepsaný na 33 stejným způsobem (bez zdroje, kalibrováno proti originálu). Při vydání ho v Dashboardu nahraj znovu (globální i český slot). Kontrola OCR všech 174 obrázků ve `store/images` 16. 11.: "31" už nikde.
+- Stránka po odinstalaci (`~/extension-feedback`): stránka i v perštině a bengálštině, fa/bn přesunuté z chybějících do hotových. NENASAZENO: nasadit až s vydáním.
+
+Při vydání:
+1. Verze 1.1.1 a karta jsou hotové; zbývá zip `dist/subtitle-overlay-1.1.1.zip`.
+2. Nahrát balíček; jazyky fa a bn se v Dashboardu objeví až po nahrání balíčku s `_locales/fa` a `_locales/bn`. Pak `fill.py fa`, `fill.py bn` a 5 screenshotů pro každý.
+3. Všech 32 starých popisů znovu (kvůli "33" a seznamu jazyků) + screenshot 1 a 3 všude (globální i jazykové).
+4. `~/extension-feedback`: `npx wrangler deploy` (testy 34/34 prošly).
+5. Web cleedek.com: v `src/content/projects/{en,cs}/subtitle-overlay.md` je seznam funkcí už lokálně přepsaný na 33 (necommitnuto, řádek 86; "31" v changelogu 1.0.18 na řádku 40 zůstává, to byla tehdy pravda). Zbývá changelog 1.1.1 a push (snap-translate.md se týká jiného rozšíření, to nech).
+6. Překlady psal Claude, rodilý mluvčí je nekontroloval.
