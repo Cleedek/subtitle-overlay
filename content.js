@@ -1215,7 +1215,7 @@
   // once; on a later visit a card offers them once you watch the video (in
   // automatic mode they come back by themselves: YouTube at once, other sites
   // on a video of the same length).
-  let restorePending = null; // { record, ask: false | true | 'length', since }
+  let restorePending = null; // { record, ask: false | true | 'length', since, page }
   async function checkRestore() {
     try {
       const record = await memRecord();
@@ -1232,14 +1232,30 @@
         await prefsReady;
         if (prefs.autoTranslate) ask = SubSettings.youTubeId(location.href) ? false : (record.dur > 0 ? 'length' : true);
       }
-      restorePending = { record, ask, since: Date.now() };
+      restorePending = { record, ask, since: Date.now(), page: location.href };
       startWatch();
       tryRestore();
     } catch (e) { /* no storage access */ }
   }
+  function samePlace(a, b) {
+    try {
+      const x = new URL(a), y = new URL(b);
+      return x.origin + x.pathname === y.origin + y.pathname && SubSettings.youTubeId(a) === SubSettings.youTubeId(b);
+    } catch (e) { return a === b; }
+  }
   function tryRestore() {
     if (!restorePending) return;
     if (cues.length) { restorePending = null; return; } // something else loaded first
+    // The site went to another page before its video came (Prima+ opens an
+    // episode from the series page without loading a new page): those were the
+    // other page's subtitles. This page's own are looked up instead. Only the
+    // path counts (and YouTube's video): a site that just adds "?t=…" or a
+    // tracking tag to the address is still on the same video.
+    if (!samePlace(restorePending.page, location.href)) {
+      restorePending = null;
+      checkRestore();
+      return;
+    }
     if (restorePending.ask === 'length') {
       const v = watched();
       if (!v) return;
