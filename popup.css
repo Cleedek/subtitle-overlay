@@ -615,13 +615,21 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
   color: var(--muted); font-weight: 500; transition: color .15s var(--ease);
 }
 .ai-details summary::-webkit-details-marker { display: none; }
+/* Settings icon on the left, chevron on the right. No preview text on the fold:
+   it got cut off. Only a problem (AI not connected) still shows there. */
 .ai-details summary::before {
-  content: ""; flex: none; width: 10px; height: 6px; background: var(--chevron) no-repeat center;
+  content: ""; flex: none; width: 14px; height: 14px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M2 4.5h6M12 4.5h2M2 11.5h2M8 11.5h6'/%3E%3Ccircle cx='10' cy='4.5' r='1.8'/%3E%3Ccircle cx='6' cy='11.5' r='1.8'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.ai-details summary::after {
+  content: ""; flex: none; margin-inline-start: auto; width: 10px; height: 6px; background: var(--chevron) no-repeat center;
   transform: rotate(-90deg); transition: transform .2s var(--ease);
 }
-.ai-details[open] summary::before { transform: none; }
+.ai-details[open] summary::after { transform: none; }
 .ai-details summary:hover { color: var(--text); }
-.ai-summary { margin-inline-start: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; font-size: 11.5px; color: var(--faint); }
+.ai-summary { display: none; }
+.ai-summary.error { display: block; margin-inline-start: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; font-size: 11.5px; }
+.ai-details summary:has(.ai-summary.error)::after { margin-inline-start: 0; }
 .setting .hint a { color: var(--link); }
 .setting .hint.error { color: var(--danger); }
 
@@ -641,8 +649,8 @@ a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accen
 [dir=rtl] input[type=range]::-webkit-slider-runnable-track {
   background: linear-gradient(to left, var(--line-strong) var(--from), var(--accent) var(--from) var(--fill), var(--line-strong) var(--fill));
 }
-[dir=rtl] .ai-details summary::before { transform: rotate(90deg); }
-[dir=rtl] .ai-details[open] summary::before { transform: none; }
+[dir=rtl] .ai-details summary::after { transform: rotate(90deg); }
+[dir=rtl] .ai-details[open] summary::after { transform: none; }
 [dir=rtl] #supportBack svg, [dir=rtl] .support-open svg:last-child { transform: scaleX(-1); }
 /* Time and left/right stay physical; codes, keys and addresses are written left to right. */
 [dir=rtl] .sync, [dir=rtl] .combo, [dir=rtl] .pay-id,
