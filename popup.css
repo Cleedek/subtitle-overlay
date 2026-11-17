@@ -862,6 +862,8 @@ details.font-fold[open] > summary { margin-bottom: 10px; }
 #audioDetails .hint { margin: -6px 0 0; font-size: 11.5px; color: var(--faint); }
 #audioDetails select:disabled { opacity: .5; }
 #audioDetails .hint.audio-how { margin: 0; }
-#audioDetails .audio-group { margin: 4px 0 -4px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
-#audioDetails .audio-sub .setting-label { font-weight: 400; }
+/* Its rows: divided like the Style tab, and a line above every group, so each language is its own block. */
+.audio-settings .setting { padding: 10px 0; }
+.audio-settings .group { margin: 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.audio-settings .group + .setting { padding-top: 6px; }
 #audioDetails input:disabled + span { opacity: .45; }

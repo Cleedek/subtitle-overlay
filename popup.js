@@ -657,7 +657,7 @@
   function showAudioModel() {
     const m = SubSettings.AUDIO_MODELS[prefs.audioModel] || SubSettings.AUDIO_MODELS[SubSettings.TRANSLATION.audioModel];
     $('audioModel').value = SubSettings.AUDIO_MODELS[prefs.audioModel] ? prefs.audioModel : SubSettings.TRANSLATION.audioModel;
-    $('audioModelHint').textContent = t('Free Whisper model, runs on this computer. Downloads once ({size}). On clear Czech speech it got about {n} of 100 words right; expect less with music or noise.', { size: ltr(m.size), n: m.right });
+    $('audioModelHint').textContent = t('Runs on this computer. About {n} of 100 words right.', { n: m.right });
   }
   showAudioModel();
   $('audioModel').addEventListener('change', () => {
@@ -669,13 +669,15 @@
     if (!$('audioSummary')) return;
     const ai = translator !== 'google';
     const [main, orig] = IMPROVE[prefs.audioImprove] || IMPROVE.both;
-    const lang = SubSettings.languageName(($('lang') && $('lang').value) || prefs.translateTo);
-    $('audioMainLabel').textContent = t('{lang} subtitles', { lang });
+    const code = ($('lang') && $('lang').value) || prefs.translateTo;
+    const lang = SubSettings.languageName(code);
+    // The group's name: the same emoji flag as in the language list, then the language.
+    $('audioMainLabel').textContent = (SubSettings.flag(code) + ' ' + lang).trim();
     $('audioImproveMain').checked = ai && main;
     $('audioImproveOrig').checked = ai && orig;
     $('audioImproveMain').disabled = $('audioImproveOrig').disabled = !ai;
     $('audioSecond').checked = prefs.audioSecond !== false;
-    $('audioImproveHint').textContent = ai ? t('Fixes punctuation, misheard words and lines nobody said. The translation gets better too.')
+    $('audioImproveHint').textContent = ai ? t('Fixes misheard words. The translation gets better too.')
       : t('Turn on Improve with AI below to improve them with a model.');
     const shown = prefs.audioSecond !== false ? t('{lang} + what was said', { lang }) : lang;
     const better = !ai ? t('Google only') : main && orig ? t('AI: both') : main ? t('AI: translation') : orig ? t('AI: what was said') : t('no AI');

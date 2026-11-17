@@ -275,19 +275,33 @@
       <details class="ai-details" id="audioDetails">
         <summary><span>Subtitles from audio</span><span id="audioSummary" class="ai-summary"></span></summary>
         <div class="ai-body">
-          <p class="hint audio-how">The video plays from the start to the end in this tab, muted for you. Close this window and use other tabs meanwhile. Then the subtitles go to the translation queue.</p>
-          <!-- Which Whisper writes the speech down: bigger hears better (SubSettings.AUDIO_MODELS). -->
-          <div class="setting-head"><label for="audioModel" class="setting-label">Speech model</label><select id="audioModel" class="compact"></select></div>
-          <p id="audioModelHint" class="hint"></p>
-          <!-- The two languages of subtitles made from audio, each with its own AI switch. -->
-          <p class="audio-group" id="audioMainLabel">Vietnamese subtitles</p>
-          <div class="setting-head audio-sub"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="audioImproveMain" type="checkbox" role="switch" aria-label="Improve the translation with AI"><span></span></label></div>
-          <p class="audio-group">What was said, in the video’s language</p>
-          <div class="setting-head audio-sub"><span class="setting-label">Show as a second line</span><label class="toggle"><input id="audioSecond" type="checkbox" role="switch" aria-label="Show what was said as a second line"><span></span></label></div>
-          <div class="setting-head audio-sub"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="audioImproveOrig" type="checkbox" role="switch" aria-label="Improve what was said with AI"><span></span></label></div>
-          <p id="audioImproveHint" class="hint">Fixes punctuation, misheard words and lines nobody said. The translation gets better too.</p>
-          <div class="setting-head"><span class="setting-label">Notify me when ready</span><label class="toggle"><input id="audioNotify" type="checkbox" role="switch" aria-label="Notify me when ready"><span></span></label></div>
-          <p class="hint">A system notification when the subtitles are translated and improved, so you don’t have to check this tab.</p>
+          <p class="hint audio-how">Plays muted in this tab, start to end. Use other tabs meanwhile.</p>
+          <!-- Rows divided like the Style tab; every group starts with a line too. -->
+          <div class="settings audio-settings">
+            <!-- Which Whisper writes the speech down: bigger hears better (SubSettings.AUDIO_MODELS). -->
+            <div class="setting">
+              <div class="setting-head"><label for="audioModel" class="setting-label">Speech model</label><select id="audioModel" class="compact"></select></div>
+              <p id="audioModelHint" class="hint"></p>
+            </div>
+            <!-- The two languages of subtitles made from audio, each with its own AI switch.
+                 The first group's name is the flag and the language you translate to (popup.js). -->
+            <p class="group" id="audioMainLabel">Vietnamese</p>
+            <div class="setting">
+              <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="audioImproveMain" type="checkbox" role="switch" aria-label="Improve the translation with AI"><span></span></label></div>
+            </div>
+            <p class="group">Original language</p>
+            <div class="setting">
+              <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input id="audioImproveOrig" type="checkbox" role="switch" aria-label="Improve what was said with AI"><span></span></label></div>
+              <p id="audioImproveHint" class="hint">Fixes misheard words. The translation gets better too.</p>
+            </div>
+            <div class="setting">
+              <div class="setting-head"><span class="setting-label">Show as a second line</span><label class="toggle"><input id="audioSecond" type="checkbox" role="switch" aria-label="Show what was said as a second line"><span></span></label></div>
+            </div>
+            <p class="group">When done</p>
+            <div class="setting">
+              <div class="setting-head"><span class="setting-label">Notify me</span><label class="toggle"><input id="audioNotify" type="checkbox" role="switch" aria-label="Notify me when ready"><span></span></label></div>
+            </div>
+          </div>
         </div>
       </details>
       <p id="liveMsg" class="small" hidden></p>

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subtitles from audio: settings</title>
+<!-- The real popup styles, so every variant looks exactly like the extension. -->
+<link rel="stylesheet" href="../popup.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  body { width: auto; padding: 32px 24px 64px; background: oklch(0.13 0.006 290); }
+  :root[data-theme="light"] body { background: oklch(0.92 0.004 290); }
+  .doc { max-width: 2420px; margin: 0 auto; }
+  .doc > h1 { font-size: 22px; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 24px; max-width: 80ch; }
+  .switch-theme { float: right; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .col { width: 380px; display: flex; flex-direction: column; gap: 8px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .why { color: var(--muted); font-size: 12px; margin: 0; min-height: 52px; }
+  .popup { background: var(--bg); border-radius: 12px; padding: 14px 16px 16px; box-shadow: 0 0 0 1px var(--line); }
+
+  /* ---------- proposals: only what the existing classes don't cover ---------- */
+  /* 1: the Style tab's divided rows, inside the fold. */
+  .v1 .settings .group:first-child { margin-top: 0; }
+  .v1 .setting { padding: 10px 0; }
+  .v1 .setting .hint { margin-top: -6px; }
+  /* 1b: every group starts with a line, like a new block. */
+  .v1b .settings .group { margin-top: 0; padding-top: 14px; border-top: 1px solid var(--line); }
+  .v1b .settings .group + .setting { padding-top: 6px; }
+  /* 3 and 4: the model as a segmented choice, like Language and Appearance. */
+  .seg-model { margin: 0; }
+  .seg-model button small { display: block; font-size: 10.5px; font-weight: 400; color: var(--muted); }
+  .v3 .fx-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+  .v3 .group, .v4 .group { margin: 6px 0 -4px; }
+  .v4 .chips button { font-size: 12px; padding: 3px 10px; }
+  .flat-hint { margin: -6px 0 0; font-size: 11.5px; color: var(--faint); }
+</style>
+</head>
+<body>
+<script>if (location.hash === '#light') document.documentElement.dataset.theme = 'light';</script>
+<div class="doc">
+  <button class="switch-theme" onclick="const r=document.documentElement; r.dataset.theme = r.dataset.theme==='light' ? '' : 'light'">Světlý / tmavý</button>
+  <h1>Subtitles from audio: nastavení</h1>
+  <p class="lead">Vše je postavené jen ze stylů, které popup už má (popup.css). Vlajka je stejná emoji vlajka jako v seznamu jazyků. Text je zkrácený na zhruba polovinu.</p>
+
+  <div class="row">
+
+    <!-- ===== Now ===== -->
+    <div class="col">
+      <span class="tag">Teď</span>
+      <p class="why">Pro srovnání. 6 nápověd, dva nadpisy velkými písmeny.</p>
+      <div class="popup">
+        <details class="ai-details" id="audioDetails" open>
+          <summary><span>Subtitles from audio</span></summary>
+          <div class="ai-body">
+            <p class="hint audio-how">The video plays from the start to the end in this tab, muted for you. Close this window and use other tabs meanwhile. Then the subtitles go to the translation queue.</p>
+            <div class="setting-head"><label class="setting-label">Speech model</label><select class="compact"><option>Most accurate · 1.9 GB</option></select></div>
+            <p class="hint">Free Whisper model, runs on this computer. Downloads once (1.9 GB). On clear Czech speech it got about 89 of 100 words right; expect less with music or noise.</p>
+            <p class="audio-group">Vietnamese subtitles</p>
+            <div class="setting-head audio-sub"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+            <p class="audio-group">What was said, in the video’s language</p>
+            <div class="setting-head audio-sub"><span class="setting-label">Show as a second line</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+            <div class="setting-head audio-sub"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+            <p class="hint">Fixes punctuation, misheard words and lines nobody said. The translation gets better too.</p>
+            <div class="setting-head"><span class="setting-label">Notify me when ready</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+            <p class="hint">A system notification when the subtitles are translated and improved, so you don’t have to check this tab.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== 1: divided rows like the Style tab ===== -->
+    <div class="col v1">
+      <span class="tag">1 · Řádky s čarami</span>
+      <p class="why">Jako záložka Styl: každé nastavení má svůj řádek oddělený čarou, skupiny mají malý nadpis. Nejčitelnější, ale nejdelší.</p>
+      <div class="popup">
+        <details class="ai-details" open>
+          <summary><span>Subtitles from audio</span></summary>
+          <div class="ai-body">
+            <p class="flat-hint" style="margin:0">Plays muted in this tab, start to end. Use other tabs meanwhile.</p>
+            <div class="settings">
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Speech model</span><select class="compact"><option>Most accurate · 1.9 GB</option></select></div>
+                <p class="hint">Runs on this computer. About 89 of 100 words right.</p>
+              </div>
+              <p class="group">🇻🇳 Vietnamese</p>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+              </div>
+              <p class="group">Original language</p>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+                <p class="hint">Fixes misheard words. The translation gets better too.</p>
+              </div>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Show as second line</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+              </div>
+              <p class="group">When done</p>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Notify me</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== 1b: also a line above every group ===== -->
+    <div class="col v1 v1b">
+      <span class="tag">1b · Víc čar</span>
+      <p class="why">Jako 1, ale čára je i nad každou skupinou: mezi modelem a jazyky, mezi oběma jazyky a před „When done“. Každá část je vlastní blok.</p>
+      <div class="popup">
+        <details class="ai-details" open>
+          <summary><span>Subtitles from audio</span></summary>
+          <div class="ai-body">
+            <p class="flat-hint" style="margin:0">Plays muted in this tab, start to end. Use other tabs meanwhile.</p>
+            <div class="settings">
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Speech model</span><select class="compact"><option>Most accurate · 1.9 GB</option></select></div>
+                <p class="hint">Runs on this computer. About 89 of 100 words right.</p>
+              </div>
+              <p class="group">🇻🇳 Vietnamese</p>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+              </div>
+              <p class="group">Original language</p>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+                <p class="hint">Fixes misheard words. The translation gets better too.</p>
+              </div>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Show as second line</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+              </div>
+              <p class="group">When done</p>
+              <div class="setting">
+                <div class="setting-head"><span class="setting-label">Notify me</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== 2: flat like Sharing subtitles ===== -->
+    <div class="col v2">
+      <span class="tag">2 · Jako „Sharing subtitles“</span>
+      <p class="why">Stejná stavba jako sousední fold Sharing: rovný seznam bez nadpisů. Jazyk je přímo v názvu přepínače, takže nadpisy nejsou potřeba.</p>
+      <div class="popup">
+        <details class="ai-details" open>
+          <summary><span>Subtitles from audio</span></summary>
+          <div class="ai-body share-body">
+            <div class="setting-head"><span class="setting-label">Speech model</span><select class="compact"><option>Most accurate · 1.9 GB</option></select></div>
+            <p class="hint flat-hint">Runs on this computer, downloads once. About 89 of 100 words right.</p>
+            <div class="setting-head"><span class="setting-label">Improve 🇻🇳 Vietnamese with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+            <div class="setting-head"><span class="setting-label">Improve original with AI</span><label class="toggle"><input type="checkbox" role="switch" checked><span></span></label></div>
+            <p class="hint flat-hint">Fixes misheard words. The translation gets better too.</p>
+            <div class="setting-head"><span class="setting-label">Original as second line</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+            <div class="setting-head"><span class="setting-label">Notify me when ready</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+            <p class="hint flat-hint">Plays muted in this tab, start to end. Use other tabs meanwhile.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== 3: tiles like Effects (C-like) ===== -->
+    <div class="col v3">
+      <span class="tag">3 · Dlaždice jako „Effects“</span>
+      <p class="why">Model jako přepínač ze tří částí (jako Appearance), AI pro oba jazyky jako dlaždice ze záložky Styl. Nejvíc vizuální, nejméně textu.</p>
+      <div class="popup">
+        <details class="ai-details" open>
+          <summary><span>Subtitles from audio</span></summary>
+          <div class="ai-body">
+            <p class="group" style="margin-top:0">Speech model</p>
+            <div class="segmented prefs-seg wrap seg-model" role="radiogroup">
+              <button role="radio" aria-checked="false">Small<small>560 MB</small></button>
+              <button role="radio" aria-checked="false">Balanced<small>1.6 GB</small></button>
+              <button role="radio" aria-checked="true">Accurate<small>1.9 GB</small></button>
+            </div>
+            <p class="flat-hint">Runs on this computer. About 89 of 100 words right.</p>
+            <p class="group">Improve with AI</p>
+            <div class="fx-tiles">
+              <label class="fx-tile"><input type="checkbox" role="switch" checked><span class="fx-name">🇻🇳 Vietnamese</span><span class="fx-sum">On</span></label>
+              <label class="fx-tile"><input type="checkbox" role="switch" checked><span class="fx-name">Original</span><span class="fx-sum">On · helps the translation</span></label>
+            </div>
+            <div class="setting-head"><span class="setting-label">Original as second line</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+            <div class="setting-head"><span class="setting-label">Notify me when ready</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== 4: rows with language chips (A-like, compact) ===== -->
+    <div class="col v4">
+      <span class="tag">4 · Řádky s čipy jazyků</span>
+      <p class="why">Jen čtyři řádky. U AI vybereš jazyky čipy (jako filtry písma), oba jsou vidět najednou. Kompromis mezi 2 a 3.</p>
+      <div class="popup">
+        <details class="ai-details" open>
+          <summary><span>Subtitles from audio</span></summary>
+          <div class="ai-body">
+            <div class="setting-head"><span class="setting-label">Speech model</span><select class="compact"><option>Most accurate · 1.9 GB</option></select></div>
+            <p class="flat-hint">Runs on this computer. About 89 of 100 words right.</p>
+            <div class="setting-head"><span class="setting-label">Improve with AI</span>
+              <div class="chips"><button class="on">🇻🇳 Vietnamese</button><button class="on">Original</button></div></div>
+            <p class="flat-hint">Fixes misheard words and punctuation.</p>
+            <div class="setting-head"><span class="setting-label">Second line</span><select class="compact"><option>Off</option><option>Original</option></select></div>
+            <div class="setting-head"><span class="setting-label">Notify me when ready</span><label class="toggle"><input type="checkbox" role="switch"><span></span></label></div>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
