@@ -104,7 +104,8 @@
     {
       "resources": [
         "icons/support/filip.jpg",
-        "icons/support/pay-logos-dark.svg"
+        "icons/support/pay-logos-dark.svg",
+        "icons/support/pay-logos-alipay-dark.svg"
       ],
       "matches": [
         "<all_urls>"

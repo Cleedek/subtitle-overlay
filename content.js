@@ -2221,6 +2221,9 @@
   // Under the language switches, once SubSettings.supportAskDue says so: on 3
   // videos at most, and any click on it (the cross too) ends it for good.
   const KOFI = 'https://ko-fi.com/cleedek';
+  // Filip's own Stripe link with Alipay (CNY, any amount), in place of Ko-fi for Simplified Chinese.
+  const ALIPAY = 'https://buy.stripe.com/7sYdRa1FleEm97lbVecQU00';
+  const tipUrl = () => (SubI18n.lang === 'zh-CN' ? ALIPAY : KOFI);
   const STORE = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
   const GITHUB = 'https://github.com/Cleedek/subtitle-overlay';
   const ICON = {
@@ -2326,10 +2329,11 @@
     const who = el('div', 'who');
     who.append(photo(38), two(t('Send me any tip you like'), t('No account needed'), 'strong', 'span'));
     const logos = el('img', 'logos');
-    logos.src = chrome.runtime.getURL('icons/support/pay-logos-dark.svg');
-    logos.alt = 'Google Pay, Apple Pay, PayPal, Visa, Mastercard';
+    const alipay = SubI18n.lang === 'zh-CN';
+    logos.src = chrome.runtime.getURL(alipay ? 'icons/support/pay-logos-alipay-dark.svg' : 'icons/support/pay-logos-dark.svg');
+    logos.alt = alipay ? 'Alipay, Google Pay, Apple Pay, Visa, Mastercard' : 'Google Pay, Apple Pay, PayPal, Visa, Mastercard';
     logos.addEventListener('error', () => logos.remove());
-    const main = link('main', KOFI);
+    const main = link('main', tipUrl());
     main.innerHTML = ICON.heart;
     main.append(t('Support the creator'));
     tile.append(who, logos, main, el('span', 'more', t('More ways to pay in the extension popup')));
@@ -2351,7 +2355,7 @@
     const compact = el('div', 'compact');
     const cWho = el('div', 'who');
     cWho.append(photo(34), two(t('{n} videos translated', { n }), t('I make it on my own, for free. Will you support me?'), 'strong', 'span'));
-    const cMain = link('main', KOFI);
+    const cMain = link('main', tipUrl());
     cMain.innerHTML = ICON.heart;
     cMain.append(t('Support the creator'));
     const links = el('div', 'links');
