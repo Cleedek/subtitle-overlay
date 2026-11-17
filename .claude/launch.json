@@ -14,6 +14,21 @@
       "port": 8765
     },
     {
+      "name": "hem",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/filip/Documents/coding/Hem",
+        "run",
+        "local",
+        "--",
+        "--port",
+        "5183",
+        "--strictPort"
+      ],
+      "port": 5183
+    },
+    {
       "name": "portfolio",
       "runtimeExecutable": "/Users/filip/.bun/bin/bun",
       "runtimeArgs": [
