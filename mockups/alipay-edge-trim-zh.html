@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="zh" data-theme="dark"><head><meta charset="utf-8"><title>Edge Trim card</title><style>/* Edge Trim popup.css, copied for the mockup */
+/* Same look as Snap Translate and Subtitle Overlay: neutrals that lean violet, toward the accent.
+   Follows the browser by default; Appearance in the footer can keep it dark or light.
+   theme.js writes the choice into <meta name="color-scheme">, read here; each colour is light-dark(light, dark). */
+:root { color-scheme: light dark; }
+:root:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
+:root:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
+
+:root {
+  --bg: light-dark(oklch(0.985 0.003 290), oklch(0.185 0.008 290));
+  --panel: light-dark(oklch(0.96 0.005 290), oklch(0.225 0.010 290));
+  --panel-hover: light-dark(oklch(0.935 0.008 290), oklch(0.255 0.012 290));
+  --line: light-dark(oklch(0.90 0.008 290), oklch(0.29 0.012 290));
+  --line-strong: light-dark(oklch(0.83 0.012 290), oklch(0.36 0.014 290));
+  --text: light-dark(oklch(0.22 0.012 290), oklch(0.94 0.006 290));
+  --muted: light-dark(oklch(0.46 0.016 290), oklch(0.70 0.014 290));
+  --faint: light-dark(oklch(0.53 0.014 290), oklch(0.64 0.014 290));
+  --accent: oklch(0.54 0.23 293);
+  --accent-hover: light-dark(oklch(0.49 0.23 293), oklch(0.60 0.21 293));
+  --accent-soft: light-dark(oklch(0.54 0.23 293 / .12), oklch(0.54 0.23 293 / .22));
+  --link: light-dark(oklch(0.50 0.20 293), oklch(0.80 0.10 293));
+  --success: light-dark(oklch(0.55 0.15 150), oklch(0.86 0.13 150));
+  --logo-ink: light-dark(#000, #fff); /* the black parts of the payment logos */
+  --qr-filter: none; /* the QR images are drawn white; light mode turns them black below */
+  --danger: light-dark(oklch(0.55 0.19 25), oklch(0.72 0.16 22));
+  --thumb: light-dark(oklch(1 0 0), oklch(0.97 0.004 290));
+  --shadow: light-dark(oklch(0.3 0.02 290 / .18), oklch(0.1 0.01 290 / .45));
+  --check-a: light-dark(oklch(0.97 0.003 290), oklch(0.30 0.010 290));
+  --check-b: light-dark(oklch(0.90 0.006 290), oklch(0.24 0.010 290));
+  /* An image can't go in light-dark() yet, so the light chevron is switched in below. */
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a29fb3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --chevron-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236b6779' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --ease: cubic-bezier(.25, 1, .5, 1); /* ease-out-quart */
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) { --chevron: var(--chevron-light); --qr-filter: brightness(0); }
+@media (prefers-color-scheme: light) {
+  :root:has(> head > meta[name="color-scheme"][content="light dark"]) { --chevron: var(--chevron-light); --qr-filter: brightness(0); }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html { background: var(--bg); }
+body {
+  width: 380px; margin: 0; padding: 16px 16px 20px;
+  background: var(--bg); color: var(--text);
+  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+/* Opened as the settings page in a tab: same panel, centred. */
+html.page body { margin: 40px auto; border: 1px solid var(--line); border-radius: 14px; }
+
+h1 { font-size: 15px; font-weight: 650; letter-spacing: -.01em; margin: 0 0 2px; }
+h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 10px; }
+header p { margin: 0; }
+section { border-top: 1px solid var(--line); padding: 14px 0; }
+header { padding-bottom: 14px; }
+.muted { color: var(--muted); }
+.small { font-size: 11.5px; margin: 8px 0 0; color: var(--faint); }
+.small.first { margin-top: 0; }
+.small strong { color: var(--muted); font-weight: 600; }
+.label { display: block; color: var(--muted); margin: 4px 0 0; }
+.error { color: var(--danger); font-size: 11.5px; margin: 8px 0 0; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- buttons ---------- */
+
+button {
+  font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 10px; cursor: pointer;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
+}
+button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+button:active { background: var(--line); }
+button.primary { background: var(--accent); border-color: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
+button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+button.wide { width: 100%; padding: 8px 10px; }
+button.ghost { background: transparent; }
+button.ghost:hover { background: var(--panel); }
+button.link { display: inline-flex; align-items: center; gap: 5px; border-color: transparent; padding: 4px 0; margin-top: 10px; font-size: 11.5px; color: var(--muted); }
+button.link:hover { color: var(--text); background: transparent; }
+button:disabled { opacity: .5; cursor: default; pointer-events: none; }
+.icon-btn { display: grid; place-items: center; width: 30px; height: 28px; padding: 0; flex: none; color: var(--muted); }
+.icon-btn:hover { color: var(--text); }
+/* Brief ✓ / ! after Copy or Download. */
+.icon-btn.ok, .icon-btn.ok:hover { color: var(--success); font-weight: 700; }
+.icon-btn.fail, .icon-btn.fail:hover { color: var(--danger); font-weight: 700; }
+
+/* ---------- fields ---------- */
+
+select, input[type=text], input[type=password] {
+  font: inherit; color: var(--text); background-color: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 5px 8px;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+select:hover, input[type=text]:hover, input[type=password]:hover { border-color: var(--line-strong); }
+select:hover { background-color: var(--panel-hover); }
+select:focus-visible, input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+/* Own chevron, with room at the end of the line (the right, or the left in Arabic). */
+select {
+  appearance: none; -webkit-appearance: none; width: 100%; cursor: pointer;
+  padding-inline-end: 30px; background-image: var(--chevron); background-repeat: no-repeat; background-position: right 11px center;
+}
+[dir=rtl] select { background-position: left 11px center; }
+select.compact { width: auto; min-width: 128px; max-width: 200px; }
+
+/* ---------- settings: one row per setting, divided ---------- */
+
+.row { display: flex; gap: 6px; align-items: center; }
+.settings { display: flex; flex-direction: column; }
+.setting { display: flex; flex-direction: column; gap: 10px; padding: 12px 0; }
+.setting + .setting { border-top: 1px solid var(--line); }
+.setting.first { padding-top: 0; }
+.setting-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 26px; }
+.setting-label { color: var(--text); font-weight: 500; }
+/* Language and Appearance: short rows, close together, without lines between them. */
+.prefs { display: flex; flex-direction: column; gap: 8px; }
+.value { color: var(--muted); font-size: 12px; text-align: end; }
+.hint { margin: 0; font-size: 11.5px; color: var(--faint); }
+.hint a { color: var(--link); }
+.hint.error { color: var(--danger); }
+
+/* Switch (a checkbox underneath, so keyboard and labels keep working), same as Subtitle Overlay. */
+.toggle { position: relative; display: inline-flex; flex: none; cursor: pointer; }
+.toggle input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.toggle span {
+  width: 36px; height: 22px; border-radius: 999px; background: var(--line-strong); position: relative;
+  transition: background-color .2s var(--ease);
+}
+.toggle span::after {
+  content: ""; position: absolute; top: 2px; inset-inline-start: 2px; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--thumb); box-shadow: 0 1px 2px var(--shadow);
+  transition: transform .2s var(--ease);
+}
+.toggle input:checked + span { background: var(--accent); }
+.toggle input:checked + span::after { transform: translateX(14px); }
+/* The whole row is the switch: the hidden input stretches over the row it sits in. */
+.setting-head:has(> .toggle), .site-row:has(> .toggle) { position: relative; }
+.setting-head > .toggle, .site-row > .toggle { position: static; }
+[dir=rtl] .toggle input:checked + span::after { transform: translateX(-14px); }
+.toggle:hover span { filter: brightness(1.12); }
+.toggle input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+label.setting-label { cursor: pointer; }
+
+/* ---------- support the creator (a second level of the popup) ---------- */
+
+body.support > :not(#supportView, script, style) { display: none !important; }
+body.support #supportView { display: block !important; }
+.support-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-color: var(--line-strong); }
+.support-open .heart { color: oklch(0.66 0.21 18); transition: transform .2s var(--ease); }
+.support-open:hover .heart { transform: scale(1.12); }
+.support-open .chev { color: var(--faint); }
+.support-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.support-head h1 { margin: 0; }
+.round-btn { width: 32px; height: 32px; padding: 0; border-radius: 50%; display: grid; place-items: center; flex: none; }
+/* Back points the way the page came from: to the right in Arabic. */
+[dir=rtl] .round-btn svg { transform: scaleX(-1); }
+.support-intro { margin: 0 0 14px; }
+.segmented { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 12px; }
+.segmented button { border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 10px; }
+.segmented button:hover { background: var(--panel-hover); color: var(--text); }
+.segmented button[aria-selected="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px var(--shadow); }
+.support .segmented { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: auto; }
+.support .segmented button { white-space: nowrap; padding-inline: 6px; }
+.segmented button[hidden] { display: none; }
+.pay-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 28px 16px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+/* QR codes straight on the card, which is their quiet zone: white in dark mode, black in light mode. */
+.qr { display: block; width: 196px; height: 196px; filter: var(--qr-filter); }
+.pay-id { margin: 14px 0 4px; font-size: 15px; font-weight: 650; letter-spacing: -.01em; }
+.pay-id span { color: var(--text); }
+.pay-note { margin: 0 0 14px; font-size: 12px; max-width: 280px; }
+.pay-actions { width: 100%; justify-content: center; }
+.pay-actions > * { flex: 1; text-align: center; padding: 8px 10px; }
+
+/* Ko-fi: the payment logos and two short promises under the address */
+.pay-logos { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 14px; margin: 16px 0 10px; padding: 0; }
+.pay-logos svg { display: block; }
+.pay-points { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 12px; margin: 0 0 14px; font-size: 12px; color: var(--muted); }
+.pay-points span { display: inline-flex; align-items: center; gap: 5px; }
+.pay-points svg { color: var(--success); flex: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+a.btn { font: inherit; text-decoration: none; border-radius: 8px; border: 1px solid var(--accent); transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+a.btn.primary { background: var(--accent); color: oklch(0.99 0.003 290); font-weight: 600; }
+a.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+/* About the creator, set apart from the settings by a line and a little more space. */
+.credit { padding-top: 20px; border-top: 1px solid var(--line); }
+.credit p { margin: 12px 0 0; text-align: center; font-size: 11.5px; color: var(--faint); }
+.credit a { color: var(--muted); font-weight: 600; text-decoration: none; }
+.credit a:hover { color: var(--text); text-decoration: underline; }
+.star-link { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; font-weight: 600; color: var(--muted); text-decoration: none; }
+.star-link:hover { color: var(--text); }
+
+/* Choices (not tabs) get the primary look (white, dark text), like Snap Translate's translator picker. */
+.segmented.faint, .segmented.pick { grid-template-columns: repeat(3, 1fr); margin: 0; }
+.segmented.pick.two { grid-template-columns: 1fr 1fr; margin-bottom: 12px; }
+.segmented.faint button, .segmented.pick button { padding-inline: 4px; white-space: nowrap; }
+.segmented.faint button[aria-checked="true"], .segmented.pick button[aria-checked="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px var(--shadow); }
+
+/* ---------- drop zone ---------- */
+
+.drop {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+  padding: 22px 16px 18px; border: 1.5px dashed var(--line-strong); border-radius: 14px;
+  background: var(--panel); color: var(--muted); cursor: pointer;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease), color .15s var(--ease);
+}
+.drop:hover { background: var(--panel-hover); color: var(--text); }
+.drop.over { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+.drop svg { color: var(--link); margin-bottom: 2px; }
+.drop-title { color: var(--text); font-weight: 600; }
+.drop .small { margin: 0; }
+.drop-icon-shadow, .shadow-on .drop-icon-trim { display: none; }
+.shadow-on .drop-icon-shadow { display: block; }
+.tab-tip { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+.tab-tip .small { margin: 0; color: var(--muted); }
+.tab-tip button { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+html.page .tab-tip { display: none; }
+.drop:has(+ input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- results ---------- */
+
+.results-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 14px 0 6px; min-height: 30px; }
+.results { list-style: none; margin: 0; padding: 0; }
+.result { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+.result + .result { border-top: 1px solid var(--line); }
+/* A checkerboard behind the picture shows where it's transparent. Clicking it opens the picture across the whole width. */
+.thumb {
+  flex: none; width: 48px; height: 48px; padding: 0; border-radius: 8px; overflow: hidden; display: grid; place-items: center;
+  border: 1px solid var(--line); cursor: zoom-in;
+}
+.thumb, .thumb:hover, .thumb:active { background: repeating-conic-gradient(var(--check-a) 0 25%, var(--check-b) 0 50%) 0 0 / 10px 10px; }
+.thumb:disabled { opacity: 1; }
+/* The canvas is the picture with its shadow; the dashed line is the edge of the file either way. */
+.thumb img, .thumb canvas { max-width: 100%; max-height: 100%; display: block; outline: 1px dashed color-mix(in oklch, var(--link) 70%, transparent); }
+/* Opened: the picture takes its own row, the name and buttons wrap under it. Tall pictures stop at 400 px high. */
+.result.expanded { flex-wrap: wrap; padding: 12px 0; }
+.expanded .thumb { width: 100%; height: auto; padding: 12px; border-radius: 12px; cursor: zoom-out; }
+.expanded .thumb img, .expanded .thumb canvas { width: min(100%, calc(400px * var(--ratio, 1))); max-height: none; }
+.result-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.result-name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.result-size { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+/* "1158 × 1143 → 530 × 532 px" reads left to right in Arabic too, at the same edge as the name above it. */
+[dir=rtl] .result-size:not(.error) { direction: ltr; text-align: right; }
+.result-size.error { color: var(--danger); }
+.nowrap { flex-wrap: nowrap; }
+
+/* ---------- shadow ---------- */
+
+.shadow-panel { gap: 12px; }
+/* The picture, large, with its buttons under it. They stay in view while the settings below are scrolled;
+   the ring in the page colour hides what scrolls past them. */
+.stage-wrap { position: sticky; top: 8px; z-index: 2; display: flex; flex-direction: column; gap: 8px; background: var(--bg); outline: 8px solid var(--bg); }
+.stage {
+  position: relative; height: 214px; padding: 14px 14px 40px; border: 1px solid var(--line); border-radius: 12px;
+  background: repeating-conic-gradient(var(--check-a) 0 25%, var(--check-b) 0 50%) 0 0 / 12px 12px;
+}
+.stage-actions { display: grid; grid-template-columns: 1fr auto; gap: 6px; }
+.stage-actions button { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 12px; white-space: nowrap; }
+/* Same brief ✓ / ! as the row's buttons, in place of the icon; the words stay. */
+.btn-icon { display: grid; place-items: center; width: 14px; height: 14px; flex: none; font-weight: 700; }
+.stage-actions .ok:not(.primary) .btn-icon { color: var(--success); }
+.stage-actions .fail:not(.primary) .btn-icon { color: var(--danger); }
+.stage canvas { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* The controls on the preview sit in a strip under the picture or beside it, so they never cover its shadow.
+   The background dots are small since the background never reaches the file. */
+.stage-bg, .stage-count, .stage-arrow {
+  border-radius: 999px; background: color-mix(in oklch, var(--panel) 88%, transparent);
+  border: 1px solid var(--line); box-shadow: 0 1px 3px var(--shadow);
+}
+.stage-bg { position: absolute; right: 8px; bottom: 8px; display: flex; gap: 4px; padding: 4px; }
+/* Two pictures or more: arrows at the sides, and which one this is ("1 / 2") in the corner. */
+.stage.multi { padding-inline: 44px; }
+.stage-arrow, .stage-count { display: none; }
+.multi .stage-arrow {
+  position: absolute; top: calc(50% - 13px); transform: translateY(-50%);
+  width: 28px; height: 28px; padding: 0; display: grid; place-items: center;
+}
+#stagePrev { left: 8px; }
+#stageNext { right: 8px; }
+.stage-arrow::before { content: ""; width: 10px; height: 6px; background: var(--chevron) center / contain no-repeat; transform: rotate(90deg); }
+#stageNext::before { transform: rotate(-90deg); }
+.multi .stage-count {
+  display: block; position: absolute; left: 8px; bottom: 8px; padding: 4px 9px;
+  font-size: 11px; line-height: 16px; color: var(--text); font-variant-numeric: tabular-nums;
+}
+.stage-bg button, .stage-bg button:hover { width: 16px; height: 16px; padding: 0; border-radius: 50%; border: 1px solid var(--line-strong); }
+.stage-bg [data-bg="white"] { background: #fff; }
+.stage-bg [data-bg="grey"] { background: #e9e9ec; }
+.stage-bg [data-bg="black"] { background: #1d1d21; }
+.stage-bg [data-bg="checker"] { background: repeating-conic-gradient(#fff 0 25%, #c9c9cf 0 50%) 0 0 / 8px 8px; }
+.stage-bg button[aria-checked="true"] { box-shadow: 0 0 0 2px var(--accent); }
+/* One small preview per look, drawn from the first picture. */
+.presets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.preset { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; padding: 4px 4px 6px; border-radius: 10px; font-size: 11px; color: var(--muted); }
+/* A long name (German "Schwebend") may use the tile's side padding before it's cut. */
+.preset span { max-width: calc(100% + 8px); margin-inline: -4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.preset canvas { display: block; width: 100%; aspect-ratio: 128 / 110; border-radius: 6px; }
+.preset[aria-checked="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); color: var(--text); font-weight: 600; }
+.preset canvas, .preset:hover canvas { background: repeating-conic-gradient(var(--check-a) 0 25%, var(--check-b) 0 50%) 0 0 / 8px 8px; }
+
+/* While "Add shadow" is on, pictures sit on the chosen preview background (never saved into the file). */
+[data-shadow-bg="white"] :is(.thumb, .thumb:hover, .thumb:active, .preset canvas, .stage) { background: #fff; }
+[data-shadow-bg="grey"] :is(.thumb, .thumb:hover, .thumb:active, .preset canvas, .stage) { background: #e9e9ec; }
+[data-shadow-bg="black"] :is(.thumb, .thumb:hover, .thumb:active, .preset canvas, .stage) { background: #1d1d21; }
+
+/* My shadows: saved looks, then the tile that saves the current one. */
+.mine { display: flex; flex-direction: column; gap: 6px; }
+.mine-label { font-size: 11.5px; color: var(--muted); font-weight: 500; }
+.mine-item { position: relative; min-width: 0; display: grid; }
+.remove {
+  position: absolute; top: -5px; right: -5px; width: 18px; height: 18px; padding: 0; border-radius: 50%;
+  display: grid; place-items: center; opacity: 0; transition: opacity .15s var(--ease), background-color .15s var(--ease);
+}
+.remove::before { content: ""; width: 8px; height: 8px; transform: rotate(45deg); background:
+  linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat, linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat; }
+.mine-item:hover .remove, .remove:focus-visible { opacity: 1; }
+/* Saving the look, at the end of the settings. */
+.look-save { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); }
+.save-form { display: flex; gap: 6px; }
+.save-form input { flex: 1; min-width: 0; }
+
+.adjust summary {
+  display: flex; align-items: center; gap: 6px; width: max-content; list-style: none; cursor: pointer;
+  color: var(--muted); font-weight: 500;
+}
+.adjust summary::-webkit-details-marker { display: none; }
+.adjust summary::before { content: ""; width: 10px; height: 6px; background: var(--chevron) center / contain no-repeat; transform: rotate(-90deg); transition: transform .15s var(--ease); }
+.adjust[open] summary::before { transform: none; }
+.adjust summary:hover { color: var(--text); }
+.adjust-body { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+
+.shadow-pair { display: grid; grid-template-columns: auto 1fr; gap: 20px; }
+/* Where the light comes from: the middle is straight above, the dot is the sun. */
+.light-grid { display: grid; grid-template-columns: repeat(3, 26px); gap: 4px; margin-top: 8px; }
+.light-grid button { width: 26px; height: 26px; padding: 0; border-radius: 7px; display: grid; place-items: center; }
+.light-grid button::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--faint); }
+.light-grid button[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
+.light-grid button[aria-checked="true"]::after { width: 10px; height: 10px; background: oklch(0.99 0.003 290); }
+.light-grid button:disabled { opacity: .3; }
+.colour-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.swatches { display: flex; gap: 6px; }
+.swatch, .swatch:hover { width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--line-strong); }
+.swatch[aria-checked="true"] { box-shadow: 0 0 0 2px var(--accent); }
+input.hex { width: 82px; font-variant-numeric: tabular-nums; }
+
+.slider { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 6px 8px; }
+.slider output { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.slider input { grid-column: 1 / -1; }
+.slider:has(input:disabled) { opacity: .45; }
+
+/* Minimal slider, same as Subtitle Overlay: thin track filled up to the thumb at --fill (set from popup.js). */
+input[type=range] {
+  -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; height: 18px; margin: 0;
+  background: transparent; cursor: pointer; --fill: 50%;
+}
+input[type=range]:disabled { cursor: default; }
+input[type=range]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 999px;
+  background: linear-gradient(to right, var(--accent) var(--fill), var(--line-strong) var(--fill));
+}
+/* In Arabic a slider starts on the right, so it fills from there. */
+[dir=rtl] input[type=range]::-webkit-slider-runnable-track {
+  background: linear-gradient(to left, var(--accent) var(--fill), var(--line-strong) var(--fill));
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 14px; height: 14px; margin-top: -5px; border-radius: 50%;
+  background: var(--thumb); border: 0;
+  box-shadow: 0 1px 3px var(--shadow), 0 0 0 0 var(--accent-soft);
+  transition: box-shadow .15s var(--ease), transform .15s var(--ease);
+}
+input[type=range]:hover:not(:disabled)::-webkit-slider-thumb { box-shadow: 0 1px 3px var(--shadow), 0 0 0 5px var(--accent-soft); }
+input[type=range]:active:not(:disabled)::-webkit-slider-thumb { transform: scale(1.12); }
+input[type=range]:focus-visible { outline: none; box-shadow: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- write to me (a second level of the popup, lib/feedback.js) ---------- */
+
+body.feedback > :not(#feedbackView, script, style) { display: none !important; }
+body.feedback #feedbackView { display: block !important; }
+.feedback-open { display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; border-color: var(--line-strong); margin-bottom: 8px; }
+.feedback-open .chev { color: var(--faint); }
+[dir="rtl"] #feedbackBack svg, [dir="rtl"] .feedback-open .chev { transform: scaleX(-1); }
+.fb-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 12px; }
+.fb-types button { border: 0; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fb-types button:hover { background: var(--panel-hover); color: var(--text); }
+.fb-types button[aria-checked="true"] { background: var(--thumb); color: oklch(0.2 0.012 290); font-weight: 600; box-shadow: 0 1px 2px var(--shadow); }
+.fb-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+#fbMessage, #fbEmail {
+  font: inherit; color: var(--text); background-color: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 9px; width: 100%;
+  transition: background-color .15s var(--ease), border-color .15s var(--ease);
+}
+#fbMessage { display: block; resize: vertical; min-height: 96px; max-height: 240px; }
+#fbMessage::placeholder, #fbEmail::placeholder { color: var(--faint); }
+#fbMessage:hover, #fbEmail:hover { border-color: var(--line-strong); }
+#fbMessage:focus-visible, #fbEmail:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.fb-tech { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; margin-bottom: 12px; border-block: 1px solid var(--line); }
+.fb-note { margin-bottom: 12px; }
+.fb-state { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 28px 12px 16px; }
+.fb-state h1, .fb-state p { margin: 0; }
+.fb-state p.muted { max-width: 280px; margin-bottom: 10px; }
+.fb-badge { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--link); }
+.fb-badge.fail { background: color-mix(in oklch, var(--danger) 16%, transparent); color: var(--danger); }
+.fb-mail { display: block; width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--text); text-decoration: none; transition: background-color .15s var(--ease), border-color .15s var(--ease); }
+.fb-mail:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+.fb-state .fb-address { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 6px; margin-top: 6px; font-size: 11.5px; color: var(--muted); }
+.fb-address button { padding: 1px 7px; font-size: 11px; }
+
+/* ---------- what's new, once after an update (lib/whats-new.js) ---------- */
+
+.news-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 12px; margin-bottom: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.news-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 7px; padding-inline-end: 22px; }
+.news-head strong { font-size: 14px; font-weight: 650; letter-spacing: -.01em; }
+.news-head span { font-size: 12px; color: var(--muted); }
+.news-close { position: absolute; top: 8px; inset-inline-end: 8px; width: 24px; height: 24px; padding: 0; border-radius: 50%; display: grid; place-items: center; background: transparent; border-color: transparent; color: var(--muted); }
+.news-close:hover { background: var(--panel-hover); color: var(--text); border-color: transparent; }
+.news-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.news-list li { position: relative; padding-inline-start: 14px; }
+.news-list li::before { content: ""; position: absolute; inset-inline-start: 1px; top: .5lh; translate: 0 -50%; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.news-more { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--text); font-weight: 600; text-decoration: none; transition: background-color .15s var(--ease); }
+.news-more:hover { background: var(--panel-hover); }
+.has-news #sister { display: none !important; } /* one card at a time, news first */
+
+/* The one-time support card (lib/support-ask.js), where the "What's new" card goes. */
+.ask-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 12px 12px 10px; margin-bottom: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.ask-hello { display: flex; flex-direction: column; gap: 3px; padding-inline-end: 24px; }
+.ask-hello strong { font-size: 14px; font-weight: 650; letter-spacing: -.01em; }
+.ask-hello span { font-size: 12px; color: var(--muted); line-height: 1.45; }
+.ask-intro { margin: 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); line-height: 1.45; }
+.ask-tile { display: flex; flex-direction: column; gap: 10px; padding: 11px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); }
+.ask-who { display: flex; align-items: center; gap: 10px; }
+.ask-who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+.ask-who div { display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
+.ask-who strong { font-weight: 650; font-size: 13.5px; }
+.ask-who div > span { font-size: 11.5px; color: var(--muted); }
+.ask-card .pay-logos { justify-content: flex-start; margin: 0; gap: 4px 10px; }
+.ask-donate { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; padding: 9px 12px; font-size: 13.5px; }
+.ask-minor { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ask-minor > * { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border-radius: 9px; border: 1px solid var(--line); background: var(--bg); color: var(--text); text-align: start; text-decoration: none; font: inherit; cursor: pointer; }
+.ask-minor > *:hover { background: var(--panel-hover); }
+.ask-minor svg { flex: none; color: var(--muted); }
+.ask-minor span { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.ask-minor b { font-weight: 600; font-size: 12.5px; }
+.ask-minor small { font-size: 10.5px; color: var(--muted); }
+.ask-gh { display: inline-flex; align-items: center; gap: 6px; align-self: center; padding: 2px 8px; color: var(--muted); font-size: 11.5px; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.ask-gh:hover { color: var(--text); text-decoration-color: currentColor; }
+.ask-once { margin: -2px 0 0; text-align: center; font-size: 10.5px; color: var(--muted); }
+.ask-card.thanked > :not(.ask-thanks) { display: none; }
+.ask-thanks { margin: 0; font-size: 12.5px; }
+
+/* ---------- footer list + "Language & appearance" screen (lib/prefs-view.js) ---------- */
+
+body.prefs > :not(#prefsView, script, style) { display: none !important; }
+body.prefs #prefsView { display: block !important; }
+.prefs-view .prefs { display: flex; flex-direction: column; gap: 18px; margin-top: 10px; }
+.prefs-group h2 { margin: 0 0 8px 2px; }
+/* Quiet segmented control (like the translator picker): the chosen look is a grey thumb, not white. */
+.segmented.prefs-seg { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(max-content, 1fr); margin: 0; }
+.segmented.prefs-seg button { padding-inline: 10px; white-space: nowrap; }
+.segmented.prefs-seg.wrap { grid-auto-columns: minmax(0, 1fr); border-radius: 14px; }
+.segmented.prefs-seg.wrap button { white-space: normal; border-radius: 11px; line-height: 1.2; padding-block: 5px; }
+.segmented.prefs-seg button[aria-checked="true"] { background: light-dark(oklch(0.86 0.012 290), oklch(0.48 0.012 290)); color: var(--text); font-weight: 600; box-shadow: none; }
+/* Languages: one list to scroll, own name on top, name in the current language under it, check on the chosen one. */
+.lang-list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
+.lang-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 8px 12px;
+  border: 0; border-radius: 0; background: transparent; text-align: start; font-weight: 500;
+}
+.lang-row + .lang-row { border-top: 1px solid var(--line); }
+.lang-row:hover { background: var(--panel-hover); border-color: var(--line); }
+.lang-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.lang-own { color: var(--text); }
+.lang-sub { color: var(--faint); font-size: 12px; font-weight: 400; }
+.lang-check { flex: none; color: var(--text); visibility: hidden; }
+.lang-row[aria-checked="true"] .lang-check { visibility: visible; }
+.lang-row[aria-checked="true"] .lang-own { font-weight: 600; }
+.foot-list { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.foot-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 9px 12px;
+  border: 0; border-radius: 0; background: transparent; text-align: start; font-weight: 500;
+}
+.foot-row + .foot-row { border-top: 1px solid var(--line); }
+.foot-row:hover { background: var(--panel); border-color: var(--line); }
+.foot-row > svg:first-child { flex: none; color: var(--muted); }
+.foot-row.support-open > svg:first-child { color: oklch(0.66 0.21 18); }
+.foot-text { flex: 1; min-width: 0; }
+.foot-now { color: var(--faint); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
+.foot-row .chev { flex: none; color: var(--faint); }
+[dir=rtl] .foot-row .chev { transform: scaleX(-1); }
+.foot-links { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 18px; row-gap: 4px; margin-top: 10px; }
+.foot-links .star-link { margin-top: 0; padding-top: 0; border-top: 0; }
+.foot-list + p { margin-top: 14px; }
+/* A long label that wraps (e.g. Indonesian): icon, value and chevron stay on the first line. */
+.foot-row { align-items: flex-start; line-height: 18px; }
+.foot-row > svg:first-child { margin-top: 1.5px; }
+.foot-row .chev { margin-top: 3px; }
+.foot-now { line-height: 18px; }
+/* Room between the credit line and GitHub / What's new, with a short hairline. */
+.foot-links { position: relative; margin-top: 16px; padding-top: 16px; }
+.foot-links::before { content: ""; position: absolute; top: 0; left: 50%; width: 32px; margin-left: -16px; border-top: 1px solid var(--line); }
+
+/* ---------- opened in a tab: two columns, pictures left, settings right ---------- */
+
+@media (min-width: 900px) {
+  html.page body {
+    width: 860px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: 32px; align-items: start;
+  }
+  html.page body > * { grid-column: 1 / -1; }
+  html.page #workSection { grid-column: 1; grid-row: span 3; }
+  html.page #shadowSection, html.page #trimSection, html.page #noteSection { grid-column: 2; }
+  html.page .drop { padding-block: 40px; }
+  /* The second-level screens stay one column. */
+  html.page body:is(.support, .feedback, .prefs) { display: block; width: 420px; }
+}
+</style>
+<style>html{background:var(--bg)}</style></head>
+<body>
+  <div id="askCard" class="ask-card" role="region" aria-label="Support the creator">
+    <button id="askClose" class="news-close" title="Close (it won’t come back)" aria-label="Close (it won’t come back)"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <div class="ask-hello"><strong id="askTitle">已裁剪 128 张图片</strong><span id="askLines">共去掉了 4,210,560 个空白像素。真棒！</span></div>
+    <p id="askIntro" class="ask-intro">Edge Trim 由我一个人免费制作。任何支持都能帮助我继续给它应有的用心。</p>
+    <div class="ask-tile">
+      <div class="ask-who">
+        <img src="../icons/support/filip.jpg" width="38" height="38" alt="">
+        <div><strong>随意给我打赏</strong><span>无需注册账户</span></div>
+      </div>
+      <ul class="pay-logos">
+        <li title="Alipay"><svg width="56.8" height="14.6" viewBox="26.6 37.0 56.8 14.6"><path d="M82.9857 41.1474L82.9989 41.1328H80.9066L79.5853 45.713H79.5152L77.9982 41.1328H75.5117L78.5034 48.6914L77.2536 50.9954V51.051H79.2057L82.9857 41.1474Z" style="fill:var(--logo-ink)"/><path d="M59.7896 41.1328H57.5703V48.6637H59.7896V41.1328Z" style="fill:var(--logo-ink)"/><path d="M75.077 46.7788V43.6323C75.077 41.9182 74.0652 40.9766 72.2811 40.9766C71.1423 40.9766 70.3567 41.1736 68.923 41.6088L69.3158 43.3374C70.6225 42.7475 71.1979 42.4949 71.8023 42.4949C72.5324 42.4949 72.8564 43.0147 72.8564 43.8162V43.8717C70.313 44.3492 69.5261 44.6163 69.0354 45.1083C68.6704 45.4734 68.5156 45.9932 68.5156 46.5976C68.5156 48.0445 69.6398 48.8169 70.6926 48.8169C71.4796 48.8169 72.1118 48.522 72.9688 47.8752L73.1235 48.6622H75.3429L75.077 46.7788ZM72.8577 46.8357C72.2678 47.1584 71.9306 47.2853 71.5378 47.2853C71.0034 47.2853 70.6662 46.9335 70.6662 46.3727C70.6662 46.1625 70.7085 45.9508 70.8765 45.7829C71.1436 45.5157 71.6634 45.3186 72.8577 45.0383V46.8357Z" style="fill:var(--logo-ink)"/><path d="M65.3128 40.9766C64.4981 40.9766 63.8658 41.286 63.149 41.8759V41.1313H60.9297V51.0494H63.149V48.5907C63.5709 48.7032 63.9637 48.76 64.4412 48.76C66.4224 48.76 68.2066 47.2986 68.2066 44.6997C68.2066 42.3679 66.9144 40.9766 65.3128 40.9766ZM63.9069 47.3687C63.6542 47.3687 63.4148 47.3409 63.1477 47.2562V43.1827C63.6119 42.8599 63.9902 42.7052 64.4676 42.7052C65.2969 42.7052 65.9569 43.3652 65.9569 44.7711C65.9582 46.5685 64.9887 47.3687 63.9069 47.3687Z" style="fill:var(--logo-ink)"/><path d="M38.7592 37.2539H29.2431C28.0039 37.2539 27 38.267 27 39.5155V49.1123C27 50.3608 28.0039 51.3739 29.2431 51.3739H38.7592C39.9985 51.3739 41.001 50.3608 41.001 49.1123V39.5155C41.0023 38.2657 39.9985 37.2539 38.7592 37.2539Z" fill="#1677FF"/><path d="M38.5261 46.1202C37.9667 45.9311 37.2141 45.6414 36.3769 45.3359C36.8795 44.4537 37.2816 43.4499 37.5461 42.3587H34.7858V41.3562H38.1664V40.7968H34.7858V39.125H33.4064C33.1643 39.125 33.1643 39.3657 33.1643 39.3657V40.7954H29.7454V41.3549H33.1643V42.3574H30.3406V42.9169H35.8161C35.6164 43.6126 35.3466 44.2673 35.0279 44.8611C33.2516 44.2699 31.355 43.7911 30.1647 44.0861C29.4029 44.2752 28.9122 44.6124 28.6238 44.9669C27.3013 46.5897 28.2496 49.055 31.0429 49.055C32.6948 49.055 34.2859 48.1266 35.5185 46.5963C37.3583 47.4878 40.9994 49.0193 40.9994 49.0193V46.8371C41.0007 46.8371 40.5431 46.8 38.5261 46.1202ZM30.7823 48.112C28.604 48.112 27.9599 46.3821 29.0365 45.4351C29.3962 45.115 30.0523 44.959 30.4014 44.9246C31.6949 44.7963 32.8932 45.2936 34.307 45.9893C33.3138 47.296 32.048 48.112 30.7823 48.112Z" fill="white"/><path d="M49.9442 38.7578H46.9657L43.6367 48.6627H45.6881L46.2502 46.7238H49.7762L50.3105 48.6627H52.9372L49.9442 38.7578ZM46.7131 45.1076L48.033 40.542H48.0886L49.3384 45.1076H46.7131Z" style="fill:var(--logo-ink)"/><path d="M56.0553 38.4062H53.8359V48.6617H56.0553V38.4062Z" style="fill:var(--logo-ink)"/><path d="M57.4023 39.3197C57.4023 40.0498 57.9367 40.5418 58.6813 40.5418C59.4259 40.5418 59.9602 40.0498 59.9602 39.3197C59.9602 38.6029 59.4259 38.0977 58.6813 38.0977C57.9367 38.0977 57.4023 38.6029 57.4023 39.3197Z" fill="#1677FF"/></svg><span class="visually-hidden">Alipay</span></li>
+        <li title="Google Pay"><svg width="39.5" height="16.5" viewBox="29.6 35.1 50.8 21.2"><path d="M74.9932 48.6348H75.0283L77.9473 41.3086H79.999L73.6924 55.9971H71.7461L74.0908 50.8584L69.9521 41.3086H72.0039L74.9932 48.6348ZM65.1221 40.9756C66.5171 40.9756 67.6198 41.3562 68.4287 42.1055C69.2374 42.8547 69.6357 43.9017 69.6357 45.2217V51.5127H67.8301V50.0977H67.748C66.9626 51.2631 65.9311 51.8457 64.6299 51.8457C63.528 51.8457 62.5901 51.5127 61.8516 50.8467C61.1249 50.2283 60.7149 49.3128 60.7383 48.3496C60.7383 47.2912 61.1366 46.4585 61.9219 45.8281C62.7073 45.1978 63.7624 44.8887 65.0752 44.8887C66.2005 44.8887 67.115 45.1026 67.8418 45.5068V45.0664C67.8417 44.4124 67.5606 43.7943 67.0684 43.3662C66.5643 42.9143 65.9192 42.6641 65.251 42.6641C64.1961 42.6642 63.3634 43.1167 62.7539 44.0205L61.0898 42.9619C61.9807 41.6418 63.3286 40.9757 65.1221 40.9756ZM56.1777 36.5986C57.3851 36.5749 58.5573 37.0384 59.4131 37.8945C61.1247 39.512 61.2301 42.236 59.624 43.9844L59.4131 44.1982C58.5339 45.0427 57.4555 45.4707 56.1777 45.4707H53.0596V51.5127H51.1719V36.5986H56.1777ZM65.3691 46.4346C64.6071 46.4346 63.9621 46.6245 63.4463 46.9932C62.9422 47.3618 62.6846 47.8259 62.6846 48.3848C62.6846 48.8843 62.9188 49.3483 63.3057 49.6338C63.7278 49.9668 64.2439 50.1457 64.7715 50.1338C65.5687 50.1337 66.3308 49.8121 66.8936 49.2412C67.5149 48.6466 67.8311 47.9445 67.8311 47.1357C67.2448 46.6603 66.4241 46.4227 65.3691 46.4346ZM53.0596 43.6396H56.2256C56.929 43.6633 57.6092 43.3776 58.0898 42.8662C59.0744 41.8316 59.0508 40.167 58.0312 39.168C57.5506 38.6923 56.9055 38.4298 56.2256 38.4297H53.0596V43.6396Z" style="fill:var(--logo-ink)"/><path d="M46.546 44.1661C46.546 43.5834 46.4991 43.0006 46.4053 42.4297H38.4453V45.7242H43.0056C42.818 46.7827 42.2084 47.7342 41.3175 48.3289V50.4697H44.0372C45.6316 48.983 46.546 46.7827 46.546 44.1661Z" fill="#4285F4"/><path d="M38.4442 52.5392C40.7185 52.5392 42.6411 51.778 44.0361 50.4697L41.3164 48.3289C40.5544 48.8522 39.5814 49.1496 38.4442 49.1496C36.2403 49.1496 34.3763 47.6391 33.7081 45.6172H30.9062V47.8294C32.3365 50.7195 35.2555 52.5392 38.4442 52.5392Z" fill="#34A853"/><path d="M33.708 45.6157C33.3563 44.5572 33.3563 43.4035 33.708 42.3331V40.1328H30.9058C29.6981 42.5472 29.6981 45.4016 30.9058 47.816L33.708 45.6157Z" fill="#FBBC04"/><path d="M38.4442 38.8003C39.6517 38.7765 40.8123 39.2404 41.6798 40.0848L44.0948 37.6348C42.559 36.1838 40.5427 35.3869 38.4442 35.4107C35.2555 35.4107 32.3365 37.2423 30.9062 40.1324L33.7081 42.3446C34.3763 40.3108 36.2403 38.8003 38.4442 38.8003Z" fill="#EA4335"/></svg><span class="visually-hidden">Google Pay</span></li>
+        <li title="Apple Pay"><svg width="39.0" height="16.5" viewBox="29.6 33.6 50.8 21.5"><path d="M36.6924 37.8659C37.6325 37.9452 38.5726 37.3901 39.1601 36.6863C39.7379 35.9627 40.1198 34.9913 40.0219 34C39.1895 34.0397 38.1613 34.5551 37.5737 35.2787C37.0352 35.9032 36.5749 36.9143 36.6924 37.8659ZM47.8755 50.6333V35.1796H53.6041C56.5615 35.1796 58.6277 37.2414 58.6277 40.2548C58.6277 43.2683 56.5223 45.3499 53.5258 45.3499H50.2453V50.6333H47.8755ZM40.012 38.0542C39.1838 38.006 38.4281 38.3064 37.8177 38.549C37.4249 38.7051 37.0923 38.8373 36.8392 38.8373C36.5552 38.8373 36.2089 38.6981 35.82 38.5417L35.82 38.5417L35.82 38.5417L35.82 38.5417C35.3104 38.3368 34.7278 38.1025 34.1169 38.1137C32.7166 38.1335 31.4142 38.9365 30.6993 40.2152C29.2304 42.7726 30.3174 46.5593 31.7373 48.6409C32.4326 49.6718 33.265 50.8018 34.3617 50.7622C34.8442 50.7438 35.1913 50.5947 35.5505 50.4404C35.9641 50.2628 36.3937 50.0782 37.0645 50.0782C37.712 50.0782 38.1228 50.2579 38.5172 50.4305C38.8921 50.5945 39.2522 50.752 39.7868 50.7424C40.9227 50.7225 41.6376 49.7115 42.3328 48.6806C43.0831 47.5741 43.4129 46.4943 43.4629 46.3304L43.4688 46.3114C43.4676 46.3102 43.4583 46.3059 43.4419 46.2984C43.1911 46.1821 41.274 45.2937 41.2557 42.9114C41.2372 40.9118 42.7762 39.8987 43.0185 39.7392C43.0332 39.7295 43.0432 39.723 43.0477 39.7196C42.0684 38.2525 40.5408 38.0939 40.012 38.0542ZM62.9561 50.7523C64.4445 50.7523 65.8253 49.989 66.452 48.7797H66.501V50.6333H68.6945V42.9412C68.6945 40.7108 66.9318 39.2735 64.2193 39.2735C61.7026 39.2735 59.842 40.7307 59.7735 42.733H61.9083C62.0845 41.7814 62.9561 41.1569 64.1508 41.1569C65.6 41.1569 66.4128 41.8409 66.4128 43.0998V43.9522L63.4555 44.1307C60.7038 44.2992 59.2153 45.4391 59.2153 47.4217C59.2153 49.424 60.7527 50.7523 62.9561 50.7523ZM63.5924 48.9185C62.3292 48.9185 61.5262 48.3039 61.5262 47.3622C61.5262 46.3908 62.2998 45.8257 63.7785 45.7365L66.4127 45.568V46.4403C66.4127 47.8876 65.1984 48.9185 63.5924 48.9185ZM75.9702 51.238C75.0204 53.9442 73.9334 54.8363 71.6224 54.8363C71.4461 54.8363 70.8585 54.8165 70.7214 54.7768V52.9232C70.8683 52.943 71.2307 52.9628 71.4167 52.9628C72.4645 52.9628 73.0521 52.5167 73.4144 51.357L73.6298 50.673L69.6149 39.4222H72.0924L74.8833 48.5517H74.9322L77.7231 39.4222H80.1321L75.9702 51.238ZM50.2451 37.2018H52.9772C55.0336 37.2018 56.2087 38.312 56.2087 40.2648C56.2087 42.2175 55.0336 43.3377 52.9674 43.3377H50.2451V37.2018Z" fill-rule="evenodd" clip-rule="evenodd" style="fill:var(--logo-ink)"/></svg><span class="visually-hidden">Apple Pay</span></li>
+        <li title="Visa"><svg width="32.1" height="10.4" viewBox="28.8 36.8 49.4 16.0"><path d="M41.2505 52.5165H37.0099L33.8299 40.3847C33.679 39.8267 33.3585 39.3333 32.8871 39.1008C31.7106 38.5165 30.4142 38.0514 29 37.8169V37.3498H35.8313C36.7742 37.3498 37.4813 38.0514 37.5991 38.8663L39.2491 47.6173L43.4877 37.3498H47.6104L41.2505 52.5165ZM49.9675 52.5165H45.9626L49.2604 37.3498H53.2653L49.9675 52.5165ZM58.4467 41.5514C58.5646 40.7346 59.2717 40.2675 60.0967 40.2675C61.3931 40.1502 62.8052 40.3848 63.9838 40.9671L64.6909 37.7016C63.5123 37.2345 62.216 37 61.0395 37C57.1524 37 54.3239 39.1008 54.3239 42.0165C54.3239 44.2346 56.3274 45.3992 57.7417 46.1008C59.2717 46.8004 59.861 47.2675 59.7431 47.9671C59.7431 49.0165 58.5646 49.4836 57.3881 49.4836C55.9739 49.4836 54.5596 49.1338 53.2653 48.5494L52.5582 51.8169C53.9724 52.3992 55.5025 52.6338 56.9167 52.6338C61.2752 52.749 63.9838 50.6502 63.9838 47.5C63.9838 43.5329 58.4467 43.3004 58.4467 41.5514V41.5514ZM78 52.5165L74.82 37.3498H71.4044C70.6972 37.3498 69.9901 37.8169 69.7544 38.5165L63.8659 52.5165H67.9887L68.8116 50.3004H73.8772L74.3486 52.5165H78ZM71.9936 41.4342L73.1701 47.1502H69.8723L71.9936 41.4342Z" fill-rule="evenodd" clip-rule="evenodd" style="fill:var(--logo-ink)"/></svg><span class="visually-hidden">Visa</span></li>
+        <li title="Mastercard"><svg width="26.8" height="16.5" viewBox="32.8 29.8 45.4 28.0"><path d="M64.3525 30C71.8897 30 77.9998 36.181 78 43.8057C78 51.4305 71.8898 57.6123 64.3525 57.6123C60.9742 57.6123 57.8832 56.3694 55.5 54.3125C53.1168 56.3694 50.0258 57.6123 46.6475 57.6123C39.1102 57.6123 33 51.4305 33 43.8057C33.0002 36.181 39.1103 30 46.6475 30C50.0254 30 53.1169 31.2413 55.5 33.2979C57.8831 31.2413 60.9746 30 64.3525 30Z" fill="#ED0006"/><path d="M64.3525 30C71.8897 30 77.9998 36.181 78 43.8057C78 51.4305 71.8898 57.6123 64.3525 57.6123C60.9742 57.6123 57.8832 56.3694 55.5 54.3125C58.434 51.7802 60.2949 48.013 60.2949 43.8057C60.2948 39.5981 58.4344 35.8301 55.5 33.2979C57.8831 31.2413 60.9746 30 64.3525 30Z" fill="#F9A000"/><path d="M55.498 33.2969C58.4324 35.8291 60.293 39.5971 60.293 43.8047C60.293 48.0121 58.4321 51.7793 55.498 54.3115C52.564 51.7793 50.7031 48.012 50.7031 43.8047C50.7031 39.5971 52.5637 35.8291 55.498 33.2969Z" fill="#FF5E00"/></svg><span class="visually-hidden">Mastercard</span></li>
+      </ul>
+      <button id="askDonate" class="primary ask-donate"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor"/></svg>支持作者</button>
+    </div>
+    <div class="ask-minor">
+      <button id="askShare"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10V2M5 5l3-3 3 3M3.5 8v5.5h9V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>分享给朋友</b><small>复制链接</small></span></button>
+      <a id="askReview" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span><b>写评价</b><small>在 Chrome 应用商店</small></span></a>
+    </div>
+    <a id="askGithub" class="ask-gh" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>或者在 GitHub 上点个星</a>
+    <p class="ask-once">这个提示只会出现一次。</p>
+    <p id="askCopied" class="ask-thanks" hidden>链接已复制。发给可能用得上的人吧。</p>
+  </div>
+</body></html>

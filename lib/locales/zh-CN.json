@@ -693,5 +693,7 @@
   "Original language": "原始语言",
   "Fixes misheard words. The translation gets better too.": "修正听错的词。翻译也会更好。",
   "When done": "完成后",
-  "Notify me": "通知我"
+  "Notify me": "通知我",
+  "Alipay": "支付宝",
+  "QR code for the Alipay and card payment page": "支付宝和银行卡付款页面的二维码"
 }

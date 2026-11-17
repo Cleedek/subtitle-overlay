@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alipay support</title>
+  <style>
+    /* ---------- the mockup page (not for the extension) ---------- */
+    :root { color-scheme: dark; --page: oklch(0.13 0.008 290); --text: oklch(0.94 0.006 290); --muted: oklch(0.70 0.014 290); --line: oklch(0.29 0.012 290); }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px 24px 48px; background: var(--page); color: var(--text); font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .page-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 8px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 720px; }
+    .page-head button { font: inherit; color: var(--text); background: oklch(0.225 0.010 290); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+    .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 30px 0 4px; }
+    .sub { margin: 0 0 10px; color: var(--muted); max-width: 760px; }
+    .sub b { color: var(--text); font-weight: 600; }
+    .rules { margin-top: 32px; padding: 18px 20px; border-radius: 12px; background: oklch(0.185 0.008 290); box-shadow: 0 0 0 1px oklch(1 0 0 / .07); }
+    .rules h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 12px; }
+    .rules h2:not(:first-child) { margin-top: 22px; }
+    .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
+    .rules strong { color: var(--text); font-weight: 600; }
+    .rules .q { color: oklch(0.84 0.16 84); }
+    .rules table { width: 100%; border-collapse: collapse; color: var(--muted); }
+    .rules th, .rules td { text-align: left; vertical-align: top; padding: 7px 10px 7px 0; border-top: 1px solid var(--line); }
+    .rules th { color: var(--text); font-weight: 600; }
+    .rules code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); }
+    .toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 12px); opacity: 0; pointer-events: none; z-index: 50; padding: 8px 14px; border-radius: 999px; background: var(--text); color: var(--page); font-size: 12.5px; font-weight: 500; transition: opacity .2s, transform .2s; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+    
+    .rules code { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text); }
+    .pair { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+    .pair figure { margin: 0; }
+    .pair figcaption { font-size: 11.5px; color: var(--muted); margin: 0 0 6px; }
+    .pair iframe { display: block; width: 380px; border: 0; border-radius: 12px; box-shadow: 0 0 0 1px oklch(1 0 0 / .08); background: oklch(0.185 0.008 290); }
+    /* A stand-in for the video. */
+    .video {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+      background:
+        radial-gradient(60% 70% at 28% 60%, oklch(0.42 0.06 60 / .75), transparent 70%),
+        radial-gradient(50% 60% at 78% 30%, oklch(0.35 0.08 230 / .7), transparent 70%),
+        linear-gradient(180deg, oklch(0.2 0.02 250), oklch(0.12 0.01 260));
+    }
+    .video.small { width: 640px; max-width: 100%; }
+    .video::after { content: ""; position: absolute; inset: auto 0 0; height: 70px; background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+    .player-bar { position: absolute; inset: auto 14px 12px; z-index: 1; display: flex; align-items: center; gap: 10px; color: #fff; font-size: 12px; }
+    .player-bar .track { flex: 1; height: 4px; border-radius: 4px; background: rgba(255,255,255,.3); }
+    .player-bar .track span { display: block; width: 38%; height: 100%; border-radius: inherit; background: #f00; }
+    .subline { position: absolute; left: 50%; bottom: 54px; transform: translateX(-50%); z-index: 1; padding: 3px 10px; background: rgba(0,0,0,.72); color: #fff; font: 500 22px/1.3 system-ui, sans-serif; border-radius: 4px; white-space: nowrap; }
+    .video.small .subline { font-size: 17px; bottom: 46px; }
+    .corner { position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .langs { display: flex; flex-direction: column; gap: 2px; padding: 4px; background: rgba(20,20,20,.92); border-radius: 12px; color: #fff; font: 600 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .langs button { display: flex; align-items: center; gap: 8px; font: inherit; color: inherit; background: transparent; border: 0; border-radius: 8px; padding: 6px 8px 6px 10px; cursor: pointer; text-align: start; }
+    .langs .name { flex: 1; white-space: nowrap; }
+    .langs button[aria-checked=false] .name { opacity: .55; }
+    .langs .sw { position: relative; flex: none; width: 28px; height: 16px; border-radius: 999px; background: rgba(255,255,255,.28); }
+    .langs .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+    .langs button[aria-checked=true] .sw { background: #7a41e4; }
+    .langs button[aria-checked=true] .sw::after { transform: translateX(12px); }
+    .gone { padding: 7px 10px; border-radius: 10px; background: rgba(20,20,20,.92); color: rgba(255,255,255,.75); font: 500 12px/1.3 system-ui, sans-serif; display: flex; gap: 8px; align-items: center; }
+    .gone button { font: inherit; color: #fff; background: rgba(255,255,255,.14); border: 0; border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+
+    
+    /* The card: copied from content.js as it is live today. Only the logos picture differs for Chinese. */
+    .ask {
+      position: relative; display: flex; flex-direction: column; gap: 10px; width: 300px;
+      background: rgba(20,20,20,.92); padding: 14px 12px 10px; border-radius: 12px;
+      font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
+    }
+    .ask a, .ask button { font: inherit; color: #fff; text-decoration: none; cursor: pointer; }
+    .ask svg { flex: none; }
+    .ask .x { position: absolute; top: 8px; inset-inline-end: 8px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 7px; background: transparent; color: rgba(255,255,255,.6); }
+    .ask .x:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .ask .hello { display: flex; flex-direction: column; gap: 3px; padding-inline-end: 24px; }
+    .ask .hello strong { font-size: 14.5px; font-weight: 700; }
+    .ask .hello span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+    .ask .intro { margin: 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.12); font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+    .ask .tile { display: flex; flex-direction: column; gap: 10px; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); }
+    .ask .who { display: flex; align-items: flex-start; gap: 10px; }
+    .ask .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .ask .who div { display: flex; flex-direction: column; gap: 1px; line-height: 1.3; }
+    .ask .who strong { font-weight: 650; font-size: 13.5px; }
+    .ask .who span { font-size: 11.5px; color: rgba(255,255,255,.65); }
+    .ask .logos { display: block; width: 200px; height: auto; max-width: 100%; }
+    .ask .main { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 12px; border: 0; border-radius: 8px; background: #7c3aed; font-weight: 650; font-size: 13.5px; }
+    .ask .main:hover { background: #8b5cf6; }
+    .ask .main:active { transform: scale(.985); }
+    .ask .more { font-size: 11px; color: rgba(255,255,255,.6); }
+    .ask .minor { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .ask .minor > * { display: flex; align-items: center; gap: 8px; padding: 8px 9px; border: 0; border-radius: 9px; background: rgba(255,255,255,.1); text-align: start; }
+    .ask .minor > *:hover { background: rgba(255,255,255,.18); }
+    .ask .minor svg { color: rgba(255,255,255,.7); }
+    .ask .minor div { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+    .ask .minor b { font-weight: 600; font-size: 12.5px; }
+    .ask .minor small { font-size: 10.5px; color: rgba(255,255,255,.55); }
+    .ask .gh { display: inline-flex; align-items: center; justify-content: center; gap: 6px; align-self: center; padding: 2px 8px; border: 0; background: none; color: rgba(255,255,255,.65); font-size: 11.5px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
+    .ask .gh:hover { color: #fff; text-decoration-color: currentColor; }
+    .ask .once { margin: -2px 0 0; text-align: center; font-size: 10.5px; color: rgba(255,255,255,.5); }
+    .ask .compact { display: none; }
+    .ask.compact { width: 280px; padding: 10px; gap: 8px; }
+    .ask.compact > :not(.compact, .x) { display: none; }
+    .ask.compact .compact { display: flex; flex-direction: column; gap: 8px; }
+    .ask.compact .who { padding-inline-end: 22px; gap: 9px; }
+    .ask.compact .who img { width: 34px; height: 34px; }
+    .ask.compact .who strong { font-weight: 700; font-size: 13px; }
+    .ask.compact .main { padding: 7px 10px; font-size: 13px; }
+    .ask .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px 4px; font-size: 11.5px; color: rgba(255,255,255,.4); }
+    .ask .links > * { border: 0; background: none; padding: 1px 4px; border-radius: 5px; color: rgba(255,255,255,.75); font-size: 11.5px; }
+    .ask .links > :first-child { color: #fff; font-weight: 600; }
+    .ask .links > *:hover { background: rgba(255,255,255,.12); color: #fff; }
+
+    
+    .ask, .ask .who strong, .ask .hello strong { font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", sans-serif; }
+    .subline { font-family: system-ui, "PingFang SC", sans-serif; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>Alipay ve všech třech rozšířeních</h1>
+      <p>Postavené přímo ze stylů rozšíření (popup.css a karta z content.js), ne nakreslené znovu. Alipay vidí jen lidé s čínštinou (zh-CN); vede na tvůj Stripe odkaz. Všichni ostatní mají vše jako dnes.</p>
+    </div>
+  </div>
+
+  <div class="label">1 · Okno "Podpořit autora" (Subtitle Overlay, Edge Trim, Snap Translate)</div>
+  <p class="sub"><b>Čínsky:</b> nová první záložka <b>支付宝</b>, otevřená hned. Karta má přesně stavbu karty Ko-fi: QR, adresa, řada log, dvě odrážky, dvě tlačítka. Loga: Alipay, Google Pay, Apple Pay, Visa, Mastercard (PayPal ne, ten Stripe odkaz nebere). <b>Ostatní jazyky:</b> beze změny. Záložky jsou klikací.</p>
+  <div class="pair">
+    <figure><figcaption>Čínsky (zh-CN), nové</figcaption><iframe src="alipay-popup-zh.html" height="560" title="Chinese"></iframe></figure>
+    <figure><figcaption>Anglicky, jako dnes</figcaption><iframe src="alipay-popup-en.html" height="560" title="English"></iframe></figure>
+  </div>
+
+  <div class="label">2 · Karta na videu po splnění metrik (Subtitle Overlay)</div>
+  <p class="sub"><b>Čínsky:</b> karta beze změny, jen řádek log má Alipay na začátku a tlačítko 支持作者 otevře Stripe místo Ko-fi. <b>Kompaktní verze</b> pro malé video loga nemá, takže se tam mění jen kam tlačítko vede. Vlevo dnešní karta pro srovnání, vpravo čínská.</p>
+  <div class="video" id="v"></div>
+
+  <div class="label">3 · Karta v okně Edge Trim po 100 obrázcích</div>
+  <p class="sub">Edge Trim si loga bere z karty v "Podpořit autora", takže čínsky automaticky dostane ta samá s Alipay. Snap Translate takovou kartu nemá.</p>
+  <div class="pair"><figure><figcaption>Čínsky (zh-CN)</figcaption><iframe src="alipay-edge-trim-zh.html" height="480" title="Edge Trim"></iframe></figure></div>
+
+  <div class="rules">
+    <h2>Kdo Alipay uvidí</h2>
+    <ul>
+      <li><strong>Rozšíření nebo prohlížeč ve zjednodušené čínštině</strong> (zh-CN, a prohlížeč zh-HK). Jen podle jazyka, nikdy podle polohy, stejně jako dnes česká banka a VietQR.</li>
+      <li><strong>Tchajwanská čínština ne</strong> <span class="q">(návrh)</span>, tam má jen Ko-fi.</li>
+    </ul>
+    <h2>Odkaz a QR</h2>
+    <ul>
+      <li><code>buy.stripe.com/7sYdRa1FleEm97lbVecQU00</code>, QR kód je vygenerovaný ve stejném tečkovém stylu jako ostatní (<code>icons/support/qr-alipay.svg</code>).</li>
+      <li>Logo Alipay je z tvého SVG z Figmy, bez rámečku a bílé destičky, černé části se barví jako ostatní loga (bílé v tmavém, černé ve světlém režimu).</li>
+      <li><span class="q">Neověřeno:</span> jestli Stripe na tom odkazu nabídne i Google Pay. V tvém náhledu bylo Apple Pay, karta a Alipay; Google Pay se v Chromu obvykle ukazuje místo Apple Pay.</li>
+    </ul>
+  </div>
+</div>
+<script>
+  const PHOTO = '../icons/support/filip.jpg';
+  const heart = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13.5S2 10 2 6a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 4-6 7.5-6 7.5Z" fill="currentColor"/></svg>';
+  const x = '<button class="x" aria-label="Zavřít"><svg width="10" height="10" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3 3 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>';
+  const card = (zh) => `<div class="ask">${x}
+    <div class="hello"><strong>${zh ? '已翻译 25 个视频' : '25 videos translated'}</strong><span>${zh ? '共翻译了 9,380 行字幕，真棒！' : 'That’s 9,380 translated lines. Nice!'}</span></div>
+    <p class="intro">${zh ? 'Subtitle Overlay 由我一个人免费制作。任何支持都能帮助我继续给它应有的用心。' : 'I make Subtitle Overlay on my own, for free. Any support helps me keep giving it the care it deserves.'}</p>
+    <div class="tile">
+      <div class="who"><img src="${PHOTO}" alt=""><div><strong>${zh ? '随意给我打赏' : 'Send me any tip you like'}</strong><span>${zh ? '无需注册账户' : 'No account needed'}</span></div></div>
+      <img class="logos" src="../icons/support/${zh ? 'pay-logos-alipay-dark.svg' : 'pay-logos-dark.svg'}" alt="">
+      <button class="main">${heart}${zh ? '支持作者' : 'Support the creator'}</button>
+      <span class="more">${zh ? '更多付款方式在扩展程序窗口中' : 'More ways to pay in the extension popup'}</span>
+    </div>
+    <p class="once">${zh ? '这个提示只会出现一次。' : 'You’ll only see this once.'}</p></div>`;
+  document.getElementById('v').innerHTML = `<div class="subline">我们必须在天黑前回去。</div>
+    <div class="corner" style="flex-direction:row;align-items:flex-start;gap:14px">${card(false)}${card(true)}</div>`;
+</script>
+</body>
+</html>
