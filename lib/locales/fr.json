@@ -631,5 +631,7 @@
   "Finding": "Recherche",
   "automatic": "automatique",
   "sharing mine": "je partage les miens",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Bientôt :** des sous-titres pour les vidéos qui n'en ont pas. Un modèle gratuit sur votre ordinateur les transcrit à partir du son en arrière-plan, puis ils sont traduits dans la file"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Bientôt :** des sous-titres pour les vidéos qui n'en ont pas. Un modèle gratuit sur votre ordinateur les transcrit à partir du son en arrière-plan, puis ils sont traduits dans la file",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Sous Windows et Linux, **Plein écran avec sous-titres** est désormais **Alt + Entrée** et **Plus tôt / plus tard de 1 s** (**Alt + ,** / **Alt + .**), pour ne plus ouvrir le menu de Chrome ni changer la langue du clavier",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Les anciens fichiers de sous-titres en cyrillique, grec, turc, hébreu ou thaï s'affichent maintenant avec les bonnes lettres"
 }

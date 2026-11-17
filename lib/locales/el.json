@@ -631,5 +631,7 @@
   "Finding": "Αναζήτηση",
   "automatic": "αυτόματα",
   "sharing mine": "κοινοποιώ τους δικούς μου",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Έρχεται σύντομα:** υπότιτλοι για βίντεο που δεν έχουν. Ένα δωρεάν μοντέλο στον υπολογιστή σου τους γράφει από τον ήχο στο παρασκήνιο και μετά μεταφράζονται στην ουρά"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Έρχεται σύντομα:** υπότιτλοι για βίντεο που δεν έχουν. Ένα δωρεάν μοντέλο στον υπολογιστή σου τους γράφει από τον ήχο στο παρασκήνιο και μετά μεταφράζονται στην ουρά",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Σε Windows και Linux, η **Πλήρης οθόνη με υπότιτλους** είναι πλέον **Alt + Enter** και το **Νωρίτερα / αργότερα κατά 1 δευτ.** (**Alt + ,** / **Alt + .**), ώστε να μην ανοίγουν πια το μενού του Chrome ούτε να αλλάζουν τη γλώσσα του πληκτρολογίου",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Παλιά αρχεία υποτίτλων σε κυριλλικά, ελληνικά, τουρκικά, εβραϊκά ή ταϊλανδικά φορτώνουν πλέον με τα σωστά γράμματα"
 }

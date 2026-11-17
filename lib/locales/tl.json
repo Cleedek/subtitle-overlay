@@ -631,5 +631,7 @@
   "Finding": "Naghahanap",
   "automatic": "awtomatiko",
   "sharing mine": "ibinabahagi ang akin",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Malapit na:** subtitle para sa mga video na wala nito. Isusulat ito ng isang libreng model sa computer mo mula sa tunog sa background, saka isasalin sa pila"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Malapit na:** subtitle para sa mga video na wala nito. Isusulat ito ng isang libreng model sa computer mo mula sa tunog sa background, saka isasalin sa pila",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Sa Windows at Linux, ang **Fullscreen na may subtitles** ay **Alt + Enter** na at ang **Mas maaga / mas huli ng 1 s** ay **Alt + ,** / **Alt + .**, kaya hindi na nila binubuksan ang menu ng Chrome o pinapalitan ang wika ng keyboard",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Ang mga lumang subtitle file sa Cyrillic, Greek, Turkish, Hebrew o Thai ay naglo-load na ngayon nang may tamang mga titik"
 }

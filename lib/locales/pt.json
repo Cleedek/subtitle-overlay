@@ -631,5 +631,7 @@
   "Finding": "Busca",
   "automatic": "automática",
   "sharing mine": "compartilho as minhas",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Em breve:** legendas para vídeos que não têm. Um modelo gratuito no seu computador as escreve a partir do som em segundo plano, e depois elas são traduzidas na fila"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Em breve:** legendas para vídeos que não têm. Um modelo gratuito no seu computador as escreve a partir do som em segundo plano, e depois elas são traduzidas na fila",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "No Windows e no Linux, **Tela cheia com legendas** agora é **Alt + Enter** e **Antes / depois 1 s** (**Alt + ,** / **Alt + .**), para não abrirem mais o menu do Chrome nem trocarem o idioma do teclado",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Arquivos de legenda antigos em cirílico, grego, turco, hebraico ou tailandês agora carregam com as letras certas"
 }

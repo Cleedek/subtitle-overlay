@@ -631,5 +631,7 @@
   "Finding": "खोज",
   "automatic": "स्वचालित",
   "sharing mine": "मेरे साझा",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**जल्द आ रहा है:** बिना सबटाइटल वाले वीडियो के लिए भी सबटाइटल। आपके कंप्यूटर पर एक मुफ़्त मॉडल बैकग्राउंड में आवाज़ से उन्हें लिखेगा, फिर कतार में उनका अनुवाद होगा"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**जल्द आ रहा है:** बिना सबटाइटल वाले वीडियो के लिए भी सबटाइटल। आपके कंप्यूटर पर एक मुफ़्त मॉडल बैकग्राउंड में आवाज़ से उन्हें लिखेगा, फिर कतार में उनका अनुवाद होगा",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windows और Linux पर **सबटाइटल के साथ फ़ुलस्क्रीन** अब **Alt + Enter** है और **1 सेकंड पहले / बाद में** (**Alt + ,** / **Alt + .**), ताकि ये अब Chrome का मेनू न खोलें और कीबोर्ड की भाषा न बदलें",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "सिरिलिक, ग्रीक, तुर्की, हिब्रू या थाई में पुरानी सबटाइटल फ़ाइलें अब सही अक्षरों के साथ खुलती हैं"
 }

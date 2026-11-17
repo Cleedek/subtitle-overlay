@@ -631,5 +631,7 @@
   "Finding": "Søger",
   "automatic": "automatisk",
   "sharing mine": "deler mine",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Snart:** undertekster til videoer uden. En gratis model på din computer skriver dem ned fra lyden i baggrunden, og bagefter oversættes de i køen"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**Snart:** undertekster til videoer uden. En gratis model på din computer skriver dem ned fra lyden i baggrunden, og bagefter oversættes de i køen",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "På Windows og Linux er **Fuld skærm med undertekster** nu **Alt + Enter** og **1 s tidligere / senere** (**Alt + ,** / **Alt + .**), så de ikke længere åbner Chromes menu eller skifter tastatursprog",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Gamle undertekstfiler på kyrillisk, græsk, tyrkisk, hebraisk eller thai indlæses nu med de rigtige bogstaver"
 }

@@ -633,5 +633,7 @@
   "sharing mine": "共享我的",
   "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即將推出:** 為沒有字幕的影片產生字幕。你電腦上的免費模型會在背景根據聲音寫出字幕,然後在佇列中翻譯",
   "Alipay": "支付寶",
-  "QR code for the Alipay and card payment page": "支付寶和信用卡付款頁面的 QR 碼"
+  "QR code for the Alipay and card payment page": "支付寶和信用卡付款頁面的 QR 碼",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "在 Windows 和 Linux 上，**全螢幕並顯示字幕**現在是 **Alt + Enter**，**提早 / 延後 1 秒**是 **Alt + ,** / **Alt + .**，不會再開啟 Chrome 選單或切換鍵盤語言",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "西里爾文、希臘文、土耳其文、希伯來文或泰文的舊字幕檔現在能以正確的文字載入"
 }

@@ -631,5 +631,7 @@
   "Finding": "찾기",
   "automatic": "자동",
   "sharing mine": "내 자막 공유",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**곧 출시:** 자막이 없는 동영상에도 자막을. 컴퓨터의 무료 모델이 백그라운드에서 소리를 듣고 받아 적은 뒤 대기열에서 번역합니다"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**곧 출시:** 자막이 없는 동영상에도 자막을. 컴퓨터의 무료 모델이 백그라운드에서 소리를 듣고 받아 적은 뒤 대기열에서 번역합니다",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windows와 Linux에서 **자막과 함께 전체 화면**은 이제 **Alt + Enter**, **1초 빠르게 / 느리게**는 **Alt + ,** / **Alt + .**이므로 더 이상 Chrome 메뉴가 열리거나 키보드 언어가 바뀌지 않습니다",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "키릴 문자, 그리스어, 터키어, 히브리어, 태국어로 된 오래된 자막 파일도 이제 올바른 글자로 열립니다"
 }
