@@ -191,6 +191,7 @@ function cut(upTo) {
 // and stays in the browser's cache; nothing of the sound leaves the computer.
 const MAX_QUEUE = 6;
 const NO_GPU = { id: 'onnx-community/whisper-base', device: 'wasm', dtype: { encoder_model: 'q8', decoder_model_merged: 'q8' } };
+const NO_F16 = { id: 'onnx-community/whisper-large-v3-turbo', device: 'webgpu', dtype: { encoder_model: 'q4', decoder_model_merged: 'q4' } };
 let picked = { id: 'onnx-community/whisper-large-v3-turbo', enc: 'q4f16', dec: 'q4f16' };
 const queue = [];
 let whisper = null; // Promise of the pipeline
@@ -213,8 +214,13 @@ function loadWhisper(tabId) {
     env.backends.onnx.wasm.wasmPaths = { mjs: dir + 'ort-wasm-simd-threaded.asyncify.mjs', wasm: dir + 'ort-wasm-simd-threaded.asyncify.wasm' };
     env.allowLocalModels = false;
     env.useWasmCache = false; // it comes with the extension: nothing to cache (and the cache refuses chrome-extension:// addresses)
-    const gpu = !!(navigator.gpu && await navigator.gpu.requestAdapter().catch(() => null));
-    const m = gpu ? { id: picked.id, device: 'webgpu', dtype: { encoder_model: picked.enc, decoder_model_merged: picked.dec } } : NO_GPU;
+    const adapter = navigator.gpu && await navigator.gpu.requestAdapter().catch(() => null);
+    const m = !adapter ? NO_GPU
+      // All three picks need half-precision numbers (fp16), which some graphics
+      // chips lack, often older built-in ones on Windows. Those get the same
+      // model squeezed without them (about 760 MB).
+      : !adapter.features.has('shader-f16') ? NO_F16
+        : { id: picked.id, device: 'webgpu', dtype: { encoder_model: picked.enc, decoder_model_merged: picked.dec } };
     const files = new Map(); // file -> [loaded, total]
     let shown = -1;
     const progress = (p) => {
@@ -228,9 +234,17 @@ function loadWhisper(tabId) {
         chrome.runtime.sendMessage({ type: 'live-progress', tabId, pct, mb: Math.round(total / 1e6) }).catch(() => {});
       }
     };
-    const pipe = await pipeline('automatic-speech-recognition', m.id, { device: m.device, dtype: m.dtype, progress_callback: progress });
-    if (m.device === 'webgpu') dropOtherModels(m); // not after the fallback: it would delete the real model
-    chrome.runtime.sendMessage({ type: 'live-progress', tabId, ready: true, model: m.id.split('/').pop() }).catch(() => {});
+    let pipe, used = m;
+    try {
+      pipe = await pipeline('automatic-speech-recognition', m.id, { device: m.device, dtype: m.dtype, progress_callback: progress });
+    } catch (e) {
+      // The no-fp16 model on a chip that can't run it either: the processor can.
+      if (m !== NO_F16) throw e;
+      used = NO_GPU;
+      pipe = await pipeline('automatic-speech-recognition', NO_GPU.id, { device: NO_GPU.device, dtype: NO_GPU.dtype, progress_callback: progress });
+    }
+    if (used === m && m.device === 'webgpu') dropOtherModels(m); // not after the fallback: it would delete the real model
+    chrome.runtime.sendMessage({ type: 'live-progress', tabId, ready: true, model: used.id.split('/').pop() }).catch(() => {});
     return pipe;
   })();
   mine.catch(() => { if (whisper === mine) whisper = null; });
