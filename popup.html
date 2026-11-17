@@ -320,8 +320,7 @@
             <div class="setting">
               <div class="setting-head"><span class="setting-label">Show as a second line</span><label class="toggle"><input id="audioSecond" type="checkbox" role="switch" aria-label="Show what was said as a second line"><span></span></label></div>
             </div>
-            <p class="group">When done</p>
-            <div class="setting">
+            <div class="setting group-start">
               <div class="setting-head"><span class="setting-label">Notify me</span><label class="toggle"><input id="audioNotify" type="checkbox" role="switch" aria-label="Notify me when ready"><span></span></label></div>
             </div>
           </div>
@@ -458,12 +457,17 @@
                 <select id="aiModel" class="compact"></select>
               </div>
               <p id="aiMsg" class="hint" hidden></p>
+              <!-- A line above each group, none inside it (like Subtitles from audio). -->
+              <div class="ai-group">
               <div class="setting-head"><span class="setting-label">AI messages</span><label class="toggle"><input id="aiNotices" type="checkbox" role="switch" aria-label="AI messages"><span></span></label></div>
               <p class="hint">Says over the video when the AI starts and finishes improving. Problems always show.</p>
+              </div>
+              <div class="ai-group">
               <div class="setting-head"><span class="setting-label">Save improved subtitles</span><label class="toggle"><input id="aiSaveFile" type="checkbox" role="switch" aria-label="Save improved subtitles"><span></span></label></div>
               <p class="hint">When the AI finishes, the improved .srt goes to your Downloads folder.</p>
               <div class="setting-head"><label for="keepFor" class="setting-label">Keep improved subtitles</label><select id="keepFor" class="compact"></select></div>
               <p class="hint">Stores them in the extension, under Saved subtitles. Nothing is downloaded.</p>
+              </div>
             </div>
           </div>
         </details>
@@ -479,9 +483,12 @@
           <div class="setting-head"><span class="setting-label">Use shared automatically</span><label class="toggle"><input id="shareAuto" type="checkbox" role="switch" aria-label="Use shared automatically"><span></span></label></div>
           <p class="hint">No click on Use. Google’s version is always one click away.</p>
         </div>
+        <div class="ai-group">
         <div class="setting-head"><span class="setting-label">Share my improved subtitles</span><label class="toggle"><input id="shareMine" type="checkbox" role="switch" aria-label="Share my improved subtitles"><span></span></label></div>
         <p class="hint">Only finished versions from a local model with 12B or more, or from a paid one.</p>
-        <p class="hint share-count" id="shareCountRow" hidden><span id="shareCountText"></span> <button type="button" class="ls-link" id="shareDelete">Delete my shared subtitles</button></p>
+        </div>
+        <!-- What you've shared, with the one thing you can do about it. Same strip as the AI status. -->
+        <p class="info-strip share-count" id="shareCountRow" hidden><span id="shareCountText"></span><button type="button" class="danger-link" id="shareDelete" aria-label="Delete my shared subtitles">Delete</button></p>
         </div>
         </details>
       </div>

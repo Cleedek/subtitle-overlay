@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="cs" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folds: audio, sharing, AI settings</title>
+<!-- The real popup styles, so every variant looks exactly like the extension. -->
+<link rel="stylesheet" href="../popup.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  body { width: auto; padding: 32px 24px 64px; background: oklch(0.13 0.006 290); }
+  :root[data-theme="light"] body { background: oklch(0.92 0.004 290); }
+  .doc { max-width: 1700px; margin: 0 auto; }
+  .doc > h1 { font-size: 22px; margin: 0 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 24px; max-width: 90ch; }
+  .switch-theme { float: right; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .col { width: 380px; display: flex; flex-direction: column; gap: 8px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .why { color: var(--muted); font-size: 12px; margin: 0; min-height: 64px; }
+  .popup { background: var(--bg); border-radius: 12px; padding: 14px 16px 16px; box-shadow: 0 0 0 1px var(--line); display: flex; flex-direction: column; gap: 12px; }
+
+  /* ---------- shared by all three proposals: variant A everywhere ---------- */
+  /* Rows padded the same in every fold; a line only above a group, never inside one. */
+  .p .ai-body { gap: 0; padding: 0 12px 12px; }
+  .p .ai-body > .hint.intro { margin: 0 0 4px; font-size: 11.5px; color: var(--faint); }
+  .p .settings .setting { padding: 10px 0; gap: 8px; }
+  .p .settings .setting + .setting { border-top: 0; padding-top: 2px; }
+  .p .settings .setting .hint { margin: -4px 0 0; font-size: 11.5px; color: var(--faint); }
+  .p .settings .gl { border-top: 1px solid var(--line); margin-top: 4px; }
+  .p .settings .gl:first-child { border-top: 0; margin-top: 0; }
+  .p .settings .gl + .setting { padding-top: 12px; }
+  .p .settings .group { margin: 0; padding-top: 14px; }
+  .p .settings .group + .setting { padding-top: 6px; }
+  .p .settings .gl > .group { padding-top: 14px; }
+  .p input[type=text] { width: 100%; }
+  .p .field-label { color: var(--text); font-weight: 500; }
+  .p .ok-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: oklch(0.72 0.15 150); }
+  .p .status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .p .danger-btn { padding: 4px 10px; font-size: 12px; color: var(--danger); }
+  .p .danger-link { padding: 0; border: 0; background: none; color: var(--danger); font-size: inherit; }
+  .p .danger-link:hover { background: none; text-decoration: underline; }
+  .p .count { color: var(--muted); font-size: 12px; }
+
+  /* 3: status and housekeeping in a quiet strip, the settings stay pure rows. */
+  .strip { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; padding: 8px 10px; border-radius: 8px; background: var(--panel); font-size: 12px; color: var(--muted); }
+  .strip > :last-child { margin-inline-start: auto; }
+  .strip.foot { margin: 8px 0 0; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <button class="switch-theme" id="theme" type="button">Light / dark</button>
+  <h1>Rozbalovací boxy: Subtitles from audio, Sharing, AI settings</h1>
+  <p class="lead">Všechny tři návrhy drží pravidlo z varianty A: čára jen mezi skupinami, nikdy uvnitř skupiny, stejné odsazení řádků a nápověd ve všech třech boxech. Liší se v tom, jestli skupiny mají jméno a kam patří stav (připojeno) a úklid (smazat sdílené). Vlevo je to, co je teď.</p>
+  <div class="row" id="row"></div>
+</div>
+
+<script>
+const toggle = (on) => `<label class="toggle"><input type="checkbox" role="switch"${on ? ' checked' : ''}><span></span></label>`;
+const row = (label, right, hint) => `<div class="setting"><div class="setting-head"><span class="setting-label">${label}</span>${right}</div>${hint ? `<p class="hint">${hint}</p>` : ''}</div>`;
+const sel = (v) => `<select class="compact"><option>${v}</option></select>`;
+const fold = (title, body) => `<details class="ai-details p" open><summary><span>${title}</span></summary><div class="ai-body">${body}</div></details>`;
+// A group: a line above (except the first) and an optional name.
+const group = (name, rows) => `<div class="gl">${name ? `<p class="group">${name}</p>` : ''}</div>${rows}`;
+
+const H = {
+  find: 'Looks for a version someone already improved and shared. Only the start of the subtitles’ fingerprint is sent, never the page or the video.',
+  auto: 'No click on Use. Google’s version is always one click away.',
+  mine: 'Only finished versions from a local model with 12B or more, or from a paid one.',
+  port: 'Ollama uses port 11434, LM Studio uses port 1234 (turn its server on first).',
+  msgs: 'Says over the video when the AI starts and finishes improving. Problems always show.',
+  save: 'When the AI finishes, the improved .srt goes to your Downloads folder.',
+  keep: 'Stores them in the extension, under Saved subtitles. Nothing is downloaded.',
+};
+
+const audio = (named) => fold('Subtitles from audio', `
+  <p class="hint intro">Plays muted in this tab, start to end. Use other tabs meanwhile.</p>
+  <div class="settings">
+    ${group(named ? 'Speech' : '', row('Speech model', sel('Most accurate · 1.9 GB'), 'Runs on this computer. About 89 of 100 words right.'))}
+    ${group('🇻🇳 Vietnamese', row('Improve with AI', toggle(true)))}
+    ${group('Original language', row('Improve with AI', toggle(true), 'Fixes misheard words. The translation gets better too.') + row('Show as a second line', toggle(false)))}
+    ${group(named ? 'When done' : '', row('Notify me', toggle(false)))}
+  </div>`);
+
+const server = `<div class="setting"><span class="field-label">Server address</span><input type="text" value="http://localhost:11434"><p class="hint">${H.port}</p></div>`;
+
+const variants = [
+  {
+    tag: 'Teď',
+    why: 'Audio už je ve variantě A. Sharing a AI settings: řádky bez čar a bez skupin, stav s šedou tečkou nahoře, smazání jako podtržený odkaz odsazený pod poslední nápovědou.',
+    now: true,
+  },
+  {
+    tag: '1 · Skupiny se jménem',
+    why: 'Stejně jako Subtitles from audio: každá skupina má malý nadpis a čáru nad sebou. Sdílené titulky jsou vlastní řádek s počtem a tlačítkem Delete. Nejvíc konzistentní, ale nejvíc nadpisů.',
+    html: () => audio(true) + fold('Sharing subtitles', `<div class="settings">
+        ${group('From others', row('Find subtitles from others', toggle(true), H.find) + row('Use shared automatically', toggle(false), H.auto))}
+        ${group('Yours', row('Share my improved subtitles', toggle(true), H.mine) + row('Shared so far', `<span class="count">3 subtitles</span><button class="danger-btn" type="button">Delete</button>`.replace('<span', '<span style="margin-inline-start:auto"') ))}
+      </div>`) + fold('AI settings', `<div class="settings">
+        ${group('Connection', `<div class="setting"><div class="status"><span class="ok-dot"></span>Connected to Ollama</div></div>` + server + row('Model', sel('gemma3:12b')))}
+        ${group('Over the video', row('AI messages', toggle(true), H.msgs))}
+        ${group('Improved subtitles', row('Save to Downloads', toggle(false), H.save) + row('Keep in the extension', sel('Forever'), H.keep))}
+      </div>`),
+  },
+  {
+    tag: '2 · Skupiny bez jména',
+    why: 'Čáry dělí skupiny, nadpis jen tam, kde nese informaci (jazyk). Méně textu. Smazání je tichý červený odkaz přímo v nápovědě u „Share my improved“, kam logicky patří.',
+    html: () => audio(false) + fold('Sharing subtitles', `<div class="settings">
+        ${group('', row('Find subtitles from others', toggle(true), H.find) + row('Use shared automatically', toggle(false), H.auto))}
+        ${group('', row('Share my improved subtitles', toggle(true), H.mine + ' <br><span class="count">You’ve shared 3.</span> <button class="danger-link" type="button">Delete them</button>'))}
+      </div>`) + fold('AI settings', `<div class="settings">
+        ${group('', `<div class="setting"><div class="setting-head"><span class="setting-label">Server address</span><span class="status"><span class="ok-dot"></span>Connected</span></div><input type="text" value="http://localhost:11434"><p class="hint">${H.port}</p></div>` + row('Model', sel('gemma3:12b')))}
+        ${group('', row('AI messages', toggle(true), H.msgs))}
+        ${group('', row('Save improved subtitles', toggle(false), H.save) + row('Keep improved subtitles', sel('Forever'), H.keep))}
+      </div>`),
+  },
+  {
+    tag: '3 · Stav nahoře, úklid dole',
+    why: 'Nastavení jsou čisté řádky jako v 2. Stav připojení je tichý pruh nahoře v AI settings, sdílené titulky pruh dole v Sharing. Stejný prvek pro „informaci + jednu akci“ v obou boxech.',
+    html: () => audio(false) + fold('Sharing subtitles', `<div class="settings">
+        ${group('', row('Find subtitles from others', toggle(true), H.find) + row('Use shared automatically', toggle(false), H.auto))}
+        ${group('', row('Share my improved subtitles', toggle(true), H.mine))}
+      </div><div class="strip foot"><span>You’ve shared 3 subtitles</span><button class="danger-link" type="button">Delete</button></div>`) + fold('AI settings', `
+      <div class="strip"><span class="ok-dot"></span><span>Connected to Ollama</span><span></span></div>
+      <div class="settings">
+        ${group('', server + row('Model', sel('gemma3:12b')))}
+        ${group('', row('AI messages', toggle(true), H.msgs))}
+        ${group('', row('Save improved subtitles', toggle(false), H.save) + row('Keep improved subtitles', sel('Forever'), H.keep))}
+      </div>`),
+  },
+];
+
+// "Now": the real markup from popup.html, unchanged.
+const nowHtml = `
+<details class="ai-details" id="audioDetails" open><summary><span>Subtitles from audio</span></summary><div class="ai-body">
+  <p class="hint audio-how">Plays muted in this tab, start to end. Use other tabs meanwhile.</p>
+  <div class="settings audio-settings">
+    <div class="setting"><div class="setting-head"><label class="setting-label">Speech model</label>${sel('Most accurate · 1.9 GB')}</div><p class="hint">Runs on this computer. About 89 of 100 words right.</p></div>
+    <p class="group">🇻🇳 Vietnamese</p>${row('Improve with AI', toggle(true))}
+    <p class="group">Original language</p>${row('Improve with AI', toggle(true), 'Fixes misheard words. The translation gets better too.')}${row('Show as a second line', toggle(false))}
+    <p class="group">When done</p>${row('Notify me', toggle(false))}
+  </div></div></details>
+<div class="setting" style="padding:0"><details class="ai-details" open><summary><span>Sharing subtitles</span></summary><div class="ai-body share-body">
+  <div class="setting-head"><span class="setting-label">Find subtitles from others</span>${toggle(true)}</div><p class="hint">${H.find}</p>
+  <div class="share-sub"><div class="setting-head"><span class="setting-label">Use shared automatically</span>${toggle(false)}</div><p class="hint">${H.auto}</p></div>
+  <div class="setting-head"><span class="setting-label">Share my improved subtitles</span>${toggle(true)}</div><p class="hint">${H.mine}</p>
+  <p class="hint share-count"><span>Shared: 3</span> <button type="button" class="ls-link">Delete my shared subtitles</button></p>
+</div></details></div>
+<div class="setting" style="padding:0"><details class="ai-details" open><summary><span>AI settings</span></summary><div class="ai-body">
+  <div class="ai-status" role="status"><span class="dot"></span><span></span><button type="button" class="ghost">Try again</button></div>
+  <div class="ai-fields"><label class="label">Server address</label><input type="text" value="http://localhost:11434"><p class="hint">${H.port}</p></div>
+  <div class="ai-fields">
+    <div class="setting-head"><label class="setting-label">Model</label>${sel('gemma3:12b')}</div>
+    <div class="setting-head"><span class="setting-label">AI messages</span>${toggle(true)}</div><p class="hint">${H.msgs}</p>
+    <div class="setting-head"><span class="setting-label">Save improved subtitles</span>${toggle(false)}</div><p class="hint">${H.save}</p>
+    <div class="setting-head"><label class="setting-label">Keep improved subtitles</label>${sel('Forever')}</div><p class="hint">${H.keep}</p>
+  </div>
+</div></details></div>`;
+
+document.getElementById('row').innerHTML = variants.map(v => `
+  <div class="col"><span class="tag">${v.tag}</span><p class="why">${v.why}</p>
+  <div class="popup">${v.now ? nowHtml : v.html()}</div></div>`).join('');
+
+document.getElementById('theme').addEventListener('click', () => {
+  const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'light' ? 'dark' : 'light';
+});
+</script>
+</body>
+</html>
