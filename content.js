@@ -2221,9 +2221,9 @@
   // Under the language switches, once SubSettings.supportAskDue says so: on 3
   // videos at most, and any click on it (the cross too) ends it for good.
   const KOFI = 'https://ko-fi.com/cleedek';
-  // Filip's own Stripe link with Alipay (CNY, any amount), in place of Ko-fi for Simplified Chinese.
+  // Filip's own Stripe link with Alipay (CNY, any amount), in place of Ko-fi for Chinese (Simplified and Traditional).
   const ALIPAY = 'https://buy.stripe.com/7sYdRa1FleEm97lbVecQU00';
-  const tipUrl = () => (SubI18n.lang === 'zh-CN' ? ALIPAY : KOFI);
+  const tipUrl = () => (SubI18n.lang.startsWith('zh') ? ALIPAY : KOFI);
   const STORE = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
   const GITHUB = 'https://github.com/Cleedek/subtitle-overlay';
   const ICON = {
@@ -2329,7 +2329,7 @@
     const who = el('div', 'who');
     who.append(photo(38), two(t('Send me any tip you like'), t('No account needed'), 'strong', 'span'));
     const logos = el('img', 'logos');
-    const alipay = SubI18n.lang === 'zh-CN';
+    const alipay = SubI18n.lang.startsWith('zh');
     logos.src = chrome.runtime.getURL(alipay ? 'icons/support/pay-logos-alipay-dark.svg' : 'icons/support/pay-logos-dark.svg');
     logos.alt = alipay ? 'Alipay, Google Pay, Apple Pay, Visa, Mastercard' : 'Google Pay, Apple Pay, PayPal, Visa, Mastercard';
     logos.addEventListener('error', () => logos.remove());

@@ -631,5 +631,7 @@
   "Finding": "尋找",
   "automatic": "自動",
   "sharing mine": "共享我的",
-  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即將推出:** 為沒有字幕的影片產生字幕。你電腦上的免費模型會在背景根據聲音寫出字幕,然後在佇列中翻譯"
+  "**Coming soon:** subtitles for videos with none. A free model on your computer writes them down from the sound in the background, then they're translated in the queue": "**即將推出:** 為沒有字幕的影片產生字幕。你電腦上的免費模型會在背景根據聲音寫出字幕,然後在佇列中翻譯",
+  "Alipay": "支付寶",
+  "QR code for the Alipay and card payment page": "支付寶和信用卡付款頁面的 QR 碼"
 }
