@@ -844,6 +844,9 @@ const AI_PROMPT = (lang, sheet) => [
   'Give exactly one translation for each line: never a second version, no "(or: ...)", no notes or explanations.',
   'Write only in the usual script of ' + lang + ': never add a pronunciation or transliteration in Latin letters.',
   'Write natural, spoken ' + lang + ' that fits a subtitle: keep names, keep the tone (slang, swearing, formal or informal address) consistent with the context.',
+  'Write names in their basic form: a name changed by the grammar of the source (Czech "Tomáši" or "Davide" when someone is spoken to) is "Tomáš", "David".',
+  'Never add what the line does not say, such as a currency or unit. Slang for amounts is translated by its meaning (Czech "čtyři kila" about money is 400 000).',
+  'A line or label in capitals such as "ZVON" or "ŠEPOT:" is a note about a sound or how someone speaks: translate it as such a note, in capitals.',
 ].join('\n');
 
 // Automatic captions (YouTube's speech recognition) in the language you read:
@@ -1097,6 +1100,8 @@ async function aiTranslate(lines, before, to, signal, sheet, clean, doubt) {
       let s = a && typeof a === 'object' ? (bare(a.src) === bare(lines[i]) ? a.tr : '') : a;
       // The model lost its place in the JSON and wrote on inside this line: asked for again below.
       if (typeof s === 'string' && /<(start|end)_of_|["»”]\s*\}\s*,/.test(s)) s = '';
+      // Gemma sometimes repeats the field's name inside it: "tr: Bạn lấy đồng xu…".
+      if (typeof s === 'string') s = s.replace(/^\s*(tr|src)\s*:\s*/i, '');
       if (typeof s === 'string' && s.trim()) s = straightQuotes(s.trim(), lines[i]);
       return typeof s === 'string' ? SubLib.dropTransliteration(SubLib.dropAlternative(s.trim()), lines[i]) : '';
     }) };

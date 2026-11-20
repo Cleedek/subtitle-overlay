@@ -555,13 +555,23 @@ function halfs(u16) {
 
 // Whisper was trained on lots of video with captions, and on music or silence
 // it sometimes "hears" their closing words. Those, and sound tags, are dropped.
-const MADE_UP = /^(thank(s| you) (so much )?for watching|please subscribe|subtitles by|transcribed by|amara\.org|you$|bye\.?$|the end\.?$|\.+$)/i;
+// Czech ones too: "Titulky vytvořil JohnyX" came up four times in one episode.
+const MADE_UP = /^(thank(s| you) (so much )?for watching|please subscribe|subtitles by|transcribed by|amara\.org|(skryté )?titulky (vytvořila?|připravila?|pro)\b|you$|bye\.?$|the end\.?$|\.+$)|johnyx/i;
 let lastText = '', sameCount = 0;
+const recent = []; // the last few kept lines, to see two lines taking turns
 function keepable(text) {
-  text = text.replace(/\[[^\]]*\]|\([^)]*(music|applause|laugh)[^)]*\)|[♪♫]+/gi, ' ').replace(/\s+/g, ' ').trim();
+  text = text.replace(/\[[^\]]*\]|\([^)]*(music|applause|laugh)[^)]*\)|[♪♫]+/gi, ' ')
+    // One letter held on and on ("Aaaaaaa…", hundreds long): a scream or noise, not words.
+    .replace(/(?:^|\s)(\p{L})\1{5,}[.!?…]*(?=\s|$)/giu, ' ')
+    .replace(/\s+/g, ' ').trim();
   if (!/[\p{L}\p{N}]/u.test(text) || MADE_UP.test(text)) return '';
   // The same line again and again: Whisper stuck on a loop, not someone talking.
   sameCount = text === lastText ? sameCount + 1 : 0;
   lastText = text;
-  return sameCount >= 2 ? '' : text;
+  if (sameCount >= 2) return '';
+  // Two lines taking turns (A B A B): also a loop, and its times are made up too.
+  if (recent.length >= 3 && text === recent[recent.length - 2] && recent[recent.length - 1] === recent[recent.length - 3] && text !== recent[recent.length - 1]) return '';
+  recent.push(text);
+  if (recent.length > 4) recent.shift();
+  return text;
 }

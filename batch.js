@@ -20,7 +20,7 @@
   // costs little: a short line heard alone over music ("doubt"), the closing words
   // Whisper makes up from captioned video, or one word said over and over.
   // Anything else keeps Whisper's words.
-  const MADE_UP = /^(thank(s| you)( so much)? for watching|please subscribe|subtitles? (by|created by)|transcribed by|amara org|titulky (vytvořil|připravil|pro)|děkuji za pozornost|cảm ơn (các bạn )?đã (xem|theo dõi)|hãy (đăng ký|subscribe))|^(the end|ending|konec|hết)$/i;
+  const MADE_UP = /^(thank(s| you)( so much)? for watching|please subscribe|subtitles? (by|created by)|transcribed by|amara org|(skryté )?titulky (vytvořila?|připravila?|pro)|phụ đề (được tạo |do )?bởi|.*johnyx|děkuji za pozornost|cảm ơn (các bạn )?đã (xem|theo dõi)|hãy (đăng ký|subscribe))|^(the end|ending|konec|hết)$/i;
   function mayCut(line) {
     const text = SubLib.cleanText(line.text).replace(/[^\p{L}\p{N}\s]/gu, ' ').trim();
     const words = text.split(/\s+/).filter(Boolean);
@@ -300,7 +300,8 @@
   const linesDone = (job) => job.chunks.reduce((n, i) => n + Math.min(CHUNK, job.lines.length - i), 0);
 
   const outName = (job) => job.name.replace(SubLib.SUB_FILE, '') + '.' + job.lang + '.srt';
-  const outSrt = (job) => SubLib.toSRT(job.lines.map((c, i) => ({ start: c.start, end: c.end, text: job.out[i] || c.text })));
+  // A line left empty (nothing heard, or the model gave nothing) would only flash an empty box.
+  const outSrt = (job) => SubLib.toSRT(job.lines.map((c, i) => ({ start: c.start, end: c.end, text: job.out[i] || c.text })).filter((c) => String(c.text || '').trim()));
   const download = (job) => SubLib.saveText(outSrt(job), outName(job));
 
   // Left overnight, a queue meets a model server that restarts, a network that

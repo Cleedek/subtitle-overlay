@@ -1334,6 +1334,18 @@
       return { start: Math.round(from), end: Math.round(at), text: p };
     });
   }
+  // Whisper often gives a short line almost no time (one episode: 186 lines under
+  // 1.2 s, many exactly the 1 s minimum), so it flashes by unread. Before the
+  // lines go to the queue, each stays up long enough to read (1.5 s, or 1 s per
+  // 17 characters, at most 6 s), but never into the next line. Never shortened.
+  function readable(list) {
+    return list.map((c, i) => {
+      const next = list[i + 1];
+      const want = c.start + Math.min(6000, Math.max(1500, (String(c.text || '').length / 17) * 1000));
+      const end = Math.max(c.end, Math.min(want, next ? next.start - 80 : want));
+      return end === c.end ? c : Object.assign({}, c, { end });
+    });
+  }
   // One piece of sound, as background.js sends it: parts [{ text, from, to }]
   // in ms after saidAt (this computer's clock) by Whisper's own timestamps.
   let livePid = 0; // each part from background.js; its cues share it, for a new language
@@ -4285,7 +4297,7 @@
       case 'live-collect':
         // Transcribing is done: every line, for the queue.
         if (liveOn && liveMode === 'transcribe' && liveCues.length) {
-          reply({ lines: liveCues.map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href });
+          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href });
         }
         return;
       case 'live-lang':
