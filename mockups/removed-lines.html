@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Removed lines: three designs</title>
+<!-- The real queue styles, so every variant looks like the extension's page. -->
+<link rel="stylesheet" href="../popup.css">
+<link rel="stylesheet" href="../batch.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  body { max-width: 760px; padding-top: 0; }
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: center; padding: 10px 16px; margin: 0 -20px 24px; background: color-mix(in oklch, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar .note { flex-basis: 100%; text-align: center; margin: 0; font-size: 12.5px; color: var(--muted); max-width: 90ch; }
+  .vbtn { padding: 6px 12px; }
+  .vbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .variant[hidden] { display: none; }
+  .sample { font-size: 11.5px; color: var(--faint); margin: 10px 2px 0; }
+
+  /* Shared bits of the proposals. */
+  .speech { flex: none; display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .speech i { width: 26px; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; display: inline-block; }
+  .speech i b { display: block; height: 100%; background: var(--muted); }
+  .speech.talk i b { background: var(--success); }
+  .speech.talk { color: var(--text); }
+  .restored { color: var(--success); font-size: 12.5px; white-space: nowrap; }
+  .link { background: none; border: 0; padding: 0; color: var(--accent-text); font-size: 12.5px; cursor: pointer; }
+  .link:hover { text-decoration: underline; background: none; }
+  .chip-warn { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--accent-tint); color: var(--accent-text); border: 0; }
+
+  /* 1: a fold under the card (as built now), one row per line. */
+  .v1 .removed-list li { padding: 6px 0; border-top: 1px solid var(--line); }
+  .v1 .removed-list li:first-child { border-top: 0; }
+  .v1 .removed-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .v1 .removed-list li.back .removed-text { color: var(--muted); }
+
+  /* 2: a review window with the lines around each removed one. */
+  dialog.review { width: min(620px, calc(100vw - 32px)); max-height: min(720px, calc(100vh - 48px)); padding: 0; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--bg); color: var(--text); box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+  dialog.review::backdrop { background: rgba(0,0,0,.5); }
+  .rv-head { padding: 16px 18px 10px; border-bottom: 1px solid var(--line); }
+  .rv-head h3 { margin: 0 0 4px; font-size: 16px; }
+  .rv-head p { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .rv-tools { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .rv-tools button { padding: 4px 10px; font-size: 12.5px; }
+  .rv-list { list-style: none; margin: 0; padding: 6px 18px; overflow: auto; max-height: 440px; }
+  .rv-item { padding: 10px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; }
+  .rv-item:last-child { border-bottom: 0; }
+  .rv-item input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--accent); }
+  .ctx { font-size: 12.5px; color: var(--faint); }
+  .ctx b { font-weight: 500; font-variant-numeric: tabular-nums; margin-inline-end: 6px; }
+  .gone { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line); font-size: 13.5px; }
+  .gone .t { flex: none; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12.5px; }
+  .gone .x { flex: 1; min-width: 0; }
+  .rv-item.on .gone { border-color: var(--accent); background: var(--accent-tint); }
+  .rv-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 18px; border-top: 1px solid var(--line); }
+  .rv-foot span { font-size: 12.5px; color: var(--muted); }
+
+  /* 3: the whole episode as a strip, removed lines as marks, grouped by stretch. */
+  .strip { position: relative; height: 26px; margin: 10px 0 4px; border-radius: 6px; background: var(--line); overflow: hidden; }
+  .strip .said { position: absolute; top: 0; bottom: 0; background: color-mix(in oklch, var(--muted) 35%, transparent); }
+  .strip .mark { position: absolute; top: 3px; bottom: 3px; width: 3px; border-radius: 2px; background: var(--danger); border: 0; padding: 0; cursor: pointer; }
+  .strip .mark.back { background: var(--success); }
+  .strip .mark:hover, .strip .mark.sel { outline: 2px solid var(--text); outline-offset: 1px; }
+  .strip-axis { display: flex; justify-content: space-between; font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-inline-end: 5px; vertical-align: -1px; }
+  .groups { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .grp { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; }
+  .grp.sel { border-color: var(--accent); }
+  .grp-head { display: flex; align-items: center; gap: 10px; }
+  .grp-head strong { font-size: 13px; font-weight: 600; }
+  .grp-head span { flex: 1; font-size: 12.5px; color: var(--muted); }
+  .grp-head button { padding: 3px 10px; font-size: 12.5px; }
+  .grp ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+  .grp li { display: flex; gap: 10px; font-size: 13px; align-items: center; }
+  .grp li .t { flex: none; width: 3.6em; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12.5px; }
+  .grp li .x { flex: 1; min-width: 0; }
+  .grp li.back .x { color: var(--muted); }
+</style>
+<script src="../lib/theme.js"></script>
+</head>
+<body>
+
+<div class="bar">
+  <button class="vbtn" data-v="1">1 · Seznam pod kartou</button>
+  <button class="vbtn" data-v="2">2 · Kontrola v okně</button>
+  <button class="vbtn" data-v="3">3 · Časová osa dílu</button>
+  <p class="note" id="note"></p>
+</div>
+
+<!-- ============ 1: fold under the card ============ -->
+<section class="variant v1" data-v="1" data-note="Nejjednodušší: pod hotovým přepisem je rozbalovací seznam. U každého řádku čas, text, kolik v něm bylo řeči (podle detektoru) a Vrátit. Vrácený řádek jde jedním klikem zase odebrat. Takhle je to teď postavené, jen bez ukazatele řeči.">
+  <ul class="jobs">
+    <li class="job done">
+      <div class="job-head">
+        <span class="job-check">✓</span>
+        <span class="job-name">Zrádci · epizoda Zrádci S3 (10)</span>
+        <span class="audio-chip">Z audia</span>
+        <span class="job-lang">🇻🇳 Vietnamština</span>
+        <button class="ghost job-x">×</button>
+      </div>
+      <div class="saved-meta">iprima.cz</div>
+      <div class="job-bar"><span style="width:100%"></span></div>
+      <div class="job-foot">
+        <span class="job-note">Hotovo · 1 005 řádků · gemma3:12b</span>
+        <button class="primary">Přehrát</button>
+        <button class="show-on">Zobrazit na…</button>
+        <button>Stáhnout .srt</button>
+      </div>
+      <div class="removed">
+        <div class="removed-head">
+          <button class="ghost removed-toggle" id="v1toggle" aria-expanded="true">AI vyřadila 6 řádků jako neřečené · Skrýt</button>
+          <button class="link" id="v1all">Vrátit všechny s řečí</button>
+        </div>
+        <ul class="removed-list" id="v1list"></ul>
+      </div>
+    </li>
+  </ul>
+  <p class="sample">Ukázka s vymyšlenými řádky. Ukazatel řeči: zelený = detektor tam slyšel mluvit, šedý = spíš hudba.</p>
+</section>
+
+<!-- ============ 2: review window ============ -->
+<section class="variant v2" data-v="2" data-note="Karta jen upozorní („6 řádků ke kontrole“). Kontrola je v okně: u každého vyřazeného řádku vidíš i řádek před ním a po něm, takže poznáš, jestli tam patří. Zaškrtáš, co vrátit, a potvrdíš najednou. Přehrát místo otevře video na té chvíli.">
+  <ul class="jobs">
+    <li class="job done">
+      <div class="job-head">
+        <span class="job-check">✓</span>
+        <span class="job-name">Zrádci · epizoda Zrádci S3 (10)</span>
+        <span class="audio-chip">Z audia</span>
+        <span class="job-lang">🇻🇳 Vietnamština</span>
+        <button class="ghost job-x">×</button>
+      </div>
+      <div class="saved-meta">iprima.cz</div>
+      <div class="job-bar"><span style="width:100%"></span></div>
+      <div class="job-foot">
+        <span class="job-note">Hotovo · 1 005 řádků · gemma3:12b</span>
+        <button class="chip-warn" id="v2open">6 řádků ke kontrole</button>
+        <button class="primary">Přehrát</button>
+        <button>Stáhnout .srt</button>
+      </div>
+    </li>
+  </ul>
+  <p class="sample">Klikni na „6 řádků ke kontrole“.</p>
+  <dialog class="review" id="v2dlg">
+    <div class="rv-head">
+      <h3>Řádky, které AI vyřadila</h3>
+      <p>AI je považovala za vymyšlené (přes hudbu nebo šum). Zaškrtni ty, které v díle opravdu zazněly.</p>
+      <div class="rv-tools">
+        <button id="v2talk">Vybrat ty s řečí</button>
+        <button id="v2none">Zrušit výběr</button>
+      </div>
+    </div>
+    <ul class="rv-list" id="v2list"></ul>
+    <div class="rv-foot">
+      <span id="v2count">Vybráno 0</span>
+      <div style="display:flex; gap:8px">
+        <button id="v2close">Zavřít</button>
+        <button class="primary" id="v2ok">Vrátit vybrané</button>
+      </div>
+    </div>
+  </dialog>
+</section>
+
+<!-- ============ 3: timeline of the episode ============ -->
+<section class="variant v3" data-v="3" data-note="Celý díl jako pruh: šedé = kde se mluvilo, červené čárky = vyřazené řádky, zelené = vrácené. Hned je vidět, že se ztrácelo hlavně v úvodu. Řádky jsou seskupené po úsecích a celý úsek jde vrátit jedním klikem. Klik na čárku označí její skupinu.">
+  <ul class="jobs">
+    <li class="job done">
+      <div class="job-head">
+        <span class="job-check">✓</span>
+        <span class="job-name">Zrádci · epizoda Zrádci S3 (10)</span>
+        <span class="audio-chip">Z audia</span>
+        <span class="job-lang">🇻🇳 Vietnamština</span>
+        <button class="ghost job-x">×</button>
+      </div>
+      <div class="saved-meta">iprima.cz</div>
+      <div class="job-bar"><span style="width:100%"></span></div>
+      <div class="job-foot">
+        <span class="job-note">Hotovo · 1 005 řádků · gemma3:12b</span>
+        <button class="primary">Přehrát</button>
+        <button>Stáhnout .srt</button>
+      </div>
+      <div class="removed">
+        <button class="ghost removed-toggle" aria-expanded="true">AI vyřadila 6 řádků jako neřečené · Skrýt</button>
+        <div class="strip" id="v3strip"></div>
+        <div class="strip-axis"><span>0:00</span><span>20:00</span><span>40:00</span><span>1:00:00</span><span>1:19:49</span></div>
+        <div class="legend"><span><i style="background:color-mix(in oklch, var(--muted) 35%, transparent)"></i>mluví se</span><span><i style="background:var(--danger)"></i>vyřazeno</span><span><i style="background:var(--success)"></i>vráceno</span></div>
+        <ul class="groups" id="v3groups"></ul>
+      </div>
+    </li>
+  </ul>
+  <p class="sample">Ukázka s vymyšlenými řádky a časy.</p>
+</section>
+
+<script>
+  // Sample: lines the AI removed, with the lines around them and the detector's share of speech.
+  const LINES = [
+    { t: 13000, x: 'Zrádci', s: 0, before: '', after: 'V minulém díle…' },
+    { t: 41000, x: 'Kdo z vás je zrádce?', s: 0.82, before: 'V minulém díle…', after: 'Anneli zvedla ruku.' },
+    { t: 97000, x: 'Já jsem věrná, přísahám.', s: 0.74, before: 'Anneli zvedla ruku.', after: 'Hlasování začíná.' },
+    { t: 186000, x: 'Ne ne ne ne', s: 0.05, before: 'Hlasování začíná.', after: 'Vítejte na dnešním zasedání.' },
+    { t: 2702000, x: 'To nebylo fér, Davide.', s: 0.61, before: 'Mise selhala.', after: 'Já vím.' },
+    { t: 4768000, x: 'Titulky vytvořil Jan', s: 0, before: 'Hodně štěstí.', after: '' },
+  ];
+  const DUR = 4789000;
+  const clock = (ms) => { const s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s % 60).padStart(2, '0'); };
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  const speech = (s) => {
+    const w = el('span', 'speech' + (s >= 0.3 ? ' talk' : ''));
+    const bar = el('i'); const fill = el('b'); fill.style.width = Math.round(s * 100) + '%'; bar.append(fill);
+    w.append(bar, (s >= 0.3 ? 'řeč ' : 'hudba · řeč ') + Math.round(s * 100) + ' %');
+    w.title = 'Kolik času tohoto řádku detektor slyšel mluvit';
+    return w;
+  };
+  const back = new Set();
+
+  // 1
+  function draw1() {
+    const list = document.getElementById('v1list');
+    list.replaceChildren(...LINES.map((l, i) => {
+      const li = el('li', back.has(i) ? 'back' : '');
+      li.append(el('span', 'removed-time', clock(l.t)), el('span', 'removed-text', l.x), speech(l.s));
+      if (back.has(i)) {
+        const undo = el('button', 'link', 'Zpět');
+        undo.onclick = () => { back.delete(i); drawAll(); };
+        li.append(el('span', 'restored', '✓ Vráceno'), undo);
+      } else {
+        const b = el('button', '', 'Vrátit');
+        b.onclick = () => { back.add(i); drawAll(); };
+        li.append(b);
+      }
+      return li;
+    }));
+    const left = LINES.length - back.size;
+    document.getElementById('v1toggle').textContent = 'AI vyřadila ' + left + ' řádků jako neřečené' + (back.size ? ' (' + back.size + ' vráceno)' : '') + ' · Skrýt';
+  }
+  document.getElementById('v1all').onclick = () => { LINES.forEach((l, i) => { if (l.s >= 0.3) back.add(i); }); drawAll(); };
+
+  // 2
+  const picked = new Set();
+  function draw2() {
+    const list = document.getElementById('v2list');
+    list.replaceChildren(...LINES.map((l, i) => {
+      if (back.has(i)) return el('li', 'rv-item');
+      const li = el('li', 'rv-item' + (picked.has(i) ? ' on' : ''));
+      const cb = el('input'); cb.type = 'checkbox'; cb.checked = picked.has(i);
+      cb.onchange = () => { if (cb.checked) picked.add(i); else picked.delete(i); draw2(); };
+      const body = el('div');
+      if (l.before) { const c = el('div', 'ctx'); c.append(el('b', '', 'před'), l.before); body.append(c); }
+      const g = el('label', 'gone');
+      g.append(el('span', 't', clock(l.t)), el('span', 'x', l.x), speech(l.s));
+      g.onclick = (e) => { e.preventDefault(); cb.checked = !cb.checked; cb.onchange(); };
+      body.append(g);
+      if (l.after) { const c = el('div', 'ctx'); c.append(el('b', '', 'po'), l.after); body.append(c); }
+      const play = el('button', 'link', '▶ Přehrát místo'); play.style.marginTop = '2px'; play.title = 'Otevře video na ' + clock(l.t);
+      body.append(play);
+      li.append(cb, body);
+      return li;
+    }).filter((li) => li.childNodes.length));
+    document.getElementById('v2count').textContent = 'Vybráno ' + picked.size + ' z ' + (LINES.length - back.size);
+    document.getElementById('v2ok').textContent = picked.size ? 'Vrátit vybrané (' + picked.size + ')' : 'Vrátit vybrané';
+    document.getElementById('v2ok').disabled = !picked.size;
+    document.getElementById('v2open').textContent = (LINES.length - back.size) + ' řádků ke kontrole';
+  }
+  const dlg = document.getElementById('v2dlg');
+  document.getElementById('v2open').onclick = () => { draw2(); dlg.showModal(); };
+  document.getElementById('v2close').onclick = () => dlg.close();
+  document.getElementById('v2talk').onclick = () => { LINES.forEach((l, i) => { if (l.s >= 0.3 && !back.has(i)) picked.add(i); }); draw2(); };
+  document.getElementById('v2none').onclick = () => { picked.clear(); draw2(); };
+  document.getElementById('v2ok').onclick = () => { picked.forEach((i) => back.add(i)); picked.clear(); dlg.close(); drawAll(); };
+
+  // 3
+  const GROUPS = [
+    { name: 'Úvod', from: 0, to: 209000, items: [0, 1, 2, 3] },
+    { name: 'Uprostřed', from: 2600000, to: 2800000, items: [4] },
+    { name: 'Závěr', from: 4700000, to: DUR, items: [5] },
+  ];
+  let sel = -1;
+  function draw3() {
+    const strip = document.getElementById('v3strip');
+    const said = [[209000, 1317000], [1402000, 2016000], [2099000, 2694000], [2746000, 3310000], [3346000, 4700000]].map(([a, b]) => {
+      const d = el('div', 'said'); d.style.left = (a / DUR * 100) + '%'; d.style.width = ((b - a) / DUR * 100) + '%'; return d;
+    });
+    const marks = LINES.map((l, i) => {
+      const m = el('button', 'mark' + (back.has(i) ? ' back' : '') + (GROUPS[sel] && GROUPS[sel].items.includes(i) ? ' sel' : ''));
+      m.style.left = 'calc(' + (l.t / DUR * 100) + '% - 1px)';
+      m.title = clock(l.t) + ' · ' + l.x;
+      m.onclick = () => { sel = GROUPS.findIndex((g) => g.items.includes(i)); draw3(); };
+      return m;
+    });
+    strip.replaceChildren(...said, ...marks);
+    document.getElementById('v3groups').replaceChildren(...GROUPS.map((g, gi) => {
+      const li = el('li', 'grp' + (gi === sel ? ' sel' : ''));
+      const left = g.items.filter((i) => !back.has(i));
+      const head = el('div', 'grp-head');
+      head.append(el('strong', '', g.name), el('span', '', clock(g.from) + '–' + clock(g.to) + ' · ' + (left.length ? left.length + ' vyřazeno' : 'vše vráceno')));
+      if (left.length > 1) { const all = el('button', '', 'Vrátit všech ' + left.length); all.onclick = () => { left.forEach((i) => back.add(i)); drawAll(); }; head.append(all); }
+      const ul = el('ul');
+      ul.append(...g.items.map((i) => {
+        const l = LINES[i];
+        const row = el('li', back.has(i) ? 'back' : '');
+        row.append(el('span', 't', clock(l.t)), el('span', 'x', l.x), speech(l.s));
+        if (back.has(i)) { const u = el('button', 'link', 'Zpět'); u.onclick = () => { back.delete(i); drawAll(); }; row.append(el('span', 'restored', '✓'), u); }
+        else { const b = el('button', 'link', 'Vrátit'); b.onclick = () => { back.add(i); drawAll(); }; row.append(b); }
+        return row;
+      }));
+      li.append(head, ul);
+      return li;
+    }));
+  }
+
+  function drawAll() { draw1(); draw2(); draw3(); }
+  drawAll();
+
+  const note = document.getElementById('note');
+  const show = (v) => {
+    document.querySelectorAll('.variant').forEach((e) => { e.hidden = e.dataset.v !== v; if (!e.hidden) note.textContent = e.dataset.note; });
+    document.querySelectorAll('.vbtn[data-v]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+  };
+  document.querySelectorAll('.vbtn[data-v]').forEach((b) => b.addEventListener('click', () => show(b.dataset.v)));
+  show(new URLSearchParams(location.search).get('v') || '1');
+</script>
+</body>
+</html>

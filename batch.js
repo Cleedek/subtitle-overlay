@@ -15,6 +15,21 @@
   const CHUNK = 30; // as in content.js
   // The model's mark for a transcript line that was never said ("###", sometimes as "tr: ###").
   const NOT_SAID = /^[^\p{L}\p{N}]*(tr\b[^\p{L}\p{N}]*)?#{3,}[^\p{L}\p{N}]*$/iu;
+  // The model may say a line was never said, but it can't hear: a real sentence that
+  // Whisper misheard reads as nonsense too. So a cut is taken only where being wrong
+  // costs little: a short line heard alone over music ("doubt"), the closing words
+  // Whisper makes up from captioned video, or one word said over and over.
+  // Anything else keeps Whisper's words.
+  const MADE_UP = /^(thank(s| you)( so much)? for watching|please subscribe|subtitles? (by|created by)|transcribed by|amara org|titulky (vytvořil|připravil|pro)|děkuji za pozornost|cảm ơn (các bạn )?đã (xem|theo dõi)|hãy (đăng ký|subscribe))|^(the end|ending|konec|hết)$/i;
+  function mayCut(line) {
+    const text = SubLib.cleanText(line.text).replace(/[^\p{L}\p{N}\s]/gu, ' ').trim();
+    const words = text.split(/\s+/).filter(Boolean);
+    if (!words.length || MADE_UP.test(text)) return true;
+    if (words.length >= 4 && new Set(words.map((w) => w.toLowerCase())).size === 1) return true;
+    // The speech detector heard (almost) no talking there at all: music or noise.
+    if (typeof line.speech === 'number' && line.speech < 0.05) return true;
+    return !!line.doubt && words.length <= 3;
+  }
   const KEY = 'batchQueue';
   // Lines travel as HTML so <i>/<b> and line breaks survive the round trip (as in content.js).
   const toHtml = (raw) => SubLib.cleanText(raw).replace(/\n/g, '<br>');
@@ -318,6 +333,30 @@
     }
   }
 
+  // ---------- notes per show ----------
+  // Episodes of one show share who is who: the notes the model wrote for the last
+  // episode go along when it writes them for the next one (same words of address,
+  // same spelling of names), and help it spell names in a transcript. A show is
+  // the page's address without its last part (iprima.cz/serialy/zradci/<season>/<episode>);
+  // on YouTube every video stands alone.
+  function showKey(job) {
+    try {
+      const u = new URL(job.page);
+      if (/(^|\.)(youtube\.com|youtu\.be)$/.test(u.hostname)) return '';
+      const parts = u.pathname.split('/').filter(Boolean);
+      return parts.length >= 2 ? 'show:' + u.hostname.replace(/^www\./, '') + '/' + parts.slice(0, -1).join('/') + '|' + job.lang : '';
+    } catch (e) { return ''; }
+  }
+  async function showNotes(job) {
+    const key = showKey(job);
+    const kept = key && (await chrome.storage.local.get(key))[key];
+    return (kept && kept.sheet) || '';
+  }
+  async function keepShowNotes(job) {
+    const key = showKey(job);
+    if (key && job.sheet) await chrome.storage.local.set({ [key]: { sheet: job.sheet, t: Date.now(), title: job.title || '' } });
+  }
+
   async function work(job) {
     job.status = 'running';
     job.error = '';
@@ -328,8 +367,14 @@
       // the language that was spoken (punctuation, misheard words, made-up
       // lines), and those fixed lines become the original that gets translated.
       const improve = job.audio ? prefs.audioImprove || 'both' : 'translation';
+      // What Whisper heard, before the model touches it: kept with the saved copy,
+      // so lines that went missing can be traced (never heard, or cut as made up).
+      if (job.audio && !job.heard && !job.cleaned && !(job.cleanChunks && job.cleanChunks.length)) {
+        job.heard = job.lines.map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {}));
+      }
       if (job.audio && job.spoken && !job.cleaned && !job.chunks.length && isAi() && (improve === 'both' || improve === 'transcript')) {
         job.cleanChunks = job.cleanChunks || [];
+        const notes = await showNotes(job);
         for (let i = 0; i < job.lines.length; i += CHUNK) {
           if (job.cleanChunks.includes(i)) continue;
           if (halted(job)) { job.status = 'waiting'; return; }
@@ -338,11 +383,20 @@
           const res = await request(job, { type: 'ai-translate', to: job.spoken, clean: 'audio',
             texts: job.lines.slice(i, i + CHUNK).map((c) => toHtml(c.text)),
             doubt: job.lines.slice(i, i + CHUNK).map((c) => !!c.doubt),
-            before: job.lines.slice(Math.max(0, i - 4), i).map((c) => toHtml(c.text)) });
+            before: job.lines.slice(Math.max(0, i - 4), i).map((c) => toHtml(c.text)), sheet: notes });
           if (res && res.stopped) { job.status = 'waiting'; return; }
           // A failed chunk keeps Whisper's words; the translation still runs.
           // "###": the model says the line was never said (made up over music or noise).
-          if (res && res.ok) res.texts.forEach((text, k) => { const fixed = fromHtml(text).trim(); if (fixed) job.lines[i + k].text = NOT_SAID.test(fixed) ? '' : fixed; });
+          if (res && res.ok) res.texts.forEach((text, k) => {
+            const fixed = fromHtml(text).trim();
+            if (!fixed) return;
+            const heard = job.heard && job.heard[i + k];
+            if (!NOT_SAID.test(fixed)) { job.lines[i + k].text = fixed; return; }
+            // Refused cuts stay marked in what was heard, to see how often the model wanted one.
+            if (!mayCut(job.lines[i + k])) { if (heard) heard.keptCut = true; return; }
+            job.lines[i + k].text = '';
+            if (heard) heard.cut = true;
+          });
           job.cleanChunks.push(i);
           await save();
           render();
@@ -359,10 +413,11 @@
       if (isAi() && (improve === 'both' || improve === 'translation')) {
         // Who is who, from the whole file, kept with the job so a restart doesn't ask again.
         if (job.sheet === undefined && src.some((s, i) => !job.out[i])) {
-          const res = await ask({ type: 'ai-sheet', to: job.lang, texts: src });
+          const res = await ask({ type: 'ai-sheet', to: job.lang, texts: src, earlier: await showNotes(job) });
           if (res && res.stopped) { job.status = 'waiting'; return; }
           job.sheet = (res && res.sheet) || '';
           await save();
+          await keepShowNotes(job);
         }
         for (let i = 0; i < src.length; i += CHUNK) {
           if (job.chunks.includes(i)) continue;
@@ -397,7 +452,7 @@
       if (prefs.aiSaveFile) download(job);
       // With the original's fingerprint: the same subtitles on a video get this copy instead of a new translation.
       const srcKey = await SubSettings.sourceKey(job.lines).catch(() => '');
-      await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job), ...(job.audio ? { audio: true } : {}),
+      await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job), ...(job.audio ? { audio: true, spoken: job.spoken || '', orig: SubLib.toSRT(job.lines), origName: job.source || job.name, heard: job.heard || job.lines.map((c) => ({ start: c.start, end: c.end, text: c.text })) } : {}),
         page: job.page, title: job.title, src: srcKey }, prefs.keepFor);
     } catch (e) {
       job.status = 'error';
@@ -638,8 +693,22 @@
   function playJob(job) {
     const ai = job.model && job.chunks.length >= Math.ceil(job.lines.length / CHUNK);
     return play(job.page, { name: outName(job), b64: b64(outSrt(job)), encoding: 'utf-8', usedEncoding: 'utf-8',
-      translatedTo: job.lang, origLang: '', original: { name: job.source || job.name, b64: b64(SubLib.toSRT(job.lines)), encoding: 'utf-8', usedEncoding: 'utf-8' },
-      ai: ai ? { model: job.model, done: job.lines.length, chunks: [...job.chunks], stopped: false } : null });
+      translatedTo: job.lang, origLang: job.audio ? job.spoken || '' : '', original: { name: job.source || job.name, b64: b64(SubLib.toSRT(job.lines)), encoding: 'utf-8', usedEncoding: 'utf-8' },
+      ai: ai ? { model: job.model, done: job.lines.length, chunks: [...job.chunks], stopped: false } : null, ...(job.audio ? { lib: libKeyOf(job) } : {}) });
+  }
+  // A saved transcript with what was said kept beside it: played as a translation of
+  // it, as a job is, so the second line in the spoken language is those lines at once
+  // (not a translation back from the translation). lib: where the card over the video
+  // finds the removed lines.
+  function savedRecord(item, made) {
+    const base = { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8', made };
+    if (!item.orig) return base;
+    const n = SubLib.parse(item.srt).length;
+    const chunks = [];
+    for (let i = 0; i < n; i += CHUNK) chunks.push(i);
+    return Object.assign(base, { translatedTo: item.lang, origLang: item.spoken || '', lib: item.key,
+      original: { name: item.origName || 'whisper.' + (item.spoken || '') + '.srt', b64: b64(item.orig), encoding: 'utf-8', usedEncoding: 'utf-8' },
+      ai: item.model && item.model !== 'Google' ? { model: item.model, done: n, chunks, stopped: false } : null });
   }
   function playButton(onClick) {
     const b = el('button', 'primary', t('Play'));
@@ -708,7 +777,7 @@
     const v = targetOf(found);
     const lf = found.frames.find((f) => f.report.loaded);
     if (lf && lf.frameId !== v.frameId) await chrome.tabs.sendMessage(found.tab.id, { type: 'clear' }, { frameId: lf.frameId }).catch(() => {});
-    const res = await chrome.tabs.sendMessage(found.tab.id, { type: 'load', name: file.name, b64: b64(file.text), encoding: 'utf-8', videoIndex: v.index, made: file.made }, { frameId: v.frameId })
+    const res = await chrome.tabs.sendMessage(found.tab.id, { type: 'load', name: file.name, b64: b64(file.text), encoding: 'utf-8', videoIndex: v.index, made: file.made, record: file.record || null }, { frameId: v.frameId })
       .catch(() => null);
     const ok = res && res.ok;
     shownOn.set(id, ok ? { text: t('Showing on {site}', { site: siteName(found.tab.url) }) }
@@ -868,7 +937,9 @@
     foot.append(job.status === 'done' ? shownNote(job.id, el('span', 'job-note', note)) : el('span', 'job-note', note));
     if (job.status === 'done') {
       if (job.page) foot.append(playButton(() => playJob(job)));
-      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job), made: { lang: job.lang, model: job.model || 'Google', from: 'queue', audio: !!job.audio } }), !job.page));
+      foot.append(showOnButton(job.id, () => ({ name: outName(job), text: outSrt(job), made: { lang: job.lang, model: job.model || 'Google', from: 'queue', audio: !!job.audio },
+        ...(job.audio ? { record: { name: outName(job), b64: b64(outSrt(job)), encoding: 'utf-8', usedEncoding: 'utf-8', translatedTo: job.lang, origLang: job.spoken || '', lib: libKeyOf(job),
+          original: { name: job.source || job.name, b64: b64(SubLib.toSRT(job.lines)), encoding: 'utf-8', usedEncoding: 'utf-8' } } } : {}) }), !job.page));
       const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => download(job));
       foot.append(b);
@@ -887,6 +958,10 @@
       }
     }
     li.append(head, bar, foot);
+    if (job.status === 'done' && job.audio) {
+      const removed = removedBlock(job.id, job.heard, jobOps(job));
+      if (removed) li.append(removed);
+    }
     // The page it was added from, where Play shows it.
     if (job.page) {
       const from = el('div', 'saved-meta', siteName(job.page));
@@ -940,6 +1015,159 @@
     return b;
   }
 
+  // ---------- lines the AI removed ----------
+  // Lines of a transcript the model said were never said (made up over music or
+  // noise) are listed under its card, each with Put back: the line goes in again
+  // where it was heard, translated like the others, in the queue and the saved copy.
+  const clock = (ms) => {
+    const s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60;
+    return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s % 60).padStart(2, '0');
+  };
+  const openRemoved = new Set(); // card ids whose list is open
+  const TALK = 0.3; // the share of speech from which a line counts as talked (as content.js's doubt)
+  function speechMeter(share) {
+    const talk = share >= TALK;
+    const w = el('span', 'speech' + (talk ? ' talk' : ''));
+    const bar = el('i'), fill = el('b');
+    fill.style.width = Math.round(share * 100) + '%';
+    bar.append(fill);
+    w.append(bar, t(talk ? 'speech {n} %' : 'music · speech {n} %', { n: Math.round(share * 100) }));
+    w.title = t('How much of this line’s time the speech detector heard someone talking.');
+    return w;
+  }
+  const CHEVRON = '<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  // ops: { putBack(i), takeOut(i) }, each returning a promise.
+  function removedBlock(id, heard, ops) {
+    const rows = (heard || []).map((h, i) => ({ h, i })).filter(({ h }) => h.cut || h.putBack);
+    if (!rows.length) return null;
+    const open = openRemoved.has(id);
+    const gone = rows.filter(({ h }) => h.cut);
+    const back = rows.length - gone.length;
+    const box = el('div', 'removed');
+    box.dataset.review = id;
+    const head = el('div', 'removed-head');
+    const toggle = el('button', 'removed-toggle', gone.length ? t('AI removed {n} lines as not said', { n: gone.length }) : t('All removed lines are back'));
+    if (back && gone.length) toggle.append(' · ' + t('{n} put back', { n: back }));
+    toggle.insertAdjacentHTML('beforeend', CHEVRON);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.addEventListener('click', () => { if (open) openRemoved.delete(id); else openRemoved.add(id); render(); renderSaved(); });
+    head.append(toggle);
+    const talked = gone.filter(({ h }) => typeof h.speech === 'number' && h.speech >= TALK);
+    if (open && talked.length) {
+      const all = el('button', 'removed-all', t('Put back all with speech ({n})', { n: talked.length }));
+      all.addEventListener('click', async () => {
+        all.disabled = true;
+        try { for (const { i } of talked) await ops.putBack(i); } catch (e) { say(e.message, true); }
+        render(); renderSaved();
+      });
+      head.append(all);
+    }
+    box.append(head);
+    if (open) {
+      const list = el('ul', 'removed-list');
+      for (const { h, i } of rows) {
+        const row = el('li', h.putBack ? 'back' : '');
+        row.append(el('span', 'removed-time', clock(h.start)), el('span', 'removed-text', h.text));
+        if (typeof h.speech === 'number') row.append(speechMeter(h.speech));
+        const busy = (b, label) => async (fn) => {
+          b.disabled = true;
+          b.textContent = label;
+          try { await fn(); } catch (e) { say(e.message, true); b.disabled = false; }
+          render(); renderSaved();
+        };
+        if (h.putBack) {
+          const undo = el('button', 'undo', t('Undo'));
+          undo.title = t('Takes this line out again.');
+          undo.addEventListener('click', () => busy(undo, t('Undo'))(() => ops.takeOut(i)));
+          row.append(el('span', 'restored', '✓ ' + t('Put back')), undo);
+        } else {
+          const b = el('button', '', t('Put back'));
+          b.title = t('Adds this line again where it was heard, translated.');
+          b.addEventListener('click', () => busy(b, t('Putting back…'))(() => ops.putBack(i)));
+          row.append(b);
+        }
+        list.append(row);
+      }
+      box.append(list);
+    }
+    return box;
+  }
+  // One line in the job's language, with the lines heard before it as context.
+  async function translateOne(heard, i, lang, spoken) {
+    const text = heard[i].text;
+    if (spoken && spoken === lang.split('-')[0]) return text;
+    const before = heard.slice(0, i).filter((h) => !h.cut).slice(-4).map((h) => toHtml(h.text));
+    if (isAi()) {
+      const res = await ask({ type: 'ai-translate', to: lang, texts: [toHtml(text)], before, lane: 'putback' });
+      if (res && res.ok && res.texts && res.texts[0] && !NOT_SAID.test(res.texts[0])) return fromHtml(res.texts[0]);
+    }
+    const res = await ask({ type: 'translate', to: lang, texts: [toHtml(text)] });
+    if (res && res.ok && res.texts && res.texts[0]) return fromHtml(res.texts[0]);
+    throw new Error((res && res.error) || t('Translation failed.'));
+  }
+  const mark = (heard, i, back) => heard.map((h, k) => (k === i ? Object.assign({}, h, { cut: !back, putBack: back }) : h));
+  const posOf = (list, start) => { const k = list.findIndex((c) => c.start > start); return k < 0 ? list.length : k; };
+  // The line said at h's moment with h's words, in a list of cues (to take a put-back line out again).
+  const atOf = (list, h, text) => list.findIndex((c) => c.start === h.start && c.end === h.end && (text == null || c.text === text));
+  const libKeyOf = (job) => 'lib:' + outName(job) + '|' + job.lang;
+  const jobOfSaved = (item) => jobs.find((j) => j.status === 'done' && j.audio && j.heard && libKeyOf(j) === item.key);
+  // The saved copy follows the job: translation, what was said (orig, the second line) and the marks.
+  async function syncSaved(job) {
+    const key = libKeyOf(job);
+    const item = (await chrome.storage.local.get(key))[key];
+    if (item) await chrome.storage.local.set({ [key]: Object.assign(item, { srt: outSrt(job), orig: SubLib.toSRT(job.lines), heard: job.heard }) });
+  }
+  const jobOps = (job) => ({
+    async putBack(i) {
+      const h = job.heard[i];
+      if (!h.cut) return;
+      const text = await translateOne(job.heard, i, job.lang, job.spoken);
+      const pos = posOf(job.lines, h.start);
+      job.lines.splice(pos, 0, { start: h.start, end: h.end, text: h.text });
+      job.out.splice(pos, 0, text);
+      job.heard = mark(job.heard, i, true);
+      await save();
+      await syncSaved(job);
+    },
+    async takeOut(i) {
+      const h = job.heard[i];
+      const at = atOf(job.lines, h, h.text);
+      if (at >= 0) { job.lines.splice(at, 1); job.out.splice(at, 1); }
+      job.heard = mark(job.heard, i, false);
+      await save();
+      await syncSaved(job);
+    },
+  });
+  const savedOps = (item) => {
+    const job = jobOfSaved(item);
+    if (job) return jobOps(job);
+    const write = async (srt, orig, heard) => {
+      const { key, ...kept } = item;
+      await chrome.storage.local.set({ [key]: Object.assign(kept, { srt, heard }, orig != null ? { orig } : {}) });
+    };
+    return {
+      async putBack(i) {
+        const h = item.heard[i];
+        if (!h.cut) return;
+        const text = await translateOne(item.heard, i, item.lang, item.spoken);
+        const cues = SubLib.parse(item.srt);
+        cues.splice(posOf(cues, h.start), 0, { start: h.start, end: h.end, text });
+        let orig = null;
+        if (item.orig) { const o = SubLib.parse(item.orig); o.splice(posOf(o, h.start), 0, { start: h.start, end: h.end, text: h.text }); orig = SubLib.toSRT(o); }
+        await write(SubLib.toSRT(cues), orig, mark(item.heard, i, true));
+      },
+      async takeOut(i) {
+        const h = item.heard[i];
+        const cues = SubLib.parse(item.srt);
+        const at = atOf(cues, h);
+        if (at >= 0) cues.splice(at, 1);
+        let orig = null;
+        if (item.orig) { const o = SubLib.parse(item.orig); const k = atOf(o, h); if (k >= 0) o.splice(k, 1); orig = SubLib.toSRT(o); }
+        await write(SubLib.toSRT(cues), orig, mark(item.heard, i, false));
+      },
+    };
+  };
+
   // ---------- saved subtitles ----------
 
   async function renderSaved() {
@@ -973,18 +1201,39 @@
       const foot = el('div', 'job-foot');
       foot.append(shownNote('saved:' + item.key, el('span', 'job-note', '')));
       const made = { lang: item.lang, model: item.model || 'Google', from: 'saved', audio: !!item.audio };
-      if (item.page) foot.append(playButton(() => play(item.page, { name: item.name, b64: b64(item.srt), encoding: 'utf-8', usedEncoding: 'utf-8', made })));
-      foot.append(showOnButton('saved:' + item.key, () => ({ name: item.name, text: item.srt, made }), !item.page));
+      if (item.page) foot.append(playButton(() => play(item.page, savedRecord(item, made))));
+      foot.append(showOnButton('saved:' + item.key, () => ({ name: item.name, text: item.srt, made, record: savedRecord(item, made) }), !item.page));
       const b = el('button', '', t('Download .srt'));
       b.addEventListener('click', () => SubLib.saveText(item.srt, item.name));
       foot.append(b);
       li.append(head, meta, ...(title !== item.name ? [file] : []), foot);
+      const removed = item.audio && removedBlock('saved:' + item.key, item.heard, savedOps(item));
+      if (removed) li.append(removed);
       return li;
     }));
   }
 
   render();
-  // "Saved subtitles" in the popup opens this page at that list.
-  renderSaved().then(() => { if (location.hash === '#saved') $('saved').scrollIntoView(); });
+  // "Saved subtitles" in the popup opens this page at that list; the card over a
+  // video opens it at a transcript's removed lines (#review=<its key>).
+  async function followHash() {
+    const m = /^#review=(.+)$/.exec(location.hash);
+    if (!m) { await renderSaved(); if (location.hash === '#saved') $('saved').scrollIntoView(); return; }
+    const key = decodeURIComponent(m[1]);
+    openRemoved.add('saved:' + key);
+    const job = jobs.find((j) => j.status === 'done' && j.audio && libKeyOf(j) === key);
+    if (job) openRemoved.add(job.id);
+    render();
+    await renderSaved();
+    const box = document.querySelector(`.removed[data-review="${CSS.escape(job ? job.id : 'saved:' + key)}"]`) || document.querySelector(`.removed[data-review="${CSS.escape('saved:' + key)}"]`);
+    if (box) {
+      box.scrollIntoView({ block: 'center' });
+      box.classList.remove('flash');
+      void box.offsetWidth;
+      box.classList.add('flash');
+    }
+  }
+  followHash();
+  addEventListener('hashchange', followHash);
   run();
 })();

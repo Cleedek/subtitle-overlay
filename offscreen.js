@@ -34,6 +34,8 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
 });
 
 async function flush() {
+  // The speech detector catches up first (a moment), so the last piece is cut with it.
+  for (let i = 0; i < 20 && cap && cap.vadOn && cap.vadQ.length; i++) await new Promise((r) => setTimeout(r, 100));
   if (cap && cap.samples.length) cut(cap.flags.length);
   while (queue.length || working) await new Promise((r) => setTimeout(r, 200));
 }
@@ -67,12 +69,12 @@ async function start(tabId, streamId, silent, model) {
   await capCtx.audioWorklet.addModule('live-worklet.js');
   const tap = new AudioWorkletNode(capCtx, 'live-tap');
   source.connect(tap);
-  cap = {
-    tabId, silent, stream, playCtx, capCtx, maxMs: silent ? MAX_SILENT_MS : MAX_MS, ratio: capCtx.sampleRate / RATE, pos: 0,
-    samples: [], frame: [], flags: [], quietFor: 0, level: 0.02, seq: 0,
-  };
+  cap = newCap({ tabId, silent, stream, playCtx, capCtx });
   tap.port.onmessage = (e) => { if (cap) take(e.data, Date.now()); };
   // Get the model ready (the first time: download it) while the first words come.
+  // The speech detector starts with it (it borrows Whisper's ONNX Runtime).
+  const mine = cap;
+  loadWhisper(tabId).then((pipe) => loadVad(pipe)).then((session) => { if (cap === mine && session) { mine.vad = session; runVad(mine); } }, () => {});
   loadWhisper(tabId).catch((e) => {
     if (cap && cap.tabId === tabId) chrome.runtime.sendMessage({ type: 'live-failed', tabId, error: 'Whisper could not start: ' + String(e.message || e), big: picked.enc !== 'q4f16' }).catch(() => {});
   });
@@ -84,6 +86,16 @@ async function start(tabId, streamId, silent, model) {
       chrome.runtime.sendMessage({ type: 'live-ended', tabId: id }).catch(() => {});
     });
   }
+}
+
+// base: which sample of the whole recording samples[0] is; total: samples taken so far.
+// vad*: the speech detector, running beside the cutting (see "is anyone talking?").
+function newCap(o) {
+  return Object.assign({
+    maxMs: o.silent ? MAX_SILENT_MS : MAX_MS, ratio: o.capCtx.sampleRate / RATE, pos: 0,
+    samples: [], frame: [], flags: [], quietFor: 0, level: 0.02, seq: 0, base: 0, total: 0,
+    vad: null, vadOn: false, vadBusy: false, vadIn: [], vadQ: [], vadCtx: new Float32Array(VAD_CTX), vadState: null, vadP: new Map(), vadQuietMs: 0,
+  }, o);
 }
 
 function stop() {
@@ -115,6 +127,9 @@ function take(block, at) {
 
 function push(s) {
   const c = cap;
+  c.total++;
+  c.vadIn.push(s);
+  if (c.vadIn.length === VAD_WIN) { c.vadQ.push({ w: c.total / VAD_WIN - 1, x: Float32Array.from(c.vadIn) }); c.vadIn = []; runVad(c); }
   if (!c.frame.length) c.frameAt = c.sampleAt;
   c.sampleAt += 1000 / RATE;
   c.frame.push(s);
@@ -132,8 +147,79 @@ function push(s) {
   c.flags.push({ rms, quiet });
   c.quietFor = quiet ? c.quietFor + 20 : 0;
   const ms = (c.samples.length / RATE) * 1000;
-  if (ms >= MIN_MS && c.quietFor >= PAUSE_MS) cut(c.flags.length);
-  else if (ms >= c.maxMs) cut(softestFrame(c.flags));
+  // A pause is a stretch with no talking: as the speech detector hears it once it
+  // runs (music under the talking doesn't hide a pause from it), else a quieter stretch.
+  const pause = c.vadOn ? c.vadQuietMs >= PAUSE_MS : c.quietFor >= PAUSE_MS;
+  if (ms >= MIN_MS && pause) cut(c.flags.length);
+  else if (ms >= c.maxMs) cut((c.vadOn && leastSpeechFrame(c)) || softestFrame(c.flags));
+}
+
+// The speech detector beside the cutting: each 32 ms of the recording, in order,
+// one step at a time, keeping its memory (state) from step to step. vadP: window
+// number -> chance it was speech; vadQuietMs: how long no one has talked.
+const VAD_SPEECH = 0.5, VAD_QUIET = 0.35, VAD_BACKLOG = 2000; // a minute's backlog at most while the model loads
+async function runVad(c) {
+  if (c.vadBusy || !c.vad) {
+    if (c.vadQ.length > VAD_BACKLOG) c.vadQ.splice(0, c.vadQ.length - VAD_BACKLOG);
+    return;
+  }
+  c.vadBusy = true;
+  try {
+    while (c.vadQ.length && cap === c) {
+      const { w, x } = c.vadQ.shift();
+      const p = await vadStep(c, x);
+      c.vadP.set(w, p);
+      c.vadQuietMs = p < VAD_QUIET ? c.vadQuietMs + (VAD_WIN / RATE) * 1000 : 0;
+      c.vadOn = true;
+    }
+    // Only what the pieces still being cut can need.
+    const oldest = Math.floor(c.base / VAD_WIN) - 1;
+    for (const w of c.vadP.keys()) { if (w >= oldest) break; c.vadP.delete(w); }
+  } catch (e) {
+    console.warn('Silero VAD:', e);
+    c.vad = null;
+    c.vadOn = false; // back to loudness
+  } finally { c.vadBusy = false; }
+}
+async function vadStep(c, x) {
+  const input = new Float32Array(VAD_CTX + VAD_WIN);
+  input.set(c.vadCtx, 0);
+  input.set(x, VAD_CTX);
+  c.vadCtx = x.slice(VAD_WIN - VAD_CTX);
+  if (!c.vadState) c.vadState = ortOf(new TensorType('float32', new Float32Array(2 * 128), [2, 1, 128]));
+  const out = await vadRun(c.vad, { input: ortOf(new TensorType('float32', input, [1, VAD_CTX + VAD_WIN])), state: c.vadState, sr: vadRate() });
+  c.vadState = out.stateN;
+  return out.output.data[0];
+}
+let vadSr = null;
+const vadRate = () => vadSr || (vadSr = ortOf(new TensorType('int64', BigInt64Array.from([BigInt(RATE)]), [])));
+// The detector's answers for samples [from, from + len) of the whole recording,
+// or null while it hasn't got that far (its last 128 ms may still be on the way).
+function vadRange(c, from, len) {
+  const w0 = Math.floor(from / VAD_WIN), w1 = Math.floor((from + len - 1) / VAD_WIN);
+  const out = [];
+  for (let w = w0; w <= w1; w++) {
+    const p = c.vadP.get(w);
+    if (p == null) { if (w1 - w < 4) break; return null; }
+    out.push({ w, p });
+  }
+  return out;
+}
+// No pause in time: the piece ends at the frame of its last few seconds where the
+// detector heard the least talking (three steps together), or null to go by loudness.
+function leastSpeechFrame(c) {
+  const n = c.flags.length;
+  const from = Math.max(1, n - LOOK_BACK), to = n - MIN_REST;
+  if (to <= from) return null;
+  const got = vadRange(c, c.base + from * FRAME, (to - from) * FRAME);
+  if (!got || got.length < 3) return null;
+  let best = null, low = Infinity;
+  for (let i = 1; i < got.length - 1; i++) {
+    const r = got[i - 1].p + got[i].p + got[i + 1].p;
+    if (r < low) { low = r; best = got[i].w; }
+  }
+  const frame = Math.round((best * VAD_WIN - c.base) / FRAME);
+  return frame > 0 && frame < n ? frame : null;
 }
 
 // No pause long enough (talking over music, or fast speech): rather than cut
@@ -155,8 +241,10 @@ const LEAD = 0.15 * RATE, TAIL = 0.25 * RATE; // a little room around the talkin
 function cut(upTo) {
   const c = cap;
   const flags = c.flags.slice(0, upTo), all = c.samples.slice(0, upTo * FRAME);
+  const base = c.base;
   c.flags = c.flags.slice(upTo);
   c.samples = c.samples.slice(upTo * FRAME);
+  c.base += upTo * FRAME;
   c.pieceAt += (upTo * FRAME / RATE) * 1000;
   c.quietFor = 0;
   for (let k = c.flags.length - 1; k >= 0 && c.flags[k].quiet; k--) c.quietFor += 20;
@@ -171,6 +259,16 @@ function cut(upTo) {
     if (onset == null && k + 2 < flags.length && !flags[k + 1].quiet && !flags[k + 2].quiet) onset = k * FRAME;
   }
   if (loud < SILENT || onset == null) return;
+  // The speech detector knows better where talking starts and stops, also over
+  // music; a piece with none at all never goes to Whisper, which would make
+  // something up for it.
+  const heard = c.vadOn ? vadRange(c, base, all.length) : null;
+  if (heard) {
+    const said = heard.filter((h) => h.p >= VAD_SPEECH);
+    if (!said.length) return;
+    onset = Math.max(0, said[0].w * VAD_WIN - base);
+    lastLoud = Math.min(all.length, (said[said.length - 1].w + 1) * VAD_WIN - base);
+  }
   const from = Math.max(0, onset - LEAD);
   const to = Math.min(all.length, Math.max(lastLoud || all.length, onset + FRAME) + TAIL);
   const samples = all.slice(from, to);
@@ -287,6 +385,11 @@ async function work() {
       const started = performance.now();
       let text = '';
       const parts = []; // [{ text, from, to }] in ms from the piece's start
+      const probs = await speechOf(pipe, piece.audio);
+      if (probs && !probs.some((p) => p >= VAD_SPEECH)) {
+        chrome.runtime.sendMessage({ type: 'live-heard', tabId: piece.tabId, seq: piece.seq, text: '', parts: [], ms: piece.ms, saidAt: piece.saidAt, took: 0, noSpeech: true }).catch(() => {});
+        continue;
+      }
       try {
         const language = await languageOf(pipe, piece);
         // With Whisper's own timestamps: where in the piece each sentence starts and ends.
@@ -301,6 +404,7 @@ async function work() {
           parts.push({ text: said, from: Math.round(from * 1000), to: Math.round(to * 1000) });
         }
         snapStarts(parts, piece.audio);
+        markSpeech(parts, probs);
         if (!parts.length && out && out.text) {
           const said = keepable(String(out.text));
           if (said) parts.push({ text: said, from: 0, to: piece.ms });
@@ -313,6 +417,70 @@ async function work() {
         took: Math.round(performance.now() - started) }).catch(() => {});
     }
   } finally { working = false; }
+}
+
+// ---------- is anyone talking? (Silero VAD) ----------
+// Whisper writes something down over music too. A small model made only to tell
+// speech from everything else (Silero VAD, MIT, 2 MB, comes with the extension)
+// listens to the same piece in 32 ms steps; each line gets the share of its time
+// that was speech (part.speech, 0 to 1). content.js marks lines with little of it
+// as doubtful, and only lines with almost none may be dropped without a second look.
+// It runs on the ONNX Runtime that came with Transformers.js (its session class,
+// taken from Whisper's own session), on the processor: under a millisecond a step.
+const VAD_WIN = 512, VAD_CTX = 64; // 32 ms at 16 kHz, plus the 64 samples before it that the model wants
+let vad = null;
+function loadVad(pipe) {
+  if (vad) return vad;
+  const mine = vad = (async () => {
+    const session = pipe.model && pipe.model.sessions && Object.values(pipe.model.sessions)[0];
+    const Session = session && session.constructor;
+    if (!Session || typeof Session.create !== 'function' || !TensorType) throw new Error('no ONNX Runtime session class');
+    const bytes = new Uint8Array(await (await fetch(chrome.runtime.getURL('lib/vendor/silero/silero_vad.onnx'))).arrayBuffer());
+    return Session.create(bytes, { executionProviders: ['wasm'] });
+  })();
+  // Not working here: lines go on without it (the old words-per-second guess in content.js).
+  mine.catch((e) => console.warn('Silero VAD:', e));
+  return mine;
+}
+const ortOf = (t) => t.ort_tensor || t;
+// One step at a time on the detector: the cutting and the per-line check share it,
+// and a session runs one thing at once.
+let vadChain = Promise.resolve();
+function vadRun(session, feeds) {
+  const r = vadChain.then(() => session.run(feeds));
+  vadChain = r.catch(() => {});
+  return r;
+}
+async function speechSteps(session, audio) {
+  const n = Math.floor(audio.length / VAD_WIN);
+  const probs = new Float32Array(n);
+  let state = ortOf(new TensorType('float32', new Float32Array(2 * 128), [2, 1, 128]));
+  const sr = ortOf(new TensorType('int64', BigInt64Array.from([BigInt(RATE)]), []));
+  const x = new Float32Array(VAD_CTX + VAD_WIN);
+  for (let k = 0; k < n; k++) {
+    x.fill(0, 0, VAD_CTX);
+    if (k) x.set(audio.subarray(k * VAD_WIN - VAD_CTX, k * VAD_WIN), 0);
+    x.set(audio.subarray(k * VAD_WIN, (k + 1) * VAD_WIN), VAD_CTX);
+    const out = await vadRun(session, { input: ortOf(new TensorType('float32', Float32Array.from(x), [1, VAD_CTX + VAD_WIN])), state, sr });
+    probs[k] = out.output.data[0];
+    state = out.stateN;
+  }
+  return probs;
+}
+// Each 32 ms of a piece: the chance it was speech, or null when the detector can't run here.
+async function speechOf(pipe, audio) {
+  try { return await speechSteps(await loadVad(pipe), audio); } catch (e) { return null; }
+}
+// Each line: the share of its time that was speech.
+function markSpeech(parts, probs) {
+  if (!probs || !parts.length) return;
+  const stepMs = (VAD_WIN / RATE) * 1000;
+  for (const p of parts) {
+    const a = Math.floor(p.from / stepMs), b = Math.max(a + 1, Math.ceil(p.to / stepMs));
+    let said = 0, all = 0;
+    for (let k = a; k < b && k < probs.length; k++, all++) if (probs[k] >= VAD_SPEECH) said++;
+    if (all) p.speech = Math.round((said / all) * 100) / 100;
+  }
 }
 
 // Transformers.js can't detect the language yet (it assumes English), so

@@ -79,6 +79,11 @@ a.job-name { color: inherit; text-decoration: none; }
 a.job-name:hover { text-decoration: underline; }
 .saved-file { margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .job.saved .job-foot { margin-top: 6px; }
+/* A finished file: its note on a line of its own, the buttons below it sharing the width. */
+.job.done .job-foot { flex-wrap: wrap; row-gap: 8px; }
+.job.done .job-foot .job-note { flex-basis: 100%; }
+.job.done .job-foot .job-note:empty { display: none; }
+.job.done .job-foot > button { flex: 1 1 0; justify-content: center; }
 
 /* "Show on…": a menu of the open tabs with a video (batch.js). A popover, so it
    sits above everything and closes on a click outside or Esc; batch.js places it
@@ -131,3 +136,31 @@ a.job-name:hover { text-decoration: underline; }
   body { padding-top: 24px; }
   #aiKey { max-width: none; flex: 1; }
 }
+
+/* Lines the AI removed as never said, each with Put back. */
+.removed { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+.removed-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.removed-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; border: 0; background: none; font-size: 12.5px; color: var(--muted); }
+.removed-toggle:hover { color: var(--text); background: none; }
+.removed-toggle svg { flex: none; transition: transform .15s var(--ease); }
+.removed-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.removed-all { padding: 0; border: 0; background: none; font-size: 12.5px; color: var(--accent-text); }
+.removed-all:hover { background: none; text-decoration: underline; }
+.removed-list { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-direction: column; }
+.removed-list li { display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 6px 0; border-top: 1px solid var(--line); }
+.removed-list li:first-child { border-top: 0; }
+.removed-time { flex: none; width: 4.5em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.removed-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.removed-list li.back .removed-text { color: var(--muted); }
+.removed-list button { flex: none; padding: 3px 10px; font-size: 12.5px; }
+.removed-list .undo { padding: 0; border: 0; background: none; color: var(--accent-text); }
+.removed-list .undo:hover { background: none; text-decoration: underline; }
+.restored { flex: none; color: var(--success); font-size: 12.5px; white-space: nowrap; }
+/* How much of the line's time the speech detector heard talking: green = someone talked. */
+.speech { flex: none; display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.speech i { width: 26px; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; display: inline-block; }
+.speech i b { display: block; height: 100%; background: var(--muted); }
+.speech.talk { color: var(--text); }
+.speech.talk i b { background: var(--success); }
+.removed.flash { animation: flash 1.6s var(--ease); }
+@keyframes flash { 0%, 40% { background: var(--accent-tint); } 100% { background: transparent; } }

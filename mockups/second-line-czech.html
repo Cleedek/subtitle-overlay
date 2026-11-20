@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Czech second line from the transcript</title>
+<link rel="stylesheet" href="../popup.css">
+<link rel="stylesheet" href="../batch.css">
+<style>
+  body { max-width: 900px; }
+  h2.t { font-size: 15px; margin: 28px 0 10px; text-transform: none; letter-spacing: 0; color: var(--text); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .cols { grid-template-columns: 1fr; } }
+  .col { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .col h3 { margin: 0 0 4px; font-size: 14px; }
+  .col.now h3 { color: var(--danger); }
+  .col.new h3 { color: var(--success); }
+  .col > p { margin: 0 0 12px; font-size: 12.5px; color: var(--muted); }
+  /* the video frame */
+  .video { position: relative; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden; background: radial-gradient(circle at 30% 40%, #3b3346, #15131a 70%); container-type: size; }
+  .video .msub { position: absolute; left: 6%; right: 6%; text-align: center; font-weight: 600; color: #fff; text-shadow: 0 1px 2px #000, 0 0 3px #000; font-size: clamp(11px, 5.4cqh, 17px); line-height: 1.3; }
+  .video .mmain { bottom: 7%; }
+  .video .msecond { top: 7%; }
+  .video .msecond.mwait { color: #c9c3d6; font-weight: 500; font-style: italic; }
+  .video .timer { position: absolute; left: 8px; bottom: 6px; font-size: 10px; color: #bbb; }
+  .flow { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+  .step { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+  .step .n { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; background: var(--line); color: var(--text); }
+  .step.bad .n { background: color-mix(in oklch, var(--danger) 30%, transparent); }
+  .step.good .n { background: color-mix(in oklch, var(--success) 30%, transparent); }
+  .step.bad b { color: var(--danger); font-weight: 600; }
+  .step.good b { color: var(--success); font-weight: 600; }
+  .arrow { padding-left: 6px; color: var(--faint); font-size: 12px; }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 99px; font-size: 11px; background: var(--line); }
+  .table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+  .table th, .table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .table th { font-size: 11.5px; color: var(--muted); font-weight: 600; }
+  .table td.bad { color: var(--danger); }
+  .table td.good { color: var(--success); }
+</style>
+<script src="../lib/theme.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Bod 1: čeština jako druhý řádek</h1>
+    <p class="lede">Přepis z audia, vietnamské titulky dole, čeština nahoře (tvoje nastavení dvojích titulků). Rozdíl je jen v tom, odkud se ta čeština vezme.</p>
+  </header>
+
+  <div class="cols">
+    <div class="col now">
+      <h3>Teď</h3>
+      <p>Uložená kopie zná jen vietnamštinu. Čeština se dělá zpátky z vietnamštiny.</p>
+      <div class="video">
+        <div class="msub msecond mwait">Překládám do češtiny… 360 / 1001</div>
+        <div class="msub mmain">Chào mừng đến với phiên họp ngày hôm nay.</div>
+        <span class="timer">3:29</span>
+      </div>
+      <div class="flow">
+        <div class="step"><span class="n">1</span>Whisper napíše, co slyšel <span class="pill">čeština</span></div>
+        <div class="step"><span class="n">2</span>Gemma češtinu opraví</div>
+        <div class="step"><span class="n">3</span>Gemma ji přeloží <span class="pill">vietnamština</span></div>
+        <div class="step bad"><span class="n">4</span><span><b>Opravená čeština se zahodí</b></span></div>
+        <div class="step bad"><span class="n">5</span><span>Druhý řádek: Gemma překládá vietnamštinu <b>zpátky do češtiny</b> (u 10. dílu přes hodinu)</span></div>
+      </div>
+    </div>
+
+    <div class="col new">
+      <h3>Po úpravě</h3>
+      <p>Opravená čeština se uloží s titulky a druhý řádek ji ukáže hned.</p>
+      <div class="video">
+        <div class="msub msecond">Vítejte na dnešním zasedání.</div>
+        <div class="msub mmain">Chào mừng đến với phiên họp ngày hôm nay.</div>
+        <span class="timer">3:29</span>
+      </div>
+      <div class="flow">
+        <div class="step"><span class="n">1</span>Whisper napíše, co slyšel <span class="pill">čeština</span></div>
+        <div class="step"><span class="n">2</span>Gemma češtinu opraví</div>
+        <div class="step"><span class="n">3</span>Gemma ji přeloží <span class="pill">vietnamština</span></div>
+        <div class="step good"><span class="n">4</span><span><b>Opravená čeština se uloží</b> spolu s vietnamštinou</span></div>
+        <div class="step good"><span class="n">5</span><span>Druhý řádek je hned ta čeština: <b>bez čekání, přesně to, co se řeklo</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="t">Co se tím změní</h2>
+  <table class="table">
+    <tr><th></th><th>Teď</th><th>Po úpravě</th></tr>
+    <tr><td>Čeština nahoře</td><td class="bad">Překlad překladu (cs → vi → cs)</td><td class="good">Původní řeč, opravená Gemmou</td></tr>
+    <tr><td>Kdy se ukáže</td><td class="bad">Až po dlouhém překladu</td><td class="good">Hned po spuštění</td></tr>
+    <tr><td>Vrácený řádek (Vrátit)</td><td>Jen ve vietnamštině</td><td class="good">V obou jazycích</td></tr>
+    <tr><td>Nastavení „vylepšovat jen překlad“</td><td>Stejné jako výš</td><td>Čeština = přesně to, co slyšel Whisper (bez oprav)</td></tr>
+  </table>
+</body>
+</html>

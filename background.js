@@ -275,10 +275,13 @@ async function addToQueue({ lines, lang, title, fileName, notify, spoken, audio,
   if (!(await queueTab())) await chrome.tabs.create({ url: chrome.runtime.getURL('batch.html'), active: false });
 }
 
-async function openQueue() {
+// review: a saved transcript's key, whose removed lines the page opens and scrolls to.
+async function openQueue(review) {
   const c = await queueTab();
-  if (!c) return chrome.tabs.create({ url: chrome.runtime.getURL('batch.html') });
-  await chrome.tabs.update(c.tabId, { active: true });
+  const url = chrome.runtime.getURL('batch.html') + (review ? '#review=' + encodeURIComponent(review) : '');
+  if (!c) return chrome.tabs.create({ url });
+  // Only the address's #part changes: the page stays (and keeps running the queue).
+  await chrome.tabs.update(c.tabId, review ? { active: true, url } : { active: true });
   await chrome.windows.update(c.windowId, { focused: true });
 }
 
@@ -846,12 +849,16 @@ const AI_PROMPT = (lang, sheet) => [
 // Automatic captions (YouTube's speech recognition) in the language you read:
 // nothing to translate, but they have no punctuation, cut sentences anywhere
 // and mishear words. The model fixes that in the same language.
-const CLEAN_PROMPT = (lang, audio) => [
+const CLEAN_PROMPT = (lang, audio, notes) => [
   'You fix automatic captions of a video: ' + lang + ' made by speech recognition, so they have little or no punctuation, wrong capital letters and some misheard words.',
   ...(audio ? [
     'These were written down from the sound alone, so some lines may not be speech at all: over music, noise or silence speech recognition makes up lines such as "Thanks for watching", "Subtitles by ...", a word repeated many times, or words that make no sense there.',
-    'For a line that is clearly made up like that, answer "tr": "' + NOT_SAID + '". When unsure, keep the line and fix it as usual.',
+    'For a line that is clearly made up like that, answer "tr": "' + NOT_SAID + '". Use it only for such closing words, a word repeated many times, or a doubtful line (below). A line that makes no sense but could be real speech misheard is fixed as well as you can, never removed. When unsure, keep the line and fix it as usual.',
     'Sometimes you also get "doubtful": numbers of lines that were heard alone over a long stretch with almost no other words, typically music, an intro or an ending jingle. Such a line is made up when it is only a title, the name of the show, a name, "The End", "Ending" or a word that does not fit the lines around it: answer "' + NOT_SAID + '" for it. Keep it only when it is clearly something a person says there.',
+  ] : []),
+  ...(notes ? [
+    'Notes about this show from earlier episodes, for how names are spelled (speech recognition often mishears names: where a word sounds like one of these names and the name fits, write the name):',
+    '"""\n' + notes + '\n"""',
   ] : []),
   'You get JSON: "lines", numbered caption lines to fix, and sometimes "before", the lines just before them, for context only.',
   'Answer with JSON only: the same numbers, each with "src", that line copied exactly, and "tr", the fixed line, in ' + lang + '.',
@@ -1060,7 +1067,7 @@ async function aiTranslate(lines, before, to, signal, sheet, clean, doubt) {
       model: cfg.model,
       temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
       messages: [
-        { role: 'system', content: clean ? CLEAN_PROMPT(lang, clean === 'audio') : AI_PROMPT(lang, sheet) },
+        { role: 'system', content: clean ? CLEAN_PROMPT(lang, clean === 'audio', clean === 'audio' ? sheet : '') : AI_PROMPT(lang, sheet) },
         { role: 'user', content: JSON.stringify(Object.assign(before.length ? { before, lines: numbered } : { lines: numbered },
           // Transcripts: lines heard over a long stretch with almost no words (music, a jingle).
           flags && flags.some(Boolean) ? { doubtful: keys.filter((k, i) => flags[i]) } : {})) },
@@ -1170,12 +1177,15 @@ function sheetSource(lines, max) {
 
 // The notes for one file, or '' if they can't be made: translation works without
 // them. Remembered until the browser closes, so a reload doesn't pay for them again.
-async function aiSheet(texts, to, signal) {
+// earlier: the notes from earlier episodes of the same show, kept up to date
+// rather than written anew, so a pair keeps the same words for each other.
+async function aiSheet(texts, to, signal, earlier) {
   const cfg = await aiConfig();
   if (!cfg || !cfg.model) return '';
   const lines = texts.map((t) => String(t).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
   if (lines.length < 2) return '';
-  const hash = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(lines.join('\n')));
+  earlier = String(earlier || '').slice(0, SHEET_MAX_ANSWER);
+  const hash = await crypto.subtle.digest('SHA-1', new TextEncoder().encode(lines.join('\n') + '\n' + earlier));
   const key = 'sheet:' + [...new Uint8Array(hash)].map((b) => b.toString(16).padStart(2, '0')).join('') + ':' + to + ':' + cfg.model;
   const kept = await chrome.storage.session.get(key);
   if (kept[key]) return kept[key];
@@ -1184,6 +1194,7 @@ async function aiSheet(texts, to, signal) {
     temperature: noTemperature.has(cfg.model) ? undefined : 0.2,
     messages: [
       { role: 'system', content: SHEET_PROMPT(englishName(to)) },
+      ...(earlier ? [{ role: 'user', content: 'Notes from earlier episodes of the same show. Keep what still holds, above all the same ADDRESS words for the same pair unless their relationship changed, and add what this episode shows. Then the lines of this episode follow.\n"""\n' + earlier + '\n"""' }] : []),
       { role: 'user', content: sheetSource(lines, cfg.kind !== 'local' ? SHEET_MAX_CHARS.other : cfg.ollama ? SHEET_MAX_CHARS.local : SHEET_MAX_CHARS.small) },
     ],
   };
@@ -1767,7 +1778,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       return true;
 
     case 'open-queue':
-      openQueue().catch(() => {});
+      openQueue(typeof msg.review === 'string' && msg.review.startsWith('lib:') ? msg.review : '').catch(() => {});
       return;
 
     case 'translate':
@@ -1797,7 +1808,8 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       return;
 
     case 'ai-translate': {
-      const key = tabId + ':' + sender.frameId + ':' + msg.to;
+      // lane: a request beside the queue's own (putting back one removed line) mustn't stop its chunk.
+      const key = tabId + ':' + sender.frameId + ':' + msg.to + (msg.lane ? ':' + msg.lane : '');
       const run = new AbortController();
       if (aiRuns.has(key)) aiRuns.get(key).abort();
       aiRuns.set(key, run);
@@ -1815,7 +1827,7 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       const run = new AbortController();
       if (aiRuns.has(key)) aiRuns.get(key).abort();
       aiRuns.set(key, run);
-      aiSheet(msg.texts, msg.to, run.signal)
+      aiSheet(msg.texts, msg.to, run.signal, msg.earlier)
         .then((sheet) => reply({ ok: true, sheet }),
           (e) => reply(e === STOPPED ? { ok: false, stopped: true } : { ok: true, sheet: '' }))
         .finally(() => { if (aiRuns.get(key) === run) aiRuns.delete(key); });

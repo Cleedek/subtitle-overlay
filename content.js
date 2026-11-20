@@ -159,6 +159,7 @@
     // everything at once with the shortcut or YouTube's CC button doesn't count).
     const sw = shownBefore || { visible, dualVisible };
     if (!sw.visible || !sw.dualVisible) record.off = { main: !sw.visible, second: !sw.dualVisible };
+    if (reviewOn()) record.lib = review.key;
     try { await chrome.storage.session.set({ [pageKey(page)]: { t: record.t } }); } catch (e) { /* reload just won't restore */ }
     // Newest first; everything past `keep` is removed.
     const prune = async (keep) => {
@@ -1149,6 +1150,7 @@
     siteFile = false;
     siteDismissed = false;
     original = null;
+    review = null;
     translations.clear();
     origLang = '';
     findOrigLang(name, text, parsed);
@@ -1347,7 +1349,10 @@
     // three words a second): music or a jingle, where it tends to make up a
     // title or "The End". Marked, so the AI fix can drop it.
     const words = parts.reduce((n, p) => n + p.text.split(/\s+/).filter(Boolean).length, 0);
-    const doubt = msg.ms >= 4000 && words / (msg.ms / 1000) < 0.5;
+    const fewWords = msg.ms >= 4000 && words / (msg.ms / 1000) < 0.5;
+    // With the speech detector's share (offscreen.js): doubtful when under a third
+    // of the line's time was talking, whatever the word count; otherwise the guess above.
+    const doubtOf = (p) => (typeof p.speech === 'number' ? p.speech < 0.3 : fewWords);
     let list = liveCues.slice();
     parts.forEach((p, i) => {
       if (liveSwitchAt && msg.saidAt + p.from >= liveSwitchAt) return; // said in the next episode
@@ -1356,7 +1361,7 @@
       // Live: the last line arrived after it was said, so it also shows for a moment now.
       if (liveMode === 'live' && i === parts.length - 1 && now >= a && now < a + 60000) b = Math.max(b, now + 2500);
       const pid = ++livePid;
-      for (const c of splitLong(p.text, a, b).map((x) => Object.assign(x, { pid, orig: p.orig || p.text }, doubt ? { doubt: true } : {}))) {
+      for (const c of splitLong(p.text, a, b).map((x) => Object.assign(x, { pid, orig: p.orig || p.text }, doubtOf(p) ? { doubt: true } : {}, typeof p.speech === 'number' ? { speech: p.speech } : {}))) {
         // Heard again after going back: the new line replaces what was there.
         list = list.filter((x) => x.start < c.start || x.start >= c.end)
           .map((x) => (x.start < c.start && x.end > c.start ? Object.assign({}, x, { end: c.start }) : x));
@@ -1566,11 +1571,65 @@
     const list = savedList(f.b64, f.ai);
     if (f.native) nativeSite.set(list, f.native);
     if (f.clean) cleaned.add(list);
+    startReview(typeof f.lib === 'string' ? f.lib : '');
     showTranslation(f.translatedTo, list, true);
     restoreSecond(f);
     resumeShown();
     return r;
   }
+  // ---------- lines the AI removed from a transcript ----------
+  // A transcript played from the queue or Saved subtitles knows its saved copy
+  // (lib:…), where the lines the AI removed as never said are kept. The card over
+  // the video says how many, with a button to the queue page's list of them, and
+  // a line put back there shows here at once.
+  let review = null; // { key, base, count }: base = the original file it belongs to
+  // Started just before showTranslation sets the original: the first look ties it to that one.
+  function reviewOn() {
+    if (!review || !original) return false;
+    if (!review.base) review.base = original.file;
+    return review.base === original.file;
+  }
+  function startReview(key) {
+    review = key ? { key, base: null, count: 0 } : null;
+    if (!review) return;
+    const r = review;
+    chrome.storage.local.get(key).then((got) => { if (review === r) { r.count = cutCount(got[key]); refreshLangs(); } }, () => {});
+  }
+  const cutCount = (item) => (item && Array.isArray(item.heard) ? item.heard.filter((h) => h.cut).length : 0);
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !review || !changes[review.key] || !reviewOn()) return;
+    const item = changes[review.key].newValue;
+    if (!item) { review = null; refreshLangs(); return; }
+    review.count = cutCount(item);
+    // Put back or taken out again in the queue page: the lines on screen follow.
+    if (item.orig && item.srt && file.translatedTo === item.lang) {
+      const list = SubLib.parse(item.srt), orig = SubLib.parse(item.orig);
+      if (list.length && list.length === orig.length) {
+        const old = aiState.get(translations.get(item.lang));
+        if (old) aiState.set(list, Object.assign({}, old, { done: list.length, total: list.length, chunks: new Set(list.map((c, i) => i - (i % AI_CHUNK))) }));
+        original.cues = orig;
+        const showing = cues === translations.get(item.lang);
+        translations.set(item.lang, list);
+        if (showing) showTranslation(item.lang, list, true);
+        else { lastKey = ''; render(true); rememberFile(); }
+      }
+    }
+    refreshLangs();
+  });
+  function reviewRow() {
+    const row = el('div', 'ai');
+    const foot = el('div', 'ai-foot stack');
+    foot.append(el('div', 'ai-note', t('AI removed {n} lines as not said', { n: review.count })));
+    const acts = el('div', 'ai-acts');
+    const b = el('button', 'ai-act', t('Review') + ' ↗');
+    b.title = t('Opens the list of removed lines, where you can put any of them back.');
+    b.addEventListener('click', (e) => { e.stopPropagation(); send({ type: 'open-queue', review: review.key }); });
+    acts.append(b);
+    foot.append(acts);
+    row.append(foot);
+    return row;
+  }
+
   // Saved lines and how far the AI pass got with them.
   function savedList(b64, ai) {
     const list = SubLib.parse(SubLib.decode(SubLib.base64ToBytes(b64), 'utf-8').text);
@@ -2111,7 +2170,7 @@
   // A video watched with the site's own subtitles in your language counts for
   // the support card like a translated one (it's still our overlay, style and
   // dual subtitles), but adds no translated lines.
-  const countOwn = () => chrome.runtime.sendMessage({ type: 'count-video', page: pageOfSubs(), lines: 0 }).catch(() => {});
+  const countOwn = () => send({ type: 'count-video', page: pageOfSubs(), lines: 0 });
   // The site's own subtitles in a language, as { list, site, name, text }, or null.
   async function siteTrack(lang) {
     const res = await chrome.runtime.sendMessage({ type: 'native-track', lang }).catch(() => null);
@@ -3205,6 +3264,7 @@
       .map((row) => aiRow(row.lang, row.list));
     if (cleanable() && aiReady()) progress.push(cleanRow());
     if (!original && file && file.made) progress.push(madeRow(file.made));
+    if (reviewOn() && review.count > 0) progress.push(reviewRow());
     // While Google translates: its bar, in place of the switch the new language gets when it's done.
     if (translating) progress.unshift(translatingRow(translating));
     const report = el('button', 'report', t('Report a problem'));
@@ -4126,6 +4186,13 @@
       case 'load': {
         const v = msg.videoIndex != null ? findVideos()[msg.videoIndex] : null;
         if (v) pinned = v;
+        // A transcript with what was said beside it (the queue's Show on…): as after a reload.
+        if (msg.record && msg.record.original) {
+          const r = restoreRecord(Object.assign({}, msg.record, { offset: undefined }), v || pickVideo());
+          if (r.ok) notice(t('Loaded {n} lines', { n: cues.length }));
+          reply(r);
+          return;
+        }
         reply(loadBytes(msg.name, msg.b64, msg.encoding, v, msg.asr, msg.made));
         return;
       }
@@ -4218,7 +4285,7 @@
       case 'live-collect':
         // Transcribing is done: every line, for the queue.
         if (liveOn && liveMode === 'transcribe' && liveCues.length) {
-          reply({ lines: liveCues.map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href });
+          reply({ lines: liveCues.map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href });
         }
         return;
       case 'live-lang':
