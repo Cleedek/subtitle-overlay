@@ -1186,6 +1186,17 @@
   // Transcribing: the video element listened to, and when the site moved on to
   // another episode (0 = not yet). Anything heard after that isn't this episode.
   let heardVideo = null, liveSwitchAt = 0;
+  // Where the video was when the site moved on ({ t, d } in seconds): the
+  // element may play the next episode by the time the lines are collected.
+  let liveReached = null;
+  // Stopped well before the end (a pause left for long, then the page changed,
+  // or Stop pressed): "0:56 / 17:21", so the queue shows it isn't the whole video.
+  function liveShortOf() {
+    const r = liveReached || (heardVideo && { t: heardVideo.currentTime, d: heardVideo.duration });
+    if (!r || !Number.isFinite(r.d) || r.d <= 0 || (heardVideo && heardVideo.ended && !liveReached)) return '';
+    const left = r.d - r.t;
+    return left > 60 && left > r.d * 0.1 ? clock(r.t * 1000) + ' / ' + clock(r.d * 1000) : '';
+  }
   // Where the video was at each moment (every 250 ms while listening): a line
   // arrives seconds after it was said, and goes where it was said, also after
   // a pause or a jump in between.
@@ -1204,6 +1215,7 @@
     liveFrom = { page: location.href, title: document.title };
     heardVideo = v;
     liveSwitchAt = 0;
+    liveReached = null;
     file = { name: 'Live.vtt', b64: '', encoding: 'utf-8', usedEncoding: 'utf-8', live: true };
     loadedOn = location.href;
     attach(v);
@@ -1252,6 +1264,7 @@
       // (or the player being replaced) ends this one, and it goes to the queue.
       if (!liveSwitchAt && (SubSettings.pageOf(location.href) !== SubSettings.pageOf(liveFrom.page) || !heardVideo.isConnected)) {
         liveSwitchAt = Date.now();
+        liveReached = { t: heardVideo.currentTime, d: heardVideo.duration };
         notice(t('The site went on to another video, so it was stopped. The subtitles made so far go to the translation queue.'), 8000);
         send({ type: 'live-finish' });
         holdStill();
@@ -4297,7 +4310,7 @@
       case 'live-collect':
         // Transcribing is done: every line, for the queue.
         if (liveOn && liveMode === 'transcribe' && liveCues.length) {
-          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href });
+          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href, short: liveShortOf() });
         }
         return;
       case 'live-lang':

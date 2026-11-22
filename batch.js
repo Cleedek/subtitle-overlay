@@ -221,6 +221,9 @@
     await chrome.storage.local.remove(Object.keys(got));
     if (!list.length) return;
     for (const j of list) if (!jobs.some((x) => x.id === j.id)) place(j);
+    // A transcript from the audio was asked for and nobody watches it arrive:
+    // a queue paused some other day would keep it waiting unseen.
+    if (paused && list.some((j) => j.audio)) paused = false;
     if (live.length) sortAhead();
     await save();
     render();

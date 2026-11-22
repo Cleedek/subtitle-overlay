@@ -262,13 +262,15 @@ async function queueTab() {
 // remembers the page: its Play button brings you back there with the
 // translation on the video. The queue tab opens behind this one if needed.
 // source: the file's own name; YouTube's ("youtube-…") keep the CC button working after Play.
-async function addToQueue({ lines, lang, title, fileName, notify, spoken, audio, page }, tabId) {
+// short: a transcript that ended long before the video ("0:56 / 17:21"), shown after the title.
+async function addToQueue({ lines, lang, title, fileName, notify, spoken, audio, page, short }, tabId) {
   if (!Array.isArray(lines) || !lines.length) throw new Error(tr('No subtitle lines found.'));
   const tab = await chrome.tabs.get(tabId);
   title = title || tab.title || '';
   // Sites like Prima name every episode's file the same: the episode names the translation.
   const name = (title.replace(/\s*:\s*/g, ' - ').replace(/[\\/*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim()
     || String(fileName || 'subtitles').replace(SubLib.SUB_FILE, '')) + '.srt';
+  if (short) title += ' (' + short + ')';
   const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   await chrome.storage.local.set({ ['queue:' + id]: { id, name, source: fileName || '', lang, lines, out: [], chunks: [],
     status: 'waiting', error: '', model: '', added: Date.now(), page: page || tab.url, title, ...(notify ? { notify: true } : {}), ...(spoken ? { spoken } : {}), ...(audio ? { audio: true } : {}) } });
@@ -1470,7 +1472,8 @@ function liveFinish(tabId) {
     const tab = await chrome.tabs.get(tabId).catch(() => null);
     // The language set now: it may have changed while the video played.
     const to = (await SubSettings.loadTranslation()).translateTo || run.to;
-    await addToQueue({ lines, lang: to, title: run.title || (got && got.title) || (tab && tab.title) || '', fileName: run.lang ? 'whisper.' + run.lang + '.srt' : 'whisper.srt', notify: true, spoken: run.lang, audio: true, page: run.page || (got && got.page) }, tabId);
+    // Ended long before the video did: the name says how far it got.
+    await addToQueue({ lines, lang: to, title: run.title || (got && got.title) || (tab && tab.title) || '', short: got && got.short, fileName: run.lang ? 'whisper.' + run.lang + '.srt' : 'whisper.srt', notify: true, spoken: run.lang, audio: true, page: run.page || (got && got.page) }, tabId);
     countAudio(run.page || (got && got.page), lines);
     await liveStop();
     chrome.tabs.sendMessage(tabId, { type: 'live-queued', lines: lines.length }).catch(() => {});
