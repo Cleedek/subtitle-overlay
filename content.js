@@ -1182,7 +1182,53 @@
   let liveCues = [];
   // The episode's address and name when listening started: when the video ends,
   // many sites already went back to the series page, and Play must open this one.
-  let liveFrom = { page: '', title: '' };
+  // name, named: what the video is and the page it started on, when that's
+  // known better than the tab's own name and address (see videoName, srcSeen).
+  let liveFrom = { page: '', title: '', name: '', named: '' };
+  // What plays, as the page describes it to search engines (schema.org, which
+  // Prima+ and many video sites carry): "Zrádci – Co jste v díle neviděli – S3E10"
+  // instead of "… - epizoda S310 - Co jste v díle neviděli online | prima+".
+  // Only in the top page, and only data about this address (a site changing
+  // pages without loading may leave the old page's behind).
+  function videoName() {
+    if (window !== window.top) return '';
+    const here = SubSettings.pageOf(location.href).split(/[?#]/)[0].replace(/\/$/, '');
+    for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
+      let data;
+      try { data = JSON.parse(s.textContent); } catch (e) { continue; }
+      for (const d of [].concat(data, (data && data['@graph']) || [])) {
+        if (!d || !/^(TVEpisode|Episode|Movie|VideoObject|Clip)$/.test([].concat(d['@type'])[0])) continue;
+        if (d.url && String(d.url).split(/[?#]/)[0].replace(/\/$/, '') !== here) continue;
+        const series = String((d.partOfSeries && d.partOfSeries.name) || '').replace(/\s+/g, ' ').trim();
+        let ep = String(d.name || '').replace(/\s+/g, ' ').trim();
+        if (!ep) continue;
+        // "S310 - Co jste v díle neviděli" in the series "Zrádci – Co jste v díle neviděli": the repeat goes.
+        const tail = series.split(/\s[–-]\s/).pop();
+        if (series && tail && ep.toLowerCase().includes(tail.toLowerCase()) && !ep.toLowerCase().includes(series.toLowerCase())) {
+          ep = ep.replace(new RegExp('\\s*[–-]?\\s*' + tail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*[–-]?\\s*', 'i'), ' ').trim() || ep;
+        }
+        // Prima's "S310" is season 3, episode 10: only when the episode number agrees.
+        const n = Number(d.episodeNumber);
+        const code = /^S(\d+)$/i.exec(ep);
+        if (code && n > 0 && code[1].length > String(n).length && code[1].endsWith(String(n).padStart(2, '0'))) {
+          ep = 'S' + code[1].slice(0, -String(n).padStart(2, '0').length) + 'E' + n;
+        }
+        return series && !ep.toLowerCase().includes(series.toLowerCase()) ? series + ' – ' + ep : ep;
+      }
+    }
+    return '';
+  }
+  // Each video's source, where it started playing, and its name there. Prima+
+  // can keep playing an episode after its address went back to the series page
+  // (and a transcript started then would be named after the series).
+  const srcSeen = new Map();
+  document.addEventListener('playing', (e) => {
+    const v = e.target;
+    const src = v instanceof HTMLVideoElement && (v.currentSrc || v.src);
+    if (!src || srcSeen.has(src)) return;
+    srcSeen.set(src, { page: location.href, name: videoName() });
+    if (srcSeen.size > 30) srcSeen.delete(srcSeen.keys().next().value);
+  }, true);
   // Transcribing: the video element listened to, and when the site moved on to
   // another episode (0 = not yet). Anything heard after that isn't this episode.
   let heardVideo = null, liveSwitchAt = 0;
@@ -1212,7 +1258,10 @@
     liveOn = true;
     liveMode = mode === 'transcribe' ? 'transcribe' : 'live';
     liveCues = [];
-    liveFrom = { page: location.href, title: document.title };
+    // page stays the address now: the site going elsewhere from it ends the run.
+    const seen = srcSeen.get(v.currentSrc || v.src);
+    const named = seen && seen.page !== location.href && seen.name ? seen : { page: '', name: videoName() };
+    liveFrom = { page: location.href, title: document.title, name: named.name, named: named.page };
     heardVideo = v;
     liveSwitchAt = 0;
     liveReached = null;
@@ -4310,7 +4359,7 @@
       case 'live-collect':
         // Transcribing is done: every line, for the queue.
         if (liveOn && liveMode === 'transcribe' && liveCues.length) {
-          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href, short: liveShortOf() });
+          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href, short: liveShortOf(), name: liveFrom.name, named: liveFrom.named });
         }
         return;
       case 'live-lang':

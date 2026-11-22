@@ -1473,8 +1473,11 @@ function liveFinish(tabId) {
     // The language set now: it may have changed while the video played.
     const to = (await SubSettings.loadTranslation()).translateTo || run.to;
     // Ended long before the video did: the name says how far it got.
-    await addToQueue({ lines, lang: to, title: run.title || (got && got.title) || (tab && tab.title) || '', short: got && got.short, fileName: run.lang ? 'whisper.' + run.lang + '.srt' : 'whisper.srt', notify: true, spoken: run.lang, audio: true, page: run.page || (got && got.page) }, tabId);
-    countAudio(run.page || (got && got.page), lines);
+    // The page's own name for the video (content.js videoName), and the episode's
+    // address when the site kept playing it under the series page.
+    const page = (got && got.named) || run.page || (got && got.page);
+    await addToQueue({ lines, lang: to, title: (got && got.name) || run.title || (got && got.title) || (tab && tab.title) || '', short: got && got.short, fileName: run.lang ? 'whisper.' + run.lang + '.srt' : 'whisper.srt', notify: true, spoken: run.lang, audio: true, page }, tabId);
+    countAudio(page, lines);
     await liveStop();
     chrome.tabs.sendMessage(tabId, { type: 'live-queued', lines: lines.length }).catch(() => {});
     return { ok: true, lines: lines.length };
