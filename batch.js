@@ -458,6 +458,8 @@
       const srcKey = await SubSettings.sourceKey(job.lines).catch(() => '');
       await SubSettings.keepSubtitles({ name: outName(job), lang: job.lang, model: job.model || 'Google', srt: outSrt(job), ...(job.audio ? { audio: true, spoken: job.spoken || '', orig: SubLib.toSRT(job.lines), origName: job.source || job.name, heard: job.heard || job.lines.map((c) => ({ start: c.start, end: c.end, text: c.text })) } : {}),
         page: job.page, title: job.title, src: srcKey }, prefs.keepFor);
+      // Subtitles made from the audio wait on their page: the next visit puts them on by themselves.
+      if (job.audio && job.page) await keepForPage(job.page, jobFile(job), job.added).catch(() => {});
     } catch (e) {
       job.status = 'error';
       job.error = e.message;
@@ -676,14 +678,20 @@
   // marked as showing in this browser session, so it puts them on at once, as
   // after a reload, instead of only offering them.
   const b64 = (text) => SubLib.bytesToBase64(new TextEncoder().encode(text));
-  async function play(page, file) {
-    // Kept as content.js looks for it: a YouTube video under one address whatever else the link held.
+  // Kept as content.js looks for it: a YouTube video under one address whatever else the link held.
+  // since: not over subtitles that page showed after then (something you chose meanwhile).
+  async function keepForPage(page, file, since) {
     const key = 'mem:' + SubSettings.pageOf(page);
     const before = (await chrome.storage.local.get(key))[key];
+    if (since && before && before.t > since) return null;
     const record = Object.assign({ t: Date.now() }, file);
     // The sync set for that page stays.
     if (before && typeof before.offset === 'number') record.offset = before.offset;
     await chrome.storage.local.set({ [key]: record });
+    return record;
+  }
+  async function play(page, file) {
+    const record = await keepForPage(page, file);
     await chrome.storage.session.set({ ['page:' + SubSettings.pageOf(page)]: { t: record.t } });
     const open = (await chrome.tabs.query({})).find((tab) => tab.url && SubSettings.pageOf(tab.url) === SubSettings.pageOf(page));
     if (!open) return chrome.tabs.create({ url: page });
@@ -695,10 +703,14 @@
   // dual subtitles work there as usual, and a model's finished pass shows as done.
   // The original keeps its own name, so on YouTube the CC button still switches them.
   function playJob(job) {
+    return play(job.page, jobFile(job));
+  }
+  // dur: the video's length, so a later visit knows it's the same video (content.js checkRestore).
+  function jobFile(job) {
     const ai = job.model && job.chunks.length >= Math.ceil(job.lines.length / CHUNK);
-    return play(job.page, { name: outName(job), b64: b64(outSrt(job)), encoding: 'utf-8', usedEncoding: 'utf-8',
+    return Object.assign({ name: outName(job), b64: b64(outSrt(job)), encoding: 'utf-8', usedEncoding: 'utf-8',
       translatedTo: job.lang, origLang: job.audio ? job.spoken || '' : '', original: { name: job.source || job.name, b64: b64(SubLib.toSRT(job.lines)), encoding: 'utf-8', usedEncoding: 'utf-8' },
-      ai: ai ? { model: job.model, done: job.lines.length, chunks: [...job.chunks], stopped: false } : null, ...(job.audio ? { lib: libKeyOf(job) } : {}) });
+      ai: ai ? { model: job.model, done: job.lines.length, chunks: [...job.chunks], stopped: false } : null, ...(job.audio ? { lib: libKeyOf(job) } : {}) }, job.dur > 0 ? { dur: job.dur } : {});
   }
   // A saved transcript with what was said kept beside it: played as a translation of
   // it, as a job is, so the second line in the spoken language is those lines at once

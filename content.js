@@ -1237,6 +1237,12 @@
   let liveReached = null;
   // Stopped well before the end (a pause left for long, then the page changed,
   // or Stop pressed): "0:56 / 17:21", so the queue shows it isn't the whole video.
+  // The video's length, kept with the finished subtitles: on a later visit they
+  // come back by themselves on a video exactly as long (checkRestore).
+  function liveDurOf() {
+    const d = liveReached ? liveReached.d : heardVideo && heardVideo.duration;
+    return Number.isFinite(d) && d > 0 ? Math.round(d) : 0;
+  }
   function liveShortOf() {
     const r = liveReached || (heardVideo && { t: heardVideo.currentTime, d: heardVideo.duration });
     if (!r || !Number.isFinite(r.d) || r.d <= 0 || (heardVideo && heardVideo.ended && !liveReached)) return '';
@@ -1562,7 +1568,10 @@
       // length was kept are still offered.
       if (ask) {
         await prefsReady;
-        if (prefs.autoTranslate) ask = SubSettings.youTubeId(location.href) ? false : (record.dur > 0 ? 'length' : true);
+        // Subtitles made from the audio always come back by themselves: you waited
+        // for them, and the video has no others (Remove in the popup drops them).
+        const audio = fromAudio({ file: record.original || record });
+        if (prefs.autoTranslate || audio) ask = SubSettings.youTubeId(location.href) ? false : (record.dur > 0 ? 'length' : true);
       }
       restorePending = { record, ask, since: Date.now(), page: location.href };
       startWatch();
@@ -4359,7 +4368,7 @@
       case 'live-collect':
         // Transcribing is done: every line, for the queue.
         if (liveOn && liveMode === 'transcribe' && liveCues.length) {
-          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href, short: liveShortOf(), name: liveFrom.name, named: liveFrom.named });
+          reply({ lines: readable(liveCues).map((c) => Object.assign({ start: c.start, end: c.end, text: c.text }, c.doubt ? { doubt: true } : {}, typeof c.speech === 'number' ? { speech: c.speech } : {})), title: liveFrom.title || document.title, page: liveFrom.page || location.href, short: liveShortOf(), dur: liveDurOf(), name: liveFrom.name, named: liveFrom.named });
         }
         return;
       case 'live-lang':
