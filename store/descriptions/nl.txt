@@ -5,7 +5,8 @@ Subtitle Overlay toont ondertitels over de videospeler van elke website, ook op 
 ★ DE HOOGTEPUNTEN
 ★ Elke site, elke video: ondertitels over de speler, in een venster of op volledig scherm, altijd synchroon
 ★ Vertaal met één klik naar 33 talen, of helemaal automatisch zodra je de ondertitels aanzet in de speler van de site
-★ NIEUW: gedeelde ondertitels: heeft iemand dezelfde ondertitels al met AI verbeterd, dan krijg je meteen die versie, en of je de jouwe deelt, bepaal je zelf
+★ NIEUW: helemaal geen ondertitels? Een gratis spraakmodel op je computer schrijft op wat er gezegd wordt, en daarna wordt het naar jouw taal vertaald (bèta)
+★ Gedeelde ondertitels: heeft iemand dezelfde ondertitels al met AI verbeterd, dan krijg je meteen die versie, en of je de jouwe deelt, bepaal je zelf
 ★ Laat de vertaling natuurlijk klinken met AI, gratis op je eigen computer (Gemma) of met je eigen sleutel voor Gemini, Claude of OpenAI
 ★ Heeft de site al ondertitels in jouw taal, dan krijg je die, en er wordt alleen vertaald als die er niet zijn
 ★ Twee talen tegelijk: één bovenaan, één onderaan, om samen te kijken of een taal te leren
@@ -53,12 +54,21 @@ VINDT DE ONDERTITELS DIE EEN SITE LAADT
 • Toon, vertaal of bewaar ze als .srt met één klik
 • Meerdere video's op één pagina? Kies bij welke video de ondertitels horen
 
+ONDERTITELS UIT HET GELUID (BÈTA)
+• Helemaal geen ondertitels? Klik in de pop-up op "Ondertitels maken uit het geluid". Een gratis spraakmodel (Whisper) op je eigen computer schrijft op wat er gezegd wordt terwijl de video tot het einde speelt
+• Dat tabblad hoor je ondertussen niet: gebruik gerust andere tabbladen, laat het alleen open. Een melding kan je laten weten wanneer de ondertitels klaar zijn
+• Daarna worden ze vertaald in de vertaalwachtrij en verschijnen ze over de video in jouw taal, als je wilt met wat er gezegd werd als tweede regel
+• Het geluid verlaat nooit je computer en deze ondertitels worden nooit gedeeld. Het spraakmodel wordt één keer gedownload (560 MB tot 1,9 GB, jij kiest de grootte)
+• Met AI aan verbetert het ook verkeerd verstane woorden en haalt het regels weg die een spraakmodel bij muziek verzonnen heeft; in de wachtrij kun je elke regel terugzetten
+• Het kan fouten maken die een mens niet zou maken en werkt het best bij duidelijke spraak
+
 VERTAALWACHTRIJ EN BEWAARDE ONDERTITELS
 • Sleep er meerdere .srt-, .vtt-, .ass-, .ssa- of .ttml-bestanden in, of klik op "Aan wachtrij toevoegen" bij ondertitels die een site laadt. Ze worden na elkaar vertaald terwijl jij iets anders doet; het tabblad met de wachtrij mag op de achtergrond blijven
 • Werkt met Google, Gemini, Claude, OpenAI of je lokale model
 • Zolang een bestand in de wachtrij staat, laat de kaart over de video zien hoe ver het is, en het klare bestand vervangt vanzelf de regels van Google
 • Verbeterde ondertitels blijven in de extensie zo lang als jij kiest, en komen terug als je naar de video terugkeert, en op elke andere pagina met dezelfde ondertitels, zonder de AI opnieuw te vragen
 • Afspelen opent de video met de ondertitels, "Tonen op…" zet ze op een video die al open is in een ander tabblad, en .srt downloaden slaat het .srt-bestand op
+• Bestanden staan op naam, dus aflevering 2 komt vóór aflevering 10, en met Sorteren verander je de volgorde
 
 STIJL ZE NAAR JOUW SMAAK
 • Ruim 1.800 Google Fonts, gefilterd op de lettertypen die de letters van jouw taal hebben (č ř ž, ư ế ộ, Cyrillisch, Grieks, Japans en meer)
@@ -91,6 +101,7 @@ SITE PER SITE
 
 SNELTOETSEN
 Alt + [ / ] synchroniseren · Alt + Shift + [ / ] synchroniseren per 1 s · Alt + 0 synchronisatie herstellen · Alt + R zin herhalen · Alt + S tonen of verbergen · Alt + 1 / Alt + 2 één taal tonen of verbergen · Alt + ↑ / ↓ verplaatsen · Alt + = / Alt + − groter of kleiner · Alt + F volledig scherm met ondertitels
+Op Windows en Linux: Alt + Enter volledig scherm met ondertitels · Alt + , / Alt + . synchroniseren per 1 s
 Elke sneltoets kun je wijzigen of uitzetten op het tabblad Gedrag.
 
 INTERFACE IN 33 TALEN
@@ -101,6 +112,7 @@ Een tabblad "Subtitles" in DevTools toont elk ondertitelbestand dat de pagina he
 
 PRIVACY
 Geen accounts, geen analytics, geen tracking. Ondertiteltekst gaat alleen naar Google Translate als ondertitels worden vertaald (door jouw klik of door de automatische modus), en alleen naar Gemini, Claude, OpenAI of je lokale model als je op Verbeteren klikt. Om gedeelde ondertitels te vinden, worden de eerste 5 tekens van een eenrichtingsvingerafdruk van de ondertitels en de taal naar mijn server (subs.cleedek.com) gestuurd; je eigen verbeterde ondertitels gaan daarheen alleen als je akkoord gaat met delen. Verder blijven onthouden en bewaarde ondertitels in je browser. Als je me schrijft via "Schrijf me" in de pop-up, komt je bericht per e-mail bij mij aan. Een probleemmelding wordt alleen verstuurd als je op Versturen drukt en bevat de naam van de site, nooit het adres van de pagina. Details in het privacybeleid.
+Ondertitels uit het geluid: het geluid van het tabblad wordt alleen op je computer omgezet in tekst en nergens heen gestuurd. Het spraakmodel wordt één keer gedownload van Hugging Face, en deze ondertitels worden nooit gedeeld; hun tekst wordt vertaald zoals alle andere ondertitels.
 
 PROBLEEM OF IDEE?
 Klik onderaan de pop-up op "Probleem of idee?" en schrijf me. Ik lees elk bericht. Verschijnen er op een site geen ondertitels? Het label "Hulp" bij de video helpt je verder, en "Probleem melden" stuurt mij de naam van de site zodat ik het kan oplossen.

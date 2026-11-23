@@ -5,7 +5,8 @@ Subtitle Overlay näyttää tekstityksen minkä tahansa sivuston videosoittimen 
 ★ TÄRKEIMMÄT
 ★ Mikä tahansa sivusto, mikä tahansa video: tekstitys soittimen päällä, ikkunassa tai koko näytöllä, aina tahdissa
 ★ Käännös 33 kielelle yhdellä klikkauksella tai täysin automaattisesti heti, kun laitat tekstityksen päälle sivuston soittimessa
-★ UUTTA: jaetut tekstitykset: jos joku on jo parantanut samat tekstitykset tekoälyllä, saat hänen versionsa heti, ja omiesi jakamisesta päätät itse
+★ UUTTA: ei tekstitystä lainkaan? Tietokoneesi ilmainen puhemalli kirjoittaa puheen muistiin, ja sitten se käännetään kielellesi (beta)
+★ Jaetut tekstitykset: jos joku on jo parantanut samat tekstitykset tekoälyllä, saat hänen versionsa heti, ja omiesi jakamisesta päätät itse
 ★ Tekoäly tekee käännöksestä luontevan, ilmaiseksi omalla tietokoneellasi (Gemma) tai omalla Gemini-, Claude- tai OpenAI-avaimellasi
 ★ Jos sivustolla on jo tekstitys kielelläsi, saat sen, ja käännös tehdään vain, kun sellaista ei ole
 ★ Kaksi kieltä kerralla: yksi ylhäällä, toinen alhaalla, yhteiseen katseluun tai kielen opiskeluun
@@ -53,12 +54,21 @@ LÖYTÄÄ SIVUSTON LATAAMAT TEKSTITYKSET
 • Näytä, käännä tai tallenna .srt-tiedostona yhdellä klikkauksella
 • Useita videoita samalla sivulla? Valitse, mihin niistä tekstitys kuuluu
 
+TEKSTITYS ÄÄNESTÄ (BETA)
+• Ei tekstitystä lainkaan? Valitse ponnahdusikkunasta "Tee tekstitys äänestä". Ilmainen puhemalli (Whisper) omalla tietokoneellasi kirjoittaa puheen muistiin, kun video toistuu loppuun asti
+• Et kuule sitä välilehteä sillä välin: käytä vapaasti muita välilehtiä, pidä vain se auki. Ilmoitus voi kertoa, kun tekstitys on valmis
+• Sitten se käännetään käännösjonossa ja näkyy videon päällä omalla kielelläsi, halutessasi alkuperäinen puhe toisena rivinä
+• Ääni ei koskaan lähde tietokoneeltasi, eikä näitä tekstityksiä koskaan jaeta. Puhemalli ladataan kerran (560 Mt – 1,9 Gt, koon valitset itse)
+• Kun tekoäly on käytössä, se myös korjaa väärin kuultuja sanoja ja poistaa rivejä, jotka puhemalli keksi musiikin päälle; jonossa voit palauttaa minkä tahansa niistä
+• Se voi tehdä virheitä, joita ihminen ei tekisi, ja toimii parhaiten selkeän puheen kanssa
+
 KÄÄNNÖSJONO JA TALLENNETUT TEKSTITYKSET
 • Pudota useita .srt-, .vtt-, .ass-, .ssa- tai .ttml-tiedostoja tai klikkaa "Lisää jonoon" sivuston lataaman tekstityksen kohdalla. Ne käännetään yksi kerrallaan sillä aikaa, kun teet muuta; jonon välilehti voi jäädä taustalle
 • Toimii Googlen, Geminin, Clauden, OpenAI:n tai paikallisen mallisi kanssa
 • Kun tiedosto on jonossa, sen videon päällä oleva kortti näyttää, kuinka pitkällä se on, ja valmis tiedosto korvaa Googlen rivit itsestään
 • Parannetut tekstitykset säilyvät laajennuksessa niin kauan kuin haluat ja palaavat, kun palaat videon pariin, ja millä tahansa muulla sivulla, jossa on samat tekstitykset, kysymättä tekoälyltä uudelleen
 • Toista avaa videon tekstityksineen, "Näytä kohteessa…" tuo ne toisessa välilehdessä jo auki olevan videon päälle, ja Lataa .srt tallentaa tiedoston
+• Tiedostot ovat nimen mukaan, joten jakso 2 tulee ennen jaksoa 10, ja Järjestä muuttaa järjestystä
 
 TYYLITTELE OMAN MAKUSI MUKAAN
 • Yli 1 800 Google Fonts -fonttia, suodatettuna niihin, joissa on kielesi kirjaimet (č ř ž, ư ế ộ, kyrillinen, kreikkalainen ja japanilainen kirjoitus ja paljon muuta)
@@ -91,6 +101,7 @@ SIVUSTO KERRALLAAN
 
 PIKANÄPPÄIMET
 Alt + [ / ] ajoitus · Alt + Shift + [ / ] ajoitus 1 s:n askelin · Alt + 0 nollaa ajoitus · Alt + R toista repliikki · Alt + S näytä tai piilota · Alt + 1 / Alt + 2 näytä tai piilota vain yksi kieli · Alt + ↑ / ↓ siirrä · Alt + = / Alt + − suurempi tai pienempi · Alt + F koko näyttö tekstityksellä
+Windowsissa ja Linuxissa: Alt + Enter koko näyttö tekstityksellä · Alt + , / Alt + . ajoitus 1 s kerrallaan
 Jokaisen pikanäppäimen voi vaihtaa tai poistaa käytöstä Toiminta-välilehdellä.
 
 KÄYTTÖLIITTYMÄ 33 KIELELLÄ
@@ -101,6 +112,7 @@ DevToolsin "Subtitles"-välilehti listaa kaikki sivun lataamat tekstitystiedosto
 
 YKSITYISYYS
 Ei tilejä, ei analytiikkaa, ei seurantaa. Tekstityksen teksti lähetetään Google Kääntäjälle vain, kun tekstitystä käännetään (klikkauksestasi tai automaattisessa tilassa), ja Geminille, Claudelle, OpenAI:lle tai paikalliselle mallillesi vain, kun klikkaat Paranna. Jaettujen tekstitysten etsimiseksi tekstitysten yksisuuntaisen sormenjäljen 5 ensimmäistä merkkiä ja kieli lähetetään palvelimelleni (subs.cleedek.com); omat parantamasi tekstitykset menevät sinne vain, jos suostut jakamaan ne. Muuten muistetut ja tallennetut tekstitykset pysyvät selaimessasi. Jos kirjoitat minulle ponnahdusikkunan "Kirjoita minulle" -kohdasta, viestisi tulee minulle sähköpostina. Ongelmailmoitus lähtee vain, kun painat Lähetä, ja siinä on sivuston nimi, ei koskaan sivun osoitetta. Tarkemmin tietosuojakäytännössä.
+Tekstitys äänestä: välilehden ääni muutetaan tekstiksi vain tietokoneellasi eikä sitä lähetetä minnekään. Puhemalli ladataan kerran Hugging Facesta, eikä näitä tekstityksiä koskaan jaeta; niiden teksti käännetään kuten mikä tahansa muu tekstitys.
 
 ONGELMA TAI IDEA?
 Klikkaa ponnahdusikkunan alaosassa "Ongelma tai idea?" ja kirjoita minulle. Luen jokaisen viestin. Eivätkö tekstitykset näy jollain sivustolla? Videon "Apua"-merkki opastaa sinua, ja "Ilmoita ongelmasta" lähettää minulle sivuston nimen, jotta voin korjata sen.

@@ -5,7 +5,8 @@ Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, t
 ★ ÖNE ÇIKANLAR
 ★ Her site, her video: oynatıcının üzerinde altyazı, pencerede veya tam ekranda, her zaman senkronize
 ★ Tek tıkla 33 dile çeviri ya da sitenin oynatıcısında altyazıyı açtığın anda tamamen otomatik
-★ YENİ: paylaşılan altyazılar: aynı altyazıları biri yapay zekâ ile zaten iyileştirdiyse onun sürümünü hemen alırsın, kendi altyazılarını paylaşıp paylaşmamak da sana kalmış
+★ YENİ: hiç altyazı yok mu? Bilgisayarındaki ücretsiz bir konuşma modeli söyleneni yazar, sonra bu senin diline çevrilir (beta)
+★ Paylaşılan altyazılar: aynı altyazıları biri yapay zekâ ile zaten iyileştirdiyse onun sürümünü hemen alırsın, kendi altyazılarını paylaşıp paylaşmamak da sana kalmış
 ★ Yapay zekâ ile çeviri doğal dursun, kendi bilgisayarında ücretsiz (Gemma) ya da kendi Gemini, Claude veya OpenAI anahtarınla
 ★ Sitede zaten senin dilinde altyazı varsa onu alırsın, çeviri yalnızca hiç yoksa devreye girer
 ★ Aynı anda iki dil: biri üstte, biri altta; birlikte izlemek ya da dil öğrenmek için
@@ -53,12 +54,21 @@ SİTENİN YÜKLEDİĞİ ALTYAZILARI BULUR
 • Tek tıkla göster, çevir veya .srt olarak kaydet
 • Bir sayfada birden fazla video mu var? Altyazıların hangisine ait olduğunu seç
 
+SESTEN ALTYAZI (BETA)
+• Hiç altyazı yok mu? Açılır pencerede "Sesten altyazı oluştur"a tıkla. Kendi bilgisayarındaki ücretsiz bir konuşma modeli (Whisper), video sonuna kadar oynarken söyleneni yazar
+• Bu sırada o sekmeyi duymazsın: diğer sekmeleri rahatça kullan, yalnızca onu açık tut. Altyazılar hazır olunca bir bildirim haber verebilir
+• Sonra çeviri kuyruğunda çevrilir ve videonun üzerinde senin dilinde görünür; istersen söylenenler ikinci satırda durur
+• Ses bilgisayarından asla çıkmaz ve bu altyazılar asla paylaşılmaz. Konuşma modeli bir kez indirilir (560 MB ile 1,9 GB arası, boyutu sen seçersin)
+• Yapay zekâ açıkken yanlış duyulan kelimeleri de düzeltir ve konuşma modelinin müziğin üzerine uydurduğu satırları çıkarır; kuyrukta istediğini geri koyabilirsin
+• Bir insanın yapmayacağı hatalar yapabilir ve en iyi net konuşmayla çalışır
+
 ÇEVİRİ KUYRUĞU VE KAYDEDİLEN ALTYAZILAR
 • Birkaç .srt, .vtt, .ass, .ssa veya .ttml dosyasını sürükleyip bırak ya da bir sitenin yüklediği altyazılarda "Kuyruğa ekle"ye tıkla. Sen başka bir şeyle uğraşırken sırayla çevrilirler; kuyruk sekmesi arka planda kalabilir
 • Google, Gemini, Claude, OpenAI veya yerel modelinle çalışır
 • Bir dosya kuyruktayken videosunun üstündeki kart ne kadarının bittiğini gösterir ve biten dosya Google'ın satırlarının yerini kendiliğinden alır
 • İyileştirilmiş altyazılar, seçtiğin süre boyunca uzantıda saklanır ve videoya döndüğünde geri gelir, ve aynı altyazıların olduğu başka herhangi bir sayfada da, yapay zekâya yeniden sormadan
 • Oynat, videoyu altyazılarıyla açar; "Şurada göster…" onları başka bir sekmede zaten açık olan bir videonun üzerine koyar; İndir, .srt dosyasını kaydeder
+• Dosyalar ada göre sıralanır, yani 2. bölüm 10. bölümden önce gelir; Sırala sırayı değiştirir
 
 ALTYAZILARI KENDİ TARZINDA BİÇİMLENDİR
 • 1.800+ Google Fonts yazı tipi, yalnızca senin dilinin harflerini içerenler gösterilir (č ř ž, ư ế ộ, Kiril, Yunan, Japon harfleri ve daha fazlası)
@@ -91,6 +101,7 @@ SİTE SİTE
 
 KLAVYE KISAYOLLARI
 Alt + [ / ] senkron · Alt + Shift + [ / ] 1 sn senkron · Alt + 0 senkronu sıfırla · Alt + R satırı tekrarla · Alt + S göster veya gizle · Alt + 1 / Alt + 2 yalnızca bir dili göster veya gizle · Alt + ↑ / ↓ taşı · Alt + = / Alt + − büyüt veya küçült · Alt + F altyazılı tam ekran
+Windows ve Linux’ta: Alt + Enter altyazılı tam ekran · Alt + , / Alt + . 1 sn senkron
 Her kısayol Davranış sekmesinde değiştirilebilir veya kapatılabilir.
 
 33 DİLDE ARAYÜZ
@@ -101,6 +112,7 @@ DevTools'taki "Subtitles" sekmesi, sayfanın yüklediği her altyazı dosyasın�
 
 GİZLİLİK
 Hesap yok, analiz yok, takip yok. Altyazı metni yalnızca altyazılar çevrildiğinde (senin tıklamanla ya da otomatik modda) Google Translate'e, yalnızca İyileştir'e tıkladığında da Gemini, Claude, OpenAI veya yerel modeline gönderilir. Paylaşılan altyazıları bulmak için altyazıların tek yönlü parmak izinin ilk 5 karakteri ve dil sunucuma (subs.cleedek.com) gönderilir; iyileştirilmiş kendi altyazıların oraya yalnızca paylaşmayı kabul edersen gider. Bunun dışında hatırlanan ve kaydedilen altyazılar tarayıcında kalır. Uzantı penceresindeki "Bana yaz" ile bana yazarsan mesajın bana e-postayla ulaşır. Sorun bildirimi yalnızca Gönder'e bastığında gönderilir ve sayfa adresini değil, yalnızca sitenin adını içerir. Ayrıntılar gizlilik politikasında.
+Sesten altyazı: sekmenin sesi yalnızca bilgisayarında metne dönüştürülür ve hiçbir yere gönderilmez. Konuşma modeli Hugging Face’ten bir kez indirilir ve bu altyazılar asla paylaşılmaz; metinleri diğer altyazılar gibi çevrilir.
 
 SORUN MU, FİKİR Mİ?
 Uzantı penceresinin altındaki "Sorun mu, fikir mi?" bağlantısına tıkla ve bana yaz. Her mesajı okurum. Bir sitede altyazı görünmüyor mu? Videodaki "Yardım" etiketi sana yol gösterir, "Sorun bildir" de düzeltebilmem için sitenin adını bana gönderir.

@@ -5,7 +5,8 @@ Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na ce
 ★ TO HLAVNÍ
 ★ Jakýkoli web, jakékoli video: titulky přes přehrávač, v okně i na celé obrazovce, vždy v synchronizaci
 ★ Překlad do 33 jazyků jedním klikem, nebo úplně sám, jakmile zapneš titulky v přehrávači webu
-★ NOVĚ: sdílené titulky: když stejné titulky už někdo vylepšil pomocí AI, dostaneš jeho verzi hned, a jestli budeš sdílet ty svoje, rozhodneš sám
+★ NOVĚ: video úplně bez titulků? Bezplatný model řeči ve tvém počítači zapíše, co zaznělo, a pak se to přeloží do tvého jazyka (beta)
+★ Sdílené titulky: když stejné titulky už někdo vylepšil pomocí AI, dostaneš jeho verzi hned, a jestli budeš sdílet ty svoje, rozhodneš sám
 ★ S AI zní překlad přirozeně, zdarma ve tvém počítači (Gemma) nebo s vlastním klíčem Gemini, Claude či OpenAI
 ★ Když má web titulky ve tvém jazyce, dostaneš rovnou ty a překládá se jen tam, kde chybí
 ★ Dva jazyky naráz: jeden nahoře, druhý dole, pro společné sledování i učení jazyků
@@ -53,12 +54,21 @@ NAJDE TITULKY, KTERÉ WEB NAČTE
 • Zobrazit, přeložit nebo uložit jako .srt jedním klikem
 • Víc videí na stránce? Vybereš, ke kterému titulky patří
 
+TITULKY ZE ZVUKU (BETA)
+• Video úplně bez titulků? Klikni v popupu na "Vytvořit titulky ze zvuku". Bezplatný model řeči (Whisper) přímo ve tvém počítači zapisuje, co zazní, zatímco video hraje až do konce
+• Tu záložku mezitím neuslyšíš: klidně používej jiné záložky, jen ji nech otevřenou. Až budou titulky hotové, může ti přijít oznámení
+• Pak se přeloží ve frontě překladů a ukážou se přes video ve tvém jazyce, a když chceš, s tím, co zaznělo, jako druhým řádkem
+• Zvuk nikdy neopustí tvůj počítač a tyhle titulky se nikdy nesdílí. Model řeči se stáhne jen jednou (560 MB až 1,9 GB, velikost si vybereš)
+• Se zapnutou AI navíc opraví špatně slyšená slova a vyhodí řádky, které si model řeči vymyslel do hudby; ve frontě můžeš kterýkoli vrátit
+• Může udělat chyby, které by člověk neudělal, a nejlíp funguje s jasnou řečí
+
 FRONTA PŘEKLADŮ A ULOŽENÉ TITULKY
 • Přidej několik souborů .srt, .vtt, .ass, .ssa nebo .ttml, nebo klikni na "Přidat do fronty" u titulků, které web načte. Přeloží se jeden po druhém, zatímco děláš něco jiného; záložka s frontou může zůstat na pozadí
 • Funguje s Googlem, Gemini, Claude, OpenAI i s tvým lokálním modelem
 • Zatímco je soubor ve frontě, karta nad jeho videem ukazuje, kolik je hotovo, a hotový soubor sám nahradí řádky od Googlu
 • Vylepšené titulky zůstanou v rozšíření tak dlouho, jak si vybereš, a vrátí se, když se k videu vrátíš, a taky na jakékoli jiné stránce se stejnými titulky, aniž by se znovu ptaly AI
 • Přehrát otevře video i s titulky, "Pustit na…" je dá na video, které máš otevřené v jiné záložce, a Stáhnout uloží .srt
+• Soubory se řadí podle názvu, takže díl 2 je před dílem 10, a pořadí změníš přes Seřadit
 
 STYL PODLE TEBE
 • Přes 1 800 písem Google Fonts, vyfiltrovaných na ta, která mají písmena tvého jazyka (č ř ž, ư ế ộ, azbuka, řečtina, japonština a další)
@@ -91,6 +101,7 @@ WEB PO WEBU
 
 KLÁVESOVÉ ZKRATKY
 Alt + [ / ] načasování · Alt + Shift + [ / ] načasování po 1 s · Alt + 0 vynulovat · Alt + R zopakovat větu · Alt + S zobrazit/skrýt · Alt + 1 / Alt + 2 zobrazit/skrýt jen jeden jazyk · Alt + ↑ / ↓ posun · Alt + = / Alt + − větší nebo menší · Alt + F celá obrazovka s titulky
+Na Windows a Linuxu: Alt + Enter celá obrazovka s titulky · Alt + , / Alt + . načasování po 1 s
 Každou zkratku si na záložce Chování změníš nebo vypneš.
 
 ROZHRANÍ V 33 JAZYCÍCH
@@ -101,6 +112,7 @@ Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které strá
 
 SOUKROMÍ
 Žádné účty, žádná analytika, žádné sledování. Text titulků jde do Google Translate jen ve chvíli, kdy se titulky překládají (tvým kliknutím nebo automatickým režimem), a do Gemini, Claude, OpenAI nebo tvého lokálního modelu jen když klikneš na Vylepšit. Kvůli hledání sdílených titulků se na můj server (subs.cleedek.com) posílá prvních 5 znaků jednosměrného otisku titulků a jazyk; tvoje vylepšené titulky tam jdou, jen když souhlasíš se sdílením. Jinak zapamatované i uložené titulky zůstávají v tvém prohlížeči. Když mi napíšeš přes "Napiš mi" v popupu, zpráva mi přijde e-mailem. Hlášení problému se odešle, jen když stiskneš Odeslat, a obsahuje název webu, nikdy adresu stránky. Podrobnosti v zásadách ochrany soukromí.
+Titulky ze zvuku: zvuk záložky se převádí na text jen ve tvém počítači a nikam se neposílá. Model řeči se jednou stáhne z Hugging Face a tyhle titulky se nikdy nesdílí; jejich text se pak překládá jako jakékoli jiné titulky.
 
 PROBLÉM NEBO NÁPAD?
 Klikni dole v popupu na "Problém nebo nápad?" a napiš mi. Čtu každou zprávu. Na nějakém webu se titulky neukazují? Štítek "Pomoc" u videa tě provede a "Nahlásit problém" mi pošle název webu, abych to mohl opravit.

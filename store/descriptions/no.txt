@@ -5,7 +5,8 @@ Subtitle Overlay viser undertekster over videospilleren på alle nettsteder, ogs
 ★ HØYDEPUNKTENE
 ★ Alle nettsteder, alle videoer: undertekster over spilleren, i vindu eller fullskjerm, alltid synkronisert
 ★ Oversett til 33 språk med ett klikk, eller helt automatisk så snart du slår på undertekster i nettstedets spiller
-★ NYTT: delte undertekster: har noen allerede forbedret de samme undertekstene med AI, får du versjonen deres med en gang, og om du deler dine egne, bestemmer du selv
+★ NYTT: ingen undertekster i det hele tatt? En gratis talemodell på datamaskinen din skriver ned det som blir sagt, og så oversettes det til språket ditt (beta)
+★ Delte undertekster: har noen allerede forbedret de samme undertekstene med AI, får du versjonen deres med en gang, og om du deler dine egne, bestemmer du selv
 ★ Få oversettelsen til å låte naturlig med AI, gratis på din egen datamaskin (Gemma) eller med din egen Gemini-, Claude- eller OpenAI-nøkkel
 ★ Har nettstedet allerede undertekster på ditt språk, får du dem, og det oversettes bare når det ikke finnes noen
 ★ To språk samtidig: ett øverst, ett nederst, for å se sammen eller lære et språk
@@ -53,12 +54,21 @@ FINNER UNDERTEKSTENE SIDEN LASTER INN
 • Vis, oversett eller lagre dem som .srt med ett klikk
 • Flere videoer på én side? Velg hvilken undertekstene hører til
 
+UNDERTEKSTER FRA LYDEN (BETA)
+• Ingen undertekster i det hele tatt? Klikk på "Lag undertekster fra lyden" i popup-vinduet. En gratis talemodell (Whisper) på din egen datamaskin skriver ned det som blir sagt mens videoen spiller til slutt
+• Den fanen hører du ikke imens: bruk gjerne andre faner, bare hold den åpen. Et varsel kan si fra når undertekstene er klare
+• Så oversettes de i oversettelseskøen og vises over videoen på språket ditt, og om du vil, med det som ble sagt som en ekstra linje
+• Lyden forlater aldri datamaskinen din, og disse undertekstene deles aldri. Talemodellen lastes ned én gang (560 MB til 1,9 GB, du velger størrelsen)
+• Med AI slått på retter den også feilhørte ord og fjerner linjer en talemodell har diktet opp over musikk; i køen kan du sette hvilken som helst av dem tilbake
+• Den kan gjøre feil et menneske ikke ville gjort, og fungerer best med tydelig tale
+
 OVERSETTELSESKØ OG LAGREDE UNDERTEKSTER
 • Slipp inn flere .srt-, .vtt-, .ass-, .ssa- eller .ttml-filer, eller klikk på "Legg til i køen" på undertekster et nettsted laster inn. De oversettes én etter én mens du gjør noe annet; kø-fanen kan ligge i bakgrunnen
 • Fungerer med Google, Gemini, Claude, OpenAI eller din lokale modell
 • Mens en fil ligger i køen, viser kortet over videoen hvor langt den har kommet, og den ferdige filen erstatter Googles linjer av seg selv
 • Forbedrede undertekster lagres i utvidelsen så lenge du ønsker, og kommer tilbake når du går tilbake til videoen, og på alle andre sider med de samme undertekstene, uten å spørre AI-en igjen
 • Spill av åpner videoen med undertekstene, "Vis på…" legger dem over en video som allerede er åpen i en annen fane, og Last ned .srt lagrer .srt-filen
+• Filer står etter navn, så episode 2 kommer før episode 10, og Sorter endrer rekkefølgen
 
 STIL DEM SOM DU VIL
 • Over 1 800 Google Fonts, filtrert til dem som har bokstavene i ditt språk (č ř ž, ư ế ộ, kyrillisk, gresk, japansk og mer)
@@ -91,6 +101,7 @@ NETTSTED FOR NETTSTED
 
 HURTIGTASTER
 Alt + [ / ] synkroniser · Alt + Shift + [ / ] synkroniser med 1 s · Alt + 0 tilbakestill synkronisering · Alt + R gjenta replikken · Alt + S vis eller skjul · Alt + 1 / Alt + 2 vis eller skjul bare ett språk · Alt + ↑ / ↓ flytt · Alt + = / Alt + − større eller mindre · Alt + F fullskjerm med undertekster
+På Windows og Linux: Alt + Enter fullskjerm med undertekster · Alt + , / Alt + . synkronisering med 1 s
 Alle hurtigtaster kan endres eller slås av i Atferd-fanen.
 
 GRENSESNITT PÅ 33 SPRÅK
@@ -101,6 +112,7 @@ En "Subtitles"-fane i DevTools viser alle undertekstfilene siden har lastet inn,
 
 PERSONVERN
 Ingen kontoer, ingen analyse, ingen sporing. Underteksttekst sendes til Google Oversetter bare når undertekster oversettes (ved klikket ditt eller i automatisk modus), og til Gemini, Claude, OpenAI eller din lokale modell bare når du klikker på Forbedre. For å finne delte undertekster sendes de 5 første tegnene av et enveis fingeravtrykk av undertekstene og språket til serveren min (subs.cleedek.com); dine egne forbedrede undertekster går dit bare hvis du går med på å dele dem. Ellers blir husket og lagrede undertekster i nettleseren din. Hvis du skriver til meg med "Skriv til meg" i utvidelsens vindu, kommer meldingen din til meg på e-post. En problemrapport sendes bare når du trykker Send, og inneholder navnet på nettstedet, aldri adressen til siden. Detaljer i personvernerklæringen.
+Undertekster fra lyden: lyden fra fanen gjøres om til tekst bare på datamaskinen din og sendes ingen steder. Talemodellen lastes ned én gang fra Hugging Face, og disse undertekstene deles aldri; teksten deres oversettes som alle andre undertekster.
 
 PROBLEM ELLER IDÉ?
 Klikk på "Problem eller idé?" nederst i utvidelsens vindu og skriv til meg. Jeg leser hver eneste melding. Vises ingen undertekster på et nettsted? Merket "Hjelp" på videoen guider deg, og "Rapporter et problem" sender meg navnet på nettstedet så jeg kan fikse det.

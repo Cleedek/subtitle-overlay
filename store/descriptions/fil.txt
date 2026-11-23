@@ -5,7 +5,8 @@ Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit
 ★ ANG MGA TAMPOK
 ★ Kahit anong site, kahit anong video: subtitles sa ibabaw ng player, sa window man o fullscreen, laging naka-sync
 ★ Isalin sa 33 wika sa isang click, o kusang-kusa agad pagka-on mo ng subtitles sa player ng site
-★ BAGO: ibinahaging subtitles: kung may nakapagpahusay na ng parehong subtitles gamit ang AI, makukuha mo agad ang bersyon niya, at ikaw ang magpapasya kung ibabahagi mo ang sa iyo
+★ BAGO: walang subtitle kahit isa? Isinusulat ng libreng speech model sa computer mo ang sinasabi, saka ito isinasalin sa wika mo (beta)
+★ Ibinahaging subtitles: kung may nakapagpahusay na ng parehong subtitles gamit ang AI, makukuha mo agad ang bersyon niya, at ikaw ang magpapasya kung ibabahagi mo ang sa iyo
 ★ Gawing natural ang salin gamit ang AI, libre sa sarili mong computer (Gemma) o gamit ang sarili mong Gemini, Claude o OpenAI key
 ★ Kung may subtitles na ang site sa wika mo, iyon ang makukuha mo, at magsasalin lang kapag wala
 ★ Dalawang wika nang sabay: isa sa itaas, isa sa ibaba, para sa sabayang panonood o pag-aaral ng wika
@@ -53,12 +54,21 @@ HINAHANAP ANG SUBTITLES NA NILO-LOAD NG SITE
 • Ipakita, isalin o i-save bilang .srt sa isang click
 • Maraming video sa isang page? Piliin kung saang video kabilang ang subtitles
 
+SUBTITLE MULA SA AUDIO (BETA)
+• Walang subtitle kahit isa? I-click ang "Gumawa ng subtitle mula sa audio" sa popup. Isinusulat ng libreng speech model (Whisper) sa sarili mong computer ang sinasabi habang tumutugtog ang video hanggang dulo
+• Hindi mo maririnig ang tab na iyon habang ginagawa ito: malaya mong gamitin ang ibang tab, panatilihin lang itong bukas. Puwedeng sabihan ka ng notification kapag handa na ang subtitle
+• Pagkatapos, isinasalin ito sa pila ng pagsasalin at lumalabas sa ibabaw ng video sa wika mo, at kung gusto mo, kasama ang sinabi bilang pangalawang linya
+• Hindi kailanman lumalabas ang tunog sa computer mo at hindi kailanman ibinabahagi ang mga subtitle na ito. Isang beses lang dina-download ang speech model (560 MB hanggang 1.9 GB, ikaw ang pipili ng laki)
+• Kapag naka-on ang AI, inaayos din nito ang mga maling narinig na salita at inaalis ang mga linyang inimbento ng speech model sa ibabaw ng musika; sa pila, maibabalik mo ang alinman
+• Puwede itong magkamali kung saan hindi magkakamali ang tao, at pinakamahusay ito sa malinaw na pananalita
+
 PILA NG PAGSASALIN AT NAKA-SAVE NA SUBTITLES
 • Maglagay ng ilang .srt, .vtt, .ass, .ssa o .ttml file, o i-click ang "Idagdag sa pila" sa subtitles na nilo-load ng site. Isa-isa itong isasalin habang may ginagawa kang iba; puwedeng manatili sa background ang tab ng pila
 • Gumagana sa Google, Gemini, Claude, OpenAI o sa local model mo
 • Habang nasa pila ang isang file, ipinapakita ng card sa ibabaw ng video nito kung hanggang saan na ito, at kusang pinapalitan ng tapos na file ang mga linya ng Google
 • Itinatabi ang pinahusay na subtitles sa extension hangga't gusto mo, at bumabalik ang mga ito kapag binalikan mo ang video, at sa anumang ibang page na may parehong subtitle, nang hindi na muling nagtatanong sa AI
 • Binubuksan ng "I-play" ang video kasama ang subtitles nito, inilalagay ng "Ipakita sa…" ang mga ito sa video na bukas na sa ibang tab, at sine-save naman ng "I-download ang .srt" ang file
+• Nakaayos ang mga file ayon sa pangalan, kaya nauuna ang episode 2 sa episode 10, at binabago ng Ayusin ang pagkakasunod
 
 IAYOS ANG ISTILO AYON SA GUSTO MO
 • 1,800+ Google Fonts, sinala sa mga may letra ng wika mo (č ř ž, ư ế ộ, Cyrillic, Greek, Japanese at iba pa)
@@ -91,6 +101,7 @@ BAWAT SITE
 
 KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync nang tig-1 s · Alt + 0 i-reset ang sync · Alt + R ulitin ang linya · Alt + S ipakita o itago · Alt + 1 / Alt + 2 ipakita o itago ang isang wika lang · Alt + ↑ / ↓ ilipat · Alt + = / Alt + − palakihin o paliitin · Alt + F fullscreen na may subtitles
+Sa Windows at Linux: Alt + Enter full screen na may subtitle · Alt + , / Alt + . sync nang 1 s
 Puwedeng baguhin o i-off ang bawat shortcut sa tab na Gawi.
 
 INTERFACE SA 33 WIKA
@@ -101,6 +112,7 @@ Isang tab na "Subtitles" sa DevTools ang naglilista ng bawat subtitle file na na
 
 PRIVACY
 Walang account, walang analytics, walang tracking. Ipinapadala lang ang teksto ng subtitles sa Google Translate kapag isinasalin ang subtitles (sa click mo o sa awtomatikong mode), at sa Gemini, Claude, OpenAI o sa local model mo kapag nag-click ka lang ng Pahusayin. Para makahanap ng ibinahaging subtitles, ang unang 5 character ng isang one-way na fingerprint ng subtitles at ang wika ay ipinapadala sa server ko (subs.cleedek.com); napupunta lang doon ang sarili mong pinahusay na subtitles kung papayag kang ibahagi ang mga ito. Kung hindi, nananatili sa browser mo ang mga naaalala at naka-save na subtitles. Kung susulatan mo ako gamit ang "Sumulat sa akin" sa popup, darating sa akin ang mensahe mo sa email. Ipinapadala lang ang ulat ng problema kapag pinindot mo ang Ipadala, at pangalan lang ng site ang laman nito, hindi kailanman ang address ng page. Mga detalye sa privacy policy.
+Subtitle mula sa audio: ginagawang teksto ang tunog ng tab sa computer mo lang at hindi ito ipinapadala kahit saan. Isang beses dina-download ang speech model mula sa Hugging Face, at hindi kailanman ibinabahagi ang mga subtitle na ito; isinasalin ang teksto nila gaya ng ibang subtitle.
 
 PROBLEMA O IDEYA?
 I-click ang "Problema o ideya?" sa ibaba ng popup at sumulat sa akin. Binabasa ko ang bawat mensahe. Hindi lumalabas ang subtitle sa isang site? Gagabayan ka ng label na "Tulong" sa video, at ipapadala sa akin ng "Mag-ulat ng problema" ang pangalan ng site para maayos ko ito.

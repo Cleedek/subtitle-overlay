@@ -5,7 +5,8 @@ Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của b�
 ★ ĐIỂM NỔI BẬT
 ★ Mọi trang web, mọi video: phụ đề hiện trên trình phát, trong cửa sổ hay toàn màn hình, luôn khớp thời gian
 ★ Dịch sang 33 ngôn ngữ chỉ với một cú nhấp, hoặc hoàn toàn tự động ngay khi bạn bật phụ đề trong trình phát của trang
-★ MỚI: phụ đề chia sẻ: nếu đã có người cải thiện cùng bộ phụ đề đó bằng AI, bạn nhận ngay bản của họ, còn có chia sẻ bản của bạn hay không là do bạn quyết định
+★ MỚI: không có phụ đề nào? Một mô hình giọng nói miễn phí trên máy tính của bạn ghi lại lời nói, rồi dịch sang ngôn ngữ của bạn (beta)
+★ Phụ đề chia sẻ: nếu đã có người cải thiện cùng bộ phụ đề đó bằng AI, bạn nhận ngay bản của họ, còn có chia sẻ bản của bạn hay không là do bạn quyết định
 ★ Dùng AI để bản dịch nghe tự nhiên hơn, miễn phí ngay trên máy tính của bạn (Gemma) hoặc bằng khóa Gemini, Claude hay OpenAI của riêng bạn
 ★ Nếu trang đã có phụ đề bằng ngôn ngữ của bạn, bạn sẽ nhận ngay bộ đó, và chỉ dịch khi không có
 ★ Hai ngôn ngữ cùng lúc: một ở trên, một ở dưới, để cùng nhau xem phim hoặc để học ngoại ngữ
@@ -53,12 +54,21 @@ TỰ TÌM PHỤ ĐỀ MÀ TRANG WEB TẢI
 • Hiển thị, dịch hoặc lưu thành .srt chỉ với một cú nhấp
 • Trang có nhiều video? Bạn chọn video nào là của bộ phụ đề đó
 
+PHỤ ĐỀ TỪ ÂM THANH (BETA)
+• Không có phụ đề nào? Bấm "Tạo phụ đề từ âm thanh" trong cửa sổ bật lên. Một mô hình giọng nói miễn phí (Whisper) ngay trên máy tính của bạn ghi lại lời nói trong lúc video phát đến hết
+• Trong lúc đó bạn sẽ không nghe thấy tab ấy: cứ dùng các tab khác, chỉ cần để tab đó mở. Một thông báo có thể cho bạn biết khi phụ đề đã xong
+• Sau đó phụ đề được dịch trong hàng đợi dịch và hiện trên video bằng ngôn ngữ của bạn, và nếu muốn, kèm lời nói gốc ở dòng thứ hai
+• Âm thanh không bao giờ rời khỏi máy tính của bạn và các phụ đề này không bao giờ được chia sẻ. Mô hình giọng nói chỉ tải về một lần (từ 560 MB đến 1,9 GB, bạn chọn kích cỡ)
+• Khi bật AI, nó còn sửa những từ nghe nhầm và bỏ những dòng mô hình giọng nói tự bịa ra trên nền nhạc; trong hàng đợi bạn có thể trả lại bất kỳ dòng nào
+• Nó có thể mắc lỗi mà con người sẽ không mắc, và hoạt động tốt nhất với lời nói rõ ràng
+
 HÀNG ĐỢI DỊCH VÀ PHỤ ĐỀ ĐÃ LƯU
 • Thả vào vài tệp .srt, .vtt, .ass, .ssa hoặc .ttml, hoặc bấm "Thêm vào hàng đợi" với phụ đề mà trang tải. Các tệp sẽ được dịch lần lượt trong khi bạn làm việc khác; tab hàng đợi có thể để chạy nền
 • Dùng được với Google, Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn
 • Khi một tệp đang nằm trong hàng đợi, thẻ trên video của nó cho biết đã xong đến đâu, và tệp hoàn tất tự thay các dòng của Google
 • Phụ đề đã cải thiện được giữ trong tiện ích bao lâu tùy bạn chọn, và tự hiện lại khi bạn quay lại video, và cả trên bất kỳ trang nào khác có cùng phụ đề, không cần hỏi lại AI
 • Nút Phát mở video kèm phụ đề, "Hiện trên…" đặt phụ đề lên một video đang mở ở thẻ khác, và nút Tải xuống lưu tệp .srt
+• Các tệp xếp theo tên, nên tập 2 đứng trước tập 10, và Sắp xếp để đổi thứ tự
 
 TÙY CHỈNH KIỂU CHỮ THEO Ý BẠN
 • Hơn 1.800 phông Google Fonts, được lọc chỉ còn những phông có đủ chữ cái của ngôn ngữ bạn dùng (č ř ž, ư ế ộ, chữ Kirin, chữ Hy Lạp, tiếng Nhật và nhiều hơn nữa)
@@ -91,6 +101,7 @@ THEO TỪNG TRANG WEB
 
 PHÍM TẮT
 Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 giây · Alt + 0 đặt lại đồng bộ · Alt + R phát lại câu · Alt + S hiện hoặc ẩn · Alt + 1 / Alt + 2 hiện hoặc ẩn riêng một ngôn ngữ · Alt + ↑ / ↓ di chuyển · Alt + = / Alt + − phóng to hoặc thu nhỏ · Alt + F toàn màn hình kèm phụ đề
+Trên Windows và Linux: Alt + Enter toàn màn hình kèm phụ đề · Alt + , / Alt + . chỉnh 1 giây
 Mọi phím tắt đều có thể đổi hoặc tắt trong tab Hành vi.
 
 GIAO DIỆN 33 NGÔN NGỮ
@@ -101,6 +112,7 @@ Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã
 
 QUYỀN RIÊNG TƯ
 Không tài khoản, không thu thập số liệu, không theo dõi. Nội dung phụ đề chỉ được gửi tới Google Translate khi phụ đề được dịch (do bạn bấm hoặc ở chế độ tự động), và tới Gemini, Claude, OpenAI hoặc mô hình cục bộ của bạn chỉ khi bạn bấm Cải thiện. Để tìm phụ đề được chia sẻ, 5 ký tự đầu của dấu vân tay một chiều của phụ đề và ngôn ngữ được gửi tới máy chủ của tôi (subs.cleedek.com); phụ đề đã cải thiện của chính bạn chỉ được gửi tới đó nếu bạn đồng ý chia sẻ. Ngoài ra, phụ đề được ghi nhớ và phụ đề đã lưu đều nằm trong trình duyệt của bạn. Nếu bạn viết cho tôi qua "Viết cho tôi" trong cửa sổ tiện ích, tin nhắn sẽ tới tôi qua email. Báo cáo sự cố chỉ được gửi khi bạn bấm Gửi và chỉ có tên trang web, không bao giờ có địa chỉ trang. Chi tiết có trong chính sách quyền riêng tư.
+Phụ đề từ âm thanh: âm thanh của tab chỉ được chuyển thành chữ trên máy tính của bạn và không được gửi đi đâu cả. Mô hình giọng nói được tải một lần từ Hugging Face, và các phụ đề này không bao giờ được chia sẻ; chữ của chúng được dịch như mọi phụ đề khác.
 
 GẶP LỖI HAY CÓ Ý TƯỞNG?
 Bấm "Sự cố hay ý tưởng?" ở cuối cửa sổ tiện ích và viết cho tôi. Tôi đọc mọi tin nhắn. Phụ đề không hiện trên một trang web? Nhãn "Trợ giúp" trên video sẽ hướng dẫn bạn, và "Báo cáo sự cố" gửi cho tôi tên trang web để tôi sửa.

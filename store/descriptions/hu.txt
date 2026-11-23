@@ -5,7 +5,8 @@ A Subtitle Overlay bármelyik weboldal videólejátszója fölé kirajzolja a fe
 ★ A LEGFONTOSABBAK
 ★ Bármilyen oldal, bármilyen videó: feliratok a lejátszó fölött, ablakban vagy teljes képernyőn, mindig szinkronban
 ★ Fordítás 33 nyelvre egy kattintással, vagy teljesen automatikusan, amint bekapcsolod a feliratot az oldal lejátszójában
-★ ÚJ: megosztott feliratok: ha ugyanazt a feliratot már valaki javította MI-vel, rögtön az ő változatát kapod, és hogy a sajátodat megosztod-e, te döntöd el
+★ ÚJ: egyáltalán nincs felirat? Egy ingyenes beszédmodell a gépeden leírja, ami elhangzik, aztán lefordítja a nyelvedre (béta)
+★ Megosztott feliratok: ha ugyanazt a feliratot már valaki javította MI-vel, rögtön az ő változatát kapod, és hogy a sajátodat megosztod-e, te döntöd el
 ★ MI-vel természetes hangzású fordítás, ingyen a saját gépeden (Gemma), vagy a saját Gemini, Claude vagy OpenAI kulcsoddal
 ★ Ha az oldalon már van felirat a nyelveden, azt kapod, és fordítás csak akkor készül, ha nincs
 ★ Két nyelv egyszerre: az egyik felül, a másik alul, közös nézéshez vagy nyelvtanuláshoz
@@ -53,12 +54,21 @@ MEGTALÁLJA AZ OLDAL FELIRATAIT
 • Megjelenítés, fordítás vagy mentés .srt formátumban egy kattintással
 • Több videó egy oldalon? Kiválaszthatod, melyikhez tartoznak a feliratok
 
+FELIRAT A HANGBÓL (BÉTA)
+• Egyáltalán nincs felirat? Kattints a felugró ablakban a "Felirat készítése a hangból" gombra. Egy ingyenes beszédmodell (Whisper) a saját gépeden leírja, ami elhangzik, amíg a videó végigmegy
+• Közben azt a lapot nem hallod: nyugodtan használj más lapokat, csak azt hagyd nyitva. Értesítés jelezheti, ha kész a felirat
+• Ezután a fordítási várólistán lefordul, és a te nyelveden jelenik meg a videón, ha szeretnéd, az elhangzottakkal második sorként
+• A hang sosem hagyja el a gépedet, és ezeket a feliratokat soha nem osztja meg. A beszédmodell egyszer töltődik le (560 MB-tól 1,9 GB-ig, a méretet te választod)
+• Bekapcsolt MI-vel a rosszul hallott szavakat is kijavítja, és kiveszi azokat a sorokat, amelyeket a beszédmodell a zenére talált ki; a várólistán bármelyiket visszaállíthatod
+• Hibázhat ott, ahol egy ember nem, és tiszta beszéddel működik a legjobban
+
 FORDÍTÁSI VÁRÓLISTA ÉS MENTETT FELIRATOK
 • Húzz be több .srt, .vtt, .ass, .ssa vagy .ttml fájlt, vagy kattints a "Hozzáadás a várólistához" gombra az oldal által betöltött feliratoknál. Egymás után fordítódnak le, amíg te mást csinálsz; a várólista lapja a háttérben maradhat
 • Működik a Google, a Gemini, a Claude, az OpenAI vagy a saját helyi modelled segítségével
 • Amíg egy fájl a várólistán van, a videója fölötti kártya mutatja, meddig jutott, és a kész fájl magától leváltja a Google sorait
 • A javított feliratok addig maradnak a bővítményben, ameddig szeretnéd, és visszatérnek, amikor újra megnyitod a videót, és bármely más oldalon is, ahol ugyanaz a felirat, anélkül hogy újra megkérdeznéd az MI-t
 • A Lejátszás gomb megnyitja a videót a feliratokkal, a "Megjelenítés itt…" egy másik lapon már megnyitott videóra teszi őket, az ".srt letöltése" gomb pedig elmenti a fájlt
+• A fájlok név szerint állnak sorba, így a 2. rész a 10. előtt jön, a Rendezés pedig megváltoztatja a sorrendet
 
 STÍLUS ÍZLÉSED SZERINT
 • Több mint 1800 Google Fonts betűtípus, csak azok, amelyekben megvannak a nyelved betűi (č ř ž, ư ế ộ, cirill, görög, japán és még sok más)
@@ -91,6 +101,7 @@ OLDALANKÉNT
 
 BILLENTYŰPARANCSOK
 Alt + [ / ] szinkron · Alt + Shift + [ / ] szinkron 1 mp-cel · Alt + 0 szinkron visszaállítása · Alt + R a sor ismétlése · Alt + S megjelenítés vagy elrejtés · Alt + 1 / Alt + 2 csak az egyik nyelv megjelenítése vagy elrejtése · Alt + ↑ / ↓ mozgatás · Alt + = / Alt + − nagyobb vagy kisebb · Alt + F teljes képernyő feliratokkal
+Windowson és Linuxon: Alt + Enter teljes képernyő felirattal · Alt + , / Alt + . időzítés 1 másodperccel
 Minden billentyűparancs módosítható vagy kikapcsolható a Viselkedés lapon.
 
 FELÜLET 33 NYELVEN
@@ -101,6 +112,7 @@ A DevTools "Subtitles" lapja felsorolja az oldal által betöltött összes feli
 
 ADATVÉDELEM
 Nincs fiók, nincs analitika, nincs követés. A feliratok szövege csak akkor kerül a Google Fordítóhoz, amikor a feliratok fordítása történik (a kattintásodra vagy automatikus módban), a Gemini, Claude, OpenAI szolgáltatáshoz vagy a helyi modelledhez pedig csak akkor, ha a Javítás gombra kattintasz. A megosztott feliratok kereséséhez a feliratok egyirányú ujjlenyomatának első 5 karaktere és a nyelv a szerveremre (subs.cleedek.com) kerül; a saját javított feliratod csak akkor kerül oda, ha beleegyezel a megosztásba. Egyébként a megjegyzett és mentett feliratok a böngésződben maradnak. Ha a felugró ablakban az "Írj nekem" lehetőséggel írsz nekem, az üzeneted e-mailben jut el hozzám. A problémabejelentés csak akkor megy el, ha megnyomod a Küldés gombot, és az oldal nevét tartalmazza, soha nem az oldal címét. Részletek az adatvédelmi irányelvekben.
+Felirat a hangból: a lap hangja csak a gépeden válik szöveggé, és sehová nem kerül el. A beszédmodell egyszer töltődik le a Hugging Face-ről, ezeket a feliratokat pedig soha nem osztja meg; a szövegüket ugyanúgy fordítja, mint bármely más feliratot.
 
 HIBA VAGY ÖTLET?
 Kattints a "Hiba vagy ötlet?" lehetőségre a felugró ablak alján, és írj nekem. Minden üzenetet elolvasok. Egy oldalon nem jelenik meg a felirat? A videón lévő "Súgó" címke végigvezet, a "Probléma bejelentése" pedig elküldi nekem az oldal nevét, hogy kijavíthassam.

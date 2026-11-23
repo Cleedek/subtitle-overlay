@@ -5,7 +5,8 @@ Subtitle Overlay draws subtitles over the video player of any website, also in f
 ★ THE HIGHLIGHTS
 ★ Any site, any video: subtitles over the player, in a window or fullscreen, always in sync
 ★ Translate into 33 languages in one click, or fully automatically as soon as you turn on subtitles in the site's player
-★ NEW: shared subtitles: if someone already improved the same subtitles with AI, you get their version at once, and sharing yours is your choice
+★ NEW: no subtitles at all? A free speech model on your computer writes down what's said, then it's translated into your language (beta)
+★ Shared subtitles: if someone already improved the same subtitles with AI, you get their version at once, and sharing yours is your choice
 ★ Make the translation sound natural with AI, free on your own computer (Gemma) or with your own Gemini, Claude or OpenAI key
 ★ If the site already has subtitles in your language, you get those, and translation steps in only when it doesn't
 ★ Two languages at once: one at the top, one at the bottom, for watching together or learning a language
@@ -53,12 +54,21 @@ FINDS THE SUBTITLES A SITE LOADS
 • Show, translate or save them as .srt in one click
 • Several videos on one page? Pick which one the subtitles belong to
 
+SUBTITLES FROM THE AUDIO (BETA)
+• No subtitles at all? Click "Make subtitles from the audio" in the popup. A free speech model (Whisper) on your own computer writes down what's said while the video plays to the end
+• You won't hear that tab in the meantime: use other tabs freely, just keep it open. A notification can tell you when the subtitles are ready
+• Then they're translated in the translation queue and show over the video in your language, with what was said as a second line if you want it
+• The sound never leaves your computer and these subtitles are never shared. The speech model downloads once (560 MB to 1.9 GB, you pick the size)
+• With AI turned on, it also fixes misheard words and drops lines a speech model made up over music; in the queue you can put any of them back
+• It can make mistakes a person wouldn't, and works best with clear speech
+
 TRANSLATION QUEUE AND SAVED SUBTITLES
 • Drop in several .srt, .vtt, .ass, .ssa or .ttml files, or click "Add to queue" on subtitles a site loads. They're translated one after another while you do something else; the queue tab can stay in the background
 • Works with Google, Gemini, Claude, OpenAI or your local model
 • While a file is in the queue, the card over its video shows how far it got, and the finished file replaces Google's lines on its own
 • Improved subtitles are kept in the extension for as long as you choose, and come back when you return to the video, and on any other page with the same subtitles, without asking the AI again
 • Play opens the video with its subtitles, "Show on…" puts them over a video already open in another tab, and Download saves the .srt
+• Files line up by name, so episode 2 comes before episode 10, and Sort changes the order
 
 STYLE THEM YOUR WAY
 • 1,800+ Google Fonts, filtered to the ones that have the letters of your language (č ř ž, ư ế ộ, Cyrillic, Greek, Japanese and more)
@@ -91,6 +101,7 @@ SITE BY SITE
 
 KEYBOARD SHORTCUTS
 Alt + [ / ] sync · Alt + Shift + [ / ] sync by 1 s · Alt + 0 reset sync · Alt + R repeat the line · Alt + S show or hide · Alt + 1 / Alt + 2 show or hide just one language · Alt + ↑ / ↓ move · Alt + = / Alt + − bigger or smaller · Alt + F fullscreen with subtitles
+On Windows and Linux: Alt + Enter fullscreen with subtitles · Alt + , / Alt + . sync by 1 s
 Every shortcut can be changed or switched off in the Behaviour tab.
 
 INTERFACE IN 33 LANGUAGES
@@ -101,6 +112,7 @@ A "Subtitles" tab in DevTools lists every subtitle file the page loaded and save
 
 PRIVACY
 No accounts, no analytics, no tracking. Subtitle text is sent to Google Translate only when subtitles are translated (by your click or by automatic mode), and to Gemini, Claude, OpenAI or your local model only when you click Improve. To find shared subtitles, the first 5 characters of a one-way fingerprint of the subtitles and the language are sent to my server (subs.cleedek.com); your own improved subtitles go there only if you agree to share them. Remembered and saved subtitles otherwise stay in your browser. If you write to me with "Write to me" in the popup, your message reaches me by email. A problem report is sent only when you press Send and carries the site's name, never the page address. Details in the privacy policy.
+Subtitles from the audio: the tab's sound is turned into text only on your computer and is never sent anywhere. The speech model is downloaded once from Hugging Face, and these subtitles are never shared; their text is translated like any other subtitles.
 
 PROBLEM OR IDEA?
 Click "Problem or idea?" at the bottom of the popup and write to me. I read every message. Subtitles don't show on a site? The "Help" label on the video walks you through it, and "Report a problem" sends me the site's name so I can fix it.

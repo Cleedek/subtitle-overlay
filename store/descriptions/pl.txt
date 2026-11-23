@@ -5,7 +5,8 @@ Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, t
 ★ NAJWAŻNIEJSZE
 ★ Dowolna strona, dowolne wideo: napisy nad odtwarzaczem, w oknie i na pełnym ekranie, zawsze zsynchronizowane
 ★ Tłumaczenie na 33 języki jednym kliknięciem albo w pełni automatycznie, gdy tylko włączysz napisy w odtwarzaczu strony
-★ NOWOŚĆ: udostępnione napisy: jeśli ktoś już ulepszył te same napisy za pomocą AI, od razu dostajesz jego wersję, a to, czy udostępnisz swoje, zależy od ciebie
+★ NOWOŚĆ: film w ogóle bez napisów? Darmowy model mowy na twoim komputerze zapisuje, co pada, a potem jest to tłumaczone na twój język (beta)
+★ Udostępnione napisy: jeśli ktoś już ulepszył te same napisy za pomocą AI, od razu dostajesz jego wersję, a to, czy udostępnisz swoje, zależy od ciebie
 ★ AI sprawia, że tłumaczenie brzmi naturalnie, za darmo na twoim komputerze (Gemma) albo z własnym kluczem Gemini, Claude lub OpenAI
 ★ Jeśli strona ma już napisy w twoim języku, dostajesz właśnie je, a tłumaczenie wkracza tylko wtedy, gdy ich brak
 ★ Dwa języki naraz: jeden u góry, drugi na dole, do wspólnego oglądania albo nauki języka
@@ -53,12 +54,21 @@ ZNAJDUJE NAPISY, KTÓRE WCZYTUJE STRONA
 • Pokaż, przetłumacz albo zapisz jako .srt jednym kliknięciem
 • Kilka filmów na jednej stronie? Wybierz, do którego należą napisy
 
+NAPISY Z DŹWIĘKU (BETA)
+• Film w ogóle bez napisów? Kliknij w okienku "Utwórz napisy z dźwięku". Darmowy model mowy (Whisper) na twoim własnym komputerze zapisuje, co pada, gdy film gra do końca
+• W tym czasie nie usłyszysz tej karty: swobodnie korzystaj z innych kart, tylko ją zostaw otwartą. Gdy napisy będą gotowe, może pojawić się powiadomienie
+• Potem są tłumaczone w kolejce tłumaczeń i wyświetlają się na filmie w twoim języku, a jeśli chcesz, z oryginalną wypowiedzią jako drugim wierszem
+• Dźwięk nigdy nie opuszcza twojego komputera, a te napisy nigdy nie są udostępniane. Model mowy pobiera się raz (od 560 MB do 1,9 GB, rozmiar wybierasz sam)
+• Z włączoną AI poprawia też źle usłyszane słowa i usuwa wiersze, które model mowy wymyślił na tle muzyki; w kolejce możesz przywrócić każdy z nich
+• Może popełniać błędy, których człowiek by nie zrobił, i najlepiej działa przy wyraźnej mowie
+
 KOLEJKA TŁUMACZEŃ I ZACHOWANE NAPISY
 • Wrzuć kilka plików .srt, .vtt, .ass, .ssa lub .ttml albo kliknij "Dodaj do kolejki" przy napisach, które wczytuje strona. Tłumaczą się jeden po drugim, a ty w tym czasie robisz coś innego; karta z kolejką może zostać w tle
 • Działa z Google, Gemini, Claude, OpenAI lub twoim lokalnym modelem
 • Gdy plik jest w kolejce, karta nad jego wideo pokazuje, jak daleko zaszedł, a gotowy plik sam zastępuje linijki od Google
 • Ulepszone napisy zostają w rozszerzeniu tak długo, jak zechcesz, i wracają, gdy wrócisz do filmu, a także na każdej innej stronie z tymi samymi napisami, bez ponownego pytania AI
 • Odtwórz otwiera wideo z napisami, "Pokaż na…" nakłada je na wideo otwarte już w innej karcie, a Pobierz zapisuje plik .srt
+• Pliki układają się według nazwy, więc odcinek 2 jest przed odcinkiem 10, a kolejność zmienisz przyciskiem Sortuj
 
 STYL PO TWOJEMU
 • Ponad 1800 czcionek Google Fonts, przefiltrowanych do tych, które mają litery twojego języka (č ř ž, ư ế ộ, cyrylica, greka, japoński i inne)
@@ -91,6 +101,7 @@ STRONA PO STRONIE
 
 SKRÓTY KLAWISZOWE
 Alt + [ / ] synchronizacja · Alt + Shift + [ / ] synchronizacja o 1 s · Alt + 0 reset synchronizacji · Alt + R powtórz kwestię · Alt + S pokaż lub ukryj · Alt + 1 / Alt + 2 pokaż lub ukryj tylko jeden język · Alt + ↑ / ↓ przesuń · Alt + = / Alt + − większe lub mniejsze · Alt + F pełny ekran z napisami
+W Windows i Linuksie: Alt + Enter pełny ekran z napisami · Alt + , / Alt + . przesunięcie o 1 s
 Każdy skrót możesz zmienić lub wyłączyć na karcie Zachowanie.
 
 INTERFEJS W 33 JĘZYKACH
@@ -101,6 +112,7 @@ Karta "Subtitles" w DevTools pokazuje każdy plik napisów wczytany przez stron�
 
 PRYWATNOŚĆ
 Bez kont, bez analityki, bez śledzenia. Tekst napisów trafia do Google Translate tylko wtedy, gdy napisy są tłumaczone (twoim kliknięciem lub w trybie automatycznym), a do Gemini, Claude, OpenAI lub twojego lokalnego modelu tylko wtedy, gdy klikniesz Ulepsz. Aby znaleźć udostępnione napisy, pierwsze 5 znaków jednokierunkowego odcisku napisów i język są wysyłane na mój serwer (subs.cleedek.com); twoje własne ulepszone napisy trafiają tam tylko wtedy, gdy zgodzisz się je udostępnić. Poza tym zapamiętane i zachowane napisy zostają w twojej przeglądarce. Jeśli napiszesz do mnie przez "Napisz do mnie" w oknie rozszerzenia, twoja wiadomość dotrze do mnie e-mailem. Zgłoszenie problemu wysyła się tylko po naciśnięciu Wyślij i zawiera nazwę strony, nigdy adres podstrony. Szczegóły w polityce prywatności.
+Napisy z dźwięku: dźwięk karty zamienia się w tekst tylko na twoim komputerze i nigdzie nie jest wysyłany. Model mowy pobiera się raz z Hugging Face, a te napisy nigdy nie są udostępniane; ich tekst jest tłumaczony jak każde inne napisy.
 
 PROBLEM CZY POMYSŁ?
 Kliknij "Problem czy pomysł?" na dole okna rozszerzenia i napisz do mnie. Czytam każdą wiadomość. Na jakiejś stronie nie widać napisów? Etykieta "Pomoc" przy filmie przeprowadzi cię przez to, a "Zgłoś problem" wyśle mi nazwę strony, żebym mógł to naprawić.

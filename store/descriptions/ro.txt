@@ -5,7 +5,8 @@ Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, i
 ★ PE SCURT
 ★ Orice site, orice videoclip: subtitrări peste player, în fereastră sau pe ecran complet, mereu sincronizate
 ★ Traducere în 33 de limbi dintr-un clic, sau complet automat, imediat ce pornești subtitrările în playerul site-ului
-★ NOU: subtitrări partajate: dacă cineva a îmbunătățit deja aceleași subtitrări cu AI, primești imediat versiunea lui, iar dacă le partajezi pe ale tale decizi tu
+★ NOU: un videoclip fără nicio subtitrare? Un model de vorbire gratuit de pe computerul tău scrie ce se spune, apoi textul e tradus în limba ta (beta)
+★ Subtitrări partajate: dacă cineva a îmbunătățit deja aceleași subtitrări cu AI, primești imediat versiunea lui, iar dacă le partajezi pe ale tale decizi tu
 ★ Traducerea sună natural cu AI, gratuit pe propriul calculator (Gemma) sau cu propria cheie Gemini, Claude ori OpenAI
 ★ Dacă site-ul are deja subtitrări în limba ta, le primești pe acelea, iar traducerea intervine doar când nu există
 ★ Două limbi deodată: una sus, una jos, pentru vizionat împreună sau pentru învățat o limbă
@@ -53,12 +54,21 @@ GĂSEȘTE SUBTITRĂRILE PE CARE LE ÎNCARCĂ UN SITE
 • Afișează, tradu sau salvează ca .srt dintr-un clic
 • Mai multe videoclipuri pe aceeași pagină? Alege căruia îi aparțin subtitrările
 
+SUBTITRĂRI DIN SUNET (BETA)
+• Niciun fel de subtitrare? Apasă în fereastra extensiei pe "Creează subtitrări din sunet". Un model de vorbire gratuit (Whisper), chiar pe computerul tău, scrie ce se spune cât timp videoclipul rulează până la final
+• Între timp nu vei auzi fila respectivă: folosește liniștit alte file, doar ține-o deschisă. O notificare îți poate spune când subtitrările sunt gata
+• Apoi sunt traduse în coada de traducere și apar peste videoclip în limba ta, iar dacă vrei, cu ce s-a spus ca al doilea rând
+• Sunetul nu părăsește niciodată computerul tău, iar aceste subtitrări nu sunt partajate niciodată. Modelul de vorbire se descarcă o singură dată (între 560 MB și 1,9 GB, tu alegi mărimea)
+• Cu AI pornit, corectează și cuvintele auzite greșit și scoate rândurile pe care modelul de vorbire le-a inventat peste muzică; în coadă poți readuce oricare dintre ele
+• Poate face greșeli pe care un om nu le-ar face și merge cel mai bine cu vorbire clară
+
 COADĂ DE TRADUCERE ȘI SUBTITRĂRI SALVATE
 • Adaugă mai multe fișiere .srt, .vtt, .ass, .ssa sau .ttml, sau dă clic pe "Adaugă în coadă" la subtitrările pe care le încarcă un site. Sunt traduse unul după altul în timp ce faci altceva; fila cu coada poate rămâne în fundal
 • Funcționează cu Google, Gemini, Claude, OpenAI sau modelul tău local
 • Cât timp un fișier e în coadă, cardul de peste videoclipul lui arată cât s-a făcut, iar fișierul terminat înlocuiește singur rândurile de la Google
 • Subtitrările îmbunătățite sunt păstrate în extensie cât timp alegi tu și revin când te întorci la videoclip, și pe orice altă pagină cu aceleași subtitrări, fără să mai întrebi AI-ul
 • Redă deschide videoclipul cu subtitrările lui, "Arată pe…" le pune peste un videoclip deja deschis în altă filă, iar Descarcă salvează fișierul .srt
+• Fișierele se ordonează după nume, deci episodul 2 vine înaintea episodului 10, iar Sortează schimbă ordinea
 
 STILUL TĂU
 • Peste 1.800 de fonturi Google Fonts, filtrate la cele care au literele limbii tale (č ř ž, ư ế ộ, chirilice, grecești, japoneze și altele)
@@ -91,6 +101,7 @@ SITE CU SITE
 
 COMENZI RAPIDE DE LA TASTATURĂ
 Alt + [ / ] sincronizare · Alt + Shift + [ / ] sincronizare cu 1 s · Alt + 0 resetează sincronizarea · Alt + R repetă replica · Alt + S afișează sau ascunde · Alt + 1 / Alt + 2 afișează sau ascunde doar o limbă · Alt + ↑ / ↓ mută · Alt + = / Alt + − mai mare sau mai mic · Alt + F ecran complet cu subtitrări
+Pe Windows și Linux: Alt + Enter ecran complet cu subtitrări · Alt + , / Alt + . sincronizare cu 1 s
 Fiecare comandă rapidă poate fi schimbată sau dezactivată în fila Comportament.
 
 INTERFAȚĂ ÎN 33 DE LIMBI
@@ -101,6 +112,7 @@ O filă "Subtitles" în DevTools listează fiecare fișier de subtitrare încăr
 
 CONFIDENȚIALITATE
 Fără conturi, fără analize, fără urmărire. Textul subtitrărilor este trimis la Google Traducere doar când subtitrările sunt traduse (prin clicul tău sau de modul automat) și la Gemini, Claude, OpenAI sau modelul tău local doar când dai clic pe Îmbunătățește. Pentru a găsi subtitrări partajate, primele 5 caractere ale unei amprente unidirecționale a subtitrărilor și limba sunt trimise pe serverul meu (subs.cleedek.com); subtitrările tale îmbunătățite ajung acolo doar dacă ești de acord să le partajezi. În rest, subtitrările reținute și salvate rămân în browserul tău. Dacă îmi scrii prin "Scrie-mi" din fereastra extensiei, mesajul tău ajunge la mine pe e-mail. Un raport de problemă se trimite doar când apeși Trimite și conține numele site-ului, niciodată adresa paginii. Detalii în politica de confidențialitate.
+Subtitrări din sunet: sunetul filei devine text doar pe computerul tău și nu e trimis nicăieri. Modelul de vorbire se descarcă o singură dată de pe Hugging Face, iar aceste subtitrări nu sunt partajate niciodată; textul lor e tradus ca al oricăror alte subtitrări.
 
 PROBLEMĂ SAU IDEE?
 Dă clic pe "Problemă sau idee?" în partea de jos a ferestrei extensiei și scrie-mi. Citesc fiecare mesaj. Subtitrările nu apar pe un site? Eticheta "Ajutor" de pe video te ghidează, iar "Raportează o problemă" îmi trimite numele site-ului ca să pot repara.

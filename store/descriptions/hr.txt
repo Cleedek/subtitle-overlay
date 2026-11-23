@@ -5,7 +5,8 @@ Subtitle Overlay prikazuje titlove preko video playera na bilo kojoj web-stranic
 ★ NAJVAŽNIJE
 ★ Bilo koja stranica, bilo koji video: titlovi preko playera, u prozoru ili na cijelom zaslonu, uvijek usklađeni
 ★ Prijevod na 33 jezika jednim klikom ili potpuno automatski, čim uključiš titlove u playeru stranice
-★ NOVO: dijeljeni titlovi: ako je netko već poboljšao iste titlove pomoću AI-ja, odmah dobivaš njegovu verziju, a hoćeš li dijeliti svoje, odlučuješ ti
+★ NOVO: video bez ikakvih titlova? Besplatni model govora na tvom računalu zapisuje što je rečeno, a zatim se to prevodi na tvoj jezik (beta)
+★ Dijeljeni titlovi: ako je netko već poboljšao iste titlove pomoću AI-ja, odmah dobivaš njegovu verziju, a hoćeš li dijeliti svoje, odlučuješ ti
 ★ Uz AI prijevod zvuči prirodno, besplatno na tvom računalu (Gemma) ili s tvojim vlastitim ključem za Gemini, Claude ili OpenAI
 ★ Ako stranica već ima titlove na tvom jeziku, dobivaš njih, a prijevod uskače samo kad ih nema
 ★ Dva jezika odjednom: jedan gore, drugi dolje, za zajedničko gledanje ili učenje jezika
@@ -53,12 +54,21 @@ PRONALAZI TITLOVE KOJE STRANICA UČITA
 • Prikaži, prevedi ili spremi kao .srt jednim klikom
 • Više videa na jednoj stranici? Odaberi kojem titlovi pripadaju
 
+TITLOVI IZ ZVUKA (BETA)
+• Video bez ikakvih titlova? U skočnom prozoru klikni "Napravi titlove iz zvuka". Besplatni model govora (Whisper) na tvom vlastitom računalu zapisuje što je rečeno dok se video reproducira do kraja
+• Tu karticu u međuvremenu nećeš čuti: slobodno koristi druge kartice, samo nju ostavi otvorenom. Obavijest ti može javiti kad su titlovi gotovi
+• Zatim se prevode u redu prijevoda i prikazuju preko videa na tvom jeziku, a po želji i s izgovorenim kao drugim retkom
+• Zvuk nikad ne napušta tvoje računalo, a ovi titlovi se nikad ne dijele. Model govora preuzima se jednom (od 560 MB do 1,9 GB, veličinu biraš sam)
+• S uključenim AI-jem ispravlja i krivo čute riječi te izbacuje retke koje je model govora izmislio uz glazbu; u redu možeš vratiti bilo koji
+• Može pogriješiti tamo gdje čovjek ne bi i najbolje radi s jasnim govorom
+
 RED PRIJEVODA I SPREMLJENI TITLOVI
 • Ubaci nekoliko .srt, .vtt, .ass, .ssa ili .ttml datoteka ili klikni "Dodaj u red čekanja" kod titlova koje stranica učita. Prevode se jedni za drugima dok radiš nešto drugo; kartica s redom može ostati u pozadini
 • Radi s Googleom, Geminijem, Claudeom, OpenAI-jem ili tvojim lokalnim modelom
 • Dok je datoteka u redu čekanja, kartica nad njezinim videom pokazuje dokle je stigla, a gotova datoteka sama zamjenjuje Googleove retke
 • Poboljšani titlovi čuvaju se u proširenju koliko god ti odabereš i vraćaju se kad se vratiš na video, i na bilo kojoj drugoj stranici s istim titlovima, bez ponovnog pitanja AI-ju
 • Reproduciraj otvara video s njegovim titlovima, "Prikaži na…" stavlja ih na video koji je već otvoren u drugoj kartici, a Preuzmi sprema .srt
+• Datoteke se slažu po nazivu, pa je 2. epizoda prije 10., a redoslijed mijenjaš gumbom Poredaj
 
 STIL PO TVOJEM
 • Više od 1.800 fontova iz Google Fonts, filtriranih na one koji imaju slova tvog jezika (č ř ž, ư ế ộ, ćirilica, grčki, japanski i drugo)
@@ -91,6 +101,7 @@ STRANICU PO STRANICU
 
 PREČACI NA TIPKOVNICI
 Alt + [ / ] usklađivanje · Alt + Shift + [ / ] usklađivanje za 1 s · Alt + 0 poništi usklađivanje · Alt + R ponovi redak · Alt + S prikaži ili sakrij · Alt + 1 / Alt + 2 prikaži ili sakrij samo jedan jezik · Alt + ↑ / ↓ pomakni · Alt + = / Alt + − veće ili manje · Alt + F cijeli zaslon s titlovima
+Na Windowsu i Linuxu: Alt + Enter cijeli zaslon s titlovima · Alt + , / Alt + . pomak za 1 s
 Svaki prečac možeš promijeniti ili isključiti na kartici Ponašanje.
 
 SUČELJE NA 33 JEZIKA
@@ -101,6 +112,7 @@ Kartica "Subtitles" u DevToolsu prikazuje svaku datoteku titlova koju je stranic
 
 PRIVATNOST
 Bez računa, bez analitike, bez praćenja. Tekst titlova šalje se Google Prevoditelju samo kad se titlovi prevode (tvojim klikom ili u automatskom načinu), a Geminiju, Claudeu, OpenAI-ju ili tvom lokalnom modelu samo kad klikneš Poboljšaj. Za traženje dijeljenih titlova, prvih 5 znakova jednosmjernog otiska titlova i jezik šalju se na moj poslužitelj (subs.cleedek.com); tvoji vlastiti poboljšani titlovi idu tamo samo ako pristaneš na dijeljenje. Inače zapamćeni i spremljeni titlovi ostaju u tvom pregledniku. Ako mi pišeš preko "Piši mi" u prozoru proširenja, tvoja poruka stiže mi e-poštom. Prijava problema šalje se samo kad pritisneš Pošalji i sadrži naziv stranice, nikad adresu podstranice. Pojedinosti su u pravilima o privatnosti.
+Titlovi iz zvuka: zvuk kartice pretvara se u tekst samo na tvom računalu i nikamo se ne šalje. Model govora jednom se preuzima s Hugging Facea, a ovi titlovi se nikad ne dijele; njihov tekst prevodi se kao i svi drugi titlovi.
 
 PROBLEM ILI IDEJA?
 Klikni "Problem ili ideja?" na dnu prozora proširenja i piši mi. Čitam svaku poruku. Na nekoj stranici se ne prikazuju titlovi? Oznaka "Pomoć" na videu vodi te kroz to, a "Prijavi problem" šalje mi naziv stranice da to mogu popraviti.

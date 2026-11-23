@@ -5,7 +5,8 @@ Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’imp
 ★ L’ESSENTIEL
 ★ N’importe quel site, n’importe quelle vidéo : des sous-titres sur le lecteur, en fenêtre ou en plein écran, toujours synchronisés
 ★ Traduction en 33 langues en un clic, ou entièrement automatique dès que tu actives les sous-titres dans le lecteur du site
-★ NOUVEAU : sous-titres partagés : si quelqu’un a déjà amélioré les mêmes sous-titres avec l’IA, tu obtiens sa version tout de suite, et partager les tiens, c’est toi qui décides
+★ NOUVEAU : aucun sous-titre ? Un modèle vocal gratuit sur ton ordinateur écrit ce qui est dit, puis c’est traduit dans ta langue (bêta)
+★ Sous-titres partagés : si quelqu’un a déjà amélioré les mêmes sous-titres avec l’IA, tu obtiens sa version tout de suite, et partager les tiens, c’est toi qui décides
 ★ L’IA rend la traduction naturelle, gratuitement sur ton ordinateur (Gemma) ou avec ta propre clé Gemini, Claude ou OpenAI
 ★ Si le site a déjà des sous-titres dans ta langue, tu les obtiens, et la traduction n’intervient que s’il n’y en a pas
 ★ Deux langues à la fois : une en haut, une en bas, pour regarder à deux ou apprendre une langue
@@ -53,12 +54,21 @@ TROUVE LES SOUS-TITRES QU’UN SITE CHARGE
 • Affiche-les, traduis-les ou enregistre-les en .srt en un clic
 • Plusieurs vidéos sur une page ? Choisis celle à laquelle appartiennent les sous-titres
 
+SOUS-TITRES À PARTIR DU SON (BÊTA)
+• Aucun sous-titre ? Clique sur "Créer des sous-titres à partir du son" dans la fenêtre de l’extension. Un modèle vocal gratuit (Whisper), sur ton propre ordinateur, écrit ce qui est dit pendant que la vidéo joue jusqu’au bout
+• Pendant ce temps, tu n’entends pas cet onglet : utilise librement les autres, garde-le simplement ouvert. Une notification peut te prévenir quand les sous-titres sont prêts
+• Ensuite, ils sont traduits dans la file de traduction et s’affichent sur la vidéo dans ta langue, avec si tu veux ce qui a été dit en deuxième ligne
+• Le son ne quitte jamais ton ordinateur et ces sous-titres ne sont jamais partagés. Le modèle vocal se télécharge une seule fois (de 560 Mo à 1,9 Go, tu choisis la taille)
+• Avec l’IA activée, il corrige aussi les mots mal entendus et retire les lignes qu’un modèle vocal a inventées sur la musique ; dans la file, tu peux remettre n’importe laquelle
+• Il peut faire des erreurs qu’une personne ne ferait pas, et marche mieux avec une voix claire
+
 FILE DE TRADUCTION ET SOUS-TITRES ENREGISTRÉS
 • Dépose plusieurs fichiers .srt, .vtt, .ass, .ssa ou .ttml, ou clique sur "Ajouter à la file" pour des sous-titres qu’un site charge. Ils sont traduits l’un après l’autre pendant que tu fais autre chose ; l’onglet de la file peut rester en arrière-plan
 • Fonctionne avec Google, Gemini, Claude, OpenAI ou ton modèle local
 • Tant qu’un fichier est dans la file, la carte au-dessus de sa vidéo montre où il en est, et le fichier terminé remplace tout seul les lignes de Google
 • Les sous-titres améliorés restent dans l’extension aussi longtemps que tu le choisis, et reviennent quand tu retournes sur la vidéo, et sur toute autre page avec les mêmes sous-titres, sans redemander à l'IA
 • Lire ouvre la vidéo avec ses sous-titres, "Afficher sur…" les pose sur une vidéo déjà ouverte dans un autre onglet, et Télécharger enregistre le .srt
+• Les fichiers sont rangés par nom : l’épisode 2 passe avant l’épisode 10, et Trier change l’ordre
 
 DES SOUS-TITRES À TON STYLE
 • Plus de 1 800 polices Google Fonts, filtrées pour garder celles qui ont les lettres de ta langue (č ř ž, ư ế ộ, cyrillique, grec, japonais et plus encore)
@@ -91,6 +101,7 @@ SITE PAR SITE
 
 RACCOURCIS CLAVIER
 Alt + [ / ] synchro · Alt + Shift + [ / ] synchro par pas de 1 s · Alt + 0 réinitialiser la synchro · Alt + R rejouer la ligne · Alt + S afficher ou masquer · Alt + 1 / Alt + 2 afficher ou masquer une seule langue · Alt + ↑ / ↓ déplacer · Alt + = / Alt + − plus grand ou plus petit · Alt + F plein écran avec sous-titres
+Sous Windows et Linux : Alt + Entrée plein écran avec sous-titres · Alt + , / Alt + . décalage de 1 s
 Chaque raccourci peut être modifié ou désactivé dans l’onglet Comportement.
 
 INTERFACE EN 33 LANGUES
@@ -101,6 +112,7 @@ Un onglet "Subtitles" dans les DevTools liste chaque fichier de sous-titres char
 
 CONFIDENTIALITÉ
 Pas de compte, pas d’analytique, pas de pistage. Le texte des sous-titres est envoyé à Google Translate uniquement quand les sous-titres sont traduits (par ton clic ou en mode automatique), et à Gemini, Claude, OpenAI ou ton modèle local uniquement quand tu cliques sur Améliorer. Pour trouver des sous-titres partagés, les 5 premiers caractères d’une empreinte à sens unique des sous-titres et la langue sont envoyés à mon serveur (subs.cleedek.com) ; tes propres sous-titres améliorés n’y vont que si tu acceptes de les partager. Sinon, les sous-titres mémorisés et enregistrés restent dans ton navigateur. Si tu m’écris avec "Écris-moi" dans la fenêtre de l’extension, ton message m’arrive par e-mail. Un signalement n'est envoyé que lorsque vous appuyez sur Envoyer et contient le nom du site, jamais l'adresse de la page. Détails dans la politique de confidentialité.
+Sous-titres à partir du son : le son de l’onglet est transformé en texte uniquement sur ton ordinateur et n’est envoyé nulle part. Le modèle vocal est téléchargé une fois depuis Hugging Face, et ces sous-titres ne sont jamais partagés ; leur texte est traduit comme n’importe quels autres sous-titres.
 
 UN PROBLÈME OU UNE IDÉE ?
 Clique sur "Problème ou idée ?" en bas de la fenêtre de l’extension et écris-moi. Je lis chaque message. Les sous-titres ne s'affichent pas sur un site ? L'étiquette "Aide" sur la vidéo vous guide, et "Signaler un problème" m'envoie le nom du site pour que je puisse corriger.

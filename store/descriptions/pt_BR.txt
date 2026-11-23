@@ -5,7 +5,8 @@ O Subtitle Overlay exibe legendas sobre o player de vídeo de qualquer site, tam
 ★ OS DESTAQUES
 ★ Qualquer site, qualquer vídeo: legendas sobre o player, em janela ou em tela cheia, sempre sincronizadas
 ★ Tradução para 33 idiomas com um clique, ou totalmente automática assim que você ativa as legendas no player do site
-★ NOVO: legendas compartilhadas: se alguém já melhorou as mesmas legendas com IA, você recebe a versão da pessoa na hora, e compartilhar as suas é escolha sua
+★ NOVO: vídeo sem legenda nenhuma? Um modelo de fala gratuito no seu computador escreve o que é dito e depois isso é traduzido para o seu idioma (beta)
+★ Legendas compartilhadas: se alguém já melhorou as mesmas legendas com IA, você recebe a versão da pessoa na hora, e compartilhar as suas é escolha sua
 ★ Deixe a tradução natural com IA, de graça no seu próprio computador (Gemma) ou com sua própria chave do Gemini, Claude ou OpenAI
 ★ Se o site já tem legendas no seu idioma, você recebe essas, e a tradução só entra quando não há
 ★ Dois idiomas ao mesmo tempo: um em cima, outro embaixo, para assistir junto ou aprender um idioma
@@ -53,12 +54,21 @@ ENCONTRA AS LEGENDAS QUE O SITE CARREGA
 • Mostre, traduza ou salve como .srt com um clique
 • Vários vídeos na mesma página? Escolha a qual deles as legendas pertencem
 
+LEGENDAS A PARTIR DO ÁUDIO (BETA)
+• Sem legenda nenhuma? Clique em "Criar legendas a partir do áudio" na janela da extensão. Um modelo de fala gratuito (Whisper) no seu próprio computador escreve o que é dito enquanto o vídeo toca até o fim
+• Nesse meio-tempo você não vai ouvir aquela aba: use outras à vontade, só deixe ela aberta. Uma notificação pode avisar quando as legendas estiverem prontas
+• Depois elas são traduzidas na fila de tradução e aparecem sobre o vídeo no seu idioma, e se quiser, com o que foi dito como segunda linha
+• O som nunca sai do seu computador e essas legendas nunca são compartilhadas. O modelo de fala é baixado uma vez só (de 560 MB a 1,9 GB, você escolhe o tamanho)
+• Com a IA ligada, ela também corrige palavras mal ouvidas e tira linhas que um modelo de fala inventou sobre a música; na fila você pode restaurar qualquer uma
+• Pode cometer erros que uma pessoa não cometeria e funciona melhor com fala clara
+
 FILA DE TRADUÇÃO E LEGENDAS SALVAS
 • Solte vários arquivos .srt, .vtt, .ass, .ssa ou .ttml, ou clique em "Adicionar à fila" nas legendas que um site carrega. Eles são traduzidos um após o outro enquanto você faz outra coisa; a aba da fila pode ficar em segundo plano
 • Funciona com Google, Gemini, Claude, OpenAI ou seu modelo local
 • Enquanto um arquivo está na fila, o cartão sobre o vídeo dele mostra até onde chegou, e o arquivo pronto substitui sozinho as linhas do Google
 • As legendas melhoradas ficam guardadas na extensão pelo tempo que você escolher, e voltam quando você volta ao vídeo, e em qualquer outra página com as mesmas legendas, sem perguntar de novo à IA
 • Reproduzir abre o vídeo com as legendas, "Mostrar em…" coloca elas sobre um vídeo já aberto em outra aba, e Baixar salva o .srt
+• Os arquivos ficam em ordem de nome, então o episódio 2 vem antes do 10, e Ordenar muda a ordem
 
 ESTILO DO SEU JEITO
 • Mais de 1.800 fontes do Google Fonts, filtradas para as que têm as letras do seu idioma (č ř ž, ư ế ộ, cirílico, grego, japonês e mais)
@@ -91,6 +101,7 @@ SITE POR SITE
 
 ATALHOS DE TECLADO
 Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 zerar sincronia · Alt + R repetir a fala · Alt + S mostrar ou ocultar · Alt + 1 / Alt + 2 mostrar ou ocultar só um idioma · Alt + ↑ / ↓ mover · Alt + = / Alt + − maior ou menor · Alt + F tela cheia com legendas
+No Windows e no Linux: Alt + Enter tela cheia com legendas · Alt + , / Alt + . sincronizar de 1 em 1 s
 Todos os atalhos podem ser alterados ou desativados na aba Comportamento.
 
 INTERFACE EM 33 IDIOMAS
@@ -101,6 +112,7 @@ Uma aba "Subtitles" no DevTools lista todos os arquivos de legenda que a página
 
 PRIVACIDADE
 Sem contas, sem análises, sem rastreamento. O texto das legendas é enviado ao Google Tradutor só quando as legendas são traduzidas (pelo seu clique ou pelo modo automático), e ao Gemini, Claude, OpenAI ou ao seu modelo local só quando você clica em Melhorar. Para achar legendas compartilhadas, os 5 primeiros caracteres de uma impressão digital de mão única das legendas e o idioma são enviados ao meu servidor (subs.cleedek.com); as suas legendas melhoradas só vão para lá se você concordar em compartilhá-las. Fora isso, as legendas lembradas e salvas ficam no seu navegador. Se você me escrever pelo "Escreva para mim" na janela da extensão, sua mensagem chega até mim por e-mail. Um relato de problema só é enviado quando você aperta Enviar e leva o nome do site, nunca o endereço da página. Detalhes na política de privacidade.
+Legendas a partir do áudio: o som da aba vira texto só no seu computador e não é enviado para lugar nenhum. O modelo de fala é baixado uma vez do Hugging Face, e essas legendas nunca são compartilhadas; o texto delas é traduzido como o de qualquer outra legenda.
 
 PROBLEMA OU IDEIA?
 Clique em "Problema ou ideia?" na parte de baixo da janela da extensão e me escreva. Eu leio todas as mensagens. As legendas não aparecem em um site? O rótulo "Ajuda" no vídeo te orienta, e "Relatar um problema" me envia o nome do site para eu poder corrigir.

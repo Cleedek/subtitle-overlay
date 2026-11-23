@@ -5,7 +5,8 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 ★ DAS WICHTIGSTE
 ★ Jede Seite, jedes Video: Untertitel über dem Player, im Fenster oder im Vollbild, immer synchron
 ★ Übersetzung in 33 Sprachen mit einem Klick, oder ganz automatisch, sobald du die Untertitel im Player der Seite einschaltest
-★ NEU: Geteilte Untertitel: Hat jemand dieselben Untertitel schon mit KI verbessert, bekommst du sofort seine Version, und ob du deine teilst, entscheidest du
+★ NEU: Gar keine Untertitel? Ein kostenloses Spracherkennungsmodell auf deinem Computer schreibt auf, was gesagt wird, und dann wird es in deine Sprache übersetzt (Beta)
+★ Geteilte Untertitel: Hat jemand dieselben Untertitel schon mit KI verbessert, bekommst du sofort seine Version, und ob du deine teilst, entscheidest du
 ★ KI lässt die Übersetzung natürlich klingen, gratis auf deinem eigenen Rechner (Gemma) oder mit deinem eigenen Schlüssel für Gemini, Claude oder OpenAI
 ★ Hat die Seite schon Untertitel in deiner Sprache, bekommst du diese, und übersetzt wird nur, wenn es keine gibt
 ★ Zwei Sprachen gleichzeitig: eine oben, eine unten, zum gemeinsamen Schauen oder zum Sprachenlernen
@@ -53,12 +54,21 @@ FINDET DIE UNTERTITEL, DIE EINE SEITE LÄDT
 • Anzeigen, übersetzen oder als .srt speichern, mit einem Klick
 • Mehrere Videos auf einer Seite? Wähle aus, zu welchem die Untertitel gehören
 
+UNTERTITEL AUS DEM TON (BETA)
+• Gar keine Untertitel? Klick im Popup auf "Untertitel aus dem Ton erstellen". Ein kostenloses Spracherkennungsmodell (Whisper) auf deinem eigenen Computer schreibt auf, was gesagt wird, während das Video bis zum Ende läuft
+• Den Tab hörst du so lange nicht: Nutze andere Tabs ruhig weiter, lass nur diesen offen. Eine Benachrichtigung kann dir sagen, wann die Untertitel fertig sind
+• Dann werden sie in der Übersetzungswarteschlange übersetzt und erscheinen über dem Video in deiner Sprache, auf Wunsch mit dem Gesagten als zweiter Zeile
+• Der Ton verlässt nie deinen Computer, und diese Untertitel werden nie geteilt. Das Sprachmodell wird einmal heruntergeladen (560 MB bis 1,9 GB, die Größe wählst du)
+• Mit KI korrigiert es außerdem falsch verstandene Wörter und wirft Zeilen raus, die ein Sprachmodell über Musik erfunden hat; in der Warteschlange kannst du jede davon zurückholen
+• Es kann Fehler machen, die ein Mensch nicht machen würde, und funktioniert am besten bei klarer Sprache
+
 ÜBERSETZUNGSWARTESCHLANGE UND GESPEICHERTE UNTERTITEL
 • Zieh mehrere .srt-, .vtt-, .ass-, .ssa- oder .ttml-Dateien hinein, oder klicke bei Untertiteln, die eine Seite lädt, auf "Zur Warteschlange". Sie werden nacheinander übersetzt, während du etwas anderes machst; der Tab mit der Warteschlange kann im Hintergrund bleiben
 • Funktioniert mit Google, Gemini, Claude, OpenAI oder deinem lokalen Modell
 • Solange eine Datei in der Warteschlange ist, zeigt die Karte über ihrem Video, wie weit sie ist, und die fertige Datei ersetzt von selbst die Zeilen von Google
 • Verbesserte Untertitel bleiben so lange in der Erweiterung, wie du willst, und kommen zurück, wenn du wieder zum Video gehst, und auch auf jeder anderen Seite mit denselben Untertiteln, ohne die KI erneut zu fragen
 • Abspielen öffnet das Video mit seinen Untertiteln, "Zeigen auf…" legt sie über ein Video, das in einem anderen Tab schon offen ist, und Herunterladen speichert die .srt
+• Dateien stehen nach Namen geordnet, also Folge 2 vor Folge 10, und mit Sortieren änderst du die Reihenfolge
 
 GESTALTE SIE, WIE DU WILLST
 • Über 1.800 Google Fonts, gefiltert auf die, die die Buchstaben deiner Sprache haben (č ř ž, ư ế ộ, Kyrillisch, Griechisch, Japanisch und mehr)
@@ -91,6 +101,7 @@ SEITE FÜR SEITE
 
 TASTENKÜRZEL
 Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt + 0 Sync zurücksetzen · Alt + R Zeile wiederholen · Alt + S ein- oder ausblenden · Alt + 1 / Alt + 2 nur eine Sprache ein- oder ausblenden · Alt + ↑ / ↓ verschieben · Alt + = / Alt + − größer oder kleiner · Alt + F Vollbild mit Untertiteln
+Unter Windows und Linux: Alt + Enter Vollbild mit Untertiteln · Alt + , / Alt + . Synchronisieren um 1 s
 Jedes Tastenkürzel lässt sich im Tab Verhalten ändern oder abschalten.
 
 OBERFLÄCHE IN 33 SPRACHEN
@@ -101,6 +112,7 @@ Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Sei
 
 DATENSCHUTZ
 Keine Konten, keine Analytics, kein Tracking. Untertiteltext geht nur an Google Translate, wenn Untertitel übersetzt werden (per Klick oder im automatischen Modus), und an Gemini, Claude, OpenAI oder dein lokales Modell nur, wenn du auf Verbessern klickst. Um geteilte Untertitel zu finden, werden die ersten 5 Zeichen eines Einweg-Fingerabdrucks der Untertitel und die Sprache an meinen Server (subs.cleedek.com) gesendet; deine eigenen verbesserten Untertitel gehen nur dorthin, wenn du dem Teilen zustimmst. Gemerkte und gespeicherte Untertitel bleiben sonst in deinem Browser. Wenn du mir über "Schreib mir" im Popup schreibst, kommt deine Nachricht per E-Mail bei mir an. Eine Problemmeldung wird nur gesendet, wenn du auf Senden drückst, und enthält den Namen der Seite, nie die Adresse der Seite. Details in der Datenschutzerklärung.
+Untertitel aus dem Ton: Der Ton des Tabs wird nur auf deinem Computer in Text umgewandelt und nirgendwohin gesendet. Das Sprachmodell wird einmal von Hugging Face heruntergeladen, und diese Untertitel werden nie geteilt; ihr Text wird wie alle anderen Untertitel übersetzt.
 
 PROBLEM ODER IDEE?
 Klicke unten im Popup auf "Problem oder Idee?" und schreib mir. Ich lese jede Nachricht. Auf einer Seite erscheinen keine Untertitel? Das Label "Hilfe" am Video führt dich durch, und "Problem melden" schickt mir den Namen der Seite, damit ich es beheben kann.
