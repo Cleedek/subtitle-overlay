@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Vytvoriť titulky zo zvuku**: pri videách úplne bez titulkov bezplatný model reči v tvojom počítači zapíše, čo zaznelo, a potom sa to preloží do tvojho jazyka. Je to beta a ešte to nie je dokonalé, ale môže to pomôcť",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Súbory vo **Fronte prekladov** sa teraz radia podľa názvu, takže diel 2 je pred dielom 10. Poradie zmeníš cez **Zoradiť**",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Titulky zo zvuku vedia ukázať aj to, čo zaznelo, ako druhý riadok, a keď AI vyhodí riadky, ktoré podľa nej nezazneli, ktorýkoľvek vrátiš tlačidlom **Vrátiť**"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Titulky zo zvuku vedia ukázať aj to, čo zaznelo, ako druhý riadok, a keď AI vyhodí riadky, ktoré podľa nej nezazneli, ktorýkoľvek vrátiš tlačidlom **Vrátiť**",
+  "Downloaded · {size} in this browser": "Stiahnuté · {size} v tomto prehliadači",
+  "Delete the speech model and free {size}?": "Vymazať model reči a uvoľniť {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Pri ďalšom vytváraní titulkov zo zvuku sa stiahne znova.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Vymazané, uvoľnené {size}. Pri ďalšom vytváraní titulkov zo zvuku sa stiahne znova.",
+  "In Ollama · {size}": "V Ollame · {size}",
+  "Delete Gemma 3 and free {size}?": "Vymazať Gemmu 3 a uvoľniť {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Aplikácia Ollama zostane. Model si môžete kedykoľvek stiahnuť znova.",
+  "Gemma 3 takes {size}": "Gemma 3 zaberá {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Lokálnu AI ste mesiac nepoužili na preklad. Vymazať ju a uvoľniť miesto? Kedykoľvek si ju môžete stiahnuť znova.",
+  "Keep it": "Ponechať",
+  "Deleting…": "Mažem…",
+  "Something went wrong.": "Niečo sa pokazilo.",
+  "Deleted, {size} free.": "Vymazané, uvoľnené {size}.",
+  "Can’t delete it while it’s downloading.": "Počas sťahovania sa to vymazať nedá.",
+  "Can’t delete it while it’s making subtitles.": "Počas vytvárania titulkov sa to vymazať nedá."
 }

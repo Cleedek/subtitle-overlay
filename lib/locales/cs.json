@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Vytvořit titulky ze zvuku**: u videí úplně bez titulků bezplatný model řeči ve tvém počítači zapíše, co zaznělo, a pak se to přeloží do tvého jazyka. Je to beta a ještě to není dokonalé, ale může to pomoct",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Soubory ve **Frontě překladů** se teď řadí podle názvu, takže díl 2 je před dílem 10. Pořadí změníš přes **Seřadit**",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Titulky ze zvuku umí ukázat i to, co zaznělo, jako druhý řádek, a když AI vyhodí řádky, které podle ní nezazněly, kterýkoli vrátíš tlačítkem **Vrátit**"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Titulky ze zvuku umí ukázat i to, co zaznělo, jako druhý řádek, a když AI vyhodí řádky, které podle ní nezazněly, kterýkoli vrátíš tlačítkem **Vrátit**",
+  "Downloaded · {size} in this browser": "Staženo · {size} v tomto prohlížeči",
+  "Delete the speech model and free {size}?": "Smazat model řeči a uvolnit {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Při dalším vytváření titulků ze zvuku se stáhne znovu.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Smazáno, uvolněno {size}. Při dalším vytváření titulků ze zvuku se stáhne znovu.",
+  "In Ollama · {size}": "V Ollamě · {size}",
+  "Delete Gemma 3 and free {size}?": "Smazat Gemmu 3 a uvolnit {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Aplikace Ollama zůstane. Model si můžeš kdykoli stáhnout znovu.",
+  "Gemma 3 takes {size}": "Gemma 3 zabírá {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Lokální AI už měsíc nic nepřekládala. Smazat ji a uvolnit místo? Kdykoli si ji můžeš stáhnout znovu.",
+  "Keep it": "Nechat",
+  "Deleting…": "Mažu…",
+  "Something went wrong.": "Něco se pokazilo.",
+  "Deleted, {size} free.": "Smazáno, uvolněno {size}.",
+  "Can’t delete it while it’s downloading.": "Během stahování to smazat nejde.",
+  "Can’t delete it while it’s making subtitles.": "Během vytváření titulků to smazat nejde."
 }

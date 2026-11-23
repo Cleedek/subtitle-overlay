@@ -719,5 +719,20 @@
   "Beta": "آزمایشی",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**ساخت زیرنویس از صدا**: برای ویدیوهایی که اصلاً زیرنویس ندارند، یک مدل گفتار رایگان روی رایانه شما آنچه گفته می‌شود را می‌نویسد و بعد به زبان شما ترجمه می‌شود. هنوز آزمایشی است و بی‌نقص نیست، اما می‌تواند کمک کند",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "فایل‌های **صف ترجمه** حالا به ترتیب نام هستند، پس قسمت ۲ قبل از قسمت ۱۰ می‌آید. با **مرتب‌سازی** ترتیب را عوض کنید",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "زیرنویس از صدا می‌تواند آنچه گفته شده را هم به‌عنوان خط دوم نشان دهد، و اگر هوش مصنوعی خط‌هایی را که فکر می‌کند گفته نشده حذف کند، با **برگرداندن** هر کدام را برمی‌گردانی"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "زیرنویس از صدا می‌تواند آنچه گفته شده را هم به‌عنوان خط دوم نشان دهد، و اگر هوش مصنوعی خط‌هایی را که فکر می‌کند گفته نشده حذف کند، با **برگرداندن** هر کدام را برمی‌گردانی",
+  "Downloaded · {size} in this browser": "دانلود شده · {size} در این مرورگر",
+  "Delete the speech model and free {size}?": "مدل گفتار حذف شود و {size} آزاد شود؟",
+  "It downloads again the next time you make subtitles from audio.": "دفعهٔ بعد که از صدا زیرنویس بسازید، دوباره دانلود می‌شود.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "حذف شد، {size} آزاد شد. دفعهٔ بعد که از صدا زیرنویس بسازید، دوباره دانلود می‌شود.",
+  "In Ollama · {size}": "در Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Gemma 3 حذف شود و {size} آزاد شود؟",
+  "The Ollama app stays. You can download the model again anytime.": "برنامهٔ Ollama می‌ماند. هر وقت بخواهید می‌توانید مدل را دوباره دانلود کنید.",
+  "Gemma 3 takes {size}": "Gemma 3 {size} جا گرفته است",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "یک ماه است با هوش مصنوعی محلی ترجمه نکرده‌اید. برای آزاد کردن فضا حذف شود؟ هر وقت بخواهید می‌توانید دوباره دانلودش کنید.",
+  "Keep it": "نگه دار",
+  "Deleting…": "در حال حذف…",
+  "Something went wrong.": "مشکلی پیش آمد.",
+  "Deleted, {size} free.": "حذف شد، {size} آزاد شد.",
+  "Can’t delete it while it’s downloading.": "هنگام دانلود نمی‌شود حذفش کرد.",
+  "Can’t delete it while it’s making subtitles.": "هنگام ساختن زیرنویس نمی‌شود حذفش کرد."
 }

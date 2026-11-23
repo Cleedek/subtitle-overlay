@@ -719,5 +719,20 @@
   "Beta": "베타",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**오디오로 자막 만들기**: 자막이 전혀 없는 동영상도 컴퓨터의 무료 음성 모델이 영상에서 말하는 내용을 받아 적고, 그다음 내 언어로 번역합니다. 아직 베타라 완벽하지는 않지만 도움이 될 수 있습니다",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**번역 대기열**의 파일이 이제 이름순으로 정렬되어 2화가 10화보다 앞에 옵니다. **정렬**로 순서를 바꿀 수 있습니다",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "오디오로 만든 자막은 실제로 말한 내용을 두 번째 줄로 보여 줄 수도 있고, AI가 말하지 않았다고 보고 지운 줄은 **되돌리기**로 언제든 다시 넣을 수 있습니다"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "오디오로 만든 자막은 실제로 말한 내용을 두 번째 줄로 보여 줄 수도 있고, AI가 말하지 않았다고 보고 지운 줄은 **되돌리기**로 언제든 다시 넣을 수 있습니다",
+  "Downloaded · {size} in this browser": "다운로드됨 · 이 브라우저에 {size}",
+  "Delete the speech model and free {size}?": "음성 모델을 삭제하고 {size}를 확보할까요?",
+  "It downloads again the next time you make subtitles from audio.": "다음에 오디오로 자막을 만들 때 다시 다운로드됩니다.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "삭제됨, {size} 확보. 다음에 오디오로 자막을 만들 때 다시 다운로드됩니다.",
+  "In Ollama · {size}": "Ollama에 · {size}",
+  "Delete Gemma 3 and free {size}?": "Gemma 3를 삭제하고 {size}를 확보할까요?",
+  "The Ollama app stays. You can download the model again anytime.": "Ollama 앱은 그대로 남습니다. 모델은 언제든 다시 다운로드할 수 있습니다.",
+  "Gemma 3 takes {size}": "Gemma 3가 {size}를 차지합니다",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "한 달 동안 로컬 AI로 번역하지 않았습니다. 삭제해서 공간을 확보할까요? 언제든 다시 다운로드할 수 있습니다.",
+  "Keep it": "유지",
+  "Deleting…": "삭제 중…",
+  "Something went wrong.": "문제가 발생했습니다.",
+  "Deleted, {size} free.": "삭제됨, {size} 확보.",
+  "Can’t delete it while it’s downloading.": "다운로드 중에는 삭제할 수 없습니다.",
+  "Can’t delete it while it’s making subtitles.": "자막을 만드는 중에는 삭제할 수 없습니다."
 }

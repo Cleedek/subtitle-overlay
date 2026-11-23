@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Buat subtitle dari audio**: untuk video yang sama sekali tanpa subtitle, model ucapan gratis di komputermu menuliskan apa yang diucapkan, lalu diterjemahkan ke bahasamu. Ini masih beta dan belum sempurna, tapi bisa membantu",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "File di **Antrean terjemahan** kini berurutan menurut nama, jadi episode 2 ada sebelum episode 10. **Urutkan** mengubah urutannya",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Subtitle dari audio juga bisa menampilkan apa yang diucapkan sebagai baris kedua, dan jika AI menghapus baris yang menurutnya tidak pernah diucapkan, **Kembalikan** mengembalikan baris mana pun"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Subtitle dari audio juga bisa menampilkan apa yang diucapkan sebagai baris kedua, dan jika AI menghapus baris yang menurutnya tidak pernah diucapkan, **Kembalikan** mengembalikan baris mana pun",
+  "Downloaded · {size} in this browser": "Terunduh · {size} di browser ini",
+  "Delete the speech model and free {size}?": "Hapus model ucapan dan kosongkan {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Model akan diunduh lagi saat Anda membuat subtitle dari audio berikutnya.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Dihapus, {size} kosong. Model akan diunduh lagi saat Anda membuat subtitle dari audio berikutnya.",
+  "In Ollama · {size}": "Di Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Hapus Gemma 3 dan kosongkan {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Aplikasi Ollama tetap ada. Anda bisa mengunduh modelnya lagi kapan saja.",
+  "Gemma 3 takes {size}": "Gemma 3 memakan {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Sudah sebulan Anda tidak menerjemahkan dengan AI lokal. Hapus untuk mengosongkan ruang? Anda bisa mengunduhnya lagi kapan saja.",
+  "Keep it": "Simpan",
+  "Deleting…": "Menghapus…",
+  "Something went wrong.": "Terjadi kesalahan.",
+  "Deleted, {size} free.": "Dihapus, {size} kosong.",
+  "Can’t delete it while it’s downloading.": "Tidak bisa dihapus saat sedang diunduh.",
+  "Can’t delete it while it’s making subtitles.": "Tidak bisa dihapus saat subtitle sedang dibuat."
 }

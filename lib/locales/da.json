@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Lav undertekster ud fra lyden**: til videoer helt uden undertekster skriver en gratis talemodel på din computer ned, hvad der bliver sagt, og så oversættes det til dit sprog. Det er en beta og ikke perfekt endnu, men det kan hjælpe",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Filer i **Oversættelseskøen** står nu efter navn, så afsnit 2 kommer før afsnit 10. **Sortér** ændrer rækkefølgen",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Undertekster fra lyden kan også vise det, der bliver sagt, som en ekstra linje, og hvis AI’en fjerner linjer, den mener aldrig blev sagt, henter **Sæt tilbage** hvilken som helst af dem tilbage"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Undertekster fra lyden kan også vise det, der bliver sagt, som en ekstra linje, og hvis AI’en fjerner linjer, den mener aldrig blev sagt, henter **Sæt tilbage** hvilken som helst af dem tilbage",
+  "Downloaded · {size} in this browser": "Hentet · {size} i denne browser",
+  "Delete the speech model and free {size}?": "Slet talemodellen og frigør {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Den hentes igen, næste gang du laver undertekster ud fra lyden.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Slettet, {size} frigjort. Den hentes igen, næste gang du laver undertekster ud fra lyden.",
+  "In Ollama · {size}": "I Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Slet Gemma 3 og frigør {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Ollama-appen bliver. Du kan hente modellen igen når som helst.",
+  "Gemma 3 takes {size}": "Gemma 3 fylder {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Du har ikke oversat med den lokale AI i en måned. Slet den for at frigøre plads? Du kan hente den igen når som helst.",
+  "Keep it": "Behold",
+  "Deleting…": "Sletter…",
+  "Something went wrong.": "Noget gik galt.",
+  "Deleted, {size} free.": "Slettet, {size} frigjort.",
+  "Can’t delete it while it’s downloading.": "Den kan ikke slettes, mens den hentes.",
+  "Can’t delete it while it’s making subtitles.": "Den kan ikke slettes, mens der laves undertekster."
 }

@@ -440,6 +440,27 @@ kbd {
 .danger-link { padding: 0; border: 0; background: none; color: var(--danger); font-size: inherit; }
 .danger-link:hover { background: none; text-decoration: underline; }
 .danger-link:disabled { opacity: .5; }
+/* A downloaded model: its size + Delete, then the question in the same strip, then what happened. */
+.model-disk { margin-top: 8px; }
+.model-disk svg { flex: none; color: var(--faint); }
+.model-disk b { color: var(--text); font-weight: 600; }
+.info-strip.confirm { flex-wrap: wrap; background: color-mix(in oklch, var(--danger) 10%, var(--panel)); color: var(--text); }
+.info-strip.confirm > span:first-child { flex: 1 1 100%; }
+.info-strip.confirm > span:first-child i { font-style: normal; color: var(--muted); }
+.strip-acts { display: flex; gap: 6px; margin-inline-start: auto; }
+.strip-acts button, .nudge-acts button { padding: 4px 10px; font-size: 12px; }
+button.danger { background: var(--danger); border-color: var(--danger); color: var(--bg); font-weight: 600; } /* dark text on the light red of the dark theme, light on the deep red of the light one */
+button.danger:hover { background: color-mix(in oklch, var(--danger) 88%, white); border-color: transparent; }
+.info-strip .ok-mark { color: var(--success); font-weight: 800; }
+.info-strip.done { align-items: flex-start; }
+.info-strip.done > :last-child { margin-inline-start: 0; }
+/* Once, after a month without the local AI: delete Gemma 3? */
+.nudge { display: grid; grid-template-columns: 28px 1fr; gap: 10px; margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.nudge-ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+.nudge strong { display: block; font-size: 13px; font-weight: 600; }
+.nudge p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+.nudge-acts { display: flex; gap: 6px; margin-top: 8px; }
+.nudge .error { margin-top: 6px; }
 .ai-status .dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
 .ai-status.ok .dot { background: oklch(0.72 0.15 150); }
 .ai-status.bad { color: var(--danger); }

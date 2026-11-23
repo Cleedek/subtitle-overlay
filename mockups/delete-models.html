@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delete downloaded models: 3 proposals</title>
+<!-- The real popup styles, so every variant looks exactly like the extension. -->
+<link rel="stylesheet" href="../popup.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  body { width: auto; padding: 32px 24px 64px; background: oklch(0.13 0.006 290); }
+  :root[data-theme="light"] body { background: oklch(0.92 0.004 290); }
+  .doc { max-width: 1280px; margin: 0 auto; }
+  .doc > h1 { font-size: 22px; margin: 0 0 4px; }
+  .doc > h2 { font-size: 16px; margin: 40px 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 20px; max-width: 95ch; }
+  .switch-theme { float: right; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .col { width: 380px; display: flex; flex-direction: column; gap: 10px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .why { color: var(--muted); font-size: 12px; margin: 0; }
+  .pc { margin: 0; font-size: 11.5px; color: var(--faint); }
+  .pc b { color: var(--text); font-weight: 600; }
+  .step { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); margin: 6px 0 -4px; }
+  .popup { background: var(--bg); border-radius: 12px; padding: 12px 14px 14px; box-shadow: 0 0 0 1px var(--line); }
+  .ctx { opacity: .45; pointer-events: none; }
+  .ctx-label { font-size: 12.5px; font-weight: 600; margin: 0 0 8px; color: var(--muted); }
+  .flag { color: var(--star); }
+
+  /* ---------- shared by the proposals ---------- */
+  .size { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .disk { flex: none; color: var(--faint); }
+  .info-strip.confirm { flex-wrap: wrap; background: color-mix(in oklch, var(--danger) 10%, var(--panel)); color: var(--text); }
+  .info-strip.confirm p { margin: 0; flex: 1 1 100%; font-size: 12px; }
+  .info-strip.confirm p span { color: var(--muted); }
+  .info-strip .acts { display: flex; gap: 6px; margin-inline-start: auto; }
+  .info-strip .acts button { padding: 4px 10px; font-size: 12px; }
+  button.danger { background: var(--danger); border-color: var(--danger); color: oklch(0.99 0.003 290); font-weight: 600; }
+  .info-strip.done { color: var(--muted); }
+  .info-strip button { white-space: nowrap; }
+  .check { color: var(--success); font-weight: 800; }
+
+  /* 2: the ⋯ menu next to the model. */
+  .sel-more { display: flex; gap: 6px; align-items: center; }
+  .more-btn { width: 28px; height: 28px; padding: 0; display: grid; place-items: center; border-radius: 7px; }
+  .more-btn.open { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .menu-wrap { position: relative; }
+  .menu { position: relative; margin: 6px 0 0 auto; width: 236px; padding: 6px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line-strong); box-shadow: 0 8px 24px var(--shadow); }
+  .menu .m-head { padding: 6px 8px 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+  .menu .m-head b { display: block; font-size: 12.5px; }
+  .menu .m-head span { font-size: 11.5px; color: var(--muted); }
+  .menu .m-item { display: flex; gap: 8px; align-items: center; width: 100%; padding: 7px 8px; border: 0; border-radius: 6px; background: none; font-size: 12.5px; text-align: start; }
+  .menu .m-item:hover { background: var(--panel-hover); }
+  .menu .m-item.del { color: var(--danger); }
+  .menu .m-item.hover { background: var(--panel-hover); }
+  .sheet { margin-top: 8px; }
+
+  /* 3: the nudge at the right moment. */
+  .nudge { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); margin-top: 8px; }
+  .nudge .n-ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+  .nudge b { display: block; font-size: 13px; font-weight: 600; }
+  .nudge p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+  .nudge .acts { display: flex; gap: 6px; margin-top: 8px; }
+  .nudge .acts button { padding: 4px 10px; font-size: 12px; }
+  .seg-mini { display: flex; gap: 4px; }
+  .seg-mini span { flex: 1; text-align: center; padding: 4px 0; font-size: 12px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); }
+  .seg-mini span.on { background: var(--accent-tint); border-color: var(--accent-line); color: var(--text); }
+  .seg-mini span.was { text-decoration: line-through; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <button class="switch-theme" type="button" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'">Světlé / tmavé</button>
+  <h1>Smazání stažených modelů: 3 návrhy</h1>
+  <p class="lead">Dva modely, které si člověk stáhne přes naši extension: <b>hlasový model</b> (Whisper, 560 MB až 1,9 GB, uložený v prohlížeči) a <b>Gemma 3</b> (asi 8,1 GB, uložená v aplikaci Ollama). Každý sloupec je jeden přístup a ukazuje oba modely krok po kroku: klid → potvrzení → hotovo. Texty v UI jsou anglicky jako v extension.</p>
+
+  <div class="row">
+
+    <!-- ======================= 1 ======================= -->
+    <div class="col">
+      <span class="tag">1 · Řádek přímo pod modelem</span>
+      <p class="why">Pod výběrem modelu je tichý pruh „kolik místa zabírá + Delete“. Je to stejný vzor, jaký už máme u Sharing (počet sdílených + Delete), takže se nic nového neučí. Potvrzení proběhne na místě, bez vyskakovacího okna.</p>
+      <p class="pc"><b>Plus:</b> vždy vidět, kolik místa to bere. <b>Mínus:</b> jeden řádek navíc v obou foldech.</p>
+
+      <span class="step">Hlasový model · v klidu</span>
+      <div class="popup">
+        <p class="ctx-label">Subtitles from audio ▾</p>
+        <div class="setting-head"><span class="setting-label">Speech model</span><select class="compact"><option>Balanced</option></select></div>
+        <p class="hint">88 of 100 words right. 1.6 GB, once.</p>
+        <p class="info-strip" style="margin-top:8px"><svg class="disk" width="14" height="14" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 10h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Downloaded · <span class="size">1.6 GB</span> in this browser</span><button type="button" class="danger-link">Delete</button></p>
+      </div>
+
+      <span class="step">Po kliknutí na Delete</span>
+      <div class="popup">
+        <div class="setting-head ctx"><span class="setting-label">Speech model</span><select class="compact"><option>Balanced</option></select></div>
+        <div class="info-strip confirm" style="margin-top:8px">
+          <p>Delete the speech model and free <b>1.6 GB</b>? <span>Next time you make subtitles from audio, it downloads again.</span></p>
+          <div class="acts"><button class="ghost">Cancel</button><button class="danger">Delete</button></div>
+        </div>
+      </div>
+
+      <span class="step">Gemma 3 · v klidu a hotovo</span>
+      <div class="popup">
+        <p class="ctx-label">AI settings · Local ▾</p>
+        <div class="setting-head"><span class="setting-label">Model</span><select class="compact"><option>gemma3:12b</option></select></div>
+        <p class="info-strip" style="margin-top:8px"><svg class="disk" width="14" height="14" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 10h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>In Ollama · <span class="size">8.1 GB</span></span><button type="button" class="danger-link">Delete</button></p>
+        <p class="info-strip done" style="margin-top:8px"><span class="check">✓</span><span>Gemma 3 deleted, 8.1 GB free. The Ollama app stays.</span><button type="button" class="ghost" style="padding:3px 10px;font-size:12px">Download again</button></p>
+      </div>
+    </div>
+
+    <!-- ======================= 2 ======================= -->
+    <div class="col">
+      <span class="tag">2 · Menu ⋯ vedle modelu</span>
+      <p class="why">Vedle výběru modelu je malé tlačítko ⋯. Po kliknutí ukáže, kolik model zabírá, a nabídne smazání. Potvrzení je výraznější karta (styl našich chybových karet), protože jde o 8 GB.</p>
+      <p class="pc"><b>Plus:</b> nejčistší, nic navíc v nastavení. <b>Mínus:</b> schované, část lidí ⋯ nenajde.</p>
+
+      <span class="step">V klidu</span>
+      <div class="popup">
+        <p class="ctx-label">AI settings · Local ▾</p>
+        <div class="setting-head"><span class="setting-label">Model</span><span class="sel-more"><select class="compact"><option>gemma3:12b</option></select><button class="more-btn" aria-label="Model options"><svg width="14" height="14" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r="1.4" fill="currentColor"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="12.5" cy="8" r="1.4" fill="currentColor"/></svg></button></span></div>
+      </div>
+
+      <span class="step">Otevřené menu</span>
+      <div class="popup">
+        <div class="setting-head"><span class="setting-label">Model</span><span class="sel-more"><select class="compact"><option>gemma3:12b</option></select><button class="more-btn open" aria-label="Model options"><svg width="14" height="14" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r="1.4" fill="currentColor"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="12.5" cy="8" r="1.4" fill="currentColor"/></svg></button></span></div>
+        <div class="menu">
+          <div class="m-head"><b>Gemma 3 · 12B</b><span>8.1 GB in Ollama on this computer</span></div>
+          <button class="m-item del hover"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.6 8.5h5.8l.6-8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Delete from this computer</button>
+        </div>
+      </div>
+
+      <span class="step">Potvrzení</span>
+      <div class="popup">
+        <div class="setting-head ctx"><span class="setting-label">Model</span><span class="sel-more"><select class="compact"><option>gemma3:12b</option></select><button class="more-btn">⋯</button></span></div>
+        <div class="alert-card sheet">
+          <strong>Delete Gemma 3?</strong>
+          <p>Frees 8.1 GB. Improve with AI won’t work with Local until you download it again (about 8 GB). The Ollama app stays installed.</p>
+          <div class="alert-actions"><button class="danger">Delete 8.1 GB</button><button class="ghost">Keep it</button></div>
+        </div>
+      </div>
+
+      <span class="step">Hlasový model: stejné ⋯</span>
+      <div class="popup">
+        <p class="ctx-label">Subtitles from audio ▾</p>
+        <div class="setting-head"><span class="setting-label">Speech model</span><span class="sel-more"><select class="compact"><option>Balanced</option></select><button class="more-btn" aria-label="Model options"><svg width="14" height="14" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r="1.4" fill="currentColor"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="12.5" cy="8" r="1.4" fill="currentColor"/></svg></button></span></div>
+        <p class="hint">88 of 100 words right. 1.6 GB, once.</p>
+      </div>
+    </div>
+
+    <!-- ======================= 3 ======================= -->
+    <div class="col">
+      <span class="tag">3 · Nabídka ve chvíli, kdy dává smysl</span>
+      <p class="why">Extension sama nabídne smazání, když model zjevně nepotřebuješ: přepneš z Local na Gemini nebo vypneš Improve with AI, nebo hlasový model 30 dní nikdo nepoužil. Jednou nabídne, po „Keep“ už nikdy. Navíc zůstane tichý řádek z návrhu 1, aby se to dalo najít i později.</p>
+      <p class="pc"><b>Plus:</b> nejvíc „kontextuální“, lidi na to přijdou sami. <b>Mínus:</b> nejvíc logiky, a nesmí to otravovat.</p>
+
+      <span class="step">Přepnul jsi z Local na Gemini</span>
+      <div class="popup">
+        <div class="setting-head ctx"><span class="setting-label">Improve with AI</span><label class="toggle"><input type="checkbox" checked><span></span></label></div>
+        <div class="seg-mini" style="margin-top:6px"><span class="was">Local</span><span class="on">Gemini</span><span>Claude</span><span>OpenAI</span></div>
+        <div class="nudge">
+          <span class="n-ic"><svg width="14" height="14" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 10h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          <div>
+            <b>Gemma 3 still takes 8.1 GB</b>
+            <p>You’re using Gemini now. Delete the local model to free the space? You can download it again anytime.</p>
+            <div class="acts"><button class="danger">Delete</button><button class="ghost">Keep it</button></div>
+          </div>
+        </div>
+      </div>
+
+      <span class="step">Hlasový model 30 dní nepoužitý</span>
+      <div class="popup">
+        <div class="transcribe ctx"><button class="wide transcribe-btn"><svg class="transcribe-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Make subtitles from the audio</span><span class="beta-chip">Beta</span></button></div>
+        <div class="nudge">
+          <span class="n-ic"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          <div>
+            <b>Speech model unused for a month</b>
+            <p>It takes 1.6 GB in this browser. Delete it? It downloads again the next time you need it.</p>
+            <div class="acts"><button class="danger">Delete</button><button class="ghost">Keep it</button></div>
+          </div>
+        </div>
+      </div>
+
+      <span class="step">Po smazání</span>
+      <div class="popup">
+        <p class="info-strip done"><span class="check">✓</span><span>Deleted, 8.1 GB free.</span><button type="button" class="ghost" style="padding:3px 10px;font-size:12px">Undo</button></p>
+        <p class="pc" style="margin-top:6px">„Undo“ jen pár sekund: smazání se provede až po nich (u 8 GB se opravdu vrátit nedá).</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Co platí pro všechny tři</h2>
+  <p class="lead">
+    · Smaže jen model, nikdy aplikaci Ollama (tu si člověk instaloval sám).<br>
+    · Gemma: nabídnout jen u modelu, který jsme stáhli my (gemma3:12b). Jiné modely v Ollamě mohl člověk používat i jinde, tam bych tlačítko nedával. <span class="flag">K rozhodnutí.</span><br>
+    · Během stahování nebo přepisu je Delete vypnuté („Can’t delete while it’s working“).<br>
+    · Velikost se bere skutečná z Ollamy a z úložiště prohlížeče, ne odhad.
+  </p>
+</div>
+</body>
+</html>

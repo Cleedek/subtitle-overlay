@@ -719,5 +719,20 @@
   "Beta": "تجريبي",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**إنشاء ترجمة من الصوت**: في الفيديوهات التي بلا أي ترجمة، يكتب نموذج كلام مجاني على جهازك ما يُقال، ثم يُترجم إلى لغتك. ما زال تجريبيًا وليس مثاليًا بعد، لكنه قد يساعد",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "أصبحت الملفات في **قائمة انتظار الترجمة** مرتبة حسب الاسم، فتأتي الحلقة 2 قبل الحلقة 10، ويمكنك تغيير الترتيب بزر **ترتيب**",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "يمكن لترجمة من الصوت أن تعرض ما قيل كسطر ثانٍ أيضًا، وإذا حذف الذكاء الاصطناعي أسطرًا يظن أنها لم تُقل، تعيد **إعادة** أيًّا منها"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "يمكن لترجمة من الصوت أن تعرض ما قيل كسطر ثانٍ أيضًا، وإذا حذف الذكاء الاصطناعي أسطرًا يظن أنها لم تُقل، تعيد **إعادة** أيًّا منها",
+  "Downloaded · {size} in this browser": "تم التنزيل · {size} في هذا المتصفح",
+  "Delete the speech model and free {size}?": "حذف نموذج الكلام وتحرير {size}؟",
+  "It downloads again the next time you make subtitles from audio.": "سيُنزَّل مرة أخرى في المرة القادمة التي تنشئ فيها ترجمة من الصوت.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "تم الحذف، وتحرّر {size}. سيُنزَّل مرة أخرى في المرة القادمة التي تنشئ فيها ترجمة من الصوت.",
+  "In Ollama · {size}": "في Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "حذف Gemma 3 وتحرير {size}؟",
+  "The Ollama app stays. You can download the model again anytime.": "يبقى تطبيق Ollama. يمكنك تنزيل النموذج مرة أخرى في أي وقت.",
+  "Gemma 3 takes {size}": "يشغل Gemma 3 مساحة {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "لم تترجم بالذكاء الاصطناعي المحلي منذ شهر. هل تريد حذفه لتحرير المساحة؟ يمكنك تنزيله مرة أخرى في أي وقت.",
+  "Keep it": "إبقاؤه",
+  "Deleting…": "جارٍ الحذف…",
+  "Something went wrong.": "حدث خطأ ما.",
+  "Deleted, {size} free.": "تم الحذف، وتحرّر {size}.",
+  "Can’t delete it while it’s downloading.": "لا يمكن حذفه أثناء التنزيل.",
+  "Can’t delete it while it’s making subtitles.": "لا يمكن حذفه أثناء إنشاء الترجمة."
 }

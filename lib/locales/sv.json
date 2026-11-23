@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Gör undertexter från ljudet**: för videor helt utan undertexter skriver en gratis talmodell på din dator ner det som sägs, och sedan översätts det till ditt språk. Det är en beta och inte perfekt än, men det kan hjälpa",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Filer i **Översättningskön** står nu i namnordning, så avsnitt 2 kommer före avsnitt 10. **Sortera** ändrar ordningen",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Undertexter från ljudet kan också visa det som sades som en andra rad, och om AI:n tar bort rader den tror aldrig sades, tar **Återställ** tillbaka vilken som helst av dem"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Undertexter från ljudet kan också visa det som sades som en andra rad, och om AI:n tar bort rader den tror aldrig sades, tar **Återställ** tillbaka vilken som helst av dem",
+  "Downloaded · {size} in this browser": "Nedladdad · {size} i den här webbläsaren",
+  "Delete the speech model and free {size}?": "Radera talmodellen och frigör {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Den laddas ner igen nästa gång du gör undertexter från ljudet.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Raderad, {size} frigjort. Den laddas ner igen nästa gång du gör undertexter från ljudet.",
+  "In Ollama · {size}": "I Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Radera Gemma 3 och frigör {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Ollama-appen finns kvar. Du kan ladda ner modellen igen när som helst.",
+  "Gemma 3 takes {size}": "Gemma 3 tar {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Du har inte översatt med den lokala AI:n på en månad. Radera den för att frigöra utrymme? Du kan ladda ner den igen när som helst.",
+  "Keep it": "Behåll",
+  "Deleting…": "Raderar…",
+  "Something went wrong.": "Något gick fel.",
+  "Deleted, {size} free.": "Raderad, {size} frigjort.",
+  "Can’t delete it while it’s downloading.": "Den kan inte raderas medan den laddas ner.",
+  "Can’t delete it while it’s making subtitles.": "Den kan inte raderas medan undertexter görs."
 }

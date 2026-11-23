@@ -563,7 +563,7 @@
   // "Download Gemma 3": the background asks Ollama to download it and writes the
   // progress to storage.session (also seen by a popup opened later).
   let pull = null;
-  const gb = (b) => (b / 1e9).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const gb = (b) => (b / 1e9).toLocaleString(SubI18n.lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   function renderPull() {
     // "running" that nobody updated for 20 s: it stopped (the background was shut down).
     const running = !!pull && pull.state === 'running' && Date.now() - pull.at < 20000;
@@ -610,6 +610,7 @@
     const ask = ++modelsAsked;
     const saved = (await SubSettings.loadTranslation())[modelKey()];
     $('aiModel').replaceChildren();
+    $('localDisk').hidden = true;
     clearAddressProblem();
     $('aiSummary').textContent = saved || '';
     aiStatus('', t('Connecting…'));
@@ -643,6 +644,7 @@
     if (pick !== saved) await SubSettings.saveTranslation({ [modelKey()]: pick });
     aiMsg('');
     renderImprove();
+    showLocalDisk(res.models);
   }
 
   // The "Subtitles from audio" fold: the translation and what was said (as a
@@ -670,6 +672,134 @@
     SubSettings.saveTranslation({ audioModel: prefs.audioModel });
     showAudioModel();
   });
+  // A model this extension downloaded can be deleted here too: a quiet strip
+  // with its size and Delete, the question in the same strip, then what
+  // happened. o: { text, ask, after, del () -> { ok, error }, done (after ok) }.
+  const DISK_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 10h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+  const h = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
+  const icon = (svg) => { const s = h('span'); s.style.display = 'contents'; s.innerHTML = svg; return s; };
+  const bytesText = (b) => ltr(b >= 1e9 ? gb(b) + ' GB' : Math.max(1, Math.round(b / 1e6)) + ' MB');
+  function modelDisk(box, o) {
+    function idle(error) {
+      const del = h('button', 'danger-link', t('Delete'));
+      del.type = 'button';
+      del.addEventListener('click', ask);
+      box.replaceChildren(h('p', 'info-strip'), ...(error ? [h('p', 'hint error', error)] : []));
+      box.firstChild.append(icon(DISK_ICON), h('span', '', o.text), del);
+      box.hidden = false;
+    }
+    function ask() {
+      const strip = h('div', 'info-strip confirm');
+      strip.setAttribute('role', 'group');
+      const q = h('span', '', o.ask + ' ');
+      q.append(h('i', '', o.after));
+      const cancel = Object.assign(h('button', 'ghost', t('Cancel')), { type: 'button' });
+      const yes = Object.assign(h('button', 'danger', t('Delete')), { type: 'button' });
+      cancel.addEventListener('click', () => idle());
+      yes.addEventListener('click', async () => {
+        yes.disabled = cancel.disabled = true;
+        yes.textContent = t('Deleting…');
+        const res = await o.del().catch((e) => ({ ok: false, error: e.message }));
+        if (!res || !res.ok) return idle((res && res.error) || t('Something went wrong.'));
+        o.done();
+      });
+      const acts = h('span', 'strip-acts');
+      acts.append(cancel, yes);
+      strip.append(q, acts);
+      box.replaceChildren(strip);
+      yes.focus({ focusVisible: false }); // the Delete link it replaces is gone: keep keyboard focus here
+    }
+    idle();
+  }
+  function diskDone(box, text) {
+    const strip = h('p', 'info-strip done');
+    strip.append(h('span', 'ok-mark', '✓'), h('span', '', text));
+    box.replaceChildren(strip);
+    box.hidden = false;
+  }
+
+  // The speech model, in this browser's storage (background.js speechModelBytes).
+  async function showSpeechDisk() {
+    const res = await chrome.runtime.sendMessage({ type: 'speech-model' }).catch(() => null);
+    if (!res || !res.ok || !res.bytes) { $('speechDisk').hidden = true; return; }
+    const size = bytesText(res.bytes);
+    modelDisk($('speechDisk'), {
+      text: t('Downloaded · {size} in this browser', { size }),
+      ask: t('Delete the speech model and free {size}?', { size }),
+      after: t('It downloads again the next time you make subtitles from audio.'),
+      del: () => chrome.runtime.sendMessage({ type: 'speech-model', op: 'delete' }),
+      done: () => diskDone($('speechDisk'), t('Deleted, {size} free. It downloads again the next time you make subtitles from audio.', { size })),
+    });
+  }
+  showSpeechDisk();
+
+  // Gemma 3 in Ollama: under the model list (Local only), and once, after a
+  // month without the local AI, as an offer at the top of the translation
+  // settings. Ollama keeps the app; only the model goes.
+  const deleteLocal = () => chrome.runtime.sendMessage({ type: 'local-model', op: 'delete' });
+  function afterLocalDeleted() {
+    $('localNudge').hidden = true;
+    localSetUp = false; // nothing else installed: the guide with "Download Gemma 3" again
+    prefs.localModel = '';
+    if (translator === 'local') loadModels();
+  }
+  async function showLocalDisk(models) {
+    if (translator !== 'local' || !models.includes(SETUP_MODEL)) { $('localDisk').hidden = true; return; }
+    const res = await chrome.runtime.sendMessage({ type: 'local-model' }).catch(() => null);
+    if (!res || !res.ok || !res.model || translator !== 'local') { $('localDisk').hidden = true; return; }
+    const size = bytesText(res.model.bytes);
+    modelDisk($('localDisk'), {
+      text: t('In Ollama · {size}', { size }),
+      ask: t('Delete Gemma 3 and free {size}?', { size }),
+      after: t('The Ollama app stays. You can download the model again anytime.'),
+      del: deleteLocal,
+      done: afterLocalDeleted,
+    });
+  }
+  const NUDGE_AFTER = 30 * 24 * 3600 * 1000;
+  async function maybeOfferLocalDelete() {
+    const { localUsedAt, localNudgeOff } = await chrome.storage.local.get(['localUsedAt', 'localNudgeOff']);
+    if (localNudgeOff) return;
+    // Counted from now for people who had it before this version.
+    if (!localUsedAt) return chrome.storage.local.set({ localUsedAt: Date.now() });
+    if (Date.now() - localUsedAt < NUDGE_AFTER) return;
+    const res = await chrome.runtime.sendMessage({ type: 'local-model' }).catch(() => null);
+    if (!res || !res.ok || !res.model) return;
+    const size = bytesText(res.model.bytes);
+    const box = $('localNudge');
+    const text = h('div');
+    text.append(h('strong', '', t('Gemma 3 takes {size}', { size })),
+      h('p', '', t('You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.')));
+    const yes = Object.assign(h('button', 'danger', t('Delete')), { type: 'button' });
+    const keep = Object.assign(h('button', 'ghost', t('Keep it')), { type: 'button' });
+    const acts = h('div', 'nudge-acts');
+    acts.append(yes, keep);
+    text.append(acts);
+    box.replaceChildren(icon('<span class="nudge-ic">' + DISK_ICON + '</span>'), text);
+    box.hidden = false;
+    keep.addEventListener('click', () => {
+      box.hidden = true;
+      chrome.storage.local.set({ localNudgeOff: true });
+    });
+    yes.addEventListener('click', async () => {
+      yes.disabled = keep.disabled = true;
+      yes.textContent = t('Deleting…');
+      const r = await deleteLocal().catch((e) => ({ ok: false, error: e.message }));
+      if (!r || !r.ok) {
+        yes.disabled = keep.disabled = false;
+        yes.textContent = t('Delete');
+        text.querySelector('.error')?.remove();
+        return text.append(h('p', 'hint error', (r && r.error) || t('Something went wrong.')));
+      }
+      chrome.storage.local.set({ localNudgeOff: true });
+      afterLocalDeleted();
+      diskDone(box, t('Deleted, {size} free.', { size }));
+      box.className = 'model-disk';
+      box.hidden = false;
+    });
+  }
+  maybeOfferLocalDelete();
+
   function showAudioImprove() {
     if (!$('audioSummary')) return;
     const ai = translator !== 'google';

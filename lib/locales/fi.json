@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Tee tekstitys äänestä**: videoihin, joissa ei ole tekstitystä lainkaan, tietokoneesi ilmainen puhemalli kirjoittaa puheen muistiin, ja sitten se käännetään kielellesi. Se on beta eikä vielä täydellinen, mutta siitä voi olla apua",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**Käännösjonon** tiedostot ovat nyt nimen mukaan, joten jakso 2 tulee ennen jaksoa 10. **Järjestä** muuttaa järjestystä",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Tekstitys äänestä voi näyttää myös sanotun toisena rivinä, ja jos tekoäly poistaa rivejä, joita se ei usko sanotun, **Palauta** tuo minkä tahansa niistä takaisin"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Tekstitys äänestä voi näyttää myös sanotun toisena rivinä, ja jos tekoäly poistaa rivejä, joita se ei usko sanotun, **Palauta** tuo minkä tahansa niistä takaisin",
+  "Downloaded · {size} in this browser": "Ladattu · {size} tässä selaimessa",
+  "Delete the speech model and free {size}?": "Poistetaanko puhemalli ja vapautetaan {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Se ladataan uudelleen, kun seuraavan kerran teet tekstityksen äänestä.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Poistettu, {size} vapautettu. Se ladataan uudelleen, kun seuraavan kerran teet tekstityksen äänestä.",
+  "In Ollama · {size}": "Ollamassa · {size}",
+  "Delete Gemma 3 and free {size}?": "Poistetaanko Gemma 3 ja vapautetaan {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Ollama-sovellus jää. Voit ladata mallin uudelleen milloin tahansa.",
+  "Gemma 3 takes {size}": "Gemma 3 vie {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Et ole kääntänyt paikallisella tekoälyllä kuukauteen. Poistetaanko se tilan vapauttamiseksi? Voit ladata sen uudelleen milloin tahansa.",
+  "Keep it": "Säilytä",
+  "Deleting…": "Poistetaan…",
+  "Something went wrong.": "Jokin meni vikaan.",
+  "Deleted, {size} free.": "Poistettu, {size} vapautettu.",
+  "Can’t delete it while it’s downloading.": "Sitä ei voi poistaa latauksen aikana.",
+  "Can’t delete it while it’s making subtitles.": "Sitä ei voi poistaa, kun tekstitystä tehdään."
 }

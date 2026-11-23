@@ -719,5 +719,20 @@
   "Beta": "เบต้า",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**สร้างคำบรรยายจากเสียง**: สำหรับวิดีโอที่ไม่มีคำบรรยายเลย โมเดลเสียงพูดฟรีในคอมพิวเตอร์ของคุณจะเขียนสิ่งที่พูดในวิดีโอ แล้วแปลเป็นภาษาของคุณ ยังเป็นเบต้าและยังไม่สมบูรณ์ แต่ช่วยได้",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "ไฟล์ใน **คิวการแปล** เรียงตามชื่อแล้ว ตอนที่ 2 จึงมาก่อนตอนที่ 10 กด **เรียงลำดับ** เพื่อเปลี่ยนลำดับ",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "คำบรรยายจากเสียงแสดงสิ่งที่พูดเป็นบรรทัดที่สองได้ด้วย และถ้า AI ลบบรรทัดที่คิดว่าไม่มีใครพูด กด **ใส่คืน** เพื่อเอาบรรทัดไหนก็ได้กลับมา"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "คำบรรยายจากเสียงแสดงสิ่งที่พูดเป็นบรรทัดที่สองได้ด้วย และถ้า AI ลบบรรทัดที่คิดว่าไม่มีใครพูด กด **ใส่คืน** เพื่อเอาบรรทัดไหนก็ได้กลับมา",
+  "Downloaded · {size} in this browser": "ดาวน์โหลดแล้ว · {size} ในเบราว์เซอร์นี้",
+  "Delete the speech model and free {size}?": "ลบโมเดลเสียงพูดเพื่อคืนพื้นที่ {size} ไหม",
+  "It downloads again the next time you make subtitles from audio.": "จะดาวน์โหลดใหม่เมื่อคุณสร้างคำบรรยายจากเสียงครั้งถัดไป",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "ลบแล้ว คืนพื้นที่ {size} จะดาวน์โหลดใหม่เมื่อคุณสร้างคำบรรยายจากเสียงครั้งถัดไป",
+  "In Ollama · {size}": "ใน Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "ลบ Gemma 3 เพื่อคืนพื้นที่ {size} ไหม",
+  "The Ollama app stays. You can download the model again anytime.": "แอป Ollama ยังอยู่ คุณดาวน์โหลดโมเดลใหม่ได้ทุกเมื่อ",
+  "Gemma 3 takes {size}": "Gemma 3 ใช้พื้นที่ {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "คุณไม่ได้แปลด้วย AI ในเครื่องมาหนึ่งเดือนแล้ว ลบเพื่อคืนพื้นที่ไหม คุณดาวน์โหลดใหม่ได้ทุกเมื่อ",
+  "Keep it": "เก็บไว้",
+  "Deleting…": "กำลังลบ…",
+  "Something went wrong.": "มีบางอย่างผิดพลาด",
+  "Deleted, {size} free.": "ลบแล้ว คืนพื้นที่ {size}",
+  "Can’t delete it while it’s downloading.": "ลบระหว่างดาวน์โหลดไม่ได้",
+  "Can’t delete it while it’s making subtitles.": "ลบระหว่างสร้างคำบรรยายไม่ได้"
 }

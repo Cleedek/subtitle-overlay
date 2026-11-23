@@ -719,5 +719,20 @@
   "Beta": "Bèta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Ondertitels maken uit het geluid**: voor video’s zonder enige ondertitels schrijft een gratis spraakmodel op je computer op wat er gezegd wordt, en daarna wordt het naar jouw taal vertaald. Het is een bèta en nog niet perfect, maar het kan helpen",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Bestanden in de **Vertaalwachtrij** staan nu op naam, dus aflevering 2 komt vóór aflevering 10. Met **Sorteren** verander je de volgorde",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Ondertitels uit het geluid kunnen ook tonen wat er gezegd is, als tweede regel, en als de AI regels weghaalt die volgens haar nooit gezegd zijn, zet **Terugzetten** elk daarvan terug"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Ondertitels uit het geluid kunnen ook tonen wat er gezegd is, als tweede regel, en als de AI regels weghaalt die volgens haar nooit gezegd zijn, zet **Terugzetten** elk daarvan terug",
+  "Downloaded · {size} in this browser": "Gedownload · {size} in deze browser",
+  "Delete the speech model and free {size}?": "Spraakmodel verwijderen en {size} vrijmaken?",
+  "It downloads again the next time you make subtitles from audio.": "Het wordt opnieuw gedownload als je weer ondertitels uit het geluid maakt.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Verwijderd, {size} vrij. Het wordt opnieuw gedownload als je weer ondertitels uit het geluid maakt.",
+  "In Ollama · {size}": "In Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Gemma 3 verwijderen en {size} vrijmaken?",
+  "The Ollama app stays. You can download the model again anytime.": "De Ollama-app blijft. Je kunt het model altijd opnieuw downloaden.",
+  "Gemma 3 takes {size}": "Gemma 3 neemt {size} in beslag",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Je hebt een maand niet met de lokale AI vertaald. Verwijderen om ruimte vrij te maken? Je kunt het altijd opnieuw downloaden.",
+  "Keep it": "Houden",
+  "Deleting…": "Verwijderen…",
+  "Something went wrong.": "Er ging iets mis.",
+  "Deleted, {size} free.": "Verwijderd, {size} vrij.",
+  "Can’t delete it while it’s downloading.": "Kan niet worden verwijderd tijdens het downloaden.",
+  "Can’t delete it while it’s making subtitles.": "Kan niet worden verwijderd terwijl er ondertitels worden gemaakt."
 }

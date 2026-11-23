@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Creează subtitrări din sunet**: pentru videoclipurile fără nicio subtitrare, un model de vorbire gratuit de pe computerul tău scrie ce se spune, apoi textul e tradus în limba ta. E o versiune beta și încă nu e perfectă, dar te poate ajuta",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Fișierele din **Coada de traducere** se ordonează acum după nume, deci episodul 2 vine înaintea episodului 10. **Sortează** schimbă ordinea",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Subtitrările din sunet pot arăta și ce s-a spus, pe al doilea rând, iar dacă AI scoate rânduri pe care le crede nespuse, oricare revine cu **Readu**"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Subtitrările din sunet pot arăta și ce s-a spus, pe al doilea rând, iar dacă AI scoate rânduri pe care le crede nespuse, oricare revine cu **Readu**",
+  "Downloaded · {size} in this browser": "Descărcat · {size} în acest browser",
+  "Delete the speech model and free {size}?": "Ștergi modelul de vorbire și eliberezi {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Se descarcă din nou data viitoare când creezi subtitrări din sunet.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Șters, {size} eliberați. Se descarcă din nou data viitoare când creezi subtitrări din sunet.",
+  "In Ollama · {size}": "În Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Ștergi Gemma 3 și eliberezi {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Aplicația Ollama rămâne. Poți descărca modelul din nou oricând.",
+  "Gemma 3 takes {size}": "Gemma 3 ocupă {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Nu ai mai tradus cu AI-ul local de o lună. Îl ștergi ca să eliberezi spațiu? Îl poți descărca din nou oricând.",
+  "Keep it": "Păstrează",
+  "Deleting…": "Se șterge…",
+  "Something went wrong.": "Ceva n-a mers.",
+  "Deleted, {size} free.": "Șters, {size} eliberați.",
+  "Can’t delete it while it’s downloading.": "Nu se poate șterge în timpul descărcării.",
+  "Can’t delete it while it’s making subtitles.": "Nu se poate șterge cât timp se creează subtitrări."
 }

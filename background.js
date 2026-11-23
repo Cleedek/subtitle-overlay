@@ -828,6 +828,62 @@ function pullModel(model) {
   return pulling;
 }
 
+// The models this extension downloads can be deleted from the popup too.
+// Gemma 3 lives in Ollama: only the one the setup guide downloads is offered
+// (other models in Ollama may be there for other apps). Answers
+// { name, bytes } or null (not installed, not Ollama, or Ollama not running).
+const SETUP_MODEL = 'gemma3:12b';
+const localRoot = (p) => String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '');
+async function localModelInfo() {
+  const p = await SubSettings.loadTranslation();
+  const root = localRoot(p);
+  await allowLocal(root + '/v1');
+  if (!(await isOllama(root + '/v1'))) return null;
+  try {
+    const r = await fetch(root + '/api/tags', { signal: AbortSignal.timeout(3000) });
+    const m = r.ok && ((await r.json()).models || []).find((x) => x.name === SETUP_MODEL || x.model === SETUP_MODEL);
+    return m ? { name: SETUP_MODEL, bytes: m.size || 0 } : null;
+  } catch (e) { return null; }
+}
+async function deleteLocalModel() {
+  if (pulling) throw new Error(tr('Can’t delete it while it’s downloading.'));
+  const p = await SubSettings.loadTranslation();
+  const root = localRoot(p);
+  await allowLocal(root + '/v1');
+  let r;
+  try {
+    r = await fetch(root + '/api/delete', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: SETUP_MODEL, name: SETUP_MODEL }), signal: AbortSignal.timeout(15000) });
+  } catch (e) { throw new Error(tr('Can’t reach the local model at {url}. Is Ollama or LM Studio running?', { url: root })); }
+  if (!r.ok && r.status !== 404) throw new Error(serverSays(await r.text()) || tr('The model server answered HTTP {status}.', { status: r.status }));
+  // The popup's guide (with "Download Gemma 3") comes back if nothing else is installed.
+  if (p.localModel === SETUP_MODEL) await SubSettings.saveTranslation({ localModel: '' });
+  await chrome.storage.session.remove('localPull');
+}
+// When the local model was last asked to translate: after a month without it,
+// the popup offers to delete Gemma 3 once. Written at most once an hour.
+let localUsedAt = 0;
+function noteLocalUse() {
+  if (Date.now() - localUsedAt < 3600000) return;
+  localUsedAt = Date.now();
+  chrome.storage.local.set({ localUsedAt }).catch(() => {});
+}
+
+// The speech model: Transformers.js keeps its files in the browser's Cache
+// Storage of this extension (offscreen.js). Bytes on disk, 0 when none.
+const SPEECH_CACHE = 'transformers-cache';
+async function speechModelBytes() {
+  if (!(await caches.has(SPEECH_CACHE))) return 0;
+  const cache = await caches.open(SPEECH_CACHE);
+  let bytes = 0;
+  for (const req of await cache.keys()) {
+    const res = await cache.match(req);
+    if (!res) continue;
+    const len = +res.headers.get('content-length');
+    bytes += len > 0 ? len : (await res.blob()).size;
+  }
+  return bytes;
+}
+
 const englishName = (code) => {
   try { return new Intl.DisplayNames(['en'], { type: 'language' }).of(code); } catch (e) { return code; }
 };
@@ -955,6 +1011,7 @@ async function readPieces(r, sse, info, signal, cfg) {
 async function aiChat(cfg, body, signal, info = {}) {
   const claude = cfg.kind === 'claude';
   const ollama = cfg.kind === 'local' && cfg.ollama;
+  if (cfg.kind === 'local') noteLocalUse();
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
@@ -1873,6 +1930,22 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       pullModel(String(msg.model || 'gemma3:12b'));
       reply({ ok: true });
       return;
+
+    case 'local-model':
+      // The popup: how big Gemma 3 is in Ollama, or delete it ({ op: 'delete' }).
+      (msg.op === 'delete' ? deleteLocalModel().then(() => ({ ok: true })) : localModelInfo().then((model) => ({ ok: true, model })))
+        .then(reply, (e) => reply({ ok: false, error: e.message }));
+      return true;
+
+    case 'speech-model':
+      // The popup: bytes of the speech model in this browser, or delete it.
+      if (msg.op === 'delete') {
+        if (live) { reply({ ok: false, error: tr('Can’t delete it while it’s making subtitles.') }); return; }
+        caches.delete(SPEECH_CACHE).then(() => reply({ ok: true }), (e) => reply({ ok: false, error: e.message }));
+        return true;
+      }
+      speechModelBytes().then((bytes) => reply({ ok: true, bytes }), (e) => reply({ ok: false, error: e.message }));
+      return true;
 
     case 'convert-item':
       // "Download .srt" on the card over the video: the page saves the text itself.

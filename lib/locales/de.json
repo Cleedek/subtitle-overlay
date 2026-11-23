@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Untertitel aus dem Ton erstellen**: Bei Videos ganz ohne Untertitel schreibt ein kostenloses Spracherkennungsmodell auf deinem Computer auf, was gesagt wird, und dann wird es in deine Sprache übersetzt. Es ist eine Beta und noch nicht perfekt, kann aber helfen",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Dateien in der **Übersetzungswarteschlange** stehen jetzt nach Namen geordnet, also Folge 2 vor Folge 10. Mit **Sortieren** änderst du die Reihenfolge",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Untertitel aus dem Ton können das Gesagte auch als zweite Zeile zeigen, und wenn die KI Zeilen entfernt, die ihrer Meinung nach nie gesagt wurden, holt **Zurückholen** jede davon zurück"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Untertitel aus dem Ton können das Gesagte auch als zweite Zeile zeigen, und wenn die KI Zeilen entfernt, die ihrer Meinung nach nie gesagt wurden, holt **Zurückholen** jede davon zurück",
+  "Downloaded · {size} in this browser": "Heruntergeladen · {size} in diesem Browser",
+  "Delete the speech model and free {size}?": "Sprachmodell löschen und {size} freigeben?",
+  "It downloads again the next time you make subtitles from audio.": "Beim nächsten Erstellen von Untertiteln aus dem Ton wird es neu heruntergeladen.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Gelöscht, {size} frei. Beim nächsten Erstellen von Untertiteln aus dem Ton wird es neu heruntergeladen.",
+  "In Ollama · {size}": "In Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Gemma 3 löschen und {size} freigeben?",
+  "The Ollama app stays. You can download the model again anytime.": "Die Ollama-App bleibt. Du kannst das Modell jederzeit neu herunterladen.",
+  "Gemma 3 takes {size}": "Gemma 3 belegt {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Du hast seit einem Monat nicht mit der lokalen KI übersetzt. Löschen, um Platz freizugeben? Du kannst es jederzeit neu herunterladen.",
+  "Keep it": "Behalten",
+  "Deleting…": "Wird gelöscht…",
+  "Something went wrong.": "Etwas ist schiefgelaufen.",
+  "Deleted, {size} free.": "Gelöscht, {size} frei.",
+  "Can’t delete it while it’s downloading.": "Während des Downloads lässt es sich nicht löschen.",
+  "Can’t delete it while it’s making subtitles.": "Während Untertitel erstellt werden, lässt es sich nicht löschen."
 }

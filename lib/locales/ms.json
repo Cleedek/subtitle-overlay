@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Buat sari kata daripada audio**: untuk video yang langsung tiada sari kata, model pertuturan percuma pada komputer anda menulis apa yang diucapkan, kemudian ia diterjemah ke bahasa anda. Ia masih beta dan belum sempurna, tetapi boleh membantu",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Fail dalam **Baris gilir terjemahan** kini disusun mengikut nama, jadi episod 2 datang sebelum episod 10. **Isih** menukar susunannya",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Sari kata daripada audio juga boleh menunjukkan apa yang diucapkan sebagai baris kedua, dan jika AI membuang baris yang disangka tidak pernah diucapkan, **Kembalikan** membawa balik mana-mana baris itu"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Sari kata daripada audio juga boleh menunjukkan apa yang diucapkan sebagai baris kedua, dan jika AI membuang baris yang disangka tidak pernah diucapkan, **Kembalikan** membawa balik mana-mana baris itu",
+  "Downloaded · {size} in this browser": "Dimuat turun · {size} dalam pelayar ini",
+  "Delete the speech model and free {size}?": "Padam model pertuturan dan kosongkan {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Ia akan dimuat turun semula apabila anda membuat sari kata daripada audio lain kali.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Dipadam, {size} dikosongkan. Ia akan dimuat turun semula apabila anda membuat sari kata daripada audio lain kali.",
+  "In Ollama · {size}": "Dalam Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Padam Gemma 3 dan kosongkan {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Aplikasi Ollama kekal. Anda boleh memuat turun model itu semula bila-bila masa.",
+  "Gemma 3 takes {size}": "Gemma 3 menggunakan {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Sudah sebulan anda tidak menterjemah dengan AI tempatan. Padam untuk mengosongkan ruang? Anda boleh memuat turunnya semula bila-bila masa.",
+  "Keep it": "Simpan",
+  "Deleting…": "Memadam…",
+  "Something went wrong.": "Ada yang tidak kena.",
+  "Deleted, {size} free.": "Dipadam, {size} dikosongkan.",
+  "Can’t delete it while it’s downloading.": "Tidak boleh dipadam semasa dimuat turun.",
+  "Can’t delete it while it’s making subtitles.": "Tidak boleh dipadam semasa sari kata sedang dibuat."
 }

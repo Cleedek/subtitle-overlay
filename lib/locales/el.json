@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Δημιουργία υποτίτλων από τον ήχο**: σε βίντεο χωρίς κανέναν υπότιτλο, ένα δωρεάν μοντέλο ομιλίας στον υπολογιστή σου γράφει ό,τι λέγεται και μετά μεταφράζεται στη γλώσσα σου. Είναι beta και όχι ακόμα τέλειο, αλλά μπορεί να βοηθήσει",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Τα αρχεία στην **Ουρά μετάφρασης** μπαίνουν τώρα σε σειρά ονόματος, οπότε το επεισόδιο 2 έρχεται πριν από το 10. Η **Ταξινόμηση** αλλάζει τη σειρά",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Οι υπότιτλοι από τον ήχο μπορούν να δείχνουν και ό,τι ειπώθηκε ως δεύτερη γραμμή, και αν το AI αφαιρέσει γραμμές που πιστεύει ότι δεν ειπώθηκαν, η **Επαναφορά** φέρνει πίσω όποια θέλεις"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Οι υπότιτλοι από τον ήχο μπορούν να δείχνουν και ό,τι ειπώθηκε ως δεύτερη γραμμή, και αν το AI αφαιρέσει γραμμές που πιστεύει ότι δεν ειπώθηκαν, η **Επαναφορά** φέρνει πίσω όποια θέλεις",
+  "Downloaded · {size} in this browser": "Έγινε λήψη · {size} σε αυτό το πρόγραμμα περιήγησης",
+  "Delete the speech model and free {size}?": "Διαγραφή του μοντέλου ομιλίας και αποδέσμευση {size};",
+  "It downloads again the next time you make subtitles from audio.": "Θα κατέβει ξανά την επόμενη φορά που θα δημιουργήσετε υπότιτλους από τον ήχο.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Διαγράφηκε, ελευθερώθηκαν {size}. Θα κατέβει ξανά την επόμενη φορά που θα δημιουργήσετε υπότιτλους από τον ήχο.",
+  "In Ollama · {size}": "Στο Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Διαγραφή του Gemma 3 και αποδέσμευση {size};",
+  "The Ollama app stays. You can download the model again anytime.": "Η εφαρμογή Ollama μένει. Μπορείτε να κατεβάσετε ξανά το μοντέλο οποιαδήποτε στιγμή.",
+  "Gemma 3 takes {size}": "Το Gemma 3 πιάνει {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Δεν έχετε μεταφράσει με το τοπικό AI εδώ και έναν μήνα. Να διαγραφεί για να ελευθερωθεί χώρος; Μπορείτε να το κατεβάσετε ξανά οποιαδήποτε στιγμή.",
+  "Keep it": "Διατήρηση",
+  "Deleting…": "Διαγραφή…",
+  "Something went wrong.": "Κάτι πήγε στραβά.",
+  "Deleted, {size} free.": "Διαγράφηκε, ελευθερώθηκαν {size}.",
+  "Can’t delete it while it’s downloading.": "Δεν μπορεί να διαγραφεί κατά τη λήψη.",
+  "Can’t delete it while it’s making subtitles.": "Δεν μπορεί να διαγραφεί όσο δημιουργούνται υπότιτλοι."
 }

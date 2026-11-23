@@ -719,5 +719,20 @@
   "Beta": "ベータ",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**音声から字幕を作成**: 字幕がまったくない動画でも、パソコン上の無料の音声モデルが話された内容を書き起こし、あなたの言語に翻訳します。まだベータ版で完璧ではありませんが、役に立つはずです",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**翻訳キュー**のファイルが名前順に並ぶようになり、第 2 話が第 10 話より前に来ます。**並べ替え**で順番を変えられます",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "音声から作った字幕は、話された内容を 2 行目に表示することもできます。AI が「話されていない」と判断して消した行は、**戻す** でどれでも元に戻せます"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "音声から作った字幕は、話された内容を 2 行目に表示することもできます。AI が「話されていない」と判断して消した行は、**戻す** でどれでも元に戻せます",
+  "Downloaded · {size} in this browser": "ダウンロード済み · このブラウザで {size}",
+  "Delete the speech model and free {size}?": "音声モデルを削除して {size} を空けますか？",
+  "It downloads again the next time you make subtitles from audio.": "次に音声から字幕を作成するときに、もう一度ダウンロードされます。",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "削除しました。{size} 空きました。次に音声から字幕を作成するときに、もう一度ダウンロードされます。",
+  "In Ollama · {size}": "Ollama 内 · {size}",
+  "Delete Gemma 3 and free {size}?": "Gemma 3 を削除して {size} を空けますか？",
+  "The Ollama app stays. You can download the model again anytime.": "Ollama アプリは残ります。モデルはいつでもダウンロードし直せます。",
+  "Gemma 3 takes {size}": "Gemma 3 が {size} を使っています",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "ローカル AI で 1 か月翻訳していません。削除して空き容量を増やしますか？いつでもダウンロードし直せます。",
+  "Keep it": "残す",
+  "Deleting…": "削除中…",
+  "Something went wrong.": "問題が発生しました。",
+  "Deleted, {size} free.": "削除しました。{size} 空きました。",
+  "Can’t delete it while it’s downloading.": "ダウンロード中は削除できません。",
+  "Can’t delete it while it’s making subtitles.": "字幕の作成中は削除できません。"
 }

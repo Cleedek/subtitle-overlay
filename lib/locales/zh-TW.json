@@ -721,5 +721,20 @@
   "Beta": "測試版",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**從音訊產生字幕**：完全沒有字幕的影片，也能由你電腦上的免費語音模型記下所說的話，再翻譯成你的語言。目前還是測試版，並不完美，但能幫上忙",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**翻譯佇列**中的檔案現在依名稱排列，第 2 集排在第 10 集前面。用**排序**可以變更順序",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "音訊產生的字幕還可以把原話顯示為第二行；如果 AI 刪掉了它認為沒人說過的行，點 **放回** 就能把任意一行找回來"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "音訊產生的字幕還可以把原話顯示為第二行；如果 AI 刪掉了它認為沒人說過的行，點 **放回** 就能把任意一行找回來",
+  "Downloaded · {size} in this browser": "已下載 · 在此瀏覽器中佔用 {size}",
+  "Delete the speech model and free {size}?": "刪除語音模型並釋放 {size}？",
+  "It downloads again the next time you make subtitles from audio.": "下次從音訊產生字幕時會重新下載。",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "已刪除，釋放了 {size}。下次從音訊產生字幕時會重新下載。",
+  "In Ollama · {size}": "在 Ollama 中 · {size}",
+  "Delete Gemma 3 and free {size}?": "刪除 Gemma 3 並釋放 {size}？",
+  "The Ollama app stays. You can download the model again anytime.": "Ollama 應用程式會保留。你可以隨時重新下載這個模型。",
+  "Gemma 3 takes {size}": "Gemma 3 佔用 {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "你已經一個月沒用本機 AI 翻譯了。刪除它來釋放空間？隨時可以重新下載。",
+  "Keep it": "保留",
+  "Deleting…": "正在刪除…",
+  "Something went wrong.": "發生了一些問題。",
+  "Deleted, {size} free.": "已刪除，釋放了 {size}。",
+  "Can’t delete it while it’s downloading.": "下載過程中無法刪除。",
+  "Can’t delete it while it’s making subtitles.": "產生字幕過程中無法刪除。"
 }

@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Gumawa ng subtitle mula sa audio**: para sa mga video na walang kahit anong subtitle, isinusulat ng libreng speech model sa computer mo ang sinasabi, saka ito isinasalin sa wika mo. Beta pa ito at hindi pa perpekto, pero makakatulong ito",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Nakaayos na ayon sa pangalan ang mga file sa **Pila ng pagsasalin**, kaya nauuna ang episode 2 sa episode 10. Binabago ng **Ayusin** ang pagkakasunod",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Kaya ring ipakita ng subtitle mula sa audio ang sinabi bilang pangalawang linya, at kung tanggalin ng AI ang mga linyang sa tingin nito ay hindi sinabi, ibinabalik ng **Ibalik** ang alinman sa mga iyon"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Kaya ring ipakita ng subtitle mula sa audio ang sinabi bilang pangalawang linya, at kung tanggalin ng AI ang mga linyang sa tingin nito ay hindi sinabi, ibinabalik ng **Ibalik** ang alinman sa mga iyon",
+  "Downloaded · {size} in this browser": "Na-download · {size} sa browser na ito",
+  "Delete the speech model and free {size}?": "Burahin ang speech model at magbakante ng {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Mada-download ito ulit sa susunod na gagawa ka ng subtitle mula sa audio.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Nabura, nabakante ang {size}. Mada-download ito ulit sa susunod na gagawa ka ng subtitle mula sa audio.",
+  "In Ollama · {size}": "Sa Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Burahin ang Gemma 3 at magbakante ng {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Mananatili ang Ollama app. Puwede mong i-download ulit ang model kahit kailan.",
+  "Gemma 3 takes {size}": "Gumagamit ang Gemma 3 ng {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Isang buwan ka nang hindi nagsasalin gamit ang lokal na AI. Burahin ito para magbakante ng espasyo? Puwede mo itong i-download ulit kahit kailan.",
+  "Keep it": "Itago",
+  "Deleting…": "Binubura…",
+  "Something went wrong.": "May nangyaring mali.",
+  "Deleted, {size} free.": "Nabura, nabakante ang {size}.",
+  "Can’t delete it while it’s downloading.": "Hindi ito mabubura habang nagda-download.",
+  "Can’t delete it while it’s making subtitles.": "Hindi ito mabubura habang gumagawa ng subtitle."
 }

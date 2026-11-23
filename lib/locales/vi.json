@@ -719,5 +719,20 @@
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Tạo phụ đề từ âm thanh**: với video hoàn toàn không có phụ đề, một mô hình giọng nói miễn phí trên máy tính của bạn ghi lại lời nói, rồi dịch sang ngôn ngữ của bạn. Đây là bản beta, chưa hoàn hảo, nhưng có thể giúp ích",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Các tệp trong **Hàng đợi dịch** giờ xếp theo tên, nên tập 2 đứng trước tập 10. **Sắp xếp** để đổi thứ tự",
-  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Phụ đề từ âm thanh cũng có thể hiện lời nói gốc thành dòng thứ hai, và nếu AI bỏ những dòng nó cho là không ai nói, **Trả lại** sẽ đưa bất kỳ dòng nào trở lại"
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Phụ đề từ âm thanh cũng có thể hiện lời nói gốc thành dòng thứ hai, và nếu AI bỏ những dòng nó cho là không ai nói, **Trả lại** sẽ đưa bất kỳ dòng nào trở lại",
+  "Downloaded · {size} in this browser": "Đã tải · {size} trong trình duyệt này",
+  "Delete the speech model and free {size}?": "Xóa mô hình giọng nói để giải phóng {size}?",
+  "It downloads again the next time you make subtitles from audio.": "Lần tới bạn tạo phụ đề từ âm thanh, nó sẽ được tải lại.",
+  "Deleted, {size} free. It downloads again the next time you make subtitles from audio.": "Đã xóa, giải phóng {size}. Lần tới bạn tạo phụ đề từ âm thanh, nó sẽ được tải lại.",
+  "In Ollama · {size}": "Trong Ollama · {size}",
+  "Delete Gemma 3 and free {size}?": "Xóa Gemma 3 để giải phóng {size}?",
+  "The Ollama app stays. You can download the model again anytime.": "Ứng dụng Ollama vẫn giữ nguyên. Bạn có thể tải lại mô hình bất cứ lúc nào.",
+  "Gemma 3 takes {size}": "Gemma 3 chiếm {size}",
+  "You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.": "Đã một tháng bạn không dịch bằng AI cục bộ. Xóa nó để giải phóng dung lượng? Bạn có thể tải lại bất cứ lúc nào.",
+  "Keep it": "Giữ lại",
+  "Deleting…": "Đang xóa…",
+  "Something went wrong.": "Đã xảy ra lỗi.",
+  "Deleted, {size} free.": "Đã xóa, giải phóng {size}.",
+  "Can’t delete it while it’s downloading.": "Không thể xóa khi đang tải.",
+  "Can’t delete it while it’s making subtitles.": "Không thể xóa khi đang tạo phụ đề."
 }

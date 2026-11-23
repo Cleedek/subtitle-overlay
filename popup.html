@@ -305,6 +305,8 @@
             <div class="setting">
               <div class="setting-head"><label for="audioModel" class="setting-label">Speech model</label><select id="audioModel" class="compact"></select></div>
               <p id="audioModelHint" class="hint"></p>
+              <!-- Its size in this browser + Delete, confirmed in place (popup.js modelDisk). -->
+              <div class="model-disk" id="speechDisk" hidden></div>
             </div>
             <!-- The two languages of subtitles made from audio, each with its own AI switch.
                  The first group's name is the flag and the language you translate to (popup.js). -->
@@ -375,6 +377,8 @@
           <button data-translator="openai" role="radio">OpenAI</button>
         </div>
         <p class="hint" id="translatorHint"></p>
+        <!-- Once, after a month without the local AI: offer to delete Gemma 3 (popup.js). -->
+        <div class="nudge" id="localNudge" hidden></div>
         <!-- Local, never set up yet: a guide instead of an error. Each step ticks itself. -->
         <div class="ls" id="localSetup" hidden>
           <div class="ls-head">
@@ -457,6 +461,8 @@
                 <select id="aiModel" class="compact"></select>
               </div>
               <p id="aiMsg" class="hint" hidden></p>
+              <!-- Gemma 3 only (what the guide downloads): its size in Ollama + Delete. -->
+              <div class="model-disk" id="localDisk" hidden></div>
               <!-- A line above each group, none inside it (like Subtitles from audio). -->
               <div class="ai-group">
               <div class="setting-head"><span class="setting-label">AI messages</span><label class="toggle"><input id="aiNotices" type="checkbox" role="switch" aria-label="AI messages"><span></span></label></div>
