@@ -45,6 +45,8 @@
   let raf = 0;
   let watchTimer = 0;
   let bareFullscreen = false;
+  let popoverOver = null; // the fullscreen video the overlay is a popover on top of (placeHost)
+  let leavingFullscreen = false; // stepping out of every fullscreen level (fullscreenchange)
   let ownFullscreen = null; // { container, videoStyle } while our own fullscreen is on
   let off = false;        // turned off on this site from the popup: offer, show and restore nothing
   let askEl = null;       // the one-time support card under the language switches
@@ -84,6 +86,7 @@
   // they show, also on a page where they were switched off over the video.
   function wantSecond() {
     if (shownBefore) shownBefore.dualVisible = true; else dualVisible = true;
+    saveLangsOff();
     if (file) rememberSoon();
   }
   // Dual subtitles turned off with the main ones switched off over the video:
@@ -92,6 +95,7 @@
     const was = shownBefore || { visible, dualVisible };
     if (was.visible || !was.dualVisible) return; // all hidden (Alt + S, the CC button) stays so
     if (shownBefore) shownBefore.visible = true; else visible = true;
+    saveLangsOff();
     if (file) rememberSoon();
   }
 
@@ -523,6 +527,10 @@
       .pic { position: absolute; pointer-events: none; }
       /* A narrow player (Shorts, a small window): the cards in the top right go
          below the fullscreen button instead of over it. */
+      /* On a small video the card would cover half the picture: only the switches,
+         a bit smaller; the AI rows and the report link unfold when you point at it. */
+      :host([data-small]) .langs { zoom: .9; }
+      :host([data-small]) .langs:not(:hover, :focus-within) > :is(.ai, .report) { display: none; }
       :host([data-narrow]) .langs, :host([data-narrow]) .found { top: 56px; max-height: max(calc(100% - 68px), 180px); overflow: auto; }
     `;
     picEl = el('div', 'pic');
@@ -613,6 +621,20 @@
       parent = root instanceof ShadowRoot && containsDeep(fe, root.host) && fe.shadowRoot ? root : fe;
     }
     if (host.parentNode !== parent) parent.appendChild(host);
+    // The site's fullscreen of the bare video (a plain <video controls> and its
+    // own button): nothing inside a video can show, so the overlay goes on top
+    // of it as a popover, the one other thing a page can put above fullscreen.
+    // Shown again for each new fullscreen, so it is the newest layer, above the video.
+    const want = fe && fe === video ? fe : null;
+    if (want && want === popoverOver && host.matches(':popover-open')) return;
+    if (host.hasAttribute('popover')) {
+      try { host.hidePopover(); } catch (e) { /* already hidden */ }
+      host.removeAttribute('popover');
+    }
+    popoverOver = null;
+    if (!want) return;
+    host.setAttribute('popover', 'manual');
+    try { host.showPopover(); popoverOver = want; } catch (e) { host.removeAttribute('popover'); }
   }
 
   // Like Node.contains, but also looks through shadow roots.
@@ -709,6 +731,8 @@
     hs.setProperty('height', Math.round(s.height) + 'px', 'important');
     // The cards reach 420 px from the right; below this they'd cover the centred fullscreen button.
     host.toggleAttribute('data-narrow', s.width < 1130);
+    // A small video (a page's 640 × 360 player): the language card keeps to its switches.
+    host.toggleAttribute('data-small', s.width < 800 || s.height < 450);
     const ps = picEl.style;
     ps.left = Math.round(r.left - s.left) + 'px';
     ps.top = Math.round(r.top - s.top) + 'px';
@@ -1523,9 +1547,26 @@
   // Languages switched off over the video in the record restoreRecord is
   // loading, for afterLoad: { main, second }.
   let offAfterLoad = null;
+  // The same for every video: the languages you last switched on or off over
+  // a video ({ main, second }), so with only Czech wanted, the next video comes
+  // with only Czech too. A page's own record (a reload) still wins.
+  let langsOff = null;
+  chrome.storage.local.get('langsOff').then((v) => { langsOff = v.langsOff || null; }).catch(() => {});
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'local' && changes.langsOff) langsOff = changes.langsOff.newValue || null;
+  });
+
+  // Kept for the next videos too. With everything hidden, the languages that
+  // come back with it count: a new video always shows something.
+  function saveLangsOff() {
+    const sw = shownBefore || { visible, dualVisible };
+    if (!sw.visible && !sw.dualVisible) return;
+    langsOff = { main: !sw.visible, second: !sw.dualVisible };
+    chrome.storage.local.set({ langsOff }).catch(() => {});
+  }
 
   function afterLoad() {
-    const off = offAfterLoad;
+    const off = offAfterLoad || (cues.length && !shownBefore && langsOff && (langsOff.main || langsOff.second) && settings.dual ? langsOff : null);
     offAfterLoad = null;
     if (off) {
       // Switched off before a reload: they stay off (the main one only while there are second ones to switch it back on).
@@ -2575,6 +2616,11 @@
 
   document.addEventListener('fullscreenchange', () => {
     const fe = document.fullscreenElement;
+    // Leaving all of it: each exitFullscreen only steps one level back.
+    if (leavingFullscreen) {
+      if (fe) { document.exitFullscreen().catch(() => { leavingFullscreen = false; }); return; }
+      leavingFullscreen = false;
+    }
     if (ownFullscreen && fe !== ownFullscreen.container) {
       video && (video.style.cssText = ownFullscreen.videoStyle);
       ownFullscreen = null;
@@ -2583,14 +2629,24 @@
       // The site sized its video for the page before; let it measure again
       // (YouTube's own fullscreen otherwise keeps the small size).
       setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+      // The player's own fullscreen button pressed inside ours: it shows "enter
+      // fullscreen" there and puts the bare video fullscreen on top of ours,
+      // but you meant to leave. Both levels go, back to the page.
+      if (fe && video && fe === video) {
+        leavingFullscreen = true;
+        document.exitFullscreen().catch(() => { leavingFullscreen = false; });
+        return;
+      }
     }
     if (!video || !cues.length) return;
-    if (fe === video) bareFullscreen = true;
+    placeHost();
+    // A bare video in fullscreen shows the overlay as a popover on top (placeHost);
+    // only a browser that can't do that hides the subtitles there.
+    if (fe === video) bareFullscreen = !host.hasAttribute('popover');
     else if (!fe && bareFullscreen) {
       bareFullscreen = false;
       if (shortcuts.fullscreen) setTimeout(() => toast(t('This site’s fullscreen hides subtitles. Use {key} instead.', { key: fsKeyText() })), 300);
     }
-    placeHost();
     position(true);
     render(true);
   });
@@ -3431,6 +3487,7 @@
     // The last one switched off: everything is off now, like after Alt + S or
     // YouTube's CC button, and switching back on with those brings back this one.
     shownBefore = visible || dualVisible ? null : { visible: !second, dualVisible: second };
+    saveLangsOff();
     lastKey = '';
     position(true);
     render(true);
