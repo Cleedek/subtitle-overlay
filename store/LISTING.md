@@ -518,3 +518,10 @@ Při vydání:
 4. `~/extension-feedback`: `npx wrangler deploy` (testy 34/34 prošly).
 5. Web cleedek.com: v `src/content/projects/{en,cs}/subtitle-overlay.md` je seznam funkcí už lokálně přepsaný na 33 (necommitnuto, řádek 86; "31" v changelogu 1.0.18 na řádku 40 zůstává, to byla tehdy pravda). Zbývá changelog 1.1.1 a push (snap-translate.md se týká jiného rozšíření, to nech).
 6. Překlady psal Claude, rodilý mluvčí je nekontroloval.
+
+
+## 1.2.1: ruština a bulharština (2026-11-23, necommitnuto)
+
+- Nové jazyky ru a bg (rozhraní, překlad, popisy `store/descriptions/ru.txt` a `bg.txt`, 5 screenshotů v `store/images/ru/` a `store/images/bg/`). Počet jazyků všude 35.
+- Screenshot 1 a 3 přerenderované ve všech jazycích kvůli "35". EN a CS screenshot 3 a promo banner `marquee-promo-1400x560.png` (globální, `store/` i `cs/`) přepsané stejným písmem jako minule (bez zdroje). Kontrola OCR všech 184 obrázků: "33" ani "34" už nikde.
+- Při vydání: nahrát balíček (ru a bg se v Dashboardu objeví až pak), vyplnit ru a bg, nahrát znovu všechny popisy, screenshoty 1 a 3 všude a banner (globální i český slot).

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome page: two paths</title>
+<!-- The real welcome styles, so every variant looks exactly like the extension's page. -->
+<link rel="stylesheet" href="../popup.css">
+<link rel="stylesheet" href="../welcome.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: center; padding: 10px 16px; background: color-mix(in oklch, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .bar .segmented { width: auto; }
+  .bar .note { flex-basis: 100%; text-align: center; margin: 0; font-size: 12.5px; color: var(--muted); max-width: 90ch; }
+  .vbtn { padding: 6px 12px; }
+  .vbtn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .variant[hidden] { display: none; }
+  .mock-sub { position: absolute; left: 0; right: 0; bottom: 8%; text-align: center; padding: 0 8%; }
+  .mock-sub span { display: inline; padding: 2px 8px; border-radius: 4px; background: rgba(0,0,0,.72); color: #fff; font-size: clamp(13px, 4.2cqh, 20px); line-height: 1.5; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .badge { position: absolute; left: 10px; top: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 99px; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; }
+  .wave { display: inline-flex; gap: 2px; align-items: center; height: 10px; }
+  .wave i { width: 2px; border-radius: 1px; background: #fff; animation: wv 0.9s var(--ease) infinite alternate; }
+  .wave i:nth-child(1) { height: 4px; } .wave i:nth-child(2) { height: 9px; animation-delay: .15s; } .wave i:nth-child(3) { height: 6px; animation-delay: .3s; } .wave i:nth-child(4) { height: 10px; animation-delay: .45s; }
+  @keyframes wv { to { transform: scaleY(.35); } }
+
+  /* ---------- proposals: only what welcome.css doesn't cover ---------- */
+  /* 1: step 3 splits in two. */
+  .fork { display: grid; gap: 8px; margin-top: 8px; }
+  .fork div { padding: 9px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+  .fork b { line-height: 1.4 !important; font-size: 13.5px !important; }
+  .fork small { margin-top: 2px !important; }
+  .beta-chip { vertical-align: 1px; margin-inline-start: 4px; }
+  .kbd { display: inline-flex; align-items: center; gap: 5px; padding: 1px 7px; border-radius: 6px; background: var(--bg); border: 1px solid var(--line); color: var(--text); font-size: 12px; white-space: nowrap; }
+
+  /* 2: two paths picked at the top. */
+  .paths { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; max-width: 620px; }
+  .paths button { display: grid; gap: 2px; justify-items: start; text-align: start; padding: 12px 14px; border-radius: 12px; background: var(--panel); border: 1px solid var(--line); color: var(--text); }
+  .paths button b { font-size: 14.5px; font-weight: 600; }
+  .paths button small { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .paths button[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); background: var(--accent-tint); }
+  .paths button[aria-pressed="true"] small { color: var(--accent-text); }
+  .facts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .facts span { padding: 3px 9px; border-radius: 99px; border: 1px solid var(--line); background: var(--bg); font-size: 12px; color: var(--muted); }
+  .facts span.free { color: var(--success); border-color: color-mix(in oklch, var(--success) 40%, var(--line)); }
+  .p-audio[hidden], .p-subs[hidden] { display: none; }
+
+  /* 3: the main path, plus a second card underneath. */
+  .extra { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin-top: 28px; padding: 16px 18px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); }
+  .extra .ic { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+  .extra h3 { margin: 0; font-size: 15px; font-weight: 600; }
+  .extra p { margin: 2px 0 0; font-size: 13px; color: var(--muted); max-width: 64ch; }
+  .extra a { color: var(--link); font-size: 13px; font-weight: 500; white-space: nowrap; text-decoration: none; }
+  @media (max-width: 760px) { .paths { grid-template-columns: 1fr; } .extra { grid-template-columns: auto 1fr; } .extra a { grid-column: 2; } }
+</style>
+</head>
+<body style="display:block">
+  <div class="bar">
+    <button class="vbtn" type="button" data-v="1" aria-pressed="true">1 · Rozcestí v kroku 3</button>
+    <button class="vbtn" type="button" data-v="2" aria-pressed="false">2 · Dvě cesty nahoře</button>
+    <button class="vbtn" type="button" data-v="3" aria-pressed="false">3 · Hlavní cesta + karta pod ní</button>
+    <button class="vbtn" type="button" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'">Světlé / tmavé</button>
+    <p class="note" id="note"></p>
+  </div>
+
+  <!-- ===================== 1 ===================== -->
+  <div class="variant" data-v="1" data-note="Nejmenší změna. Stránka zůstane, jak je, jen krok 3 se rozdělí na dvě situace: video titulky má, nebo nemá. Kdo přepis nepotřebuje, přeskočí jednu malou kartu. Ukázka nahoře dál ukazuje překlad.">
+  <main style="margin:0 auto">
+    <header>
+      <img class="logo" src="../icons/icon128.png" width="44" height="44" alt="">
+      <h1>Subtitles in your language, on any video</h1>
+      <p class="lede">It’s installed and switched on. This is what it looks like:</p>
+    </header>
+    <div class="grid">
+      <div class="demo">
+        <div class="player"><video src="../welcome/demo.mp4" poster="../welcome/demo.jpg" muted loop autoplay playsinline></video>
+          <p class="orig"><span>Original</span> <b>I can’t believe you kept it all this time.</b></p>
+          <div class="mock-sub"><span>Nemůžu uvěřit, že sis to celou dobu nechal.</span></div></div>
+      </div>
+      <ol class="steps">
+        <li class="ok"><span class="n">✓</span><div style="flex:1"><b>Your language</b><select class="compact"><option>Čeština</option></select><small>This sample is translated for real. The language you pick here is used for all your videos.</small></div></li>
+        <li class="now"><span class="n">2</span><div><b>Pin the icon</b><small>Click the puzzle piece in the browser’s toolbar, then the pin next to Subtitle Overlay. This step ticks itself.</small></div></li>
+        <li><span class="n">3</span><div><b>Play a video</b>
+          <div class="fork">
+            <div><b>It has subtitles</b><small>Turn them on with the CC or Subtitles button in the player. Any language works.</small></div>
+            <div><b>It has none <span class="beta-chip">Beta</span></b><small>Click <span class="kbd"><img src="../icons/icon32.png" width="12" height="12" alt=""> Subtitle Overlay</span>, then <b style="display:inline;font-size:inherit!important;line-height:inherit!important">Make subtitles from the audio</b>. A free model on your computer writes them down.</small></div>
+          </div></div></li>
+      </ol>
+    </div>
+    <footer>
+      <p class="privacy">Google Translate does the translating, so the subtitle text goes to Google. No account, no tracking. <a href="#">What leaves your browser</a></p>
+      <button class="primary" id="done" type="button">Done, close this page</button>
+    </footer>
+  </main>
+  </div>
+
+  <!-- ===================== 2 ===================== -->
+  <div class="variant" data-v="2" hidden data-note="Člověk si hned nahoře vybere, co sleduje. Ukázka i kroky se přepnou podle volby. Nejjasněji ukáže, že rozšíření umí dvě různé věci. Klikni na druhou kartu, ať vidíš přepnutí. Nevýhoda: o jedno rozhodnutí víc a druhou ukázku (zvuk na titulky) je potřeba natočit.">
+  <main style="margin:0 auto">
+    <header>
+      <img class="logo" src="../icons/icon128.png" width="44" height="44" alt="">
+      <h1>Subtitles in your language, on any video</h1>
+      <p class="lede">It’s installed and switched on. What do you watch?</p>
+      <div class="paths" role="group">
+        <button type="button" data-p="subs" aria-pressed="true"><b>Videos with subtitles</b><small>In a language you don’t speak. They get translated.</small></button>
+        <button type="button" data-p="audio" aria-pressed="false"><b>Videos without any <span class="beta-chip">Beta</span></b><small>Subtitles are written down from the sound, then translated.</small></button>
+      </div>
+    </header>
+    <div class="grid">
+      <div class="demo">
+        <div class="player"><video src="../welcome/demo.mp4" poster="../welcome/demo.jpg" muted loop autoplay playsinline></video>
+          <p class="orig p-subs"><span>Original</span> <b>I can’t believe you kept it all this time.</b></p>
+          <span class="badge p-audio" hidden><span class="wave"><i></i><i></i><i></i><i></i></span> From the sound</span>
+          <div class="mock-sub"><span>Nemůžu uvěřit, že sis to celou dobu nechal.</span></div></div>
+      </div>
+      <ol class="steps">
+        <li class="ok"><span class="n">✓</span><div style="flex:1"><b>Your language</b><select class="compact"><option>Čeština</option></select><small>The sample is translated for real.</small></div></li>
+        <li class="now"><span class="n">2</span><div><b>Pin the icon</b><small>Click the puzzle piece in the browser’s toolbar, then the pin next to Subtitle Overlay.</small></div></li>
+        <li class="p-subs"><span class="n">3</span><div><b>Play a video and turn on its subtitles</b><small>The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.</small></div></li>
+        <li class="p-audio" hidden><span class="n">3</span><div><b>Open a video, click the icon</b><small>Then <b style="display:inline;font-size:inherit;line-height:inherit">Make subtitles from the audio</b>. It plays muted in that tab to the end, then the translation is ready.</small>
+          <div class="facts"><span class="free">Free</span><span>Stays on your computer</span><span>560 MB, once</span><span>As long as the video</span></div></div></li>
+      </ol>
+    </div>
+    <footer>
+      <p class="privacy"><span class="p-subs">Google Translate does the translating, so the subtitle text goes to Google.</span><span class="p-audio" hidden>The sound is written down on your computer; only the text goes to Google to be translated.</span> No account, no tracking. <a href="#">What leaves your browser</a></p>
+      <button class="primary" id="done" type="button">Done, close this page</button>
+    </footer>
+  </main>
+  </div>
+
+  <!-- ===================== 3 ===================== -->
+  <div class="variant" data-v="3" hidden data-note="Dnešní stránka beze změny a pod ní samostatná karta „Video bez titulků?“. Hlavní cesta (překlad) zůstává jasná a přepis je jasně „navíc“, což sedí, dokud je v betě. Nejméně práce. Riziko: karta je až pod kroky, takže ji někdo přejde.">
+  <main style="margin:0 auto">
+    <header>
+      <img class="logo" src="../icons/icon128.png" width="44" height="44" alt="">
+      <h1>Subtitles in your language, on any video</h1>
+      <p class="lede">It’s installed and switched on. This is what it looks like:</p>
+    </header>
+    <div class="grid">
+      <div class="demo">
+        <div class="player"><video src="../welcome/demo.mp4" poster="../welcome/demo.jpg" muted loop autoplay playsinline></video>
+          <p class="orig"><span>Original</span> <b>I can’t believe you kept it all this time.</b></p>
+          <div class="mock-sub"><span>Nemůžu uvěřit, že sis to celou dobu nechal.</span></div></div>
+      </div>
+      <ol class="steps">
+        <li class="ok"><span class="n">✓</span><div style="flex:1"><b>Your language</b><select class="compact"><option>Čeština</option></select><small>This sample is translated for real. The language you pick here is used for all your videos.</small></div></li>
+        <li class="now"><span class="n">2</span><div><b>Pin the icon</b><small>Click the puzzle piece in the browser’s toolbar, then the pin next to Subtitle Overlay. This step ticks itself.</small></div></li>
+        <li><span class="n">3</span><div><b>Play a video and turn on its subtitles</b><small>The CC or Subtitles button in the site’s player. Some sites send subtitles only then. Any language works.</small></div></li>
+      </ol>
+    </div>
+    <div class="extra">
+      <span class="ic"><svg width="20" height="20" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <div><h3>A video with no subtitles at all? <span class="beta-chip">Beta</span></h3><p>Click the icon, then <b>Make subtitles from the audio</b>. A free model on your computer writes down what’s said, then it’s translated. 560 MB once; takes as long as the video.</p></div>
+      <a href="#">How it works →</a>
+    </div>
+    <footer>
+      <p class="privacy">Google Translate does the translating, so the subtitle text goes to Google. No account, no tracking. <a href="#">What leaves your browser</a></p>
+      <button class="primary" id="done" type="button">Done, close this page</button>
+    </footer>
+  </main>
+  </div>
+
+<script>
+  const note = document.getElementById('note');
+  const show = (v) => {
+    document.querySelectorAll('.variant').forEach((el) => { el.hidden = el.dataset.v !== v; if (!el.hidden) note.textContent = el.dataset.note; });
+    document.querySelectorAll('.vbtn[data-v]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === v)));
+  };
+  document.querySelectorAll('.vbtn[data-v]').forEach((b) => b.addEventListener('click', () => show(b.dataset.v)));
+  show(new URLSearchParams(location.search).get('v') || '1');
+  // Variant 2: the two paths switch the sample and step 3.
+  document.querySelectorAll('.paths button').forEach((b) => b.addEventListener('click', () => {
+    const p = b.dataset.p;
+    document.querySelectorAll('.paths button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    document.querySelectorAll('[data-v="2"] .p-subs').forEach((el) => { el.hidden = p !== 'subs'; });
+    document.querySelectorAll('[data-v="2"] .p-audio').forEach((el) => { el.hidden = p !== 'audio'; });
+  }));
+</script>
+</body>
+</html>

@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Η **Ουρά μετάφρασης** δείχνει πλέον την πρόοδό της και στην κάρτα πάνω από το βίντεο, και το έτοιμο αρχείο αντικαθιστά μόνο του τις γραμμές της Google",
   "Can’t reach Google Translate. Check your internet connection.": "Δεν είναι δυνατή η σύνδεση με τη Μετάφραση Google. Έλεγξε τη σύνδεσή σου στο internet.",
   "The interface and translation now come in **Persian** and **Bengali**": "Το περιβάλλον και η μετάφραση είναι πλέον και στα **περσικά** και στα **βεγγαλικά**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Το περιβάλλον και η μετάφραση είναι πλέον και στα **ρωσικά** και στα **βουλγαρικά**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Τώρα φορτώνεις και αρχεία υποτίτλων **.ass** και **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "Η **Βελτίωση** δεν προσθέτει πια προφορά με λατινικά γράμματα μετά από περσικές γραμμές",
   "Sharing subtitles": "Κοινοποίηση υποτίτλων",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Κάτι πήγε στραβά.",
   "Deleted, {size} free.": "Διαγράφηκε, ελευθερώθηκαν {size}.",
   "Can’t delete it while it’s downloading.": "Δεν μπορεί να διαγραφεί κατά τη λήψη.",
-  "Can’t delete it while it’s making subtitles.": "Δεν μπορεί να διαγραφεί όσο δημιουργούνται υπότιτλοι."
+  "Can’t delete it while it’s making subtitles.": "Δεν μπορεί να διαγραφεί όσο δημιουργούνται υπότιτλοι.",
+  "Hi, Filip here": "Γεια, ο Φίλιπ εδώ",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Φτιάχνω το Subtitle Overlay μόνος μου. Μια σύντομη κριτική βοηθά κι άλλους να το βρουν.",
+  "Something not working? Tell me": "Κάτι δεν λειτουργεί; Γράψε μου",
+  "Thanks, it really helps ♥": "Ευχαριστώ, βοηθά πραγματικά ♥"
 }

@@ -4,7 +4,7 @@ Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’imp
 
 ★ L’ESSENTIEL
 ★ N’importe quel site, n’importe quelle vidéo : des sous-titres sur le lecteur, en fenêtre ou en plein écran, toujours synchronisés
-★ Traduction en 33 langues en un clic, ou entièrement automatique dès que tu actives les sous-titres dans le lecteur du site
+★ Traduction en 35 langues en un clic, ou entièrement automatique dès que tu actives les sous-titres dans le lecteur du site
 ★ NOUVEAU : aucun sous-titre ? Un modèle vocal gratuit sur ton ordinateur écrit ce qui est dit, puis c’est traduit dans ta langue (bêta)
 ★ Sous-titres partagés : si quelqu’un a déjà amélioré les mêmes sous-titres avec l’IA, tu obtiens sa version tout de suite, et partager les tiens, c’est toi qui décides
 ★ L’IA rend la traduction naturelle, gratuitement sur ton ordinateur (Gemma) ou avec ta propre clé Gemini, Claude ou OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay affiche les sous-titres par-dessus le lecteur vidéo de n’imp
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUCTION EN 33 LANGUES
+TRADUCTION EN 35 LANGUES
 • Un clic traduit les sous-titres chargés avec Google Translate, directement dans l’extension
 • En option : clique sur Améliorer et l’IA (Gemma sur ton ordinateur, ou Gemini, Claude ou OpenAI) réécrit la version rapide de Google pour qu’elle sonne naturelle (plus de détails plus bas). Passe la souris sur la vidéo pour voir où elle en est
 • Choisis ta langue une seule fois ; elle reste ta préférée pour chaque bouton Traduire
@@ -24,7 +24,7 @@ TRADUCTION EN 33 LANGUES
 • Si le site a des sous-titres dans ta langue (YouTube et plateformes de streaming), ils passent en premier ; Google ou l’IA ne traduisent que s’il n’y en a pas
 • Les sous-titres du site sont masqués tant que les nôtres sont affichés, et reviennent dès que tu coupes les nôtres
 • Reviens à l’original quand tu veux, ou enregistre la traduction en fichier .srt
-• Langues : vietnamien, tchèque, anglais, slovaque, allemand, français, espagnol, italien, portugais, polonais, hongrois, ukrainien, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, chinois (simplifié et traditionnel), japonais, coréen, thaï, indonésien, malais, filipino, hindi, bengali, arabe, persan
+• Langues : vietnamien, tchèque, anglais, slovaque, allemand, français, espagnol, italien, portugais, polonais, hongrois, ukrainien, russe, bulgare, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, chinois (simplifié et traditionnel), japonais, coréen, thaï, indonésien, malais, filipino, hindi, bengali, arabe, persan
 
 UNE TRADUCTION NATURELLE (EN OPTION)
 Google Translate est rapide, mais il traduit ligne par ligne, mot à mot. Clique sur Améliorer et un modèle d’IA réécrit les sous-titres en tenant compte de toute la scène, à partir de l’endroit où tu en es.
@@ -104,8 +104,8 @@ Alt + [ / ] synchro · Alt + Shift + [ / ] synchro par pas de 1 s · Alt + 0 ré
 Sous Windows et Linux : Alt + Entrée plein écran avec sous-titres · Alt + , / Alt + . décalage de 1 s
 Chaque raccourci peut être modifié ou désactivé dans l’onglet Comportement.
 
-INTERFACE EN 33 LANGUES
-Anglais, tchèque, slovaque, allemand, français, espagnol, vietnamien, chinois simplifié, chinois traditionnel, italien, portugais, polonais, ukrainien, hongrois, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, japonais, coréen, thaï, indonésien, malais, filipino, hindi, bengali, arabe et persan (de droite à gauche). Elle suit la langue de ton navigateur, ou choisis-en une en bas de la fenêtre de l’extension.
+INTERFACE EN 35 LANGUES
+Anglais, tchèque, slovaque, allemand, français, espagnol, vietnamien, chinois simplifié, chinois traditionnel, italien, portugais, polonais, ukrainien, russe, bulgare, hongrois, néerlandais, suédois, danois, norvégien, finnois, grec, turc, roumain, croate, japonais, coréen, thaï, indonésien, malais, filipino, hindi, bengali, arabe et persan (de droite à gauche). Elle suit la langue de ton navigateur, ou choisis-en une en bas de la fenêtre de l’extension.
 
 POUR LES BIDOUILLEURS
 Un onglet "Subtitles" dans les DevTools liste chaque fichier de sous-titres chargé par la page et l’enregistre en .vtt ou .srt.

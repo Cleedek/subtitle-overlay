@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hodnocení na videu: 3 návrhy</title>
+  <style>
+    /* ---------- the mockup page (not for the extension) ---------- */
+    :root { color-scheme: dark; --page: oklch(0.13 0.008 290); --text: oklch(0.94 0.006 290); --muted: oklch(0.70 0.014 290); --line: oklch(0.29 0.012 290); --star: oklch(0.84 0.16 84); }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px 24px 56px; background: var(--page); color: var(--text); font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    .page-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 8px; }
+    .page-head h1 { font-size: 20px; margin: 0 0 4px; }
+    .page-head p { margin: 0; color: var(--muted); max-width: 720px; }
+    .page-head button, .reset { font: inherit; color: var(--text); background: oklch(0.225 0.010 290); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+    .variant { margin-top: 34px; }
+    .v-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+    .v-head b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: #7c3aed; color: #fff; font-size: 12.5px; }
+    .v-head span { font-size: 16px; font-weight: 650; }
+    .v-head em { font-style: normal; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--star); }
+    .v-sub { margin: 0 0 12px; color: var(--muted); max-width: 760px; }
+    .pm { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; margin-top: 10px; font-size: 12.5px; color: var(--muted); max-width: 900px; }
+    .pm p { margin: 0; }
+    .pm .plus::before { content: "+ "; color: oklch(0.75 0.15 150); font-weight: 700; }
+    .pm .minus::before { content: "− "; color: oklch(0.7 0.17 25); font-weight: 700; }
+    .rules { margin-top: 40px; padding: 18px 20px; border-radius: 12px; background: oklch(0.185 0.008 290); box-shadow: 0 0 0 1px oklch(1 0 0 / .07); }
+    .rules h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 0 12px; }
+    .rules h2:not(:first-child) { margin-top: 20px; }
+    .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
+    .rules strong { color: var(--text); font-weight: 600; }
+
+    /* A stand-in for the video, near its end: film still, the player's controls, a subtitle. */
+    .video {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+      background:
+        radial-gradient(60% 70% at 28% 60%, oklch(0.42 0.06 60 / .75), transparent 70%),
+        radial-gradient(50% 60% at 78% 30%, oklch(0.35 0.08 230 / .7), transparent 70%),
+        linear-gradient(180deg, oklch(0.2 0.02 250), oklch(0.12 0.01 260));
+    }
+    .video::after { content: ""; position: absolute; inset: auto 0 0; height: 70px; background: linear-gradient(transparent, rgba(0,0,0,.6)); }
+    .player-bar { position: absolute; inset: auto 14px 12px; z-index: 1; display: flex; align-items: center; gap: 10px; color: #fff; font-size: 12px; }
+    .player-bar .track { flex: 1; height: 4px; border-radius: 4px; background: rgba(255,255,255,.3); }
+    .player-bar .track span { display: block; width: 93%; height: 100%; border-radius: inherit; background: #f00; }
+    .subline { position: absolute; left: 50%; bottom: 54px; transform: translateX(-50%); z-index: 1; padding: 3px 10px; background: rgba(0,0,0,.72); color: #fff; font: 500 22px/1.3 system-ui, sans-serif; border-radius: 4px; white-space: nowrap; }
+
+    /* =====================================================================
+       The card, as it would go into content.js (same dark look as .langs / .ask)
+       ===================================================================== */
+    .corner { position: absolute; top: 12px; right: 12px; z-index: 2; }
+    .rate {
+      position: relative; background: rgba(20,20,20,.92); border-radius: 12px; color: #fff;
+      font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
+      box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
+      animation: rate-in .4s cubic-bezier(.25, 1, .5, 1) both;
+    }
+    @keyframes rate-in { from { opacity: 0; transform: translateY(-6px) scale(.98); } }
+    @media (prefers-reduced-motion: reduce) { .rate { animation: none; } }
+    .rate a, .rate button { font: inherit; color: #fff; text-decoration: none; cursor: pointer; }
+    .rate svg { flex: none; }
+    .rate .x { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 7px; background: transparent; color: rgba(255,255,255,.6); }
+    .rate .x:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .rate .stars { display: inline-flex; gap: 2px; color: var(--star); }
+    .rate .main { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 12px; border: 0; border-radius: 8px; background: #7c3aed; font-weight: 650; font-size: 13.5px; }
+    .rate .main:hover { background: #8b5cf6; }
+    .rate .main:active { transform: scale(.985); }
+    .rate .quiet { border: 0; background: none; padding: 2px 4px; color: rgba(255,255,255,.7); font-size: 12px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; border-radius: 5px; }
+    .rate .quiet:hover { color: #fff; text-decoration-color: currentColor; }
+    /* After a click: thanks, with a bar that runs out in 6 s. */
+    .rate .done { display: none; }
+    .rate.is-done > :not(.done, .x) { display: none !important; }
+    .rate.is-done .done { display: flex; flex-direction: column; gap: 2px; padding-right: 24px; }
+    .rate .done strong { font-size: 13px; font-weight: 700; }
+    .rate .done span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.4; }
+    .rate .timer { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: rgba(255,255,255,.35); transform-origin: left; animation: rate-timer 6s linear both; }
+    @keyframes rate-timer { to { transform: scaleX(0); } }
+
+    /* A: one small strip. */
+    .rate.a { display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 12px; max-width: 360px; }
+    .rate.a .text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+    .rate.a .text strong { font-size: 13px; font-weight: 650; }
+    .rate.a .text button { align-self: flex-start; margin-left: -4px; font-size: 11.5px; }
+    .rate.a .main { padding: 7px 11px; font-size: 13px; white-space: nowrap; }
+    .rate.a .x { position: static; }
+    .rate.a.is-done { padding: 10px 40px 12px 12px; }
+    .rate.a.is-done .x { position: absolute; }
+
+    /* B: two equal ways out. */
+    .rate.b { width: 300px; padding: 14px 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+    .rate.b .hello { display: flex; flex-direction: column; gap: 3px; padding-right: 24px; }
+    .rate.b .hello strong { font-size: 14.5px; font-weight: 700; letter-spacing: -.01em; }
+    .rate.b .hello span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+    .rate.b .two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .rate.b .two > * { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 10px; border: 0; border-radius: 10px; background: rgba(255,255,255,.1); text-align: left; }
+    .rate.b .two > *:hover { background: rgba(255,255,255,.18); }
+    .rate.b .two b { font-weight: 650; font-size: 12.5px; line-height: 1.25; }
+    .rate.b .two small { font-size: 10.5px; color: rgba(255,255,255,.55); line-height: 1.3; }
+    .rate.b .two svg { color: rgba(255,255,255,.75); }
+    .rate.b .two .stars svg { color: var(--star); }
+
+    /* C: personal, with the photo and what the extension did for them. */
+    .rate.c { width: 300px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    .rate.c .who { display: flex; align-items: flex-start; gap: 10px; padding-right: 24px; }
+    .rate.c .who img { flex: none; width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .rate.c .who div { display: flex; flex-direction: column; gap: 2px; }
+    .rate.c .who strong { font-size: 13.5px; font-weight: 700; }
+    .rate.c .who span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+    .rate.c .count { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border-radius: 9px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); font-size: 12px; color: rgba(255,255,255,.8); }
+    .rate.c .count b { color: #fff; font-weight: 700; }
+    .rate.c .foot { display: flex; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <h1>Prosba o hodnocení přímo na videu: 3 návrhy</h1>
+        <p>Ukáže se jednou, ke konci 3. přeloženého videa, v pravém horním rohu (stejné místo jako kartička podpory). Klikněte na tlačítka: ukáže se poděkování. Texty jsou zatím česky, přeložíme po schválení.</p>
+      </div>
+      <button class="reset" type="button">Ukázat znovu</button>
+    </div>
+
+    <!-- ===================== A ===================== -->
+    <section class="variant">
+      <div class="v-head"><b>A</b><span>Malý proužek</span></div>
+      <p class="v-sub">Jedna věta a jedno tlačítko. Přečte se za vteřinu, skoro nepřekáží.</p>
+      <div class="video">
+        <div class="corner">
+          <div class="rate a" role="dialog" aria-label="Ohodnotit Subtitle Overlay">
+            <div class="text">
+              <strong>Hodí se vám titulky? Dejte vědět ostatním.</strong>
+              <button class="quiet" data-act="problem">Něco nefunguje? Napište mi</button>
+            </div>
+            <a class="main" href="#" data-act="review">Napsat recenzi</a>
+            <button class="x" title="Zavřít (už se neukáže)" aria-label="Zavřít (už se neukáže)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            <div class="done"><strong>Díky!</strong><span>Recenze se otevřela v nové kartě.</span><i class="timer"></i></div>
+          </div>
+        </div>
+        <div class="subline">Tak zase příště.</div>
+        <div class="player-bar"><span>▶</span><div class="track"><span></span></div><span>41:52 / 44:58</span></div>
+      </div>
+      <div class="pm">
+        <p class="plus">Nejmenší zásah do sledování, nejmíň čtení.</p>
+        <p class="minus">Nejméně výrazný, snadno se přehlédne.</p>
+        <p class="plus">Cesta pro nespokojené je tam, ale tichá.</p>
+        <p class="minus">Neříká, proč na recenzi záleží.</p>
+      </div>
+    </section>
+
+    <!-- ===================== B ===================== -->
+    <section class="variant">
+      <div class="v-head"><b>B</b><span>Dvě rovnocenné cesty</span></div>
+      <p class="v-sub">Každý vidí obě možnosti najednou: recenzi i zprávu přímo mně. Kdo je naštvaný, má kam jít dřív, než napíše 1 hvězdičku.</p>
+      <div class="video">
+        <div class="corner">
+          <div class="rate b" role="dialog" aria-label="Ohodnotit Subtitle Overlay">
+            <button class="x" title="Zavřít (už se neukáže)" aria-label="Zavřít (už se neukáže)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            <div class="hello">
+              <strong>Jak se vám titulky líbí?</strong>
+              <span>Zabere to minutu a pomůže to i dalším lidem.</span>
+            </div>
+            <div class="two">
+              <a href="#" data-act="review">
+                <span class="stars" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg></span>
+                <b>Napsat recenzi</b><small>V Chrome Web Store</small>
+              </a>
+              <button data-act="problem">
+                <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 3.5h11v8h-6l-3 2.5v-2.5h-2v-8Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                <b>Napsat mi, co zlepšit</b><small>Přečtu si to sám</small>
+              </button>
+            </div>
+            <div class="done"><strong>Díky!</strong><span>Otevřelo se to v nové kartě.</span><i class="timer"></i></div>
+          </div>
+        </div>
+        <div class="subline">Tak zase příště.</div>
+        <div class="player-bar"><span>▶</span><div class="track"><span></span></div><span>41:52 / 44:58</span></div>
+      </div>
+      <div class="pm">
+        <p class="plus">Nejbezpečnější proti naštvaným recenzím: zlost dostane vlastní ventil.</p>
+        <p class="minus">Recenze není jasná hlavní akce, část lidí zvolí zprávu.</p>
+        <p class="plus">Všichni vidí totéž, takže je to v pořádku s pravidly.</p>
+        <p class="minus">Víc zpráv do vaší schránky (to je ale užitečné).</p>
+      </div>
+    </section>
+
+    <!-- ===================== C ===================== -->
+    <section class="variant">
+      <div class="v-head"><b>C</b><span>Osobně od Filipa</span><em>Doporučuji</em></div>
+      <p class="v-sub">Fotka, krátká osobní věta a co jim rozšíření už udělalo. Jedno hlavní tlačítko, cesta &quot;něco nefunguje&quot; pod ním.</p>
+      <div class="video">
+        <div class="corner">
+          <div class="rate c" role="dialog" aria-label="Ohodnotit Subtitle Overlay">
+            <button class="x" title="Zavřít (už se neukáže)" aria-label="Zavřít (už se neukáže)"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+            <div class="who">
+              <img src="../icons/support/filip.jpg" alt="" width="38" height="38">
+              <div>
+                <strong>Ahoj, tady Filip</strong>
+                <span>Subtitle Overlay dělám sám. Krátká recenze pomůže, aby ho našli další lidé.</span>
+              </div>
+            </div>
+            <div class="count"><span class="stars" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 16 16"><path d="M8 1.6l1.95 4.02 4.43.62-3.22 3.1.78 4.4L8 11.65l-3.94 2.09.78-4.4L1.62 6.24l4.43-.62L8 1.6Z" fill="currentColor"/></svg></span><span><b>3 videa</b> přeložená, 1 412 řádků</span></div>
+            <a class="main" href="#" data-act="review">Napsat recenzi</a>
+            <div class="foot"><button class="quiet" data-act="problem">Něco nefunguje? Napište mi</button></div>
+            <div class="done"><strong>Díky, moc to pomáhá ♥</strong><span>Recenze se otevřela v nové kartě.</span><i class="timer"></i></div>
+          </div>
+        </div>
+        <div class="subline">Tak zase příště.</div>
+        <div class="player-bar"><span>▶</span><div class="track"><span></span></div><span>41:52 / 44:58</span></div>
+      </div>
+      <div class="pm">
+        <p class="plus">Osobní prosba od člověka obvykle zabírá víc než od &quot;aplikace&quot; (můj odhad, ne změřené).</p>
+        <p class="minus">Nejvíc textu ze všech tří (asi 20 slov).</p>
+        <p class="plus">Navazuje na kartičku podpory, kterou lidé už znají.</p>
+        <p class="minus">Fotka se opakuje i na kartičce podpory později.</p>
+      </div>
+    </section>
+
+    <section class="rules">
+      <h2>Kdy se ukáže (návrh)</h2>
+      <ul>
+        <li><strong>Až po 3 přeložených videích</strong> (každá stránka se počítá jednou, tohle už rozšíření počítá). Nebo dřív, po 1 videu vylepšeném AI.</li>
+        <li><strong>Jen na videu, kde všechno proběhlo dobře:</strong> překlad se dokončil, člověk s ním koukal aspoň 5 minut, neklikl na &quot;Nahlásit problém&quot; a nevyskočila žádná chyba.</li>
+        <li><strong>Ke konci videa:</strong> posledních 10 % nebo poslední 2 minuty, co nastane dřív. U krátkých videí (pod 5 minut) se neukáže, počká na delší.</li>
+        <li><strong>Jen jednou.</strong> Kliknutí na cokoli nebo křížek ho ukončí navždy. Když si ho člověk nevšimne (video skončí a kartička zmizí sama), nepočítá se to jako zobrazení.</li>
+        <li><strong>Nesrazí se s ostatními:</strong> ne na stejném videu jako kartička podpory nebo &quot;Co je nového&quot;, a ne do 7 dnů od nich.</li>
+        <li><strong>Stávající kartička v popupu</strong> (po 10 videích): když se ukončí ta na videu, ta v popupu už se neukáže, a naopak.</li>
+      </ul>
+      <h2>Pravidla obchodu</h2>
+      <ul>
+        <li>Všichni vidí přesně totéž, žádné předvybrané hvězdičky, žádná odměna, žádné &quot;dejte nám 5 hvězdiček&quot;.</li>
+        <li>Nejdřív se ptát &quot;líbí se vám?&quot; a do obchodu posílat jen ty spokojené: tohle nedělat (viz poznámka v chatu).</li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    // Mockup only: a click shows the thanks, the reset button brings the cards back.
+    document.querySelectorAll('.rate').forEach((card) => {
+      card.addEventListener('click', (e) => {
+        const act = e.target.closest('[data-act]');
+        const x = e.target.closest('.x');
+        if (act) {
+          e.preventDefault();
+          if (act.dataset.act === 'problem') card.querySelector('.done span').textContent = 'Otevřel se formulář "Problém nebo nápad?".';
+          card.classList.add('is-done');
+          setTimeout(() => (card.style.visibility = 'hidden'), 6000);
+        } else if (x) card.style.visibility = 'hidden';
+      });
+    });
+    document.querySelector('.reset').addEventListener('click', () => location.reload());
+  </script>
+</body>
+</html>

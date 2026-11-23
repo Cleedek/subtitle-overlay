@@ -4,7 +4,7 @@ Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, i
 
 ★ PE SCURT
 ★ Orice site, orice videoclip: subtitrări peste player, în fereastră sau pe ecran complet, mereu sincronizate
-★ Traducere în 33 de limbi dintr-un clic, sau complet automat, imediat ce pornești subtitrările în playerul site-ului
+★ Traducere în 35 de limbi dintr-un clic, sau complet automat, imediat ce pornești subtitrările în playerul site-ului
 ★ NOU: un videoclip fără nicio subtitrare? Un model de vorbire gratuit de pe computerul tău scrie ce se spune, apoi textul e tradus în limba ta (beta)
 ★ Subtitrări partajate: dacă cineva a îmbunătățit deja aceleași subtitrări cu AI, primești imediat versiunea lui, iar dacă le partajezi pe ale tale decizi tu
 ★ Traducerea sună natural cu AI, gratuit pe propriul calculator (Gemma) sau cu propria cheie Gemini, Claude ori OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay afișează subtitrări peste playerul video de pe orice site, i
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUCERE ÎN 33 DE LIMBI
+TRADUCERE ÎN 35 DE LIMBI
 • Un singur clic traduce subtitrările încărcate cu Google Traducere, direct în extensie
 • Opțional: dă clic pe Îmbunătățește și AI-ul (Gemma pe calculatorul tău, sau Gemini, Claude ori OpenAI) rescrie versiunea rapidă de la Google ca să sune natural (mai multe mai jos). Mișcă mouse-ul peste videoclip ca să vezi cât a progresat
 • Alegi limba o singură dată; rămâne favorita ta pentru fiecare buton Tradu
@@ -24,7 +24,7 @@ TRADUCERE ÎN 33 DE LIMBI
 • Dacă site-ul are subtitrări în limba ta (YouTube și servicii de streaming), acelea vin primele; Google sau AI-ul traduc doar când nu există
 • Subtitrările proprii ale site-ului sunt ascunse cât timp ale noastre sunt pornite și revin imediat ce le oprești pe ale noastre
 • Revii oricând la original sau salvezi traducerea ca fișier .srt
-• Limbi: vietnameză, cehă, engleză, slovacă, germană, franceză, spaniolă, italiană, portugheză, poloneză, maghiară, ucraineană, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, chineză (simplificată și tradițională), japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, bengaleză, arabă, persană
+• Limbi: vietnameză, cehă, engleză, slovacă, germană, franceză, spaniolă, italiană, portugheză, poloneză, maghiară, ucraineană, rusă, bulgară, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, chineză (simplificată și tradițională), japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, bengaleză, arabă, persană
 
 TRADUCERE NATURALĂ CU AI (OPȚIONAL)
 Google Traducere e rapid, dar traduce rând cu rând, cuvânt cu cuvânt. Dă clic pe Îmbunătățește și un model AI rescrie subtitrările ținând cont de toată scena, începând de unde te uiți.
@@ -104,8 +104,8 @@ Alt + [ / ] sincronizare · Alt + Shift + [ / ] sincronizare cu 1 s · Alt + 0 r
 Pe Windows și Linux: Alt + Enter ecran complet cu subtitrări · Alt + , / Alt + . sincronizare cu 1 s
 Fiecare comandă rapidă poate fi schimbată sau dezactivată în fila Comportament.
 
-INTERFAȚĂ ÎN 33 DE LIMBI
-Engleză, cehă, slovacă, germană, franceză, spaniolă, vietnameză, chineză simplificată, chineză tradițională, italiană, portugheză, poloneză, ucraineană, maghiară, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, bengaleză, arabă și persană (de la dreapta la stânga). Urmează limba browserului, sau alege una în partea de jos a ferestrei extensiei.
+INTERFAȚĂ ÎN 35 DE LIMBI
+Engleză, cehă, slovacă, germană, franceză, spaniolă, vietnameză, chineză simplificată, chineză tradițională, italiană, portugheză, poloneză, ucraineană, rusă, bulgară, maghiară, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, bengaleză, arabă și persană (de la dreapta la stânga). Urmează limba browserului, sau alege una în partea de jos a ferestrei extensiei.
 
 PENTRU CURIOȘI
 O filă "Subtitles" în DevTools listează fiecare fișier de subtitrare încărcat de pagină și îl salvează ca .vtt sau .srt.

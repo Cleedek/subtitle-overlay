@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "پیشرفت **صف ترجمه** حالا در کارت روی ویدیو نمایش داده می‌شود و فایل تمام‌شده خودش جای سطرهای Google را می‌گیرد",
   "Can’t reach Google Translate. Check your internet connection.": "دسترسی به Google Translate ممکن نیست. اتصال اینترنت را بررسی کنید.",
   "The interface and translation now come in **Persian** and **Bengali**": "رابط کاربری و ترجمه حالا به **فارسی** و **بنگالی** هم هست",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "رابط کاربری و ترجمه حالا به **روسی** و **بلغاری** هم هست",
   "You can now also load **.ass** and **.ssa** subtitle files": "اکنون فایل‌های زیرنویس **.ass** و **.ssa** را هم می‌توانید باز کنید",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**بهبود** دیگر بعد از سطرهای فارسی تلفظ با حروف لاتین اضافه نمی‌کند",
   "Sharing subtitles": "اشتراک‌گذاری زیرنویس",
@@ -734,5 +735,9 @@
   "Something went wrong.": "مشکلی پیش آمد.",
   "Deleted, {size} free.": "حذف شد، {size} آزاد شد.",
   "Can’t delete it while it’s downloading.": "هنگام دانلود نمی‌شود حذفش کرد.",
-  "Can’t delete it while it’s making subtitles.": "هنگام ساختن زیرنویس نمی‌شود حذفش کرد."
+  "Can’t delete it while it’s making subtitles.": "هنگام ساختن زیرنویس نمی‌شود حذفش کرد.",
+  "Hi, Filip here": "سلام، فیلیپ هستم",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Subtitle Overlay را به‌تنهایی می‌سازم. یک نقد کوتاه کمک می‌کند دیگران هم آن را پیدا کنند.",
+  "Something not working? Tell me": "چیزی کار نمی‌کند؟ به من بگویید",
+  "Thanks, it really helps ♥": "ممنونم، واقعاً کمک می‌کند ♥"
 }

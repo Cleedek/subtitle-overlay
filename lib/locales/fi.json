@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Käännösjono** näyttää nyt etenemisensä myös videon päällä olevassa kortissa, ja valmis tiedosto korvaa Googlen rivit itse",
   "Can’t reach Google Translate. Check your internet connection.": "Google Kääntäjään ei saada yhteyttä. Tarkista internetyhteys.",
   "The interface and translation now come in **Persian** and **Bengali**": "Käyttöliittymä ja käännös nyt myös **persiaksi** ja **bengaliksi**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Käyttöliittymä ja käännös nyt myös **venäjäksi** ja **bulgariaksi**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Nyt voit avata myös **.ass**- ja **.ssa**-tekstitystiedostoja",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Paranna** ei enää lisää persialaisten rivien perään ääntämistä latinalaisin kirjaimin",
   "Sharing subtitles": "Tekstitysten jakaminen",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Jokin meni vikaan.",
   "Deleted, {size} free.": "Poistettu, {size} vapautettu.",
   "Can’t delete it while it’s downloading.": "Sitä ei voi poistaa latauksen aikana.",
-  "Can’t delete it while it’s making subtitles.": "Sitä ei voi poistaa, kun tekstitystä tehdään."
+  "Can’t delete it while it’s making subtitles.": "Sitä ei voi poistaa, kun tekstitystä tehdään.",
+  "Hi, Filip here": "Hei, täällä Filip",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Teen Subtitle Overlayta yksin. Lyhyt arvio auttaa muita löytämään sen.",
+  "Something not working? Tell me": "Eikö jokin toimi? Kirjoita minulle",
+  "Thanks, it really helps ♥": "Kiitos, se auttaa todella ♥"
 }

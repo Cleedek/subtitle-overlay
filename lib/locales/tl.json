@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Makikita na rin ang usad ng **Pila ng pagsasalin** sa card sa ibabaw ng video, at kusang papalitan ng natapos na file ang mga linya mula sa Google",
   "Can’t reach Google Translate. Check your internet connection.": "Hindi maabot ang Google Translate. Tingnan ang internet connection mo.",
   "The interface and translation now come in **Persian** and **Bengali**": "Nasa **Persian** at **Bengali** na rin ang interface at pagsasalin",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Nasa **Russian** at **Bulgarian** na rin ang interface at pagsasalin",
   "You can now also load **.ass** and **.ssa** subtitle files": "Puwede mo na ring i-load ang mga subtitle file na **.ass** at **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "Hindi na nagdadagdag ang **Pahusayin** ng bigkas sa titik Latin pagkatapos ng mga linyang Persian",
   "Sharing subtitles": "Pagbabahagi ng subtitle",
@@ -734,5 +735,9 @@
   "Something went wrong.": "May nangyaring mali.",
   "Deleted, {size} free.": "Nabura, nabakante ang {size}.",
   "Can’t delete it while it’s downloading.": "Hindi ito mabubura habang nagda-download.",
-  "Can’t delete it while it’s making subtitles.": "Hindi ito mabubura habang gumagawa ng subtitle."
+  "Can’t delete it while it’s making subtitles.": "Hindi ito mabubura habang gumagawa ng subtitle.",
+  "Hi, Filip here": "Hi, si Filip ito",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Ako lang ang gumagawa ng Subtitle Overlay. Nakakatulong ang maikling review para mahanap ito ng iba.",
+  "Something not working? Tell me": "May hindi gumagana? Sabihin mo sa akin",
+  "Thanks, it really helps ♥": "Salamat, malaking tulong talaga ♥"
 }

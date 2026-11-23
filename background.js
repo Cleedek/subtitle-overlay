@@ -1277,6 +1277,7 @@ async function aiSheet(texts, to, signal, earlier) {
 // security rules block outside fonts still show the chosen one.
 let fontList = null;
 const fontCache = new Map(); // family -> Promise of faces
+let flagFont = null; // Promise of the flag font as base64 (lib/flags.js)
 
 async function fontWeights(family) {
   if (!fontList) fontList = await (await fetch(chrome.runtime.getURL('lib/google-fonts.json'))).json();
@@ -1384,7 +1385,8 @@ function countAudio(page, lines) {
 // from the audio): the pages it showed on, and done for good after any click
 // on it (or once it showed on its last page), with what ended it and when.
 function supportAsk(msg) {
-  const key = msg.key === 'supportAskAudio' ? 'supportAskAudio' : 'supportAsk';
+  // rateAsk: the one-time "write a review" card, kept the same way.
+  const key = ['supportAskAudio', 'rateAsk'].includes(msg.key) ? msg.key : 'supportAsk';
   statsWrite = statsWrite.then(async () => {
     const { [key]: a = { pages: [] } } = await chrome.storage.local.get(key);
     if (a.done) return;
@@ -1820,6 +1822,15 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
         }
         return fontCache.get(key);
       }).then((faces) => reply({ ok: true, faces }), (e) => reply({ ok: false, error: e.message }));
+      return true;
+
+    case 'flag-font': // lib/flags.js on a website (Windows only)
+      if (!flagFont) {
+        flagFont = fetch(chrome.runtime.getURL('lib/vendor/flags/TwemojiCountryFlags.woff2'))
+          .then((r) => r.arrayBuffer()).then((b) => SubLib.bytesToBase64(new Uint8Array(b)));
+        flagFont.catch(() => { flagFont = null; });
+      }
+      flagFont.then((b64) => reply({ ok: true, b64 }), (e) => reply({ ok: false, error: e.message }));
       return true;
 
     case 'open-translator':

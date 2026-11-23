@@ -51,6 +51,7 @@
         "lib/subtitles.js",
         "lib/settings.js",
         "lib/render.js",
+        "lib/flags.js",
         "content.js"
       ],
       "all_frames": true,

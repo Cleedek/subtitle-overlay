@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Kemajuan **Baris gilir terjemahan** kini dipaparkan pada kad di atas video, dan fail yang siap menggantikan baris daripada Google dengan sendirinya",
   "Can’t reach Google Translate. Check your internet connection.": "Tidak dapat mencapai Google Terjemah. Semak sambungan internet anda.",
   "The interface and translation now come in **Persian** and **Bengali**": "Antara muka dan terjemahan kini juga dalam **bahasa Parsi** dan **Benggali**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Antara muka dan terjemahan kini juga dalam **bahasa Rusia** dan **Bulgaria**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Kini anda juga boleh memuatkan fail sari kata **.ass** dan **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Tambah baik** tidak lagi menambah sebutan dalam huruf Latin selepas baris bahasa Parsi",
   "Sharing subtitles": "Perkongsian sari kata",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Ada yang tidak kena.",
   "Deleted, {size} free.": "Dipadam, {size} dikosongkan.",
   "Can’t delete it while it’s downloading.": "Tidak boleh dipadam semasa dimuat turun.",
-  "Can’t delete it while it’s making subtitles.": "Tidak boleh dipadam semasa sari kata sedang dibuat."
+  "Can’t delete it while it’s making subtitles.": "Tidak boleh dipadam semasa sari kata sedang dibuat.",
+  "Hi, Filip here": "Hai, Filip di sini",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Saya buat Subtitle Overlay sendiri. Ulasan ringkas membantu orang lain menemuinya.",
+  "Something not working? Tell me": "Ada yang tidak berfungsi? Beritahu saya",
+  "Thanks, it really helps ♥": "Terima kasih, ia sangat membantu ♥"
 }

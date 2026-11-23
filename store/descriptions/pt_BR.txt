@@ -4,7 +4,7 @@ O Subtitle Overlay exibe legendas sobre o player de vídeo de qualquer site, tam
 
 ★ OS DESTAQUES
 ★ Qualquer site, qualquer vídeo: legendas sobre o player, em janela ou em tela cheia, sempre sincronizadas
-★ Tradução para 33 idiomas com um clique, ou totalmente automática assim que você ativa as legendas no player do site
+★ Tradução para 35 idiomas com um clique, ou totalmente automática assim que você ativa as legendas no player do site
 ★ NOVO: vídeo sem legenda nenhuma? Um modelo de fala gratuito no seu computador escreve o que é dito e depois isso é traduzido para o seu idioma (beta)
 ★ Legendas compartilhadas: se alguém já melhorou as mesmas legendas com IA, você recebe a versão da pessoa na hora, e compartilhar as suas é escolha sua
 ★ Deixe a tradução natural com IA, de graça no seu próprio computador (Gemma) ou com sua própria chave do Gemini, Claude ou OpenAI
@@ -16,7 +16,7 @@ O Subtitle Overlay exibe legendas sobre o player de vídeo de qualquer site, tam
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUZA PARA 33 IDIOMAS
+TRADUZA PARA 35 IDIOMAS
 • Um clique traduz as legendas carregadas com o Google Tradutor, direto na extensão
 • Opcional: clique em Melhorar e a IA (Gemma no seu computador, ou Gemini, Claude ou OpenAI) reescreve a versão rápida do Google para que soe natural (mais abaixo). Passe o mouse sobre o vídeo para ver quanto já foi feito
 • Escolha seu idioma uma vez; ele fica como favorito em todos os botões Traduzir
@@ -24,7 +24,7 @@ TRADUZA PARA 33 IDIOMAS
 • Se o site tem legendas no seu idioma (YouTube e serviços de streaming), elas vêm primeiro; o Google ou a IA só traduzem quando não há
 • As legendas originais do site ficam ocultas enquanto as nossas estão ligadas e voltam assim que você desliga as nossas
 • Volte ao original quando quiser, ou salve a tradução como arquivo .srt
-• Idiomas: vietnamita, tcheco, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polonês, húngaro, ucraniano, holandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe, persa
+• Idiomas: vietnamita, tcheco, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polonês, húngaro, ucraniano, russo, búlgaro, holandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe, persa
 
 TRADUÇÃO NATURAL COM IA (OPCIONAL)
 O Google Tradutor é rápido, mas traduz linha por linha, palavra por palavra. Clique em Melhorar e um modelo de IA reescreve as legendas levando em conta a cena inteira, começando de onde você está assistindo.
@@ -104,8 +104,8 @@ Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 zer
 No Windows e no Linux: Alt + Enter tela cheia com legendas · Alt + , / Alt + . sincronizar de 1 em 1 s
 Todos os atalhos podem ser alterados ou desativados na aba Comportamento.
 
-INTERFACE EM 33 IDIOMAS
-Inglês, tcheco, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polonês, ucraniano, húngaro, holandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe e persa (da direita para a esquerda). Segue o idioma do navegador, ou escolha um na parte de baixo da janela da extensão.
+INTERFACE EM 35 IDIOMAS
+Inglês, tcheco, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polonês, ucraniano, russo, búlgaro, húngaro, holandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe e persa (da direita para a esquerda). Segue o idioma do navegador, ou escolha um na parte de baixo da janela da extensão.
 
 PARA OS CURIOSOS
 Uma aba "Subtitles" no DevTools lista todos os arquivos de legenda que a página carregou e os salva como .vtt ou .srt.

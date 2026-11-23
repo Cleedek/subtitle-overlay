@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local models: explainer cards</title>
+<!-- The real popup styles, so every variant looks exactly like the extension. -->
+<link rel="stylesheet" href="../popup.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  body { width: auto; padding: 32px 24px 64px; background: oklch(0.13 0.006 290); }
+  :root[data-theme="light"] body { background: oklch(0.92 0.004 290); }
+  .doc { max-width: 1680px; margin: 0 auto; }
+  .doc > h1 { font-size: 22px; margin: 0 0 4px; }
+  .doc > h2 { font-size: 16px; margin: 40px 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 20px; max-width: 90ch; }
+  .switch-theme { float: right; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .col { width: 380px; display: flex; flex-direction: column; gap: 8px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .why { color: var(--muted); font-size: 12px; margin: 0; min-height: 68px; }
+  .popup { background: var(--bg); border-radius: 12px; padding: 14px 16px 16px; box-shadow: 0 0 0 1px var(--line); }
+  .ctx { opacity: .45; pointer-events: none; }
+  .flag { color: var(--star); }
+
+  /* ---------- shared by the proposals ---------- */
+  .fu { margin-top: 10px; }
+  .fu .ls-act { margin-top: 2px; }
+  .fu-rows { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .fu-row { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; }
+  .fu-ic { width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+  .fu-row b { display: block; font-size: 13px; font-weight: 600; line-height: 22px; }
+  .fu-row p { margin: 0; font-size: 11.5px; color: var(--faint); }
+
+  /* 2: a timeline with the real clock. */
+  .tl .ls-step .ls-t { color: var(--text); }
+  .tl .when { float: right; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .tl .ls-step.done .ls-t { color: var(--muted); }
+  .eta { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .eta b { font-size: 15px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .eta b.flag { color: var(--star); }
+
+  /* 3: what you get / what it asks. */
+  .trade { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .trade div { padding: 8px 10px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); }
+  .trade h4 { margin: 0 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
+  .trade ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 3px; font-size: 12px; }
+  .trade .get li::before { content: "✓ "; color: var(--success); font-weight: 700; }
+  .trade .ask li::before { content: "· "; color: var(--faint); font-weight: 700; }
+
+  /* 4: the computer check. */
+  .chk { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+  .chk li { display: grid; grid-template-columns: 18px 1fr auto; gap: 8px; align-items: center; padding: 7px 10px; font-size: 12px; }
+  .chk li + li { border-top: 1px solid var(--line); }
+  .chk .s { width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 800; }
+  .chk .ok .s { background: color-mix(in oklch, var(--success) 22%, transparent); color: var(--success); }
+  .chk .warn .s { background: color-mix(in oklch, var(--star) 25%, transparent); color: var(--star); }
+  .chk .v { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .chk-note { margin: 0; font-size: 11.5px; color: var(--faint); }
+  .chk-note.warn { color: var(--text); padding: 8px 10px; border-radius: 8px; background: color-mix(in oklch, var(--star) 12%, transparent); }
+
+  /* 1: the "why so big" questions. */
+  .faq { border-top: 1px solid var(--line); padding-top: 10px; }
+  .faq summary { cursor: pointer; font-size: 12px; color: var(--link); font-weight: 500; list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq dl { margin: 8px 0 0; display: grid; gap: 8px; }
+  .faq dt { font-size: 12px; font-weight: 600; }
+  .faq dd { margin: 1px 0 0; font-size: 11.5px; color: var(--faint); }
+</style>
+</head>
+<body>
+<div class="doc">
+  <button class="switch-theme" type="button" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'">Světlé / tmavé</button>
+  <h1>Lokální modely: jak vysvětlit, že je to jiné</h1>
+  <p class="lead">Každý sloupec je jeden přístup, použitý na obě místa: nahoře karta při prvním kliknutí na „Make subtitles from the audio“ (verze 1.2.0), dole blok v nastavení Local AI (překlad běžných titulků, jde i do 1.1.x). Čísla jsou skutečná z našich měření; <span class="flag">žlutě</span> jsou ta, která je třeba ještě ověřit na běžném Windows PC.</p>
+
+  <h2>A · První použití „Make subtitles from the audio“</h2>
+  <p class="lead">Karta se ukáže jen poprvé, místo spuštění. Po „Start“ se už neukáže (dá se znovu otevřít z foldu Subtitles from audio).</p>
+  <div class="row">
+
+    <!-- 1 -->
+    <div class="col">
+      <span class="tag">1 · Tři věci předem</span>
+      <p class="why">Nejkratší. Tři řádky, které odpovídají na tři otázky, co lidi napadnou: kolik to stáhne, jak dlouho to trvá a kam to jde. Nic víc. Nejmenší riziko, že to někdo nedočte.</p>
+      <div class="popup">
+        <div class="transcribe ctx"><button class="wide transcribe-btn primary"><svg class="transcribe-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Make subtitles from the audio</span><span class="beta-chip">Beta</span></button></div>
+        <div class="ls fu">
+          <h3>Before the first time</h3>
+          <ul class="fu-rows">
+            <li class="fu-row"><span class="fu-ic"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Downloads once, 560 MB</b><p>A speech model, saved in your browser. Next time it starts right away.</p></div></li>
+            <li class="fu-row"><span class="fu-ic"><svg width="12" height="12" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><div><b>Takes as long as the video</b><p>It plays muted in this tab from start to end. Use other tabs meanwhile.</p></div></li>
+            <li class="fu-row"><span class="fu-ic"><svg width="12" height="12" viewBox="0 0 16 16"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></span><div><b>Free, and it stays here</b><p>The model runs on your computer. The sound is never sent anywhere.</p></div></li>
+          </ul>
+          <div class="ls-act"><button class="primary">Start</button><button class="ghost">Not now</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="col">
+      <span class="tag">2 · Časová osa s hodinami</span>
+      <p class="why">Místo obecných vět ukáže skutečný čas pro toto video: video má 45 minut, takže hotovo kolem 21:40. Lidi nejvíc zajímá „kdy to bude“. Délku videa rozšíření zná, takže odhad je poctivý.</p>
+      <div class="popup">
+        <div class="transcribe ctx"><button class="wide transcribe-btn primary"><svg class="transcribe-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Make subtitles from the audio</span><span class="beta-chip">Beta</span></button></div>
+        <div class="ls fu tl">
+          <h3>Subtitles for this video</h3>
+          <ol class="ls-steps">
+            <li class="ls-step now"><span class="ls-n">1</span><div><div class="ls-t">Download the speech model <span class="when">once</span></div><p class="ls-d">560 MB, saved in your browser.</p></div></li>
+            <li class="ls-step"><span class="ls-n">2</span><div><div class="ls-t">Listen to the video <span class="when">45 min</span></div><p class="ls-d">Plays muted in this tab, start to end. Use other tabs meanwhile.</p></div></li>
+            <li class="ls-step"><span class="ls-n">3</span><div><div class="ls-t">Translate <span class="when">a few min</span></div><p class="ls-d">In the queue, into Czech.</p></div></li>
+          </ol>
+          <div class="eta"><span>Ready around</span><b>21:40</b></div>
+          <div class="ls-act"><button class="primary">Start</button><button class="ghost">Not now</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="col">
+      <span class="tag">3 · Proč na tvém počítači</span>
+      <p class="why">Vysvětluje „proč“, ne jen „co“. Poctivě ukáže výměnu: co dostaneš a co to stojí tebe. Nejvíc buduje důvěru a nejlíp vysvětlí, proč je to zdarma. Je ale nejdelší na čtení.</p>
+      <div class="popup">
+        <div class="transcribe ctx"><button class="wide transcribe-btn primary"><svg class="transcribe-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Make subtitles from the audio</span><span class="beta-chip">Beta</span></button></div>
+        <div class="ls fu">
+          <div><h3>Written down on your computer</h3>
+          <p class="ls-lead">Paid services do this on their servers. Here a free speech model does it right on your computer, so it costs nothing and the sound never leaves it.</p></div>
+          <div class="trade">
+            <div class="get"><h4>You get</h4><ul><li>Free, no limit</li><li>Private</li><li>Any site, any video</li></ul></div>
+            <div class="ask"><h4>It asks for</h4><ul><li>560 MB, once</li><li>As long as the video</li><li>Your graphics chip</li></ul></div>
+          </div>
+          <div class="ls-act"><button class="primary">Start</button><button class="ghost">Not now</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="col">
+      <span class="tag">4 · Kontrola počítače</span>
+      <p class="why">Rozšíření se samo podívá, jestli to počítač zvládne, ještě před stahováním. Nejvíc pomáhá slabším Windows PC: místo zklamání po 500 MB řekne předem, co čekat. Druhá karta ukazuje, co uvidí člověk se slabší grafikou.</p>
+      <div class="popup">
+        <div class="transcribe ctx"><button class="wide transcribe-btn primary"><svg class="transcribe-icon" width="16" height="16" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Make subtitles from the audio</span><span class="beta-chip">Beta</span></button></div>
+        <div class="ls fu">
+          <h3>Your computer is ready</h3>
+          <ul class="chk">
+            <li class="ok"><span class="s">✓</span><span>Graphics chip</span><span class="v">Fast mode</span></li>
+            <li class="ok"><span class="s">✓</span><span>Space for the model</span><span class="v">560 MB of 48 GB</span></li>
+            <li class="ok"><span class="s">✓</span><span>Time for this video</span><span class="v">45 min</span></li>
+          </ul>
+          <p class="chk-note">Runs on your computer, free. Downloads once, then starts right away.</p>
+          <div class="ls-act"><button class="primary">Download and start</button><button class="ghost">Not now</button></div>
+        </div>
+        <div class="ls fu">
+          <h3>It will work, more slowly</h3>
+          <ul class="chk">
+            <li class="warn"><span class="s">!</span><span>Graphics chip</span><span class="v">Basic mode</span></li>
+            <li class="ok"><span class="s">✓</span><span>Space for the model</span><span class="v">760 MB of 48 GB</span></li>
+          </ul>
+          <p class="chk-note warn">This graphics chip can’t use the fast mode, so a lighter version runs. Subtitles may come out a little less accurate.</p>
+          <div class="ls-act"><button class="primary">Download and start</button><button class="ghost">Not now</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>B · Local AI pro překlad (stejné přístupy)</h2>
+  <p class="lead">Dnešní blok už má čipy „About 8 GB download“ a „Needs at least 16 GB of RAM“, ale neříká proč a jak rychle. Hodnocení 4/10 a 8/10 zůstává beze změny (je jen v rozšíření, ne v obchodě).</p>
+  <div class="row">
+
+    <!-- 1 -->
+    <div class="col">
+      <span class="tag">1 · Čipy + „Why 8 GB?“</span>
+      <p class="why">Dnešní čipy zůstanou, pod nimi rozbalovací otázky pro zvědavé. Kdo nechce, nečte. Nejmenší zásah do hotového návrhu.</p>
+      <div class="popup"><div class="ls">
+        <div class="ls-head"><h3>Subtitles that sound like people talk</h3><p class="ls-lead">Google translates each line on its own. The AI reads the whole scene, so jokes, names and who is talking come out right.</p></div>
+        <div class="ls-facts"><span class="ls-fact free">Free, no account</span><span class="ls-fact">Stays on your computer</span><span class="ls-fact">About 8 GB download</span><span class="ls-fact">Needs at least 16 GB of RAM</span></div>
+        <details class="faq" open><summary>Why so big, and how fast?</summary>
+          <dl>
+            <dt>Why 8 GB?</dt><dd>The model is everything it learned about language: 12 billion numbers. That’s what lets it understand a whole scene.</dd>
+            <dt>How fast?</dt><dd>A 45-minute episode takes about <span class="flag">15 minutes</span> on a recent computer. Older ones take longer.</dd>
+            <dt>What does it need?</dt><dd>16 GB of memory. A good graphics chip makes it much faster.</dd>
+          </dl>
+        </details>
+      </div></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="col">
+      <span class="tag">2 · Časová osa</span>
+      <p class="why">Rozdělí čas na dvě části: jednou nastavit (stáhnout), pak každý díl. Ukazuje, že velké stahování je jen jednou.</p>
+      <div class="popup"><div class="ls tl">
+        <div class="ls-head"><h3>Subtitles that sound like people talk</h3><p class="ls-lead">The AI reads the whole scene, so jokes, names and who is talking come out right.</p></div>
+        <div class="eta"><span>Set up once</span><b>8 GB</b></div>
+        <div class="eta"><span>Then each 45-min episode</span><b class="flag">~15 min</b></div>
+        <p class="ls-d">Free, on your computer. Needs 16 GB of memory; a good graphics chip makes it faster.</p>
+      </div></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="col">
+      <span class="tag">3 · Co dostaneš / co to chce</span>
+      <p class="why">Stejná výměna jako u přepisu. Když se použije na obou místech, lidi pochopí jednu myšlenku jednou: „běží to u mě, proto zdarma a soukromě, a proto to chce místo a výkon“.</p>
+      <div class="popup"><div class="ls">
+        <div class="ls-head"><h3>Subtitles that sound like people talk</h3><p class="ls-lead">The AI reads the whole scene, so jokes, names and who is talking come out right.</p></div>
+        <div class="trade">
+          <div class="get"><h4>You get</h4><ul><li>Better translation</li><li>Free, no limit</li><li>Private</li></ul></div>
+          <div class="ask"><h4>It asks for</h4><ul><li>8 GB, once</li><li>16 GB memory</li><li><span class="flag">~15 min</span> per episode</li></ul></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="col">
+      <span class="tag">4 · Kontrola počítače</span>
+      <p class="why">Zkontroluje počítač předem. Pozor: Chrome prozradí paměť jen do 8 GB, takže 16 GB ověřit nejde. Řádek s pamětí proto nemůže dostat zelenou fajfku, jen „aspoň 8 GB“. Grafiku ověřit jde.</p>
+      <div class="popup"><div class="ls">
+        <div class="ls-head"><h3>Can this computer run it?</h3></div>
+        <ul class="chk">
+          <li class="ok"><span class="s">✓</span><span>Graphics chip</span><span class="v">Good</span></li>
+          <li class="warn"><span class="s">?</span><span>Memory</span><span class="v">8 GB or more</span></li>
+        </ul>
+        <p class="chk-note">It needs 16 GB of memory, and the browser can’t tell beyond 8 GB. Check under Settings › System › About on Windows, or  › About This Mac.</p>
+      </div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

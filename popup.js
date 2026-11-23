@@ -1054,7 +1054,8 @@
 
   // Under the translation from the 10th translated video on (background.js counts
   // them, each page once). Not now asks again 25 videos later and a second Not now
-  // ends it; rating or sharing ends it too.
+  // ends it; rating or sharing ends it too, and so does the card over the video
+  // (content.js, the same rateAsk).
   const STORE_URL = 'https://chromewebstore.google.com/detail/subtitle-overlay/kfiihdconjdcclppmdhopeejkbmkkalo';
   const RATE_FIRST = 10, RATE_AGAIN = 25;
   let { stats, rateAsk = {} } = await chrome.storage.local.get(['stats', 'rateAsk']);
@@ -1073,8 +1074,11 @@
   }
   // The 10th video translated while the popup is open.
   chrome.storage.onChanged.addListener((changes, area) => {
-    if (area !== 'local' || !changes.stats) return;
-    stats = changes.stats.newValue;
+    if (area !== 'local') return;
+    // The card over the video (content.js) keeps its pages here and ends this one too.
+    if (changes.rateAsk) rateAsk = changes.rateAsk.newValue || {};
+    if (!changes.stats && !changes.rateAsk) return;
+    if (changes.stats) stats = changes.stats.newValue;
     const lf = loadedFrame();
     renderRate(lf && lf.report.loaded);
   });

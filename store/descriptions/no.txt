@@ -4,7 +4,7 @@ Subtitle Overlay viser undertekster over videospilleren på alle nettsteder, ogs
 
 ★ HØYDEPUNKTENE
 ★ Alle nettsteder, alle videoer: undertekster over spilleren, i vindu eller fullskjerm, alltid synkronisert
-★ Oversett til 33 språk med ett klikk, eller helt automatisk så snart du slår på undertekster i nettstedets spiller
+★ Oversett til 35 språk med ett klikk, eller helt automatisk så snart du slår på undertekster i nettstedets spiller
 ★ NYTT: ingen undertekster i det hele tatt? En gratis talemodell på datamaskinen din skriver ned det som blir sagt, og så oversettes det til språket ditt (beta)
 ★ Delte undertekster: har noen allerede forbedret de samme undertekstene med AI, får du versjonen deres med en gang, og om du deler dine egne, bestemmer du selv
 ★ Få oversettelsen til å låte naturlig med AI, gratis på din egen datamaskin (Gemma) eller med din egen Gemini-, Claude- eller OpenAI-nøkkel
@@ -16,7 +16,7 @@ Subtitle Overlay viser undertekster over videospilleren på alle nettsteder, ogs
 
 ━━━━━━━━━━━━━━━━━━━━
 
-OVERSETT TIL 33 SPRÅK
+OVERSETT TIL 35 SPRÅK
 • Ett klikk oversetter de innlastede undertekstene med Google Oversetter, rett i utvidelsen
 • Valgfritt: klikk på Forbedre, så skriver AI (Gemma på datamaskinen din, eller Gemini, Claude eller OpenAI) om Googles raske versjon slik at den låter naturlig (mer nedenfor). Hold musen over videoen for å se hvor langt den har kommet
 • Velg språket ditt én gang; det forblir favoritten din for alle Oversett-knappene
@@ -24,7 +24,7 @@ OVERSETT TIL 33 SPRÅK
 • Har nettstedet undertekster på ditt språk (YouTube og strømmetjenester), kommer de først; Google eller AI oversetter bare når det ikke finnes noen
 • Nettstedets egne undertekster skjules mens våre er på, og kommer tilbake så snart du slår av våre
 • Bytt tilbake til originalen når som helst, eller lagre oversettelsen som en .srt-fil
-• Språk: vietnamesisk, tsjekkisk, engelsk, slovakisk, tysk, fransk, spansk, italiensk, portugisisk, polsk, ungarsk, ukrainsk, nederlandsk, svensk, dansk, norsk, finsk, gresk, tyrkisk, rumensk, kroatisk, kinesisk (forenklet og tradisjonell), japansk, koreansk, thai, indonesisk, malayisk, filipino, hindi, bengali, arabisk, persisk
+• Språk: vietnamesisk, tsjekkisk, engelsk, slovakisk, tysk, fransk, spansk, italiensk, portugisisk, polsk, ungarsk, ukrainsk, russisk, bulgarsk, nederlandsk, svensk, dansk, norsk, finsk, gresk, tyrkisk, rumensk, kroatisk, kinesisk (forenklet og tradisjonell), japansk, koreansk, thai, indonesisk, malayisk, filipino, hindi, bengali, arabisk, persisk
 
 FÅ DET TIL Å LÅTE NATURLIG (VALGFRITT)
 Google Oversetter er rask, men den går linje for linje, ord for ord. Klikk på Forbedre, så skriver en AI-modell om undertekstene med hele scenen i tankene, fra der du ser akkurat nå.
@@ -104,8 +104,8 @@ Alt + [ / ] synkroniser · Alt + Shift + [ / ] synkroniser med 1 s · Alt + 0 ti
 På Windows og Linux: Alt + Enter fullskjerm med undertekster · Alt + , / Alt + . synkronisering med 1 s
 Alle hurtigtaster kan endres eller slås av i Atferd-fanen.
 
-GRENSESNITT PÅ 33 SPRÅK
-Engelsk, tsjekkisk, slovakisk, tysk, fransk, spansk, vietnamesisk, forenklet kinesisk, tradisjonell kinesisk, italiensk, portugisisk, polsk, ukrainsk, ungarsk, nederlandsk, svensk, dansk, norsk, finsk, gresk, tyrkisk, rumensk, kroatisk, japansk, koreansk, thai, indonesisk, malayisk, filipino, hindi, bengali, arabisk og persisk (høyre til venstre). Det følger nettleseren din, eller du kan velge nederst i utvidelsens vindu.
+GRENSESNITT PÅ 35 SPRÅK
+Engelsk, tsjekkisk, slovakisk, tysk, fransk, spansk, vietnamesisk, forenklet kinesisk, tradisjonell kinesisk, italiensk, portugisisk, polsk, ukrainsk, russisk, bulgarsk, ungarsk, nederlandsk, svensk, dansk, norsk, finsk, gresk, tyrkisk, rumensk, kroatisk, japansk, koreansk, thai, indonesisk, malayisk, filipino, hindi, bengali, arabisk og persisk (høyre til venstre). Det følger nettleseren din, eller du kan velge nederst i utvidelsens vindu.
 
 FOR DEM SOM LIKER Å SKRU
 En "Subtitles"-fane i DevTools viser alle undertekstfilene siden har lastet inn, og lagrer dem som .vtt eller .srt.

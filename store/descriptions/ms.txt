@@ -4,7 +4,7 @@ Subtitle Overlay memaparkan sari kata di atas pemain video mana-mana laman web, 
 
 ★ SOROTAN UTAMA
 ★ Mana-mana laman, mana-mana video: sari kata di atas pemain, dalam tetingkap atau skrin penuh, sentiasa selari
-★ Terjemah ke 33 bahasa dengan satu klik, atau sepenuhnya automatik sebaik sahaja anda hidupkan sari kata dalam pemain laman itu
+★ Terjemah ke 35 bahasa dengan satu klik, atau sepenuhnya automatik sebaik sahaja anda hidupkan sari kata dalam pemain laman itu
 ★ BAHARU: tiada sari kata langsung? Model pertuturan percuma pada komputer anda menulis apa yang diucapkan, kemudian ia diterjemah ke bahasa anda (beta)
 ★ Sari kata yang dikongsi: jika seseorang sudah menambah baik sari kata yang sama dengan AI, anda terus dapat versinya, dan anda sendiri yang memutuskan sama ada mahu berkongsi sari kata anda
 ★ Jadikan terjemahan lebih semula jadi dengan AI, percuma di komputer anda sendiri (Gemma) atau dengan kunci Gemini, Claude atau OpenAI anda sendiri
@@ -16,7 +16,7 @@ Subtitle Overlay memaparkan sari kata di atas pemain video mana-mana laman web, 
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TERJEMAH KE 33 BAHASA
+TERJEMAH KE 35 BAHASA
 • Satu klik menterjemah sari kata yang dimuatkan dengan Google Terjemah, terus dalam sambungan
 • Pilihan: klik Tambah baik dan AI (Gemma di komputer anda, atau Gemini, Claude atau OpenAI) menulis semula versi pantas Google supaya kedengaran semula jadi (lebih lanjut di bawah). Gerakkan tetikus ke atas video untuk melihat kemajuannya
 • Pilih bahasa anda sekali sahaja; ia kekal sebagai pilihan utama untuk setiap butang Terjemah
@@ -24,7 +24,7 @@ TERJEMAH KE 33 BAHASA
 • Jika laman itu ada sari kata dalam bahasa anda (YouTube dan perkhidmatan penstriman), sari kata itu didahulukan; Google atau AI hanya menterjemah jika tiada
 • Sari kata asal laman itu disembunyikan selagi sari kata kami dihidupkan, dan kembali sebaik sahaja anda mematikan sari kata kami
 • Kembali kepada versi asal bila-bila masa, atau simpan terjemahan sebagai fail .srt
-• Bahasa: Vietnam, Czech, Inggeris, Slovak, Jerman, Perancis, Sepanyol, Itali, Portugis, Poland, Hungary, Ukraine, Belanda, Sweden, Denmark, Norway, Finland, Greek, Turki, Romania, Croatia, Cina (Ringkas dan Tradisional), Jepun, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Benggali, Arab, Parsi
+• Bahasa: Vietnam, Czech, Inggeris, Slovak, Jerman, Perancis, Sepanyol, Itali, Portugis, Poland, Hungary, Ukraine, Rusia, Bulgaria, Belanda, Sweden, Denmark, Norway, Finland, Greek, Turki, Romania, Croatia, Cina (Ringkas dan Tradisional), Jepun, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Benggali, Arab, Parsi
 
 JADIKAN IA SEMULA JADI (PILIHAN)
 Google Terjemah memang pantas, tetapi ia menterjemah baris demi baris, perkataan demi perkataan. Klik Tambah baik dan model AI menulis semula sari kata dengan mengambil kira keseluruhan babak, bermula dari tempat anda sedang menonton.
@@ -104,8 +104,8 @@ Alt + [ / ] selaraskan · Alt + Shift + [ / ] selaraskan 1 s · Alt + 0 set semu
 Pada Windows dan Linux: Alt + Enter skrin penuh dengan sari kata · Alt + , / Alt + . segerak 1 s
 Setiap pintasan boleh ditukar atau dimatikan dalam tab Tingkah laku.
 
-ANTARA MUKA DALAM 33 BAHASA
-Inggeris, Czech, Slovak, Jerman, Perancis, Sepanyol, Vietnam, Cina Ringkas, Cina Tradisional, Itali, Portugis, Poland, Ukraine, Hungary, Belanda, Sweden, Denmark, Norway, Finland, Greek, Turki, Romania, Croatia, Jepun, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Benggali, Arab dan Parsi (kanan ke kiri). Ia mengikut pelayar anda, atau pilih satu di bahagian bawah tetingkap sambungan.
+ANTARA MUKA DALAM 35 BAHASA
+Inggeris, Czech, Slovak, Jerman, Perancis, Sepanyol, Vietnam, Cina Ringkas, Cina Tradisional, Itali, Portugis, Poland, Ukraine, Rusia, Bulgaria, Hungary, Belanda, Sweden, Denmark, Norway, Finland, Greek, Turki, Romania, Croatia, Jepun, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Benggali, Arab dan Parsi (kanan ke kiri). Ia mengikut pelayar anda, atau pilih satu di bahagian bawah tetingkap sambungan.
 
 UNTUK YANG SUKA MENGODEK
 Tab "Subtitles" dalam DevTools menyenaraikan setiap fail sari kata yang dimuatkan halaman dan menyimpannya sebagai .vtt atau .srt.

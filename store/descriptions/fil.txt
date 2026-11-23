@@ -4,7 +4,7 @@ Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit
 
 ★ ANG MGA TAMPOK
 ★ Kahit anong site, kahit anong video: subtitles sa ibabaw ng player, sa window man o fullscreen, laging naka-sync
-★ Isalin sa 33 wika sa isang click, o kusang-kusa agad pagka-on mo ng subtitles sa player ng site
+★ Isalin sa 35 wika sa isang click, o kusang-kusa agad pagka-on mo ng subtitles sa player ng site
 ★ BAGO: walang subtitle kahit isa? Isinusulat ng libreng speech model sa computer mo ang sinasabi, saka ito isinasalin sa wika mo (beta)
 ★ Ibinahaging subtitles: kung may nakapagpahusay na ng parehong subtitles gamit ang AI, makukuha mo agad ang bersyon niya, at ikaw ang magpapasya kung ibabahagi mo ang sa iyo
 ★ Gawing natural ang salin gamit ang AI, libre sa sarili mong computer (Gemma) o gamit ang sarili mong Gemini, Claude o OpenAI key
@@ -16,7 +16,7 @@ Ipinapakita ng Subtitle Overlay ang subtitles sa ibabaw ng video player ng kahit
 
 ━━━━━━━━━━━━━━━━━━━━
 
-ISALIN SA 33 WIKA
+ISALIN SA 35 WIKA
 • Isang click lang, isinasalin na ang na-load na subtitles gamit ang Google Translate, mismo sa extension
 • Opsyonal: i-click ang Pahusayin at isusulat muli ng AI (Gemma sa computer mo, o Gemini, Claude o OpenAI) ang mabilis na bersyon ng Google para maging natural ito (higit pa sa ibaba). Itapat ang mouse sa video para makita kung gaano na kalayo ang natapos
 • Piliin ang wika mo nang isang beses; mananatili itong paborito mo para sa bawat Isalin na button
@@ -24,7 +24,7 @@ ISALIN SA 33 WIKA
 • Kung may subtitles ang site sa wika mo (YouTube at mga streaming service), iyon ang mauuna; magsasalin lang ang Google o AI kapag wala
 • Nakatago ang sariling subtitles ng site habang naka-on ang sa amin, at babalik agad kapag pinatay mo ang sa amin
 • Bumalik sa orihinal kahit kailan, o i-save ang salin bilang .srt file
-• Mga wika: Vietnamese, Czech, Ingles, Slovak, Aleman, Pranses, Espanyol, Italyano, Portuges, Polish, Hungarian, Ukrainian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Tsino (Pinasimple at Tradisyonal), Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabe, Persian
+• Mga wika: Vietnamese, Czech, Ingles, Slovak, Aleman, Pranses, Espanyol, Italyano, Portuges, Polish, Hungarian, Ukrainian, Russian, Bulgarian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Tsino (Pinasimple at Tradisyonal), Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabe, Persian
 
 GAWING NATURAL ANG SALIN (OPSYONAL)
 Mabilis ang Google Translate, pero linya kada linya at salita kada salita ito kung magsalin. I-click ang Pahusayin at isusulat muli ng isang AI model ang subtitles nang isinasaalang-alang ang buong eksena, simula sa bahaging pinapanood mo.
@@ -104,8 +104,8 @@ Alt + [ / ] sync · Alt + Shift + [ / ] sync nang tig-1 s · Alt + 0 i-reset ang
 Sa Windows at Linux: Alt + Enter full screen na may subtitle · Alt + , / Alt + . sync nang 1 s
 Puwedeng baguhin o i-off ang bawat shortcut sa tab na Gawi.
 
-INTERFACE SA 33 WIKA
-Ingles, Czech, Slovak, Aleman, Pranses, Espanyol, Vietnamese, Pinasimpleng Tsino, Tradisyonal na Tsino, Italyano, Portuges, Polish, Ukrainian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabe at Persian (mula kanan pakaliwa). Sinusunod nito ang browser mo, o pumili ng wika sa ibaba ng popup.
+INTERFACE SA 35 WIKA
+Ingles, Czech, Slovak, Aleman, Pranses, Espanyol, Vietnamese, Pinasimpleng Tsino, Tradisyonal na Tsino, Italyano, Portuges, Polish, Ukrainian, Russian, Bulgarian, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabe at Persian (mula kanan pakaliwa). Sinusunod nito ang browser mo, o pumili ng wika sa ibaba ng popup.
 
 PARA SA MGA MAHILIG MAGKALIKOT
 Isang tab na "Subtitles" sa DevTools ang naglilista ng bawat subtitle file na na-load ng page at sine-save ito bilang .vtt o .srt.

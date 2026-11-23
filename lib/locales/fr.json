@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "La progression de la **File de traduction** s’affiche maintenant dans la carte au-dessus de la vidéo, et le fichier terminé remplace tout seul les lignes de Google",
   "Can’t reach Google Translate. Check your internet connection.": "Impossible de joindre Google Traduction. Vérifiez votre connexion internet.",
   "The interface and translation now come in **Persian** and **Bengali**": "L’interface et la traduction existent maintenant aussi en **persan** et en **bengali**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "L’interface et la traduction existent maintenant aussi en **russe** et en **bulgare**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Vous pouvez maintenant charger aussi des sous-titres **.ass** et **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Améliorer** n’ajoute plus la prononciation en lettres latines après les lignes en persan",
   "Sharing subtitles": "Partage des sous-titres",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Un problème est survenu.",
   "Deleted, {size} free.": "Supprimé, {size} libérés.",
   "Can’t delete it while it’s downloading.": "Impossible de le supprimer pendant le téléchargement.",
-  "Can’t delete it while it’s making subtitles.": "Impossible de le supprimer pendant la création des sous-titres."
+  "Can’t delete it while it’s making subtitles.": "Impossible de le supprimer pendant la création des sous-titres.",
+  "Hi, Filip here": "Salut, c’est Filip",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Je fais Subtitle Overlay seul. Un petit avis aide d’autres personnes à le trouver.",
+  "Something not working? Tell me": "Quelque chose ne marche pas ? Écris-moi",
+  "Thanks, it really helps ♥": "Merci, ça aide vraiment ♥"
 }

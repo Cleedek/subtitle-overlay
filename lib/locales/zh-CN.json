@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**翻译队列** 的进度现在也会显示在视频上方的卡片里，完成的文件会自动替换 Google 的字幕行",
   "Can’t reach Google Translate. Check your internet connection.": "无法连接 Google 翻译。检查你的网络连接。",
   "The interface and translation now come in **Persian** and **Bengali**": "界面和翻译现已支持**波斯语**和**孟加拉语**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "界面和翻译现已支持**俄语**和**保加利亚语**",
   "You can now also load **.ass** and **.ssa** subtitle files": "现在也可以加载 **.ass** 和 **.ssa** 字幕文件",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**改进** 不再在波斯语字幕后附加拉丁字母注音",
   "Sharing subtitles": "字幕共享",
@@ -736,5 +737,9 @@
   "Something went wrong.": "出了点问题。",
   "Deleted, {size} free.": "已删除，释放了 {size}。",
   "Can’t delete it while it’s downloading.": "下载过程中无法删除。",
-  "Can’t delete it while it’s making subtitles.": "生成字幕过程中无法删除。"
+  "Can’t delete it while it’s making subtitles.": "生成字幕过程中无法删除。",
+  "Hi, Filip here": "你好，我是 Filip",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Subtitle Overlay 由我一个人制作。一条简短的评价能帮更多人找到它。",
+  "Something not working? Tell me": "遇到问题了？告诉我",
+  "Thanks, it really helps ♥": "谢谢，这真的很有帮助 ♥"
 }

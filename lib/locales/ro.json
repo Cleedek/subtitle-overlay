@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Coadă de traducere** arată acum progresul și în cardul de deasupra videoului, iar fișierul gata înlocuiește singur rândurile de la Google",
   "Can’t reach Google Translate. Check your internet connection.": "Google Traducere nu poate fi accesat. Verifică conexiunea la internet.",
   "The interface and translation now come in **Persian** and **Bengali**": "Interfața și traducerea sunt acum și în **persană** și **bengaleză**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Interfața și traducerea sunt acum și în **rusă** și **bulgară**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Acum poți încărca și subtitrări **.ass** și **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Îmbunătățește** nu mai adaugă pronunția cu litere latine după rândurile în persană",
   "Sharing subtitles": "Partajarea subtitrărilor",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Ceva n-a mers.",
   "Deleted, {size} free.": "Șters, {size} eliberați.",
   "Can’t delete it while it’s downloading.": "Nu se poate șterge în timpul descărcării.",
-  "Can’t delete it while it’s making subtitles.": "Nu se poate șterge cât timp se creează subtitrări."
+  "Can’t delete it while it’s making subtitles.": "Nu se poate șterge cât timp se creează subtitrări.",
+  "Hi, Filip here": "Salut, sunt Filip",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Fac Subtitle Overlay singur. O recenzie scurtă îi ajută pe alții să-l găsească.",
+  "Something not working? Tell me": "Ceva nu merge? Scrie-mi",
+  "Thanks, it really helps ♥": "Mulțumesc, chiar ajută ♥"
 }

@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "**Översättningskö** visar nu förloppet i kortet över videon, och den färdiga filen ersätter Googles rader av sig själv",
   "Can’t reach Google Translate. Check your internet connection.": "Når inte Google Översätt. Kontrollera internetanslutningen.",
   "The interface and translation now come in **Persian** and **Bengali**": "Gränssnittet och översättningen finns nu även på **persiska** och **bengali**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Gränssnittet och översättningen finns nu även på **ryska** och **bulgariska**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Nu kan du också läsa in undertextfiler i **.ass** och **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Förbättra** lägger inte längre till uttal med latinska bokstäver efter persiska rader",
   "Sharing subtitles": "Delning av undertexter",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Något gick fel.",
   "Deleted, {size} free.": "Raderad, {size} frigjort.",
   "Can’t delete it while it’s downloading.": "Den kan inte raderas medan den laddas ner.",
-  "Can’t delete it while it’s making subtitles.": "Den kan inte raderas medan undertexter görs."
+  "Can’t delete it while it’s making subtitles.": "Den kan inte raderas medan undertexter görs.",
+  "Hi, Filip here": "Hej, det är Filip",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Jag gör Subtitle Overlay ensam. En kort recension hjälper andra att hitta det.",
+  "Something not working? Tell me": "Fungerar något inte? Skriv till mig",
+  "Thanks, it really helps ♥": "Tack, det hjälper verkligen ♥"
 }

@@ -71,10 +71,22 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 
+/* On Windows (and Linux, or a Mac set to always show scroll bars) the scroll bar
+   takes room from the 380 px. Measured with a 17 px bar: the page got 17 px too
+   wide, lost its right margin and grew a sideways scroll bar. A thin bar leaves
+   the right margin in place, nothing scrolls sideways, and the bar takes the
+   popup's colours instead of a light grey one in the dark look. Macs with
+   overlay scroll bars look the same as before. */
+html {
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
 body {
   width: 380px; margin: 0; padding: 16px 16px 20px;
   background: var(--bg); color: var(--text);
-  font: 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  font: 13px/1.4 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -344,7 +356,7 @@ button.wide { width: 100%; padding: 8px 10px; }
 .combo i { font-style: normal; font-size: 10.5px; color: var(--muted); padding: 0 1px; }
 kbd {
   display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px;
-  font: 600 11.5px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text);
+  font: 600 11.5px/1 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text);
   border-radius: 6px; background: var(--key-face); box-shadow: var(--key-edge);
   margin-bottom: 2px;
 }

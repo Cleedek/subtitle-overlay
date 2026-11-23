@@ -48,6 +48,7 @@
   let ownFullscreen = null; // { container, videoStyle } while our own fullscreen is on
   let off = false;        // turned off on this site from the popup: offer, show and restore nothing
   let askEl = null;       // the one-time support card under the language switches
+  let rateEl = null;      // the one-time "write a review" card near the end of a video
   let shareEl = null;     // the one-time "share it with others?" card, in the same place
 
   // The site is the tab's address, also inside a player frame from another domain.
@@ -282,12 +283,13 @@
       contain: 'layout style',
     })) hs.setProperty(k, v, 'important');
     shadow = host.attachShadow({ mode: 'closed' });
+    SubFlags.addFlagFont(); // Windows: flags instead of the letters "CZ"
     const style = document.createElement('style');
     style.textContent = SubRender.CSS + `
       :host { all: initial; }
       :host([data-rtl]) :is(.toast, .hint, .fs, .drop, .found, .langs, .ask) { direction: rtl; }
       :host([data-rtl]) .langs button[aria-checked=true] .sw::after { transform: translateX(-12px); }
-      .toast, .hint, .fs, .drop { font: 600 14px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; }
+      .toast, .hint, .fs, .drop { font: 600 14px/1.3 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; }
       .toast {
         position: absolute; top: max(10%, 52px); left: 50%; transform: translateX(-50%);
         background: rgba(20,20,20,.85); padding: 6px 12px; border-radius: 999px;
@@ -310,7 +312,7 @@
         position: absolute; top: 12px; left: 12px; max-width: min(360px, calc(100% - 24px));
         display: none; align-items: center; gap: 10px; pointer-events: auto;
         background: rgba(20,20,20,.92); padding: 8px 6px 8px 12px; border-radius: 10px;
-        font: 500 13px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
+        font: 500 13px/1.35 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
       }
       .site-note.on { display: flex; }
       /* A clean circle in the accent purple with a white outline copy icon (no ring around it). */
@@ -331,13 +333,13 @@
       }
       .fs.on { display: block; }
       .fs button {
-        display: flex; align-items: center; gap: 8px; font: 600 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
+        display: flex; align-items: center; gap: 8px; font: 600 13px/1.3 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif;
         color: #fff; background: transparent; border: 0; border-radius: 8px; padding: 6px 8px 6px 10px; cursor: pointer;
       }
       .fs button:hover { background: rgba(255,255,255,.12); }
       .fs svg { flex: none; width: 14px; height: 14px; }
       .fs kbd {
-        font: 600 11px/1 system-ui, -apple-system, "Segoe UI", sans-serif; color: rgba(255,255,255,.7);
+        font: 600 11px/1 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: rgba(255,255,255,.7);
         background: rgba(255,255,255,.12); border-radius: 5px; padding: 3px 6px;
       }
       .hint.on ~ .fs { display: none; } /* the "New video" hint uses the same spot */
@@ -351,7 +353,7 @@
         position: absolute; top: 12px; right: 12px; display: none; flex-direction: column; gap: 6px;
         pointer-events: auto; max-width: min(420px, calc(100% - 24px));
         background: rgba(20,20,20,.92); padding-block: 10px; padding-inline: 12px 10px; border-radius: 12px;
-        font: 600 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
+        font: 600 13px/1.3 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
       }
       .found.on { display: flex; }
       .found-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -372,7 +374,7 @@
       .langs {
         position: absolute; top: 12px; right: 12px; display: none; flex-direction: column; gap: 2px;
         pointer-events: auto; background: rgba(20,20,20,.92); padding: 4px; border-radius: 12px;
-        font: 600 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
+        font: 600 13px/1.3 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
       }
       .langs.on { display: flex; }
       .found.on ~ .langs { display: none; } /* the found card uses the same corner */
@@ -428,7 +430,7 @@
       .ask {
         position: absolute; top: 12px; right: 12px; display: none; flex-direction: column; gap: 10px; width: 300px;
         pointer-events: auto; background: rgba(20,20,20,.92); padding: 14px 12px 10px; border-radius: 12px;
-        font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
+        font: 500 13px/1.3 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff; box-shadow: 0 12px 32px -8px rgba(0,0,0,.6);
       }
       .langs.on ~ .ask.on { display: flex; animation: ask-in .4s cubic-bezier(.25, 1, .5, 1) both; }
       .found.on ~ .ask { display: none !important; }
@@ -475,6 +477,21 @@
       .ask .gh { display: inline-flex; align-items: center; justify-content: center; gap: 6px; align-self: center; padding: 2px 8px; color: rgba(255,255,255,.65); font-size: 11.5px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
       .ask .gh:hover { color: #fff; text-decoration-color: currentColor; }
       .ask .once { margin: -2px 0 0; text-align: center; font-size: 10.5px; color: rgba(255,255,255,.5); }
+      /* The one-time "write a review" card near the end of a video: on its own, no hover needed. */
+      .ask.rate { padding: 12px; transition: top .2s cubic-bezier(.25, 1, .5, 1); }
+      .ask.rate.on { display: flex; animation: ask-in .4s cubic-bezier(.25, 1, .5, 1) both; }
+      @media (prefers-reduced-motion: reduce) { .ask.rate.on { animation: none; } .ask.rate { transition: none; } }
+      .ask.rate .who { padding-inline-end: 24px; }
+      .ask.rate .who div { gap: 2px; }
+      .ask.rate .who strong { font-weight: 700; }
+      .ask.rate .who span { font-size: 12px; color: rgba(255,255,255,.72); line-height: 1.45; }
+      .ask.rate .count { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border-radius: 9px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); font-size: 12px; color: rgba(255,255,255,.8); }
+      .ask.rate .count svg { color: #f5c542; }
+      .ask.rate .count b { color: #fff; font-weight: 700; }
+      .ask.rate .quiet { align-self: center; padding: 2px 4px; border: 0; border-radius: 5px; background: none; color: rgba(255,255,255,.7); font-size: 12px; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); text-underline-offset: 3px; }
+      .ask.rate .quiet:hover { color: #fff; text-decoration-color: currentColor; }
+      .ask.rate.thanks { padding-block: 10px; padding-inline: 10px 36px; }
+      .ask.rate.thanks .timer { animation-duration: 6s; }
       .ask .compact { display: none; }
       /* A smaller video (under 500 px tall): the photo, one sentence, the button and small links. */
       .ask.compact { width: 280px; padding: 10px; gap: 8px; }
@@ -556,10 +573,12 @@
     askEl.setAttribute('role', 'dialog');
     shareEl = el('div', 'ask share'); // filled each time it shows (fillShareAsk)
     shareEl.setAttribute('role', 'dialog');
-    for (const node of [langsEl, askEl, shareEl]) {
+    rateEl = el('div', 'ask rate'); // filled when it shows (fillRate)
+    rateEl.setAttribute('role', 'dialog');
+    for (const node of [langsEl, askEl, shareEl, rateEl]) {
       for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) node.addEventListener(type, (e) => e.stopPropagation());
     }
-    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl, shareEl);
+    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl, shareEl, rateEl);
     placeHost();
     useFont();
   }
@@ -924,7 +943,7 @@
   function checkCovered() {
     if (!host || !video || !host.isConnected) return;
     coverAt = performance.now();
-    for (const el of [subsEl, dualEl, langsEl, askEl, shareEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl, helpEl]) {
+    for (const el of [subsEl, dualEl, langsEl, askEl, shareEl, rateEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl, helpEl]) {
       // The notice only fades out and keeps its size: testing it while gone costs as much as shown.
       if (!el || (el === toastEl && !el.classList.contains('on'))) continue;
       el.classList.toggle('covered', !document.fullscreenElement && covered(el));
@@ -943,6 +962,7 @@
     position(false);
     render(false);
     checkCoveredSoon();
+    rateSoon();
     if (video && cues.length && !video.paused && !video.ended) raf = requestAnimationFrame(tick);
   }
 
@@ -2652,7 +2672,7 @@
   // Each comes as 'full' (the other one never ended), 'short' (it ended without
   // a tip: only the tip part) or 'thanks' (it ended in a tip: a thank-you that
   // goes away by itself, with a quiet link to tip again).
-  const ASK_KEYS = ['stats', 'installedAt', 'supportAsk', 'supportAskAudio'];
+  const ASK_KEYS = ['stats', 'installedAt', 'supportAsk', 'supportAskAudio', 'rateAsk'];
   let askData = null; // those keys from storage
   let askNow = null;  // { key, look } the card is filled for
   let askHold = false; // a thank-you on screen: the language switches stay until its bar runs out
@@ -2838,6 +2858,133 @@
     askEl.append(close, hello, intro, tile, minor, gh, el('p', 'once', t('You’ll only see this once.')), compact);
   }
 
+  // ---------- the one-time "write a review" card ----------
+
+  // Near the end of a translated video (SubSettings.RATE_ASK), on its own in the
+  // top right, under the language switches while they show. Stored as rateAsk,
+  // shared with the popup's rating card: whichever ends first ends both. Any
+  // click on it (the cross too) ends it for good; left alone it comes back at
+  // the end of a later video, 3 videos at most.
+  let rateWatch = { page: '', ms: 0, at: 0 }; // this video's page and how long it played translated
+  let rateTrouble = '';  // the page "Report a problem" was opened on
+  let rateShown = '';    // the page the card is on
+  let rateCheckAt = 0;
+  function rateSoon() {
+    const now = performance.now();
+    if (now - rateCheckAt < 1000) return;
+    const gap = now - rateCheckAt;
+    rateCheckAt = now;
+    if (!video || !rateEl || !askData) return;
+    const page = SubSettings.fingerprint(String(pageOfSubs()));
+    if (rateWatch.page !== page) rateWatch = { page, ms: 0 };
+    // Played with the translation on screen (a gap over 2 s: the tab slept or the video was paused).
+    if (original && visible && cues.length && !video.paused && gap < 2000) rateWatch.ms += gap * (video.playbackRate || 1);
+    if (rateShown === page) {
+      // Ended in another frame or tab: gone here too (a thank-you stays until its bar runs out).
+      if ((askData.rateAsk || {}).done && !rateEl.classList.contains('thanks')) rateEl.classList.remove('on');
+      placeRate();
+      return;
+    }
+    if (rateShown) { rateShown = ''; rateEl.classList.remove('on'); } // another video now
+    if (!rateWanted(page)) return;
+    const r = askData.rateAsk || {};
+    const pages = r.pages || [];
+    if (!pages.includes(page)) {
+      if (pages.length >= SubSettings.RATE_ASK.pages) { endRate('auto'); return; }
+      askData.rateAsk = Object.assign({}, r, { pages: pages.concat(page) });
+      send({ type: 'support-ask', key: 'rateAsk', page });
+    }
+    rateShown = page;
+    fillRate();
+    placeRate();
+  }
+
+  function rateWanted(page) {
+    const d = video.duration;
+    const due = SubSettings.rateAskDue(askData, {
+      translated: !!original && visible && cues.length > 0,
+      watchedMs: rateWatch.ms,
+      left: Number.isFinite(d) ? d - video.currentTime : Infinity,
+      duration: Number.isFinite(d) ? d : 0,
+      trouble: rateTrouble === page,
+    });
+    if (!due) return false;
+    // The support card or "Share it with others?" on this video go first.
+    if (askEl.classList.contains('on') || shareAsking || SubSettings.supportAskPick(askData, { main: !!original, audio: false })) return false;
+    return stageOf(video).getBoundingClientRect().height >= 300;
+  }
+
+  function placeRate() {
+    if (!rateEl || !rateEl.classList.contains('on')) return;
+    const under = [langsEl, askEl, shareEl].filter((e) => e && e.classList.contains('on') && getComputedStyle(e).display !== 'none');
+    const low = under.reduce((y, e) => Math.max(y, e.offsetTop + e.offsetHeight + 8), 12);
+    rateEl.style.top = low + 'px';
+  }
+
+  // via: what ended it ('review', 'problem', 'close', 'auto').
+  function endRate(via) {
+    if (askData) askData.rateAsk = Object.assign({}, askData.rateAsk, { done: true, via, doneAt: Date.now() });
+    send({ type: 'support-ask', key: 'rateAsk', done: true, via });
+  }
+
+  function fillRate() {
+    rateEl.className = 'ask rate';
+    rateEl.replaceChildren();
+    rateEl.setAttribute('aria-label', t('Write a review'));
+    const stats = askData.stats || {};
+    const photo = () => {
+      const img = el('img');
+      img.src = chrome.runtime.getURL('icons/support/filip.jpg');
+      img.width = img.height = 38;
+      img.alt = '';
+      img.addEventListener('error', () => img.remove());
+      return img;
+    };
+    const close = el('button', 'x');
+    close.innerHTML = ICON.close;
+    close.title = close.ariaLabel = t('Close (it won’t come back)');
+    close.addEventListener('click', () => { endRate('close'); rateEl.classList.remove('on'); });
+
+    const who = el('div', 'who');
+    const words = el('div');
+    words.append(el('strong', '', t('Hi, Filip here')), el('span', '', t('I make Subtitle Overlay on my own. A short review helps other people find it.')));
+    who.append(photo(), words);
+
+    const count = el('div', 'count');
+    count.innerHTML = ICON.star.replace('fill="none" stroke="currentColor" stroke-width="1.5"', 'fill="currentColor"');
+    const n = stats.videos || 0;
+    const line = el('span');
+    line.append(el('b', '', t('{n} videos translated', { n })));
+    if (stats.lines) line.append(' · ' + t('{n} lines', { n: stats.lines }).replace(String(stats.lines), stats.lines.toLocaleString(SubI18n.lang)));
+    count.append(line);
+
+    const main = el('a', 'main', t('Write a review'));
+    main.href = STORE + '/reviews';
+    main.target = '_blank';
+    main.rel = 'noopener';
+    main.addEventListener('click', () => { endRate('review'); rateThanks(photo()); });
+
+    const problem = el('button', 'quiet', t('Something not working? Tell me'));
+    problem.addEventListener('click', () => { endRate('problem'); rateEl.classList.remove('on'); openWizard(''); });
+
+    rateEl.append(close, who, count, main, problem);
+    rateEl.classList.add('on');
+  }
+
+  // A thank-you in the card's place; its bar runs out in 6 s (it waits under the mouse).
+  function rateThanks(img) {
+    rateEl.className = 'ask rate thanks on';
+    const close = el('button', 'x');
+    close.innerHTML = ICON.close;
+    close.title = close.ariaLabel = t('Dismiss');
+    close.addEventListener('click', () => rateEl.classList.remove('on'));
+    const text = el('div');
+    text.append(el('strong', '', t('Thanks, it really helps ♥').replace(/\s+♥$/, '\u00a0♥')));
+    const bar = el('span', 'timer');
+    bar.addEventListener('animationend', () => rateEl.classList.remove('on'));
+    rateEl.replaceChildren(close, img, text, bar);
+  }
+
   // ---------- help: "turn the site's subtitles on" and "report a problem" ----------
 
   // Many sites send their subtitles only once you switch them on in their own
@@ -2871,7 +3018,7 @@
     :host([data-rtl]) .help { direction: rtl; }
     .help {
       position: absolute; inset-inline-end: 12px; bottom: max(76px, 14%); display: none; pointer-events: auto;
-      font: 500 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
+      font: 500 13px/1.4 "SO Flags", system-ui, -apple-system, "Segoe UI", sans-serif; color: #fff;
     }
     .help.on { display: block; }
     .help button, .help textarea { font: inherit; color: #fff; }
@@ -3091,6 +3238,7 @@
   // ---------- the check and the report ----------
 
   function openWizard(problem) {
+    rateTrouble = rateWatch.page; // a problem on this video: no review card on it
     ensureHelp();
     helpEl.dataset.key = helpEl.dataset.step = '';
     wiz = { step: problem ? (problem === 'other' ? 'send' : 'check') : 'pick', problem: problem || '', note: '', from: problem ? 'video' : 'langs' };
@@ -3687,12 +3835,13 @@
     langsEl.classList.add('on');
     keepLangs(ms);
     updateAsk();
+    placeRate();
   }
   // Keeps the card up a while longer, without building it again.
   function keepLangs(ms) {
     clearTimeout(langsTimer);
     const hideLater = (wait) => {
-      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') || shareEl.matches(':hover') || (askHold && askEl.classList.contains('on')) ? hideLater(askHold ? 500 : 2500) : langsEl.classList.remove('on')), wait);
+      langsTimer = setTimeout(() => (langsEl.matches(':hover') || askEl.matches(':hover') || shareEl.matches(':hover') || rateEl.matches(':hover') || (askHold && askEl.classList.contains('on')) ? hideLater(askHold ? 500 : 2500) : langsEl.classList.remove('on')), wait);
     };
     hideLater(ms || 2500);
   }

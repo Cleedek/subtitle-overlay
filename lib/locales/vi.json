@@ -633,6 +633,7 @@
   "**Translation queue** progress now shows in the card over the video, and the finished file replaces Google’s lines on its own": "Tiến độ của **Hàng đợi dịch** giờ hiện cả trong thẻ phía trên video, và tệp hoàn tất tự thay các dòng của Google",
   "Can’t reach Google Translate. Check your internet connection.": "Không kết nối được Google Dịch. Kiểm tra kết nối internet của bạn.",
   "The interface and translation now come in **Persian** and **Bengali**": "Giao diện và bản dịch nay có thêm **tiếng Ba Tư** và **tiếng Bengal**",
+  "The interface and translation now come in **Russian** and **Bulgarian**": "Giao diện và bản dịch nay có thêm **tiếng Nga** và **tiếng Bulgaria**",
   "You can now also load **.ass** and **.ssa** subtitle files": "Giờ bạn có thể mở cả tệp phụ đề **.ass** và **.ssa**",
   "**Improve** no longer adds a pronunciation in Latin letters after Persian lines": "**Cải thiện** không còn thêm cách đọc bằng chữ Latinh sau các dòng tiếng Ba Tư",
   "Sharing subtitles": "Chia sẻ phụ đề",
@@ -734,5 +735,9 @@
   "Something went wrong.": "Đã xảy ra lỗi.",
   "Deleted, {size} free.": "Đã xóa, giải phóng {size}.",
   "Can’t delete it while it’s downloading.": "Không thể xóa khi đang tải.",
-  "Can’t delete it while it’s making subtitles.": "Không thể xóa khi đang tạo phụ đề."
+  "Can’t delete it while it’s making subtitles.": "Không thể xóa khi đang tạo phụ đề.",
+  "Hi, Filip here": "Chào bạn, mình là Filip",
+  "I make Subtitle Overlay on my own. A short review helps other people find it.": "Mình tự làm Subtitle Overlay. Một đánh giá ngắn sẽ giúp người khác tìm thấy nó.",
+  "Something not working? Tell me": "Có gì không hoạt động? Nhắn mình nhé",
+  "Thanks, it really helps ♥": "Cảm ơn bạn, điều này giúp mình rất nhiều ♥"
 }
