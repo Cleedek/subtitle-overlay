@@ -2,6 +2,36 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
+## Postup pro 1.2.0 (příprava 23. 11. 2026)
+
+Hotovo v gitu: větev release/1.1.2 sloučená do main, verze 1.2.0, karta "Co je nového 1.2.0" ve 33 jazycích, 16 chybějících textů (přehled odstraněných řádků, Beta) ve všech jazycích, 34 popisů, zásady EN (store/privacy-policy.html) a EN + CS (cleedek-portfolio, commit jen lokálně, nepushnuto). Balíček: dist/subtitle-overlay-1.2.0.zip.
+
+**Oprávnění:** Chrome pro manifest 1.1.2 i 1.2.0 hlásí totéž jediné varování ("Read and change all your data on all websites", ověřeno přes chrome.management.getPermissionWarningsByManifest v Chrome). Nová oprávnění žádné další varování nepřidávají, takže se rozšíření po aktualizaci nevypne.
+
+### Privacy practices v Dashboardu (nové a změněné texty, limit 1 000 znaků)
+
+- **tabCapture:** Used only when the user clicks "Make subtitles from the audio" in the popup, for a video that has no subtitles. The extension captures the sound of that one tab and turns it into subtitles with an open-source speech model (Whisper) that runs on the user's device inside the extension. The audio is never saved to a file, uploaded or sent anywhere; only the resulting text goes to the extension's translation queue, and from there to the translator the user picked, like any other subtitles. Capture stops when the video ends, when the user stops it, or when the page moves to another video.
+- **offscreen:** Tab capture and the speech model need a page with Web Audio, WebGPU and WebAssembly, which the service worker does not have. An offscreen document (reason USER_MEDIA) receives the captured tab audio, cuts it into pieces at pauses with a bundled speech detector (Silero VAD) and runs the bundled Whisper model on the device. It is created only when the user starts making subtitles from a tab's audio.
+- **power:** While subtitles are being made from a tab's audio (a whole film can take an hour or more, and the user may leave the computer), the extension asks the system not to sleep (requestKeepAwake 'system'), so the video keeps playing and the transcription is not cut off. It releases this as soon as the transcription ends or is stopped.
+- **notifications (optional, asked only when the user turns on "Notify me when ready"):** Shows one system notification when subtitles made from a tab's audio have been written down and translated, because this runs in the background and can take as long as the video. Nothing is sent anywhere.
+- **storage (1.2.0):** Saves, on the device only: style settings and presets, timing offset, languages, translator choice (with the user's own Gemini, Claude or OpenAI key or local model address, if entered), look, sites where the extension is off, keyboard layout for shortcut labels; subtitles loaded on a page (last 30 pages); queued subtitle files, subtitles written down from a tab's audio and the improved subtitles the user keeps; per-show who-is-who notes for the next episode; counters for the rating, support and "What's new" cards; an unsent "Write to me" draft; hint and report codes; up to three recent video site names for the uninstall page; for shared subtitles, a random install code, the share count and the sharing answer. The chosen speech model is kept in the browser's cache. Data leaves the device only as the privacy policy describes.
+- **Remote code:** dál **No**. Wasm (ONNX Runtime, Transformers.js) je v balíčku (lib/vendor) a CSP povoluje jen 'self' + 'wasm-unsafe-eval'. Model řeči se stahuje z Hugging Face jako data (váhy .onnx), ne jako kód. To je můj úsudek: recenzent se může zeptat, a pak tahle věta stačí jako odpověď: "The WebAssembly runtime is bundled in the package; the speech model downloaded from Hugging Face is a weights file (data) run by that bundled runtime, not executable code."
+- **Data usage:** beze změny. Zvuk ani přepis se nikam neposílají, přepis jde jen do překladače, který už je pod Website content.
+- **Host permission, single purpose:** beze změny. Single purpose ("Display subtitles ... optionally translated") pokrývá i titulky ze zvuku, ale nejsem si úplně jistý: kdyby recenzent namítl, odpověď je, že jde pořád o titulky přes video, jen z jiného zdroje.
+
+### Rizika
+
+- **Velikost balíčku:** zip 10,2 MB (rozbalený 28 MB, dřív 1,3 MB). Kontrola může trvat déle (odhad, nic ověřeného).
+- **tabCapture je citlivé oprávnění:** recenzent může chtít vidět, že se zvuk nikam neposílá. Kód je veřejný na GitHubu a zásady to popisují.
+- Překlady nových textů psal Claude a zkontroloval zpětným překladem, rodilí mluvčí je nečetli.
+
+### Pořadí při vydání
+
+1. Ty: vyzkoušet zip v Arcu (titulky ze zvuku na jednom videu, karta Co je nového).
+2. Push main na GitHub a cleedek-portfolio (zásady) ve chvíli odeslání ke kontrole.
+3. Dashboard: balíček, 34 popisů (fill.py), Privacy practices výše, screenshot 4 (pokud schválíš nový návrh), Submit for review (ty).
+4. Po schválení: changelog na webu, README, deploy extension-feedback.
+
 ## Postup pro 1.1.0 (příprava 12. 11. 2026)
 
 **Stav 12. 11. 2026 dopoledne (Claude):**
