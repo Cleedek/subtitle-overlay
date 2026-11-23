@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Store screenshot 4 proposal: subtitles from the audio + queue</title>
+<!-- Proposal for 1.2.0: replaces screenshot 4 (queue). The popup button, the job card and the
+     removed-lines list are drawn here in the extension's own styles (popup.css, batch.css); after
+     approval they become real captures in all 34 languages, like the other screenshots. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=block">
+<link rel="stylesheet" href="../promo-video/screens/screens.css">
+<style>
+  :root { --bg: #15131b; --card: #1d1b24; --line: rgba(255,255,255,.08); --text: #ece9f3; --muted: #9b96aa;
+    --accent: #8b6bff; --accent-text: #b8a6ff; --success: #5fd38d; }
+  .col { position: absolute; left: 64px; width: 400px; top: 50%; transform: translateY(-50%); }
+  .eyebrow .new { color: #0e0d12; background: #c4b5fd; border-radius: 999px; padding: 2px 8px; margin-right: 8px; letter-spacing: .08em; }
+  ul.pts { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+  ul.pts li { font-size: 17px; color: #e2ddec; padding-left: 24px; position: relative; }
+  ul.pts li::before { content: ""; position: absolute; left: 0; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: #8b6bff; }
+
+  /* Video window, top right. */
+  .video { left: 500px; top: 40px; width: 500px; }
+  .video .frame { position: relative; height: 262px; background: url(img/tos-130.jpg) center 35% / cover; }
+  /* The extension's notice over the video while it listens (content.js toast). */
+  .toast { position: absolute; left: 16px; top: 14px; display: flex; align-items: center; gap: 9px; padding: 8px 13px 8px 11px;
+    border-radius: 10px; background: rgba(20, 18, 26, .86); color: #f1eef7; font-size: 13.5px; font-weight: 500;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35); backdrop-filter: blur(8px); }
+  .toast svg { color: #b8a6ff; }
+  .toast path { animation: listen 1.1s ease-in-out infinite alternate; transform-origin: center; transform-box: fill-box; }
+  @keyframes listen { from { transform: scaleY(.55); } to { transform: scaleY(1); } }
+
+  /* The popup, its "Make subtitles from the audio" row. */
+  .popup { position: absolute; left: 500px; top: 360px; width: 300px; padding: 14px; border-radius: 14px; background: var(--bg);
+    box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); }
+  .tabs { display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: #1f1c27; margin-bottom: 12px; }
+  .tabs span { flex: 1; text-align: center; font-size: 12.5px; padding: 6px 0; border-radius: 999px; color: var(--muted); }
+  .tabs span.on { background: #f3f1f8; color: #15121c; font-weight: 600; }
+  .ghostbtn { height: 34px; border-radius: 9px; border: 1px solid var(--line); background: #1f1c27; color: var(--text); font-size: 13px;
+    display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .ghostbtn.muted { color: var(--muted); }
+  .tbtn { margin-top: 8px; border-color: rgba(139,107,255,.55); box-shadow: 0 0 0 3px rgba(139,107,255,.18); }
+  .beta { padding: 2px 6px; border-radius: 999px; font-size: 9px; line-height: 1.2; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: #b8a6ff; background: rgba(184,166,255,.14); }
+  .hint { margin: 7px 2px 0; font-size: 11.5px; color: var(--muted); }
+  .cursor { position: absolute; left: 150px; top: 128px; }
+
+  /* Queue window, bottom right, in front. */
+  .queue { left: 820px; top: 150px; width: 420px; height: 548px; }
+  .q { background: var(--bg); height: 100%; padding: 16px 18px; }
+  .q h3 { margin: 0 0 10px; font-size: 11px; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
+  .job { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+  .head { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .head .name { font-weight: 600; flex: 1; color: var(--text); }
+  .check { color: var(--success); font-weight: 700; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    color: var(--muted); background: rgba(155,150,170,.14); }
+  .lang { font-size: 12px; color: var(--muted); }
+  .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .pbar { height: 4px; border-radius: 2px; background: var(--line); margin: 10px 0 8px; overflow: hidden; }
+  .pbar b { display: block; height: 100%; background: var(--accent); }
+  .done .pbar b { background: var(--success); }
+  .foot { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+  .foot .note { flex: 1; }
+  .btn { padding: 4px 11px; border-radius: 8px; border: 1px solid var(--line); color: var(--text); font-size: 12.5px; background: #24212d; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .removed { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+  .rhead { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); padding: 4px 0; }
+  .rhead a { color: var(--accent-text); }
+  .rl { list-style: none; margin: 2px 0 0; padding: 0; }
+  .rl li { display: flex; align-items: center; gap: 10px; font-size: 13px; padding: 6px 0; border-top: 1px solid var(--line); color: var(--text); }
+  .rl li:first-child { border-top: 0; }
+  .rl .t { width: 3.6em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .rl .x { flex: 1; }
+  .sp { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--muted); }
+  .sp i { width: 26px; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; display: inline-block; }
+  .sp i b { display: block; height: 100%; background: var(--muted); }
+</style>
+</head>
+<body>
+  <div class="col">
+    <div class="eyebrow"><span class="new">New</span>Subtitles from the audio</div>
+    <h1>No subtitles?<br><span>It listens.</span></h1>
+    <p class="body">A free speech model on your computer writes down what's said. Then the queue translates it, one episode after another, while you do something else.</p>
+    <ul class="pts">
+      <li>The sound never leaves your computer</li>
+      <li>Queue a whole season, watch it later</li>
+      <li>Google, Gemini, Claude, OpenAI or local AI</li>
+    </ul>
+  </div>
+
+  <div class="win video">
+    <div class="bar"><i></i><i></i><i></i><div class="url">video-site.example/watch/tears-of-steel</div><img class="ext" src="../icons/icon128.png" alt=""></div>
+    <div class="frame">
+      <div class="toast">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Transcribing in the background: 8:42 · 126 lines
+      </div>
+    </div>
+  </div>
+
+  <div class="popup">
+    <div class="tabs"><span class="on">Subtitles</span><span>Style</span><span>Behaviour</span></div>
+    <div class="ghostbtn muted">Load subtitle file</div>
+    <div class="ghostbtn tbtn">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Make subtitles from the audio <span class="beta">Beta</span>
+    </div>
+    <p class="hint">For videos without subtitles. Keep this tab open until the end.</p>
+    <svg class="cursor" width="22" height="26" viewBox="0 0 22 26" aria-hidden="true"><path d="M2 2l16 11-7 1.4L15 23l-3.4 1.6-4-8.4L2 21z" fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  </div>
+
+  <div class="win queue">
+    <div class="bar"><i></i><i></i><i></i><div class="url">Translation queue</div><img class="ext" src="../icons/icon128.png" alt=""></div>
+    <div class="q">
+      <h3>QUEUE</h3>
+      <div class="job done">
+        <div class="head"><span class="check">✓</span><span class="name">Tears of Steel</span>
+          <span class="chip"><svg width="11" height="11" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>From audio</span>
+          <span class="lang">🇪🇸 Spanish</span></div>
+        <div class="meta">video-site.example</div>
+        <div class="pbar"><b style="width:100%"></b></div>
+        <div class="foot"><span class="note">Done · 312 lines · gemma3:12b</span><span class="btn primary">Play</span><span class="btn">Download .srt</span></div>
+        <div class="removed">
+          <div class="rhead"><span>AI removed 2 lines as not said ⌃</span></div>
+          <ul class="rl">
+            <li><span class="t">0:12</span><span class="x">Tears of Steel</span><span class="sp">music · 4 %</span><span class="btn">Put back</span></li>
+            <li><span class="t">11:58</span><span class="x">Thank you for watching!</span><span class="sp">music · 0 %</span><span class="btn">Put back</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="head"><span class="name">Episode 2</span>
+          <span class="chip"><svg width="11" height="11" viewBox="0 0 16 16"><path d="M2 7v2M5 4.5v7M8 2v12M11 4.5v7M14 7v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>From audio</span>
+          <span class="lang">🇪🇸 Spanish</span></div>
+        <div class="meta">video-site.example</div>
+        <div class="pbar"><b style="width:58%"></b></div>
+        <div class="foot"><span class="note">Translating · 174 / 298 lines</span></div>
+      </div>
+      <div class="job">
+        <div class="head"><span class="name">Episode 10</span><span class="lang">🇪🇸 Spanish</span></div>
+        <div class="pbar"><b style="width:0%"></b></div>
+        <div class="foot"><span class="note">Waiting</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="credit">Film: Tears of Steel © Blender Foundation · mango.blender.org · CC BY 3.0</div>
+</body>
+</html>
