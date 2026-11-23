@@ -1083,7 +1083,7 @@
           const undo = el('button', 'undo', t('Undo'));
           undo.title = t('Takes this line out again.');
           undo.addEventListener('click', () => busy(undo, t('Undo'))(() => ops.takeOut(i)));
-          row.append(el('span', 'restored', '✓ ' + t('Put back')), undo);
+          row.append(el('span', 'restored', '✓ ' + t('Put back (done)')), undo); // English "Put back"; other languages say it's done
         } else {
           const b = el('button', '', t('Put back'));
           b.title = t('Adds this line again where it was heard, translated.');
