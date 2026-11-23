@@ -698,5 +698,7 @@
   "Original language": "Limba originală",
   "Fixes misheard words. The translation gets better too.": "Corectează cuvintele auzite greșit. Și traducerea devine mai bună.",
   "When done": "La final",
-  "Notify me": "Anunță-mă"
+  "Notify me": "Anunță-mă",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Pe Windows și Linux, **Ecran complet cu subtitrări** este acum **Alt + Enter**, iar **Mai devreme / mai târziu cu 1 s** este **Alt + ,** / **Alt + .**, ca să nu mai deschidă meniul Chrome și să nu mai schimbe limba tastaturii",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Fișierele vechi de subtitrări în chirilică, greacă, turcă, ebraică sau thailandeză se încarcă acum cu literele corecte"
 }

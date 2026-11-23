@@ -698,5 +698,7 @@
   "Original language": "元の言語",
   "Fixes misheard words. The translation gets better too.": "聞き間違えた語を直します。翻訳もよくなります。",
   "When done": "完了したら",
-  "Notify me": "通知する"
+  "Notify me": "通知する",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windows と Linux では **字幕付きで全画面表示** が **Alt + Enter**、**1 秒早く / 遅く** が **Alt + ,** / **Alt + .** になり、Chrome のメニューが開いたりキーボードの言語が切り替わったりしなくなりました",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "キリル文字・ギリシャ語・トルコ語・ヘブライ語・タイ語の古い字幕ファイルも正しい文字で読み込めるようになりました"
 }

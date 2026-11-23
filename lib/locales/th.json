@@ -698,5 +698,7 @@
   "Original language": "ภาษาต้นฉบับ",
   "Fixes misheard words. The translation gets better too.": "แก้คำที่ได้ยินผิด คำแปลก็ดีขึ้นด้วย",
   "When done": "เมื่อเสร็จ",
-  "Notify me": "แจ้งเตือนฉัน"
+  "Notify me": "แจ้งเตือนฉัน",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "บน Windows และ Linux **เต็มหน้าจอพร้อมคำบรรยาย** เปลี่ยนเป็น **Alt + Enter** และ **เร็วขึ้น / ช้าลง 1 วินาที** เป็น **Alt + ,** / **Alt + .** จึงไม่เปิดเมนูของ Chrome หรือสลับภาษาแป้นพิมพ์อีกต่อไป",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "ไฟล์คำบรรยายเก่าที่เป็นอักษรซีริลลิก กรีก ตุรกี ฮีบรู หรือไทย เปิดได้ด้วยตัวอักษรที่ถูกต้องแล้ว"
 }

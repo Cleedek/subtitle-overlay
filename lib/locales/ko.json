@@ -698,5 +698,7 @@
   "Original language": "원래 언어",
   "Fixes misheard words. The translation gets better too.": "잘못 들은 단어를 고칩니다. 번역도 더 좋아집니다.",
   "When done": "완료되면",
-  "Notify me": "알림 받기"
+  "Notify me": "알림 받기",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windows와 Linux에서 **자막과 함께 전체 화면**은 이제 **Alt + Enter**, **1초 빠르게 / 느리게**는 **Alt + ,** / **Alt + .**이므로 더 이상 Chrome 메뉴가 열리거나 키보드 언어가 바뀌지 않습니다",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "키릴 문자, 그리스어, 터키어, 히브리어, 태국어로 된 오래된 자막 파일도 이제 올바른 글자로 열립니다"
 }

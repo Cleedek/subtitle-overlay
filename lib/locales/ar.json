@@ -698,5 +698,7 @@
   "Original language": "اللغة الأصلية",
   "Fixes misheard words. The translation gets better too.": "يصحّح الكلمات المسموعة خطأً. وتتحسّن الترجمة أيضًا.",
   "When done": "عند الانتهاء",
-  "Notify me": "أعلمني"
+  "Notify me": "أعلمني",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "على Windows وLinux، أصبح **ملء الشاشة مع الترجمة المصاحبة** الآن **Alt + Enter** و**تقديم / تأخير بمقدار ثانية واحدة** (**Alt + ,** / **Alt + .**)، فلم تعد تفتح قائمة Chrome أو تغيّر لغة لوحة المفاتيح",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "ملفات الترجمة القديمة بالسيريلية أو اليونانية أو التركية أو العبرية أو التايلاندية تُفتح الآن بالحروف الصحيحة"
 }

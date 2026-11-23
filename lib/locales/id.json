@@ -698,5 +698,7 @@
   "Original language": "Bahasa asli",
   "Fixes misheard words. The translation gets better too.": "Memperbaiki kata yang salah dengar. Terjemahannya juga jadi lebih baik.",
   "When done": "Setelah selesai",
-  "Notify me": "Beri tahu saya"
+  "Notify me": "Beri tahu saya",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Di Windows dan Linux, **Layar penuh dengan subtitle** sekarang **Alt + Enter** dan **Lebih cepat / lambat 1 dtk** (**Alt + ,** / **Alt + .**), jadi tidak lagi membuka menu Chrome atau mengganti bahasa keyboard",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "File subtitle lama dalam huruf Sirilik, Yunani, Turki, Ibrani, atau Thai kini dimuat dengan huruf yang benar"
 }

@@ -700,5 +700,7 @@
   "When done": "完成后",
   "Notify me": "通知我",
   "Alipay": "支付宝",
-  "QR code for the Alipay and card payment page": "支付宝和银行卡付款页面的二维码"
+  "QR code for the Alipay and card payment page": "支付宝和银行卡付款页面的二维码",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "在 Windows 和 Linux 上，**带字幕全屏**现在是 **Alt + Enter**，**提前 / 推迟 1 秒**是 **Alt + ,** / **Alt + .**，不会再打开 Chrome 菜单或切换键盘语言",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "西里尔文、希腊文、土耳其文、希伯来文或泰文的旧字幕文件现在能以正确的文字加载"
 }

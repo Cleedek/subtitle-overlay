@@ -698,5 +698,7 @@
   "Original language": "Oorspronkelijke taal",
   "Fixes misheard words. The translation gets better too.": "Verbetert verkeerd verstane woorden. Ook de vertaling wordt beter.",
   "When done": "Als het klaar is",
-  "Notify me": "Laat het me weten"
+  "Notify me": "Laat het me weten",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Op Windows en Linux is **Volledig scherm met ondertitels** nu **Alt + Enter** en **1 s eerder / later** (**Alt + ,** / **Alt + .**), zodat ze niet meer het Chrome-menu openen of je toetsenbordtaal wisselen",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Oude ondertitelbestanden in het Cyrillisch, Grieks, Turks, Hebreeuws of Thai laden nu met de juiste letters"
 }

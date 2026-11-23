@@ -698,5 +698,7 @@
   "Original language": "Orijinal dil",
   "Fixes misheard words. The translation gets better too.": "Yanlış duyulan kelimeleri düzeltir. Çeviri de iyileşir.",
   "When done": "Bitince",
-  "Notify me": "Bana haber ver"
+  "Notify me": "Bana haber ver",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windows ve Linux'ta **Altyazılarla tam ekran** artık **Alt + Enter**, **1 sn daha erken / geç** ise **Alt + ,** / **Alt + .**; böylece artık Chrome menüsünü açmıyor veya klavye dilini değiştirmiyor",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Kiril, Yunanca, Türkçe, İbranice veya Tayca eski altyazı dosyaları artık doğru harflerle açılıyor"
 }

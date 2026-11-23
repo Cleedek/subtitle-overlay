@@ -698,5 +698,7 @@
   "Original language": "Originalspråk",
   "Fixes misheard words. The translation gets better too.": "Rättar felhörda ord. Översättningen blir också bättre.",
   "When done": "När det är klart",
-  "Notify me": "Meddela mig"
+  "Notify me": "Meddela mig",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "På Windows och Linux är **Helskärm med undertexter** nu **Alt + Enter** och **Tidigare / senare med 1 s** (**Alt + ,** / **Alt + .**), så de inte längre öppnar Chromes meny eller byter tangentbordsspråk",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Gamla undertextfiler på kyrilliska, grekiska, turkiska, hebreiska eller thailändska laddas nu med rätt bokstäver"
 }

@@ -698,5 +698,7 @@
   "Original language": "মূল ভাষা",
   "Fixes misheard words. The translation gets better too.": "ভুল শোনা শব্দ ঠিক করে। অনুবাদও ভালো হয়।",
   "When done": "শেষ হলে",
-  "Notify me": "আমাকে জানান"
+  "Notify me": "আমাকে জানান",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windows ও Linux-এ **সাবটাইটেলসহ ফুলস্ক্রিন** এখন **Alt + Enter**, আর **1 সেকেন্ড আগে / পরে** (**Alt + ,** / **Alt + .**), তাই এগুলো আর Chrome-এর মেনু খোলে না বা কিবোর্ডের ভাষা বদলায় না",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "সিরিলিক, গ্রিক, তুর্কি, হিব্রু বা থাই ভাষার পুরোনো সাবটাইটেল ফাইল এখন সঠিক অক্ষরে খোলে"
 }

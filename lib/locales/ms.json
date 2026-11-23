@@ -698,5 +698,7 @@
   "Original language": "Bahasa asal",
   "Fixes misheard words. The translation gets better too.": "Membetulkan perkataan yang salah didengar. Terjemahan juga menjadi lebih baik.",
   "When done": "Apabila selesai",
-  "Notify me": "Maklumkan saya"
+  "Notify me": "Maklumkan saya",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Di Windows dan Linux, **Skrin penuh dengan sari kata** kini **Alt + Enter** dan **Lebih awal / lewat 1 s** (**Alt + ,** / **Alt + .**), jadi ia tidak lagi membuka menu Chrome atau menukar bahasa papan kekunci",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Fail sari kata lama dalam tulisan Cyril, Yunani, Turki, Ibrani atau Thai kini dimuatkan dengan huruf yang betul"
 }

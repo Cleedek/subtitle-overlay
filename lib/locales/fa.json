@@ -698,5 +698,7 @@
   "Original language": "زبان اصلی",
   "Fixes misheard words. The translation gets better too.": "کلمه‌هایی را که اشتباه شنیده شده‌اند اصلاح می‌کند. ترجمه هم بهتر می‌شود.",
   "When done": "وقتی تمام شد",
-  "Notify me": "به من خبر بده"
+  "Notify me": "به من خبر بده",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "در Windows و Linux، **تمام‌صفحه با زیرنویس** حالا **Alt + Enter** است و **زودتر / دیرتر به اندازهٔ 1 ثانیه** (**Alt + ,** / **Alt + .**)، پس دیگر منوی Chrome را باز نمی‌کنند یا زبان صفحه‌کلید را عوض نمی‌کنند",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "فایل‌های زیرنویس قدیمی به سیریلیک، یونانی، ترکی، عبری یا تایلندی حالا با حروف درست باز می‌شوند"
 }

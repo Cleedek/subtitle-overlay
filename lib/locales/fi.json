@@ -698,5 +698,7 @@
   "Original language": "Alkuperäinen kieli",
   "Fixes misheard words. The translation gets better too.": "Korjaa väärin kuullut sanat. Myös käännös paranee.",
   "When done": "Kun valmista",
-  "Notify me": "Ilmoita minulle"
+  "Notify me": "Ilmoita minulle",
+  "On Windows and Linux, **Fullscreen with subtitles** is now **Alt + Enter** and **Earlier / later by 1 s** is **Alt + ,** / **Alt + .**, so they no longer open Chrome's menu or switch your keyboard language": "Windowsissa ja Linuxissa **Koko näyttö tekstityksellä** on nyt **Alt + Enter** ja **1 s aiemmin / myöhemmin** (**Alt + ,** / **Alt + .**), joten ne eivät enää avaa Chromen valikkoa tai vaihda näppäimistön kieltä",
+  "Old subtitle files in Cyrillic, Greek, Turkish, Hebrew or Thai now load with the right letters": "Vanhat kyrilliset, kreikan-, turkin-, heprean- tai thainkieliset tekstitystiedostot latautuvat nyt oikeilla kirjaimilla"
 }
