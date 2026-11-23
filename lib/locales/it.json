@@ -717,6 +717,6 @@
   "Review": "Controlla",
   "Opens the list of removed lines, where you can put any of them back.": "Apre l’elenco delle righe rimosse, dove puoi ripristinarne qualsiasi.",
   "Beta": "Beta",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**Crea sottotitoli dall’audio**: per i video senza sottotitoli, un modello vocale gratuito sul tuo computer scrive ciò che viene detto e poi lo traduce nella tua lingua",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Crea sottotitoli dall’audio**: per i video senza alcun sottotitolo, un modello vocale gratuito sul tuo computer scrive ciò che viene detto e poi lo traduce nella tua lingua. È una beta e non è ancora perfetta, ma può aiutare",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "I file nella **Coda di traduzione** ora sono in ordine di nome, quindi l’episodio 2 viene prima del 10. **Ordina** cambia l’ordine"
 }

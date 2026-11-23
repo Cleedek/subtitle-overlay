@@ -717,6 +717,6 @@
   "Review": "Semak",
   "Opens the list of removed lines, where you can put any of them back.": "Membuka senarai baris yang dibuang, tempat Anda boleh mengembalikan mana-mana satu.",
   "Beta": "Beta",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**Buat sari kata daripada audio**: untuk video tanpa sari kata, model pertuturan percuma pada komputer Anda menulis apa yang diucapkan, kemudian ia diterjemah ke bahasa Anda",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Buat sari kata daripada audio**: untuk video yang langsung tiada sari kata, model pertuturan percuma pada komputer anda menulis apa yang diucapkan, kemudian ia diterjemah ke bahasa anda. Ia masih beta dan belum sempurna, tetapi boleh membantu",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Fail dalam **Baris gilir terjemahan** kini disusun mengikut nama, jadi episod 2 datang sebelum episod 10. **Isih** menukar susunannya"
 }

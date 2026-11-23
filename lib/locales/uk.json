@@ -717,6 +717,6 @@
   "Review": "Переглянути",
   "Opens the list of removed lines, where you can put any of them back.": "Відкриває список вилучених рядків, де можна повернути будь-який із них.",
   "Beta": "Бета",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**Створити субтитри зі звуку**: для відео без субтитрів безкоштовна модель мовлення на твоєму комп’ютері записує сказане, а потім це перекладається твоєю мовою",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Створити субтитри зі звуку**: для відео зовсім без субтитрів безкоштовна модель мовлення на твоєму комп’ютері записує сказане, а потім це перекладається твоєю мовою. Це бета, ще не ідеальна, але може допомогти",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Файли в **Черзі перекладів** тепер шикуються за назвою, тож серія 2 йде перед серією 10. Порядок змінює кнопка **Сортувати**"
 }

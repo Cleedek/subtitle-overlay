@@ -717,6 +717,6 @@
   "Review": "Tarkista",
   "Opens the list of removed lines, where you can put any of them back.": "Avaa poistettujen rivien luettelon, josta voit palauttaa minkä tahansa.",
   "Beta": "Beta",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**Tee tekstitys äänestä**: videoihin, joissa ei ole tekstitystä, tietokoneesi ilmainen puhemalli kirjoittaa puheen muistiin, ja sitten se käännetään kielellesi",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Tee tekstitys äänestä**: videoihin, joissa ei ole tekstitystä lainkaan, tietokoneesi ilmainen puhemalli kirjoittaa puheen muistiin, ja sitten se käännetään kielellesi. Se on beta eikä vielä täydellinen, mutta siitä voi olla apua",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**Käännösjonon** tiedostot ovat nyt nimen mukaan, joten jakso 2 tulee ennen jaksoa 10. **Järjestä** muuttaa järjestystä"
 }

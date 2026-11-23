@@ -719,6 +719,6 @@
   "Review": "查看",
   "Opens the list of removed lines, where you can put any of them back.": "開啟已移除行的清單，可以放回其中任何一行。",
   "Beta": "測試版",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**從音訊產生字幕**：沒有字幕的影片，也能由你電腦上的免費語音模型記下所說的話，再翻譯成你的語言",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**從音訊產生字幕**：完全沒有字幕的影片，也能由你電腦上的免費語音模型記下所說的話，再翻譯成你的語言。目前還是測試版，並不完美，但能幫上忙",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**翻譯佇列**中的檔案現在依名稱排列，第 2 集排在第 10 集前面。用**排序**可以變更順序"
 }

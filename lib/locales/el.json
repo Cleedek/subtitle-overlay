@@ -717,6 +717,6 @@
   "Review": "Έλεγχος",
   "Opens the list of removed lines, where you can put any of them back.": "Ανοίγει τη λίστα με τις γραμμές που αφαιρέθηκαν, όπου μπορείς να επαναφέρεις οποιαδήποτε.",
   "Beta": "Beta",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**Δημιουργία υποτίτλων από τον ήχο**: σε βίντεο χωρίς υπότιτλους, ένα δωρεάν μοντέλο ομιλίας στον υπολογιστή σου γράφει ό,τι λέγεται και μετά μεταφράζεται στη γλώσσα σου",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Δημιουργία υποτίτλων από τον ήχο**: σε βίντεο χωρίς κανέναν υπότιτλο, ένα δωρεάν μοντέλο ομιλίας στον υπολογιστή σου γράφει ό,τι λέγεται και μετά μεταφράζεται στη γλώσσα σου. Είναι beta και όχι ακόμα τέλειο, αλλά μπορεί να βοηθήσει",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Τα αρχεία στην **Ουρά μετάφρασης** μπαίνουν τώρα σε σειρά ονόματος, οπότε το επεισόδιο 2 έρχεται πριν από το 10. Η **Ταξινόμηση** αλλάζει τη σειρά"
 }

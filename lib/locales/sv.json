@@ -717,6 +717,6 @@
   "Review": "Granska",
   "Opens the list of removed lines, where you can put any of them back.": "Öppnar listan över borttagna rader, där du kan återställa vilken som helst av dem.",
   "Beta": "Beta",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**Gör undertexter från ljudet**: för videor utan undertexter skriver en gratis talmodell på din dator ner det som sägs, och sedan översätts det till ditt språk",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Gör undertexter från ljudet**: för videor helt utan undertexter skriver en gratis talmodell på din dator ner det som sägs, och sedan översätts det till ditt språk. Det är en beta och inte perfekt än, men det kan hjälpa",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Filer i **Översättningskön** står nu i namnordning, så avsnitt 2 kommer före avsnitt 10. **Sortera** ändrar ordningen"
 }

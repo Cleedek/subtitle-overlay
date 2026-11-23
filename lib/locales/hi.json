@@ -717,6 +717,6 @@
   "Review": "देखें",
   "Opens the list of removed lines, where you can put any of them back.": "हटाई गई पंक्तियों की सूची खोलता है, जहां आप कोई भी वापस रख सकते हैं।",
   "Beta": "बीटा",
-  "**Make subtitles from the audio**: for videos with no subtitles, a free speech model on your computer writes down what’s said, then it’s translated into your language": "**ऑडियो से सबटाइटल बनाएँ**: बिना सबटाइटल वाले वीडियो में आपके कंप्यूटर पर एक मुफ़्त स्पीच मॉडल बोली गई बातें लिखता है, फिर उनका आपकी भाषा में अनुवाद होता है",
+  "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**ऑडियो से सबटाइटल बनाएँ**: जिन वीडियो में कोई सबटाइटल नहीं है, उनमें आपके कंप्यूटर पर एक मुफ़्त स्पीच मॉडल बोली गई बातें लिखता है, फिर उनका आपकी भाषा में अनुवाद होता है। यह अभी बीटा है और पूरी तरह सही नहीं, पर काम आ सकता है",
   "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**अनुवाद कतार** में फ़ाइलें अब नाम के क्रम में लगती हैं, इसलिए एपिसोड 2 एपिसोड 10 से पहले आता है। **क्रम बदलें** बटन से आप इसे बदल सकते हैं"
 }
