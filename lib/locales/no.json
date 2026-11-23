@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Åpner listen over fjernede linjer, der du kan sette hvilken som helst av dem tilbake.",
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Lag undertekster fra lyden**: for videoer helt uten undertekster skriver en gratis talemodell på datamaskinen din ned det som blir sagt, og så oversettes det til språket ditt. Det er en beta og ikke perfekt ennå, men det kan hjelpe",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Filer i **Oversettelseskøen** står nå etter navn, så episode 2 kommer før episode 10. **Sorter** endrer rekkefølgen"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Filer i **Oversettelseskøen** står nå etter navn, så episode 2 kommer før episode 10. **Sorter** endrer rekkefølgen",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Undertekster fra lyden kan også vise det som ble sagt som en ekstra linje, og hvis AI-en fjerner linjer den mener aldri ble sagt, henter **Sett tilbake** hvilken som helst av dem tilbake"
 }

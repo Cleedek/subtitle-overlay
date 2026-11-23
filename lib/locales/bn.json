@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "সরানো লাইনের তালিকা খোলে, যেখানে যেকোনোটি ফেরাতে পারবেন।",
   "Beta": "বেটা",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**অডিও থেকে সাবটাইটেল তৈরি করুন**: যেসব ভিডিওতে একদমই সাবটাইটেল নেই, সেখানে আপনার কম্পিউটারের একটি বিনামূল্যের স্পিচ মডেল যা বলা হচ্ছে তা লিখে নেয়, তারপর তা আপনার ভাষায় অনুবাদ হয়। এটি এখনো বেটা এবং নিখুঁত নয়, তবে কাজে আসতে পারে",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**অনুবাদের সারি**-তে ফাইলগুলো এখন নাম অনুযায়ী সাজানো থাকে, তাই পর্ব 2 পর্ব 10-এর আগে আসে। **সাজান** দিয়ে ক্রম বদলান"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**অনুবাদের সারি**-তে ফাইলগুলো এখন নাম অনুযায়ী সাজানো থাকে, তাই পর্ব 2 পর্ব 10-এর আগে আসে। **সাজান** দিয়ে ক্রম বদলান",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "অডিও থেকে সাবটাইটেল যা বলা হয়েছে তা দ্বিতীয় লাইনেও দেখাতে পারে, আর AI যদি এমন লাইন সরিয়ে দেয় যা তার মতে বলা হয়নি, **ফেরান** দিয়ে যেকোনোটি ফিরিয়ে আনতে পারেন"
 }

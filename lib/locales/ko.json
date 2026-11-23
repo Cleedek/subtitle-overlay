@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "삭제된 줄 목록을 열어 원하는 줄을 되돌릴 수 있습니다.",
   "Beta": "베타",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**오디오로 자막 만들기**: 자막이 전혀 없는 동영상도 컴퓨터의 무료 음성 모델이 영상에서 말하는 내용을 받아 적고, 그다음 내 언어로 번역합니다. 아직 베타라 완벽하지는 않지만 도움이 될 수 있습니다",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**번역 대기열**의 파일이 이제 이름순으로 정렬되어 2화가 10화보다 앞에 옵니다. **정렬**로 순서를 바꿀 수 있습니다"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**번역 대기열**의 파일이 이제 이름순으로 정렬되어 2화가 10화보다 앞에 옵니다. **정렬**로 순서를 바꿀 수 있습니다",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "오디오로 만든 자막은 실제로 말한 내용을 두 번째 줄로 보여 줄 수도 있고, AI가 말하지 않았다고 보고 지운 줄은 **되돌리기**로 언제든 다시 넣을 수 있습니다"
 }

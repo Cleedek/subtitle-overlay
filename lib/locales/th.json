@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "เปิดรายการบรรทัดที่ถูกลบ ซึ่งคุณใส่คืนบรรทัดใดก็ได้",
   "Beta": "เบต้า",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**สร้างคำบรรยายจากเสียง**: สำหรับวิดีโอที่ไม่มีคำบรรยายเลย โมเดลเสียงพูดฟรีในคอมพิวเตอร์ของคุณจะเขียนสิ่งที่พูดในวิดีโอ แล้วแปลเป็นภาษาของคุณ ยังเป็นเบต้าและยังไม่สมบูรณ์ แต่ช่วยได้",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "ไฟล์ใน **คิวการแปล** เรียงตามชื่อแล้ว ตอนที่ 2 จึงมาก่อนตอนที่ 10 กด **เรียงลำดับ** เพื่อเปลี่ยนลำดับ"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "ไฟล์ใน **คิวการแปล** เรียงตามชื่อแล้ว ตอนที่ 2 จึงมาก่อนตอนที่ 10 กด **เรียงลำดับ** เพื่อเปลี่ยนลำดับ",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "คำบรรยายจากเสียงแสดงสิ่งที่พูดเป็นบรรทัดที่สองได้ด้วย และถ้า AI ลบบรรทัดที่คิดว่าไม่มีใครพูด กด **ใส่คืน** เพื่อเอาบรรทัดไหนก็ได้กลับมา"
 }

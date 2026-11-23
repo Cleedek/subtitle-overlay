@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Opent de lijst met verwijderde regels, waar je elke regel kunt terugzetten.",
   "Beta": "Bèta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Ondertitels maken uit het geluid**: voor video’s zonder enige ondertitels schrijft een gratis spraakmodel op je computer op wat er gezegd wordt, en daarna wordt het naar jouw taal vertaald. Het is een bèta en nog niet perfect, maar het kan helpen",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Bestanden in de **Vertaalwachtrij** staan nu op naam, dus aflevering 2 komt vóór aflevering 10. Met **Sorteren** verander je de volgorde"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Bestanden in de **Vertaalwachtrij** staan nu op naam, dus aflevering 2 komt vóór aflevering 10. Met **Sorteren** verander je de volgorde",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Ondertitels uit het geluid kunnen ook tonen wat er gezegd is, als tweede regel, en als de AI regels weghaalt die volgens haar nooit gezegd zijn, zet **Terugzetten** elk daarvan terug"
 }

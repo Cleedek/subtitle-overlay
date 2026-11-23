@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "فهرست سطرهای حذف‌شده را باز می‌کند تا هر کدام را خواستید برگردانید.",
   "Beta": "آزمایشی",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**ساخت زیرنویس از صدا**: برای ویدیوهایی که اصلاً زیرنویس ندارند، یک مدل گفتار رایگان روی رایانه شما آنچه گفته می‌شود را می‌نویسد و بعد به زبان شما ترجمه می‌شود. هنوز آزمایشی است و بی‌نقص نیست، اما می‌تواند کمک کند",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "فایل‌های **صف ترجمه** حالا به ترتیب نام هستند، پس قسمت ۲ قبل از قسمت ۱۰ می‌آید. با **مرتب‌سازی** ترتیب را عوض کنید"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "فایل‌های **صف ترجمه** حالا به ترتیب نام هستند، پس قسمت ۲ قبل از قسمت ۱۰ می‌آید. با **مرتب‌سازی** ترتیب را عوض کنید",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "زیرنویس از صدا می‌تواند آنچه گفته شده را هم به‌عنوان خط دوم نشان دهد، و اگر هوش مصنوعی خط‌هایی را که فکر می‌کند گفته نشده حذف کند، با **برگرداندن** هر کدام را برمی‌گردانی"
 }

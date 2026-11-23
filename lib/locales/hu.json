@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Megnyitja az eltávolított sorok listáját, ahol bármelyiket visszaállíthatod.",
   "Beta": "Béta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Felirat készítése a hangból**: teljesen felirat nélküli videóknál egy ingyenes beszédmodell a gépeden leírja, ami elhangzik, aztán lefordítja a nyelvedre. Ez béta, még nem tökéletes, de segíthet",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "A **Fordítási várólista** fájljai most név szerint állnak sorba, így a 2. rész a 10. előtt jön. A **Rendezés** megváltoztatja a sorrendet"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "A **Fordítási várólista** fájljai most név szerint állnak sorba, így a 2. rész a 10. előtt jön. A **Rendezés** megváltoztatja a sorrendet",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "A hangból készült felirat második sorként azt is mutathatja, ami elhangzott, és ha az MI kivesz sorokat, amelyek szerinte nem hangzottak el, bármelyiket a **Visszaállítás** hozza vissza"
 }

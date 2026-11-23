@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Otwiera listę usuniętych wierszy, gdzie możesz przywrócić dowolny z nich.",
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Utwórz napisy z dźwięku**: w filmach w ogóle bez napisów darmowy model mowy na twoim komputerze zapisuje, co zostało powiedziane, a potem tłumaczy to na twój język. To wersja beta i jeszcze nie jest idealna, ale może pomóc",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Pliki w **Kolejce tłumaczeń** układają się teraz według nazwy, więc odcinek 2 jest przed odcinkiem 10. Kolejność zmienisz przyciskiem **Sortuj**"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Pliki w **Kolejce tłumaczeń** układają się teraz według nazwy, więc odcinek 2 jest przed odcinkiem 10. Kolejność zmienisz przyciskiem **Sortuj**",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Napisy z dźwięku mogą też pokazać jako drugą linię to, co zostało powiedziane, a jeśli AI usunie linie, które jej zdaniem nie padły, każdą przywrócisz przyciskiem **Przywróć**"
 }

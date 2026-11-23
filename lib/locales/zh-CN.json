@@ -720,5 +720,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "打开已移除行的列表，可以放回其中任意一行。",
   "Beta": "测试版",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**从音频生成字幕**：完全没有字幕的视频，也能由你电脑上的免费语音模型记下所说的话，再翻译成你的语言。目前还是测试版，并不完美，但能帮上忙",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**翻译队列**中的文件现在按名称排列，第 2 集排在第 10 集前面。用**排序**可以更改顺序"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "**翻译队列**中的文件现在按名称排列，第 2 集排在第 10 集前面。用**排序**可以更改顺序",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "音频生成的字幕还可以把原话显示为第二行；如果 AI 删掉了它认为没人说过的行，点 **放回** 就能把任意一行找回来"
 }

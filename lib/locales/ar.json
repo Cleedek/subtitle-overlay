@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "يفتح قائمة الأسطر المحذوفة، حيث يمكنك إعادة أي منها.",
   "Beta": "تجريبي",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**إنشاء ترجمة من الصوت**: في الفيديوهات التي بلا أي ترجمة، يكتب نموذج كلام مجاني على جهازك ما يُقال، ثم يُترجم إلى لغتك. ما زال تجريبيًا وليس مثاليًا بعد، لكنه قد يساعد",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "أصبحت الملفات في **قائمة انتظار الترجمة** مرتبة حسب الاسم، فتأتي الحلقة 2 قبل الحلقة 10، ويمكنك تغيير الترتيب بزر **ترتيب**"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "أصبحت الملفات في **قائمة انتظار الترجمة** مرتبة حسب الاسم، فتأتي الحلقة 2 قبل الحلقة 10، ويمكنك تغيير الترتيب بزر **ترتيب**",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "يمكن لترجمة من الصوت أن تعرض ما قيل كسطر ثانٍ أيضًا، وإذا حذف الذكاء الاصطناعي أسطرًا يظن أنها لم تُقل، تعيد **إعادة** أيًّا منها"
 }

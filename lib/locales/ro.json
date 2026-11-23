@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Deschide lista rândurilor eliminate, unde poți readuce oricare dintre ele.",
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Creează subtitrări din sunet**: pentru videoclipurile fără nicio subtitrare, un model de vorbire gratuit de pe computerul tău scrie ce se spune, apoi textul e tradus în limba ta. E o versiune beta și încă nu e perfectă, dar te poate ajuta",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Fișierele din **Coada de traducere** se ordonează acum după nume, deci episodul 2 vine înaintea episodului 10. **Sortează** schimbă ordinea"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Fișierele din **Coada de traducere** se ordonează acum după nume, deci episodul 2 vine înaintea episodului 10. **Sortează** schimbă ordinea",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Subtitrările din sunet pot arăta și ce s-a spus, pe al doilea rând, iar dacă AI scoate rânduri pe care le crede nespuse, oricare revine cu **Readu**"
 }

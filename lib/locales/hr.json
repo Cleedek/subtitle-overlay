@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Otvara popis uklonjenih redaka, gdje možeš vratiti bilo koji od njih.",
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Napravi titlove iz zvuka**: za videozapise bez ikakvih titlova besplatni model govora na tvom računalu zapisuje što je rečeno, a zatim se to prevodi na tvoj jezik. To je beta i još nije savršeno, ali može pomoći",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Datoteke u **Redu prijevoda** sada se slažu po nazivu, pa je 2. epizoda prije 10. Redoslijed mijenja gumb **Poredaj**"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Datoteke u **Redu prijevoda** sada se slažu po nazivu, pa je 2. epizoda prije 10. Redoslijed mijenja gumb **Poredaj**",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Titlovi iz zvuka mogu prikazati i ono što je rečeno kao drugi redak, a ako AI ukloni retke za koje misli da nisu izgovoreni, svaki vraćaš gumbom **Vrati**"
 }

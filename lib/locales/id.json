@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Membuka daftar baris yang dihapus, tempat kamu bisa mengembalikan yang mana saja.",
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Buat subtitle dari audio**: untuk video yang sama sekali tanpa subtitle, model ucapan gratis di komputermu menuliskan apa yang diucapkan, lalu diterjemahkan ke bahasamu. Ini masih beta dan belum sempurna, tapi bisa membantu",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "File di **Antrean terjemahan** kini berurutan menurut nama, jadi episode 2 ada sebelum episode 10. **Urutkan** mengubah urutannya"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "File di **Antrean terjemahan** kini berurutan menurut nama, jadi episode 2 ada sebelum episode 10. **Urutkan** mengubah urutannya",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Subtitle dari audio juga bisa menampilkan apa yang diucapkan sebagai baris kedua, dan jika AI menghapus baris yang menurutnya tidak pernah diucapkan, **Kembalikan** mengembalikan baris mana pun"
 }

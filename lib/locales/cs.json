@@ -718,5 +718,6 @@
   "Opens the list of removed lines, where you can put any of them back.": "Otevře seznam odstraněných řádků, kde můžeš kterýkoli vrátit.",
   "Beta": "Beta",
   "**Make subtitles from the audio**: for videos with no subtitles at all, a free speech model on your computer writes down what’s said, then it’s translated into your language. It’s a beta and not perfect yet, but it can help": "**Vytvořit titulky ze zvuku**: u videí úplně bez titulků bezplatný model řeči ve tvém počítači zapíše, co zaznělo, a pak se to přeloží do tvého jazyka. Je to beta a ještě to není dokonalé, ale může to pomoct",
-  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Soubory ve **Frontě překladů** se teď řadí podle názvu, takže díl 2 je před dílem 10. Pořadí změníš přes **Seřadit**"
+  "Files in the **Translation queue** now line up by name, so episode 2 comes before episode 10. **Sort** changes the order": "Soubory ve **Frontě překladů** se teď řadí podle názvu, takže díl 2 je před dílem 10. Pořadí změníš přes **Seřadit**",
+  "Subtitles from the audio can also show what was said as a second line, and if the AI removes lines it thinks were never said, **Put back** brings any of them back": "Titulky ze zvuku umí ukázat i to, co zaznělo, jako druhý řádek, a když AI vyhodí řádky, které podle ní nezazněly, kterýkoli vrátíš tlačítkem **Vrátit**"
 }
