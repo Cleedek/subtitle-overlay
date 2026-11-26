@@ -588,7 +588,7 @@ async function shareSend(job) {
 
 async function translateBatch(lines, to) {
   const body = new URLSearchParams();
-  for (const l of lines) body.append('q', l);
+  for (const l of lines) body.append('q', SubLib.unshout(l));
   let r;
   // A request that never answers would leave the translation waiting forever.
   try { r = await fetch(GOOGLE_URL + encodeURIComponent(to), { method: 'POST', body, signal: AbortSignal.timeout(30000) }); }
@@ -1119,6 +1119,9 @@ async function aiTranslate(lines, before, to, signal, sheet, clean, doubt) {
   if (!cfg) throw new Error(tr('No AI translator is chosen.'));
   if (!cfg.model) throw new Error(tr('Choose a model in the extension popup.'));
   const lang = englishName(to);
+  // ALL-CAPS captions confuse models the same way they confuse Google.
+  lines = lines.map(SubLib.unshout);
+  before = before.map(SubLib.unshout);
   // One request -> { texts, cut }: the lines it got back, '' where the model
   // left one out (texts null: no JSON at all); cut: the answer ran out of room.
   async function ask(lines, before, flags) {
@@ -1298,7 +1301,7 @@ async function loadFont(family, subset) {
   // One block per subset and weight; keep only the alphabets subtitles here need.
   // (Chrome gets one block per alphabet, each labelled; other browsers get one unlabelled block.)
   const blocks = [...css.matchAll(/(?:\/\*\s*([\w-]+)\s*\*\/\s*)?@font-face\s*{([^}]*)}/g)];
-  const wantedSubsets = ['latin', 'latin-ext', 'vietnamese'].concat(subset ? [subset] : []);
+  const wantedSubsets = ['latin', 'latin-ext', 'vietnamese'].concat(subset ? subset.split(',') : []);
   const keep = blocks.filter((b) => !b[1] || wantedSubsets.includes(b[1]));
   // All files download at once; a variable font shares one file across weights.
   const files = new Map();
