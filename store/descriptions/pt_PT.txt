@@ -4,7 +4,7 @@ O Subtitle Overlay mostra legendas por cima do leitor de vídeo de qualquer site
 
 ★ O ESSENCIAL
 ★ Qualquer site, qualquer vídeo: legendas por cima do leitor, em janela ou em ecrã inteiro, sempre sincronizadas
-★ Tradução para 35 línguas com um clique, ou totalmente automática assim que ativas as legendas no leitor do site
+★ Tradução para 42 línguas com um clique, ou totalmente automática assim que ativas as legendas no leitor do site
 ★ NOVIDADE: vídeo sem legenda nenhuma? Um modelo de fala gratuito no teu computador escreve o que é dito e depois isso é traduzido para a tua língua (beta)
 ★ Legendas partilhadas: se alguém já melhorou as mesmas legendas com IA, recebes a versão dessa pessoa logo, e partilhar as tuas é decisão tua
 ★ Torna a tradução natural com IA, grátis no teu próprio computador (Gemma) ou com a tua própria chave do Gemini, Claude ou OpenAI
@@ -16,7 +16,7 @@ O Subtitle Overlay mostra legendas por cima do leitor de vídeo de qualquer site
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUZ PARA 35 LÍNGUAS
+TRADUZ PARA 42 LÍNGUAS
 • Um clique traduz as legendas carregadas com o Google Tradutor, diretamente na extensão
 • Opcional: clica em Melhorar e a IA (Gemma no teu computador, ou Gemini, Claude ou OpenAI) reescreve a versão rápida do Google para soar natural (mais abaixo). Passa o rato por cima do vídeo para veres quanto já está feito
 • Escolhes a tua língua uma vez; fica como favorita em todos os botões Traduzir
@@ -24,7 +24,7 @@ TRADUZ PARA 35 LÍNGUAS
 • Se o site tem legendas na tua língua (YouTube e serviços de streaming), essas vêm primeiro; o Google ou a IA só traduzem quando não há
 • As legendas do próprio site ficam ocultas enquanto as nossas estão ligadas e voltam assim que desligas as nossas
 • Volta ao original quando quiseres, ou guarda a tradução como ficheiro .srt
-• Línguas: vietnamita, checo, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polaco, húngaro, ucraniano, russo, búlgaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe, persa
+• Línguas: vietnamita, checo, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polaco, húngaro, ucraniano, russo, búlgaro, sérvio, esloveno, lituano, letão, estónio, catalão, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe, persa, hebraico
 
 TRADUÇÃO NATURAL COM IA (OPCIONAL)
 O Google Tradutor é rápido, mas traduz linha a linha, palavra a palavra. Clica em Melhorar e um modelo de IA reescreve as legendas tendo em conta a cena inteira, a começar onde estás a ver.
@@ -104,8 +104,8 @@ Alt + [ / ] sincronizar · Alt + Shift + [ / ] sincronizar em 1 s · Alt + 0 rep
 No Windows e no Linux: Alt + Enter ecrã inteiro com legendas · Alt + , / Alt + . sincronizar de 1 em 1 s
 Todos os atalhos podem ser alterados ou desativados no separador Comportamento.
 
-INTERFACE EM 35 LÍNGUAS
-Inglês, checo, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polaco, ucraniano, russo, búlgaro, húngaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe e persa (da direita para a esquerda). Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
+INTERFACE EM 42 LÍNGUAS
+Inglês, checo, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polaco, ucraniano, russo, búlgaro, sérvio, esloveno, lituano, letão, estónio, catalão, húngaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, hebraico, árabe e persa (da direita para a esquerda). Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
 
 PARA OS CURIOSOS
 Um separador "Subtitles" nas DevTools lista todos os ficheiros de legendas que a página carregou e guarda-os como .vtt ou .srt.

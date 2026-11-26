@@ -4,7 +4,7 @@ Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của b�
 
 ★ ĐIỂM NỔI BẬT
 ★ Mọi trang web, mọi video: phụ đề hiện trên trình phát, trong cửa sổ hay toàn màn hình, luôn khớp thời gian
-★ Dịch sang 35 ngôn ngữ chỉ với một cú nhấp, hoặc hoàn toàn tự động ngay khi bạn bật phụ đề trong trình phát của trang
+★ Dịch sang 42 ngôn ngữ chỉ với một cú nhấp, hoặc hoàn toàn tự động ngay khi bạn bật phụ đề trong trình phát của trang
 ★ MỚI: không có phụ đề nào? Một mô hình giọng nói miễn phí trên máy tính của bạn ghi lại lời nói, rồi dịch sang ngôn ngữ của bạn (beta)
 ★ Phụ đề chia sẻ: nếu đã có người cải thiện cùng bộ phụ đề đó bằng AI, bạn nhận ngay bản của họ, còn có chia sẻ bản của bạn hay không là do bạn quyết định
 ★ Dùng AI để bản dịch nghe tự nhiên hơn, miễn phí ngay trên máy tính của bạn (Gemma) hoặc bằng khóa Gemini, Claude hay OpenAI của riêng bạn
@@ -16,7 +16,7 @@ Subtitle Overlay hiển thị phụ đề ngay trên trình phát video của b�
 
 ━━━━━━━━━━━━━━━━━━━━
 
-DỊCH SANG 35 NGÔN NGỮ
+DỊCH SANG 42 NGÔN NGỮ
 • Chỉ một cú nhấp là phụ đề đã tải được dịch bằng Google Translate, ngay trong tiện ích
 • Tùy chọn: bấm Cải thiện, AI (Gemma trên máy tính của bạn, hoặc Gemini, Claude hay OpenAI) sẽ viết lại bản dịch nhanh của Google cho tự nhiên hơn (xem thêm bên dưới). Di chuột lên video để xem đã làm được tới đâu
 • Chọn ngôn ngữ một lần, ngôn ngữ đó sẽ được dùng cho mọi nút Dịch
@@ -24,7 +24,7 @@ DỊCH SANG 35 NGÔN NGỮ
 • Nếu trang có phụ đề bằng ngôn ngữ của bạn (YouTube và các dịch vụ xem phim trực tuyến), bộ đó được dùng trước; Google hoặc AI chỉ dịch khi không có
 • Phụ đề gốc của trang được ẩn khi phụ đề của chúng tôi đang bật, và hiện lại ngay khi bạn tắt phụ đề của chúng tôi
 • Quay lại bản gốc bất cứ lúc nào, hoặc lưu bản dịch thành tệp .srt
-• Ngôn ngữ: tiếng Việt, tiếng Séc, tiếng Anh, tiếng Slovakia, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Ý, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Hungary, tiếng Ukraina, tiếng Nga, tiếng Bulgaria, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Trung (giản thể và phồn thể), tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi, tiếng Bengal, tiếng Ả Rập, tiếng Ba Tư
+• Ngôn ngữ: tiếng Việt, tiếng Séc, tiếng Anh, tiếng Slovakia, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Ý, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Hungary, tiếng Ukraina, tiếng Nga, tiếng Bulgaria, tiếng Serbia, tiếng Slovenia, tiếng Litva, tiếng Latvia, tiếng Estonia, tiếng Catalan, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Trung (giản thể và phồn thể), tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi, tiếng Bengal, tiếng Ả Rập, tiếng Ba Tư, tiếng Do Thái
 
 BẢN DỊCH TỰ NHIÊN HƠN VỚI AI (TÙY CHỌN)
 Google Translate dịch nhanh, nhưng dịch từng dòng, từng chữ. Bấm Cải thiện, một mô hình AI sẽ viết lại phụ đề dựa trên ngữ cảnh của cả cảnh phim, bắt đầu từ đoạn bạn đang xem.
@@ -104,8 +104,8 @@ Alt + [ / ] chỉnh đồng bộ · Alt + Shift + [ / ] chỉnh đồng bộ 1 g
 Trên Windows và Linux: Alt + Enter toàn màn hình kèm phụ đề · Alt + , / Alt + . chỉnh 1 giây
 Mọi phím tắt đều có thể đổi hoặc tắt trong tab Hành vi.
 
-GIAO DIỆN 35 NGÔN NGỮ
-Tiếng Anh, tiếng Séc, tiếng Slovak, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt, tiếng Trung (Giản thể), tiếng Trung (Phồn thể), tiếng Italy, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Ukraina, tiếng Nga, tiếng Bulgaria, tiếng Hungary, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi, tiếng Bengal, tiếng Ả Rập và tiếng Ba Tư (từ phải sang trái). Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
+GIAO DIỆN 42 NGÔN NGỮ
+Tiếng Anh, tiếng Séc, tiếng Slovak, tiếng Đức, tiếng Pháp, tiếng Tây Ban Nha, tiếng Việt, tiếng Trung (Giản thể), tiếng Trung (Phồn thể), tiếng Italy, tiếng Bồ Đào Nha, tiếng Ba Lan, tiếng Ukraina, tiếng Nga, tiếng Bulgaria, tiếng Serbia, tiếng Slovenia, tiếng Litva, tiếng Latvia, tiếng Estonia, tiếng Catalan, tiếng Hungary, tiếng Hà Lan, tiếng Thụy Điển, tiếng Đan Mạch, tiếng Na Uy, tiếng Phần Lan, tiếng Hy Lạp, tiếng Thổ Nhĩ Kỳ, tiếng Romania, tiếng Croatia, tiếng Nhật, tiếng Hàn, tiếng Thái, tiếng Indonesia, tiếng Mã Lai, tiếng Filipino, tiếng Hindi, tiếng Bengal, tiếng Do Thái, tiếng Ả Rập và tiếng Ba Tư (từ phải sang trái). Tự theo ngôn ngữ của trình duyệt, hoặc bạn chọn ở cuối cửa sổ tiện ích.
 
 DÀNH CHO NGƯỜI THÍCH VỌC VẠCH
 Tab "Subtitles" trong DevTools liệt kê mọi tệp phụ đề mà trang đã tải và lưu thành .vtt hoặc .srt.

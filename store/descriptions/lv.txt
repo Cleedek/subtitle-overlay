@@ -1,0 +1,130 @@
+Skaties jebkuru tīmekļa video ar subtitriem savā valodā.
+
+Subtitle Overlay attēlo subtitrus virs jebkuras vietnes video atskaņotāja, arī pilnekrāna režīmā, un tur tos sinhronus ar video: pauze, pārtīšana un atskaņošanas ātrums vienkārši darbojas. Izmanto subtitrus, kas vietnei jau ir, iztulkotus tavā valodā, vai pievieno savu .srt, .vtt, .ass, .ssa vai .ttml failu.
+
+★ SVARĪGĀKAIS
+★ Jebkura vietne, jebkurš video: subtitri virs atskaņotāja, logā vai pilnekrānā, vienmēr sinhroni
+★ Tulkojums 42 valodās ar vienu klikšķi vai pilnīgi automātiski, tiklīdz ieslēdz subtitrus vietnes atskaņotājā
+★ JAUNUMS: subtitru nav vispār? Bezmaksas runas modelis tavā datorā pieraksta teikto, un tas tiek iztulkots tavā valodā (beta)
+★ Kopīgoti subtitri: ja kāds tos pašus subtitrus jau uzlaboja ar MI, uzreiz saņem viņa versiju, bet savus kopīgot ir tava izvēle
+★ Ar MI tulkojums skan dabiski, bez maksas tavā datorā (Gemma) vai ar tavu Gemini, Claude vai OpenAI atslēgu
+★ Ja vietnei jau ir subtitri tavā valodā, saņem tos, un tulkošana iesaistās tikai tad, ja to nav
+★ Divas valodas vienlaikus: viena augšā, otra apakšā, kopīgai skatīšanai vai valodas mācībām
+★ Atrod subtitrus, ko lapa ielādē, arī YouTube, tāpēc fails vajadzīgs reti
+★ Tavs stils: vairāk nekā 1800 Google Fonts fontu, kontūra, ēna, fona rāmītis, izmērs un novietojums
+★ Bez maksas un atvērtais kods: bez reklāmām, bez konta, bez izsekošanas, un katra koda rinda ir publiska
+
+━━━━━━━━━━━━━━━━━━━━
+
+TULKOJUMS 42 VALODĀS
+• Viens klikšķis iztulko ielādētos subtitrus ar Google Tulkotāju, tieši paplašinājumā
+• Pēc izvēles: noklikšķini Uzlabot, un MI (Gemma tavā datorā vai Gemini, Claude vai OpenAI) pārrakstīs ātro Google versiju, lai tā skanētu dabiski (vairāk zemāk). Pavelc peli virs video, lai redzētu, cik daudz jau izdarīts
+• Valodu izvēlies vienreiz; tā paliek iecienītākā visām pogām Tulkot
+• Automātiskais režīms: ieslēdz subtitrus vietnes atskaņotājā, un tie parādās virs video jau iztulkoti, ar īsu piezīmi "Iztulkots uz …" uznirstoša loga vietā. Jaunās instalācijās tas ir ieslēgts un tulko tava pārlūka valodā
+• Ja vietnei ir subtitri tavā valodā (YouTube un straumēšanas vietnes), tie ir pirmie; Google vai MI tulko tikai tad, ja to nav
+• Vietnes pašas subtitri ir paslēpti, kamēr ieslēgti mūsējie, un atgriežas, tiklīdz mūsējos izslēdz
+• Jebkurā brīdī pārslēdzies atpakaļ uz oriģinālu vai saglabā tulkojumu kā .srt failu
+• Valodas: vjetnamiešu, čehu, angļu, slovāku, vācu, franču, spāņu, itāļu, portugāļu, poļu, ungāru, ukraiņu, krievu, bulgāru, serbu, slovēņu, lietuviešu, latviešu, igauņu, katalāņu, holandiešu, zviedru, dāņu, norvēģu, somu, grieķu, turku, rumāņu, horvātu, ķīniešu (vienkāršotā un tradicionālā), japāņu, korejiešu, taju, indonēziešu, malajiešu, filipīniešu, hindi, bengāļu, arābu, persiešu, ivrita
+
+LAI SKANĒTU DABISKI (PĒC IZVĒLES)
+Google Tulkotājs ir ātrs, bet tulko rindu pa rindai, vārdu pa vārdam. Noklikšķini Uzlabot, un MI modelis pārrakstīs subtitrus, ņemot vērā visu ainu, sākot no vietas, kur skaties.
+• Bez maksas: Gemma, Google atvērtais modelis, darbojas tavā datorā ar Ollama vai LM Studio, tāpēc MI solis paliek tavā datorā. Vajadzīgs pietiekami jaudīgs dators un apmēram 8 GB vietas diskā.
+• Paplašinājuma logs tevi izvedīs cauri visam: instalē Ollama no ollama.com, tad ar vienu klikšķi lejupielādē Gemma (vajadzīgi vismaz 16 GB RAM). Vairāk par to un pašlaik ieteikto modeli: cleedek.com/subtitle-overlay/ai
+• Vai izmanto savu API atslēgu: Gemini (ir bezmaksas plāns), Claude vai OpenAI (par maksu).
+• Pirms sākšanas tas pārlūko visu failu un pieraksta, kurš ir kurš, lai dzimte, uzrunas formas un vārdi paliktu tie paši no pirmās līdz pēdējai rindai.
+• Tas nekad nesākas pats: bez tava klikšķa nekas nedarbojas un nekas netiek tērēts.
+• Arī YouTube automātiskajiem subtitriem tavā valodā: Uzlabot pievieno pieturzīmes un izlabo nepareizi sadzirdētus vārdus, netulkojot.
+
+KOPĪGOTI SUBTITRI
+• Ja kāds tos pašus subtitrus jau uzlaboja ar MI un kopīgoja, kartīte virs video piedāvā viņa versiju ar atzīmi "Kopīgoti". Viens klikšķis uz Izmantot, un nav jāgaida, un tavs dators neveic MI darbu
+• Meklēšana ir ieslēgta no sākuma un sūta tikai pirmās 5 rakstzīmes no subtitru vienvirziena pirkstu nospieduma un valodu, nekad lapu, video vai tā nosaukumu. "Atrast citu subtitrus" to izslēdz
+• "Izmantot kopīgotos automātiski" (pēc noklusējuma izslēgts) paņem kopīgoto versiju bez klikšķa. Google versija vienmēr ir viena klikšķa attālumā
+• Savu kopīgošana paliek izslēgta, līdz kartītē pēc MI uzlabojuma pasaki jā. Tiek piedāvātas tikai pabeigtas versijas no lokālā modeļa ar 12B vai vairāk vai no maksas modeļa. "Dzēst manus kopīgotos subtitrus" ar vienu klikšķi noņem visu, ko kopīgoji
+• Slikta kopija? "Ziņot par problēmu" > "Tulkojums ir nepareizs" par to ziņo, un pēc trim ziņojumiem tā tiek paslēpta
+
+DIVAS VALODAS VIENLAIKUS
+• Ieslēdz otros subtitrus jebkurā valodā: angļu augšā tev, vjetnamiešu apakšā tavam partnerim
+• Vai patur oriģinālu blakus tulkojumam, kas lieliski noder mācībām
+• Katram komplektam ir savs attālums no malas
+• Neliels panelis virs video ieslēdz vai izslēdz katru valodu blakus tās karogam; otra pārvietojas uz ierasto vietu
+
+ATROD SUBTITRUS, KO VIETNE IELĀDĒ
+• Kad lapa ielādē subtitrus (VTT failus vai straumēto subtitru atskaņošanas sarakstus), neliela kartīte tos piedāvā, ar filmas vai sērijas nosaukumu, ja lapa to sniedz
+• YouTube: ieslēdz CC un lasi subtitrus savā valodā; YouTube poga CC tos ieslēdz un izslēdz, un rindas paceļas, kad parādās atskaņotāja vadīklas
+• Rādi, tulko vai saglabā tos kā .srt ar vienu klikšķi
+• Vairāki video vienā lapā? Izvēlies, kuram pieder subtitri
+
+SUBTITRI NO SKAŅAS (BETA)
+• Subtitru nav vispār? Paplašinājuma logā noklikšķini "Izveidot subtitrus no skaņas". Bezmaksas runas modelis (Whisper) tavā datorā pieraksta teikto, kamēr video tiek atskaņots līdz beigām
+• Pa to laiku šo cilni nedzirdēsi: droši izmanto citas cilnes, tikai atstāj to atvērtu. Paziņojums var pateikt, kad subtitri ir gatavi
+• Tad tie tiek iztulkoti tulkošanas rindā un parādās virs video tavā valodā, ja vēlies, ar teikto kā otro rindu
+• Skaņa nekad neatstāj tavu datoru, un šie subtitri nekad netiek kopīgoti. Runas modelis tiek lejupielādēts vienreiz (no 560 MB līdz 1,9 GB, izmēru izvēlies pats)
+• Ar ieslēgtu MI tas arī izlabo nepareizi sadzirdētus vārdus un izmet rindas, ko runas modelis izdomāja mūzikas laikā; rindā jebkuru no tām vari atgriezt
+• Tas var kļūdīties tur, kur cilvēks nekļūdītos, un vislabāk darbojas ar skaidru runu
+
+TULKOŠANAS RINDA UN SAGLABĀTIE SUBTITRI
+• Iemet vairākus .srt, .vtt, .ass, .ssa vai .ttml failus vai noklikšķini "Pievienot rindai" pie subtitriem, ko ielādē vietne. Tie tiek tulkoti viens pēc otra, kamēr tu dari ko citu; rindas cilne var būt fonā
+• Darbojas ar Google, Gemini, Claude, OpenAI vai tavu lokālo modeli
+• Kamēr fails ir rindā, kartīte virs tā video rāda, cik daudz izdarīts, un gatavais fails pats aizstāj Google rindas
+• Uzlabotie subtitri tiek glabāti paplašinājumā tik ilgi, cik izvēlies, un atgriežas, kad atgriezies pie video, un jebkurā citā lapā ar tiem pašiem subtitriem, atkārtoti nejautājot MI
+• Atskaņot atver video ar tā subtitriem, "Rādīt…" uzliek tos uz video, kas jau atvērts citā cilnē, un Lejupielādēt saglabā .srt
+• Faili tiek sakārtoti pēc nosaukuma, tāpēc 2. sērija ir pirms 10., un Kārtot maina secību
+
+STILS PĒC TAVAS GAUMES
+• Vairāk nekā 1800 Google Fonts fontu, atlasīti tie, kuros ir tavas valodas burti (č ř ž, ư ế ộ, kirilica, grieķu, japāņu un citi)
+• Izmērs, biezums, krāsa, kontūra (ar savu necaurredzamību), ēna, fona rāmītis (pēc izvēles ar izpludinājumu aiz tā) un rindas platums
+• Video apakšā, vidū vai augšā
+• Iestatījumi (Tīrs, Rāmītī, Augsts kontrasts) un tavi saglabātie izskati
+• Teksts mērogojas ar atskaņotāju, ar tiešo priekšskatījumu paplašinājuma logā
+• Pārskatāms logs ar trim cilnēm: Subtitri, Stils un Darbība, tumšā vai gaišā izskatā (vai pēc sistēmas)
+• Paslēpj skaņu apzīmējumus, piemēram, [Mūzika], un runātāju atzīmes >> (viens slēdzis tos atgriež)
+
+LAIKA LABOŠANA
+• Pabīdi subtitrus agrāk vai vēlāk ar soli 0,1 s vai 1 s, paplašinājuma logā vai ar tastatūru
+• Nobīde tiek atcerēta kopā ar lapu
+
+RADĪTS MĀCĪBĀM
+• Palaidi garām rindu? Alt + R to atskaņo vēlreiz no sākuma
+• Noklikšķini uz jebkuras rindas, lai to nokopētu vārdnīcai vai piezīmēm
+
+TAVS FAILS
+• Izvēlies .srt, .vtt, .ass, .ssa vai .ttml failu vai uzvelc to tieši uz video
+• Bojāti burti? Automātiska teksta kodējuma noteikšana (arī japāņu, ķīniešu un korejiešu failiem) ar manuālu izvēli
+• Tavi subtitri atgriežas, kad pārlādē lapu vai atgriezies tajā vēlāk
+
+PILNEKRĀNS, KAS PATUR SUBTITRUS
+• Alt + F vai poga video augšā; F vai poga "Iziet no pilnekrāna" no tā iziet
+• Subtitri pavirzās malā, kad tos aizsedz vietnes izvēlne vai paziņojums
+
+VIETNE PĒC VIETNES
+• Izslēdz to jebkurā vietnē ar vienu slēdzi; izslēgto vietņu saraksts ir viena klikšķa attālumā
+
+ĪSINĀJUMTAUSTIŅI
+Alt + [ / ] sinhronizācija · Alt + Shift + [ / ] sinhronizācija par 1 s · Alt + 0 atiestatīt sinhronizāciju · Alt + R atkārtot rindu · Alt + S rādīt vai paslēpt · Alt + 1 / Alt + 2 rādīt vai paslēpt tikai vienu valodu · Alt + ↑ / ↓ pārvietot · Alt + = / Alt + − lielāki vai mazāki · Alt + F pilnekrāns ar subtitriem
+Windows un Linux: Alt + Enter pilnekrāns ar subtitriem · Alt + , / Alt + . sinhronizācija par 1 s
+Katru īsinājumtaustiņu var mainīt vai izslēgt cilnē Darbība.
+
+SASKARNE 42 VALODĀS
+Angļu, čehu, slovāku, vācu, franču, spāņu, vjetnamiešu, ķīniešu vienkāršotā, ķīniešu tradicionālā, itāļu, portugāļu, poļu, ukraiņu, krievu, bulgāru, serbu, slovēņu, lietuviešu, latviešu, igauņu, katalāņu, ungāru, holandiešu, zviedru, dāņu, norvēģu, somu, grieķu, turku, rumāņu, horvātu, japāņu, korejiešu, taju, indonēziešu, malajiešu, filipīniešu, hindi, bengāļu, ivrita, arābu un persiešu (no labās uz kreiso). Tā seko tavam pārlūkam, vai izvēlies valodu paplašinājuma loga apakšā.
+
+ZIŅKĀRĪGAJIEM
+Cilne "Subtitles" rīkos DevTools uzskaita visus lapas ielādētos subtitru failus un saglabā tos kā .vtt vai .srt.
+
+PRIVĀTUMS
+Bez kontiem, bez analītikas, bez izsekošanas. Subtitru teksts tiek sūtīts Google Tulkotājam tikai tad, kad subtitri tiek tulkoti (ar tavu klikšķi vai automātiskajā režīmā), un Gemini, Claude, OpenAI vai tavam lokālajam modelim tikai tad, kad noklikšķini Uzlabot. Lai atrastu kopīgotus subtitrus, uz manu serveri (subs.cleedek.com) tiek sūtītas pirmās 5 rakstzīmes no subtitru vienvirziena pirkstu nospieduma un valoda; tavi uzlabotie subtitri tur nonāk tikai tad, ja piekrīti tos kopīgot. Citādi atcerētie un saglabātie subtitri paliek tavā pārlūkā. Ja man raksti ar "Raksti man" paplašinājuma logā, tava ziņa mani sasniedz pa e-pastu. Ziņojums par problēmu tiek nosūtīts tikai tad, kad nospied Sūtīt, un tajā ir vietnes nosaukums, nekad lapas adrese. Sīkāk privātuma politikā.
+Subtitri no skaņas: cilnes skaņa tiek pārvērsta tekstā tikai tavā datorā un nekur netiek sūtīta. Runas modelis tiek vienreiz lejupielādēts no Hugging Face, un šie subtitri nekad netiek kopīgoti; to teksts tiek tulkots tāpat kā jebkuri citi subtitri.
+
+PROBLĒMA VAI IDEJA?
+Paplašinājuma loga apakšā noklikšķini "Problēma vai ideja?" un raksti man. Izlasu katru ziņu. Kādā vietnē neparādās subtitri? Uzlīme "Palīdzība" uz video tevi izvedīs cauri soli pa solim, un "Ziņot par problēmu" man nosūta vietnes nosaukumu, lai varu to salabot.
+
+ATVĒRTAIS KODS
+Viss paplašinājums ir atvērtā koda (GPL-3.0), tāpēc ikviens var precīzi pārbaudīt, ko tas dara: github.com/Cleedek/subtitle-overlay. Ja tas tev patīk, zvaigznīte GitHub palīdz citiem to atrast.
+
+ATBALSTI AUTORU
+Subtitle Overlay ir bez maksas, un visas funkcijas paliek bez maksas. Ja tas padara tavus vakarus labākus, paplašinājuma logā ir lapa "Atbalstīt autoru" ar Ko-fi un dažiem citiem maksāšanas veidiem. Pēc daudziem iztulkotiem video arī neliela kartīte virs video vienreiz pajautā (ne vairāk kā trijos video; viens klikšķis uz tās, un tā pazūd uz visiem laikiem). Pilnīgi brīvprātīgi, un paldies!
+
+Ar 💜 radījis Cleedek Vjetnamā.
+
+Subtitle Overlay ir neatkarīgs projekts. Tas nav saistīts ar vietnēm vai straumēšanas pakalpojumiem, ar kuriem tas darbojas, un tie to neatbalsta un nesponsorē. To atbalsts ir mūsu pašu darbs: mēs to pārbaudījām šajās vietnēs un dažās pielāgojām to atskaņotājiem. Šo pakalpojumu nosaukumi un logotipi pieder to īpašniekiem.
+
+Ekrānuzņēmumos redzami kadri no filmas Tears of Steel, © Blender Foundation, mango.blender.org, licence CC BY 3.0.

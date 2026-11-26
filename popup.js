@@ -135,7 +135,7 @@
   // Revolut only for European languages (the extension's own), where people are likely to have it.
   const browserLang = (chrome.i18n ? chrome.i18n.getUILanguage() : navigator.language || '').toLowerCase().split('-')[0];
   const payLangs = [SubI18n.lang, browserLang];
-  const REVOLUT_LANGS = ['cs', 'en', 'de', 'fr', 'es', 'it', 'nl', 'pt', 'pl', 'sk', 'hu', 'ro', 'hr', 'el', 'da', 'sv', 'no', 'fi'];
+  const REVOLUT_LANGS = ['cs', 'en', 'de', 'fr', 'es', 'it', 'nl', 'pt', 'pl', 'sk', 'hu', 'ro', 'hr', 'el', 'da', 'sv', 'no', 'fi', 'sl', 'lt', 'lv', 'et', 'ca'];
   $('tabRevolut').hidden = !REVOLUT_LANGS.includes(SubI18n.lang); // the extension's language alone: an English browser is too common to say anything
   const bankLang = payLangs.find((l) => l === 'cs' || l === 'vi');
   const localTab = { cs: $('tabBankCz'), vi: $('tabBankVn') }[bankLang];

@@ -4,7 +4,7 @@ Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, t
 
 ★ NAJWAŻNIEJSZE
 ★ Dowolna strona, dowolne wideo: napisy nad odtwarzaczem, w oknie i na pełnym ekranie, zawsze zsynchronizowane
-★ Tłumaczenie na 35 języków jednym kliknięciem albo w pełni automatycznie, gdy tylko włączysz napisy w odtwarzaczu strony
+★ Tłumaczenie na 42 języki jednym kliknięciem albo w pełni automatycznie, gdy tylko włączysz napisy w odtwarzaczu strony
 ★ NOWOŚĆ: film w ogóle bez napisów? Darmowy model mowy na twoim komputerze zapisuje, co pada, a potem jest to tłumaczone na twój język (beta)
 ★ Udostępnione napisy: jeśli ktoś już ulepszył te same napisy za pomocą AI, od razu dostajesz jego wersję, a to, czy udostępnisz swoje, zależy od ciebie
 ★ AI sprawia, że tłumaczenie brzmi naturalnie, za darmo na twoim komputerze (Gemma) albo z własnym kluczem Gemini, Claude lub OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay wyświetla napisy nad odtwarzaczem wideo na dowolnej stronie, t
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TŁUMACZENIE NA 35 JĘZYKÓW
+TŁUMACZENIE NA 42 JĘZYKI
 • Jedno kliknięcie tłumaczy wczytane napisy przez Google Translate, bezpośrednio w rozszerzeniu
 • Opcjonalnie: kliknij Ulepsz, a AI (Gemma na twoim komputerze albo Gemini, Claude lub OpenAI) przepisze szybką wersję od Google tak, by brzmiała naturalnie (więcej niżej). Najedź myszą na wideo, by zobaczyć, ile już gotowe
 • Wybierasz język raz i zostaje ulubionym dla każdego przycisku Przetłumacz
@@ -24,7 +24,7 @@ TŁUMACZENIE NA 35 JĘZYKÓW
 • Jeśli strona ma napisy w twoim języku (YouTube i serwisy streamingowe), mają pierwszeństwo; Google lub AI tłumaczą tylko wtedy, gdy ich brak
 • Oryginalne napisy strony są ukryte, dopóki działają nasze, i wracają, gdy tylko wyłączysz nasze
 • W każdej chwili wrócisz do oryginału albo zapiszesz tłumaczenie jako plik .srt
-• Języki: wietnamski, czeski, angielski, słowacki, niemiecki, francuski, hiszpański, włoski, portugalski, polski, węgierski, ukraiński, rosyjski, bułgarski, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, chiński (uproszczony i tradycyjny), japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi, bengalski, arabski, perski
+• Języki: wietnamski, czeski, angielski, słowacki, niemiecki, francuski, hiszpański, włoski, portugalski, polski, węgierski, ukraiński, rosyjski, bułgarski, serbski, słoweński, litewski, łotewski, estoński, kataloński, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, chiński (uproszczony i tradycyjny), japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi, bengalski, arabski, perski, hebrajski
 
 NATURALNE TŁUMACZENIE Z AI (OPCJONALNIE)
 Google Translate jest szybki, ale tłumaczy linijka po linijce, słowo w słowo. Kliknij Ulepsz, a model AI przepisze napisy z myślą o całej scenie, zaczynając od miejsca, które właśnie oglądasz.
@@ -104,8 +104,8 @@ Alt + [ / ] synchronizacja · Alt + Shift + [ / ] synchronizacja o 1 s · Alt + 
 W Windows i Linuksie: Alt + Enter pełny ekran z napisami · Alt + , / Alt + . przesunięcie o 1 s
 Każdy skrót możesz zmienić lub wyłączyć na karcie Zachowanie.
 
-INTERFEJS W 35 JĘZYKACH
-Angielski, czeski, słowacki, niemiecki, francuski, hiszpański, wietnamski, chiński uproszczony, chiński tradycyjny, włoski, portugalski, polski, ukraiński, rosyjski, bułgarski, węgierski, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi, bengalski, arabski i perski (od prawej do lewej). Dostosowuje się do przeglądarki, albo wybierz język na dole okna rozszerzenia.
+INTERFEJS W 42 JĘZYKACH
+Angielski, czeski, słowacki, niemiecki, francuski, hiszpański, wietnamski, chiński uproszczony, chiński tradycyjny, włoski, portugalski, polski, ukraiński, rosyjski, bułgarski, serbski, słoweński, litewski, łotewski, estoński, kataloński, węgierski, niderlandzki, szwedzki, duński, norweski, fiński, grecki, turecki, rumuński, chorwacki, japoński, koreański, tajski, indonezyjski, malajski, filipiński, hindi, bengalski, hebrajski, arabski i perski (od prawej do lewej). Dostosowuje się do przeglądarki, albo wybierz język na dole okna rozszerzenia.
 
 DLA DOCIEKLIWYCH
 Karta "Subtitles" w DevTools pokazuje każdy plik napisów wczytany przez stronę i zapisuje go jako .vtt lub .srt.

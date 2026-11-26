@@ -1,0 +1,130 @@
+Mira qualsevol vídeo web amb subtítols en el teu idioma.
+
+Subtitle Overlay dibuixa subtítols sobre el reproductor de vídeo de qualsevol lloc web, també a pantalla completa, i els manté sincronitzats amb el vídeo: la pausa, els salts i la velocitat de reproducció funcionen sense més. Fes servir els subtítols que ja té el lloc, traduïts al teu idioma, o porta el teu propi fitxer .srt, .vtt, .ass, .ssa o .ttml.
+
+★ EL MÉS IMPORTANT
+★ Qualsevol lloc, qualsevol vídeo: subtítols sobre el reproductor, en finestra o a pantalla completa, sempre sincronitzats
+★ Traducció a 42 idiomes amb un clic, o del tot automàtica tan bon punt actives els subtítols al reproductor del lloc
+★ NOU: no hi ha cap subtítol? Un model de veu gratuït al teu ordinador escriu el que es diu i després es tradueix al teu idioma (beta)
+★ Subtítols compartits: si algú ja ha millorat els mateixos subtítols amb IA, reps la seva versió de seguida, i compartir els teus és decisió teva
+★ Fes que la traducció soni natural amb IA, gratis al teu ordinador (Gemma) o amb la teva clau de Gemini, Claude o OpenAI
+★ Si el lloc ja té subtítols en el teu idioma, reps aquests, i la traducció només entra en joc quan no n'hi ha
+★ Dos idiomes alhora: un a dalt i un a baix, per mirar en companyia o per aprendre un idioma
+★ Troba els subtítols que carrega la pàgina, YouTube inclòs, així que gairebé mai no et cal cap fitxer
+★ El teu estil: més de 1.800 tipus de lletra de Google Fonts, contorn, ombra, caixa de fons, mida i posició
+★ Gratuït i de codi obert: sense anuncis, sense compte, sense seguiment, i cada línia de codi és pública
+
+━━━━━━━━━━━━━━━━━━━━
+
+TRADUCCIÓ A 42 IDIOMES
+• Un clic tradueix els subtítols carregats amb Google Translate, des de la mateixa extensió
+• Opcional: fes clic a Millora i la IA (Gemma al teu ordinador, o Gemini, Claude o OpenAI) reescriu la versió ràpida de Google perquè soni natural (més a sota). Passa el ratolí per sobre del vídeo per veure fins on ha arribat
+• Tria l'idioma una vegada; queda com a preferit per a tots els botons Tradueix
+• Mode automàtic: activa els subtítols al reproductor del lloc i apareixen sobre el vídeo ja traduïts, amb un breu avís "Traduït a …" en lloc d'una finestra emergent. Les instal·lacions noves el tenen activat i tradueixen a l'idioma del teu navegador
+• Si el lloc té subtítols en el teu idioma (YouTube i plataformes de streaming), aquests van primer; Google o la IA només tradueixen quan no n'hi ha
+• Els subtítols propis del lloc s'amaguen mentre els nostres estan activats i tornen tan bon punt desactives els nostres
+• Torna a l'original quan vulguis o desa la traducció com a fitxer .srt
+• Idiomes: vietnamita, txec, anglès, eslovac, alemany, francès, espanyol, italià, portuguès, polonès, hongarès, ucraïnès, rus, búlgar, serbi, eslovè, lituà, letó, estonià, català, neerlandès, suec, danès, noruec, finès, grec, turc, romanès, croat, xinès (simplificat i tradicional), japonès, coreà, tai, indonesi, malai, filipí, hindi, bengalí, àrab, persa, hebreu
+
+QUE SONI NATURAL (OPCIONAL)
+Google Translate és ràpid, però va línia a línia, paraula per paraula. Fes clic a Millora i un model d'IA reescriu els subtítols tenint en compte tota l'escena, a partir d'on estàs mirant.
+• Gratis: Gemma, el model obert de Google, funciona al teu propi ordinador amb Ollama o LM Studio, de manera que el pas d'IA es queda al teu ordinador. Necessites un ordinador força potent i uns 8 GB d'espai al disc.
+• La finestra de l'extensió et guia: instal·la Ollama des d'ollama.com i després baixa Gemma amb un clic (necessita almenys 16 GB de RAM). Més informació i el model que recomanem ara mateix: cleedek.com/subtitle-overlay/ai
+• O fes servir la teva pròpia clau d'API: Gemini (té un nivell gratuït), Claude o OpenAI (de pagament).
+• Abans de començar, repassa tot el fitxer i anota qui és qui, perquè el gènere, les formes de tractament i els noms es mantinguin iguals de la primera a l'última línia.
+• No comença mai sol: sense el teu clic no funciona res i no es gasta res.
+• També per als subtítols automàtics de YouTube en el teu idioma: Millora hi afegeix la puntuació i corregeix les paraules mal enteses, sense traduir.
+
+SUBTÍTOLS COMPARTITS
+• Si algú ja ha millorat els mateixos subtítols amb IA i els ha compartit, la targeta sobre el vídeo t'ofereix la seva versió, marcada com a "Compartits". Un clic a Fes servir i no cal esperar ni que el teu ordinador faci feina d'IA
+• La cerca està activada des del principi i només envia els 5 primers caràcters d'una empremta unidireccional dels subtítols i l'idioma, mai la pàgina, el vídeo ni el seu títol. "Troba subtítols d'altres" la desactiva
+• "Fes servir els compartits automàticament" (desactivat per defecte) agafa una versió compartida sense clicar. La versió de Google sempre és a un clic
+• Compartir els teus queda desactivat fins que hi dius que sí en una targeta després d'una millora amb IA. Només s'ofereixen versions acabades d'un model local de 12B o més, o d'un de pagament. "Suprimeix els meus subtítols compartits" ho elimina tot amb un clic
+• Una còpia dolenta? "Informa d'un problema" > "La traducció és incorrecta" la informa, i amb tres informes s'amaga
+
+DOS IDIOMES ALHORA
+• Activa uns segons subtítols en qualsevol idioma: anglès a dalt per a tu, vietnamita a baix per a la teva parella
+• O mantén l'original al costat de la traducció, ideal per aprendre
+• Cada joc té la seva pròpia distància de la vora
+• Un petit panell sobre el vídeo activa o desactiva cada idioma al costat de la seva bandera; l'altre es mou al lloc habitual
+
+TROBA ELS SUBTÍTOLS QUE CARREGA UN LLOC
+• Quan una pàgina carrega subtítols (fitxers VTT o llistes de reproducció de subtítols en streaming), una petita targeta te'ls ofereix, amb el títol de la pel·lícula o l'episodi si la pàgina el comparteix
+• YouTube: activa CC i llegeix els subtítols en el teu idioma; el botó CC de YouTube els activa i desactiva, i les línies pugen quan apareixen els controls del reproductor
+• Mostra'ls, tradueix-los o desa'ls com a .srt amb un clic
+• Hi ha diversos vídeos a la pàgina? Tria a quin pertanyen els subtítols
+
+SUBTÍTOLS A PARTIR DE L'ÀUDIO (BETA)
+• No hi ha cap subtítol? Fes clic a "Crea subtítols a partir de l'àudio" a la finestra de l'extensió. Un model de veu gratuït (Whisper) al teu ordinador escriu el que es diu mentre el vídeo es reprodueix fins al final
+• Mentrestant no sentiràs aquella pestanya: fes servir altres pestanyes sense problema, però deixa-la oberta. Una notificació et pot avisar quan els subtítols estiguin a punt
+• Després es tradueixen a la cua de traduccions i es mostren sobre el vídeo en el teu idioma, amb el que s'ha dit com a segona línia si ho vols
+• El so no surt mai del teu ordinador i aquests subtítols no es comparteixen mai. El model de veu es baixa una sola vegada (de 560 MB a 1,9 GB, tu tries la mida)
+• Amb la IA activada, també corregeix paraules mal enteses i treu les línies que el model de veu s'ha inventat sobre la música; a la cua pots recuperar-ne qualsevol
+• Pot cometre errors que una persona no faria, i funciona millor amb una parla clara
+
+CUA DE TRADUCCIONS I SUBTÍTOLS DESATS
+• Deixa anar diversos fitxers .srt, .vtt, .ass, .ssa o .ttml, o fes clic a "Afegeix a la cua" en els subtítols que carrega un lloc. Es tradueixen un rere l'altre mentre fas una altra cosa; la pestanya de la cua pot quedar en segon pla
+• Funciona amb Google, Gemini, Claude, OpenAI o el teu model local
+• Mentre un fitxer és a la cua, la targeta sobre el seu vídeo mostra fins on ha arribat, i el fitxer acabat substitueix sol les línies de Google
+• Els subtítols millorats es guarden a l'extensió tant de temps com triïs, i tornen quan tornes al vídeo, i a qualsevol altra pàgina amb els mateixos subtítols, sense tornar a preguntar a la IA
+• Reprodueix obre el vídeo amb els seus subtítols, "Mostra a…" els posa sobre un vídeo ja obert en una altra pestanya i Baixa desa el .srt
+• Els fitxers s'ordenen per nom, així que l'episodi 2 va abans del 10, i Ordena canvia l'ordre
+
+ELS TEUS SUBTÍTOLS, AL TEU ESTIL
+• Més de 1.800 tipus de lletra de Google Fonts, filtrats als que tenen les lletres del teu idioma (č ř ž, ư ế ộ, ciríl·lic, grec, japonès i més)
+• Mida, gruix, color, contorn (amb la seva pròpia opacitat), ombra, caixa de fons (amb desenfocament opcional al darrere) i amplada de línia
+• A baix, al mig o a dalt del vídeo
+• Estils predefinits (Net, En caixa, Alt contrast) i els teus propis estils desats
+• El text s'escala amb el reproductor, amb una previsualització en directe a la finestra de l'extensió
+• Una finestra endreçada amb tres pestanyes: Subtítols, Estil i Comportament, amb aspecte fosc o clar (o el del sistema)
+• Amaga etiquetes de so com [Música] i les marques de qui parla >> (un interruptor les torna a mostrar)
+
+AJUSTA LA SINCRONIA
+• Avança o endarrereix els subtítols en passos de 0,1 s o 1 s, des de la finestra de l'extensió o amb el teclat
+• L'ajust es recorda amb la pàgina
+
+PENSAT PER APRENDRE
+• T'has perdut una línia? Alt + R la torna a reproduir des del principi
+• Fes clic en qualsevol línia per copiar-la, per a un diccionari o les teves notes
+
+EL TEU PROPI FITXER
+• Tria un fitxer .srt, .vtt, .ass, .ssa o .ttml, o arrossega'l directament sobre el vídeo
+• Lletres estranyes? Detecció automàtica de la codificació del text (també fitxers japonesos, xinesos i coreans) amb opció manual
+• Els teus subtítols tornen quan tornes a carregar la pàgina o hi tornes més tard
+
+PANTALLA COMPLETA QUE MANTÉ ELS SUBTÍTOLS
+• Alt + F o el botó a la part superior del vídeo; F o el botó "Surt de la pantalla completa" en surt
+• Els subtítols s'aparten quan un menú o una notificació del lloc els tapa
+
+LLOC PER LLOC
+• Desactiva-la en qualsevol lloc amb un interruptor; la llista de llocs desactivats és a un clic
+
+DRECERES DE TECLAT
+Alt + [ / ] sincronització · Alt + Maj + [ / ] sincronització d'1 s · Alt + 0 restableix la sincronització · Alt + R repeteix la línia · Alt + S mostra o amaga · Alt + 1 / Alt + 2 mostra o amaga només un idioma · Alt + ↑ / ↓ mou · Alt + = / Alt + − més gran o més petit · Alt + F pantalla completa amb subtítols
+A Windows i Linux: Alt + Retorn pantalla completa amb subtítols · Alt + , / Alt + . sincronització d'1 s
+Totes les dreceres es poden canviar o desactivar a la pestanya Comportament.
+
+INTERFÍCIE EN 42 IDIOMES
+Anglès, txec, eslovac, alemany, francès, espanyol, vietnamita, xinès simplificat, xinès tradicional, italià, portuguès, polonès, ucraïnès, rus, búlgar, serbi, eslovè, lituà, letó, estonià, català, hongarès, neerlandès, suec, danès, noruec, finès, grec, turc, romanès, croat, japonès, coreà, tai, indonesi, malai, filipí, hindi, bengalí, hebreu, àrab i persa (de dreta a esquerra). Segueix el teu navegador, o tria'n un a la part inferior de la finestra de l'extensió.
+
+PER ALS CURIOSOS
+Una pestanya "Subtitles" a les DevTools mostra tots els fitxers de subtítols que ha carregat la pàgina i els desa com a .vtt o .srt.
+
+PRIVADESA
+Sense comptes, sense analítiques, sense seguiment. El text dels subtítols s'envia a Google Translate només quan es tradueixen subtítols (amb el teu clic o en mode automàtic), i a Gemini, Claude, OpenAI o el teu model local només quan fas clic a Millora. Per trobar subtítols compartits, s'envien al meu servidor (subs.cleedek.com) els 5 primers caràcters d'una empremta unidireccional dels subtítols i l'idioma; els teus subtítols millorats només hi van si acceptes compartir-los. Altrament, els subtítols recordats i desats es queden al teu navegador. Si m'escrius amb "Escriu-me" a la finestra de l'extensió, el teu missatge m'arriba per correu. Un informe de problema només s'envia quan prems Envia i porta el nom del lloc, mai l'adreça de la pàgina. Detalls a la política de privadesa.
+Subtítols a partir de l'àudio: el so de la pestanya es converteix en text només al teu ordinador i no s'envia enlloc. El model de veu es baixa una sola vegada de Hugging Face, i aquests subtítols no es comparteixen mai; el seu text es tradueix com qualsevol altre subtítol.
+
+PROBLEMA O IDEA?
+Fes clic a "Problema o idea?" a la part inferior de la finestra de l'extensió i escriu-me. Llegeixo tots els missatges. Els subtítols no es mostren en un lloc? L'etiqueta "Ajuda" del vídeo et guia pas a pas, i "Informa d'un problema" m'envia el nom del lloc perquè el pugui arreglar.
+
+CODI OBERT
+Tota l'extensió és de codi obert (GPL-3.0), així que qualsevol pot comprovar exactament què fa: github.com/Cleedek/subtitle-overlay. Si t'agrada, una estrella a GitHub ajuda que altres persones la trobin.
+
+DONA SUPORT AL CREADOR
+Subtitle Overlay és gratuït i totes les funcions continuen sent gratuïtes. Si et fa millors les vetllades, la finestra de l'extensió té una pàgina "Dona suport al creador" amb Ko-fi i unes quantes maneres més de pagar. Després de molts vídeos traduïts, una petita targeta sobre el vídeo també t'ho demana una vegada (en tres vídeos com a màxim; un clic i desapareix per sempre). Del tot opcional, i gràcies!
+
+Creat amb 💜 per Cleedek al Vietnam.
+
+Subtitle Overlay és un projecte independent. No està afiliat, avalat ni patrocinat per cap dels llocs web o serveis de streaming amb què funciona. La compatibilitat amb ells és feina nostra: l'hem provada en aquests llocs i, en alguns, l'hem adaptada als seus reproductors. Els noms i logotips d'aquests serveis pertanyen als seus propietaris.
+
+Les captures de pantalla mostren fotogrames de Tears of Steel, © Blender Foundation, mango.blender.org, amb llicència CC BY 3.0.

@@ -4,7 +4,7 @@ Subtitle Overlay zobrazí titulky cez prehrávač na akomkoľvek webe, aj na cel
 
 ★ TO HLAVNÉ
 ★ Akýkoľvek web, akékoľvek video: titulky cez prehrávač, v okne aj na celej obrazovke, vždy synchrónne
-★ Preklad do 35 jazykov jedným klikom, alebo úplne automaticky, hneď ako zapneš titulky v prehrávači webu
+★ Preklad do 42 jazykov jedným klikom, alebo úplne automaticky, hneď ako zapneš titulky v prehrávači webu
 ★ NOVINKA: video úplne bez titulkov? Bezplatný model reči v tvojom počítači zapíše, čo zaznelo, a potom sa to preloží do tvojho jazyka (beta)
 ★ Zdieľané titulky: keď rovnaké titulky už niekto vylepšil pomocou AI, dostaneš jeho verziu hneď, a či budeš zdieľať tie svoje, rozhodneš sám
 ★ S AI znie preklad prirodzene, zadarmo priamo v tvojom počítači (Gemma) alebo s vlastným kľúčom Gemini, Claude či OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay zobrazí titulky cez prehrávač na akomkoľvek webe, aj na cel
 
 ━━━━━━━━━━━━━━━━━━━━
 
-PREKLAD DO 35 JAZYKOV
+PREKLAD DO 42 JAZYKOV
 • Jedným klikom preložíš načítané titulky cez Google Translate, priamo v rozšírení
 • Voliteľne: klikni na Vylepšiť a AI (Gemma v tvojom počítači, alebo Gemini, Claude či OpenAI) prepíše rýchly preklad od Googlu, aby znel prirodzene (viac nižšie). Keď pohneš myšou nad videom, uvidíš, koľko už je hotové
 • Jazyk si vyberieš raz a zostane tvojím obľúbeným pre všetky tlačidlá Preložiť
@@ -24,7 +24,7 @@ PREKLAD DO 35 JAZYKOV
 • Má web titulky v tvojom jazyku (YouTube a streamovacie služby)? Potom dostaneš tie; Google alebo AI prekladá, len keď žiadne nie sú
 • Pôvodné titulky webu sa skryjú, kým bežia naše, a vrátia sa, hneď ako naše vypneš
 • Kedykoľvek sa vrátiš k originálu, alebo si preklad uložíš ako .srt
-• Jazyky: vietnamčina, čeština, angličtina, slovenčina, nemčina, francúzština, španielčina, taliančina, portugalčina, poľština, maďarčina, ukrajinčina, ruština, bulharčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, čínština (zjednodušená aj tradičná), japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina, bengálčina, arabčina, perzština
+• Jazyky: vietnamčina, čeština, angličtina, slovenčina, nemčina, francúzština, španielčina, taliančina, portugalčina, poľština, maďarčina, ukrajinčina, ruština, bulharčina, srbčina, slovinčina, litovčina, lotyština, estónčina, katalánčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, čínština (zjednodušená aj tradičná), japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina, bengálčina, arabčina, perzština, hebrejčina
 
 PRIRODZENÝ PREKLAD S AI (VOLITEĽNÉ)
 Google Translate je rýchly, ale prekladá riadok po riadku, slovo po slove. Klikni na Vylepšiť a AI model titulky prepíše s ohľadom na celú scénu, od miesta, kde práve pozeráš.
@@ -104,8 +104,8 @@ Alt + [ / ] načasovanie · Alt + Shift + [ / ] načasovanie po 1 s · Alt + 0 v
 Na Windows a Linuxe: Alt + Enter celá obrazovka s titulkami · Alt + , / Alt + . načasovanie po 1 s
 Každú skratku si na karte Správanie zmeníš alebo vypneš.
 
-ROZHRANIE V 35 JAZYKOCH
-Angličtina, čeština, slovenčina, nemčina, francúzština, španielčina, vietnamčina, čínština (zjednodušená), čínština (tradičná), taliančina, portugalčina, poľština, ukrajinčina, ruština, bulharčina, maďarčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina, bengálčina, arabčina a perzština (sprava doľava). Riadi sa prehliadačom, alebo si jazyk vyberieš dole v okne rozšírenia.
+ROZHRANIE V 42 JAZYKOCH
+Angličtina, čeština, slovenčina, nemčina, francúzština, španielčina, vietnamčina, čínština (zjednodušená), čínština (tradičná), taliančina, portugalčina, poľština, ukrajinčina, ruština, bulharčina, srbčina, slovinčina, litovčina, lotyština, estónčina, katalánčina, maďarčina, holandčina, švédčina, dánčina, nórčina, fínčina, gréčtina, turečtina, rumunčina, chorvátčina, japončina, kórejčina, thajčina, indonézština, malajčina, filipínčina, hindčina, bengálčina, hebrejčina, arabčina a perzština (sprava doľava). Riadi sa prehliadačom, alebo si jazyk vyberieš dole v okne rozšírenia.
 
 PRE ZVEDAVCOV
 Karta "Subtitles" v DevTools ukáže všetky súbory titulkov, ktoré stránka načítala, a uloží ich ako .vtt alebo .srt.

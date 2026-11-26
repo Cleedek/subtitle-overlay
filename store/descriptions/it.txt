@@ -4,7 +4,7 @@ Subtitle Overlay mostra i sottotitoli sopra il player video di qualsiasi sito, a
 
 ★ IN EVIDENZA
 ★ Qualsiasi sito, qualsiasi video: sottotitoli sopra il player, in finestra o a schermo intero, sempre sincronizzati
-★ Traduzione in 35 lingue con un clic, o del tutto automatica non appena attivi i sottotitoli nel player del sito
+★ Traduzione in 42 lingue con un clic, o del tutto automatica non appena attivi i sottotitoli nel player del sito
 ★ NOVITÀ: nessun sottotitolo? Un modello vocale gratuito sul tuo computer scrive ciò che viene detto e poi lo traduce nella tua lingua (beta)
 ★ Sottotitoli condivisi: se qualcuno ha già migliorato gli stessi sottotitoli con l’IA, ricevi subito la sua versione, e se condividere i tuoi lo decidi tu
 ★ Traduzioni dal suono naturale con l’IA, gratis sul tuo computer (Gemma) o con la tua chiave Gemini, Claude o OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay mostra i sottotitoli sopra il player video di qualsiasi sito, a
 
 ━━━━━━━━━━━━━━━━━━━━
 
-TRADUCI IN 35 LINGUE
+TRADUCI IN 42 LINGUE
 • Un clic traduce i sottotitoli caricati con Google Traduttore, direttamente nell’estensione
 • Facoltativo: clicca Migliora e l’IA (Gemma sul tuo computer, oppure Gemini, Claude o OpenAI) riscrive la versione rapida di Google perché suoni naturale (dettagli più sotto). Passa il mouse sul video per vedere a che punto è
 • Scegli la lingua una volta sola; resta la tua preferita per ogni pulsante Traduci
@@ -24,7 +24,7 @@ TRADUCI IN 35 LINGUE
 • Se il sito ha i sottotitoli nella tua lingua (YouTube e servizi di streaming), vengono prima quelli; Google o l’IA traducono solo quando mancano
 • I sottotitoli del sito vengono nascosti finché i nostri sono attivi e tornano appena spegni i nostri
 • Torna all’originale quando vuoi, o salva la traduzione come file .srt
-• Lingue: vietnamita, ceco, inglese, slovacco, tedesco, francese, spagnolo, italiano, portoghese, polacco, ungherese, ucraino, russo, bulgaro, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, cinese (semplificato e tradizionale), giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, bengalese, arabo, persiano
+• Lingue: vietnamita, ceco, inglese, slovacco, tedesco, francese, spagnolo, italiano, portoghese, polacco, ungherese, ucraino, russo, bulgaro, serbo, sloveno, lituano, lettone, estone, catalano, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, cinese (semplificato e tradizionale), giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, bengalese, arabo, persiano, ebraico
 
 UNA TRADUZIONE PIÙ NATURALE (FACOLTATIVO)
 Google Traduttore è veloce, ma procede riga per riga, parola per parola. Clicca Migliora e un modello di IA riscrive i sottotitoli tenendo conto dell’intera scena, a partire dal punto in cui stai guardando.
@@ -104,8 +104,8 @@ Alt + [ / ] sincronizza · Alt + Shift + [ / ] sincronizza di 1 s · Alt + 0 azz
 Su Windows e Linux: Alt + Invio schermo intero con sottotitoli · Alt + , / Alt + . sincronizzazione di 1 s
 Ogni scorciatoia si può cambiare o disattivare nella scheda Comportamento.
 
-INTERFACCIA IN 35 LINGUE
-Inglese, ceco, slovacco, tedesco, francese, spagnolo, vietnamita, cinese semplificato, cinese tradizionale, italiano, portoghese, polacco, ucraino, russo, bulgaro, ungherese, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, bengalese, arabo e persiano (da destra a sinistra). Segue la lingua del browser, oppure scegline una in fondo al popup.
+INTERFACCIA IN 42 LINGUE
+Inglese, ceco, slovacco, tedesco, francese, spagnolo, vietnamita, cinese semplificato, cinese tradizionale, italiano, portoghese, polacco, ucraino, russo, bulgaro, serbo, sloveno, lituano, lettone, estone, catalano, ungherese, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, bengalese, ebraico, arabo e persiano (da destra a sinistra). Segue la lingua del browser, oppure scegline una in fondo al popup.
 
 PER SMANETTONI
 Una scheda "Subtitles" in DevTools elenca ogni file di sottotitoli caricato dalla pagina e lo salva come .vtt o .srt.

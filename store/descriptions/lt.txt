@@ -1,0 +1,130 @@
+Žiūrėk bet kurį internetinį vaizdo įrašą su subtitrais savo kalba.
+
+Subtitle Overlay rodo subtitrus virš bet kurios svetainės vaizdo grotuvo, taip pat ir viso ekrano režimu, ir palaiko juos sinchroniškus su vaizdo įrašu: pauzė, persukimas ir atkūrimo greitis tiesiog veikia. Naudok subtitrus, kuriuos svetainė jau turi, išverstus į tavo kalbą, arba įkelk savo .srt, .vtt, .ass, .ssa ar .ttml failą.
+
+★ SVARBIAUSIA
+★ Bet kuri svetainė, bet kuris vaizdo įrašas: subtitrai virš grotuvo, lange ar visame ekrane, visada sinchroniški
+★ Vertimas į 42 kalbas vienu spustelėjimu arba visiškai automatiškai, vos įjungus subtitrus svetainės grotuve
+★ NAUJA: visai nėra subtitrų? Nemokamas kalbos modelis tavo kompiuteryje užrašo, kas pasakyta, ir tai išverčiama į tavo kalbą (beta)
+★ Bendrinti subtitrai: jei kas nors jau patobulino tuos pačius subtitrus su DI, iš karto gauni jo versiją, o dalytis savo yra tavo pasirinkimas
+★ Su DI vertimas skamba natūraliai, nemokamai tavo kompiuteryje (Gemma) arba su tavo Gemini, Claude ar OpenAI raktu
+★ Jei svetainė jau turi subtitrus tavo kalba, gausi juos, o vertimas įsijungia tik tada, kai jų nėra
+★ Dvi kalbos vienu metu: viena viršuje, kita apačioje, žiūrėti kartu ar mokytis kalbos
+★ Randa subtitrus, kuriuos įkelia puslapis, įskaitant YouTube, todėl failo prireikia retai
+★ Tavo stilius: daugiau nei 1 800 Google Fonts šriftų, kontūras, šešėlis, fono rėmelis, dydis ir vieta
+★ Nemokamas ir atvirojo kodo: be reklamų, be paskyros, be sekimo, o kiekviena kodo eilutė vieša
+
+━━━━━━━━━━━━━━━━━━━━
+
+VERTIMAS Į 42 KALBAS
+• Vienas spustelėjimas išverčia įkeltus subtitrus Google Vertėju, tiesiai plėtinyje
+• Pasirinktinai: spustelėk Patobulinti ir DI (Gemma tavo kompiuteryje arba Gemini, Claude ar OpenAI) perrašys greitą Google versiją, kad ji skambėtų natūraliai (daugiau žemiau). Užvesk pelę ant vaizdo įrašo ir pamatysi, kiek jau padaryta
+• Kalbą pasirenki vieną kartą; ji lieka mėgstamiausia visiems mygtukams Versti
+• Automatinis režimas: įjunk subtitrus svetainės grotuve ir jie pasirodys virš vaizdo įrašo jau išversti, su trumpa pastaba "Išversta į …" vietoj iššokančio lango. Naujai įdiegus jis būna įjungtas ir verčia į tavo naršyklės kalbą
+• Jei svetainė turi subtitrus tavo kalba (YouTube ir srautinės paslaugos), pirmiausia naudojami jie; Google ar DI verčia tik tada, kai jų nėra
+• Svetainės subtitrai paslepiami, kol įjungti mūsiškiai, ir sugrįžta, vos juos išjungi
+• Bet kada grįžk prie originalo arba išsaugok vertimą kaip .srt failą
+• Kalbos: vietnamiečių, čekų, anglų, slovakų, vokiečių, prancūzų, ispanų, italų, portugalų, lenkų, vengrų, ukrainiečių, rusų, bulgarų, serbų, slovėnų, lietuvių, latvių, estų, katalonų, olandų, švedų, danų, norvegų, suomių, graikų, turkų, rumunų, kroatų, kinų (supaprastinta ir tradicinė), japonų, korėjiečių, tajų, indoneziečių, malajiečių, filipiniečių, hindi, bengalų, arabų, persų, hebrajų
+
+KAD SKAMBĖTŲ NATŪRALIAI (PASIRINKTINAI)
+Google Vertėjas greitas, bet verčia eilutę po eilutės, žodis į žodį. Spustelėk Patobulinti ir DI modelis perrašys subtitrus atsižvelgdamas į visą sceną, pradedant nuo vietos, kurią žiūri.
+• Nemokamai: Gemma, atviras Google modelis, veikia tavo kompiuteryje su Ollama arba LM Studio, todėl DI žingsnis lieka tavo kompiuteryje. Reikia gana galingo kompiuterio ir apie 8 GB vietos diske.
+• Plėtinio langas tave nuves per viską: įdiek Ollama iš ollama.com, tada vienu spustelėjimu atsisiųsk Gemma (reikia bent 16 GB RAM). Daugiau apie tai ir šiuo metu rekomenduojamą modelį: cleedek.com/subtitle-overlay/ai
+• Arba naudok savo API raktą: Gemini (turi nemokamą planą), Claude ar OpenAI (mokami).
+• Prieš pradėdamas jis peržvelgia visą failą ir užsirašo, kas yra kas, kad giminė, kreipiniai ir vardai išliktų tie patys nuo pirmos iki paskutinės eilutės.
+• Jis niekada nepasileidžia pats: be tavo spustelėjimo niekas neveikia ir niekas neišleidžiama.
+• Taip pat ir YouTube automatiniams subtitrams tavo kalba: Patobulinti prideda skyrybą ir ištaiso neteisingai išgirstus žodžius, neversdamas.
+
+BENDRINTI SUBTITRAI
+• Jei kas nors jau patobulino tuos pačius subtitrus su DI ir jais pasidalijo, kortelė virš vaizdo įrašo pasiūlo jo versiją, pažymėtą "Bendrinti". Vienas spustelėjimas ant Naudoti, ir nereikia laukti, o tavo kompiuteris nedirba DI darbo
+• Paieška įjungta nuo pradžių ir siunčia tik pirmus 5 vienkrypčio subtitrų piršto atspaudo simbolius ir kalbą, niekada puslapio, vaizdo įrašo ar jo pavadinimo. "Rasti kitų subtitrus" ją išjungia
+• "Naudoti bendrintus automatiškai" (pagal numatymą išjungta) paima bendrintą versiją be spustelėjimo. Google versija visada vienu spustelėjimu toliau
+• Dalytis savo lieka išjungta, kol po DI patobulinimo kortelėje nepasakai taip. Siūlomos tik baigtos versijos iš vietinio modelio su 12B ar daugiau arba iš mokamo. "Ištrinti mano bendrintus subtitrus" vienu spustelėjimu pašalina viską, kuo pasidalijai
+• Bloga kopija? "Pranešti apie problemą" > "Vertimas neteisingas" apie ją praneša, o po trijų pranešimų ji paslepiama
+
+DVI KALBOS VIENU METU
+• Įjunk antruosius subtitrus bet kuria kalba: anglų viršuje tau, vietnamiečių apačioje tavo partneriui
+• Arba palik originalą šalia vertimo, puiku mokantis
+• Kiekvienas rinkinys turi savo atstumą nuo krašto
+• Mažas skydelis virš vaizdo įrašo įjungia ar išjungia kiekvieną kalbą šalia jos vėliavos; kita persikelia į įprastą vietą
+
+RANDA SUBTITRUS, KURIUOS ĮKELIA SVETAINĖ
+• Kai puslapis įkelia subtitrus (VTT failus ar srautinių subtitrų grojaraščius), maža kortelė juos pasiūlo, su filmo ar serijos pavadinimu, jei puslapis jį pateikia
+• YouTube: įjunk CC ir skaityk subtitrus savo kalba; YouTube mygtukas CC juos įjungia ir išjungia, o eilutės pakyla, kai pasirodo grotuvo valdikliai
+• Rodyk, versk ar išsaugok juos kaip .srt vienu spustelėjimu
+• Keli vaizdo įrašai viename puslapyje? Pasirink, kuriam priklauso subtitrai
+
+SUBTITRAI IŠ GARSO (BETA)
+• Visai nėra subtitrų? Plėtinio lange spustelėk "Sukurti subtitrus iš garso". Nemokamas kalbos modelis (Whisper) tavo kompiuteryje užrašo, kas pasakyta, kol vaizdo įrašas groja iki galo
+• Tuo metu to skirtuko negirdėsi: drąsiai naudokis kitais skirtukais, tik palik jį atidarytą. Pranešimas gali pranešti, kai subtitrai paruošti
+• Tada jie išverčiami vertimų eilėje ir rodomi virš vaizdo įrašo tavo kalba, jei nori, su tuo, kas pasakyta, kaip antra eilute
+• Garsas niekada nepalieka tavo kompiuterio, o šie subtitrai niekada nebendrinami. Kalbos modelis atsisiunčiamas vieną kartą (nuo 560 MB iki 1,9 GB, dydį pasirenki pats)
+• Įjungus DI, jis taip pat ištaiso neteisingai išgirstus žodžius ir išmeta eilutes, kurias kalbos modelis išsigalvojo per muziką; eilėje bet kurią iš jų gali grąžinti
+• Jis gali suklysti ten, kur žmogus nesuklystų, ir geriausiai veikia su aiškia kalba
+
+VERTIMŲ EILĖ IR IŠSAUGOTI SUBTITRAI
+• Įmesk kelis .srt, .vtt, .ass, .ssa ar .ttml failus arba spustelėk "Įtraukti į eilę" prie subtitrų, kuriuos įkelia svetainė. Jie išverčiami vienas po kito, kol tu darai ką nors kita; eilės skirtukas gali būti fone
+• Veikia su Google, Gemini, Claude, OpenAI ar tavo vietiniu modeliu
+• Kol failas eilėje, kortelė virš jo vaizdo įrašo rodo, kiek padaryta, o baigtas failas pats pakeičia Google eilutes
+• Patobulinti subtitrai laikomi plėtinyje tiek, kiek pasirenki, ir sugrįžta, kai grįžti prie vaizdo įrašo, bei bet kuriame kitame puslapyje su tais pačiais subtitrais, vėl neklausiant DI
+• Groti atidaro vaizdo įrašą su jo subtitrais, "Rodyti…" uždeda juos ant vaizdo įrašo, jau atidaryto kitame skirtuke, o Atsisiųsti išsaugo .srt
+• Failai rikiuojami pagal pavadinimą, todėl 2 serija eina prieš 10, o Rikiuoti keičia tvarką
+
+STILIUS PAGAL TAVE
+• Daugiau nei 1 800 Google Fonts šriftų, atrinktų pagal tai, ar turi tavo kalbos raides (č ř ž, ư ế ộ, kirilica, graikų, japonų ir kt.)
+• Dydis, storis, spalva, kontūras (su savo nepermatomumu), šešėlis, fono rėmelis (pasirinktinai su suliejimu už jo) ir eilutės plotis
+• Vaizdo įrašo apačioje, viduryje arba viršuje
+• Rinkiniai (Švarus, Rėmelyje, Didelis kontrastas) ir tavo išsaugoti stiliai
+• Tekstas keičiasi kartu su grotuvu, su tiesiogine peržiūra plėtinio lange
+• Tvarkingas langas su trimis skirtukais: Subtitrai, Stilius ir Elgsena, tamsios ar šviesios išvaizdos (arba pagal sistemą)
+• Paslepia garsų žymes, pvz., [Muzika], ir kalbėtojų žymes >> (vienas jungiklis jas grąžina)
+
+LAIKO PATAISYMAS
+• Paslink subtitrus anksčiau ar vėliau 0,1 s arba 1 s žingsniais, plėtinio lange arba klaviatūra
+• Poslinkis įsimenamas kartu su puslapiu
+
+SUKURTA MOKYMUISI
+• Praleidai eilutę? Alt + R ją paleidžia iš naujo nuo pradžios
+• Spustelėk bet kurią eilutę, kad ją nukopijuotum žodynui ar užrašams
+
+TAVO FAILAS
+• Pasirink .srt, .vtt, .ass, .ssa ar .ttml failą arba nutempk jį tiesiai ant vaizdo įrašo
+• Sugadintos raidės? Automatinis teksto koduotės atpažinimas (taip pat japonų, kinų ir korėjiečių failams) su rankiniu pasirinkimu
+• Tavo subtitrai sugrįžta, kai iš naujo įkeli puslapį ar grįžti į jį vėliau
+
+VISAS EKRANAS, KURIS IŠLAIKO SUBTITRUS
+• Alt + F arba mygtukas vaizdo įrašo viršuje; F arba mygtukas "Išeiti iš viso ekrano" iš jo išeina
+• Subtitrai pasitraukia, kai juos uždengia svetainės meniu ar pranešimas
+
+SVETAINĖ PO SVETAINĖS
+• Išjunk jį bet kurioje svetainėje vienu jungikliu; išjungtų svetainių sąrašas pasiekiamas vienu spustelėjimu
+
+SPARTIEJI KLAVIŠAI
+Alt + [ / ] sinchronizavimas · Alt + Shift + [ / ] sinchronizavimas 1 s · Alt + 0 atstatyti sinchronizavimą · Alt + R pakartoti eilutę · Alt + S rodyti ar slėpti · Alt + 1 / Alt + 2 rodyti ar slėpti tik vieną kalbą · Alt + ↑ / ↓ perkelti · Alt + = / Alt + − didesni ar mažesni · Alt + F visas ekranas su subtitrais
+Windows ir Linux sistemose: Alt + Enter visas ekranas su subtitrais · Alt + , / Alt + . sinchronizavimas 1 s
+Kiekvieną spartųjį klavišą gali pakeisti ar išjungti skirtuke Elgsena.
+
+SĄSAJA 42 KALBOMIS
+Anglų, čekų, slovakų, vokiečių, prancūzų, ispanų, vietnamiečių, supaprastintoji kinų, tradicinė kinų, italų, portugalų, lenkų, ukrainiečių, rusų, bulgarų, serbų, slovėnų, lietuvių, latvių, estų, katalonų, vengrų, olandų, švedų, danų, norvegų, suomių, graikų, turkų, rumunų, kroatų, japonų, korėjiečių, tajų, indoneziečių, malajiečių, filipiniečių, hindi, bengalų, hebrajų, arabų ir persų (iš dešinės į kairę). Ji seka tavo naršyklę, arba pasirink kalbą plėtinio lango apačioje.
+
+SMALSIEMS
+Skirtukas "Subtitles" DevTools įrankiuose išvardija visus puslapio įkeltus subtitrų failus ir išsaugo juos kaip .vtt ar .srt.
+
+PRIVATUMAS
+Jokių paskyrų, jokios analitikos, jokio sekimo. Subtitrų tekstas siunčiamas Google Vertėjui tik verčiant subtitrus (tavo spustelėjimu ar automatiniu režimu), o Gemini, Claude, OpenAI ar tavo vietiniam modeliui tik spustelėjus Patobulinti. Bendrintiems subtitrams rasti į mano serverį (subs.cleedek.com) siunčiami pirmi 5 vienkrypčio subtitrų piršto atspaudo simboliai ir kalba; tavo patobulinti subtitrai ten keliauja tik jei sutinki jais dalytis. Kitais atvejais įsiminti ir išsaugoti subtitrai lieka tavo naršyklėje. Jei man parašai per "Parašyk man" plėtinio lange, tavo žinutė pasiekia mane el. paštu. Pranešimas apie problemą siunčiamas tik paspaudus Siųsti ir jame yra svetainės pavadinimas, niekada puslapio adresas. Daugiau privatumo politikoje.
+Subtitrai iš garso: skirtuko garsas paverčiamas tekstu tik tavo kompiuteryje ir niekur nesiunčiamas. Kalbos modelis vieną kartą atsisiunčiamas iš Hugging Face, o šie subtitrai niekada nebendrinami; jų tekstas verčiamas kaip ir bet kurie kiti subtitrai.
+
+PROBLEMA AR IDĖJA?
+Plėtinio lango apačioje spustelėk "Problema ar idėja?" ir parašyk man. Perskaitau kiekvieną žinutę. Kurioje nors svetainėje nerodomi subtitrai? Žyma "Pagalba" vaizdo įraše tave nuves žingsnis po žingsnio, o "Pranešti apie problemą" atsiunčia man svetainės pavadinimą, kad galėčiau tai ištaisyti.
+
+ATVIRASIS KODAS
+Visas plėtinys yra atvirojo kodo (GPL-3.0), todėl kiekvienas gali tiksliai patikrinti, ką jis daro: github.com/Cleedek/subtitle-overlay. Jei jis tau patinka, žvaigždutė GitHub padeda kitiems jį rasti.
+
+PAREMK KŪRĖJĄ
+Subtitle Overlay yra nemokamas ir visos funkcijos lieka nemokamos. Jei jis padaro tavo vakarus geresnius, plėtinio lange yra puslapis "Paremti kūrėją" su Ko-fi ir keliais kitais mokėjimo būdais. Po daugelio išverstų vaizdo įrašų maža kortelė virš vaizdo įrašo vieną kartą paklausia ir pati (daugiausia trijuose vaizdo įrašuose; vienas spustelėjimas ant jos, ir ji dingsta visam laikui). Visiškai neprivaloma, ir ačiū!
+
+Su 💜 sukūrė Cleedek Vietname.
+
+Subtitle Overlay yra nepriklausomas projektas. Jis nėra susijęs su svetainėmis ar srautinėmis paslaugomis, su kuriomis veikia, ir jų nėra remiamas ar patvirtintas. Jų palaikymas yra mūsų pačių darbas: išbandėme jį tose svetainėse, o kai kuriose pritaikėme prie jų grotuvų. Šių paslaugų pavadinimai ir logotipai priklauso jų savininkams.
+
+Ekrano kopijose matyti kadrai iš Tears of Steel, © Blender Foundation, mango.blender.org, licencija CC BY 3.0.

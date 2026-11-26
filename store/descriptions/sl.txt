@@ -1,0 +1,130 @@
+Glej kateri koli spletni video s podnapisi v svojem jeziku.
+
+Subtitle Overlay izriše podnapise čez predvajalnik videa na katerem koli spletnem mestu, tudi v celozaslonskem načinu, in jih ohranja usklajene z videom: premor, previjanje in hitrost predvajanja preprosto delujejo. Uporabi podnapise, ki jih spletno mesto že ima, prevedene v tvoj jezik, ali prinesi svojo datoteko .srt, .vtt, .ass, .ssa ali .ttml.
+
+★ NAJPOMEMBNEJŠE
+★ Katero koli spletno mesto, kateri koli video: podnapisi čez predvajalnik, v oknu ali na celem zaslonu, vedno usklajeni
+★ Prevod v 42 jezikov z enim klikom ali povsem samodejno, takoj ko vklopiš podnapise v predvajalniku spletnega mesta
+★ NOVO: sploh ni podnapisov? Brezplačen govorni model na tvojem računalniku zapiše, kar je izrečeno, nato se prevede v tvoj jezik (beta)
+★ Deljeni podnapisi: če je nekdo iste podnapise že izboljšal z UI, takoj dobiš njegovo različico, deljenje svojih pa je tvoja izbira
+★ Z UI naj prevod zveni naravno, brezplačno na tvojem računalniku (Gemma) ali s tvojim ključem za Gemini, Claude ali OpenAI
+★ Če ima spletno mesto podnapise že v tvojem jeziku, dobiš te, prevod pa nastopi samo, ko jih ni
+★ Dva jezika hkrati: eden zgoraj, drugi spodaj, za skupno gledanje ali učenje jezika
+★ Najde podnapise, ki jih stran naloži, tudi na YouTubu, zato datoteko le redko potrebuješ
+★ Tvoj slog: več kot 1.800 pisav Google Fonts, obroba, senca, okvir za ozadje, velikost in položaj
+★ Brezplačno in odprtokodno: brez oglasov, brez računa, brez sledenja, vsaka vrstica kode je javna
+
+━━━━━━━━━━━━━━━━━━━━
+
+PREVOD V 42 JEZIKOV
+• En klik prevede naložene podnapise z Google Prevajalnikom, kar v razširitvi
+• Po želji: klikni Izboljšaj in UI (Gemma na tvojem računalniku ali Gemini, Claude ali OpenAI) prepiše Googlovo hitro različico, da zveni naravno (več spodaj). Z miško pojdi čez video in videl boš, koliko je že narejenega
+• Jezik izbereš enkrat; ostane tvoj priljubljeni za vse gumbe Prevedi
+• Samodejni način: vklopi podnapise v predvajalniku spletnega mesta in pojavijo se čez video že prevedeni, s kratkim obvestilom "Prevedeno v …" namesto pojavnega okna. Nove namestitve začnejo z vklopljenim načinom in prevajajo v jezik tvojega brskalnika
+• Če ima spletno mesto podnapise v tvojem jeziku (YouTube in pretočne storitve), imajo ti prednost; Google ali UI prevajata le, ko jih ni
+• Podnapisi spletnega mesta so skriti, dokler so vklopljeni naši, in se vrnejo, takoj ko naše izklopiš
+• Kadar koli preklopi nazaj na izvirnik ali shrani prevod kot datoteko .srt
+• Jeziki: vietnamščina, češčina, angleščina, slovaščina, nemščina, francoščina, španščina, italijanščina, portugalščina, poljščina, madžarščina, ukrajinščina, ruščina, bolgarščina, srbščina, slovenščina, litovščina, latvijščina, estonščina, katalonščina, nizozemščina, švedščina, danščina, norveščina, finščina, grščina, turščina, romunščina, hrvaščina, kitajščina (poenostavljena in tradicionalna), japonščina, korejščina, tajščina, indonezijščina, malajščina, filipinščina, hindijščina, bengalščina, arabščina, perzijščina, hebrejščina
+
+NAJ ZVENI NARAVNO (NEOBVEZNO)
+Google Prevajalnik je hiter, a gre vrstico za vrstico, besedo za besedo. Klikni Izboljšaj in model UI prepiše podnapise z mislijo na celoten prizor, od mesta, kjer gledaš.
+• Brezplačno: Gemma, Googlov odprti model, teče na tvojem računalniku z Ollamo ali LM Studio, zato korak z UI ostane na tvojem računalniku. Potrebuješ dovolj zmogljiv računalnik in približno 8 GB prostora na disku.
+• Okno razširitve te vodi skozi vse: namesti Ollamo z ollama.com, nato z enim klikom prenesi Gemmo (potrebuje vsaj 16 GB RAM-a). Več o tem in o modelu, ki ga trenutno priporočamo: cleedek.com/subtitle-overlay/ai
+• Ali uporabi svoj ključ API: Gemini (ima brezplačno raven), Claude ali OpenAI (plačljivo).
+• Preden začne, preleti celotno datoteko in si zapiše, kdo je kdo, da spol, načini ogovarjanja in imena ostanejo enaki od prve do zadnje vrstice.
+• Nikoli se ne zažene sam: brez tvojega klika nič ne teče in nič se ne porabi.
+• Tudi za samodejne podnapise YouTube v tvojem jeziku: Izboljšaj doda ločila in popravi napačno slišane besede, brez prevajanja.
+
+DELJENI PODNAPISI
+• Če je nekdo iste podnapise že izboljšal z UI in jih delil, ti kartica čez video ponudi njegovo različico z oznako "Deljeno". En klik na Uporabi in ni čakanja ne dela UI na tvojem računalniku
+• Iskanje je vklopljeno od začetka in pošlje samo prvih 5 znakov enosmernega prstnega odtisa podnapisov ter jezik, nikoli strani, videa ali njegovega naslova. "Najdi podnapise drugih" ga izklopi
+• "Deljene uporabi samodejno" (privzeto izklopljeno) prevzame deljeno različico brez klika. Googlova različica je vedno en klik stran
+• Deljenje tvojih ostane izklopljeno, dokler na kartici po izboljšavi z UI ne rečeš da. Ponujene so samo dokončane različice iz lokalnega modela z 12B ali več ali iz plačljivega. "Izbriši moje deljene podnapise" z enim klikom odstrani vse, kar si delil
+• Slaba kopija? "Prijavi težavo" > "Prevod je napačen" jo prijavi in po treh prijavah se skrije
+
+DVA JEZIKA HKRATI
+• Vklopi druge podnapise v katerem koli jeziku: angleščino zgoraj zase, vietnamščino spodaj za partnerja
+• Ali pa obdrži izvirnik ob prevodu, kar je odlično za učenje
+• Vsak komplet ima svojo razdaljo od roba
+• Majhna plošča čez video vklopi ali izklopi vsak jezik ob njegovi zastavi; drugi se premakne na običajno mesto
+
+NAJDE PODNAPISE, KI JIH SPLETNO MESTO NALOŽI
+• Ko stran naloži podnapise (datoteke VTT ali sezname predvajanja pretočnih podnapisov), jih ponudi majhna kartica, z naslovom filma ali epizode, če ga stran deli
+• YouTube: vklopi CC in beri podnapise v svojem jeziku; YouTubov gumb CC jih vklaplja in izklaplja, vrstice pa se dvignejo, ko se pokažejo kontrolniki predvajalnika
+• Prikaži, prevedi ali shrani jih kot .srt z enim klikom
+• Več videov na eni strani? Izberi, h kateremu podnapisi spadajo
+
+PODNAPISI IZ ZVOKA (BETA)
+• Sploh ni podnapisov? V oknu razširitve klikni "Naredi podnapise iz zvoka". Brezplačen govorni model (Whisper) na tvojem računalniku zapiše, kar je izrečeno, medtem ko se video predvaja do konca
+• Medtem tega zavihka ne boš slišal: druge zavihke uporabljaj brez skrbi, samo tega pusti odprtega. Obvestilo ti lahko sporoči, ko so podnapisi pripravljeni
+• Nato se prevedejo v čakalni vrsti prevodov in se pokažejo čez video v tvojem jeziku, po želji z izrečenim kot drugo vrstico
+• Zvok nikoli ne zapusti tvojega računalnika in ti podnapisi se nikoli ne delijo. Govorni model se prenese enkrat (od 560 MB do 1,9 GB, velikost izbereš sam)
+• Z vklopljeno UI popravi tudi napačno slišane besede in odstrani vrstice, ki si jih je govorni model izmislil ob glasbi; v vrsti lahko katero koli vrneš
+• Lahko naredi napake, ki jih človek ne bi, najbolje deluje z jasnim govorom
+
+ČAKALNA VRSTA PREVODOV IN SHRANJENI PODNAPISI
+• Spusti več datotek .srt, .vtt, .ass, .ssa ali .ttml ali klikni "Dodaj v vrsto" pri podnapisih, ki jih naloži spletno mesto. Prevedejo se ena za drugo, medtem ko delaš kaj drugega; zavihek z vrsto je lahko v ozadju
+• Deluje z Googlom, Gemini, Claude, OpenAI ali tvojim lokalnim modelom
+• Dokler je datoteka v vrsti, kartica čez njen video kaže, koliko je narejenega, končana datoteka pa sama zamenja Googlove vrstice
+• Izboljšani podnapisi ostanejo v razširitvi, kolikor dolgo želiš, in se vrnejo, ko se vrneš k videu, ter na kateri koli drugi strani z istimi podnapisi, brez ponovnega vpraševanja UI
+• Predvajaj odpre video z njegovimi podnapisi, "Prikaži na…" jih postavi čez video, ki je že odprt v drugem zavihku, Prenesi pa shrani .srt
+• Datoteke se razvrstijo po imenu, zato je epizoda 2 pred epizodo 10, Razvrsti pa spremeni vrstni red
+
+OBLIKUJ JIH PO SVOJE
+• Več kot 1.800 pisav Google Fonts, filtriranih na tiste, ki imajo črke tvojega jezika (č ř ž, ư ế ộ, cirilica, grščina, japonščina in še več)
+• Velikost, debelina, barva, obroba (s svojo prosojnostjo), senca, okvir za ozadje (po želji z zameglitvijo za njim) in širina vrstice
+• Spodaj, na sredini ali zgoraj na videu
+• Nastavitve (Čisto, V okvirju, Visok kontrast) in tvoji shranjeni videzi
+• Besedilo se prilagaja predvajalniku, s predogledom v živo v oknu razširitve
+• Pregledno okno s tremi zavihki: Podnapisi, Slog in Delovanje, v temnem ali svetlem videzu (ali po sistemu)
+• Skrije oznake zvokov, kot je [Glasba], in oznake govorca >> (eno stikalo jih vrne)
+
+POPRAVI ČASOVNO USKLADITEV
+• Premakni podnapise prej ali pozneje v korakih po 0,1 s ali 1 s, iz okna razširitve ali s tipkovnico
+• Premik si stran zapomni
+
+NAREJENO ZA UČENJE
+• Ti je ušla vrstica? Alt + R jo predvaja znova od začetka
+• Klikni katero koli vrstico, da jo kopiraš, za slovar ali zapiske
+
+TVOJA LASTNA DATOTEKA
+• Izberi datoteko .srt, .vtt, .ass, .ssa ali .ttml ali jo povleci naravnost na video
+• Pokvarjene črke? Samodejno prepoznavanje kodiranja besedila (tudi japonske, kitajske in korejske datoteke) z ročno izbiro
+• Tvoji podnapisi se vrnejo, ko znova naložiš stran ali se nanjo vrneš pozneje
+
+CELOTEN ZASLON, KI OHRANI PODNAPISE
+• Alt + F ali gumb na vrhu videa; F ali gumb "Zapusti celoten zaslon" ga znova zapre
+• Podnapisi se umaknejo, ko jih prekrije meni ali obvestilo spletnega mesta
+
+SPLETNO MESTO ZA SPLETNIM MESTOM
+• Izklopi ga na katerem koli spletnem mestu z enim stikalom; seznam izklopljenih mest je en klik stran
+
+BLIŽNJICE NA TIPKOVNICI
+Alt + [ / ] sinhronizacija · Alt + Shift + [ / ] sinhronizacija za 1 s · Alt + 0 ponastavi sinhronizacijo · Alt + R ponovi vrstico · Alt + S prikaži ali skrij · Alt + 1 / Alt + 2 prikaži ali skrij samo en jezik · Alt + ↑ / ↓ premakni · Alt + = / Alt + − večje ali manjše · Alt + F celoten zaslon s podnapisi
+V sistemih Windows in Linux: Alt + Enter celoten zaslon s podnapisi · Alt + , / Alt + . sinhronizacija za 1 s
+Vsako bližnjico lahko spremeniš ali izklopiš na zavihku Delovanje.
+
+VMESNIK V 42 JEZIKIH
+Angleščina, češčina, slovaščina, nemščina, francoščina, španščina, vietnamščina, poenostavljena kitajščina, tradicionalna kitajščina, italijanščina, portugalščina, poljščina, ukrajinščina, ruščina, bolgarščina, srbščina, slovenščina, litovščina, latvijščina, estonščina, katalonščina, madžarščina, nizozemščina, švedščina, danščina, norveščina, finščina, grščina, turščina, romunščina, hrvaščina, japonščina, korejščina, tajščina, indonezijščina, malajščina, filipinščina, hindijščina, bengalščina, hebrejščina, arabščina in perzijščina (od desne proti levi). Sledi tvojemu brskalniku, ali pa ga izberi na dnu okna razširitve.
+
+ZA RADOVEDNE
+Zavihek "Subtitles" v orodjih DevTools navede vse datoteke s podnapisi, ki jih je stran naložila, in jih shrani kot .vtt ali .srt.
+
+ZASEBNOST
+Brez računov, brez analitike, brez sledenja. Besedilo podnapisov se pošlje Google Prevajalniku samo, ko se podnapisi prevajajo (s tvojim klikom ali v samodejnem načinu), in Gemini, Claude, OpenAI ali tvojemu lokalnemu modelu samo, ko klikneš Izboljšaj. Za iskanje deljenih podnapisov se na moj strežnik (subs.cleedek.com) pošlje prvih 5 znakov enosmernega prstnega odtisa podnapisov in jezik; tvoji izboljšani podnapisi gredo tja samo, če se strinjaš z deljenjem. Zapomnjeni in shranjeni podnapisi sicer ostanejo v tvojem brskalniku. Če mi pišeš prek "Piši mi" v oknu razširitve, mi sporočilo pride po e-pošti. Poročilo o težavi se pošlje šele, ko pritisneš Pošlji, in vsebuje ime spletnega mesta, nikoli naslova strani. Podrobnosti so v pravilniku o zasebnosti.
+Podnapisi iz zvoka: zvok zavihka se v besedilo spremeni samo na tvojem računalniku in se nikamor ne pošlje. Govorni model se enkrat prenese s Hugging Face, ti podnapisi pa se nikoli ne delijo; njihovo besedilo se prevaja kot vsi drugi podnapisi.
+
+TEŽAVA ALI IDEJA?
+Na dnu okna razširitve klikni "Težava ali ideja?" in mi piši. Preberem vsako sporočilo. Se podnapisi na nekem spletnem mestu ne prikažejo? Oznaka "Pomoč" na videu te vodi korak za korakom, "Prijavi težavo" pa mi pošlje ime spletnega mesta, da ga lahko popravim.
+
+ODPRTA KODA
+Celotna razširitev je odprtokodna (GPL-3.0), zato lahko vsak natančno preveri, kaj počne: github.com/Cleedek/subtitle-overlay. Če ti je všeč, zvezdica na GitHubu pomaga, da jo najdejo tudi drugi.
+
+PODPRI USTVARJALCA
+Subtitle Overlay je brezplačen in vse funkcije ostanejo brezplačne. Če ti polepša večere, ima okno razširitve stran "Podpri ustvarjalca" s Ko-fi in nekaj drugimi načini plačila. Po veliko prevedenih videih te enkrat vpraša tudi majhna kartica čez video (največ na treh videih; en klik nanjo in je ni več). Povsem neobvezno, in hvala!
+
+Z 💜 ustvaril Cleedek v Vietnamu.
+
+Subtitle Overlay je neodvisen projekt. Ni povezan s spletnimi mesti ali pretočnimi storitvami, s katerimi deluje, niti ga ta ne podpirajo ali sponzorirajo. Podpora zanje je naše lastno delo: preizkusili smo jo na teh spletnih mestih in jo na nekaterih prilagodili njihovim predvajalnikom. Imena in logotipi teh storitev pripadajo njihovim lastnikom.
+
+Posnetki zaslona prikazujejo sličice iz filma Tears of Steel, © Blender Foundation, mango.blender.org, z licenco CC BY 3.0.

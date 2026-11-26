@@ -1,0 +1,130 @@
+Vaata mis tahes veebivideot subtiitritega oma keeles.
+
+Subtitle Overlay joonistab subtiitrid mis tahes veebisaidi videopleieri peale, ka täisekraanil, ja hoiab need videoga sünkroonis: paus, kerimine ja taasesituskiirus lihtsalt töötavad. Kasuta subtiitreid, mis saidil juba on, tõlgituna sinu keelde, või too oma .srt-, .vtt-, .ass-, .ssa- või .ttml-fail.
+
+★ PEAMINE
+★ Mis tahes sait, mis tahes video: subtiitrid pleieri peal, aknas või täisekraanil, alati sünkroonis
+★ Tõlge 42 keelde ühe klõpsuga või täiesti automaatselt kohe, kui lülitad saidi pleieris subtiitrid sisse
+★ UUS: subtiitreid pole üldse? Tasuta kõnemudel sinu arvutis paneb öeldu kirja ja see tõlgitakse sinu keelde (beeta)
+★ Jagatud subtiitrid: kui keegi on samad subtiitrid juba TI-ga täiustanud, saad kohe tema versiooni, ja enda omade jagamine on sinu valik
+★ Las tõlge kõlab TI abil loomulikult, tasuta sinu arvutis (Gemma) või sinu Gemini, Claude'i või OpenAI võtmega
+★ Kui saidil on subtiitrid juba sinu keeles, saad need ja tõlge astub mängu ainult siis, kui neid pole
+★ Kaks keelt korraga: üks üleval, teine all, koos vaatamiseks või keele õppimiseks
+★ Leiab subtiitrid, mida leht laadib, ka YouTube'is, nii et faili on vaja harva
+★ Sinu stiil: üle 1800 Google Fontsi fondi, kontuur, vari, taustakast, suurus ja asukoht
+★ Tasuta ja avatud lähtekoodiga: ilma reklaamideta, ilma kontota, ilma jälgimiseta, ja iga koodirida on avalik
+
+━━━━━━━━━━━━━━━━━━━━
+
+TÕLGE 42 KEELDE
+• Üks klõps tõlgib laaditud subtiitrid Google'i tõlkega otse laienduses
+• Soovi korral: klõpsa Täiusta ja TI (Gemma sinu arvutis või Gemini, Claude või OpenAI) kirjutab Google'i kiire versiooni ümber, et see kõlaks loomulikult (lähemalt allpool). Vii hiir video kohale, et näha, kui kaugele see jõudnud on
+• Vali keel üks kord; see jääb lemmikuks kõigile nuppudele Tõlgi
+• Automaatrežiim: lülita saidi pleieris subtiitrid sisse ja need ilmuvad video peale juba tõlgituna, hüpikakna asemel lühikese teatega "Tõlgitud keelde …". Uutel paigaldustel on see sees ja tõlgib sinu brauseri keelde
+• Kui saidil on subtiitrid sinu keeles (YouTube ja voogedastussaidid), tulevad need esimesena; Google või TI tõlgivad ainult siis, kui neid pole
+• Saidi enda subtiitrid on peidetud, kuni meie omad on sees, ja tulevad tagasi kohe, kui meie omad välja lülitad
+• Mine igal ajal originaali juurde tagasi või salvesta tõlge .srt-failina
+• Keeled: vietnami, tšehhi, inglise, slovaki, saksa, prantsuse, hispaania, itaalia, portugali, poola, ungari, ukraina, vene, bulgaaria, serbia, sloveeni, leedu, läti, eesti, katalaani, hollandi, rootsi, taani, norra, soome, kreeka, türgi, rumeenia, horvaadi, hiina (lihtsustatud ja traditsiooniline), jaapani, korea, tai, indoneesia, malai, filipiini, hindi, bengali, araabia, pärsia, heebrea
+
+LOOMULIK KÕLA (VALIKULINE)
+Google'i tõlge on kiire, aga tõlgib rida haaval, sõna-sõnalt. Klõpsa Täiusta ja TI-mudel kirjutab subtiitrid ümber, arvestades kogu stseeni, alates kohast, kus vaatad.
+• Tasuta: Gemma, Google'i avatud mudel, töötab sinu arvutis Ollama või LM Studio abil, nii et TI samm jääb sinu arvutisse. Vaja on üsna võimsat arvutit ja umbes 8 GB kettaruumi.
+• Laienduse aken juhatab sind läbi: paigalda Ollama saidilt ollama.com, siis laadi ühe klõpsuga alla Gemma (vajab vähemalt 16 GB RAM-i). Lähemalt sellest ja praegu soovitatavast mudelist: cleedek.com/subtitle-overlay/ai
+• Või kasuta oma API-võtit: Gemini (tasuta tasemega), Claude või OpenAI (tasulised).
+• Enne alustamist sirvib see läbi kogu faili ja paneb kirja, kes on kes, et sugu, pöördumisviisid ja nimed jääksid samaks esimesest viimase reani.
+• See ei käivitu kunagi ise: ilma sinu klõpsuta ei tööta midagi ega kulu midagi.
+• Ka YouTube'i automaatsetele subtiitritele sinu enda keeles: Täiusta lisab kirjavahemärgid ja parandab valesti kuuldud sõnad, ilma tõlkimata.
+
+JAGATUD SUBTIITRID
+• Kui keegi on samad subtiitrid juba TI-ga täiustanud ja jaganud, pakub video peal olev kaart tema versiooni märgisega "Jagatud". Üks klõps nupul Kasuta ja ootamist pole ning sinu arvuti ei tee TI tööd
+• Otsimine on algusest sees ja saadab ainult subtiitrite ühesuunalise sõrmejälje esimesed 5 märki ja keele, mitte kunagi lehte, videot ega selle pealkirja. "Leia teiste subtiitreid" lülitab selle välja
+• "Kasuta jagatuid automaatselt" (vaikimisi väljas) võtab jagatud versiooni ilma klõpsuta. Google'i versioon on alati ühe klõpsu kaugusel
+• Enda omade jagamine jääb välja, kuni ütled pärast TI täiustust kaardil jah. Pakutakse ainult valmis versioone kohalikust mudelist suurusega 12B või rohkem või tasulisest mudelist. "Kustuta minu jagatud subtiitrid" eemaldab ühe klõpsuga kõik, mida jagasid
+• Halb koopia? "Teata probleemist" > "Tõlge on vale" teatab sellest ja kolme teate järel see peidetakse
+
+KAKS KEELT KORRAGA
+• Lülita sisse teised subtiitrid mis tahes keeles: inglise keel üleval sulle, vietnami keel all su partnerile
+• Või hoia originaal tõlke kõrval, mis sobib suurepäraselt õppimiseks
+• Igal komplektil on oma kaugus servast
+• Väike paneel video peal lülitab iga keele selle lipu kõrval sisse või välja; teine liigub tavapärasele kohale
+
+LEIAB SUBTIITRID, MIDA SAIT LAADIB
+• Kui leht laadib subtiitreid (VTT-faile või voogedastatud subtiitrite esitusloendeid), pakub neid väike kaart, filmi või osa pealkirjaga, kui leht seda jagab
+• YouTube: lülita CC sisse ja loe subtiitreid oma keeles; YouTube'i enda nupp CC lülitab need sisse ja välja ning read liiguvad üles, kui pleieri juhtnupud ilmuvad
+• Näita, tõlgi või salvesta need ühe klõpsuga .srt-failina
+• Mitu videot ühel lehel? Vali, millisele subtiitrid kuuluvad
+
+SUBTIITRID HELIST (BEETA)
+• Subtiitreid pole üldse? Klõpsa laienduse aknas "Tee subtiitrid helist". Tasuta kõnemudel (Whisper) sinu arvutis paneb öeldu kirja, samal ajal kui video lõpuni mängib
+• Seda vahelehte sa vahepeal ei kuule: kasuta julgelt teisi vahelehti, hoia see lihtsalt avatud. Teavitus võib anda teada, kui subtiitrid on valmis
+• Siis tõlgitakse need tõlkejärjekorras ja need ilmuvad video peale sinu keeles, soovi korral koos öelduga teise reana
+• Heli ei lahku kunagi sinu arvutist ja neid subtiitreid ei jagata kunagi. Kõnemudel laaditakse alla üks kord (560 MB kuni 1,9 GB, suuruse valid ise)
+• Kui TI on sees, parandab see ka valesti kuuldud sõnad ja jätab välja read, mille kõnemudel muusika ajal välja mõtles; järjekorras saad ükskõik millise neist tagasi panna
+• See võib teha vigu, mida inimene ei teeks, ja töötab kõige paremini selge kõnega
+
+TÕLKEJÄRJEKORD JA SALVESTATUD SUBTIITRID
+• Lohista sisse mitu .srt-, .vtt-, .ass-, .ssa- või .ttml-faili või klõpsa saidi laaditud subtiitrite juures "Lisa järjekorda". Need tõlgitakse üksteise järel, samal ajal kui teed midagi muud; järjekorra vaheleht võib olla taustal
+• Töötab Google'i, Gemini, Claude'i, OpenAI või sinu kohaliku mudeliga
+• Kuni fail on järjekorras, näitab selle video peal olev kaart, kui kaugele see jõudnud on, ja valmis fail asendab ise Google'i read
+• Täiustatud subtiitrid jäävad laiendusse nii kauaks, kui soovid, ja tulevad tagasi, kui video juurde naased, ning igal teisel lehel samade subtiitritega, ilma TI-lt uuesti küsimata
+• Esita avab video koos selle subtiitritega, "Näita…" paneb need teisel vahelehel juba avatud video peale ja Laadi alla salvestab .srt-faili
+• Failid järjestatakse nime järgi, nii et osa 2 tuleb enne osa 10, ja Sorteeri muudab järjekorda
+
+KUJUNDA NEED OMA MAITSE JÄRGI
+• Üle 1800 Google Fontsi fondi, filtreeritud nendele, millel on sinu keele tähed (č ř ž, ư ế ộ, kirillitsa, kreeka, jaapani ja muud)
+• Suurus, paksus, värv, kontuur (oma läbipaistmatusega), vari, taustakast (soovi korral hägususega selle taga) ja rea laius
+• Video all, keskel või üleval
+• Eelseadistused (Puhas, Kastis, Kõrge kontrast) ja sinu enda salvestatud välimused
+• Tekst skaleerub koos pleieriga, otse eelvaatega laienduse aknas
+• Korralik aken kolme vahekaardiga: Subtiitrid, Stiil ja Käitumine, tumeda või heleda välimusega (või süsteemi järgi)
+• Peidab helimärgendid nagu [Muusika] ja kõneleja märgid >> (üks lüliti toob need tagasi)
+
+PARANDA AJASTUST
+• Nihuta subtiitreid varasemaks või hilisemaks 0,1 s või 1 s sammuga, laienduse aknas või klaviatuurilt
+• Nihe jäetakse koos lehega meelde
+
+LOODUD ÕPPIMISEKS
+• Jäi rida kuulmata? Alt + R mängib selle algusest uuesti
+• Klõpsa mis tahes real, et see sõnastiku või märkmete jaoks kopeerida
+
+SINU ENDA FAIL
+• Vali .srt-, .vtt-, .ass-, .ssa- või .ttml-fail või lohista see otse video peale
+• Katkised tähed? Teksti kodeeringu automaatne tuvastamine (ka jaapani, hiina ja korea failidele) koos käsitsi valikuga
+• Sinu subtiitrid tulevad tagasi, kui laadid lehe uuesti või naased selle juurde hiljem
+
+TÄISEKRAAN, MIS HOIAB SUBTIITRID ALLES
+• Alt + F või nupp video ülaosas; F või nupp "Välju täisekraanist" lahkub sellest
+• Subtiitrid astuvad kõrvale, kui saidi menüü või teade need katab
+
+SAIT SAIDI HAAVAL
+• Lülita see ühe lülitiga välja mis tahes saidil; välja lülitatud saitide loend on ühe klõpsu kaugusel
+
+KIIRKLAHVID
+Alt + [ / ] sünkroonimine · Alt + Shift + [ / ] sünkroonimine 1 s võrra · Alt + 0 lähtesta sünkroonimine · Alt + R korda rida · Alt + S näita või peida · Alt + 1 / Alt + 2 näita või peida ainult üht keelt · Alt + ↑ / ↓ liiguta · Alt + = / Alt + − suuremaks või väiksemaks · Alt + F täisekraan subtiitritega
+Windowsis ja Linuxis: Alt + Enter täisekraan subtiitritega · Alt + , / Alt + . sünkroonimine 1 s võrra
+Iga kiirklahvi saab vahekaardil Käitumine muuta või välja lülitada.
+
+LIIDES 42 KEELES
+Inglise, tšehhi, slovaki, saksa, prantsuse, hispaania, vietnami, lihtsustatud hiina, traditsiooniline hiina, itaalia, portugali, poola, ukraina, vene, bulgaaria, serbia, sloveeni, leedu, läti, eesti, katalaani, ungari, hollandi, rootsi, taani, norra, soome, kreeka, türgi, rumeenia, horvaadi, jaapani, korea, tai, indoneesia, malai, filipiini, hindi, bengali, heebrea, araabia ja pärsia (paremalt vasakule). See järgib sinu brauserit, või vali keel laienduse akna allosas.
+
+NÄPUTAJATELE
+Vahekaart "Subtitles" DevToolsis loetleb kõik lehe laaditud subtiitrifailid ja salvestab need .vtt- või .srt-failina.
+
+PRIVAATSUS
+Kontosid pole, analüütikat pole, jälgimist pole. Subtiitrite tekst saadetakse Google'i tõlkele ainult siis, kui subtiitreid tõlgitakse (sinu klõpsuga või automaatrežiimis), ning Geminile, Claude'ile, OpenAI-le või sinu kohalikule mudelile ainult siis, kui klõpsad Täiusta. Jagatud subtiitrite leidmiseks saadetakse minu serverisse (subs.cleedek.com) subtiitrite ühesuunalise sõrmejälje esimesed 5 märki ja keel; sinu täiustatud subtiitrid jõuavad sinna ainult siis, kui nõustud neid jagama. Muul juhul jäävad meeldejäetud ja salvestatud subtiitrid sinu brauserisse. Kui kirjutad mulle laienduse aknas nupuga "Kirjuta mulle", jõuab sinu sõnum minuni e-postiga. Probleemiteade saadetakse ainult siis, kui vajutad Saada, ja see sisaldab saidi nime, mitte kunagi lehe aadressi. Üksikasjad on privaatsuspoliitikas.
+Subtiitrid helist: vahelehe heli muudetakse tekstiks ainult sinu arvutis ja seda ei saadeta kuhugi. Kõnemudel laaditakse üks kord alla Hugging Face'ist ja neid subtiitreid ei jagata kunagi; nende tekst tõlgitakse nagu kõik teised subtiitrid.
+
+PROBLEEM VÕI IDEE?
+Klõpsa laienduse akna allosas "Probleem või idee?" ja kirjuta mulle. Loen iga sõnumit. Mõnel saidil subtiitrid ei ilmu? Silt "Abi" video peal juhatab sind samm-sammult ja "Teata probleemist" saadab mulle saidi nime, et saaksin selle parandada.
+
+AVATUD LÄHTEKOOD
+Kogu laiendus on avatud lähtekoodiga (GPL-3.0), nii et igaüks saab täpselt kontrollida, mida see teeb: github.com/Cleedek/subtitle-overlay. Kui see sulle meeldib, aitab täht GitHubis teistel selle üles leida.
+
+TOETA LOOJAT
+Subtitle Overlay on tasuta ja kõik funktsioonid jäävad tasuta. Kui see teeb su õhtud paremaks, on laienduse aknas leht "Toeta loojat" Ko-fi ja mõne muu makseviisiga. Pärast paljusid tõlgitud videoid küsib ka väike kaart video peal ühe korra (kõige rohkem kolmel videol; üks klõps sellel ja see kaob jäädavalt). Täiesti vabatahtlik, ja aitäh!
+
+Loonud 💜-ga Cleedek Vietnamis.
+
+Subtitle Overlay on sõltumatu projekt. See ei ole seotud veebisaitide ega voogedastusteenustega, millega see töötab, ega ole nende poolt toetatud ega sponsoreeritud. Nende tugi on meie enda töö: testisime seda neil saitidel ja mõnel kohandasime selle nende pleieritele. Nende teenuste nimed ja logod kuuluvad nende omanikele.
+
+Ekraanipiltidel on kaadrid filmist Tears of Steel, © Blender Foundation, mango.blender.org, litsents CC BY 3.0.

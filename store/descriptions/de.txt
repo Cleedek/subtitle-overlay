@@ -4,7 +4,7 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 
 ★ DAS WICHTIGSTE
 ★ Jede Seite, jedes Video: Untertitel über dem Player, im Fenster oder im Vollbild, immer synchron
-★ Übersetzung in 35 Sprachen mit einem Klick, oder ganz automatisch, sobald du die Untertitel im Player der Seite einschaltest
+★ Übersetzung in 42 Sprachen mit einem Klick, oder ganz automatisch, sobald du die Untertitel im Player der Seite einschaltest
 ★ NEU: Gar keine Untertitel? Ein kostenloses Spracherkennungsmodell auf deinem Computer schreibt auf, was gesagt wird, und dann wird es in deine Sprache übersetzt (Beta)
 ★ Geteilte Untertitel: Hat jemand dieselben Untertitel schon mit KI verbessert, bekommst du sofort seine Version, und ob du deine teilst, entscheidest du
 ★ KI lässt die Übersetzung natürlich klingen, gratis auf deinem eigenen Rechner (Gemma) oder mit deinem eigenen Schlüssel für Gemini, Claude oder OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 
 ━━━━━━━━━━━━━━━━━━━━
 
-ÜBERSETZUNG IN 35 SPRACHEN
+ÜBERSETZUNG IN 42 SPRACHEN
 • Ein Klick übersetzt die geladenen Untertitel mit Google Translate, direkt in der Erweiterung
 • Optional: Klicke auf Verbessern, und KI (Gemma auf deinem Rechner, oder Gemini, Claude oder OpenAI) schreibt Googles schnelle Version neu, damit sie natürlich klingt (mehr dazu unten). Fahr mit der Maus über das Video, um zu sehen, wie weit sie schon ist
 • Wähl deine Sprache einmal aus; sie bleibt dein Favorit für jeden Übersetzen-Button
@@ -24,7 +24,7 @@ Subtitle Overlay zeigt Untertitel über dem Videoplayer jeder Website an, auch i
 • Hat die Seite Untertitel in deiner Sprache (YouTube und Streamingdienste), kommen diese zuerst; Google oder KI übersetzen nur, wenn es keine gibt
 • Die eigenen Untertitel der Seite werden ausgeblendet, solange unsere laufen, und kommen zurück, sobald du unsere ausschaltest
 • Wechsle jederzeit zurück zum Original, oder speichere die Übersetzung als .srt-Datei
-• Sprachen: Vietnamesisch, Tschechisch, Englisch, Slowakisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch, Polnisch, Ungarisch, Ukrainisch, Russisch, Bulgarisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Chinesisch (vereinfacht und traditionell), Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Bengalisch, Arabisch, Persisch
+• Sprachen: Vietnamesisch, Tschechisch, Englisch, Slowakisch, Deutsch, Französisch, Spanisch, Italienisch, Portugiesisch, Polnisch, Ungarisch, Ukrainisch, Russisch, Bulgarisch, Serbisch, Slowenisch, Litauisch, Lettisch, Estnisch, Katalanisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Chinesisch (vereinfacht und traditionell), Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Bengalisch, Arabisch, Persisch, Hebräisch
 
 NATÜRLICHE ÜBERSETZUNG MIT KI (OPTIONAL)
 Google Translate ist schnell, geht aber Zeile für Zeile vor, Wort für Wort. Klicke auf Verbessern, und ein KI-Modell schreibt die Untertitel mit Blick auf die ganze Szene neu, ab der Stelle, an der du gerade schaust.
@@ -104,8 +104,8 @@ Alt + [ / ] synchronisieren · Alt + Shift + [ / ] um 1 s synchronisieren · Alt
 Unter Windows und Linux: Alt + Enter Vollbild mit Untertiteln · Alt + , / Alt + . Synchronisieren um 1 s
 Jedes Tastenkürzel lässt sich im Tab Verhalten ändern oder abschalten.
 
-OBERFLÄCHE IN 35 SPRACHEN
-Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch, Chinesisch (vereinfacht), Chinesisch (traditionell), Italienisch, Portugiesisch, Polnisch, Ukrainisch, Russisch, Bulgarisch, Ungarisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Bengalisch, Arabisch und Persisch (von rechts nach links). Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
+OBERFLÄCHE IN 42 SPRACHEN
+Englisch, Tschechisch, Slowakisch, Deutsch, Französisch, Spanisch, Vietnamesisch, Chinesisch (vereinfacht), Chinesisch (traditionell), Italienisch, Portugiesisch, Polnisch, Ukrainisch, Russisch, Bulgarisch, Serbisch, Slowenisch, Litauisch, Lettisch, Estnisch, Katalanisch, Ungarisch, Niederländisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Griechisch, Türkisch, Rumänisch, Kroatisch, Japanisch, Koreanisch, Thailändisch, Indonesisch, Malaiisch, Filipino, Hindi, Bengalisch, Hebräisch, Arabisch und Persisch (von rechts nach links). Sie folgt deinem Browser, oder du wählst unten im Popup eine aus.
 
 FÜR TÜFTLER
 Ein Tab "Subtitles" in den DevTools listet jede Untertiteldatei auf, die die Seite geladen hat, und speichert sie als .vtt oder .srt.

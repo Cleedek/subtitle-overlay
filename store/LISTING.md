@@ -2,6 +2,19 @@
 
 Everything below in English is ready to copy into the Chrome Web Store form. The Czech notes explain each step.
 
+## Postup pro 1.2.1 (příprava 26. 11. 2026, necommitnuto)
+
+Nové jazyky rozhraní i překladu: ruština a bulharština (commit 10fe19a) a nově hebrejština (zprava doleva), srbština (cyrilice), katalánština, slovinština, litevština, lotyština a estonština. Celkem 42 jazyků.
+
+- **Rozhraní:** lib/locales/{he,sr,ca,sl,lt,lv,et}.json, všech 741 textů. Karta "Co je nového 1.2.1": každý nový jazyk má svůj bod, který vidí jen jeho čtenáři (a česky).
+- **Obchod:** 7 nových složek v _locales (název + krátký popis) a 7 nových dlouhých popisů v store/descriptions, ve všech 36 starých číslo 35 změněno na 42 a doplněné nové jazyky v obou seznamech. V Dashboardu tedy 43 popisů.
+- **Screenshoty (hotové 26. 11.):** 5 obrázků pro každý ze 7 nových jazyků v store/images/<kód>/ (titulky i rozhraní v tom jazyce, druhý jazyk angličtina). Screenshoty 1 a 3 přegenerované s "42" ve všech jazycích; EN/CS screenshot 3 a banner (marquee, i store/marquee-promo-1400x560.png) přepsané stejně jako minule. OCR kontrola: žádné "35" kromě "35 %" (průhlednost stínu) na screenshotu 5.
+
+### Rizika
+
+- Všechny překlady psal Claude, rodilí mluvčí je nečetli. U hebrejštiny je navíc riziko v míchání textu zprava doleva s anglickými slovy a příponami (.srt), kde jsou vložené neviditelné značky směru.
+- Hebrejština používá oslovení v množném čísle (neutrální vůči rodu), autor o sobě mluví v mužském rodě.
+
 ## Postup pro 1.2.0 (příprava 23. 11. 2026)
 
 Hotovo v gitu: větev release/1.1.2 sloučená do main, verze 1.2.0, karta "Co je nového 1.2.0" ve 33 jazycích, 16 chybějících textů (přehled odstraněných řádků, Beta) ve všech jazycích, 34 popisů, zásady EN (store/privacy-policy.html) a EN + CS (cleedek-portfolio, commit jen lokálně, nepushnuto). Balíček: dist/subtitle-overlay-1.2.0.zip.

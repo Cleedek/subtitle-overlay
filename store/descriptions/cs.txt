@@ -4,7 +4,7 @@ Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na ce
 
 ★ TO HLAVNÍ
 ★ Jakýkoli web, jakékoli video: titulky přes přehrávač, v okně i na celé obrazovce, vždy v synchronizaci
-★ Překlad do 35 jazyků jedním klikem, nebo úplně sám, jakmile zapneš titulky v přehrávači webu
+★ Překlad do 42 jazyků jedním klikem, nebo úplně sám, jakmile zapneš titulky v přehrávači webu
 ★ NOVĚ: video úplně bez titulků? Bezplatný model řeči ve tvém počítači zapíše, co zaznělo, a pak se to přeloží do tvého jazyka (beta)
 ★ Sdílené titulky: když stejné titulky už někdo vylepšil pomocí AI, dostaneš jeho verzi hned, a jestli budeš sdílet ty svoje, rozhodneš sám
 ★ S AI zní překlad přirozeně, zdarma ve tvém počítači (Gemma) nebo s vlastním klíčem Gemini, Claude či OpenAI
@@ -16,7 +16,7 @@ Subtitle Overlay zobrazí titulky přes přehrávač na jakémkoli webu, i na ce
 
 ━━━━━━━━━━━━━━━━━━━━
 
-PŘEKLAD DO 35 JAZYKŮ
+PŘEKLAD DO 42 JAZYKŮ
 • Jedním klikem přeložíš načtené titulky přes Google Translate, přímo v rozšíření
 • Volitelně: klikneš na Vylepšit a AI (Gemma ve tvém počítači, nebo Gemini, Claude či OpenAI) rychlý překlad od Googlu přepíše, aby zněl přirozeně (víc níže). Když pohneš myší nad videem, uvidíš, kolik už je hotovo
 • Jazyk si vybereš jednou a platí pro všechna tlačítka Přeložit
@@ -24,7 +24,7 @@ PŘEKLAD DO 35 JAZYKŮ
 • Má web titulky ve tvém jazyce (YouTube a streamovací služby)? Pak dostaneš ty; Google nebo AI překládá, jen když žádné nejsou
 • Původní titulky webu se schovají, dokud běží naše, a vrátí se, jakmile naše vypneš
 • Kdykoli se vrátíš k originálu, nebo si překlad uložíš jako .srt
-• Jazyky: vietnamština, čeština, angličtina, slovenština, němčina, francouzština, španělština, italština, portugalština, polština, maďarština, ukrajinština, ruština, bulharština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, čínština (zjednodušená i tradiční), japonština, korejština, thajština, indonéština, malajština, filipínština, hindština, bengálština, arabština, perština
+• Jazyky: vietnamština, čeština, angličtina, slovenština, němčina, francouzština, španělština, italština, portugalština, polština, maďarština, ukrajinština, ruština, bulharština, srbština, slovinština, litevština, lotyština, estonština, katalánština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, čínština (zjednodušená i tradiční), japonština, korejština, thajština, indonéština, malajština, filipínština, hindština, bengálština, arabština, perština, hebrejština
 
 PŘIROZENÝ PŘEKLAD S AI (VOLITELNĚ)
 Google Translate je rychlý, ale překládá řádek po řádku, slovo od slova. Klikni na Vylepšit a AI model titulky přepíše s ohledem na celou scénu, od místa, kde se díváš.
@@ -104,8 +104,8 @@ Alt + [ / ] načasování · Alt + Shift + [ / ] načasování po 1 s · Alt + 0
 Na Windows a Linuxu: Alt + Enter celá obrazovka s titulky · Alt + , / Alt + . načasování po 1 s
 Každou zkratku si na záložce Chování změníš nebo vypneš.
 
-ROZHRANÍ V 35 JAZYCÍCH
-Angličtina, čeština, slovenština, němčina, francouzština, španělština, vietnamština, čínština (zjednodušená), čínština (tradiční), italština, portugalština, polština, ukrajinština, ruština, bulharština, maďarština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, japonština, korejština, thajština, indonéština, malajština, filipínština, hindština, bengálština, arabština a perština (zprava doleva). Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
+ROZHRANÍ V 42 JAZYCÍCH
+Angličtina, čeština, slovenština, němčina, francouzština, španělština, vietnamština, čínština (zjednodušená), čínština (tradiční), italština, portugalština, polština, ukrajinština, ruština, bulharština, srbština, slovinština, litevština, lotyština, estonština, katalánština, maďarština, nizozemština, švédština, dánština, norština, finština, řečtina, turečtina, rumunština, chorvatština, japonština, korejština, thajština, indonéština, malajština, filipínština, hindština, bengálština, hebrejština, arabština a perština (zprava doleva). Řídí se prohlížečem, nebo si jazyk vybereš dole v popupu.
 
 PRO ŠŤOURALY
 Záložka "Subtitles" v DevTools ukáže všechny soubory titulků, které stránka načetla, a uloží je jako .vtt nebo .srt.
