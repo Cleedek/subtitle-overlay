@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Sitä ei voi poistaa latauksen aikana.",
   "Can’t delete it while it’s making subtitles.": "Sitä ei voi poistaa, kun tekstitystä tehdään.",
   "Hi, Filip here": "Hei, täällä Filip",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Tein uuden laajennuksen: {name} kääntää kuvissa olevan tekstin suoraan paikalleen.",
+  "Same languages as Subtitle Overlay": "Samat kielet kuin Subtitle Overlayssa",
+  "Completely free and open source": "Täysin ilmainen ja avointa lähdekoodia",
+  "New in the Chrome Web Store": "Uutena Chrome Web Storessa",
+  "Add to Chrome": "Lisää Chromeen",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Teen Subtitle Overlayta yksin. Lyhyt arvio auttaa muita löytämään sen.",
   "Something not working? Tell me": "Eikö jokin toimi? Kirjoita minulle",
   "Thanks, it really helps ♥": "Kiitos, se auttaa todella ♥"

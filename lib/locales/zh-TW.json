@@ -739,6 +739,11 @@
   "Can’t delete it while it’s downloading.": "下載過程中無法刪除。",
   "Can’t delete it while it’s making subtitles.": "產生字幕過程中無法刪除。",
   "Hi, Filip here": "你好，我是 Filip",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "我做了一個新擴充功能：{name} 能把圖片裡的文字直接在原處翻譯。",
+  "Same languages as Subtitle Overlay": "與 Subtitle Overlay 相同的語言",
+  "Completely free and open source": "完全免費，開放原始碼",
+  "New in the Chrome Web Store": "Chrome 線上應用程式商店新上架",
+  "Add to Chrome": "加到 Chrome",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Subtitle Overlay 由我一個人製作。一則簡短的評論能幫更多人找到它。",
   "Something not working? Tell me": "遇到問題了？告訴我",
   "Thanks, it really helps ♥": "謝謝，這真的很有幫助 ♥"

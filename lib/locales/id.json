@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Tidak bisa dihapus saat sedang diunduh.",
   "Can’t delete it while it’s making subtitles.": "Tidak bisa dihapus saat subtitle sedang dibuat.",
   "Hi, Filip here": "Hai, ini Filip",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Saya membuat ekstensi baru: {name} menerjemahkan teks di dalam gambar, langsung di tempatnya.",
+  "Same languages as Subtitle Overlay": "Bahasa yang sama dengan Subtitle Overlay",
+  "Completely free and open source": "Sepenuhnya gratis dan open source",
+  "New in the Chrome Web Store": "Baru di Chrome Web Store",
+  "Add to Chrome": "Tambahkan ke Chrome",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Aku membuat Subtitle Overlay sendiri. Ulasan singkat membantu orang lain menemukannya.",
   "Something not working? Tell me": "Ada yang tidak berfungsi? Kabari aku",
   "Thanks, it really helps ♥": "Terima kasih, ini sangat membantu ♥"

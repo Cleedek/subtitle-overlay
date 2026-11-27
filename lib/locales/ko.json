@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "다운로드 중에는 삭제할 수 없습니다.",
   "Can’t delete it while it’s making subtitles.": "자막을 만드는 중에는 삭제할 수 없습니다.",
   "Hi, Filip here": "안녕하세요, 필립이에요",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "새 확장 프로그램을 만들었어요: {name}은 이미지 속 글자를 그 자리에서 바로 번역해요.",
+  "Same languages as Subtitle Overlay": "Subtitle Overlay와 같은 언어 지원",
+  "Completely free and open source": "완전 무료, 오픈 소스",
+  "New in the Chrome Web Store": "Chrome 웹 스토어에 새로 출시",
+  "Add to Chrome": "Chrome에 추가",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Subtitle Overlay는 혼자 만들고 있어요. 짧은 리뷰 하나가 다른 사람들이 찾는 데 도움이 돼요.",
   "Something not working? Tell me": "잘 안 되는 게 있나요? 알려 주세요",
   "Thanks, it really helps ♥": "고마워요, 정말 큰 도움이 돼요 ♥"

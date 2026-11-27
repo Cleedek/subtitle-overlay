@@ -1388,8 +1388,8 @@ function countAudio(page, lines) {
 // from the audio): the pages it showed on, and done for good after any click
 // on it (or once it showed on its last page), with what ended it and when.
 function supportAsk(msg) {
-  // rateAsk: the one-time "write a review" card, kept the same way.
-  const key = ['supportAskAudio', 'rateAsk'].includes(msg.key) ? msg.key : 'supportAsk';
+  // rateAsk: the one-time "write a review" card, snapAsk: the "Snap Translate is out" card, kept the same way.
+  const key = ['supportAskAudio', 'rateAsk', 'snapAsk'].includes(msg.key) ? msg.key : 'supportAsk';
   statsWrite = statsWrite.then(async () => {
     const { [key]: a = { pages: [] } } = await chrome.storage.local.get(key);
     if (a.done) return;

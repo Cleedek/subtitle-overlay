@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Δεν μπορεί να διαγραφεί κατά τη λήψη.",
   "Can’t delete it while it’s making subtitles.": "Δεν μπορεί να διαγραφεί όσο δημιουργούνται υπότιτλοι.",
   "Hi, Filip here": "Γεια, ο Φίλιπ εδώ",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Έφτιαξα μια νέα επέκταση: το {name} μεταφράζει το κείμενο στις εικόνες, ακριβώς εκεί που βρίσκεται.",
+  "Same languages as Subtitle Overlay": "Ίδιες γλώσσες με το Subtitle Overlay",
+  "Completely free and open source": "Εντελώς δωρεάν και ανοιχτού κώδικα",
+  "New in the Chrome Web Store": "Νέο στο Chrome Web Store",
+  "Add to Chrome": "Προσθήκη στο Chrome",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Φτιάχνω το Subtitle Overlay μόνος μου. Μια σύντομη κριτική βοηθά κι άλλους να το βρουν.",
   "Something not working? Tell me": "Κάτι δεν λειτουργεί; Γράψε μου",
   "Thanks, it really helps ♥": "Ευχαριστώ, βοηθά πραγματικά ♥"

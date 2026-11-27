@@ -51,6 +51,7 @@
   let off = false;        // turned off on this site from the popup: offer, show and restore nothing
   let askEl = null;       // the one-time support card under the language switches
   let rateEl = null;      // the one-time "write a review" card near the end of a video
+  let snapEl = null;      // the one-time "Snap Translate is out" card, in the same place
   let shareEl = null;     // the one-time "share it with others?" card, in the same place
 
   // The site is the tab's address, also inside a player frame from another domain.
@@ -496,6 +497,47 @@
       .ask.rate .quiet:hover { color: #fff; text-decoration-color: currentColor; }
       .ask.rate.thanks { padding-block: 10px; padding-inline: 10px 36px; }
       .ask.rate.thanks .timer { animation-duration: 6s; }
+      /* The one-time "Snap Translate is out" card near the end of a video: Filip, then a sushi poster
+         whose words Snap Translate rewrites into the viewer's language, again and again (6 s a round). */
+      .ask.snap .who img.me { width: 38px; height: 38px; }
+      .ask.snap .pic { position: relative; flex: none; width: 38px; height: 38px; }
+      .ask.snap .pic svg { position: absolute; inset-inline-end: -5px; bottom: -4px; width: 20px; height: 20px; border-radius: 5px; box-shadow: 0 0 0 2px #141414; }
+      .ask.snap .who b { color: #fff; font-weight: 700; }
+      .ask.snap .poster { position: relative; direction: ltr; height: 138px; border-radius: 9px; overflow: hidden; background: #f4ead9; color: #23201c; font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans", "Microsoft YaHei", "Malgun Gothic", sans-serif; }
+      .ask.snap .sun { position: absolute; right: -46px; top: 8px; width: 170px; height: 170px; border-radius: 50%; background: #e0683f; }
+      .ask.snap .plate { position: absolute; right: -30px; top: 2px; width: 156px; height: 156px; filter: drop-shadow(0 6px 10px rgba(60,20,0,.25)); }
+      .ask.snap .words { position: absolute; inset: 0; padding: 12px 0 0 12px; text-align: left; }
+      .ask.snap .words > span { display: block; max-width: 150px; unicode-bidi: plaintext; }
+      .ask.snap .brand { font-size: 7.5px; font-weight: 700; letter-spacing: .14em; color: #b4472a; }
+      .ask.snap .head { margin-top: 6px; font-size: 18px; line-height: 1.04; font-weight: 800; letter-spacing: -.02em; }
+      .ask.snap .offer { margin-top: 5px; font-size: 10px; line-height: 1.25; font-weight: 500; color: #4a443c; max-width: 128px !important; }
+      .ask.snap .cta { display: inline-block !important; margin-top: 8px; padding: 5px 10px; border-radius: 99px; background: #23201c; color: #fbf6ee; font-size: 9.5px; font-weight: 600; }
+      .ask.snap .orig { animation: snap-orig 6s infinite; }
+      .ask.snap .tr { animation: snap-tr 6s infinite; }
+      .ask.snap .scan { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: #a78bfa; box-shadow: 0 0 12px 3px rgba(167,139,250,.7); opacity: 0; animation: snap-scan 6s infinite; }
+      .ask.snap .frame { position: absolute; inset: 5px; opacity: 0; animation: snap-frame 6s infinite;
+        background:
+          linear-gradient(#a78bfa,#a78bfa) top left / 14px 3px, linear-gradient(#a78bfa,#a78bfa) top left / 3px 14px,
+          linear-gradient(#a78bfa,#a78bfa) top right / 14px 3px, linear-gradient(#a78bfa,#a78bfa) top right / 3px 14px,
+          linear-gradient(#a78bfa,#a78bfa) bottom left / 14px 3px, linear-gradient(#a78bfa,#a78bfa) bottom left / 3px 14px,
+          linear-gradient(#a78bfa,#a78bfa) bottom right / 14px 3px, linear-gradient(#a78bfa,#a78bfa) bottom right / 3px 14px;
+        background-repeat: no-repeat; }
+      .ask.snap .pair { position: absolute; right: 8px; top: 8px; max-width: 190px; white-space: nowrap; overflow: hidden; display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border-radius: 99px; background: rgba(20,20,20,.82); color: #fff; font-size: 10px; font-weight: 600; opacity: 0; animation: snap-pair 6s infinite; }
+      .ask.snap .pair svg { color: #c4b5fd; }
+      /* The round: the original 1.5 s, the frame, a line sweeps across (0.9 s) and leaves the translation, which stays ~2.8 s, then back. */
+      @keyframes snap-orig { 0%, 30% { clip-path: inset(0 0 0 0); opacity: 1; } 45%, 91.9% { clip-path: inset(0 0 0 100%); opacity: 0; } 92% { clip-path: inset(0 0 0 0); opacity: 0; } 100% { clip-path: inset(0 0 0 0); opacity: 1; } }
+      @keyframes snap-tr { 0%, 30% { clip-path: inset(0 100% 0 0); opacity: 1; } 45%, 92% { clip-path: inset(0 0 0 0); opacity: 1; } 100% { clip-path: inset(0 0 0 0); opacity: 0; } }
+      @keyframes snap-scan { 0%, 29.9% { opacity: 0; transform: translateX(0); } 30% { opacity: 1; transform: translateX(0); } 44% { opacity: 1; } 45%, 100% { opacity: 0; transform: translateX(276px); } }
+      @keyframes snap-frame { 0%, 24% { opacity: 0; } 28%, 46% { opacity: 1; } 51%, 100% { opacity: 0; } }
+      @keyframes snap-pair { 0%, 38% { opacity: 0; } 46%, 90% { opacity: 1; } 96%, 100% { opacity: 0; } }
+      @media (prefers-reduced-motion: reduce) {
+        .ask.snap .orig, .ask.snap .tr, .ask.snap .scan, .ask.snap .frame, .ask.snap .pair { animation: none; }
+        .ask.snap .orig { display: none; }
+        .ask.snap .pair { opacity: 1; }
+      }
+      .ask.snap .facts { margin: 0; padding: 0; list-style: none; display: grid; gap: 5px; font-size: 12px; color: rgba(255,255,255,.82); }
+      .ask.snap .facts li { display: flex; align-items: flex-start; gap: 7px; line-height: 1.35; }
+      .ask.snap .facts svg { margin-top: 1px; color: #86efac; }
       .ask .compact { display: none; }
       /* A smaller video (under 500 px tall): the photo, one sentence, the button and small links. */
       .ask.compact { width: 280px; padding: 10px; gap: 8px; }
@@ -583,10 +625,12 @@
     shareEl.setAttribute('role', 'dialog');
     rateEl = el('div', 'ask rate'); // filled when it shows (fillRate)
     rateEl.setAttribute('role', 'dialog');
-    for (const node of [langsEl, askEl, shareEl, rateEl]) {
+    snapEl = el('div', 'ask rate snap'); // filled when it shows (fillSnap)
+    snapEl.setAttribute('role', 'dialog');
+    for (const node of [langsEl, askEl, shareEl, rateEl, snapEl]) {
       for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) node.addEventListener(type, (e) => e.stopPropagation());
     }
-    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl, shareEl, rateEl);
+    shadow.append(style, picEl, toastEl, hintEl, restoreEl, fsBtn, dropEl, foundEl, siteNoteEl, langsEl, askEl, shareEl, rateEl, snapEl);
     placeHost();
     useFont();
   }
@@ -967,7 +1011,7 @@
   function checkCovered() {
     if (!host || !video || !host.isConnected) return;
     coverAt = performance.now();
-    for (const el of [subsEl, dualEl, langsEl, askEl, shareEl, rateEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl, helpEl]) {
+    for (const el of [subsEl, dualEl, langsEl, askEl, shareEl, rateEl, snapEl, fsBtn, foundEl, hintEl, restoreEl, siteNoteEl, toastEl, helpEl]) {
       // The notice only fades out and keeps its size: testing it while gone costs as much as shown.
       if (!el || (el === toastEl && !el.classList.contains('on'))) continue;
       el.classList.toggle('covered', !document.fullscreenElement && covered(el));
@@ -987,6 +1031,7 @@
     render(false);
     checkCoveredSoon();
     rateSoon();
+    snapSoon();
     if (video && cues.length && !video.paused && !video.ended) raf = requestAnimationFrame(tick);
   }
 
@@ -2728,7 +2773,7 @@
   // Each comes as 'full' (the other one never ended), 'short' (it ended without
   // a tip: only the tip part) or 'thanks' (it ended in a tip: a thank-you that
   // goes away by itself, with a quiet link to tip again).
-  const ASK_KEYS = ['stats', 'installedAt', 'supportAsk', 'supportAskAudio', 'rateAsk'];
+  const ASK_KEYS = ['stats', 'installedAt', 'supportAsk', 'supportAskAudio', 'rateAsk', 'snapAsk'];
   let askData = null; // those keys from storage
   let askNow = null;  // { key, look } the card is filled for
   let askHold = false; // a thank-you on screen: the language switches stay until its bar runs out
@@ -2966,7 +3011,7 @@
     });
     if (!due) return false;
     // The support card or "Share it with others?" on this video go first.
-    if (askEl.classList.contains('on') || shareAsking || SubSettings.supportAskPick(askData, { main: !!original, audio: false })) return false;
+    if (askEl.classList.contains('on') || shareAsking || snapEl.classList.contains('on') || SubSettings.supportAskPick(askData, { main: !!original, audio: false })) return false;
     return stageOf(video).getBoundingClientRect().height >= 300;
   }
 
@@ -3039,6 +3084,149 @@
     const bar = el('span', 'timer');
     bar.addEventListener('animationend', () => rateEl.classList.remove('on'));
     rateEl.replaceChildren(close, img, text, bar);
+  }
+
+  // ---------- the one-time "Snap Translate is out" card ----------
+
+  // Near the end of a translated video (SubSettings.SNAP_ASK), on its own in the
+  // top right, under the language switches while they show, like the review card
+  // (which goes first). Any click on it ends it for good; left alone it comes back
+  // at the end of a later video, 3 videos at most. Its poster is in Japanese (or
+  // French) and turns into the language the viewer translates into.
+  let snapWatch = { page: '', ms: 0 };
+  let snapShown = '';   // the page the card is on
+  let snapCheckAt = 0;
+  let snapPoster = null; // lib/snap-poster.json, loaded when the card first shows
+  function snapSoon() {
+    const now = performance.now();
+    if (now - snapCheckAt < 1000) return;
+    const gap = now - snapCheckAt;
+    snapCheckAt = now;
+    if (!video || !snapEl || !askData) return;
+    const page = SubSettings.fingerprint(String(pageOfSubs()));
+    if (snapWatch.page !== page) snapWatch = { page, ms: 0 };
+    if (original && visible && cues.length && !video.paused && gap < 2000) snapWatch.ms += gap * (video.playbackRate || 1);
+    if (snapShown === page) {
+      if ((askData.snapAsk || {}).done) snapEl.classList.remove('on'); // ended in another frame or tab
+      placeSnap();
+      return;
+    }
+    if (snapShown) { snapShown = ''; snapEl.classList.remove('on'); } // another video now
+    if (!snapWanted()) return;
+    const a = askData.snapAsk || {};
+    const pages = a.pages || [];
+    if (!pages.includes(page)) {
+      if (pages.length >= SubSettings.SNAP_ASK.pages) { endSnap('auto'); return; }
+      askData.snapAsk = Object.assign({}, a, { pages: pages.concat(page) });
+      send({ type: 'support-ask', key: 'snapAsk', page });
+    }
+    snapShown = page;
+    fillSnap(page);
+  }
+
+  function snapWanted() {
+    const d = video.duration;
+    const v = {
+      translated: !!original && visible && cues.length > 0,
+      watchedMs: snapWatch.ms,
+      left: Number.isFinite(d) ? d - video.currentTime : Infinity,
+      duration: Number.isFinite(d) ? d : 0,
+    };
+    v.rateDue = rateEl.classList.contains('on') || SubSettings.rateAskDue(askData, Object.assign({ trouble: false }, v, { watchedMs: rateWatch.ms }));
+    if (!SubSettings.snapAskDue(askData, v)) return false;
+    if (askEl.classList.contains('on') || shareAsking || SubSettings.supportAskPick(askData, { main: !!original, audio: false })) return false;
+    return stageOf(video).getBoundingClientRect().height >= 420; // the card is about 350 px tall
+  }
+
+  function placeSnap() {
+    if (!snapEl || !snapEl.classList.contains('on')) return;
+    const under = [langsEl, askEl, shareEl, rateEl].filter((e) => e && e.classList.contains('on') && getComputedStyle(e).display !== 'none');
+    const low = under.reduce((y, e) => Math.max(y, e.offsetTop + e.offsetHeight + 8), 12);
+    snapEl.style.top = low + 'px';
+  }
+
+  // via: what ended it ('store', 'close', 'auto').
+  function endSnap(via) {
+    if (askData) askData.snapAsk = Object.assign({}, askData.snapAsk, { done: true, via, doneAt: Date.now() });
+    send({ type: 'support-ask', key: 'snapAsk', done: true, via });
+  }
+
+  const SNAP_LOGO = '<svg viewBox="0 0 128 128" aria-hidden="true"><rect width="128" height="128" rx="27" fill="#7c3aed"/><g fill="none" stroke="#fff" stroke-width="11"><path d="M30 47V30H47"/><path d="M81 30H98V47"/><path d="M98 81V98H81"/><path d="M47 98H30V81"/></g><g fill="none" stroke="#fff" stroke-width="12"><path d="M48 82L61 48H67L80 82"/><path d="M54.4 71H73.6"/></g></svg>';
+  const CHECK = '<svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  async function fillSnap(page) {
+    if (!snapPoster) snapPoster = fetch(chrome.runtime.getURL('lib/snap-poster.json')).then((r) => r.json()).catch(() => ({}));
+    const texts = await snapPoster;
+    if (snapShown !== page) return; // another video meanwhile
+    snapEl.className = 'ask rate snap';
+    snapEl.replaceChildren();
+    snapEl.setAttribute('aria-label', 'Snap Translate');
+
+    const close = el('button', 'x');
+    close.innerHTML = ICON.close;
+    close.title = close.ariaLabel = t('Close (it won’t come back)');
+    close.addEventListener('click', () => { endSnap('close'); snapEl.classList.remove('on'); });
+
+    const who = el('div', 'who');
+    const pic = el('div', 'pic');
+    const img = el('img', 'me');
+    img.src = chrome.runtime.getURL('icons/support/filip.jpg');
+    img.alt = '';
+    img.addEventListener('error', () => img.remove());
+    pic.innerHTML = SNAP_LOGO;
+    pic.prepend(img);
+    const words = el('div');
+    const line = el('span');
+    const [before, after = ''] = t('I made a new extension: {name} translates text in pictures, right where it is.').split('{name}');
+    line.append(before, el('b', '', 'Snap Translate'), after);
+    words.append(el('strong', '', t('Hi, Filip here')), line);
+    who.append(pic, words);
+
+    const parts = [close, who];
+    const to = SubSettings.language(prefs.translateTo)[0];
+    const from = SubSettings.snapPosterFrom(to);
+    if (texts[to] && texts[from] && to !== from) parts.push(snapPosterEl(texts[from], from, texts[to], to));
+
+    const facts = el('ul', 'facts');
+    for (const f of [t('Same languages as Subtitle Overlay'), t('Completely free and open source'), t('New in the Chrome Web Store')]) {
+      const li = el('li');
+      li.innerHTML = CHECK;
+      li.append(f);
+      facts.append(li);
+    }
+    const main = el('a', 'main', t('Add to Chrome'));
+    main.href = SubSettings.SNAP_ASK.store;
+    main.target = '_blank';
+    main.rel = 'noopener';
+    main.addEventListener('click', () => { endSnap('store'); snapEl.classList.remove('on'); });
+
+    snapEl.append(...parts, facts, main);
+    snapEl.classList.add('on');
+    placeSnap();
+  }
+
+  function snapPosterEl(orig, from, tr, to) {
+    const poster = el('div', 'poster');
+    poster.setAttribute('aria-hidden', 'true');
+    const plate = el('img', 'plate');
+    plate.src = chrome.runtime.getURL('icons/support/snap-plate.webp');
+    plate.alt = '';
+    const words = (T, lang, cls) => {
+      const box = el('div', 'words ' + cls);
+      box.lang = lang;
+      const head = el('span', 'head');
+      (T.head || []).forEach((h, i) => { if (i) head.append(el('br')); head.append(h); });
+      box.append(el('span', 'brand', T.brand || 'KUMO SUSHI'), head, el('span', 'offer', T.offer || ''), el('span', 'cta', T.cta || ''));
+      return box;
+    };
+    // Short: "Chinese (Simplified)" is just "Chinese" on the label.
+    const name = (code) => { const n = SubSettings.languageName(code).replace(/\s*[(（].*[)）]\s*$/, ''); return n.charAt(0).toLocaleUpperCase(SubI18n.lang) + n.slice(1); };
+    const pair = el('div', 'pair');
+    pair.append(el('span', '', name(from)));
+    pair.insertAdjacentHTML('beforeend', '<svg width="10" height="10" viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    pair.append(el('span', '', name(to)));
+    poster.append(el('div', 'sun'), plate, words(orig, from, 'orig'), words(tr, to, 'tr'), el('div', 'scan'), el('div', 'frame'), pair);
+    return poster;
   }
 
   // ---------- help: "turn the site's subtitles on" and "report a problem" ----------
@@ -3893,6 +4081,7 @@
     keepLangs(ms);
     updateAsk();
     placeRate();
+    placeSnap();
   }
   // Keeps the card up a while longer, without building it again.
   function keepLangs(ms) {

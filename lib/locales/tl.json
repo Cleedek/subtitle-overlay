@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Hindi ito mabubura habang nagda-download.",
   "Can’t delete it while it’s making subtitles.": "Hindi ito mabubura habang gumagawa ng subtitle.",
   "Hi, Filip here": "Hi, si Filip ito",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Gumawa ako ng bagong extension: isinasalin ng {name} ang text sa mga larawan, mismo sa kinalalagyan nito.",
+  "Same languages as Subtitle Overlay": "Parehong mga wika gaya ng Subtitle Overlay",
+  "Completely free and open source": "Libre at open source",
+  "New in the Chrome Web Store": "Bago sa Chrome Web Store",
+  "Add to Chrome": "Idagdag sa Chrome",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Ako lang ang gumagawa ng Subtitle Overlay. Nakakatulong ang maikling review para mahanap ito ng iba.",
   "Something not working? Tell me": "May hindi gumagana? Sabihin mo sa akin",
   "Thanks, it really helps ♥": "Salamat, malaking tulong talaga ♥"

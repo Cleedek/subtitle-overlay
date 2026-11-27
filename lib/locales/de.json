@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Während des Downloads lässt es sich nicht löschen.",
   "Can’t delete it while it’s making subtitles.": "Während Untertitel erstellt werden, lässt es sich nicht löschen.",
   "Hi, Filip here": "Hallo, hier ist Filip",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Ich habe eine neue Erweiterung gemacht: {name} übersetzt Text in Bildern, direkt an Ort und Stelle.",
+  "Same languages as Subtitle Overlay": "Dieselben Sprachen wie Subtitle Overlay",
+  "Completely free and open source": "Komplett kostenlos und Open Source",
+  "New in the Chrome Web Store": "Neu im Chrome Web Store",
+  "Add to Chrome": "Zu Chrome hinzufügen",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Ich mache Subtitle Overlay allein. Eine kurze Bewertung hilft anderen, es zu finden.",
   "Something not working? Tell me": "Funktioniert etwas nicht? Schreib mir",
   "Thanks, it really helps ♥": "Danke, das hilft wirklich ♥"

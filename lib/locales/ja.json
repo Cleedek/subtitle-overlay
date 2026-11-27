@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "ダウンロード中は削除できません。",
   "Can’t delete it while it’s making subtitles.": "字幕の作成中は削除できません。",
   "Hi, Filip here": "こんにちは、フィリップです",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "新しい拡張機能を作りました：{name} は画像の中の文字を、その場で翻訳します。",
+  "Same languages as Subtitle Overlay": "Subtitle Overlay と同じ言語に対応",
+  "Completely free and open source": "完全無料、オープンソース",
+  "New in the Chrome Web Store": "Chrome ウェブストアで公開中",
+  "Add to Chrome": "Chrome に追加",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Subtitle Overlay は私ひとりで作っています。短いレビューがあると、ほかの人にも見つけてもらいやすくなります。",
   "Something not working? Tell me": "うまく動かないときは、お知らせください",
   "Thanks, it really helps ♥": "ありがとうございます、とても助かります ♥"

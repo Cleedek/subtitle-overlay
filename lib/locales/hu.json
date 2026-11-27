@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Letöltés közben nem törölhető.",
   "Can’t delete it while it’s making subtitles.": "Feliratkészítés közben nem törölhető.",
   "Hi, Filip here": "Szia, Filip vagyok",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Készítettem egy új bővítményt: a {name} a képeken lévő szöveget fordítja le, pont ott, ahol van.",
+  "Same languages as Subtitle Overlay": "Ugyanazok a nyelvek, mint a Subtitle Overlayben",
+  "Completely free and open source": "Teljesen ingyenes és nyílt forráskódú",
+  "New in the Chrome Web Store": "Új a Chrome Webáruházban",
+  "Add to Chrome": "Hozzáadás a Chrome-hoz",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "A Subtitle Overlay bővítményt egyedül készítem. Egy rövid értékelés segít, hogy mások is megtalálják.",
   "Something not working? Tell me": "Valami nem működik? Írj nekem",
   "Thanks, it really helps ♥": "Köszönöm, nagyon sokat segít ♥"

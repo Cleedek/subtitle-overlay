@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Nu se poate șterge în timpul descărcării.",
   "Can’t delete it while it’s making subtitles.": "Nu se poate șterge cât timp se creează subtitrări.",
   "Hi, Filip here": "Salut, sunt Filip",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Am făcut o extensie nouă: {name} traduce textul din imagini, chiar acolo unde se află.",
+  "Same languages as Subtitle Overlay": "Aceleași limbi ca Subtitle Overlay",
+  "Completely free and open source": "Complet gratuită și open source",
+  "New in the Chrome Web Store": "Nou în Magazinul Chrome Web",
+  "Add to Chrome": "Adaugă în Chrome",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Fac Subtitle Overlay singur. O recenzie scurtă îi ajută pe alții să-l găsească.",
   "Something not working? Tell me": "Ceva nu merge? Scrie-mi",
   "Thanks, it really helps ♥": "Mulțumesc, chiar ajută ♥"

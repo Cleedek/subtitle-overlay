@@ -737,6 +737,11 @@
   "Can’t delete it while it’s downloading.": "Kan ikke slettes mens den lastes ned.",
   "Can’t delete it while it’s making subtitles.": "Kan ikke slettes mens det lages undertekster.",
   "Hi, Filip here": "Hei, det er Filip",
+  "I made a new extension: {name} translates text in pictures, right where it is.": "Jeg har laget en ny utvidelse: {name} oversetter tekst i bilder, akkurat der den står.",
+  "Same languages as Subtitle Overlay": "Samme språk som Subtitle Overlay",
+  "Completely free and open source": "Helt gratis og åpen kildekode",
+  "New in the Chrome Web Store": "Ny i Chrome Nettmarked",
+  "Add to Chrome": "Legg til i Chrome",
   "I make Subtitle Overlay on my own. A short review helps other people find it.": "Jeg lager Subtitle Overlay alene. En kort anmeldelse hjelper andre med å finne den.",
   "Something not working? Tell me": "Er det noe som ikke virker? Skriv til meg",
   "Thanks, it really helps ♥": "Takk, det hjelper virkelig ♥"

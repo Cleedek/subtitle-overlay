@@ -114,6 +114,8 @@
     {
       "resources": [
         "icons/support/filip.jpg",
+        "icons/support/snap-plate.webp",
+        "lib/snap-poster.json",
         "icons/support/pay-logos-dark.svg",
         "icons/support/pay-logos-alipay-dark.svg"
       ],
