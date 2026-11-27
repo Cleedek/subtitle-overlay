@@ -515,7 +515,6 @@
   // the person just hasn't installed it yet. Every 3 s while the popup is open it
   // looks again, so the steps tick themselves. "Set it up yourself" shows the
   // usual settings (LM Studio, another address) instead.
-  const SETUP_MODEL = 'gemma3:12b';
   let localSetUp = !!prefs.localModel;
   let setupByHand = false;
   let setupShown = false; // the guide was on screen in this popup: say "Ready" when it's done
@@ -556,21 +555,130 @@
     setupStep(1, res.ok ? 'done' : 'now');
     setupStep(2, res.ok ? 'now' : 'later');
     setupStep(3, 'later');
-    renderPull();
+    renderSetupPick();
     if (!setupTimer) setupTimer = setInterval(() => (inSetup() ? checkLocal() : stopSetupPoll()), 3000);
   }
 
-  // "Download Gemma 3": the background asks Ollama to download it and writes the
+  // "Download": the background asks Ollama to download the model and writes the
   // progress to storage.session (also seen by a popup opened later).
   let pull = null;
   const gb = (b) => (b / 1e9).toLocaleString(SubI18n.lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  // "1.6 GB" kept in one piece in Arabic/Persian (otherwise it shows as "GB 1.6"
+  // or breaks across lines).
+  const ltr = (s) => '⁨' + s.replace(' ', ' ') + '⁩';
+  // Small DOM helpers (also used by the strips and cards below).
+  const DISK_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 10h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+  const h = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
+  const icon = (svg) => { const s = h('span'); s.style.display = 'contents'; s.innerHTML = svg; return s; };
+  const bytesText = (b) => ltr(b >= 1e9 ? gb(b) + ' GB' : Math.max(1, Math.round(b / 1e6)) + ' MB');
+  let switching = null; // { model, size, box, from }: see switchTo
+  let localInfo = null; // { ollama, models: { name: bytes } }: see showLocal
+  const pullRunning = () => !!pull && pull.state === 'running' && Date.now() - pull.at < 20000;
+  // "running" that nobody updated for 20 s: it stopped (the background was shut down).
+  const pullStopped = () => !!pull && (pull.state === 'error' || (pull.state === 'running' && !pullRunning()));
+
+  // ---------- model sizes (local) ----------
+  // For the language subtitles are translated into: Most accurate, Balanced,
+  // Smallest, each the model that did best in our test (SubSettings.localPicks),
+  // or "not yet" when no model of that size translates the language well enough.
+  const LM = SubSettings.LOCAL_MODELS;
+  const SIZES = SubSettings.LOCAL_SIZES;
+  const SIZE_NAMES = { best: t('Most accurate'), balanced: t('Balanced'), small: t('Smallest') };
+  const QUALITY = { 5: t('Best we tested'), 4: t('Very good'), 3: t('Good') };
+  const modelGb = (m) => ltr(m.gb.toLocaleString(SubI18n.lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' GB');
+  const nameOf = (model) => (LM[model] ? LM[model].name : model);
+  const sizeOk = (s) => SIZES.includes(s) ? s : 'best';
+  // The size whose pick for this language is this model ('' if none).
+  const sizeOf = (picks, model) => SIZES.find((s) => picks[s] && picks[s].model === model) || '';
+  const langPill = (el, code) => { el.textContent = (SubSettings.flag(code) + ' ' + cap(SubSettings.languageName(code))).trim(); el.hidden = false; };
+  function dots(q) {
+    const s = h('span', 'q');
+    s.setAttribute('role', 'img');
+    s.setAttribute('aria-label', QUALITY[q] || '');
+    for (let i = 1; i <= 5; i++) s.append(h('i', i <= q ? 'f' : ''));
+    return s;
+  }
+  function sizeButtons(box, picks, size, onPick) {
+    box.replaceChildren(...SIZES.map((s) => {
+      const b = h('button');
+      b.type = 'button';
+      b.setAttribute('role', 'radio');
+      b.setAttribute('aria-checked', String(s === size));
+      b.append(document.createTextNode(SIZE_NAMES[s]), h('small', '', picks[s] ? modelGb(LM[picks[s].model]) : t('not yet')));
+      b.disabled = !picks[s];
+      if (onPick) b.addEventListener('click', () => onPick(s));
+      else b.tabIndex = -1;
+      return b;
+    }));
+  }
+  // "2 GB smaller, 2× faster, a few more small mistakes" (new against base).
+  function diffText(model, q, base, baseQ) {
+    const a = LM[model], b = LM[base];
+    const parts = [];
+    const d = b.gb - a.gb;
+    const num = (n) => n.toLocaleString(SubI18n.lang, { maximumFractionDigits: 1 });
+    if (Math.abs(d) >= 0.3) parts.push(t(d > 0 ? '{size} smaller' : '{size} bigger', { size: ltr(num(Math.abs(d)) + ' GB') }));
+    const r = b.secs / a.secs;
+    if (r >= 1.3) parts.push(t('{n}× faster', { n: num(r) }));
+    else if (r <= 0.77) parts.push(t('{n}× slower', { n: num(1 / r) }));
+    if (q && baseQ) parts.push(t(q >= baseQ ? 'as accurate' : q === baseQ - 1 ? 'a few more small mistakes' : 'more mistakes'));
+    try { return new Intl.ListFormat(SubI18n.lang, { type: 'conjunction' }).format(parts); } catch (e) { return parts.join(', '); }
+  }
+  // The box under the switch: name, quality, speed, memory, and how it
+  // compares with base (Most accurate in the guide, your model in the settings).
+  function sizePanel(box, pick, isOurBest, base, baseQ, against) {
+    const m = LM[pick.model];
+    const top = h('div', 'top');
+    top.append(h('b', '', m.name));
+    if (isOurBest) top.append(h('span', '', t('Our pick')));
+    const stats = h('dl', 'size-stats');
+    const stat = (k, v, sub) => {
+      const d = h('div');
+      const dd = h('dd');
+      dd.append(v, h('small', '', sub));
+      d.append(h('dt', '', k), dd);
+      return d;
+    };
+    stats.append(stat(t('Quality'), dots(pick.q), QUALITY[pick.q] || ''),
+      stat(t('Speed'), Object.assign(h('bdi', '', '~' + m.secs + '\u00a0s'), { dir: 'ltr' }), t('for 30 lines')),
+      stat(t('Memory'), ltr(m.ram + ' GB'), t('RAM needed')));
+    box.replaceChildren(top, stats);
+    if (base && base !== pick.model && LM[base]) {
+      const diff = diffText(pick.model, pick.q, base, baseQ);
+      if (diff) box.append(h('p', 'size-diff', t(against, { diff })));
+    }
+    box.hidden = false;
+  }
+
+  // The guide's step 2.
+  let setupSize = sizeOk(prefs.localSize);
+  function renderSetupPick() {
+    const picks = SubSettings.localPicks(lang);
+    if (!picks[setupSize]) setupSize = SIZES.find((s) => picks[s]) || 'best';
+    const pick = picks[setupSize];
+    if (!pick) return;
+    const m = LM[pick.model];
+    langPill($('lsLang'), lang);
+    sizeButtons($('lsSizes'), picks, setupSize, (s) => { setupSize = s; renderSetupPick(); });
+    sizePanel($('lsPanel'), pick, setupSize === 'best', picks.best && picks.best.model, picks.best && picks.best.q, 'Compared with Most accurate: {diff}.');
+    $('lsNotYet').hidden = !!picks.small; // a gap in the middle only says "not yet" on its button
+    $('lsNotYet').textContent = t('Smaller models don’t translate this language well enough yet. We check again every month.');
+    $('lsCmd').textContent = 'ollama pull ' + pick.model;
+    $('lsFactSize').textContent = t('About {n} GB download', { n: Math.round(m.gb) });
+    $('lsFactRam').textContent = t('Needs at least {n} GB of RAM', { n: m.ram });
+    renderPull();
+  }
   function renderPull() {
-    // "running" that nobody updated for 20 s: it stopped (the background was shut down).
-    const running = !!pull && pull.state === 'running' && Date.now() - pull.at < 20000;
-    const stopped = !!pull && (pull.state === 'error' || (pull.state === 'running' && !running));
+    const picks = SubSettings.localPicks(lang);
+    const pick = picks[setupSize];
+    const running = pullRunning();
+    // A download of another size that stopped: the switch can still change it; Ollama keeps what came.
+    const stopped = pullStopped() && !!pick && pull.model === pick.model;
     $('lsPullStart').hidden = running;
     $('lsPullRun').hidden = !running;
     if (running) {
+      sizeButtons($('lsSizesLocked'), picks, sizeOf(picks, pull.model) || setupSize, null);
+      $('lsPullName').textContent = t('Downloading {model}', { model: nameOf(pull.model) });
       $('lsPullBar').style.width = (pull.total ? Math.min(100, pull.completed / pull.total * 100) : 0) + '%';
       $('lsPullText').textContent = pull.total
         ? t('{done} of {total} GB', { done: gb(pull.completed), total: gb(pull.total) })
@@ -578,7 +686,8 @@
     }
     $('lsPullError').hidden = !(pull && pull.state === 'error');
     $('lsPullError').textContent = pull && pull.state === 'error' ? pull.error : '';
-    $('lsPull').textContent = t(stopped ? 'Continue the download' : 'Download Gemma 3');
+    if (pick) $('lsPull').textContent = stopped ? t('Continue the download') : t('Download · {size}', { size: modelGb(LM[pick.model]) });
+    renderSwitch();
   }
   chrome.storage.session.get('localPull').then(({ localPull }) => { pull = localPull || null; renderPull(); }).catch(() => {});
   chrome.storage.onChanged.addListener((changes, area) => {
@@ -587,13 +696,26 @@
     renderPull();
     if (pull && pull.state === 'done' && inSetup()) checkLocal();
   });
-  $('lsPull').addEventListener('click', () => {
-    pull = { state: 'running', at: Date.now(), completed: 0, total: 0 };
+  function startPull(model) {
+    pull = { state: 'running', model, at: Date.now(), completed: 0, total: 0 };
     renderPull();
-    chrome.runtime.sendMessage({ type: 'ai-pull', model: SETUP_MODEL }).catch(() => {});
+    chrome.runtime.sendMessage({ type: 'ai-pull', model }).catch(() => {});
+  }
+  $('lsPull').addEventListener('click', async () => {
+    const pick = SubSettings.localPicks(lang)[setupSize];
+    if (!pick) return;
+    prefs.localSize = setupSize;
+    await SubSettings.saveTranslation({ localSize: setupSize });
+    startPull(pick.model);
+  });
+  $('lsWhy').addEventListener('click', () => {
+    const open = $('lsWhyText').hidden;
+    $('lsWhyText').hidden = !open;
+    $('lsWhy').setAttribute('aria-expanded', String(open));
+    $('lsWhy').textContent = t(open ? 'Hide' : 'Why this model?');
   });
   $('lsCopy').addEventListener('click', async () => {
-    await navigator.clipboard.writeText('ollama pull ' + SETUP_MODEL).catch(() => {});
+    await navigator.clipboard.writeText($('lsCmd').textContent).catch(() => {});
     $('lsCopy').textContent = t('Copied');
     setTimeout(() => { $('lsCopy').textContent = t('Copy'); }, 1500);
   });
@@ -638,13 +760,13 @@
     hideAlert('ai');
     $('aiSummary').classList.remove('error');
     $('aiModel').replaceChildren(...res.models.map((m) => Object.assign(document.createElement('option'), { value: m, textContent: m })));
-    const pick = SubSettings.pickModel(translator, res.models, saved);
+    const pick = SubSettings.pickModel(translator, res.models, saved, lang, prefs.localSize);
     $('aiModel').value = pick;
     $('aiSummary').textContent = pick;
     if (pick !== saved) await SubSettings.saveTranslation({ [modelKey()]: pick });
     aiMsg('');
     renderImprove();
-    showLocalDisk(res.models);
+    await showLocal(res.models);
   }
 
   // The "Subtitles from audio" fold: the translation and what was said (as a
@@ -652,9 +774,6 @@
   // AI on: Google alone can't fix a transcript), and the note when it's ready.
   const IMPROVE = { both: [true, true], translation: [true, false], transcript: [false, true], none: [false, false] };
   const audioModelNames = { best: t('Most accurate'), balanced: t('Balanced'), small: t('Smallest') };
-  // "1.6 GB" kept in one piece in Arabic/Persian (otherwise it shows as "GB 1.6"
-  // or breaks across lines).
-  const ltr = (s) => '\u2068' + s.replace(' ', '\u00a0') + '\u2069';
   $('audioModel').replaceChildren(...Object.keys(SubSettings.AUDIO_MODELS).map((v) => {
     const o = document.createElement('option');
     o.value = v;
@@ -674,11 +793,8 @@
   });
   // A model this extension downloaded can be deleted here too: a quiet strip
   // with its size and Delete, the question in the same strip, then what
-  // happened. o: { text, ask, after, del () -> { ok, error }, done (after ok) }.
-  const DISK_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 10h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-  const h = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? { className: cls } : {}, text != null ? { textContent: text } : {});
-  const icon = (svg) => { const s = h('span'); s.style.display = 'contents'; s.innerHTML = svg; return s; };
-  const bytesText = (b) => ltr(b >= 1e9 ? gb(b) + ' GB' : Math.max(1, Math.round(b / 1e6)) + ' MB');
+  // happened. o: { text, ask, after, del () -> { ok, error }, done (after ok) };
+  // now: ask at once, with keep as the No button and kept () after it.
   function modelDisk(box, o) {
     function idle(error) {
       const del = h('button', 'danger-link', t('Delete'));
@@ -693,9 +809,9 @@
       strip.setAttribute('role', 'group');
       const q = h('span', '', o.ask + ' ');
       q.append(h('i', '', o.after));
-      const cancel = Object.assign(h('button', 'ghost', t('Cancel')), { type: 'button' });
+      const cancel = Object.assign(h('button', 'ghost', o.keep || t('Cancel')), { type: 'button' });
       const yes = Object.assign(h('button', 'danger', t('Delete')), { type: 'button' });
-      cancel.addEventListener('click', () => idle());
+      cancel.addEventListener('click', () => (o.now ? o.kept() : idle()));
       yes.addEventListener('click', async () => {
         yes.disabled = cancel.disabled = true;
         yes.textContent = t('Deleting…');
@@ -707,9 +823,9 @@
       acts.append(cancel, yes);
       strip.append(q, acts);
       box.replaceChildren(strip);
-      yes.focus({ focusVisible: false }); // the Delete link it replaces is gone: keep keyboard focus here
+      if (!o.now) yes.focus({ focusVisible: false }); // the Delete link it replaces is gone: keep keyboard focus here
     }
-    idle();
+    if (o.now) ask(); else idle();
   }
   function diskDone(box, text) {
     const strip = h('p', 'info-strip done');
@@ -733,26 +849,221 @@
   }
   showSpeechDisk();
 
-  // Gemma 3 in Ollama: under the model list (Local only), and once, after a
-  // month without the local AI, as an offer at the top of the translation
-  // settings. Ollama keeps the app; only the model goes.
-  const deleteLocal = () => chrome.runtime.sendMessage({ type: 'local-model', op: 'delete' });
+  // Our models in Ollama (background localModelInfo): the size row, the
+  // "In Ollama · 8.1 GB · Delete" strip under the model list, the card when
+  // there's a newer pick, and once, after a month without the local AI, an
+  // offer to delete it. Ollama keeps the app; only the model goes.
+  const deleteLocal = (model) => chrome.runtime.sendMessage({ type: 'local-model', op: 'delete', model });
+  const mine = () => $('aiModel').value;
   function afterLocalDeleted() {
     $('localNudge').hidden = true;
-    localSetUp = false; // nothing else installed: the guide with "Download Gemma 3" again
+    localSetUp = false; // nothing else installed: the guide comes back
     prefs.localModel = '';
     if (translator === 'local') loadModels();
   }
-  async function showLocalDisk(models) {
-    if (translator !== 'local' || !models.includes(SETUP_MODEL)) { $('localDisk').hidden = true; return; }
+  async function showLocal(models) {
+    for (const id of ['sizeField', 'localPick', 'localDisk']) $(id).hidden = true;
+    if (translator !== 'local' || !models.some((m) => LM[m])) return;
     const res = await chrome.runtime.sendMessage({ type: 'local-model' }).catch(() => null);
-    if (!res || !res.ok || !res.model || translator !== 'local') { $('localDisk').hidden = true; return; }
-    const size = bytesText(res.model.bytes);
+    if (!res || !res.ok || !res.ollama || translator !== 'local') return;
+    localInfo = res;
+    // A download from an earlier popup that isn't the model in use: show it where it was started.
+    if (!switching && pull && pull.state !== 'done' && LM[pull.model] && pull.model !== mine()) {
+      switching = { model: pull.model, size: sizeOf(SubSettings.localPicks(lang), pull.model) || sizeOk(prefs.localSize), box: $('sizeChange'), from: mine() };
+    }
+    renderLocal();
+  }
+  function renderLocal() {
+    if (!localInfo || translator !== 'local') return;
+    const current = mine();
+    showLocalDisk(current);
+    if (!LM[current]) { $('sizeField').hidden = true; $('localPick').hidden = true; return; }
+    const picks = SubSettings.localPicks(lang);
+    const size = sizeOf(picks, current) || sizeOk(prefs.localSize);
+    $('localSize').replaceChildren(...SIZES.map((s) => Object.assign(document.createElement('option'), {
+      value: s, disabled: !picks[s], textContent: SIZE_NAMES[s] + ' · ' + (picks[s] ? modelGb(LM[picks[s].model]) : t('not yet')),
+    })));
+    $('localSize').value = size;
+    $('sizeHint').textContent = sizeOf(picks, current) ? t('{model}, our pick for this language.', { model: nameOf(current) }) : nameOf(current);
+    $('sizeField').hidden = false;
+    if (switching && switching.box === $('sizeChange')) renderSwitch();
+    else $('sizeChange').hidden = true;
+    renderPickCard();
+  }
+  // Another size in the settings: the same panel as the guide, compared with
+  // yours, and Download (or straight over if it's already in Ollama).
+  $('localSize').addEventListener('change', () => {
+    const s = $('localSize').value;
+    const picks = SubSettings.localPicks(lang);
+    const pick = picks[s];
+    const box = $('sizeChange');
+    if (!pick) return;
+    if (pick.model === mine()) { box.hidden = true; return; }
+    if (localInfo && localInfo.models[pick.model]) return switchTo(pick.model, s, box);
+    const panel = h('div', 'size-panel');
+    const yours = picks[sizeOf(picks, mine())];
+    sizePanel(panel, pick, false, mine(), yours && yours.q, 'Compared with yours: {diff}.');
+    const dl = Object.assign(h('button', 'primary wide', t('Download · {size}', { size: modelGb(LM[pick.model]) })), { type: 'button' });
+    dl.addEventListener('click', () => switchTo(pick.model, s, box));
+    box.replaceChildren(panel, dl, h('p', 'ls-d', t('{model} keeps working until the new one is ready. You can delete it afterwards.', { model: nameOf(mine()) })));
+    box.hidden = false;
+  });
+
+  // Switching to another of our models: download it if needed (progress in the
+  // box it started from), then use it and offer to delete the old one.
+  function switchTo(model, size, box) {
+    switching = { model, size, box, from: mine() };
+    if (localInfo && localInfo.models[model]) return finishSwitch();
+    startPull(model);
+  }
+  function renderSwitch() {
+    if (!switching || !pull || pull.model !== switching.model) return;
+    const { box, model, from } = switching;
+    if (pull.state === 'done') return finishSwitch();
+    const wrap = h('div', 'size-prog');
+    const bar = h('div', 'ls-track');
+    const fill = h('i');
+    bar.append(fill);
+    if (pullRunning()) {
+      fill.style.width = (pull.total ? Math.min(100, pull.completed / pull.total * 100) : 0) + '%';
+      wrap.append(h('b', '', t('Downloading {model}', { model: nameOf(model) })), bar,
+        h('p', 'ls-d', (pull.total ? t('{done} of {total} GB', { done: gb(pull.completed), total: gb(pull.total) }) : t('Starting the download…'))
+          + (LM[from] ? ' · ' + t('{model} keeps working meanwhile.', { model: nameOf(from) }) : '')));
+      box.replaceChildren(wrap);
+    } else {
+      fill.style.width = (pull.total ? Math.min(100, pull.completed / pull.total * 100) : 0) + '%';
+      wrap.append(h('b', '', t('The download stopped')), bar);
+      if (pull.error) wrap.append(h('p', 'hint error', pull.error));
+      const again = Object.assign(h('button', 'primary wide', t('Continue the download')), { type: 'button' });
+      again.addEventListener('click', () => startPull(model));
+      box.replaceChildren(wrap, again);
+    }
+    box.hidden = false;
+  }
+  let finishing = false;
+  async function finishSwitch() {
+    if (finishing || !switching) return;
+    finishing = true;
+    const { model, size, from } = switching;
+    switching = null;
+    prefs.localModel = model;
+    prefs.localSize = size;
+    await SubSettings.saveTranslation({ localModel: model, localSize: size });
+    await chrome.storage.session.remove('localPull').catch(() => {});
+    await loadModels();
+    finishing = false;
+    // Said at the top of the translation settings, where the card was.
+    const box = $('localPick');
+    const done = h('div', 'size-done');
+    done.append(h('p', 'ls-ready', '✓ ' + t('Now translating with {model}.', { model: nameOf(model) })));
+    const bytes = localInfo && localInfo.models[from];
+    if (from && from !== model && LM[from] && bytes) {
+      const strip = h('div', 'model-disk');
+      done.append(strip);
+      const size = bytesText(bytes);
+      modelDisk(strip, {
+        now: true, keep: t('Keep it'), kept: () => strip.remove(),
+        text: t('In Ollama · {size}', { size }),
+        ask: t('Delete {model} and free {size}?', { model: nameOf(from), size }),
+        after: t('You can download it again anytime.'),
+        del: () => deleteLocal(from),
+        done: () => { diskDone(strip, t('Deleted, {size} free.', { size })); delete localInfo.models[from]; },
+      });
+    }
+    box.replaceChildren(done);
+    box.hidden = false;
+  }
+
+  // At the top: a newer pick for your language and size (a new version of the
+  // extension brought it), or your size doesn't translate this language well
+  // enough. Once per pick; the X hides it.
+  const STAR = '<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg>';
+  const X_ICON = '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7m0-7l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  async function renderPickCard() {
+    const box = $('localPick');
+    if (switching && switching.box === box) return renderSwitch();
+    const current = mine();
+    const picks = SubSettings.localPicks(lang);
+    const size = sizeOk(prefs.localSize);
+    const want = picks[size] || picks.best;
+    if (!want || sizeOf(picks, current)) { box.hidden = true; return; }
+    const warn = !picks[size];
+    const key = (warn ? 'warn|' : 'new|') + lang + '|' + (warn ? current : want.model);
+    const { localPickOff = [] } = await chrome.storage.local.get('localPickOff');
+    if (localPickOff.includes(key) || mine() !== current) { box.hidden = true; return; }
+    const off = () => {
+      box.hidden = true;
+      chrome.storage.local.set({ localPickOff: localPickOff.concat(key).slice(-50) });
+    };
+    const have = localInfo && localInfo.models[want.model];
+    const wantSize = warn ? sizeOf(picks, want.model) || 'best' : size;
+    const card = h('div', 'pick-card' + (warn ? ' warn' : ''));
+    const x = Object.assign(h('button', 'x'), { type: 'button' });
+    x.setAttribute('aria-label', t('Not now'));
+    x.append(icon(X_ICON));
+    x.addEventListener('click', off);
+    const ic = h('span', 'ic');
+    ic.append(icon(STAR));
+    const text = h('div');
+    const head = h('div', 'pick-head');
+    const pill = h('span', 'lang-pill');
+    langPill(pill, lang);
+    head.append(h('b', '', warn ? t('{size} isn’t good enough for this language yet', { size: SIZE_NAMES[size] })
+      : t('New pick: {model}', { model: nameOf(want.model) })), pill);
+    text.append(head);
+    const yours = picks[sizeOf(picks, current)];
+    text.append(h('p', '', warn ? t('We recommend {size} ({gb}) for it.', { size: SIZE_NAMES[wantSize], gb: modelGb(LM[want.model]) })
+      : t('Compared with yours: {diff}.', { diff: diffText(want.model, want.q, current, yours && yours.q) })));
+    const go = Object.assign(h('button', 'primary', have ? t('Switch') : (warn ? t('Download · {size}', { size: modelGb(LM[want.model]) }) : t('Switch · {size}', { size: modelGb(LM[want.model]) }))), { type: 'button' });
+    go.addEventListener('click', () => switchTo(want.model, wantSize, box));
+    const acts = h('div', 'acts');
+    acts.append(go);
+    if (warn) {
+      const anyway = Object.assign(h('button', '', t('Use it anyway')), { type: 'button' });
+      anyway.addEventListener('click', off);
+      acts.append(anyway);
+    } else {
+      const cmp = Object.assign(h('button', '', t('Compare')), { type: 'button' });
+      cmp.setAttribute('aria-expanded', 'false');
+      cmp.addEventListener('click', () => {
+        const table = compareTable(current, yours && yours.q, want);
+        text.after(table);
+        cmp.remove();
+        acts.classList.add('one');
+      });
+      acts.append(cmp);
+    }
+    card.append(x, ic, text, acts);
+    box.replaceChildren(card);
+    box.hidden = false;
+  }
+  function compareTable(current, q, want) {
+    const a = LM[current], b = LM[want.model];
+    const wrap = h('div', 'full');
+    const grid = h('div', 'pick-cmp');
+    grid.setAttribute('role', 'table');
+    const cell = (cls, v) => { const c = h('span', cls); c.append(v); return c; };
+    const num = (text) => Object.assign(h('bdi', '', text), { dir: 'ltr' }); // "~60 s" stays in one piece in Arabic
+    const better = (x, y) => (x < y ? ' up' : '');
+    grid.append(cell('h', ''), cell('h', t('Yours')), cell('h new', t('New')),
+      cell('k', t('Model')), cell('', a.name), cell('new', b.name),
+      cell('k', t('Quality')), cell('', q ? dots(q) : '–'), cell('new', dots(want.q)),
+      cell('k', t('Speed')), cell('', num('~' + a.secs + ' s')), cell('new' + better(b.secs, a.secs), num('~' + b.secs + ' s')),
+      cell('k', t('Size')), cell('', modelGb(a)), cell('new' + better(b.gb, a.gb), modelGb(b)),
+      cell('k', t('Memory')), cell('', ltr(a.ram + ' GB')), cell('new' + better(b.ram, a.ram), ltr(b.ram + ' GB')));
+    wrap.append(grid);
+    return wrap;
+  }
+
+  function showLocalDisk(current) {
+    const bytes = localInfo && localInfo.models[current];
+    if (translator !== 'local' || !LM[current] || !bytes) { $('localDisk').hidden = true; return; }
+    const size = bytesText(bytes);
     modelDisk($('localDisk'), {
       text: t('In Ollama · {size}', { size }),
-      ask: t('Delete Gemma 3 and free {size}?', { size }),
+      ask: t('Delete {model} and free {size}?', { model: nameOf(current), size }),
       after: t('The Ollama app stays. You can download the model again anytime.'),
-      del: deleteLocal,
+      del: () => deleteLocal(current),
       done: afterLocalDeleted,
     });
   }
@@ -764,11 +1075,15 @@
     if (!localUsedAt) return chrome.storage.local.set({ localUsedAt: Date.now() });
     if (Date.now() - localUsedAt < NUDGE_AFTER) return;
     const res = await chrome.runtime.sendMessage({ type: 'local-model' }).catch(() => null);
-    if (!res || !res.ok || !res.model) return;
-    const size = bytesText(res.model.bytes);
+    if (!res || !res.ok || !res.models) return;
+    // The one in use, else any of ours (the biggest: the most space to free).
+    const names = Object.keys(res.models).sort((a, b) => res.models[b] - res.models[a]);
+    const model = res.models[prefs.localModel] ? prefs.localModel : names[0];
+    if (!model) return;
+    const size = bytesText(res.models[model]);
     const box = $('localNudge');
     const text = h('div');
-    text.append(h('strong', '', t('Gemma 3 takes {size}', { size })),
+    text.append(h('strong', '', t('{model} takes {size}', { model: nameOf(model), size })),
       h('p', '', t('You haven’t translated with the local AI for a month. Delete it to free the space? You can download it again anytime.')));
     const yes = Object.assign(h('button', 'danger', t('Delete')), { type: 'button' });
     const keep = Object.assign(h('button', 'ghost', t('Keep it')), { type: 'button' });
@@ -784,7 +1099,7 @@
     yes.addEventListener('click', async () => {
       yes.disabled = keep.disabled = true;
       yes.textContent = t('Deleting…');
-      const r = await deleteLocal().catch((e) => ({ ok: false, error: e.message }));
+      const r = await deleteLocal(model).catch((e) => ({ ok: false, error: e.message }));
       if (!r || !r.ok) {
         yes.disabled = keep.disabled = false;
         yes.textContent = t('Delete');
@@ -924,6 +1239,9 @@
     renderLangChip();
     if (googleFonts.length) renderFonts();
     renderPreview(true);
+    // Each language has its own picks: the guide's sizes, the size row and the card follow.
+    if (inSetup() && setupShown) renderSetupPick();
+    else if (translator === 'local' && localInfo) renderLocal();
   });
 
   // ---------- live subtitles (beta) ----------

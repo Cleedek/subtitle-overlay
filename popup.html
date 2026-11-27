@@ -379,6 +379,8 @@
         <p class="hint" id="translatorHint"></p>
         <!-- Once, after a month without the local AI: offer to delete Gemma 3 (popup.js). -->
         <div class="nudge" id="localNudge" hidden></div>
+        <!-- Local: a newer pick for this language and size, or a size that doesn't translate it well (popup.js). -->
+        <div id="localPick" hidden></div>
         <!-- Local, never set up yet: a guide instead of an error. Each step ticks itself. -->
         <div class="ls" id="localSetup" hidden>
           <div class="ls-head">
@@ -390,7 +392,7 @@
             <div class="ls-bar"><span>Google</span><i style="--w: 40%"></i><b>4/10</b></div>
             <div class="ls-bar after"><span>Local AI</span><i style="--w: 80%"></i><b>8/10</b></div>
           </div>
-          <div class="ls-facts"><span class="ls-fact free">Free, no account</span><span class="ls-fact">Stays on your computer</span><span class="ls-fact">About 8 GB download</span><span class="ls-fact">Needs at least 16 GB of RAM</span></div>
+          <div class="ls-facts"><span class="ls-fact free">Free, no account</span><span class="ls-fact">Stays on your computer</span><span class="ls-fact" id="lsFactSize">About 8 GB download</span><span class="ls-fact" id="lsFactRam">Needs at least 16 GB of RAM</span></div>
           <ol class="ls-steps">
             <li class="ls-step" id="lsStep1">
               <span class="ls-n" aria-hidden="true">1</span>
@@ -406,16 +408,33 @@
             <li class="ls-step" id="lsStep2">
               <span class="ls-n" aria-hidden="true">2</span>
               <div>
-                <div class="ls-t" data-todo="Download the translation model" data-done="Gemma 3 is downloaded">Download the translation model</div>
+                <div class="ls-t-row"><div class="ls-t" data-todo="Download the translation model" data-done="The model is downloaded">Download the translation model</div><span class="lang-pill" id="lsLang" hidden></span></div>
                 <div class="ls-body">
+                  <!-- One size per language (SubSettings.localPicks), Most accurate first. -->
                   <div id="lsPullStart">
-                    <p class="ls-d">Gemma 3 by Google. Once, about 8 GB.</p>
-                    <div class="ls-act"><button type="button" class="primary" id="lsPull">Download Gemma 3</button></div>
-                    <p class="ls-cmd"><span>Or in Terminal:</span> <code>ollama pull gemma3:12b</code> <button type="button" id="lsCopy">Copy</button></p>
+                    <div class="size-seg" id="lsSizes" role="radiogroup" aria-label="Model size"></div>
+                    <div class="size-panel" id="lsPanel"></div>
+                    <p class="ls-d" id="lsNotYet" hidden></p>
+                    <div class="ls-act"><button type="button" class="primary wide" id="lsPull">Download</button></div>
+                    <div class="size-promise">
+                      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg>
+                      <span>We test new free models every month and keep the best one for each size.</span>
+                      <button type="button" class="ls-link" id="lsWhy" aria-expanded="false" aria-controls="lsWhyText">Why this model?</button>
+                    </div>
+                    <div class="size-why" id="lsWhyText" hidden>
+                      <p>We try free models on real film subtitles, in the languages that are hardest for them.</p>
+                      <ol><li>A model makes the list only if it gets the lines right in your language.</li><li>For each size we keep the one that did best.</li><li>When a better one comes out, we offer it here. Nothing downloads by itself.</li></ol>
+                    </div>
+                    <p class="ls-cmd"><span>Or in Terminal:</span> <code id="lsCmd"></code> <button type="button" id="lsCopy">Copy</button></p>
                   </div>
                   <div id="lsPullRun" hidden>
-                    <div class="ls-track"><i id="lsPullBar"></i></div>
-                    <p class="ls-d ls-row"><span id="lsPullText"></span></p>
+                    <div class="size-seg locked" id="lsSizesLocked" aria-hidden="true"></div>
+                    <div class="size-prog">
+                      <b id="lsPullName"></b>
+                      <div class="ls-track"><i id="lsPullBar"></i></div>
+                      <p class="ls-d ls-row"><span id="lsPullText"></span></p>
+                    </div>
+                    <p class="ls-d">You can close this window. The download keeps going.</p>
                   </div>
                   <p id="lsPullError" class="hint error" hidden></p>
                 </div>
@@ -456,12 +475,18 @@
               <p class="hint">Ollama uses port 11434, LM Studio uses port 1234 (turn its server on first).</p>
             </div>
             <div class="ai-fields" id="modelField" hidden>
+              <!-- Ollama with one of our models: the size picked for this language (SubSettings.localPicks). -->
+              <div id="sizeField" hidden>
+                <div class="setting-head"><label for="localSize" class="setting-label">Model size</label><select id="localSize" class="compact"></select></div>
+                <p class="hint" id="sizeHint"></p>
+                <div id="sizeChange" hidden></div>
+              </div>
               <div class="setting-head">
                 <label for="aiModel" class="setting-label">Model</label>
                 <select id="aiModel" class="compact"></select>
               </div>
               <p id="aiMsg" class="hint" hidden></p>
-              <!-- Gemma 3 only (what the guide downloads): its size in Ollama + Delete. -->
+              <!-- Our models only (what the popup downloads): its size in Ollama + Delete. -->
               <div class="model-disk" id="localDisk" hidden></div>
               <!-- A line above each group, none inside it (like Subtitles from audio). -->
               <div class="ai-group">

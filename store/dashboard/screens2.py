@@ -60,7 +60,7 @@ def switch(code):
 def do(folder):
     is_global = folder == 'GLOBAL'
     sel = GLOBAL if is_global else LOCAL
-    code = 'en' if is_global else folder.replace('_', '-')
+    code = 'en' if is_global else {'he': 'iw'}.get(folder, folder.replace('_', '-'))
     files = [os.path.join(S.IMG, *([] if is_global else [folder]), f'screenshot-{i}.png') for i in range(1, 6)]
     switch(code)
     for attempt in range(3):

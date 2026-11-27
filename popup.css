@@ -915,3 +915,67 @@ details.font-fold[open] > summary { margin-bottom: 10px; }
 /* A group without a name (When done): only the line says it's a new block. */
 .audio-settings .setting.group-start { padding-top: 12px; border-top: 1px solid var(--line); }
 #audioDetails input:disabled + span { opacity: .45; }
+
+/* Local model sizes: the guide's switch and panel, the size row in the AI
+   settings, and the card when there's a newer pick (popup.js "model sizes"). */
+.ls-t-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.lang-pill { flex: none; display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-text); font-size: 11.5px; font-weight: 600; line-height: 18px; }
+.lang-pill[hidden], #lsNotYet[hidden], #lsWhyText[hidden], #sizeField[hidden], #sizeChange[hidden], #localPick[hidden] { display: none; }
+.size-seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 8px; padding: 3px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.size-seg button { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 6px 4px; border: 0; border-radius: 7px; background: none; color: var(--muted); font-size: 12px; }
+.size-seg button small { font-size: 10.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+.size-seg button[aria-checked="true"] { background: var(--bg); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px var(--shadow), 0 0 0 1px var(--line-strong); }
+.size-seg button[aria-checked="true"] small { color: var(--muted); }
+.size-seg button:disabled { opacity: .45; }
+.size-seg.locked { opacity: .55; pointer-events: none; }
+.size-panel, .size-prog { margin: 8px 0 10px; padding: 11px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+.size-panel .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.size-panel .top b { font-size: 13.5px; }
+.size-panel .top span { font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--success); }
+.size-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0 0; }
+.size-stats div { padding: 7px 8px; border-radius: 8px; background: var(--bg); }
+.size-stats dt { font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
+.size-stats dd { margin: 2px 0 0; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.size-stats dd small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); }
+.q { display: inline-flex; gap: 2px; vertical-align: middle; }
+.q i { width: 5px; height: 10px; border-radius: 2px; background: var(--line-strong); }
+.q i.f { background: var(--accent); }
+.size-diff { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+.size-prog b { font-size: 13px; }
+.size-prog .ls-d { font-variant-numeric: tabular-nums; }
+#lsPullStart .ls-act { margin-top: 0; }
+.size-promise { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: start; margin-top: 10px; font-size: 12px; color: var(--muted); }
+.size-promise svg { margin-top: 2px; color: var(--star); }
+.size-promise .ls-link { font-size: 12px; line-height: inherit; white-space: nowrap; }
+.size-why { margin: 8px 0 0 22px; padding: 9px 11px; border-radius: 8px; background: var(--panel-hover); font-size: 12px; line-height: 1.45; color: var(--muted); }
+.size-why p { margin: 0; }
+.size-why ol { margin: 6px 0 0; padding-inline-start: 18px; }
+#sizeField { margin-bottom: 10px; }
+#sizeField .hint { margin-top: 4px; }
+#sizeChange { margin-top: 8px; }
+#sizeChange .size-panel { margin-top: 0; }
+#sizeChange .ls-d { margin-top: 6px; }
+#localPick { margin-top: 10px; }
+.pick-card { position: relative; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line-strong); }
+.pick-card .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+.pick-card.warn .ic { background: color-mix(in oklch, var(--star) 22%, transparent); color: var(--star); }
+.pick-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding-inline-end: 22px; }
+.pick-head b { font-size: 13px; }
+.pick-card p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+.pick-card .x { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--faint); }
+.pick-card .x:hover { background: var(--panel-hover); color: var(--text); }
+.pick-card .acts { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 2px; }
+.pick-card .acts.one { grid-template-columns: 1fr; }
+.pick-card .acts button { padding: 7px 10px; font-size: 12.5px; }
+.pick-card .full { grid-column: 1 / -1; }
+.pick-cmp { display: grid; grid-template-columns: auto 1fr 1fr; border-radius: 8px; overflow: hidden; background: var(--bg); font-size: 12px; }
+.pick-cmp > * { padding: 7px 9px; border-top: 1px solid var(--line); }
+.pick-cmp .h { border-top: 0; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
+.pick-cmp .k { color: var(--muted); }
+.pick-cmp .new { font-weight: 600; color: var(--text); background: color-mix(in oklch, var(--accent) 8%, transparent); }
+.pick-cmp .up { color: var(--success); }
+.pick-cmp .q i { width: 5px; height: 9px; }
+#localPick > .size-prog { margin: 0; }
+#localPick > .wide { margin-top: 6px; }
+.size-done { display: grid; gap: 8px; }
+#lsNotYet { margin: -2px 0 10px; }

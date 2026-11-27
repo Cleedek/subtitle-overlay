@@ -829,34 +829,39 @@ function pullModel(model) {
 }
 
 // The models this extension downloads can be deleted from the popup too.
-// Gemma 3 lives in Ollama: only the one the setup guide downloads is offered
-// (other models in Ollama may be there for other apps). Answers
-// { name, bytes } or null (not installed, not Ollama, or Ollama not running).
-const SETUP_MODEL = 'gemma3:12b';
+// They live in Ollama: only the ones the popup offers (SubSettings.LOCAL_MODELS)
+// are shown and deleted (other models in Ollama may be there for other apps).
+// Answers { ollama, models: { name: bytes } } (empty when Ollama isn't running).
 const localRoot = (p) => String(p.localUrl || '').replace(/\/+$/, '').replace(/\/v1$/, '');
 async function localModelInfo() {
   const p = await SubSettings.loadTranslation();
   const root = localRoot(p);
   await allowLocal(root + '/v1');
-  if (!(await isOllama(root + '/v1'))) return null;
+  const out = { ollama: false, models: {} };
+  if (!(await isOllama(root + '/v1'))) return out;
+  out.ollama = true;
   try {
     const r = await fetch(root + '/api/tags', { signal: AbortSignal.timeout(3000) });
-    const m = r.ok && ((await r.json()).models || []).find((x) => x.name === SETUP_MODEL || x.model === SETUP_MODEL);
-    return m ? { name: SETUP_MODEL, bytes: m.size || 0 } : null;
-  } catch (e) { return null; }
+    for (const m of (r.ok && (await r.json()).models) || []) {
+      const name = SubSettings.LOCAL_MODELS[m.name] ? m.name : SubSettings.LOCAL_MODELS[m.model] ? m.model : '';
+      if (name) out.models[name] = m.size || 0;
+    }
+  } catch (e) { /* not running: nothing to show */ }
+  return out;
 }
-async function deleteLocalModel() {
+async function deleteLocalModel(model) {
+  if (!SubSettings.LOCAL_MODELS[model]) throw new Error(tr('Something went wrong.'));
   if (pulling) throw new Error(tr('Can’t delete it while it’s downloading.'));
   const p = await SubSettings.loadTranslation();
   const root = localRoot(p);
   await allowLocal(root + '/v1');
   let r;
   try {
-    r = await fetch(root + '/api/delete', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: SETUP_MODEL, name: SETUP_MODEL }), signal: AbortSignal.timeout(15000) });
+    r = await fetch(root + '/api/delete', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model, name: model }), signal: AbortSignal.timeout(15000) });
   } catch (e) { throw new Error(tr('Can’t reach the local model at {url}. Is Ollama or LM Studio running?', { url: root })); }
   if (!r.ok && r.status !== 404) throw new Error(serverSays(await r.text()) || tr('The model server answered HTTP {status}.', { status: r.status }));
-  // The popup's guide (with "Download Gemma 3") comes back if nothing else is installed.
-  if (p.localModel === SETUP_MODEL) await SubSettings.saveTranslation({ localModel: '' });
+  // The popup picks another model, or shows the guide again if none is left.
+  if (p.localModel === model) await SubSettings.saveTranslation({ localModel: '' });
   await chrome.storage.session.remove('localPull');
 }
 // When the local model was last asked to translate: after a month without it,
@@ -1164,6 +1169,9 @@ async function aiTranslate(lines, before, to, signal, sheet, clean, doubt) {
       if (typeof s === 'string' && /<(start|end)_of_|["»”]\s*\}\s*,/.test(s)) s = '';
       // Gemma sometimes repeats the field's name inside it: "tr: Bạn lấy đồng xu…".
       if (typeof s === 'string') s = s.replace(/^\s*(tr|src)\s*:\s*/i, '');
+      // gemma3:12b into Hungarian ended 29 of 30 lines with the next key ("… van. L04:{"),
+      // in 2 of 3 test runs (2026-11-27): the line itself is fine, only the tail goes.
+      if (typeof s === 'string') s = s.replace(/\s*"?L\d{2,3}"?\s*:\s*\{?\s*$/, '');
       if (typeof s === 'string' && s.trim()) s = straightQuotes(s.trim(), lines[i]);
       return typeof s === 'string' ? SubLib.dropTransliteration(SubLib.dropAlternative(s.trim()), lines[i]) : '';
     }) };
@@ -1940,14 +1948,15 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
       return true;
 
     case 'ai-pull':
-      // The setup guide's "Download Gemma 3": answers at once, progress goes to storage.session.
-      pullModel(String(msg.model || 'gemma3:12b'));
+      // The popup's "Download": answers at once, progress goes to storage.session.
+      if (!SubSettings.LOCAL_MODELS[msg.model]) { reply({ ok: false }); return; }
+      pullModel(msg.model);
       reply({ ok: true });
       return;
 
     case 'local-model':
-      // The popup: how big Gemma 3 is in Ollama, or delete it ({ op: 'delete' }).
-      (msg.op === 'delete' ? deleteLocalModel().then(() => ({ ok: true })) : localModelInfo().then((model) => ({ ok: true, model })))
+      // The popup: which of its models are in Ollama and how big, or delete one ({ op: 'delete', model }).
+      (msg.op === 'delete' ? deleteLocalModel(msg.model).then(() => ({ ok: true })) : localModelInfo().then((info) => Object.assign({ ok: true }, info)))
         .then(reply, (e) => reply({ ok: false, error: e.message }));
       return true;
 

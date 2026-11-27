@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local AI: model sizes per language, 6 proposals</title>
+<!-- The real popup styles, so every variant looks like the extension. -->
+<link rel="stylesheet" href="../popup.css">
+<style>
+  /* ---------- the mockup page only (not for the extension) ---------- */
+  body { width: auto; padding: 32px 24px 64px; background: oklch(0.13 0.006 290); }
+  :root[data-theme="light"] body { background: oklch(0.92 0.004 290); }
+  .doc { max-width: 1280px; margin: 0 auto; }
+  .doc > h1 { font-size: 22px; margin: 0 0 4px; }
+  .doc > h2 { font-size: 16px; margin: 40px 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 14px; max-width: 100ch; }
+  .note { border: 1px dashed var(--line-strong); border-radius: 10px; padding: 10px 14px; color: var(--muted); max-width: 100ch; margin: 0 0 22px; font-size: 12.5px; }
+  .note b { color: var(--text); }
+  .switch-theme { float: right; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .col { width: 380px; display: flex; flex-direction: column; gap: 10px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .why { color: var(--muted); font-size: 12px; margin: 0; }
+  .pc { margin: 0; font-size: 11.5px; color: var(--faint); }
+  .pc b { color: var(--text); font-weight: 600; }
+  .step { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); margin: 6px 0 -4px; }
+  .popup { background: var(--bg); border-radius: 12px; padding: 12px 14px 14px; box-shadow: 0 0 0 1px var(--line); }
+  .ctx-label { font-size: 12.5px; font-weight: 600; margin: 0 0 8px; color: var(--muted); }
+  .lang-pill { display: inline-flex; gap: 5px; align-items: center; font-size: 11.5px; padding: 2px 8px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-text); font-weight: 600; }
+
+  /* ---------- shared ---------- */
+  .size { font-variant-numeric: tabular-nums; }
+  .muted { color: var(--muted); }
+  .tiny { font-size: 11.5px; color: var(--muted); margin: 6px 0 0; }
+  .promise { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  .promise svg { flex: none; margin-top: 1px; color: var(--accent-text); }
+  .promise b { color: var(--text); font-weight: 600; }
+
+  /* A: three cards */
+  .tiers { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 10px; }
+  .tier { display: grid; grid-template-columns: 18px 1fr auto; gap: 2px 10px; align-items: center; padding: 9px 11px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; text-align: start; }
+  .tier .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--line-strong); grid-row: span 2; }
+  .tier.on { border-color: var(--accent-line); background: var(--accent-tint); }
+  .tier.on .dot { border-color: var(--accent); background: radial-gradient(circle, var(--accent) 45%, transparent 50%); }
+  .tier b { font-size: 13px; font-weight: 600; }
+  .tier .meta { grid-column: 2; font-size: 11.5px; color: var(--muted); }
+  .tier .gb { grid-row: span 2; font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tier .rec { font-size: 10.5px; font-weight: 700; letter-spacing: .03em; color: var(--success); margin-inline-start: 6px; text-transform: uppercase; }
+  .tier.off { opacity: .45; cursor: default; }
+
+  /* B: one pick + change */
+  .pick { padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); margin: 8px 0 10px; }
+  .pick-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .pick-top b { font-size: 13.5px; }
+  .pick p { margin: 3px 0 0; font-size: 12px; color: var(--muted); }
+  .pick .change { font-size: 12px; background: none; border: 0; padding: 0; color: var(--accent-text); text-decoration: underline; text-underline-offset: 2px; }
+  .pick .segmented { margin-top: 10px; }
+  .why-box { margin-top: 8px; padding: 9px 11px; border-radius: 8px; background: var(--panel-hover); font-size: 12px; color: var(--muted); }
+  .why-box b { color: var(--text); }
+
+  /* C: the model table */
+  table.models { width: 100%; border-collapse: collapse; margin: 8px 0 6px; font-size: 12px; }
+  table.models th { text-align: start; font-weight: 600; color: var(--faint); font-size: 11px; letter-spacing: .03em; text-transform: uppercase; padding: 0 6px 6px; }
+  table.models td { padding: 8px 6px; border-top: 1px solid var(--line); vertical-align: middle; }
+  table.models tr.on td { background: var(--accent-tint); }
+  table.models tr.on td:first-child { border-start-start-radius: 8px; border-end-start-radius: 8px; }
+  table.models tr.on td:last-child { border-start-end-radius: 8px; border-end-end-radius: 8px; }
+  table.models td b { display: block; font-size: 12.5px; }
+  table.models td span { color: var(--muted); font-size: 11px; }
+  .q { display: inline-flex; gap: 2px; }
+  .q i { width: 6px; height: 10px; border-radius: 2px; background: var(--line-strong); }
+  .q i.f { background: var(--accent); }
+  .na { color: var(--faint); font-size: 11.5px; }
+  .update { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+  .update .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); font-weight: 800; }
+  .update b { display: block; font-size: 13px; }
+  .update p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+  .update .acts { display: flex; gap: 6px; margin-top: 8px; }
+  .update .acts button { padding: 4px 10px; font-size: 12px; }
+
+  /* ---------- D: cards with quality, promise that opens ---------- */
+  .fav { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--success); }
+  .d-tiers { display: flex; flex-direction: column; gap: 6px; margin: 10px 0 12px; }
+  .d-tier { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); text-align: start; position: relative; }
+  .d-tier.on { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); background: var(--accent-tint); }
+  .d-tier .nm { display: flex; align-items: baseline; gap: 8px; font-size: 13px; font-weight: 600; }
+  .d-tier .nm small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+  .d-tier .gb { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: end; }
+  .d-tier .bars { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--muted); }
+  .d-tier .bars .q i { width: 5px; height: 9px; }
+  .d-tier .ram { font-size: 11px; color: var(--muted); text-align: end; white-space: nowrap; }
+  .d-tier .check { position: absolute; inset-inline-end: -7px; inset-block-start: -7px; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); color: oklch(0.99 0 0); display: none; place-items: center; font-size: 11px; font-weight: 800; }
+  .d-tier.on .check { display: grid; }
+  .d-none { padding: 9px 12px; border-radius: 10px; border: 1px dashed var(--line-strong); font-size: 12px; color: var(--muted); }
+  details.promise-d { margin-top: 10px; font-size: 12px; color: var(--muted); }
+  details.promise-d summary { display: flex; gap: 8px; align-items: center; cursor: pointer; list-style: none; }
+  details.promise-d summary::-webkit-details-marker { display: none; }
+  details.promise-d summary svg { flex: none; color: var(--star, var(--accent-text)); }
+  details.promise-d summary b { color: var(--text); font-weight: 600; }
+  details.promise-d summary .more { margin-inline-start: auto; color: var(--accent-text); white-space: nowrap; }
+  details.promise-d .body { margin: 8px 0 0 22px; padding: 9px 11px; border-radius: 8px; background: var(--panel-hover); line-height: 1.45; }
+  details.promise-d .body ol { margin: 6px 0 0; padding-inline-start: 18px; }
+
+  /* ---------- E: size switch + one comparison panel ---------- */
+  .e-seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 3px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); margin: 10px 0 0; }
+  .e-seg button { border: 0; background: none; border-radius: 7px; padding: 6px 4px; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .e-seg button small { font-size: 10.5px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .e-seg button[aria-checked="true"] { background: var(--bg); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px var(--shadow), 0 0 0 1px var(--line-strong); }
+  .e-seg button[aria-checked="true"] small { color: var(--muted); }
+  .e-seg button:disabled { opacity: .4; }
+  .e-panel { margin: 8px 0 12px; padding: 11px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+  .e-panel .top { display: flex; justify-content: space-between; align-items: baseline; }
+  .e-panel .top b { font-size: 13.5px; }
+  .e-panel .top span { font-size: 11.5px; color: var(--success); font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+  .e-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .e-stats div { padding: 7px 8px; border-radius: 8px; background: var(--bg); }
+  .e-stats dt { font-size: 10.5px; color: var(--faint); text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+  .e-stats dd { margin: 2px 0 0; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .e-stats dd small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); }
+  .e-stats .q i { width: 5px; height: 10px; }
+  .e-diff { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
+
+  /* ---------- F: E refined, every state ---------- */
+  .f-grid { display: grid; grid-template-columns: repeat(3, 380px); gap: 18px 24px; align-items: start; }
+  .f-cell { display: flex; flex-direction: column; gap: 6px; }
+  .f-cell .step { margin: 0; }
+  .f-cell .note-s { font-size: 11.5px; color: var(--faint); margin: 0; }
+  .f-promise { display: grid; grid-template-columns: 14px 1fr auto; gap: 8px; align-items: start; margin-top: 10px; font-size: 12px; color: var(--muted); }
+  .f-promise svg { margin-top: 2px; color: var(--star, var(--accent-text)); }
+  .f-promise b { color: var(--text); font-weight: 600; }
+  .f-promise .ls-link { font-size: 12px; white-space: nowrap; line-height: inherit; }
+  .f-why { margin: 8px 0 0 22px; padding: 9px 11px; border-radius: 8px; background: var(--panel-hover); font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .f-why ol { margin: 6px 0 0; padding-inline-start: 18px; }
+  .f-dl { margin-top: 2px; }
+  .f-dl button { width: 100%; padding: 8px 10px; }
+  .f-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .f-head .ls-t { font-weight: 600; }
+  .f-locked { opacity: .55; pointer-events: none; }
+  .f-prog { margin: 8px 0 12px; padding: 11px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); }
+  .f-prog .row2 { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .f-prog b { font-size: 13px; }
+  .f-card { position: relative; display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 12px 12px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line-strong); }
+  .f-card .ic { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--accent-tint); color: var(--accent-text); }
+  .f-card b { display: block; font-size: 13px; padding-inline-end: 22px; }
+  .f-card p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+  .f-card .x { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--faint); display: grid; place-items: center; }
+  .f-card .x:hover { background: var(--panel-hover); color: var(--text); }
+  .f-card .acts { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 2px; }
+  .f-card .acts.one { grid-template-columns: 1fr; }
+  .f-card .acts button { padding: 7px 10px; font-size: 12.5px; }
+  .f-card .full { grid-column: 1 / -1; }
+  .f-cmp { display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; margin-top: 10px; font-size: 12px; border-radius: 8px; overflow: hidden; background: var(--bg); }
+  .f-cmp > * { padding: 7px 9px; border-top: 1px solid var(--line); }
+  .f-cmp .h { border-top: 0; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--faint); }
+  .f-cmp .k { color: var(--muted); }
+  .f-cmp .new { color: var(--text); font-weight: 600; background: color-mix(in oklch, var(--accent) 8%, transparent); }
+  .f-cmp .q i { width: 5px; height: 9px; }
+  .f-cmp .up { color: var(--success); font-weight: 600; }
+  .f-warn { padding: 10px 12px; border-radius: 10px; background: color-mix(in oklch, var(--star, orange) 12%, var(--panel)); border: 1px solid color-mix(in oklch, var(--star, orange) 35%, transparent); font-size: 12px; color: var(--text); }
+  .f-warn p { margin: 2px 0 0; color: var(--muted); }
+  .f-warn .acts { display: flex; gap: 6px; margin-top: 8px; }
+  .f-warn .acts button { padding: 5px 11px; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <button class="switch-theme" type="button" onclick="const r=document.documentElement;r.dataset.theme=r.dataset.theme==='light'?'dark':'light'">Světlé / tmavé</button>
+  <h1>Lokální AI: velikosti modelu podle jazyka, 6 návrhů</h1>
+  <p class="lead">Dnes nabízíme jen Gemmu 3 (asi 8 GB, 16 GB RAM). Nově si člověk vybere velikost a my za něj vybereme <b>nejlepší model pro jazyk, do kterého překládá</b>. Každý sloupec je jeden přístup a ukazuje tři místa: <b>1</b> stažení v průvodci, <b>2</b> nastavení po instalaci, <b>3</b> co se stane, když vyjde lepší model. Texty v UI jsou anglicky jako v extension.</p>
+  <div class="note"><b>Čísla a jména modelů jsou zatím ilustrační.</b> Srovnávací test (Gemma 4, Qwen 3.5, Gemma 3 ve více velikostech, 7 jazyků) právě běží; po něm sem doplním skutečné modely, velikosti a které úrovně pro který jazyk prošly. Pravidlo pro všechny návrhy: úroveň se pro jazyk ukáže jen tehdy, když v něm model prošel naším testem.</div>
+
+  <div class="row">
+
+    <!-- ======================= A ======================= -->
+    <div class="col">
+      <div class="tag">A · Tři karty, vždy vidět</div>
+      <p class="why">Všechny tři velikosti jsou hned vidět jako karty, jedna je předvybraná. Nejdřív to, co člověk zná (místo na disku a paměť), jméno modelu až drobně. Nejjednodušší na pochopení, ale nejvíc textu.</p>
+
+      <div class="step">1 · Průvodce, krok 2</div>
+      <div class="popup">
+        <div class="ls-t" style="font-weight:600">Download the translation model</div>
+        <p class="ls-d" style="margin:4px 0 0">Picked for <span class="lang-pill">🇨🇿 Czech</span></p>
+        <div class="tiers" role="radiogroup">
+          <button class="tier on" role="radio" aria-checked="true"><span class="dot"></span><b>Most accurate<span class="rec">Best for Czech</span></b><span class="gb">8.1 GB</span><span class="meta">Gemma 3 · needs 16 GB of RAM</span></button>
+          <button class="tier" role="radio"><span class="dot"></span><b>Balanced</b><span class="gb">6.6 GB</span><span class="meta">Gemma 4 · needs 12 GB of RAM · faster</span></button>
+          <button class="tier" role="radio"><span class="dot"></span><b>Smallest</b><span class="gb">3.3 GB</span><span class="meta">Qwen 3.5 · needs 8 GB of RAM · fastest</span></button>
+        </div>
+        <div class="ls-act"><button type="button" class="primary">Download Gemma 3</button></div>
+        <p class="promise"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We test new models every month and pick <b>the best one for each language</b>.</span></p>
+      </div>
+
+      <div class="step">2 · Nastavení po instalaci</div>
+      <div class="popup">
+        <div class="setting-head"><span class="setting-label">Model size</span><select class="compact"><option>Most accurate · 8.1 GB</option><option>Balanced · 6.6 GB</option><option>Smallest · 3.3 GB</option></select></div>
+        <p class="hint">Gemma 3, the best model we tested for Czech. Switching downloads the other size.</p>
+      </div>
+
+      <div class="step">3 · Vyjde lepší model</div>
+      <div class="popup">
+        <div class="update"><span class="ic">↑</span><div><b>A better model for Czech</b><p>Same quality, 2 GB smaller and twice as fast. Your current model stays until the new one is ready.</p><div class="acts"><button class="primary">Switch · 6.1 GB</button><button class="ghost">Not now</button></div></div></div>
+      </div>
+      <p class="pc"><b>Plus:</b> všechno na očích, nic se neschovává. <b>Mínus:</b> tři karty zaberou v průvodci místo; u jazyka s jedinou prošlou úrovní (např. mongolština) zůstanou dvě karty šedé.</p>
+    </div>
+
+    <!-- ======================= B ======================= -->
+    <div class="col">
+      <div class="tag">B · Jedno doporučení, velikost na požádání</div>
+      <p class="why">Ukážeme jen jeden model, ten nejlepší pro jazyk. Kdo chce menší, klikne na "Change size". Nejméně rozhodování pro začátečníka; vysvětlení "proč tenhle" je v rozbalovacím řádku.</p>
+
+      <div class="step">1 · Průvodce, krok 2</div>
+      <div class="popup">
+        <div class="ls-t" style="font-weight:600">Download the translation model</div>
+        <div class="pick">
+          <div class="pick-top"><b>Gemma 3 · 8.1 GB</b><button class="change" type="button">Change size</button></div>
+          <p>Best we tested for <span class="lang-pill">🇨🇿 Czech</span> · needs 16 GB of RAM</p>
+          <div class="segmented prefs-seg" role="radiogroup" aria-label="Model size">
+            <button role="radio" aria-checked="true">Most accurate</button><button role="radio">Balanced</button><button role="radio">Smallest</button>
+          </div>
+          <p class="tiny">Opened: "Change size" shows the three sizes. Closed by default.</p>
+        </div>
+        <div class="ls-act"><button type="button" class="primary">Download Gemma 3</button></div>
+        <details class="why-box" open><summary><b>Why this model?</b></summary>We try new free models every month on real subtitles in every language we offer, and pick the best one for yours. When a better one comes out, we'll offer it here.</details>
+      </div>
+
+      <div class="step">2 · Nastavení po instalaci</div>
+      <div class="popup">
+        <div class="setting-head"><span class="setting-label">Model</span><select class="compact"><option>gemma3:12b</option></select></div>
+        <p class="hint">Best we tested for Czech · 8.1 GB · <a class="ls-link" href="#">Change size</a></p>
+      </div>
+
+      <div class="step">3 · Vyjde lepší model</div>
+      <div class="popup">
+        <div class="info-strip"><span>A better model for Czech is ready · 6.1 GB</span><button class="ghost">Show</button></div>
+        <p class="tiny">Tichý proužek pod modelem, žádná karta navíc. "Show" otevře stejný řádek jako v kroku 1.</p>
+      </div>
+      <p class="pc"><b>Plus:</b> nejčistší, nejméně textu, nejméně nových překladů. <b>Mínus:</b> kdo má málo paměti, nemusí si menší velikosti všimnout; řešit to můžeme tak, že při 8 GB RAM předvybereme rovnou menší (prohlížeč to umí zjistit jen přibližně).</p>
+    </div>
+
+    <!-- ======================= C ======================= -->
+    <div class="col">
+      <div class="tag">C · Tabulka modelů pro jazyk</div>
+      <p class="why">Malá tabulka: řádky jsou velikosti, sloupce místo, rychlost a kvalita v daném jazyce podle našeho testu. Nejvíc vysvětluje, proč jsme vybrali zrovna tenhle model, a tabulka se mění s jazykem.</p>
+
+      <div class="step">1 · Průvodce, krok 2</div>
+      <div class="popup">
+        <div class="ls-t" style="font-weight:600">Download the translation model</div>
+        <p class="ls-d" style="margin:4px 0 0">Our test results for <span class="lang-pill">🇨🇿 Czech</span></p>
+        <table class="models">
+          <thead><tr><th>Size</th><th>Quality</th><th>Speed</th><th></th></tr></thead>
+          <tbody>
+            <tr class="on"><td><b>Most accurate</b><span>Gemma 3</span></td><td><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span></td><td>~50 s</td><td class="size">8.1 GB</td></tr>
+            <tr><td><b>Balanced</b><span>Gemma 4</span></td><td><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span></td><td>~30 s</td><td class="size">6.6 GB</td></tr>
+            <tr><td><b>Smallest</b><span>Qwen 3.5</span></td><td><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></span></td><td>~15 s</td><td class="size">3.3 GB</td></tr>
+          </tbody>
+        </table>
+        <p class="tiny">Speed: time for 30 lines on a typical laptop. Checked November 2026.</p>
+        <div class="ls-act" style="margin-top:8px"><button type="button" class="primary">Download Gemma 3</button></div>
+      </div>
+
+      <div class="step">Stejná tabulka pro mongolštinu</div>
+      <div class="popup">
+        <p class="ls-d" style="margin:0">Our test results for <span class="lang-pill">🇲🇳 Mongolian</span></p>
+        <table class="models">
+          <thead><tr><th>Size</th><th>Quality</th><th>Speed</th><th></th></tr></thead>
+          <tbody>
+            <tr class="on"><td><b>Most accurate</b><span>Gemma 3</span></td><td><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span></td><td>~50 s</td><td class="size">8.1 GB</td></tr>
+            <tr><td><b>Balanced</b></td><td colspan="3" class="na">No model passed our test in Mongolian yet</td></tr>
+            <tr><td><b>Smallest</b></td><td colspan="3" class="na">No model passed our test in Mongolian yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="step">3 · Vyjde lepší model</div>
+      <div class="popup">
+        <div class="update"><span class="ic">↑</span><div><b>New in the table: Gemma 4 for Czech</b><p>Close to your model, at 6.1 GB. See how it compares.</p><div class="acts"><button class="primary">Compare</button><button class="ghost">Not now</button></div></div></div>
+      </div>
+      <p class="pc"><b>Plus:</b> nejvíc průhledné, dobře ukazuje "vždy nejlepší model pro jazyk" a jazyky, kde zatím menší model není. <b>Mínus:</b> nejvíc informací najednou; kvalitu musíme umět poctivě změřit pro každý jazyk, jinak tabulka slibuje víc, než víme.</p>
+    </div>
+
+  </div>
+
+  <h2>Kompromisy podle zpětné vazby: D a E</h2>
+  <p class="lead">Základ z A (velikosti vidět hned, předvybraná Most accurate), porovnání z C (kvalita a rychlost u každé velikosti) a hvězdička z A pod tlačítkem, která se rozbalí do vysvětlení "Why this model?" z B. Obě varianty ukazují češtinu, mongolštinu (jen jedna velikost prošla) a co se stane, když vyjde lepší model.</p>
+
+  <div class="row">
+
+    <!-- ======================= D ======================= -->
+    <div class="col">
+      <div class="tag">D · Karty s porovnáním</div>
+      <p class="why">Karty z A, ale každá nese malý pruh kvality a rychlost z C, takže porovnání je přímo v kartě a nepotřebuje tabulku. Hvězdička pod tlačítkem se dá rozkliknout do vysvětlení. Nejbližší tomu, co se ti líbilo na A.</p>
+
+      <div class="step">1 · Průvodce, krok 2 · čeština</div>
+      <div class="popup">
+        <div class="ls-t" style="font-weight:600">Download the translation model</div>
+        <p class="ls-d" style="margin:4px 0 0">Tested for <span class="lang-pill">🇨🇿 Czech</span></p>
+        <div class="d-tiers" role="radiogroup" aria-label="Model size">
+          <button class="d-tier on" role="radio" aria-checked="true"><span class="check">✓</span>
+            <span class="nm">Most accurate <small>Gemma 3</small></span><span class="gb">8.1 GB</span>
+            <span class="bars"><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span>~50 s per scene</span><span class="ram">16 GB RAM</span>
+          </button>
+          <button class="d-tier" role="radio" aria-checked="false"><span class="check">✓</span>
+            <span class="nm">Balanced <small>Gemma 4</small></span><span class="gb">6.6 GB</span>
+            <span class="bars"><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span>~30 s per scene</span><span class="ram">12 GB RAM</span>
+          </button>
+          <button class="d-tier" role="radio" aria-checked="false"><span class="check">✓</span>
+            <span class="nm">Smallest <small>Qwen 3.5</small></span><span class="gb">3.3 GB</span>
+            <span class="bars"><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></span>~15 s per scene</span><span class="ram">8 GB RAM</span>
+          </button>
+        </div>
+        <div class="ls-act"><button type="button" class="primary">Download · 8.1 GB</button></div>
+        <details class="promise-d" open>
+          <summary><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><span class="more">Why this model?</span></summary>
+          <div class="body">Every month we try new free models on real film subtitles in all 44 languages we offer.
+            <ol><li>Only models that translate your language well make it into the list.</li><li>For each size we keep the best one.</li><li>When a better one comes out, we offer it here. Nothing downloads by itself.</li></ol>
+          </div>
+        </details>
+      </div>
+
+      <div class="step">Stejný krok · mongolština</div>
+      <div class="popup">
+        <p class="ls-d" style="margin:0">Tested for <span class="lang-pill">🇲🇳 Mongolian</span></p>
+        <div class="d-tiers">
+          <button class="d-tier on" role="radio" aria-checked="true"><span class="check">✓</span>
+            <span class="nm">Most accurate <small>Gemma 3</small></span><span class="gb">8.1 GB</span>
+            <span class="bars"><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span>~50 s per scene</span><span class="ram">16 GB RAM</span>
+          </button>
+          <div class="d-none">Smaller models don't translate Mongolian well enough yet. We check again every month.</div>
+        </div>
+      </div>
+
+      <div class="step">2 · Nastavení po instalaci</div>
+      <div class="popup">
+        <div class="setting-head"><span class="setting-label">Model size</span><select class="compact"><option>Most accurate · 8.1 GB</option><option>Balanced · 6.6 GB</option><option>Smallest · 3.3 GB</option></select></div>
+        <p class="hint">Gemma 3, our pick for Czech. <a class="ls-link" href="#">Why this model?</a></p>
+      </div>
+
+      <div class="step">3 · Vyjde lepší model</div>
+      <div class="popup">
+        <div class="update"><span class="ic">★</span><div><b>New pick for Czech: Gemma 4</b><p>As accurate as your model, 2 GB smaller and twice as fast. Yours keeps working until you switch.</p><div class="acts"><button class="primary">Switch · 6.1 GB</button><button class="ghost">Not now</button></div></div></div>
+      </div>
+      <p class="pc"><b>Plus:</b> všechno z A, k tomu porovnání bez tabulky; hvězdička je tichá, ale kdo chce, dočte se proč. <b>Mínus:</b> karty jsou o řádek vyšší než v A; pruh kvality musí stát na skutečném testu pro každý jazyk.</p>
+    </div>
+
+    <!-- ======================= E ======================= -->
+    <div class="col">
+      <div class="tag">E · Přepínač velikosti a jeden panel</div>
+      <p class="why">Nahoře tři velikosti jako přepínač s GB, pod ním jeden panel s porovnáním pro vybranou velikost (kvalita, rychlost, paměť) a rozdílem proti nejlepší. Kompaktnější než D, vypadá jako nastavení v aplikacích od Apple.</p>
+
+      <div class="step">1 · Průvodce, krok 2 · čeština, vybraná Most accurate</div>
+      <div class="popup">
+        <div class="ls-t" style="font-weight:600">Download the translation model</div>
+        <div class="e-seg" role="radiogroup" aria-label="Model size">
+          <button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button>
+          <button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button>
+          <button role="radio" aria-checked="false">Smallest<small>3.3 GB</small></button>
+        </div>
+        <div class="e-panel">
+          <div class="top"><b>Gemma 3</b><span>Our pick for Czech</span></div>
+          <dl class="e-stats">
+            <div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><small>best tested</small></dd></div>
+            <div><dt>Speed</dt><dd>~50 s<small>per scene</small></dd></div>
+            <div><dt>Memory</dt><dd>16 GB<small>RAM needed</small></dd></div>
+          </dl>
+        </div>
+        <div class="ls-act"><button type="button" class="primary">Download · 8.1 GB</button></div>
+        <details class="promise-d">
+          <summary><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><span class="more">Why this model?</span></summary>
+          <div class="body">Every month we try new free models on real film subtitles in all 44 languages we offer, and keep the best one for each size.</div>
+        </details>
+      </div>
+
+      <div class="step">Stejný krok · vybraná Smallest</div>
+      <div class="popup">
+        <div class="e-seg" role="radiogroup" aria-label="Model size">
+          <button role="radio" aria-checked="false">Most accurate<small>8.1 GB</small></button>
+          <button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button>
+          <button role="radio" aria-checked="true">Smallest<small>3.3 GB</small></button>
+        </div>
+        <div class="e-panel">
+          <div class="top"><b>Qwen 3.5</b></div>
+          <dl class="e-stats">
+            <div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></span><small>good</small></dd></div>
+            <div><dt>Speed</dt><dd>~15 s<small>per scene</small></dd></div>
+            <div><dt>Memory</dt><dd>8 GB<small>RAM needed</small></dd></div>
+          </dl>
+          <p class="e-diff">Compared with Most accurate: 4.8 GB smaller and 3× faster, but more small mistakes.</p>
+        </div>
+        <div class="ls-act"><button type="button" class="primary">Download · 3.3 GB</button></div>
+      </div>
+
+      <div class="step">Stejný krok · mongolština</div>
+      <div class="popup">
+        <div class="e-seg" role="radiogroup" aria-label="Model size">
+          <button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button>
+          <button role="radio" disabled>Balanced<small>not yet</small></button>
+          <button role="radio" disabled>Smallest<small>not yet</small></button>
+        </div>
+        <p class="tiny">Smaller models don't translate Mongolian well enough yet. We check again every month.</p>
+      </div>
+
+      <div class="step">3 · Vyjde lepší model</div>
+      <div class="popup">
+        <div class="info-strip"><span>★ New pick for Czech: Gemma 4 · 6.1 GB</span><button class="ghost">Compare</button></div>
+        <p class="tiny">"Compare" otevře stejný panel jako v kroku 1, s rozdílem proti modelu, který máš.</p>
+      </div>
+      <p class="pc"><b>Plus:</b> nejkompaktnější, nejvíc "polished", porovnání je čitelné i v malém popupu. <b>Mínus:</b> porovnání vidíš jen pro jednu velikost naráz; tři slova v přepínači se v delších jazycích (němčina, finština) mohou zalomit, musel bych hlídat šířku.</p>
+    </div>
+
+  </div>
+
+
+  <h2>F · Dotažená E se všemi stavy</h2>
+  <p class="lead">Podle zpětné vazby: přepínač a panel z E, hvězdička a "Why this model?" zarovnané na první řádek, Download přes celou šířku (stejně jako Translate a Send v popupu) a výrazná karta z D, když vyjde lepší model, nově i s Compare. Níže jsou všechny stavy: průvodce (1), nastavení po instalaci (2), lepší model (3).</p>
+  <div class="f-grid"><div class="f-cell"><div class="step">1a · Výchozí: Most accurate</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇨🇿 Czech</span></div><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button><button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button><button role="radio" aria-checked="false">Smallest<small>3.3 GB</small></button></div><div class="e-panel"><div class="top"><b>Gemma 3</b><span>Our pick for Czech</span></div>
+<dl class="e-stats"><div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><small>best tested</small></dd></div><div><dt>Speed</dt><dd>~50 s<small>per scene</small></dd></div><div><dt>Memory</dt><dd>16 GB<small>RAM needed</small></dd></div></dl>
+</div><div class="f-dl"><button class="primary" type="button">Download · 8.1 GB</button></div><div class="f-promise"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><button class="ls-link" type="button">Why this model?</button></div></div></div><div class="f-cell"><div class="step">1b · Vybraná Balanced</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇨🇿 Czech</span></div><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="false">Most accurate<small>8.1 GB</small></button><button role="radio" aria-checked="true">Balanced<small>6.6 GB</small></button><button role="radio" aria-checked="false">Smallest<small>3.3 GB</small></button></div><div class="e-panel"><div class="top"><b>Gemma 4</b></div>
+<dl class="e-stats"><div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><small>very good</small></dd></div><div><dt>Speed</dt><dd>~30 s<small>per scene</small></dd></div><div><dt>Memory</dt><dd>12 GB<small>RAM needed</small></dd></div></dl>
+<p class="e-diff">Compared with Most accurate: 1.5 GB smaller, almost 2× faster, a few more small mistakes.</p></div><div class="f-dl"><button class="primary" type="button">Download · 6.6 GB</button></div><div class="f-promise"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><button class="ls-link" type="button">Why this model?</button></div></div></div><div class="f-cell"><div class="step">1c · Vybraná Smallest</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇨🇿 Czech</span></div><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="false">Most accurate<small>8.1 GB</small></button><button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button><button role="radio" aria-checked="true">Smallest<small>3.3 GB</small></button></div><div class="e-panel"><div class="top"><b>Qwen 3.5</b></div>
+<dl class="e-stats"><div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></span><small>good</small></dd></div><div><dt>Speed</dt><dd>~15 s<small>per scene</small></dd></div><div><dt>Memory</dt><dd>8 GB<small>RAM needed</small></dd></div></dl>
+<p class="e-diff">Compared with Most accurate: 4.8 GB smaller and 3× faster, but more small mistakes.</p></div><div class="f-dl"><button class="primary" type="button">Download · 3.3 GB</button></div><div class="f-promise"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><button class="ls-link" type="button">Why this model?</button></div></div></div><div class="f-cell"><div class="step">1d · Rozbalené "Why this model?"</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇨🇿 Czech</span></div><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button><button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button><button role="radio" aria-checked="false">Smallest<small>3.3 GB</small></button></div><div class="e-panel"><div class="top"><b>Gemma 3</b><span>Our pick for Czech</span></div>
+<dl class="e-stats"><div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span><small>best tested</small></dd></div><div><dt>Speed</dt><dd>~50 s<small>per scene</small></dd></div><div><dt>Memory</dt><dd>16 GB<small>RAM needed</small></dd></div></dl>
+</div><div class="f-dl"><button class="primary" type="button">Download · 8.1 GB</button></div><div class="f-promise"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><button class="ls-link" type="button">Hide</button></div><div class="f-why">Every month we try new free models on real film subtitles in all 44 languages we offer.<ol><li>Only models that translate your language well make the list.</li><li>For each size we keep the best one.</li><li>When a better one comes out, we offer it here. Nothing downloads by itself.</li></ol></div></div></div><div class="f-cell"><div class="step">1e · Jazyk s jedinou velikostí</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇲🇳 Mongolian</span></div><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button><button role="radio" disabled>Balanced<small>not yet</small></button><button role="radio" disabled>Smallest<small>not yet</small></button></div><div class="e-panel"><div class="top"><b>Gemma 3</b><span>Our pick for Mongolian</span></div>
+<dl class="e-stats"><div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><small>best tested</small></dd></div><div><dt>Speed</dt><dd>~50 s<small>per scene</small></dd></div><div><dt>Memory</dt><dd>16 GB<small>RAM needed</small></dd></div></dl>
+</div><p class="tiny" style="margin:-4px 0 10px">Smaller models don't translate Mongolian well enough yet. We check again every month.</p><div class="f-dl"><button class="primary" type="button">Download · 8.1 GB</button></div><div class="f-promise"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg><span>We pick <b>the best model for each language</b>, checked every month.</span><button class="ls-link" type="button">Why this model?</button></div></div><p class=note-s>Menší velikosti jsou zašedlé s "not yet" a jedna věta proč.</p></div><div class="f-cell"><div class="step">1f · Stahuje se</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇨🇿 Czech</span></div><div class="f-locked"><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button><button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button><button role="radio" aria-checked="false">Smallest<small>3.3 GB</small></button></div></div><div class="f-prog"><b>Downloading Gemma 3</b><div class="ls-track"><i style="width:38%"></i></div><div class="row2"><span>3.1 of 8.1 GB</span><span>about 4 min left</span></div></div><p class="tiny">You can close this window. The download keeps going.</p></div><p class=note-s>Přepínač je během stahování zamčený.</p></div><div class="f-cell"><div class="step">1g · Stahování se přerušilo</div><div class="popup"><div class="f-head"><div class="ls-t">Download the translation model</div><span class="lang-pill">🇨🇿 Czech</span></div><div class="e-seg" role="radiogroup" aria-label="Model size"><button role="radio" aria-checked="true">Most accurate<small>8.1 GB</small></button><button role="radio" aria-checked="false">Balanced<small>6.6 GB</small></button><button role="radio" aria-checked="false">Smallest<small>3.3 GB</small></button></div><div class="f-prog"><b>The download stopped at 3.1 of 8.1 GB</b><div class="ls-track"><i style="width:38%"></i></div><p class="hint error" style="margin:6px 0 0">Can't reach Ollama. Is the app running?</p></div><div class="f-dl"><button class="primary" type="button">Continue the download</button></div></div><p class=note-s>Velikost jde ještě změnit; stažená část zůstane.</p></div><div class="f-cell"><div class="step">1h · Hotovo</div><div class="popup"><div class="f-head"><div class="ls-t" style="color:var(--success)">✓ Gemma 3 is downloaded</div><span class="lang-pill">🇨🇿 Czech</span></div><p class="ls-ready" style="margin-top:10px">Ready. Under the translated subtitles on a video, click Improve.</p></div></div></div>
+  <h2 style="font-size:14px;margin-top:28px">Po instalaci</h2>
+  <div class="f-grid"><div class="f-cell"><div class="step">2a · Nastavení: model a velikost</div><div class="popup"><div class="setting-head"><span class="setting-label">Model size</span><select class="compact"><option>Most accurate · 8.1 GB</option><option>Balanced · 6.6 GB</option><option>Smallest · 3.3 GB</option></select></div><p class="hint">Gemma 3, our pick for Czech. <button class="ls-link" type="button">Why this model?</button></p><p class="info-strip" style="margin-top:8px"><span>In Ollama · 8.1 GB</span><button class="danger-link" type="button">Delete</button></p></div></div><div class="f-cell"><div class="step">2b · Změna velikosti</div><div class="popup"><div class="setting-head"><span class="setting-label">Model size</span><select class="compact"><option>Balanced · 6.6 GB</option></select></div><div class="e-panel"><div class="top"><b>Gemma 4</b></div>
+<dl class="e-stats"><div><dt>Quality</dt><dd><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><small>very good</small></dd></div><div><dt>Speed</dt><dd>~30 s<small>per scene</small></dd></div><div><dt>Memory</dt><dd>12 GB<small>RAM needed</small></dd></div></dl>
+<p class="e-diff">Compared with yours: 1.5 GB smaller, almost 2× faster, a few more small mistakes.</p></div><div class="f-dl"><button class="primary" type="button">Download · 6.6 GB</button></div><p class="tiny">Gemma 3 keeps working until the new one is ready. You can delete it afterwards.</p></div></div><div class="f-cell"><div class="step">2c · Přepnutý jazyk, který tvoje velikost neumí</div><div class="popup"><div class="f-warn"><b>Smallest doesn't translate Mongolian well enough</b><p>For Mongolian we recommend Most accurate (8.1 GB). Until then, Google translates on its own.</p><div class="acts"><button class="primary">Download · 8.1 GB</button><button class="ghost">Use it anyway</button></div></div></div><p class=note-s>Nový stav: člověk má malý model a přepne na jazyk, kde neprošel.</p></div></div>
+  <h2 style="font-size:14px;margin-top:28px">Když vyjde lepší model</h2>
+  <div class="f-grid"><div class="f-cell"><div class="step">3a · Vyšel lepší model</div><div class="popup"><div class="f-card"><button class="x" type="button" aria-label="Not now"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7m0-7l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><span class="ic"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg></span><div><b>New pick for Czech: Gemma 4</b><p>As accurate as your model, 2 GB smaller and twice as fast.</p></div><div class="acts"><button class="primary">Switch · 6.1 GB</button><button>Compare</button></div></div></div><p class=note-s>Neutrální karta nahoře v nastavení překladu, tlačítka rovnoměrně přes celou šířku, "Not now" je křížek vpravo nahoře. Ukáže se jednou; křížek ji schová.</p></div><div class="f-cell"><div class="step">3b · Compare</div><div class="popup"><div class="f-card"><button class="x" type="button" aria-label="Not now"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7m0-7l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button><span class="ic"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg></span><div><b>New pick for Czech: Gemma 4</b></div><div class="full"><div class="f-cmp"><span class="h"></span><span class="h">Yours</span><span class="h new">New</span><span class="k">Model</span><span>Gemma 3</span><span class="new">Gemma 4</span><span class="k">Quality</span><span><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span></span><span class="new"><span class="q"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></span></span><span class="k">Speed</span><span>~50 s</span><span class="new up">~25 s</span><span class="k">Size</span><span>8.1 GB</span><span class="new up">6.1 GB</span><span class="k">Memory</span><span>16 GB</span><span class="new up">12 GB</span></div></div><div class="acts one"><button class="primary">Switch · 6.1 GB</button></div></div></div></div><div class="f-cell"><div class="step">3c · Přepíná se</div><div class="popup"><div class="f-card"><span class="ic"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 9.8 5.6l4.4.4-3.3 2.9 1 4.3L8 11 4.1 13.2l1-4.3L1.8 6l4.4-.4Z" fill="currentColor"/></svg></span><div><b>Downloading Gemma 4</b><div class="ls-track"><i style="width:62%"></i></div><p style="font-variant-numeric:tabular-nums">3.8 of 6.1 GB · Gemma 3 keeps working meanwhile.</p></div></div></div></div><div class="f-cell"><div class="step">3d · Přepnuto</div><div class="popup"><p class="ls-ready">✓ Now translating Czech with Gemma 4.</p><div class="info-strip confirm" style="margin-top:8px"><span>Delete Gemma 3 and free 8.1 GB? <i>You can download it again anytime.</i></span><span class="strip-acts"><button class="ghost">Keep it</button><button class="danger">Delete</button></span></div></div><p class=note-s>Starý model se nemaže sám; nabídneme to hned po přepnutí.</p></div></div>
+
+  <h2>Společné pro všechny návrhy</h2>
+  <p class="lead">Seznam "jazyk → model pro každou velikost" bude v extension jako jedna tabulka v kódu, kterou měsíční kontrola modelů navrhne aktualizovat. Nová verze extension pak přinese nový model; nikdy se nic nestáhne samo bez kliknutí. Sdílení překladů s ostatními zůstává jen pro modely od 12B (dnešní pravidlo kvality), takže u menších velikostí se nesdílí; v návrzích to zatím neukazuji, doplním podle výběru.</p>
+</div>
+</body>
+</html>

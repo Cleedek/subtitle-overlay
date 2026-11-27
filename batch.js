@@ -148,7 +148,7 @@
     }
     $('aiModel').replaceChildren(...res.models.map((m) => Object.assign(el('option', '', m), { value: m })));
     const saved = prefs[ai.model];
-    const pick = SubSettings.pickModel(prefs.translator, res.models, saved);
+    const pick = SubSettings.pickModel(prefs.translator, res.models, saved, prefs.translateTo, prefs.localSize);
     $('aiModel').value = pick;
     aiMsg('');
     if (pick !== saved) await SubSettings.saveTranslation({ [ai.model]: pick });

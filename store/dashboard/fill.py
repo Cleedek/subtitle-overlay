@@ -8,6 +8,7 @@ def js(code):
     return (r.stdout + r.stderr).strip()
 COMBO = "[...document.querySelectorAll('[role=combobox]')].find(e => e.textContent.includes('Language'))"
 def is_on(label, code):
+    code = {'iw': 'he'}.get(code, code)  # Hebrew: picked as iw, labelled he
     return re.search('– ' + re.escape(code) + r'( \(default\))?"?$', label) is not None
 def switch(code):
     for attempt in range(4):
