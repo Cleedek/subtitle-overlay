@@ -24,7 +24,7 @@ Subtitle Overlay, altyazıları her sitenin video oynatıcısının üzerinde, t
 • Sitede senin dilinde altyazı varsa (YouTube ve yayın hizmetleri) önce o gelir; Google ya da yapay zekâ yalnızca hiç yoksa çevirir
 • Sitenin kendi altyazıları bizimkiler açıkken gizlenir ve bizimkileri kapattığın anda geri gelir
 • İstediğin an orijinale dön ya da çeviriyi .srt dosyası olarak kaydet
-• Diller: Vietnamca, Çekçe, İngilizce, Slovakça, Almanca, Fransızca, İspanyolca, İtalyanca, Portekizce, Lehçe, Macarca, Ukraynaca, Rusça, Bulgarca, F, sırpça, slovence, litvanca, letonca, estonca, katalancaelemenkçe, İsveççe, Danca, Norveççe, Fince, Yunanca, Türkçe, Rumence, Hırvatça, Çince (Basitleştirilmiş ve Geleneksel), Japonca, Korece, Tayca, Endonezce, Malayca, Filipince, Hintçe, Bengalce, Arapça, Farsça, i̇branice
+• Diller: Almanca, Arapça, Bengalce, Bulgarca, Çekçe, Çince (Basitleştirilmiş ve Geleneksel), Danca, Endonezce, Estonca, Farsça, Felemenkçe, Filipince, Fince, Fransızca, Hırvatça, Hintçe, İbranice, İngilizce, İspanyolca, İsveççe, İtalyanca, Japonca, Katalanca, Korece, Lehçe, Letonca, Litvanca, Macarca, Malayca, Norveççe, Portekizce, Rumence, Rusça, Sırpça, Slovakça, Slovence, Tayca, Türkçe, Ukraynaca, Vietnamca, Yunanca
 
 YAPAY ZEKÂ İLE DOĞAL ÇEVİRİ (İSTEĞE BAĞLI)
 Google Translate hızlıdır ama satır satır, kelime kelime çevirir. İyileştir'e tıkla; bir yapay zekâ modeli altyazıları tüm sahneyi göz önünde bulundurarak, izlediğin yerden başlayıp yeniden yazsın.
@@ -105,7 +105,7 @@ Windows ve Linux’ta: Alt + Enter altyazılı tam ekran · Alt + , / Alt + . 1 
 Her kısayol Davranış sekmesinde değiştirilebilir veya kapatılabilir.
 
 42 DİLDE ARAYÜZ
-İngilizce, Çekçe, Slovakça, Almanca, Fransızca, İspanyolca, Vietnamca, Basitleştirilmiş Çince, Geleneksel Çince, İtalyanca, Portekizce, Lehçe, Ukraynaca, Rusça, Bulgarca, M, sırpça, slovence, litvanca, letonca, estonca, katalancaacarca, Felemenkçe, İsveççe, Danca, Norveççe, Fince, Yunanca, Türkçe, Rumence, Hırvatça, Japonca, Korece, Tayca, Endonezce, Malayca, Filipince, Hintçe, Bengalce, Arapi̇branice, ça ve Farsça (sağdan sola). Tarayıcının dilini izler ya da uzantı penceresinin altından bir dil seçebilirsin.
+Almanca, Arapça, Bengalce, Bulgarca, Çekçe, Basitleştirilmiş Çince, Geleneksel Çince, Danca, Endonezce, Estonca, Farsça, Felemenkçe, Filipince, Fince, Fransızca, Hırvatça, Hintçe, İbranice, İngilizce, İspanyolca, İsveççe, İtalyanca, Japonca, Katalanca, Korece, Lehçe, Letonca, Litvanca, Macarca, Malayca, Norveççe, Portekizce, Rumence, Rusça, Sırpça, Slovakça, Slovence, Tayca, Türkçe, Ukraynaca, Vietnamca ve Yunanca. Tarayıcının dilini izler ya da uzantı penceresinin altından bir dil seçebilirsin.
 
 MERAKLISINA
 DevTools'taki "Subtitles" sekmesi, sayfanın yüklediği her altyazı dosyasını listeler ve .vtt veya .srt olarak kaydeder.

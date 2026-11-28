@@ -24,7 +24,7 @@ TRADUCCIÓ A 42 IDIOMES
 • Si el lloc té subtítols en el teu idioma (YouTube i plataformes de streaming), aquests van primer; Google o la IA només tradueixen quan no n'hi ha
 • Els subtítols propis del lloc s'amaguen mentre els nostres estan activats i tornen tan bon punt desactives els nostres
 • Torna a l'original quan vulguis o desa la traducció com a fitxer .srt
-• Idiomes: vietnamita, txec, anglès, eslovac, alemany, francès, espanyol, italià, portuguès, polonès, hongarès, ucraïnès, rus, búlgar, serbi, eslovè, lituà, letó, estonià, català, neerlandès, suec, danès, noruec, finès, grec, turc, romanès, croat, xinès (simplificat i tradicional), japonès, coreà, tai, indonesi, malai, filipí, hindi, bengalí, àrab, persa, hebreu
+• Idiomes: alemany, anglès, àrab, bengalí, búlgar, català, coreà, croat, danès, eslovac, eslovè, espanyol, estonià, filipí, finès, francès, grec, hebreu, hindi, hongarès, indonesi, italià, japonès, letó, lituà, malai, neerlandès, noruec, persa, polonès, portuguès, romanès, rus, serbi, suec, tai, turc, txec, ucraïnès, vietnamita, xinès (simplificat i tradicional)
 
 QUE SONI NATURAL (OPCIONAL)
 Google Translate és ràpid, però va línia a línia, paraula per paraula. Fes clic a Millora i un model d'IA reescriu els subtítols tenint en compte tota l'escena, a partir d'on estàs mirant.
@@ -105,7 +105,7 @@ A Windows i Linux: Alt + Retorn pantalla completa amb subtítols · Alt + , / Al
 Totes les dreceres es poden canviar o desactivar a la pestanya Comportament.
 
 INTERFÍCIE EN 42 IDIOMES
-Anglès, txec, eslovac, alemany, francès, espanyol, vietnamita, xinès simplificat, xinès tradicional, italià, portuguès, polonès, ucraïnès, rus, búlgar, serbi, eslovè, lituà, letó, estonià, català, hongarès, neerlandès, suec, danès, noruec, finès, grec, turc, romanès, croat, japonès, coreà, tai, indonesi, malai, filipí, hindi, bengalí, hebreu, àrab i persa (de dreta a esquerra). Segueix el teu navegador, o tria'n un a la part inferior de la finestra de l'extensió.
+Alemany, anglès, àrab, bengalí, búlgar, català, coreà, croat, danès, eslovac, eslovè, espanyol, estonià, filipí, finès, francès, grec, hebreu, hindi, hongarès, indonesi, italià, japonès, letó, lituà, malai, neerlandès, noruec, persa, polonès, portuguès, romanès, rus, serbi, suec, tai, turc, txec, ucraïnès, vietnamita, xinès simplificat i xinès tradicional. Segueix el teu navegador, o tria'n un a la part inferior de la finestra de l'extensió.
 
 PER ALS CURIOSOS
 Una pestanya "Subtitles" a les DevTools mostra tots els fitxers de subtítols que ha carregat la pàgina i els desa com a .vtt o .srt.

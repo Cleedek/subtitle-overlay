@@ -24,7 +24,7 @@ VERTAAL NAAR 42 TALEN
 • Heeft de site ondertitels in jouw taal (YouTube en streamingdiensten), dan komen die eerst; Google of AI vertaalt alleen als die er niet zijn
 • De eigen ondertitels van de site worden verborgen zolang de onze aan staan, en komen terug zodra je de onze uitzet
 • Schakel op elk moment terug naar het origineel, of sla de vertaling op als .srt-bestand
-• Talen: Vietnamees, Tsjechisch, Engels, Slowaaks, Duits, Frans, Spaans, Italiaans, Portugees, Pools, Hongaars, Oekraïens, Russisch, Bulgaars, Servisch, Sloveens, Litouws, Lets, Estisch, Catalaans, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Chinees (vereenvoudigd en traditioneel), Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi, Bengaals, Arabisch, Perzisch, Hebreeuws
+• Talen: Arabisch, Bengaals, Bulgaars, Catalaans, Chinees (vereenvoudigd en traditioneel), Deens, Duits, Engels, Estisch, Filipijns, Fins, Frans, Grieks, Hebreeuws, Hindi, Hongaars, Indonesisch, Italiaans, Japans, Koreaans, Kroatisch, Lets, Litouws, Maleis, Nederlands, Noors, Oekraïens, Perzisch, Pools, Portugees, Roemeens, Russisch, Servisch, Sloveens, Slowaaks, Spaans, Thai, Tsjechisch, Turks, Vietnamees, Zweeds
 
 NATUURLIJKE VERTALING MET AI (OPTIONEEL)
 Google Translate is snel, maar werkt regel voor regel, woord voor woord. Klik op Verbeteren en een AI-model herschrijft de ondertitels met de hele scène in gedachten, vanaf het punt waar je kijkt.
@@ -105,7 +105,7 @@ Op Windows en Linux: Alt + Enter volledig scherm met ondertitels · Alt + , / Al
 Elke sneltoets kun je wijzigen of uitzetten op het tabblad Gedrag.
 
 INTERFACE IN 42 TALEN
-Engels, Tsjechisch, Slowaaks, Duits, Frans, Spaans, Vietnamees, Vereenvoudigd Chinees, Traditioneel Chinees, Italiaans, Portugees, Pools, Oekraïens, Russisch, Bulgaars, Servisch, Sloveens, Litouws, Lets, Estisch, Catalaans, Hongaars, Nederlands, Zweeds, Deens, Noors, Fins, Grieks, Turks, Roemeens, Kroatisch, Japans, Koreaans, Thai, Indonesisch, Maleis, Filipijns, Hindi, Bengaals, Hebreeuws, Arabisch en Perzisch (van rechts naar links). De taal volgt je browser, of kies er zelf een onderaan de pop-up.
+Arabisch, Bengaals, Bulgaars, Catalaans, Vereenvoudigd Chinees, Traditioneel Chinees, Deens, Duits, Engels, Estisch, Filipijns, Fins, Frans, Grieks, Hebreeuws, Hindi, Hongaars, Indonesisch, Italiaans, Japans, Koreaans, Kroatisch, Lets, Litouws, Maleis, Nederlands, Noors, Oekraïens, Perzisch, Pools, Portugees, Roemeens, Russisch, Servisch, Sloveens, Slowaaks, Spaans, Thai, Tsjechisch, Turks, Vietnamees en Zweeds. De taal volgt je browser, of kies er zelf een onderaan de pop-up.
 
 VOOR KNUTSELAARS
 Een tabblad "Subtitles" in DevTools toont elk ondertitelbestand dat de pagina heeft geladen en slaat het op als .vtt of .srt.

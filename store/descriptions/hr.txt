@@ -24,7 +24,7 @@ PRIJEVOD NA 42 JEZIKA
 • Ako stranica ima titlove na tvom jeziku (YouTube i streaming servisi), oni idu prvi; Google ili AI prevode samo kad ih nema
 • Titlovi same stranice skriveni su dok su naši uključeni i vraćaju se čim isključiš naše
 • Vrati se na izvornik kad god želiš ili spremi prijevod kao .srt datoteku
-• Jezici: vijetnamski, češki, engleski, slovački, njemački, francuski, španjolski, talijanski, portugalski, poljski, mađarski, ukrajinski, ruski, bugarski, srpski, slovenski, litavski, latvijski, estonski, katalonski, nizozemski, švedski, danski, norveški, finski, grčki, turski, rumunjski, hrvatski, kineski (pojednostavljeni i tradicionalni), japanski, korejski, tajlandski, indonezijski, malajski, filipinski, hindski, bengalski, arapski, perzijski, hebrejski
+• Jezici: arapski, bengalski, bugarski, češki, danski, engleski, estonski, filipinski, finski, francuski, grčki, hebrejski, hindski, hrvatski, indonezijski, japanski, katalonski, kineski (pojednostavljeni i tradicionalni), korejski, latvijski, litavski, mađarski, malajski, nizozemski, norveški, njemački, perzijski, poljski, portugalski, rumunjski, ruski, slovački, slovenski, srpski, španjolski, švedski, tajlandski, talijanski, turski, ukrajinski, vijetnamski
 
 NEKA ZVUČI PRIRODNO (PO ŽELJI)
 Google Prevoditelj je brz, ali prevodi redak po redak, riječ po riječ. Klikni Poboljšaj i AI model prepisat će titlove uzimajući u obzir cijelu scenu, počevši od mjesta na kojem gledaš.
@@ -105,7 +105,7 @@ Na Windowsu i Linuxu: Alt + Enter cijeli zaslon s titlovima · Alt + , / Alt + .
 Svaki prečac možeš promijeniti ili isključiti na kartici Ponašanje.
 
 SUČELJE NA 42 JEZIKA
-Engleski, češki, slovački, njemački, francuski, španjolski, vijetnamski, pojednostavljeni kineski, tradicionalni kineski, talijanski, portugalski, poljski, ukrajinski, ruski, bugarski, srpski, slovenski, litavski, latvijski, estonski, katalonski, mađarski, nizozemski, švedski, danski, norveški, finski, grčki, turski, rumunjski, hrvatski, japanski, korejski, tajlandski, indonezijski, malajski, filipinski, hindski, bengalski, hebrejski, arapski i perzijski (zdesna nalijevo). Prati jezik tvog preglednika, a možeš ga odabrati i na dnu prozora proširenja.
+Arapski, bengalski, bugarski, češki, danski, engleski, estonski, filipinski, finski, francuski, grčki, hebrejski, hindski, hrvatski, indonezijski, japanski, katalonski, pojednostavljeni kineski, tradicionalni kineski, korejski, latvijski, litavski, mađarski, malajski, nizozemski, norveški, njemački, perzijski, poljski, portugalski, rumunjski, ruski, slovački, slovenski, srpski, španjolski, švedski, tajlandski, talijanski, turski, ukrajinski i vijetnamski. Prati jezik tvog preglednika, a možeš ga odabrati i na dnu prozora proširenja.
 
 ZA ZNATIŽELJNE
 Kartica "Subtitles" u DevToolsu prikazuje svaku datoteku titlova koju je stranica učitala i sprema je kao .vtt ili .srt.

@@ -24,7 +24,7 @@ TRADUCERE ÎN 42 DE LIMBI
 • Dacă site-ul are subtitrări în limba ta (YouTube și servicii de streaming), acelea vin primele; Google sau AI-ul traduc doar când nu există
 • Subtitrările proprii ale site-ului sunt ascunse cât timp ale noastre sunt pornite și revin imediat ce le oprești pe ale noastre
 • Revii oricând la original sau salvezi traducerea ca fișier .srt
-• Limbi: vietnameză, cehă, engleză, slovacă, germană, franceză, spaniolă, italiană, portugheză, poloneză, maghiară, ucraineană, rusă, bulgară, sârbă, slovenă, lituaniană, letonă, estonă, catalană, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, chineză (simplificată și tradițională), japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, bengaleză, arabă, persană, ebraică
+• Limbi: arabă, bengaleză, bulgară, catalană, cehă, chineză (simplificată și tradițională), coreeană, croată, daneză, ebraică, engleză, estonă, filipineză, finlandeză, franceză, germană, greacă, hindi, indoneziană, italiană, japoneză, letonă, lituaniană, maghiară, malaieză, neerlandeză, norvegiană, persană, poloneză, portugheză, română, rusă, sârbă, slovacă, slovenă, spaniolă, suedeză, thailandeză, turcă, ucraineană, vietnameză
 
 TRADUCERE NATURALĂ CU AI (OPȚIONAL)
 Google Traducere e rapid, dar traduce rând cu rând, cuvânt cu cuvânt. Dă clic pe Îmbunătățește și un model AI rescrie subtitrările ținând cont de toată scena, începând de unde te uiți.
@@ -105,7 +105,7 @@ Pe Windows și Linux: Alt + Enter ecran complet cu subtitrări · Alt + , / Alt 
 Fiecare comandă rapidă poate fi schimbată sau dezactivată în fila Comportament.
 
 INTERFAȚĂ ÎN 42 DE LIMBI
-Engleză, cehă, slovacă, germană, franceză, spaniolă, vietnameză, chineză simplificată, chineză tradițională, italiană, portugheză, poloneză, ucraineană, rusă, bulgară, sârbă, slovenă, lituaniană, letonă, estonă, catalană, maghiară, neerlandeză, suedeză, daneză, norvegiană, finlandeză, greacă, turcă, română, croată, japoneză, coreeană, thailandeză, indoneziană, malaieză, filipineză, hindi, bengaleză, ebraică, arabă și persană (de la dreapta la stânga). Urmează limba browserului, sau alege una în partea de jos a ferestrei extensiei.
+Arabă, bengaleză, bulgară, catalană, cehă, chineză simplificată, chineză tradițională, coreeană, croată, daneză, ebraică, engleză, estonă, filipineză, finlandeză, franceză, germană, greacă, hindi, indoneziană, italiană, japoneză, letonă, lituaniană, maghiară, malaieză, neerlandeză, norvegiană, persană, poloneză, portugheză, română, rusă, sârbă, slovacă, slovenă, spaniolă, suedeză, thailandeză, turcă, ucraineană și vietnameză. Urmează limba browserului, sau alege una în partea de jos a ferestrei extensiei.
 
 PENTRU CURIOȘI
 O filă "Subtitles" în DevTools listează fiecare fișier de subtitrare încărcat de pagină și îl salvează ca .vtt sau .srt.

@@ -24,7 +24,7 @@ FORDÍTÁS 42 NYELVRE
 • Ha az oldalon van felirat a nyelveden (YouTube és streamingszolgáltatások), az az első; a Google vagy az MI csak akkor fordít, ha nincs
 • Az oldal saját feliratai rejtve maradnak, amíg a miénk be van kapcsolva, és visszajönnek, amint kikapcsolod a miénket
 • Bármikor visszaválthatsz az eredetire, vagy elmentheted a fordítást .srt fájlként
-• Nyelvek: vietnámi, cseh, angol, szlovák, német, francia, spanyol, olasz, portugál, lengyel, magyar, ukrán, orosz, bolgár, szerb, szlovén, litván, lett, észt, katalán, holland, svéd, dán, norvég, finn, görög, török, román, horvát, kínai (egyszerűsített és hagyományos), japán, koreai, thai, indonéz, maláj, filippínó, hindi, bengáli, arab, perzsa, héber
+• Nyelvek: angol, arab, bengáli, bolgár, cseh, dán, észt, filippínó, finn, francia, görög, héber, hindi, holland, horvát, indonéz, japán, katalán, kínai (egyszerűsített és hagyományos), koreai, lengyel, lett, litván, magyar, maláj, német, norvég, olasz, orosz, perzsa, portugál, román, spanyol, svéd, szerb, szlovák, szlovén, thai, török, ukrán, vietnámi
 
 TERMÉSZETES FORDÍTÁS (OPCIONÁLIS)
 A Google Fordító gyors, de sorról sorra, szóról szóra halad. Kattints a Javítás gombra, és egy MI-modell az egész jelenetet figyelembe véve írja át a feliratokat, onnan kezdve, ahol éppen tartasz.
@@ -105,7 +105,7 @@ Windowson és Linuxon: Alt + Enter teljes képernyő felirattal · Alt + , / Alt
 Minden billentyűparancs módosítható vagy kikapcsolható a Viselkedés lapon.
 
 FELÜLET 42 NYELVEN
-Angol, cseh, szlovák, német, francia, spanyol, vietnámi, egyszerűsített kínai, hagyományos kínai, olasz, portugál, lengyel, ukrán, orosz, bolgár, szerb, szlovén, litván, lett, észt, katalán, magyar, holland, svéd, dán, norvég, finn, görög, török, román, horvát, japán, koreai, thai, indonéz, maláj, filippínó, hindi, bengáli, héber, arab és perzsa (jobbról balra). A böngésződ nyelvét követi, vagy választhatsz egyet a felugró ablak alján.
+Angol, arab, bengáli, bolgár, cseh, dán, észt, filippínó, finn, francia, görög, héber, hindi, holland, horvát, indonéz, japán, katalán, egyszerűsített kínai, hagyományos kínai, koreai, lengyel, lett, litván, magyar, maláj, német, norvég, olasz, orosz, perzsa, portugál, román, spanyol, svéd, szerb, szlovák, szlovén, thai, török, ukrán és vietnámi. A böngésződ nyelvét követi, vagy választhatsz egyet a felugró ablak alján.
 
 BÜTYKÖLŐKNEK
 A DevTools "Subtitles" lapja felsorolja az oldal által betöltött összes feliratfájlt, és .vtt vagy .srt formátumban menti őket.

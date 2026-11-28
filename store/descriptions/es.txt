@@ -24,7 +24,7 @@ TRADUCE A 42 IDIOMAS
 • Si la web tiene subtítulos en tu idioma (YouTube y plataformas de streaming), van primero; Google o la IA solo traducen cuando no los hay
 • Los subtítulos propios de la web se ocultan mientras los nuestros están activos y vuelven en cuanto apagas los nuestros
 • Vuelve al original cuando quieras, o guarda la traducción como archivo .srt
-• Idiomas: vietnamita, checo, inglés, eslovaco, alemán, francés, español, italiano, portugués, polaco, húngaro, ucraniano, ruso, búlgaro, serbio, esloveno, lituano, letón, estonio, catalán, neerlandés, sueco, danés, noruego, finlandés, griego, turco, rumano, croata, chino (simplificado y tradicional), japonés, coreano, tailandés, indonesio, malayo, filipino, hindi, bengalí, árabe, persa, hebreo
+• Idiomas: alemán, árabe, bengalí, búlgaro, catalán, checo, chino (simplificado y tradicional), coreano, croata, danés, eslovaco, esloveno, español, estonio, filipino, finlandés, francés, griego, hebreo, hindi, húngaro, indonesio, inglés, italiano, japonés, letón, lituano, malayo, neerlandés, noruego, persa, polaco, portugués, rumano, ruso, serbio, sueco, tailandés, turco, ucraniano, vietnamita
 
 QUE SUENE NATURAL (OPCIONAL)
 Google Translate es rápido, pero va línea a línea, palabra por palabra. Pulsa Mejorar y un modelo de IA reescribe los subtítulos teniendo en cuenta toda la escena, empezando por donde lo estás viendo.
@@ -105,7 +105,7 @@ En Windows y Linux: Alt + Enter pantalla completa con subtítulos · Alt + , / A
 Todos los atajos se pueden cambiar o desactivar en la pestaña Comportamiento.
 
 INTERFAZ EN 42 IDIOMAS
-Inglés, checo, eslovaco, alemán, francés, español, vietnamita, chino simplificado, chino tradicional, italiano, portugués, polaco, ucraniano, ruso, búlgaro, serbio, esloveno, lituano, letón, estonio, catalán, húngaro, neerlandés, sueco, danés, noruego, finés, griego, turco, rumano, croata, japonés, coreano, tailandés, indonesio, malayo, filipino, hindi, bengalí, hebreo, árabe y persa (de derecha a izquierda). Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
+Alemán, árabe, bengalí, búlgaro, catalán, checo, chino simplificado, chino tradicional, coreano, croata, danés, eslovaco, esloveno, español, estonio, filipino, finés, francés, griego, hebreo, hindi, húngaro, indonesio, inglés, italiano, japonés, letón, lituano, malayo, neerlandés, noruego, persa, polaco, portugués, rumano, ruso, serbio, sueco, tailandés, turco, ucraniano y vietnamita. Sigue el idioma de tu navegador, o elige uno en la parte inferior de la ventana de la extensión.
 
 PARA CURIOSOS
 Una pestaña "Subtitles" en DevTools muestra todos los archivos de subtítulos que cargó la página y los guarda como .vtt o .srt.

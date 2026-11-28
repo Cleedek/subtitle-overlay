@@ -24,7 +24,7 @@ TERJEMAHKAN KE 42 BAHASA
 • Kalau situs punya subtitle dalam bahasamu (YouTube dan layanan streaming), itu yang didahulukan; Google atau AI hanya menerjemahkan kalau tidak ada
 • Subtitle bawaan situs disembunyikan selama subtitle kami menyala, dan kembali begitu kamu mematikan subtitle kami
 • Kembali ke versi asli kapan saja, atau simpan terjemahannya sebagai file .srt
-• Bahasa: Vietnam, Ceko, Inggris, Slowakia, Jerman, Prancis, Spanyol, Italia, Portugis, Polandia, Hongaria, Ukraina, Rusia, Bulgaria, Serbia, Slovenia, Lituania, Latvia, Estonia, Katalan, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Tionghoa (Sederhana dan Tradisional), Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Bengali, Arab, Persia, Ibrani
+• Bahasa: Arab, Belanda, Bengali, Bulgaria, Ceko, Denmark, Estonia, Filipino, Finlandia, Hindi, Hongaria, Ibrani, Indonesia, Inggris, Italia, Jepang, Jerman, Katalan, Korea, Kroasia, Latvia, Lituania, Melayu, Norwegia, Persia, Polandia, Portugis, Prancis, Rumania, Rusia, Serbia, Slovenia, Slowakia, Spanyol, Swedia, Thai, Tionghoa (Sederhana dan Tradisional), Turki, Ukraina, Vietnam, Yunani
 
 BUAT TERDENGAR ALAMI (OPSIONAL)
 Google Terjemahan memang cepat, tetapi menerjemahkan baris demi baris, kata demi kata. Klik Sempurnakan dan model AI menulis ulang subtitle dengan memperhatikan seluruh adegan, mulai dari bagian yang sedang kamu tonton.
@@ -105,7 +105,7 @@ Di Windows dan Linux: Alt + Enter layar penuh dengan subtitle · Alt + , / Alt +
 Setiap pintasan bisa diubah atau dimatikan di tab Perilaku.
 
 ANTARMUKA DALAM 42 BAHASA
-Inggris, Ceko, Slowakia, Jerman, Prancis, Spanyol, Vietnam, Tionghoa Sederhana, Tionghoa Tradisional, Italia, Portugis, Polandia, Ukraina, Rusia, Bulgaria, Serbia, Slovenia, Lituania, Latvia, Estonia, Katalan, Hongaria, Belanda, Swedia, Denmark, Norwegia, Finlandia, Yunani, Turki, Rumania, Kroasia, Jepang, Korea, Thai, Indonesia, Melayu, Filipino, Hindi, Bengali, Ibrani, Arab, dan Persia (kanan ke kiri). Mengikuti bahasa browser-mu, atau pilih sendiri di bagian bawah jendela ekstensi.
+Arab, Belanda, Bengali, Bulgaria, Ceko, Denmark, Estonia, Filipino, Finlandia, Hindi, Hongaria, Ibrani, Indonesia, Inggris, Italia, Jepang, Jerman, Katalan, Korea, Kroasia, Latvia, Lituania, Melayu, Norwegia, Persia, Polandia, Portugis, Prancis, Rumania, Rusia, Serbia, Slovenia, Slowakia, Spanyol, Swedia, Thai, Tionghoa Sederhana, Tionghoa Tradisional, Turki, Ukraina, Vietnam, dan Yunani. Mengikuti bahasa browser-mu, atau pilih sendiri di bagian bawah jendela ekstensi.
 
 UNTUK YANG SUKA MENGULIK
 Tab "Subtitles" di DevTools menampilkan setiap file subtitle yang dimuat halaman dan menyimpannya sebagai .vtt atau .srt.

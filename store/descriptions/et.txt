@@ -24,7 +24,7 @@ TÕLGE 42 KEELDE
 • Kui saidil on subtiitrid sinu keeles (YouTube ja voogedastussaidid), tulevad need esimesena; Google või TI tõlgivad ainult siis, kui neid pole
 • Saidi enda subtiitrid on peidetud, kuni meie omad on sees, ja tulevad tagasi kohe, kui meie omad välja lülitad
 • Mine igal ajal originaali juurde tagasi või salvesta tõlge .srt-failina
-• Keeled: vietnami, tšehhi, inglise, slovaki, saksa, prantsuse, hispaania, itaalia, portugali, poola, ungari, ukraina, vene, bulgaaria, serbia, sloveeni, leedu, läti, eesti, katalaani, hollandi, rootsi, taani, norra, soome, kreeka, türgi, rumeenia, horvaadi, hiina (lihtsustatud ja traditsiooniline), jaapani, korea, tai, indoneesia, malai, filipiini, hindi, bengali, araabia, pärsia, heebrea
+• Keeled: araabia, bengali, bulgaaria, eesti, filipiini, heebrea, hiina (lihtsustatud ja traditsiooniline), hindi, hispaania, hollandi, horvaadi, indoneesia, inglise, itaalia, jaapani, katalaani, korea, kreeka, leedu, läti, malai, norra, poola, portugali, prantsuse, pärsia, rootsi, rumeenia, saksa, serbia, slovaki, sloveeni, soome, taani, tai, tšehhi, türgi, ukraina, ungari, vene, vietnami
 
 LOOMULIK KÕLA (VALIKULINE)
 Google'i tõlge on kiire, aga tõlgib rida haaval, sõna-sõnalt. Klõpsa Täiusta ja TI-mudel kirjutab subtiitrid ümber, arvestades kogu stseeni, alates kohast, kus vaatad.
@@ -105,7 +105,7 @@ Windowsis ja Linuxis: Alt + Enter täisekraan subtiitritega · Alt + , / Alt + .
 Iga kiirklahvi saab vahekaardil Käitumine muuta või välja lülitada.
 
 LIIDES 42 KEELES
-Inglise, tšehhi, slovaki, saksa, prantsuse, hispaania, vietnami, lihtsustatud hiina, traditsiooniline hiina, itaalia, portugali, poola, ukraina, vene, bulgaaria, serbia, sloveeni, leedu, läti, eesti, katalaani, ungari, hollandi, rootsi, taani, norra, soome, kreeka, türgi, rumeenia, horvaadi, jaapani, korea, tai, indoneesia, malai, filipiini, hindi, bengali, heebrea, araabia ja pärsia (paremalt vasakule). See järgib sinu brauserit, või vali keel laienduse akna allosas.
+Araabia, bengali, bulgaaria, eesti, filipiini, heebrea, lihtsustatud hiina, traditsiooniline hiina, hindi, hispaania, hollandi, horvaadi, indoneesia, inglise, itaalia, jaapani, katalaani, korea, kreeka, leedu, läti, malai, norra, poola, portugali, prantsuse, pärsia, rootsi, rumeenia, saksa, serbia, slovaki, sloveeni, soome, taani, tai, tšehhi, türgi, ukraina, ungari, vene ja vietnami. See järgib sinu brauserit, või vali keel laienduse akna allosas.
 
 NÄPUTAJATELE
 Vahekaart "Subtitles" DevToolsis loetleb kõik lehe laaditud subtiitrifailid ja salvestab need .vtt- või .srt-failina.

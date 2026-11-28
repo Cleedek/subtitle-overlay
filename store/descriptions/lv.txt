@@ -24,7 +24,7 @@ TULKOJUMS 42 VALODĀS
 • Ja vietnei ir subtitri tavā valodā (YouTube un straumēšanas vietnes), tie ir pirmie; Google vai MI tulko tikai tad, ja to nav
 • Vietnes pašas subtitri ir paslēpti, kamēr ieslēgti mūsējie, un atgriežas, tiklīdz mūsējos izslēdz
 • Jebkurā brīdī pārslēdzies atpakaļ uz oriģinālu vai saglabā tulkojumu kā .srt failu
-• Valodas: vjetnamiešu, čehu, angļu, slovāku, vācu, franču, spāņu, itāļu, portugāļu, poļu, ungāru, ukraiņu, krievu, bulgāru, serbu, slovēņu, lietuviešu, latviešu, igauņu, katalāņu, holandiešu, zviedru, dāņu, norvēģu, somu, grieķu, turku, rumāņu, horvātu, ķīniešu (vienkāršotā un tradicionālā), japāņu, korejiešu, taju, indonēziešu, malajiešu, filipīniešu, hindi, bengāļu, arābu, persiešu, ivrita
+• Valodas: angļu, arābu, bengāļu, bulgāru, čehu, dāņu, filipīniešu, franču, grieķu, hindi, holandiešu, horvātu, igauņu, indonēziešu, itāļu, ivrita, japāņu, katalāņu, korejiešu, krievu, ķīniešu (vienkāršotā un tradicionālā), latviešu, lietuviešu, malajiešu, norvēģu, persiešu, poļu, portugāļu, rumāņu, serbu, slovāku, slovēņu, somu, spāņu, taju, turku, ukraiņu, ungāru, vācu, vjetnamiešu, zviedru
 
 LAI SKANĒTU DABISKI (PĒC IZVĒLES)
 Google Tulkotājs ir ātrs, bet tulko rindu pa rindai, vārdu pa vārdam. Noklikšķini Uzlabot, un MI modelis pārrakstīs subtitrus, ņemot vērā visu ainu, sākot no vietas, kur skaties.
@@ -105,7 +105,7 @@ Windows un Linux: Alt + Enter pilnekrāns ar subtitriem · Alt + , / Alt + . sin
 Katru īsinājumtaustiņu var mainīt vai izslēgt cilnē Darbība.
 
 SASKARNE 42 VALODĀS
-Angļu, čehu, slovāku, vācu, franču, spāņu, vjetnamiešu, ķīniešu vienkāršotā, ķīniešu tradicionālā, itāļu, portugāļu, poļu, ukraiņu, krievu, bulgāru, serbu, slovēņu, lietuviešu, latviešu, igauņu, katalāņu, ungāru, holandiešu, zviedru, dāņu, norvēģu, somu, grieķu, turku, rumāņu, horvātu, japāņu, korejiešu, taju, indonēziešu, malajiešu, filipīniešu, hindi, bengāļu, ivrita, arābu un persiešu (no labās uz kreiso). Tā seko tavam pārlūkam, vai izvēlies valodu paplašinājuma loga apakšā.
+Angļu, arābu, bengāļu, bulgāru, čehu, dāņu, filipīniešu, franču, grieķu, hindi, holandiešu, horvātu, igauņu, indonēziešu, itāļu, ivrita, japāņu, katalāņu, korejiešu, krievu, ķīniešu vienkāršotā, ķīniešu tradicionālā, latviešu, lietuviešu, malajiešu, norvēģu, persiešu, poļu, portugāļu, rumāņu, serbu, slovāku, slovēņu, somu, spāņu, taju, turku, ukraiņu, ungāru, vācu, vjetnamiešu un zviedru. Tā seko tavam pārlūkam, vai izvēlies valodu paplašinājuma loga apakšā.
 
 ZIŅKĀRĪGAJIEM
 Cilne "Subtitles" rīkos DevTools uzskaita visus lapas ielādētos subtitru failus un saglabā tos kā .vtt vai .srt.

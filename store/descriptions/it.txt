@@ -24,7 +24,7 @@ TRADUCI IN 42 LINGUE
 • Se il sito ha i sottotitoli nella tua lingua (YouTube e servizi di streaming), vengono prima quelli; Google o l’IA traducono solo quando mancano
 • I sottotitoli del sito vengono nascosti finché i nostri sono attivi e tornano appena spegni i nostri
 • Torna all’originale quando vuoi, o salva la traduzione come file .srt
-• Lingue: vietnamita, ceco, inglese, slovacco, tedesco, francese, spagnolo, italiano, portoghese, polacco, ungherese, ucraino, russo, bulgaro, serbo, sloveno, lituano, lettone, estone, catalano, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, cinese (semplificato e tradizionale), giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, bengalese, arabo, persiano, ebraico
+• Lingue: arabo, bengalese, bulgaro, catalano, ceco, cinese (semplificato e tradizionale), coreano, croato, danese, ebraico, estone, filippino, finlandese, francese, giapponese, greco, hindi, indonesiano, inglese, italiano, lettone, lituano, malese, norvegese, olandese, persiano, polacco, portoghese, rumeno, russo, serbo, slovacco, sloveno, spagnolo, svedese, tedesco, thailandese, turco, ucraino, ungherese, vietnamita
 
 UNA TRADUZIONE PIÙ NATURALE (FACOLTATIVO)
 Google Traduttore è veloce, ma procede riga per riga, parola per parola. Clicca Migliora e un modello di IA riscrive i sottotitoli tenendo conto dell’intera scena, a partire dal punto in cui stai guardando.
@@ -105,7 +105,7 @@ Su Windows e Linux: Alt + Invio schermo intero con sottotitoli · Alt + , / Alt 
 Ogni scorciatoia si può cambiare o disattivare nella scheda Comportamento.
 
 INTERFACCIA IN 42 LINGUE
-Inglese, ceco, slovacco, tedesco, francese, spagnolo, vietnamita, cinese semplificato, cinese tradizionale, italiano, portoghese, polacco, ucraino, russo, bulgaro, serbo, sloveno, lituano, lettone, estone, catalano, ungherese, olandese, svedese, danese, norvegese, finlandese, greco, turco, rumeno, croato, giapponese, coreano, thailandese, indonesiano, malese, filippino, hindi, bengalese, ebraico, arabo e persiano (da destra a sinistra). Segue la lingua del browser, oppure scegline una in fondo al popup.
+Arabo, bengalese, bulgaro, catalano, ceco, cinese semplificato, cinese tradizionale, coreano, croato, danese, ebraico, estone, filippino, finlandese, francese, giapponese, greco, hindi, indonesiano, inglese, italiano, lettone, lituano, malese, norvegese, olandese, persiano, polacco, portoghese, rumeno, russo, serbo, slovacco, sloveno, spagnolo, svedese, tedesco, thailandese, turco, ucraino, ungherese e vietnamita. Segue la lingua del browser, oppure scegline una in fondo al popup.
 
 PER SMANETTONI
 Una scheda "Subtitles" in DevTools elenca ogni file di sottotitoli caricato dalla pagina e lo salva come .vtt o .srt.

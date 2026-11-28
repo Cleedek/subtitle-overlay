@@ -24,7 +24,7 @@ TRADUZ PARA 42 LÍNGUAS
 • Se o site tem legendas na tua língua (YouTube e serviços de streaming), essas vêm primeiro; o Google ou a IA só traduzem quando não há
 • As legendas do próprio site ficam ocultas enquanto as nossas estão ligadas e voltam assim que desligas as nossas
 • Volta ao original quando quiseres, ou guarda a tradução como ficheiro .srt
-• Línguas: vietnamita, checo, inglês, eslovaco, alemão, francês, espanhol, italiano, português, polaco, húngaro, ucraniano, russo, búlgaro, sérvio, esloveno, lituano, letão, estónio, catalão, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, chinês (simplificado e tradicional), japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, árabe, persa, hebraico
+• Línguas: alemão, árabe, bengali, búlgaro, catalão, checo, chinês (simplificado e tradicional), coreano, croata, dinamarquês, eslovaco, esloveno, espanhol, estónio, filipino, finlandês, francês, grego, hebraico, hindi, húngaro, indonésio, inglês, italiano, japonês, letão, lituano, malaio, neerlandês, norueguês, persa, polaco, português, romeno, russo, sérvio, sueco, tailandês, turco, ucraniano, vietnamita
 
 TRADUÇÃO NATURAL COM IA (OPCIONAL)
 O Google Tradutor é rápido, mas traduz linha a linha, palavra a palavra. Clica em Melhorar e um modelo de IA reescreve as legendas tendo em conta a cena inteira, a começar onde estás a ver.
@@ -105,7 +105,7 @@ No Windows e no Linux: Alt + Enter ecrã inteiro com legendas · Alt + , / Alt +
 Todos os atalhos podem ser alterados ou desativados no separador Comportamento.
 
 INTERFACE EM 42 LÍNGUAS
-Inglês, checo, eslovaco, alemão, francês, espanhol, vietnamita, chinês simplificado, chinês tradicional, italiano, português, polaco, ucraniano, russo, búlgaro, sérvio, esloveno, lituano, letão, estónio, catalão, húngaro, neerlandês, sueco, dinamarquês, norueguês, finlandês, grego, turco, romeno, croata, japonês, coreano, tailandês, indonésio, malaio, filipino, hindi, bengali, hebraico, árabe e persa (da direita para a esquerda). Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
+Alemão, árabe, bengali, búlgaro, catalão, checo, chinês simplificado, chinês tradicional, coreano, croata, dinamarquês, eslovaco, esloveno, espanhol, estónio, filipino, finlandês, francês, grego, hebraico, hindi, húngaro, indonésio, inglês, italiano, japonês, letão, lituano, malaio, neerlandês, norueguês, persa, polaco, português, romeno, russo, sérvio, sueco, tailandês, turco, ucraniano e vietnamita. Segue a língua do navegador, ou escolhe uma na parte de baixo da janela da extensão.
 
 PARA OS CURIOSOS
 Um separador "Subtitles" nas DevTools lista todos os ficheiros de legendas que a página carregou e guarda-os como .vtt ou .srt.

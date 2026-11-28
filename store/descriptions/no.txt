@@ -24,7 +24,7 @@ OVERSETT TIL 42 SPRÅK
 • Har nettstedet undertekster på ditt språk (YouTube og strømmetjenester), kommer de først; Google eller AI oversetter bare når det ikke finnes noen
 • Nettstedets egne undertekster skjules mens våre er på, og kommer tilbake så snart du slår av våre
 • Bytt tilbake til originalen når som helst, eller lagre oversettelsen som en .srt-fil
-• Språk: vietnamesisk, tsjekkisk, engelsk, slovakisk, tysk, fransk, spansk, italiensk, portugisisk, polsk, ungarsk, ukrainsk, russisk, bulgarsk, serbisk, slovensk, litauisk, latvisk, estisk, katalansk, nederlandsk, svensk, dansk, norsk, finsk, gresk, tyrkisk, rumensk, kroatisk, kinesisk (forenklet og tradisjonell), japansk, koreansk, thai, indonesisk, malayisk, filipino, hindi, bengali, arabisk, persisk, hebraisk
+• Språk: arabisk, bengali, bulgarsk, dansk, engelsk, estisk, filipino, finsk, fransk, gresk, hebraisk, hindi, indonesisk, italiensk, japansk, katalansk, kinesisk (forenklet og tradisjonell), koreansk, kroatisk, latvisk, litauisk, malayisk, nederlandsk, norsk, persisk, polsk, portugisisk, rumensk, russisk, serbisk, slovakisk, slovensk, spansk, svensk, thai, tsjekkisk, tyrkisk, tysk, ukrainsk, ungarsk, vietnamesisk
 
 FÅ DET TIL Å LÅTE NATURLIG (VALGFRITT)
 Google Oversetter er rask, men den går linje for linje, ord for ord. Klikk på Forbedre, så skriver en AI-modell om undertekstene med hele scenen i tankene, fra der du ser akkurat nå.
@@ -105,7 +105,7 @@ På Windows og Linux: Alt + Enter fullskjerm med undertekster · Alt + , / Alt +
 Alle hurtigtaster kan endres eller slås av i Atferd-fanen.
 
 GRENSESNITT PÅ 42 SPRÅK
-Engelsk, tsjekkisk, slovakisk, tysk, fransk, spansk, vietnamesisk, forenklet kinesisk, tradisjonell kinesisk, italiensk, portugisisk, polsk, ukrainsk, russisk, bulgarsk, serbisk, slovensk, litauisk, latvisk, estisk, katalansk, ungarsk, nederlandsk, svensk, dansk, norsk, finsk, gresk, tyrkisk, rumensk, kroatisk, japansk, koreansk, thai, indonesisk, malayisk, filipino, hindi, bengali, hebraisk, arabisk og persisk (høyre til venstre). Det følger nettleseren din, eller du kan velge nederst i utvidelsens vindu.
+Arabisk, bengali, bulgarsk, dansk, engelsk, estisk, filipino, finsk, fransk, gresk, hebraisk, hindi, indonesisk, italiensk, japansk, katalansk, forenklet kinesisk, tradisjonell kinesisk, koreansk, kroatisk, latvisk, litauisk, malayisk, nederlandsk, norsk, persisk, polsk, portugisisk, rumensk, russisk, serbisk, slovakisk, slovensk, spansk, svensk, thai, tsjekkisk, tyrkisk, tysk, ukrainsk, ungarsk og vietnamesisk. Det følger nettleseren din, eller du kan velge nederst i utvidelsens vindu.
 
 FOR DEM SOM LIKER Å SKRU
 En "Subtitles"-fane i DevTools viser alle undertekstfilene siden har lastet inn, og lagrer dem som .vtt eller .srt.

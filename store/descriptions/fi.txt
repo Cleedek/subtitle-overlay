@@ -24,7 +24,7 @@ KÄÄNNÖS 42 KIELELLE
 • Jos sivustolla on tekstitys kielelläsi (YouTube ja suoratoistopalvelut), se tulee ensin; Google tai tekoäly kääntää vain, kun sellaista ei ole
 • Sivuston oma tekstitys piilotetaan, kun meidän tekstityksemme on päällä, ja se palaa heti, kun suljet meidän tekstityksemme
 • Palaa alkuperäiseen milloin tahansa tai tallenna käännös .srt-tiedostona
-• Kielet: vietnam, tšekki, englanti, slovakki, saksa, ranska, espanja, italia, portugali, puola, unkari, ukraina, venäjä, bulgaria, serbia, sloveeni, liettua, latvia, viro, katalaani, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, kiina (yksinkertaistettu ja perinteinen), japani, korea, thai, indonesia, malaiji, filipino, hindi, bengali, arabia, persia, heprea
+• Kielet: arabia, bengali, bulgaria, englanti, espanja, filipino, heprea, hindi, hollanti, indonesia, italia, japani, katalaani, kiina (yksinkertaistettu ja perinteinen), korea, kreikka, kroatia, latvia, liettua, malaiji, norja, persia, portugali, puola, ranska, romania, ruotsi, saksa, serbia, slovakki, sloveeni, suomi, tanska, thai, tšekki, turkki, ukraina, unkari, venäjä, vietnam, viro
 
 LUONTEVA KÄÄNNÖS TEKOÄLYLLÄ (VALINNAINEN)
 Google Kääntäjä on nopea, mutta se etenee rivi riviltä, sana sanalta. Klikkaa Paranna, niin tekoälymalli kirjoittaa tekstityksen uudelleen koko kohtauksen huomioiden, alkaen siitä kohdasta, jota katsot.
@@ -105,7 +105,7 @@ Windowsissa ja Linuxissa: Alt + Enter koko näyttö tekstityksellä · Alt + , /
 Jokaisen pikanäppäimen voi vaihtaa tai poistaa käytöstä Toiminta-välilehdellä.
 
 KÄYTTÖLIITTYMÄ 42 KIELELLÄ
-Englanti, tšekki, slovakki, saksa, ranska, espanja, vietnam, yksinkertaistettu kiina, perinteinen kiina, italia, portugali, puola, ukraina, venäjä, bulgaria, serbia, sloveeni, liettua, latvia, viro, katalaani, unkari, hollanti, ruotsi, tanska, norja, suomi, kreikka, turkki, romania, kroatia, japani, korea, thai, indonesia, malaiji, filipino, hindi, bengali, heprea, arabia ja persia (oikealta vasemmalle). Kieli seuraa selaintasi, tai voit valita sen ponnahdusikkunan alaosasta.
+Arabia, bengali, bulgaria, englanti, espanja, filipino, heprea, hindi, hollanti, indonesia, italia, japani, katalaani, yksinkertaistettu kiina, perinteinen kiina, korea, kreikka, kroatia, latvia, liettua, malaiji, norja, persia, portugali, puola, ranska, romania, ruotsi, saksa, serbia, slovakki, sloveeni, suomi, tanska, thai, tšekki, turkki, ukraina, unkari, venäjä, vietnam ja viro. Kieli seuraa selaintasi, tai voit valita sen ponnahdusikkunan alaosasta.
 
 NÄPERTELIJÖILLE
 DevToolsin "Subtitles"-välilehti listaa kaikki sivun lataamat tekstitystiedostot ja tallentaa ne .vtt- tai .srt-muodossa.

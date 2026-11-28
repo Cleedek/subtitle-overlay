@@ -24,7 +24,7 @@ Subtitle Overlay visar undertexter ovanpå videospelaren på vilken webbplats so
 • Har webbplatsen undertexter på ditt språk (YouTube och streamingtjänster) kommer de först; Google eller AI översätter bara när det inte finns några
 • Webbplatsens egna undertexter döljs medan våra är på och kommer tillbaka så fort du stänger av våra
 • Byt tillbaka till originalet när du vill, eller spara översättningen som en .srt-fil
-• Språk: vietnamesiska, tjeckiska, engelska, slovakiska, tyska, franska, spanska, italienska, portugisiska, polska, ungerska, ukrainska, ryska, bulgariska, serbiska, slovenska, litauiska, lettiska, estniska, katalanska, nederländska, svenska, danska, norska, finska, grekiska, turkiska, rumänska, kroatiska, kinesiska (förenklad och traditionell), japanska, koreanska, thailändska, indonesiska, malajiska, filippinska, hindi, bengali, arabiska, persiska, hebreiska
+• Språk: arabiska, bengali, bulgariska, danska, engelska, estniska, filippinska, finska, franska, grekiska, hebreiska, hindi, indonesiska, italienska, japanska, katalanska, kinesiska (förenklad och traditionell), koreanska, kroatiska, lettiska, litauiska, malajiska, nederländska, norska, persiska, polska, portugisiska, rumänska, ryska, serbiska, slovakiska, slovenska, spanska, svenska, thailändska, tjeckiska, turkiska, tyska, ukrainska, ungerska, vietnamesiska
 
 NATURLIG ÖVERSÄTTNING MED AI (VALFRITT)
 Google Translate är snabbt, men det går rad för rad, ord för ord. Klicka på Förbättra så skriver en AI-modell om undertexterna med hela scenen i åtanke, med start där du tittar.
@@ -105,7 +105,7 @@ På Windows och Linux: Alt + Enter helskärm med undertexter · Alt + , / Alt + 
 Alla kortkommandon kan ändras eller stängas av på fliken Beteende.
 
 GRÄNSSNITT PÅ 42 SPRÅK
-Engelska, tjeckiska, slovakiska, tyska, franska, spanska, vietnamesiska, förenklad kinesiska, traditionell kinesiska, italienska, portugisiska, polska, ukrainska, ryska, bulgariska, serbiska, slovenska, litauiska, lettiska, estniska, katalanska, ungerska, nederländska, svenska, danska, norska, finska, grekiska, turkiska, rumänska, kroatiska, japanska, koreanska, thailändska, indonesiska, malajiska, filippinska, hindi, bengali, hebreiska, arabiska och persiska (från höger till vänster). Det följer din webbläsare, eller så väljer du ett språk längst ner i tilläggets fönster.
+Arabiska, bengali, bulgariska, danska, engelska, estniska, filippinska, finska, franska, grekiska, hebreiska, hindi, indonesiska, italienska, japanska, katalanska, förenklad kinesiska, traditionell kinesiska, koreanska, kroatiska, lettiska, litauiska, malajiska, nederländska, norska, persiska, polska, portugisiska, rumänska, ryska, serbiska, slovakiska, slovenska, spanska, svenska, thailändska, tjeckiska, turkiska, tyska, ukrainska, ungerska och vietnamesiska. Det följer din webbläsare, eller så väljer du ett språk längst ner i tilläggets fönster.
 
 FÖR TEKNIKNÖRDAR
 En flik "Subtitles" i DevTools listar varje undertextfil som sidan har laddat och sparar den som .vtt eller .srt.

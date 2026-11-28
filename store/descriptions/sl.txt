@@ -24,7 +24,7 @@ PREVOD V 42 JEZIKOV
 • Če ima spletno mesto podnapise v tvojem jeziku (YouTube in pretočne storitve), imajo ti prednost; Google ali UI prevajata le, ko jih ni
 • Podnapisi spletnega mesta so skriti, dokler so vklopljeni naši, in se vrnejo, takoj ko naše izklopiš
 • Kadar koli preklopi nazaj na izvirnik ali shrani prevod kot datoteko .srt
-• Jeziki: vietnamščina, češčina, angleščina, slovaščina, nemščina, francoščina, španščina, italijanščina, portugalščina, poljščina, madžarščina, ukrajinščina, ruščina, bolgarščina, srbščina, slovenščina, litovščina, latvijščina, estonščina, katalonščina, nizozemščina, švedščina, danščina, norveščina, finščina, grščina, turščina, romunščina, hrvaščina, kitajščina (poenostavljena in tradicionalna), japonščina, korejščina, tajščina, indonezijščina, malajščina, filipinščina, hindijščina, bengalščina, arabščina, perzijščina, hebrejščina
+• Jeziki: angleščina, arabščina, bengalščina, bolgarščina, češčina, danščina, estonščina, filipinščina, finščina, francoščina, grščina, hebrejščina, hindijščina, hrvaščina, indonezijščina, italijanščina, japonščina, katalonščina, kitajščina (poenostavljena in tradicionalna), korejščina, latvijščina, litovščina, madžarščina, malajščina, nemščina, nizozemščina, norveščina, perzijščina, poljščina, portugalščina, romunščina, ruščina, slovaščina, slovenščina, srbščina, španščina, švedščina, tajščina, turščina, ukrajinščina, vietnamščina
 
 NAJ ZVENI NARAVNO (NEOBVEZNO)
 Google Prevajalnik je hiter, a gre vrstico za vrstico, besedo za besedo. Klikni Izboljšaj in model UI prepiše podnapise z mislijo na celoten prizor, od mesta, kjer gledaš.
@@ -105,7 +105,7 @@ V sistemih Windows in Linux: Alt + Enter celoten zaslon s podnapisi · Alt + , /
 Vsako bližnjico lahko spremeniš ali izklopiš na zavihku Delovanje.
 
 VMESNIK V 42 JEZIKIH
-Angleščina, češčina, slovaščina, nemščina, francoščina, španščina, vietnamščina, poenostavljena kitajščina, tradicionalna kitajščina, italijanščina, portugalščina, poljščina, ukrajinščina, ruščina, bolgarščina, srbščina, slovenščina, litovščina, latvijščina, estonščina, katalonščina, madžarščina, nizozemščina, švedščina, danščina, norveščina, finščina, grščina, turščina, romunščina, hrvaščina, japonščina, korejščina, tajščina, indonezijščina, malajščina, filipinščina, hindijščina, bengalščina, hebrejščina, arabščina in perzijščina (od desne proti levi). Sledi tvojemu brskalniku, ali pa ga izberi na dnu okna razširitve.
+Angleščina, arabščina, bengalščina, bolgarščina, češčina, danščina, estonščina, filipinščina, finščina, francoščina, grščina, hebrejščina, hindijščina, hrvaščina, indonezijščina, italijanščina, japonščina, katalonščina, poenostavljena kitajščina, tradicionalna kitajščina, korejščina, latvijščina, litovščina, madžarščina, malajščina, nemščina, nizozemščina, norveščina, perzijščina, poljščina, portugalščina, romunščina, ruščina, slovaščina, slovenščina, srbščina, španščina, švedščina, tajščina, turščina, ukrajinščina in vietnamščina. Sledi tvojemu brskalniku, ali pa ga izberi na dnu okna razširitve.
 
 ZA RADOVEDNE
 Zavihek "Subtitles" v orodjih DevTools navede vse datoteke s podnapisi, ki jih je stran naložila, in jih shrani kot .vtt ali .srt.

@@ -24,7 +24,7 @@ ISALIN SA 42 WIKA
 • Kung may subtitles ang site sa wika mo (YouTube at mga streaming service), iyon ang mauuna; magsasalin lang ang Google o AI kapag wala
 • Nakatago ang sariling subtitles ng site habang naka-on ang sa amin, at babalik agad kapag pinatay mo ang sa amin
 • Bumalik sa orihinal kahit kailan, o i-save ang salin bilang .srt file
-• Mga wika: Vietnamese, Czech, Ingles, Slovak, Aleman, Pranses, Espanyol, Italyano, Portuges, Polish, Hungarian, Ukrainian, Russian, Bulgarian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Catalan, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Tsino (Pinasimple at Tradisyonal), Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabe, Persian, Hebrew
+• Mga wika: Aleman, Arabe, Bengali, Bulgarian, Catalan, Croatian, Czech, Danish, Dutch, Espanyol, Estonian, Filipino, Finnish, Griyego, Hapones, Hebrew, Hindi, Hungarian, Indonesian, Ingles, Italyano, Koreano, Latvian, Lithuanian, Malay, Norwegian, Persian, Polish, Portuges, Pranses, Romanian, Russian, Serbian, Slovak, Slovenian, Swedish, Thai, Tsino (Pinasimple at Tradisyonal), Turkish, Ukrainian, Vietnamese
 
 GAWING NATURAL ANG SALIN (OPSYONAL)
 Mabilis ang Google Translate, pero linya kada linya at salita kada salita ito kung magsalin. I-click ang Pahusayin at isusulat muli ng isang AI model ang subtitles nang isinasaalang-alang ang buong eksena, simula sa bahaging pinapanood mo.
@@ -105,7 +105,7 @@ Sa Windows at Linux: Alt + Enter full screen na may subtitle · Alt + , / Alt + 
 Puwedeng baguhin o i-off ang bawat shortcut sa tab na Gawi.
 
 INTERFACE SA 42 WIKA
-Ingles, Czech, Slovak, Aleman, Pranses, Espanyol, Vietnamese, Pinasimpleng Tsino, Tradisyonal na Tsino, Italyano, Portuges, Polish, Ukrainian, Russian, Bulgarian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Catalan, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Griyego, Turkish, Romanian, Croatian, Hapones, Koreano, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Hebrew, Arabe at Persian (mula kanan pakaliwa). Sinusunod nito ang browser mo, o pumili ng wika sa ibaba ng popup.
+Aleman, Arabe, Bengali, Bulgarian, Catalan, Croatian, Czech, Danish, Dutch, Espanyol, Estonian, Filipino, Finnish, Griyego, Hapones, Hebrew, Hindi, Hungarian, Indonesian, Ingles, Italyano, Koreano, Latvian, Lithuanian, Malay, Norwegian, Persian, Polish, Portuges, Pranses, Romanian, Russian, Serbian, Slovak, Slovenian, Swedish, Thai, Pinasimpleng Tsino, Tradisyonal na Tsino, Turkish, Ukrainian at Vietnamese. Sinusunod nito ang browser mo, o pumili ng wika sa ibaba ng popup.
 
 PARA SA MGA MAHILIG MAGKALIKOT
 Isang tab na "Subtitles" sa DevTools ang naglilista ng bawat subtitle file na na-load ng page at sine-save ito bilang .vtt o .srt.

@@ -24,7 +24,7 @@ TRANSLATE INTO 42 LANGUAGES
 • If the site has subtitles in your language (YouTube and streaming sites), those come first; Google or AI only translate when there are none
 • The site's own subtitles are hidden while ours are on and come back as soon as you turn ours off
 • Switch back to the original any time, or save the translation as an .srt file
-• Languages: Vietnamese, Czech, English, Slovak, German, French, Spanish, Italian, Portuguese, Polish, Hungarian, Ukrainian, Russian, Bulgarian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Catalan, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Chinese (Simplified and Traditional), Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Arabic, Persian, Hebrew
+• Languages: Arabic, Bengali, Bulgarian, Catalan, Chinese (Simplified and Traditional), Croatian, Czech, Danish, Dutch, English, Estonian, Filipino, Finnish, French, German, Greek, Hebrew, Hindi, Hungarian, Indonesian, Italian, Japanese, Korean, Latvian, Lithuanian, Malay, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish, Ukrainian, Vietnamese
 
 MAKE IT SOUND NATURAL (OPTIONAL)
 Google Translate is quick, but it goes line by line, word for word. Click Improve and an AI model rewrites the subtitles with the whole scene in mind, starting where you are watching.
@@ -105,7 +105,7 @@ On Windows and Linux: Alt + Enter fullscreen with subtitles · Alt + , / Alt + .
 Every shortcut can be changed or switched off in the Behaviour tab.
 
 INTERFACE IN 42 LANGUAGES
-English, Czech, Slovak, German, French, Spanish, Vietnamese, Simplified Chinese, Traditional Chinese, Italian, Portuguese, Polish, Ukrainian, Russian, Bulgarian, Serbian, Slovenian, Lithuanian, Latvian, Estonian, Catalan, Hungarian, Dutch, Swedish, Danish, Norwegian, Finnish, Greek, Turkish, Romanian, Croatian, Japanese, Korean, Thai, Indonesian, Malay, Filipino, Hindi, Bengali, Hebrew, Arabic, and Persian (right to left). It follows your browser, or pick one at the bottom of the popup.
+Arabic, Bengali, Bulgarian, Catalan, Chinese (Simplified), Chinese (Traditional), Croatian, Czech, Danish, Dutch, English, Estonian, Filipino, Finnish, French, German, Greek, Hebrew, Hindi, Hungarian, Indonesian, Italian, Japanese, Korean, Latvian, Lithuanian, Malay, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish, Ukrainian, and Vietnamese. It follows your browser, or pick one at the bottom of the popup.
 
 FOR TINKERERS
 A "Subtitles" tab in DevTools lists every subtitle file the page loaded and saves it as .vtt or .srt.

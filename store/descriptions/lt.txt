@@ -24,7 +24,7 @@ VERTIMAS Į 42 KALBAS
 • Jei svetainė turi subtitrus tavo kalba (YouTube ir srautinės paslaugos), pirmiausia naudojami jie; Google ar DI verčia tik tada, kai jų nėra
 • Svetainės subtitrai paslepiami, kol įjungti mūsiškiai, ir sugrįžta, vos juos išjungi
 • Bet kada grįžk prie originalo arba išsaugok vertimą kaip .srt failą
-• Kalbos: vietnamiečių, čekų, anglų, slovakų, vokiečių, prancūzų, ispanų, italų, portugalų, lenkų, vengrų, ukrainiečių, rusų, bulgarų, serbų, slovėnų, lietuvių, latvių, estų, katalonų, olandų, švedų, danų, norvegų, suomių, graikų, turkų, rumunų, kroatų, kinų (supaprastinta ir tradicinė), japonų, korėjiečių, tajų, indoneziečių, malajiečių, filipiniečių, hindi, bengalų, arabų, persų, hebrajų
+• Kalbos: anglų, arabų, bengalų, bulgarų, čekų, danų, estų, filipiniečių, graikų, hebrajų, hindi, indoneziečių, ispanų, italų, japonų, katalonų, kinų (supaprastinta ir tradicinė), korėjiečių, kroatų, latvių, lenkų, lietuvių, malajiečių, norvegų, olandų, persų, portugalų, prancūzų, rumunų, rusų, serbų, slovakų, slovėnų, suomių, švedų, tajų, turkų, ukrainiečių, vengrų, vietnamiečių, vokiečių
 
 KAD SKAMBĖTŲ NATŪRALIAI (PASIRINKTINAI)
 Google Vertėjas greitas, bet verčia eilutę po eilutės, žodis į žodį. Spustelėk Patobulinti ir DI modelis perrašys subtitrus atsižvelgdamas į visą sceną, pradedant nuo vietos, kurią žiūri.
@@ -105,7 +105,7 @@ Windows ir Linux sistemose: Alt + Enter visas ekranas su subtitrais · Alt + , /
 Kiekvieną spartųjį klavišą gali pakeisti ar išjungti skirtuke Elgsena.
 
 SĄSAJA 42 KALBOMIS
-Anglų, čekų, slovakų, vokiečių, prancūzų, ispanų, vietnamiečių, supaprastintoji kinų, tradicinė kinų, italų, portugalų, lenkų, ukrainiečių, rusų, bulgarų, serbų, slovėnų, lietuvių, latvių, estų, katalonų, vengrų, olandų, švedų, danų, norvegų, suomių, graikų, turkų, rumunų, kroatų, japonų, korėjiečių, tajų, indoneziečių, malajiečių, filipiniečių, hindi, bengalų, hebrajų, arabų ir persų (iš dešinės į kairę). Ji seka tavo naršyklę, arba pasirink kalbą plėtinio lango apačioje.
+Anglų, arabų, bengalų, bulgarų, čekų, danų, estų, filipiniečių, graikų, hebrajų, hindi, indoneziečių, ispanų, italų, japonų, katalonų, supaprastintoji kinų, tradicinė kinų, korėjiečių, kroatų, latvių, lenkų, lietuvių, malajiečių, norvegų, olandų, persų, portugalų, prancūzų, rumunų, rusų, serbų, slovakų, slovėnų, suomių, švedų, tajų, turkų, ukrainiečių, vengrų, vietnamiečių ir vokiečių. Ji seka tavo naršyklę, arba pasirink kalbą plėtinio lango apačioje.
 
 SMALSIEMS
 Skirtukas "Subtitles" DevTools įrankiuose išvardija visus puslapio įkeltus subtitrų failus ir išsaugo juos kaip .vtt ar .srt.
