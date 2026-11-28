@@ -123,6 +123,8 @@ Az egész bővítmény nyílt forráskódú (GPL-3.0), így bárki ellenőrizhet
 A KÉSZÍTŐ TÁMOGATÁSA
 A Subtitle Overlay ingyenes, és minden funkciója ingyenes is marad. Ha szebbé teszi az estéidet, a felugró ablakban találsz egy "A készítő támogatása" oldalt Ko-fi-jal és néhány más fizetési móddal. Sok lefordított videó után egyszer egy kis kártya is megkérdezi a videó fölött (legfeljebb három videónál; egy kattintás rá, és többé nem jön vissza). Teljesen önkéntes, és köszönöm!
 
+Egy lefordított videó vége felé egy kis kártya egyszer bemutathatja a másik ingyenes bővítményemet is, a Snap Translate-et, amely a képeken lévő szöveget fordítja le (legfeljebb három videónál; egy kattintás, és többé nem jelenik meg).
+
 💜-vel készítette Cleedek Vietnámban.
 
 A Subtitle Overlay független projekt. Nem áll kapcsolatban azokkal az oldalakkal és streamingszolgáltatásokkal, amelyeken működik, és azok nem is támogatják vagy szponzorálják. Hogy ott működik, az a saját munkánk: kipróbáltuk ezeken az oldalakon, és némelyiken a lejátszójukhoz igazítottuk. A szolgáltatások neve és logója a tulajdonosaiké.

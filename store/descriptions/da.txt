@@ -123,6 +123,8 @@ Hele udvidelsen er open source (GPL-3.0), så alle kan tjekke præcis, hvad den 
 STØT SKABEREN
 Subtitle Overlay er gratis, og alle funktioner forbliver gratis. Hvis den gør dine aftener bedre, har pop op-vinduet en "Støt skaberen"-side med Ko-fi og et par andre måder at betale på. Efter mange oversatte videoer spørger et lille kort over videoen også én gang (højst på tre videoer; ét klik på det, og det kommer aldrig igen). Helt frivilligt, og tak!
 
+Mod slutningen af en oversat video kan et lille kort også én gang fortælle om min anden gratis udvidelse, Snap Translate, som oversætter tekst i billeder (på højst tre videoer; ét klik på det, og det kommer aldrig igen).
+
 Skabt med 💜 af Cleedek i Vietnam.
 
 Subtitle Overlay er et uafhængigt projekt. Det er ikke tilknyttet, godkendt eller sponsoreret af nogen af de websites eller streamingtjenester, det virker med. At det virker der, er vores eget arbejde: vi har testet det på de sider og på nogle af dem tilpasset det deres afspillere. Navne og logoer for tjenesterne tilhører deres ejere.

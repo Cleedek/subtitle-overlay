@@ -123,6 +123,8 @@ Koko laajennus on avointa lähdekoodia (GPL-3.0), joten kuka tahansa voi tarkist
 TUE TEKIJÄÄ
 Subtitle Overlay on ilmainen, ja jokainen ominaisuus pysyy ilmaisena. Jos se tekee illoistasi parempia, ponnahdusikkunassa on "Tue tekijää" -sivu, jossa on Ko-fi ja muutama muu maksutapa. Kun olet kääntänyt paljon videoita, pieni kortti videon päällä kysyy myös kerran (enintään kolmella videolla; yksi napsautus siihen, eikä se enää palaa). Täysin vapaaehtoista, ja kiitos!
 
+Käännetyn videon lopussa pieni kortti voi myös kerran esitellä toisen ilmaisen laajennukseni, Snap Translaten, joka kääntää kuvissa olevan tekstin (enintään kolmessa videossa; yksi klikkaus, eikä se tule enää takaisin).
+
 Tehty 💜 Vietnamissa, tekijänä Cleedek.
 
 Subtitle Overlay on itsenäinen projekti. Se ei ole sidoksissa mihinkään sivustoon tai suoratoistopalveluun, joiden kanssa se toimii, eivätkä ne tue tai sponsoroi sitä. Se, että se toimii niissä, on omaa työtämme: testasimme sen niillä sivustoilla ja mukautimme sen joillakin niiden soittimiin. Palvelujen nimet ja logot kuuluvat omistajilleen.

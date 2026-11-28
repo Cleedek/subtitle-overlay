@@ -123,6 +123,8 @@ Kogu laiendus on avatud lähtekoodiga (GPL-3.0), nii et igaüks saab täpselt ko
 TOETA LOOJAT
 Subtitle Overlay on tasuta ja kõik funktsioonid jäävad tasuta. Kui see teeb su õhtud paremaks, on laienduse aknas leht "Toeta loojat" Ko-fi ja mõne muu makseviisiga. Pärast paljusid tõlgitud videoid küsib ka väike kaart video peal ühe korra (kõige rohkem kolmel videol; üks klõps sellel ja see kaob jäädavalt). Täiesti vabatahtlik, ja aitäh!
 
+Tõlgitud video lõpu poole võib väike kaart ühe korra tutvustada ka minu teist tasuta laiendust Snap Translate, mis tõlgib piltidel olevat teksti (kõige rohkem kolme video juures; üks klõps ja see ei tule enam tagasi).
+
 Loonud 💜-ga Cleedek Vietnamis.
 
 Subtitle Overlay on sõltumatu projekt. See ei ole seotud veebisaitide ega voogedastusteenustega, millega see töötab, ega ole nende poolt toetatud ega sponsoreeritud. Nende tugi on meie enda töö: testisime seda neil saitidel ja mõnel kohandasime selle nende pleieritele. Nende teenuste nimed ja logod kuuluvad nende omanikele.

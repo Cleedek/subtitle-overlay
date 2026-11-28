@@ -123,6 +123,8 @@ Viss paplašinājums ir atvērtā koda (GPL-3.0), tāpēc ikviens var precīzi p
 ATBALSTI AUTORU
 Subtitle Overlay ir bez maksas, un visas funkcijas paliek bez maksas. Ja tas padara tavus vakarus labākus, paplašinājuma logā ir lapa "Atbalstīt autoru" ar Ko-fi un dažiem citiem maksāšanas veidiem. Pēc daudziem iztulkotiem video arī neliela kartīte virs video vienreiz pajautā (ne vairāk kā trijos video; viens klikšķis uz tās, un tā pazūd uz visiem laikiem). Pilnīgi brīvprātīgi, un paldies!
 
+Tulkota video beigās maza kartīte vienreiz var iepazīstināt arī ar manu otru bezmaksas paplašinājumu Snap Translate, kas tulko tekstu attēlos (ne vairāk kā trīs video; viens klikšķis, un tā vairs neparādīsies).
+
 Ar 💜 radījis Cleedek Vjetnamā.
 
 Subtitle Overlay ir neatkarīgs projekts. Tas nav saistīts ar vietnēm vai straumēšanas pakalpojumiem, ar kuriem tas darbojas, un tie to neatbalsta un nesponsorē. To atbalsts ir mūsu pašu darbs: mēs to pārbaudījām šajās vietnēs un dažās pielāgojām to atskaņotājiem. Šo pakalpojumu nosaukumi un logotipi pieder to īpašniekiem.

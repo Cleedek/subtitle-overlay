@@ -123,6 +123,8 @@ Tota l'extensió és de codi obert (GPL-3.0), així que qualsevol pot comprovar 
 DONA SUPORT AL CREADOR
 Subtitle Overlay és gratuït i totes les funcions continuen sent gratuïtes. Si et fa millors les vetllades, la finestra de l'extensió té una pàgina "Dona suport al creador" amb Ko-fi i unes quantes maneres més de pagar. Després de molts vídeos traduïts, una petita targeta sobre el vídeo també t'ho demana una vegada (en tres vídeos com a màxim; un clic i desapareix per sempre). Del tot opcional, i gràcies!
 
+Cap al final d’un vídeo traduït, una petita targeta també et pot presentar un cop la meva altra extensió gratuïta, Snap Translate, que tradueix el text de les imatges (com a màxim en tres vídeos; un clic i no torna a sortir).
+
 Creat amb 💜 per Cleedek al Vietnam.
 
 Subtitle Overlay és un projecte independent. No està afiliat, avalat ni patrocinat per cap dels llocs web o serveis de streaming amb què funciona. La compatibilitat amb ells és feina nostra: l'hem provada en aquests llocs i, en alguns, l'hem adaptada als seus reproductors. Els noms i logotips d'aquests serveis pertanyen als seus propietaris.

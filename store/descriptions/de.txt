@@ -123,6 +123,8 @@ Die ganze Erweiterung ist Open Source (GPL-3.0), sodass jeder genau prüfen kann
 DEN ENTWICKLER UNTERSTÜTZEN
 Subtitle Overlay ist kostenlos, und jede Funktion bleibt kostenlos. Wenn es deine Abende schöner macht, findest du im Popup eine Seite "Den Entwickler unterstützen" mit Ko-fi und ein paar weiteren Zahlungswegen. Nach vielen übersetzten Videos fragt außerdem einmal eine kleine Karte über dem Video (bei höchstens drei Videos; ein Klick darauf und sie kommt nie wieder). Völlig freiwillig, und danke!
 
+Gegen Ende eines übersetzten Videos kann dir eine kleine Karte auch einmal meine andere kostenlose Erweiterung Snap Translate vorstellen, die Text in Bildern übersetzt (bei höchstens drei Videos; ein Klick darauf und sie kommt nie wieder).
+
 Mit 💜 gemacht von Cleedek in Vietnam.
 
 Subtitle Overlay ist ein unabhängiges Projekt. Es steht in keiner Verbindung zu den Websites und Streamingdiensten, mit denen es funktioniert, und wird von ihnen weder unterstützt noch gesponsert. Dass es dort funktioniert, ist unsere eigene Arbeit: Wir haben es auf diesen Seiten getestet und auf einigen an ihre Player angepasst. Namen und Logos dieser Dienste gehören ihren Inhabern.

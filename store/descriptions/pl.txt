@@ -123,6 +123,8 @@ Całe rozszerzenie jest open source (GPL-3.0), więc każdy może sprawdzić, co
 WESPRZYJ AUTORA
 Subtitle Overlay jest darmowy i każda funkcja pozostanie darmowa. Jeśli umila ci wieczory, w oknie rozszerzenia znajdziesz stronę "Wesprzyj autora" z Ko-fi i kilkoma innymi sposobami płatności. Po wielu przetłumaczonych filmach raz zapyta też mała karta nad wideo (najwyżej przy trzech filmach; jedno kliknięcie i już nie wróci). Całkowicie dobrowolnie, i dziękuję!
 
+Pod koniec przetłumaczonego filmu mała karta może też raz przedstawić moje drugie darmowe rozszerzenie, Snap Translate, które tłumaczy tekst na obrazkach (najwyżej przy trzech filmach; jedno kliknięcie i już nie wróci).
+
 Stworzone z 💜 przez Cleedek w Wietnamie.
 
 Subtitle Overlay to niezależny projekt. Nie jest powiązany z żadną ze stron ani serwisów streamingowych, z którymi działa, ani przez nie popierany czy sponsorowany. To, że na nich działa, to nasza własna praca: przetestowaliśmy go na tych stronach, a na niektórych dopasowaliśmy do ich odtwarzacza. Nazwy i loga tych serwisów należą do ich właścicieli.

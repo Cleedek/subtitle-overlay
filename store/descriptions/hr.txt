@@ -123,6 +123,8 @@ Cijelo je proširenje otvorenog koda (GPL-3.0), pa svatko može provjeriti što 
 PODRŽI AUTORA
 Subtitle Overlay je besplatan i svaka značajka ostaje besplatna. Ako ti uljepšava večeri, u prozoru proširenja nalazi se stranica "Podrži autora" s Ko-fijem i još nekoliko načina plaćanja. Nakon mnogo prevedenih videa jednom pita i mala kartica iznad videa (najviše na tri videa; jedan klik na nju i više se ne vraća). Potpuno neobavezno, i hvala ti!
 
+Pred kraj prevedenog videa mala kartica može ti jednom predstaviti i moje drugo besplatno proširenje, Snap Translate, koje prevodi tekst na slikama (najviše na tri videa; jedan klik i više se ne pojavljuje).
+
 S 💜 izrađuje Cleedek u Vijetnamu.
 
 Subtitle Overlay je neovisan projekt. Nije povezan ni s jednom stranicom ni streaming servisom s kojima radi, niti ga oni podržavaju ili sponzoriraju. To što na njima radi naš je vlastiti rad: isprobali smo ga na tim stranicama i na nekima ga prilagodili njihovom playeru. Nazivi i logotipi tih servisa pripadaju njihovim vlasnicima.

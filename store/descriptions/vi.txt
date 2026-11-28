@@ -123,6 +123,8 @@ Toàn bộ tiện ích là mã nguồn mở (GPL-3.0), nên ai cũng có thể k
 ỦNG HỘ TÁC GIẢ
 Subtitle Overlay miễn phí và mọi tính năng sẽ luôn miễn phí. Nếu tiện ích làm những buổi tối của bạn vui hơn, trong cửa sổ tiện ích có trang "Ủng hộ tác giả" với Ko-fi và vài cách thanh toán khác. Sau khi bạn dịch nhiều video, một thẻ nhỏ trên video cũng sẽ hỏi một lần (tối đa trên ba video; nhấp vào thẻ một lần là nó không hiện lại nữa). Hoàn toàn tùy bạn, và xin cảm ơn bạn!
 
+Gần cuối một video đã dịch, một thẻ nhỏ cũng có thể giới thiệu một lần tiện ích miễn phí khác của mình là Snap Translate, giúp dịch chữ trong ảnh (nhiều nhất ở ba video; bấm vào một lần là thẻ không hiện lại nữa).
+
 Được Cleedek làm ra với 💜 tại Việt Nam.
 
 Subtitle Overlay là một dự án độc lập. Tiện ích không liên kết, không được chứng thực hay tài trợ bởi bất kỳ trang web hoặc dịch vụ xem phim trực tuyến nào mà nó hoạt động cùng. Việc nó chạy được trên đó là công sức của chúng tôi: chúng tôi đã thử nghiệm trên các trang đó và điều chỉnh cho trình phát của một số trang. Tên và logo của các dịch vụ đó thuộc về chủ sở hữu.

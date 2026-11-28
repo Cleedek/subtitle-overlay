@@ -123,6 +123,8 @@ OPEN SOURCE
 SUSȚINE CREATORUL
 Subtitle Overlay este gratuit și fiecare funcție rămâne gratuită. Dacă îți face serile mai plăcute, fereastra extensiei are o pagină "Susține creatorul" cu Ko-fi și alte câteva moduri de plată. După multe videoclipuri traduse, o mică fereastră peste videoclip te întreabă și ea o dată (pe cel mult trei videoclipuri; un clic pe ea și nu mai apare). Complet opțional, și mulțumesc!
 
+Spre finalul unui videoclip tradus, un mic card îți poate prezenta o dată și cealaltă extensie gratuită a mea, Snap Translate, care traduce textul din imagini (la cel mult trei videoclipuri; un clic și nu mai apare).
+
 Creat cu 💜 de Cleedek în Vietnam.
 
 Subtitle Overlay este un proiect independent. Nu este afiliat, aprobat sau sponsorizat de niciunul dintre site-urile sau serviciile de streaming cu care funcționează. Faptul că funcționează acolo este munca noastră: l-am testat pe acele site-uri și, pe unele, l-am adaptat playerului lor. Numele și siglele acestor servicii aparțin proprietarilor lor.

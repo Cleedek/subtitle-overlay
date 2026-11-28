@@ -123,6 +123,8 @@ Celé rozšíření je open source (GPL-3.0), takže si kdokoli může ověřit,
 PODPOŘ AUTORA
 Subtitle Overlay je zdarma a všechny funkce zdarma zůstanou. Pokud ti zpříjemňuje večery, v popupu najdeš stránku "Podpořit autora" s Ko-fi a několika dalšími způsoby platby. Po hodně přeložených videích se jednou zeptá i malá karta nad videem (nejvýš u tří videí; jedno kliknutí a už se neukáže). Úplně dobrovolně, a děkuju!
 
+Ke konci přeloženého videa ti jednou může malá karta představit i moje další bezplatné rozšíření Snap Translate, které překládá text v obrázcích (nejvýš u tří videí; jedno kliknutí a už se neukáže).
+
 S 💜 ve Vietnamu vytváří Cleedek.
 
 Subtitle Overlay je nezávislý projekt. Není spojený s žádným z webů ani streamovacích služeb, se kterými funguje, ty ho nepodporují ani nesponzorují. Že na nich funguje, je naše vlastní práce: vyzkoušeli jsme ho tam a na některých ho přímo přizpůsobili jejich přehrávači. Názvy a loga těch služeb patří jejich vlastníkům.

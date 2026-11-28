@@ -123,6 +123,8 @@ De hele extensie is open source (GPL-3.0), dus iedereen kan precies nagaan wat z
 STEUN DE MAKER
 Subtitle Overlay is gratis en elke functie blijft gratis. Maakt het je avonden beter, dan vind je in de pop-up een pagina "Steun de maker" met Ko-fi en een paar andere manieren om te betalen. Na veel vertaalde video's vraagt ook een klein kaartje boven de video het één keer (bij hoogstens drie video's; één klik erop en het komt nooit meer terug). Helemaal vrijblijvend, en bedankt!
 
+Tegen het einde van een vertaalde video kan een kleine kaart je ook één keer wijzen op mijn andere gratis extensie, Snap Translate, die tekst in afbeeldingen vertaalt (bij hooguit drie video’s; één klik erop en hij komt niet meer terug).
+
 Met 💜 gemaakt door Cleedek in Vietnam.
 
 Subtitle Overlay is een onafhankelijk project. Het is niet verbonden aan, goedgekeurd door of gesponsord door de websites of streamingdiensten waarmee het werkt. Dat het daar werkt, is ons eigen werk: we hebben het op die sites getest en op sommige aangepast aan hun speler. Namen en logo's van die diensten zijn van hun eigenaren.

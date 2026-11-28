@@ -123,6 +123,8 @@ Visas plėtinys yra atvirojo kodo (GPL-3.0), todėl kiekvienas gali tiksliai pat
 PAREMK KŪRĖJĄ
 Subtitle Overlay yra nemokamas ir visos funkcijos lieka nemokamos. Jei jis padaro tavo vakarus geresnius, plėtinio lange yra puslapis "Paremti kūrėją" su Ko-fi ir keliais kitais mokėjimo būdais. Po daugelio išverstų vaizdo įrašų maža kortelė virš vaizdo įrašo vieną kartą paklausia ir pati (daugiausia trijuose vaizdo įrašuose; vienas spustelėjimas ant jos, ir ji dingsta visam laikui). Visiškai neprivaloma, ir ačiū!
 
+Išversto vaizdo įrašo pabaigoje maža kortelė gali vieną kartą pristatyti ir kitą mano nemokamą plėtinį, Snap Translate, kuris verčia tekstą paveikslėliuose (daugiausia per tris vaizdo įrašus; vienas spustelėjimas ir ji nebepasirodys).
+
 Su 💜 sukūrė Cleedek Vietname.
 
 Subtitle Overlay yra nepriklausomas projektas. Jis nėra susijęs su svetainėmis ar srautinėmis paslaugomis, su kuriomis veikia, ir jų nėra remiamas ar patvirtintas. Jų palaikymas yra mūsų pačių darbas: išbandėme jį tose svetainėse, o kai kuriose pritaikėme prie jų grotuvų. Šių paslaugų pavadinimai ir logotipai priklauso jų savininkams.

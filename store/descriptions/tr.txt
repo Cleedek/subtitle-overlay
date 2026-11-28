@@ -123,6 +123,8 @@ Uzantının tamamı açık kaynaktır (GPL-3.0), yani herkes tam olarak ne yapt�
 YAPIMCIYI DESTEKLE
 Subtitle Overlay ücretsizdir ve tüm özellikleri ücretsiz kalacak. Akşamlarını güzelleştiriyorsa uzantı penceresinde Ko-fi ve birkaç başka ödeme yoluyla bir "Yapımcıyı destekle" sayfası var. Çok sayıda video çevirdikten sonra videonun üzerindeki küçük bir kart da bir kez sorar (en fazla üç videoda; üzerine bir tıklama ve bir daha gelmez). Tamamen isteğe bağlı, ve teşekkürler!
 
+Çevrilmiş bir videonun sonuna doğru küçük bir kart, resimlerdeki yazıları çeviren diğer ücretsiz uzantım Snap Translate’i de bir kez tanıtabilir (en fazla üç videoda; bir tıklama ve bir daha gelmez).
+
 Vietnam'da Cleedek tarafından 💜 ile yapıldı.
 
 Subtitle Overlay bağımsız bir projedir. Birlikte çalıştığı web sitelerinin veya yayın hizmetlerinin hiçbiriyle bağlantılı değildir; onlar tarafından onaylanmamış veya sponsorluk almamıştır. Oralarda çalışması bizim emeğimizdir: o sitelerde test ettik ve bazılarında oynatıcılarına uyarladık. Bu hizmetlerin adları ve logoları sahiplerine aittir.

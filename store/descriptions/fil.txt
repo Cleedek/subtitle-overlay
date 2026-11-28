@@ -123,6 +123,8 @@ Open source ang buong extension (GPL-3.0), kaya puwedeng tingnan ng kahit sino k
 SUPORTAHAN ANG GUMAWA
 Libre ang Subtitle Overlay at mananatiling libre ang bawat feature. Kung napapaganda nito ang mga gabi mo, may page na "Suportahan ang gumawa" sa popup na may Ko-fi at ilan pang paraan ng pagbabayad. Pagkatapos ng maraming naisaling video, magtatanong din nang isang beses ang maliit na card sa ibabaw ng video (sa hanggang tatlong video lang; isang click dito at hindi na ito babalik). Ganap na opsyonal, at salamat!
 
+Malapit sa dulo ng isinaling video, maaaring minsang ipakilala ng isang maliit na card ang isa ko pang libreng extension, ang Snap Translate, na nagsasalin ng text sa mga larawan (sa tatlong video lang ang pinakamarami; isang click at hindi na ito babalik).
+
 Ginawa nang may 💜 ni Cleedek sa Vietnam.
 
 Isang independiyenteng proyekto ang Subtitle Overlay. Hindi ito kaanib, inendorso o sinusuportahan ng alinman sa mga website o streaming service na gumagana ito. Ang pagganang iyon ay sariling gawa namin: sinubukan namin ito sa mga site na iyon at, sa ilan, inangkop sa kanilang player. Pag-aari ng kani-kanilang may-ari ang mga pangalan at logo ng mga serbisyong iyon.

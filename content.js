@@ -627,6 +627,7 @@
     rateEl.setAttribute('role', 'dialog');
     snapEl = el('div', 'ask rate snap'); // filled when it shows (fillSnap)
     snapEl.setAttribute('role', 'dialog');
+    snapEl.addEventListener('mouseleave', () => { if (snapAtEnd()) snapEl.classList.remove('on'); }); // kept while read at the end
     for (const node of [langsEl, askEl, shareEl, rateEl, snapEl]) {
       for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click', 'dblclick']) node.addEventListener(type, (e) => e.stopPropagation());
     }
@@ -3107,7 +3108,8 @@
     if (snapWatch.page !== page) snapWatch = { page, ms: 0 };
     if (original && visible && cues.length && !video.paused && gap < 2000) snapWatch.ms += gap * (video.playbackRate || 1);
     if (snapShown === page) {
-      if ((askData.snapAsk || {}).done) snapEl.classList.remove('on'); // ended in another frame or tab
+      // Ended in another frame or tab, or the video's last seconds (its end screen): gone, unless the mouse is on it.
+      if ((askData.snapAsk || {}).done || (snapAtEnd() && !snapEl.matches(':hover'))) snapEl.classList.remove('on');
       placeSnap();
       return;
     }
@@ -3136,6 +3138,12 @@
     if (!SubSettings.snapAskDue(askData, v)) return false;
     if (askEl.classList.contains('on') || shareAsking || SubSettings.supportAskPick(askData, { main: !!original, audio: false })) return false;
     return stageOf(video).getBoundingClientRect().height >= 420; // the card is about 350 px tall
+  }
+
+  // The last seconds of the video, where YouTube shows its end screen (and other sites their "next episode").
+  function snapAtEnd() {
+    const d = video && video.duration;
+    return !!video && (video.ended || (Number.isFinite(d) && d - video.currentTime < SubSettings.SNAP_ASK.hideLastS));
   }
 
   function placeSnap() {

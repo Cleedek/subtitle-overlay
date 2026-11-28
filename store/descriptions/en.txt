@@ -123,6 +123,8 @@ The whole extension is open source (GPL-3.0), so anyone can check exactly what i
 SUPPORT THE CREATOR
 Subtitle Overlay is free and every feature stays free. If it makes your evenings better, the popup has a "Support the creator" page with Ko-fi and a few other ways to pay. After many translated videos, a small card over the video asks once too (on three videos at most; one click on it and it's gone for good). Completely optional, and thank you!
 
+Near the end of a translated video, a small card may also tell you once about my other free extension, Snap Translate, which translates text in pictures (on three videos at most; one click on it and it's gone for good).
+
 Created with 💜 by Cleedek in Vietnam.
 
 Subtitle Overlay is an independent project. It is not affiliated with, endorsed by or sponsored by any of the websites or streaming services it works with. Support for them is our own work: we tested it on those sites and, on some of them, adapted it to their players. Names and logos of those services belong to their owners.

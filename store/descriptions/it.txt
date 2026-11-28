@@ -123,6 +123,8 @@ L’intera estensione è open source (GPL-3.0), così chiunque può verificare e
 SOSTIENI L’AUTORE
 Subtitle Overlay è gratuito e ogni funzione resterà gratuita. Se rende più belle le tue serate, nel popup trovi la pagina "Sostieni l’autore" con Ko-fi e qualche altro modo di pagare. Dopo molti video tradotti, anche una piccola scheda sopra il video lo chiede una volta (al massimo su tre video; un clic e non torna più). Del tutto facoltativo, e grazie!
 
+Verso la fine di un video tradotto, una piccola scheda può anche presentarti una volta la mia altra estensione gratuita, Snap Translate, che traduce il testo nelle immagini (al massimo su tre video; un clic e non torna più).
+
 Creato con 💜 da Cleedek in Vietnam.
 
 Subtitle Overlay è un progetto indipendente. Non è affiliato, approvato né sponsorizzato da nessuno dei siti o servizi di streaming con cui funziona. Che funzioni lì è merito del nostro lavoro: l’abbiamo provato su quei siti e, su alcuni, adattato al loro player. Nomi e loghi di quei servizi appartengono ai rispettivi proprietari.

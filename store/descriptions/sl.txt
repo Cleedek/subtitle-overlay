@@ -123,6 +123,8 @@ Celotna razširitev je odprtokodna (GPL-3.0), zato lahko vsak natančno preveri,
 PODPRI USTVARJALCA
 Subtitle Overlay je brezplačen in vse funkcije ostanejo brezplačne. Če ti polepša večere, ima okno razširitve stran "Podpri ustvarjalca" s Ko-fi in nekaj drugimi načini plačila. Po veliko prevedenih videih te enkrat vpraša tudi majhna kartica čez video (največ na treh videih; en klik nanjo in je ni več). Povsem neobvezno, in hvala!
 
+Proti koncu prevedenega videa ti lahko majhna kartica enkrat predstavi tudi mojo drugo brezplačno razširitev, Snap Translate, ki prevaja besedilo na slikah (največ pri treh videih; en klik in se ne pokaže več).
+
 Z 💜 ustvaril Cleedek v Vietnamu.
 
 Subtitle Overlay je neodvisen projekt. Ni povezan s spletnimi mesti ali pretočnimi storitvami, s katerimi deluje, niti ga ta ne podpirajo ali sponzorirajo. Podpora zanje je naše lastno delo: preizkusili smo jo na teh spletnih mestih in jo na nekaterih prilagodili njihovim predvajalnikom. Imena in logotipi teh storitev pripadajo njihovim lastnikom.

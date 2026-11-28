@@ -123,6 +123,8 @@ Seluruh ekstensi ini open source (GPL-3.0), jadi siapa pun bisa memeriksa apa pe
 DUKUNG PEMBUATNYA
 Subtitle Overlay gratis dan semua fiturnya akan tetap gratis. Kalau ekstensi ini membuat malammu lebih menyenangkan, di jendela ekstensi ada halaman "Dukung pembuatnya" dengan Ko-fi dan beberapa cara bayar lainnya. Setelah banyak video diterjemahkan, sebuah kartu kecil di atas video juga akan bertanya sekali (paling banyak di tiga video; satu klik di kartu itu dan ia tidak akan muncul lagi). Sepenuhnya opsional, dan terima kasih!
 
+Menjelang akhir video yang diterjemahkan, sebuah kartu kecil juga bisa sekali memperkenalkan ekstensi gratis saya yang lain, Snap Translate, yang menerjemahkan teks di dalam gambar (paling banyak di tiga video; sekali klik dan tidak akan muncul lagi).
+
 Dibuat dengan 💜 oleh Cleedek di Vietnam.
 
 Subtitle Overlay adalah proyek independen. Proyek ini tidak berafiliasi dengan, didukung, atau disponsori oleh situs maupun layanan streaming mana pun yang bisa dipakai bersamanya. Bisa berjalan di sana adalah hasil kerja kami sendiri: kami mengujinya di situs-situs itu dan, di beberapa, menyesuaikannya dengan pemutarnya. Nama dan logo layanan tersebut milik pemiliknya masing-masing.

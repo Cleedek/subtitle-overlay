@@ -123,6 +123,8 @@ Keseluruhan sambungan ini ialah sumber terbuka (GPL-3.0), jadi sesiapa sahaja bo
 SOKONG PENCIPTA
 Subtitle Overlay adalah percuma dan setiap ciri akan kekal percuma. Jika ia menjadikan malam anda lebih seronok, tetingkap sambungan ada halaman "Sokong pencipta" dengan Ko-fi dan beberapa cara bayaran lain. Selepas banyak video diterjemah, satu kad kecil di atas video juga akan bertanya sekali (paling banyak pada tiga video; satu klik padanya dan ia tidak akan muncul lagi). Sepenuhnya pilihan, dan terima kasih!
 
+Menjelang akhir video yang diterjemah, sebuah kad kecil juga boleh memperkenalkan sekali sambungan percuma saya yang lain, Snap Translate, yang menterjemah teks dalam gambar (paling banyak pada tiga video; sekali klik dan ia tidak muncul lagi).
+
 Dicipta dengan 💜 oleh Cleedek di Vietnam.
 
 Subtitle Overlay ialah projek bebas. Ia tidak bergabung dengan, disokong atau ditaja oleh mana-mana laman web atau perkhidmatan penstriman yang digunakan bersamanya. Ia berfungsi di sana hasil usaha kami sendiri: kami mengujinya di laman tersebut dan, pada sesetengahnya, menyesuaikannya dengan pemain video mereka. Nama dan logo perkhidmatan tersebut milik pemiliknya.
